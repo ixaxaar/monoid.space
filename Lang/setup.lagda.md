@@ -1,3 +1,19 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  
+
+- [Setup and installation](#setup-and-installation)
+  - [Using Docker](#using-docker)
+  - [Via package managers](#via-package-managers)
+    - [apt (Debian, Ubuntu, Mint, Elementary, MX Linux etc)](#apt-debian-ubuntu-mint-elementary-mx-linux-etc)
+    - [yum (Fedora, openSUSE, RHEL)](#yum-fedora-opensuse-rhel)
+    - [pacman (Arch, Manjaro, Antergos)](#pacman-arch-manjaro-antergos)
+    - [brew (OSX)](#brew-osx)
+    - [Cabal (OS-independent)](#cabal-os-independent)
+- [Run the proofn checker / compiler](#run-the-proofn-checker--compiler)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 # Setup and installation
 

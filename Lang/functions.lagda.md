@@ -1,3 +1,21 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  
+
+- [Functions](#functions)
+  - [Pattern matching functions](#pattern-matching-functions)
+    - [The Logical Not](#the-logical-not)
+    - [The logical AND](#the-logical-and)
+    - [The logical OR](#the-logical-or)
+  - [Recursive](#recursive)
+    - [Addition of natural numbers](#addition-of-natural-numbers)
+- [List functions](#list-functions)
+  - [List concatenation](#list-concatenation)
+  - [Length](#length)
+  - [Map](#map)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 # Functions
 
