@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" type="text/css" />
+</head>
+<body>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<hr />
+<ul>
+<li><a href="#setup-and-installation">Setup and installation</a></li>
+<li><a href="#using-docker">Using Docker</a></li>
+<li><a href="#via-package-managers">Via package managers</a>
+<ul>
+<li><a href="#apt-debian-ubuntu-mint-elementary-mx-linux-etc">apt (Debian, Ubuntu, Mint, Elementary, MX Linux etc)</a></li>
+<li><a href="#yum-fedora-opensuse-rhel">yum (Fedora, openSUSE, RHEL)</a></li>
+<li><a href="#pacman-arch-manjaro-antergos">pacman (Arch, Manjaro, Antergos)</a></li>
+<li><a href="#brew-osx">brew (OSX)</a></li>
+<li><a href="#cabal-os-independent">Cabal (OS-independent)</a></li>
+</ul></li>
+<li><a href="#run-the-proofn-checker--compiler">Run the proofn checker / compiler</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h1 id="setup-and-installation">Setup and installation</h1>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Lang<span class="ot">.</span>setup <span class="kw">where</span></code></pre></div>
+<h2 id="using-docker">Using Docker</h2>
+<p>We’ve done most of the heavy-lifting, and packaged everything into a docker container.</p>
+<p>Install docker</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">curl</span> -fsSL https://get.docker.com -o get-docker.sh
+<span class="fu">sh</span> get-docker.sh</code></pre></div>
+<p>Pull the pre-configured docker image</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">docker</span> pull ixaxaar/agda:latest</code></pre></div>
+<h2 id="via-package-managers">Via package managers</h2>
+<h3 id="apt-debian-ubuntu-mint-elementary-mx-linux-etc">apt (Debian, Ubuntu, Mint, Elementary, MX Linux etc)</h3>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">sudo</span> apt-get install agda-mode agda-stdlib</code></pre></div>
+<h3 id="yum-fedora-opensuse-rhel">yum (Fedora, openSUSE, RHEL)</h3>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">sudo</span> yum install Agda</code></pre></div>
+<h3 id="pacman-arch-manjaro-antergos">pacman (Arch, Manjaro, Antergos)</h3>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">sudo</span> pacman -S agda agda-stdlib</code></pre></div>
+<h3 id="brew-osx">brew (OSX)</h3>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">brew</span> install agda</code></pre></div>
+<h3 id="cabal-os-independent">Cabal (OS-independent)</h3>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">cabal</span> new-install Agda</code></pre></div>
+<p>Windows users may look at <a href="https://medium.com/@danidiaz/installing-agda-2-5-4-1-on-windows-10-7bf296f3e5bc">this blog</a> to install Agda.</p>
+<h1 id="run-the-proofn-checker-compiler">Run the proofn checker / compiler</h1>
+<p>To run the agda compiler:</p>
+<ul>
+<li>Launch the docker container’s bash:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">docker</span> run -it -v /local/source/directory:/local/source/directory ixaxaar/agda bash</code></pre></div>
+<ul>
+<li>Compile <code>whatever.agda</code></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">agda</span> ./whatever.agda</code></pre></div>
+<p>That’s pretty much it 😬</p>
+<hr />
+<p><a href="./contents.html">Back to Contents</a></p>
+</body>
+</html>

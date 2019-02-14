@@ -9,6 +9,8 @@ declare -a files=(
   "Lang/dataStructures"
   "Lang/functions"
   "Lang/proofsAsData"
+
+  "Types.introduction"
 )
 
 rm -rf build html tmp

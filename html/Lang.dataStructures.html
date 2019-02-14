@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" type="text/css" />
+</head>
+<body>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<hr />
+<ul>
+<li><a href="#data-structures">Data Structures</a></li>
+<li><a href="#trivial-types">Trivial types</a>
+<ul>
+<li><a href="#empty">Empty</a></li>
+<li><a href="#singleton">Singleton</a></li>
+</ul></li>
+<li><a href="#boolean-type">Boolean type</a></li>
+<li><a href="#natural-numbers">Natural numbers</a></li>
+<li><a href="#binary-trees">Binary Trees</a></li>
+<li><a href="#graph">Graph</a></li>
+<li><a href="#list">List</a></li>
+<li><a href="#finite-sequences">Finite sequences</a></li>
+<li><a href="#indexed-sequences-or-vectors">Indexed sequences or Vectors</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h1 id="data-structures">Data Structures</h1>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Lang<span class="ot">.</span>dataStructures <span class="kw">where</span></code></pre></div>
+<h2 id="trivial-types">Trivial types</h2>
+<h3 id="empty">Empty</h3>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> ⊥ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></code></pre></div>
+<p>An empty object cannot be created cause it has no constructor.</p>
+<h3 id="singleton">Singleton</h3>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> ⊤ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+  singleton <span class="ot">:</span> ⊤</code></pre></div>
+<p>A singleton constructor <code>singleton</code> creates a single object of type <code>T</code>.</p>
+<h2 id="boolean-type">Boolean type</h2>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> Bool <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+  true <span class="ot">:</span> Bool
+  false <span class="ot">:</span> Bool</code></pre></div>
+<p>Here <code>data Bool</code> represents a data type creator Bool, which contains two type constructors, <code>true</code> and <code>false</code>. Each consructor here, <code>true</code> and <code>false</code> returns a <code>Bool</code> value, this is represented as <code>true : Bool</code>. Notice that the data type constructor itself is a menber of <code>Set</code>. There can be ones that depend on others though we know a about them in type theory.</p>
+<h2 id="natural-numbers">Natural numbers</h2>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> ℕ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+  zero <span class="ot">:</span> ℕ
+  succ <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ</code></pre></div>
+<p>All natural numbers can be created from <code>zero</code> and n successive numbers after <code>zero</code>. All we need to know are</p>
+<ul>
+<li>zero</li>
+<li>how to increment a number</li>
+</ul>
+<p>and then, increment zero to infinity!</p>
+<p>Examples:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">one   <span class="ot">=</span> succ zero
+two   <span class="ot">=</span> succ one
+three <span class="ot">=</span> succ two
+four  <span class="ot">=</span> succ three
+five  <span class="ot">=</span> succ four
+six   <span class="ot">=</span> succ five
+seven <span class="ot">=</span> succ six
+eight <span class="ot">=</span> succ seven
+nine  <span class="ot">=</span> succ eight
+ten   <span class="ot">=</span> succ nine</code></pre></div>
+<p>and so on recursively.</p>
+<h2 id="binary-trees">Binary Trees</h2>
+<p>We define a generic complete binary tree using the following definition. Note that this merely creates an empty structure of a tree, the nodes or leaves contain no information in them:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> BinTree <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+  leaf <span class="ot">:</span> BinTree
+  node <span class="ot">:</span> BinTree <span class="ot">→</span> BinTree <span class="ot">→</span> BinTree</code></pre></div>
+<p>Binary trees with leaves containing natural numbers in leaf nodes:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> ℕBinTree <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+  leaf <span class="ot">:</span> ℕ <span class="ot">→</span> ℕBinTree
+  node <span class="ot">:</span> ℕBinTree <span class="ot">→</span> ℕBinTree <span class="ot">→</span> ℕBinTree</code></pre></div>
+<p>Binary trees with each node and leaf containing a natural number:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> ℕNodeBinTree <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+  leaf <span class="ot">:</span> ℕ <span class="ot">→</span> ℕNodeBinTree
+  node <span class="ot">:</span> ℕ <span class="ot">→</span> ℕNodeBinTree <span class="ot">→</span> ℕNodeBinTree <span class="ot">→</span> ℕNodeBinTree</code></pre></div>
+<p>Binary trees with each node containing a natural number and each leaf contaning a boolean:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> ℕMixedBinTree <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+  leaf <span class="ot">:</span> Bool <span class="ot">→</span> ℕMixedBinTree
+  node <span class="ot">:</span> ℕ <span class="ot">→</span> ℕMixedBinTree <span class="ot">→</span> ℕMixedBinTree <span class="ot">→</span> ℕMixedBinTree</code></pre></div>
+<h2 id="graph">Graph</h2>
+<p>We define a graph with:</p>
+<ul>
+<li>edges containing a natural number</li>
+<li>represented as an edge-list, i.e. a list of triples</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> Vertex <span class="ot">:</span> <span class="dt">Set</span>
+<span class="kw">data</span> EdgeTriple <span class="ot">:</span> <span class="dt">Set</span>
+<span class="kw">data</span> Graph <span class="ot">:</span> <span class="dt">Set</span>
+
+<span class="kw">data</span> Vertex <span class="kw">where</span>
+  vertex <span class="ot">:</span> ℕ <span class="ot">→</span> Vertex
+
+<span class="kw">data</span> EdgeTriple <span class="kw">where</span>
+  triple <span class="ot">:</span> Vertex <span class="ot">→</span> Vertex <span class="ot">→</span> EdgeTriple
+
+<span class="kw">data</span> Graph <span class="kw">where</span>
+  idGraph <span class="ot">:</span> EdgeTriple <span class="ot">→</span> Graph
+  <span class="ot">_</span>+|+<span class="ot">_</span> <span class="ot">:</span> Graph <span class="ot">→</span> EdgeTriple <span class="ot">→</span> Graph
+
+<span class="kw">infixl</span> <span class="dv">3</span> <span class="ot">_</span>+|+<span class="ot">_</span></code></pre></div>
+<p>The <code>infixl</code> sets the precedence of the infix operator <code>+|+</code>. To indicate an operator operates in an infix way, the operator <code>op</code> is represented as <code>_op_</code>. Similarly, for an operator <code>x + y = z</code>, we represent them as <code>_+_=_</code>.</p>
+<p>We can use the above definition to create a graph in the following way:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">graph <span class="ot">:</span> Graph
+graph <span class="ot">=</span> idGraph <span class="ot">(</span>triple <span class="ot">(</span>vertex zero<span class="ot">)</span>   <span class="ot">(</span>vertex seven<span class="ot">))</span>     +|+
+                triple  <span class="ot">(</span>vertex one<span class="ot">)</span>    <span class="ot">(</span>vertex three<span class="ot">)</span>      +|+
+                triple  <span class="ot">(</span>vertex seven<span class="ot">)</span>  <span class="ot">(</span>vertex four<span class="ot">)</span>       +|+
+                triple  <span class="ot">(</span>vertex nine<span class="ot">)</span>   <span class="ot">(</span>vertex <span class="ot">(</span>succ six<span class="ot">))</span></code></pre></div>
+<h2 id="list">List</h2>
+<p>A list containing objects of type <code>A</code> can be defined as an object which has:</p>
+<ul>
+<li>an identity element, i.e. an empty list <code>[]</code></li>
+<li>a concat operator which successively creates bigger lists <code>::</code></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> List <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+  [] <span class="ot">:</span> List A
+  <span class="ot">_</span>::<span class="ot">_</span> <span class="ot">:</span> A <span class="ot">→</span> List A <span class="ot">→</span> List A
+
+<span class="kw">infixr</span> <span class="dv">5</span> <span class="ot">_</span>::<span class="ot">_</span></code></pre></div>
+<p>and we create instances of lists as:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">bunch <span class="ot">:</span> List Bool
+bunch <span class="ot">=</span> false :: false :: true :: false :: true :: []</code></pre></div>
+<h2 id="finite-sequences">Finite sequences</h2>
+<p>The type class of a finite set, or merely an index, consists of:</p>
+<ul>
+<li>an identity element: create a finite set of size <code>n</code></li>
+<li>a recursive creator: create finite sets successively</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> Fin <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
+  id <span class="ot">:</span> <span class="ot">(</span>n <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> Fin <span class="ot">(</span>succ n<span class="ot">)</span>
+  succ <span class="ot">:</span> <span class="ot">(</span>n <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> Fin n <span class="ot">→</span> Fin <span class="ot">(</span>succ n<span class="ot">)</span></code></pre></div>
+<p>Creating a finite set of four elements:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">fourFin <span class="ot">:</span> Fin four
+fourFin <span class="ot">=</span> succ three <span class="ot">(</span>succ two <span class="ot">(</span>succ one <span class="ot">(</span>id zero<span class="ot">)))</span></code></pre></div>
+<h2 id="indexed-sequences-or-vectors">Indexed sequences or Vectors</h2>
+<p>We now define a finite sized indexed list, also called a vector <code>Vec</code>. The constructor consists of:</p>
+<ul>
+<li>An identity constructor, <code>[]</code> which constructs an empty vector</li>
+<li>A successive constructor <code>cons</code> which appends successively builds a vector</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> Vec <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
+  [] <span class="ot">:</span> Vec A zero
+  cons <span class="ot">:</span> <span class="ot">(</span>n <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> A <span class="ot">→</span> Vec A n <span class="ot">→</span> Vec A <span class="ot">(</span>succ n<span class="ot">)</span></code></pre></div>
+<p>Examples of vectors :</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">vec1 <span class="ot">:</span> Vec Bool one
+vec1 <span class="ot">=</span> cons zero true []
+
+vec2 <span class="ot">:</span> Vec Bool two
+vec2 <span class="ot">=</span> cons one false vec1
+
+vec3 <span class="ot">:</span> Vec Bool three
+vec3 <span class="ot">=</span> cons two true vec2</code></pre></div>
+<p>Note that each vector has its size encoded into it’s type. This is not to be confused with set theory based lists, where any two list of different number of elements have the same type.</p>
+<p>For example in scala:</p>
+<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">val</span> x : List[Int] = List(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)
+<span class="kw">val</span> y : List[Int] = List(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">0</span>)</code></pre></div>
+<p>both have the same type. However, in pure type theory they are considered different types as type theory considers the size of the list as type information.</p>
+<p>Example, a bool-indexed vector such that only one type can be stored at the same time:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> ⟂ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+
+<span class="kw">data</span> BoolVec<span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> Bool <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
+  id₁ <span class="ot">:</span> B <span class="ot">→</span> BoolVec A B false
+  id₂ <span class="ot">:</span> A <span class="ot">→</span> BoolVec A B true
+
+containsB <span class="ot">:</span> BoolVec ⟂ ℕ false
+containsB <span class="ot">=</span> id₁ three
+
+containsA <span class="ot">:</span> BoolVec ℕ ⟂ true
+containsA <span class="ot">=</span> id₂ four</code></pre></div>
+<hr />
+<p><a href="./contents.html">Back to Contents</a></p>
+</body>
+</html>
