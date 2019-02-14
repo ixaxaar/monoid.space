@@ -1,6 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  
+**Table of Contents**
 
 - [Contents](#contents)
 
@@ -10,11 +10,11 @@
 # Contents
 
 1. The Language
-  - [Setup](./setup.lagda.md)
-  - [Introduction](./languageIntro.lagda.md)
-  - [Data Structures](./dataStructures.lagda.md)
-  - [Proofs as Data](./proofsAsData.lagda.md)
-  - [Functions](./functions.lagda.md)
+  - [Setup](./setup.html)
+  - [Introduction](./languageIntro.html)
+  - [Data Structures](./dataStructures.html)
+  - [Proofs as Data](./proofsAsData.html)
+  - [Functions](./functions.html)
 2. Type Theory
   - [Introduction]
   - [Product and Coproduct Types]
