@@ -1,6 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  
+****
 
 - [Data Structures](#data-structures)
   - [Trivial types](#trivial-types)
@@ -248,3 +248,5 @@ containsA : BoolVec ℕ ⟂ true
 containsA = id₂ four
 ```
 
+****
+[Back to Contents](./contents.html)

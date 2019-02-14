@@ -1,3 +1,0 @@
-
-   [Contents](./contents.html)
-   

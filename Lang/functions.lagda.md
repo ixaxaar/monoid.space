@@ -1,6 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  
+****
 
 - [Functions](#functions)
   - [Pattern matching functions](#pattern-matching-functions)
@@ -149,4 +149,5 @@ oneAdded = map (one :: two :: three :: four :: []) addOne
 ```
 Here, we apply the function `addOne` to a list, using `map`.
 
-
+****
+[Back to Contents](./contents.html)

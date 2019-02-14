@@ -1,6 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**
+****
 
 - [Contents](#contents)
 
@@ -10,11 +10,11 @@
 # Contents
 
 1. The Language
-  - [Setup](./setup.html)
-  - [Introduction](./languageIntro.html)
-  - [Data Structures](./dataStructures.html)
-  - [Proofs as Data](./proofsAsData.html)
-  - [Functions](./functions.html)
+  - [Setup](./Lang.setup.html)
+  - [Introduction](./Lang.languageIntro.html)
+  - [Data Structures](./Lang.dataStructures.html)
+  - [Proofs as Data](./Lang.proofsAsData.html)
+  - [Functions](./Lang.functions.html)
 2. Type Theory
   - [Introduction]
   - [Product and Coproduct Types]

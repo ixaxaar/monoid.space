@@ -1,6 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  
+****
 
 - [Language Introduction](#language-introduction)
   - [Module headers](#module-headers)
@@ -45,3 +45,6 @@ The Agda compiler can then validate the agda code inside the `agda` code blocks,
 # Emacs
 
 Though Agda is integrated with emacs and similar behavior with [Atom](https://atom.io/packages/agda-mode). Agda emacs symbols is documented [here](https://people.inf.elte.hu/divip/AgdaTutorial/Symbols.html). This document does not really assume familiarity with Emacs, and neither do we use it in favor of the command-line compiler.
+
+****
+[Back to Contents](./contents.html)

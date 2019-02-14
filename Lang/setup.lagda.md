@@ -1,6 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  
+****
 
 - [Setup and installation](#setup-and-installation)
   - [Using Docker](#using-docker)
@@ -91,3 +91,6 @@ agda ./whatever.agda
 ```
 
 That's pretty much it :grimacing:
+
+****
+[Back to Contents](./contents.html)
