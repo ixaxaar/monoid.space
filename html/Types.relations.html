@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" type="text/css" />
+</head>
+<body>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<hr />
+<ul>
+<li><a href="#relations">Relations</a></li>
+<li><a href="#equivalence-relation">Equivalence relation</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h1 id="relations">Relations</h1>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Types<span class="ot">.</span>relations <span class="kw">where</span></code></pre></div>
+<p>We begin by constructing relations as types. A relation <code>∙</code> between two objects <code>a</code> and <code>b</code> is a function type:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Rel <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">→</span> <span class="dt">Set1</span>
+Rel A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span></code></pre></div>
+<p>A reflexive relation is one where $ x y = y x $ :</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Reflexive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span>
+  <span class="ot">→</span> Rel A
+  <span class="ot">→</span> <span class="dt">Set</span>
+Reflexive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>R<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x R x</code></pre></div>
+<p>A symmetric relation is one where $ x y y x $ :</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Symmetric <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span>
+Symmetric <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>R<span class="ot">_</span>  <span class="ot">=</span> <span class="ot">(</span>x y <span class="ot">:</span> A<span class="ot">)</span>
+  <span class="ot">→</span> x R y
+  <span class="ot">→</span> y R x</code></pre></div>
+<p>A transitive relation is one where $ x y, y z then z x $ :</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Transitive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span>
+Transitive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>R<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x y z <span class="ot">:</span> A<span class="ot">)</span>
+  <span class="ot">→</span> x R y
+  <span class="ot">→</span> y R z
+  <span class="ot">→</span> x R z</code></pre></div>
+<p>A congruent relation is one where a function $ x y f(x) f(y) $ or the function <code>f</code> preserves the relation :</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Congruent <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span>
+Congruent <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>R<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> A<span class="ot">)(</span>x y <span class="ot">:</span> A<span class="ot">)</span>
+  <span class="ot">→</span> x R y
+  <span class="ot">→</span> f x R f y</code></pre></div>
+<p>A substitutive relation is one where $ x y <sub>and</sub> (predicate y) = ⊤ (predicate x) = ⊤ $ :</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Substitutive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set1</span>
+Substitutive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>R<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>P <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)(</span>x y <span class="ot">:</span> A<span class="ot">)</span>
+  <span class="ot">→</span> x R y
+  <span class="ot">→</span> P x
+  <span class="ot">→</span> P y</code></pre></div>
+<h1 id="equivalence-relation">Equivalence relation</h1>
+<p>An equivalence relation is a relation which is - reflexive $ a = a $ - symmetric $ if a = b <sub>then</sub> b = a $ - transitive $ if a = b <sub>and</sub> b = c <sub>then</sub> a = c $</p>
+<p>All forms of what we know as “equality” are equivalence relations. They help in identifying similar objects and can be “weak” or “strong” depending upon how much similarity they capture of the objects they compare. For e.g. all “tables” fall under one equivalence class wherein when we refer to a generic “table” we mean as in all tables as equal. Whereas, if we were comparing tables amongst themselves, we’d use other finer criteria in our equivalence relations, classifying some tables as coffee tables and so on.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Equivalence <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set1</span> <span class="kw">where</span>
+  <span class="kw">field</span>
+    <span class="ot">_</span>==<span class="ot">_</span>  <span class="ot">:</span> Rel A
+    refl  <span class="ot">:</span> Reflexive <span class="ot">_</span>==<span class="ot">_</span>
+    sym   <span class="ot">:</span> Symmetric <span class="ot">_</span>==<span class="ot">_</span>
+    trans <span class="ot">:</span> Transitive <span class="ot">_</span>==<span class="ot">_</span></code></pre></div>
+<hr />
+<p><a href="./contents.html">Back to Contents</a></p>
+</body>
+</html>

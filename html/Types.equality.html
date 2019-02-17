@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" type="text/css" />
+</head>
+<body>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<hr />
+<ul>
+<li><a href="#equalities">Equalities</a></li>
+<li><a href="#propositional-equality">Propositional Equality</a>
+<ul>
+<li><a href="#symmetry">Symmetry</a></li>
+<li><a href="#transitivity">Transitivity</a></li>
+<li><a href="#functions-that-preserve-equality-or-congruence">Functions that preserve equality or Congruence</a></li>
+<li><a href="#substitution">Substitution</a></li>
+<li><a href="#"></a></li>
+</ul></li>
+<li><a href="#definitonal-equality">Definitonal Equality</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h1 id="equalities">Equalities</h1>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Types<span class="ot">.</span>equality <span class="kw">where</span>
+
+<span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>
+  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span>
+  ⊥<span class="ot">;</span> ⊤<span class="ot">;</span> ℕ<span class="ot">;</span> List<span class="ot">;</span>
+  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span>
+  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span></code></pre></div>
+<p>There are different kinds equivalence relations and hence, equalities in type theory.</p>
+<h2 id="propositional-equality">Propositional Equality</h2>
+<p>In type theory, all proofs can be represented as a type. Propositional equality is a kind of equality which requires a proof, and hence the equality itself is also a type <code>≡</code>:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≡<span class="ot">_</span>
+
+<span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>a <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
+  refl <span class="ot">:</span> a ≡ a</code></pre></div>
+<p>Reflexivity is defined with the definition of <code>≡</code> by the special keyword in Agda, called <code>refl</code>, the others being:</p>
+<h4 id="symmetry">Symmetry</h4>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">symmetry <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B<span class="ot">}{</span>a <span class="ot">:</span> A<span class="ot">}{</span>b <span class="ot">:</span> B<span class="ot">}</span>
+  <span class="ot">→</span> a ≡ b
+  <span class="ot">→</span> b ≡ a
+symmetry refl <span class="ot">=</span> refl</code></pre></div>
+<h4 id="transitivity">Transitivity</h4>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">transitivity <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B C<span class="ot">}{</span>a <span class="ot">:</span> A<span class="ot">}{</span>b <span class="ot">:</span> B<span class="ot">}{</span>c <span class="ot">:</span> C<span class="ot">}</span>
+  <span class="ot">→</span> a ≡ b
+  <span class="ot">→</span> b ≡ c
+  <span class="ot">→</span> a ≡ c
+transitivity refl p <span class="ot">=</span> p</code></pre></div>
+<h3 id="functions-that-preserve-equality-or-congruence">Functions that preserve equality or Congruence</h3>
+<p>Functions that when applied to objects of a type, do not alter the operation of equality can be defined as:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">congruence <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span>
+  <span class="ot">→</span> x ≡ y
+  <span class="ot">→</span> f x ≡ f y
+congruence f refl <span class="ot">=</span> refl</code></pre></div>
+<h3 id="substitution">Substitution</h3>
+<p>If <code>a = b</code> and if <code>predicate a = true</code> ⟹ <code>predicate b = true</code></p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">substitution <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">(</span>Predicate <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span>
+  <span class="ot">→</span> x ≡ y
+  <span class="ot">→</span> Predicate x
+  <span class="ot">→</span> Predicate y
+substitution Predicate refl p <span class="ot">=</span> p</code></pre></div>
+<h3 id="section"></h3>
+<p>Finally, our table example:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> Table <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+  generic <span class="ot">:</span> Table
+  specific <span class="ot">:</span> ℕ <span class="ot">→</span> Table
+
+tableEqZero <span class="ot">:</span> generic ≡ generic
+tableEqZero <span class="ot">=</span> refl
+
+tableEqThree <span class="ot">:</span> <span class="ot">(</span>specific three<span class="ot">)</span> ≡ <span class="ot">(</span>specific three<span class="ot">)</span>
+tableEqThree <span class="ot">=</span> refl</code></pre></div>
+<p>This, of course does not compile:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">tableEqNot <span class="fu">:</span> generic ≡ (specific three)
+tableEqNot <span class="fu">=</span> refl</code></pre></div>
+<h1 id="definitonal-equality">Definitonal Equality</h1>
+<p>Definitonal equality relates to the Agda compiler’s own integrity check through which a statement is deemed true or correctly compiled. Hence every statemtent has its own notion of equality.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">defEqual₁ <span class="ot">:</span> ℕ
+defEqual₁ <span class="ot">=</span> seven
+
+defEqual₂ <span class="ot">:</span> ℕ
+defEqual₂ <span class="ot">=</span> seven</code></pre></div>
+<p>Here, <code>defEqual₁</code> and <code>defEqual₂</code> both are of type <code>ℕ</code> and hence definitionally equal is known to the compiler.</p>
+<hr />
+<p><a href="./contents.html">Back to Contents</a></p>
+</body>
+</html>
