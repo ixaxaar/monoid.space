@@ -23,14 +23,14 @@
   - [Data Structures](./Lang.dataStructures.html)
   - [Proofs as Data](./Lang.proofsAsData.html)
   - [Functions](./Lang.functions.html)
+  - [Modules, Records and Postulates](./Lang.other.html)
 
 ## 2. Type Theory
   - [Introduction](./Types.introduction.html)
-  - [Product and Coproduct Types]
-  - [Dependent data / π types]
-  - [Dependent function / σ types]
-  - [Equality]
-  - [Universe]
+  - [Universes and families](./Types.universe.html)
+  - [Relations](./Types.relations.html)
+  - [Equality](./Types.equality.html)
+  - [Product and Coproduct Types](./Types.typeBasics.html)
 
 ## 3. Group Theory
   - [Semigroups and Groups]

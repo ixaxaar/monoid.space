@@ -9,8 +9,13 @@ declare -a files=(
   "Lang/dataStructures"
   "Lang/functions"
   "Lang/proofsAsData"
+  "Lang/other"
 
-  "Types.introduction"
+  "Types/introduction"
+  "Types/relations"
+  "Types/equality"
+  "Types/typeBasics"
+  "Types/universe"
 )
 
 rm -rf build html tmp
@@ -32,10 +37,14 @@ do
    # """ >> "${i}.ladga.md"
 
    # compile
-   agda --compile --no-main --html --html-dir=./tmp --css=./css --compile-dir=./build "${i}.lagda.md"
+   agda -i . --compile --no-main --compile-dir=./build "${i}.lagda.md"
 
    echo "Generating HTML for " "${i}.lagda.md"
-   pandoc -s -S --css=../css/agda.css --from=markdown_github --to=html --columns=80 -o ./html/"${i/\//\.}.html" "${i}.lagda.md"
+   pandoc -s -S --css=../css/agda.css --from=markdown --to=html --columns=80 -o ./html/"${i/\//\.}.html" "${i}.lagda.md"
+
 done
+
+# copy resources
+find . -name "*.png" | xargs cp -pr -t ./html
 
 rm -rf tmp

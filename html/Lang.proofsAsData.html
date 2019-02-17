@@ -59,13 +59,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="proofs-as-data">Proofs as data</h1>
-<p>Propositions can be defined in a recursive way such that termination of computation proves the correctness of the proof.<br />
-We use constructive proofs, as in we build the proof of a proposition (which in itself is a type) with recursion and pattern matching.</p>
-<p>Usually, a proof consists of:</p>
-<ul>
-<li>trivial cases, serving as termination markers</li>
-<li>recursive pattern matchers, for constructing the proof from the trivial cases</li>
-</ul>
+<p>Propositions can be defined in a recursive way such that termination of computation proves the correctness of the proof. We use constructive proofs, as in we build the proof of a proposition (which in itself is a type) with recursion and pattern matching.</p>
+<p>Usually, a proof consists of: - trivial cases, serving as termination markers - recursive pattern matchers, for constructing the proof from the trivial cases</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Lang<span class="ot">.</span>proofsAsData <span class="kw">where</span>
 
 <span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>

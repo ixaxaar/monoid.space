@@ -135,8 +135,7 @@ thirteen <span class="ot">=</span> twelve + one</code></pre></div>
 length [] <span class="ot">=</span> zero
 length <span class="ot">(</span>x :: xs<span class="ot">)</span> <span class="ot">=</span> one + <span class="ot">(</span>length xs<span class="ot">)</span></code></pre></div>
 <h2 id="map">Map</h2>
-<p>We implement the <code>map</code> function, of “map-reduce” fame, for <code>List</code>s:<br />
-A map function for a <code>List</code> is a function that applies a lambda (un-named) function to all elements of a <code>List</code>.</p>
+<p>We implement the <code>map</code> function, of “map-reduce” fame, for <code>List</code>s: A map function for a <code>List</code> is a function that applies a lambda (un-named) function to all elements of a <code>List</code>.</p>
 <p>If <code>f</code> were a lambda function, map-ing <code>f</code> over <code>List(a, b, c, d)</code> would produce <code>List(f(a), f(b), f(c), f(d))</code></p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">map <span class="ot">:</span> <span class="ot">{</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> List A <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> List B
 map [] f <span class="ot">=</span> []

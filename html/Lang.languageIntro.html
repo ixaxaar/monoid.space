@@ -62,18 +62,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>A namespace in Agda, called a module, appears at the beginning of every file:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Lang<span class="ot">.</span>languageIntro <span class="kw">where</span></code></pre></div>
 <p>Filenames and module headers are required to match. The supported filenames that can contain the module <code>languageIntro</code> being:</p>
-<p>[x] languageIntro.agda<br />
-[x] languageIntro.lagda<br />
-[x] languageIntro.lagda.md<br />
-[x] languageIntro.ladga.rst<br />
-[x] languageIntro.ladga.tex</p>
+<p>[x] languageIntro.agda [x] languageIntro.lagda [x] languageIntro.lagda.md [x] languageIntro.ladga.rst [x] languageIntro.ladga.tex</p>
 <h1 id="literate-programming">Literate programming</h1>
 <p>The last three file extensions above are part of what’s called “literate programming” wherein one can write markdown or latex documents with agda code surrounded in code blocks marked agda, similar to how this page is itself written!</p>
-<pre><code>\``` agda
-\-- agda code goes here
-\```
-
-TODO: Remove the backslashes above while rendering the backticks.</code></pre>
+<blockquote>
+<pre><code>``` agda
+-- agda code goes here
+```</code></pre>
+</blockquote>
 <p>The Agda compiler can then validate the agda code inside the <code>agda</code> code blocks, thus guaranteeing the correctness of the math in the documents.</p>
 <h1 id="emacs">Emacs</h1>
 <p>Though Agda is integrated with emacs and similar behavior with <a href="https://atom.io/packages/agda-mode">Atom</a>. Agda emacs symbols is documented <a href="https://people.inf.elte.hu/divip/AgdaTutorial/Symbols.html">here</a>. This document does not really assume familiarity with Emacs, and neither do we use it in favor of the command-line compiler.</p>
