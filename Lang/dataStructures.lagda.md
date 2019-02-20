@@ -175,6 +175,16 @@ bunch : List Bool
 bunch = false :: false :: true :: false :: true :: []
 ```
 
+```agda
+data TypeOf (A : Set) : Set where
+  typeOf : List A → TypeOf A
+```
+
+```agda
+nat : TypeOf ℕ
+nat = typeOf ( one :: two :: ten :: [] )
+```
+
 ## Finite sequences
 
 The type class of a finite set, or merely an index, consists of:

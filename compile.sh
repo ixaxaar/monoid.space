@@ -9,13 +9,19 @@ declare -a files=(
   "Lang/dataStructures"
   "Lang/functions"
   "Lang/proofsAsData"
+  "Lang/syntaxQuirks"
   "Lang/other"
 
   "Types/introduction"
+  "Types/universe"
   "Types/relations"
   "Types/equality"
+  "Types/functions"
   "Types/typeBasics"
-  "Types/universe"
+
+  "Logic/introduction"
+  "Logic/logicBasics"
+  "Logic/decidability"
 )
 
 rm -rf build html tmp

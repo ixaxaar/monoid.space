@@ -64,12 +64,14 @@ idLess₃ = lt (lt (lt ltz))
 If we try to compile something that is not true, the compiler will throw an error:
 
 ```haskell
-idLess₁ : ten <= three
-idLess₁ = lt lt lt lt lt lt lt lt lt ltz
+idLess' : ten <= three
+idLess' = lt lt lt lt lt lt lt lt lt ltz
 ```
 
-```bash
-#TODO: error message
+```python
+proofsAsData.lagda.md:68,14-16
+(_m_30 <= _n_31 → succ _m_30 <= succ _n_31) !=< (nine <= two) of
+type Set
 ```
 
 ## Odd or Even
@@ -103,41 +105,6 @@ isFourEven = succ (succ zeroIsEven)
 
 isSevenOdd : Odd seven
 isSevenOdd = succ (succ (succ oneIsOdd))
-```
-
-## Some syntactic sugar
-
-```haskell
-data _≤′_ : ℕ → ℕ → Set where
-  ≤′-refl : {m : ℕ} →                       m ≤′ m
-  ≤′-step : {m : ℕ} → {n : ℕ} →  m ≤′ n  →  m ≤′ succ n
-```
-
-is similar to
-
-```haskell
-data _≤′₁_ (m : ℕ) : ℕ → Set where
-  ≤′₁-refl :                       m ≤′₁ m
-  ≤′₁-step : {n : ℕ} →  m ≤′₁ n  →  m ≤′₁ succ n
-```
-
-```haskell
-data _≤″_ : ℕ → ℕ → Set where
-  ≤+ : ∀ {m n k} → m + n ≡ k → m ≤″ k
-```
-
-is similar to
-
-```haskell
-data _≤″₁_ (m : ℕ) : ℕ → Set where
-  ≤+ : ∀ {n k} → m + n ≡ k → m ≤″₁ k
-```
-
-which is similar to
-
-```haskell
-data _≤″₂_ (m : ℕ) (k : ℕ) : Set where
-  ≤+ : ∀ {n} → m + n ≡ k → m ≤″₂ k
 ```
 
 ## Equality of natural numbers

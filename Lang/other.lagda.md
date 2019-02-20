@@ -1,4 +1,4 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -→
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ****
 
@@ -146,7 +146,7 @@ postulate
   A B    : Set
   a      : A
   b      : B
-  _=AB=_ : A -> B -> Set
+  _=AB=_ : A → B → Set
   a==b   : a =AB= b
 ```
 

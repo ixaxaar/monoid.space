@@ -23,6 +23,7 @@
   - [Data Structures](./Lang.dataStructures.html)
   - [Proofs as Data](./Lang.proofsAsData.html)
   - [Functions](./Lang.functions.html)
+  - [Quirks of Syntax](./Lang.syntaxQuirks.html)
   - [Modules, Records and Postulates](./Lang.other.html)
 
 ## 2. Type Theory
@@ -30,20 +31,28 @@
   - [Universes and families](./Types.universe.html)
   - [Relations](./Types.relations.html)
   - [Equality](./Types.equality.html)
-  - [Product and Coproduct Types](./Types.typeBasics.html)
+  - [Dependent Function Types / Π-types](./Types.functions.html)
+  - [Product Types / Σ-types](./Types.typeBasics.html)
+  - [Natural Numbers](./Types.naturalNumbers.html)
+  <!-- - [Type Equations](./Types.equations.html) -->
 
-## 3. Group Theory
+## 3. Logic
+  - [Introduction](./Logic.introduction.html)
+  - [Elementary Logic](./Logic.logicBasics.html)
+  - [Decidability](./Logic.decidability.html)
+
+## 4. Group Theory
   - [Semigroups and Groups]
   - [Monoids]
   - [n-Groupoids and the ∞-Groupoid]
 
-## 4. Algebraic Topology
+## 5. Algebraic Topology
   - [Paths and connected spaces]
   - [The Fundamental Group and Groupoid]
   - [Functor]
   - [The Seifert - van-Kampen theorem]
 
-## 5. Category Theory
+## 6. Category Theory
   - [Natural Transformations]
   - [Hom-Sets and constructions]
   - [The Yoneda Lemma]

@@ -73,7 +73,12 @@ Mathematical sets cannot be directly represented in Agda as they are subject to 
 - Generally a set is represented by `Set₁`.
 - There exist infinite other `Setᵢ` such that `Set₁ ∈ Set₂ ∈ Set₃ ∈ ...`
 
-These `Setᵢ`s serve as the universes in Agda.
+In fact, Ttese `Setᵢ`s serve as universes in Agda.
+
+# Universe Polymorphism
+
+
+
 
 ****
 [Back to Contents](./contents.html)

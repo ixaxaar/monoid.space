@@ -116,6 +116,7 @@ infixr 5 _++_
 
 This function takes a type as a parameter `A`, and hence can work on `List`s of any type `A`. This feature of functions is called "parametric polymorphism". These functions tend to work on higher levels of abstraction, with disregard to the types inside.
 
+Note that the curly braces `{}` are called "implicit arguments" in Agda. Values of implicit arguments are derived from other arguments' values and types by solving type equations. You don’t have to apply them or pattern match on them explicitly. Practically, they help in defining the scope of types.
 
 ## Length
 
