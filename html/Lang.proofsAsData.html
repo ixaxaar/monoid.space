@@ -53,7 +53,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#proofs-as-data">Proofs as data</a></li>
 <li><a href="#order">Order</a></li>
 <li><a href="#odd-or-even">Odd or Even</a></li>
-<li><a href="#some-syntactic-sugar">Some syntactic sugar</a></li>
 <li><a href="#equality-of-natural-numbers">Equality of natural numbers</a></li>
 <li><a href="#belongs-to">Belongs to</a></li>
 </ul>
@@ -90,9 +89,11 @@ idLess₂ <span class="ot">=</span> lt <span class="ot">(</span>lt ltz<span clas
 idLess₃ <span class="ot">:</span> three &lt;= nine
 idLess₃ <span class="ot">=</span> lt <span class="ot">(</span>lt <span class="ot">(</span>lt ltz<span class="ot">))</span></code></pre></div>
 <p>If we try to compile something that is not true, the compiler will throw an error:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">idLess₁ <span class="fu">:</span> ten <span class="fu">&lt;=</span> three
-idLess₁ <span class="fu">=</span> lt lt lt lt lt lt lt lt lt ltz</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#TODO: error message</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">idLess&#39; <span class="fu">:</span> ten <span class="fu">&lt;=</span> three
+idLess&#39; <span class="fu">=</span> lt lt lt lt lt lt lt lt lt ltz</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">proofsAsData.lagda.md:<span class="dv">68</span>,<span class="dv">14</span><span class="op">-</span><span class="dv">16</span>
+(_m_30 <span class="op">&lt;=</span> _n_31 → succ _m_30 <span class="op">&lt;=</span> succ _n_31) <span class="op">!=&lt;</span> (nine <span class="op">&lt;=</span> two) of
+<span class="bu">type</span> Set</code></pre></div>
 <h2 id="odd-or-even">Odd or Even</h2>
 <p>The odd or even proofs can be defined as in the previous proof. Here we successively decrement <code>n</code> till we:</p>
 <ul>
@@ -118,22 +119,6 @@ isFourEven <span class="ot">=</span> succ <span class="ot">(</span>succ zeroIsEv
 
 isSevenOdd <span class="ot">:</span> Odd seven
 isSevenOdd <span class="ot">=</span> succ <span class="ot">(</span>succ <span class="ot">(</span>succ oneIsOdd<span class="ot">))</span></code></pre></div>
-<h2 id="some-syntactic-sugar">Some syntactic sugar</h2>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> _≤′_ <span class="fu">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
-  ≤′<span class="fu">-</span>refl <span class="fu">:</span> {m <span class="fu">:</span> ℕ} <span class="ot">→</span>                       m ≤′ m
-  ≤′<span class="fu">-</span>step <span class="fu">:</span> {m <span class="fu">:</span> ℕ} <span class="ot">→</span> {n <span class="fu">:</span> ℕ} <span class="ot">→</span>  m ≤′ n  <span class="ot">→</span>  m ≤′ succ n</code></pre></div>
-<p>is similar to</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> _≤′₁_ (m <span class="fu">:</span> ℕ) <span class="fu">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
-  ≤′₁<span class="fu">-</span>refl <span class="fu">:</span>                       m ≤′₁ m
-  ≤′₁<span class="fu">-</span>step <span class="fu">:</span> {n <span class="fu">:</span> ℕ} <span class="ot">→</span>  m ≤′₁ n  <span class="ot">→</span>  m ≤′₁ succ n</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> _≤″_ <span class="fu">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
-  ≤<span class="fu">+</span> <span class="fu">:</span> <span class="ot">∀</span> {m n k} <span class="ot">→</span> m <span class="fu">+</span> n ≡ k <span class="ot">→</span> m ≤″ k</code></pre></div>
-<p>is similar to</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> _≤″₁_ (m <span class="fu">:</span> ℕ) <span class="fu">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
-  ≤<span class="fu">+</span> <span class="fu">:</span> <span class="ot">∀</span> {n k} <span class="ot">→</span> m <span class="fu">+</span> n ≡ k <span class="ot">→</span> m ≤″₁ k</code></pre></div>
-<p>which is similar to</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> _≤″₂_ (m <span class="fu">:</span> ℕ) (k <span class="fu">:</span> ℕ) <span class="fu">:</span> <span class="dt">Set</span> <span class="kw">where</span>
-  ≤<span class="fu">+</span> <span class="fu">:</span> <span class="ot">∀</span> {n} <span class="ot">→</span> m <span class="fu">+</span> n ≡ k <span class="ot">→</span> m ≤″₂ k</code></pre></div>
 <h2 id="equality-of-natural-numbers">Equality of natural numbers</h2>
 <p>Equality of natural numbers can be proven by successively comparing decrements of them, till we reach <code>0 = 0</code>. Else the computation never terminates:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>

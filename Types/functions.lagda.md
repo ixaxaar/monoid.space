@@ -1,3 +1,11 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+****
+
+- [Dependent Function Types or Π-types](#dependent-function-types-or-%CF%80-types)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 # Dependent Function Types or Π-types
 

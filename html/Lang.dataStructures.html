@@ -161,6 +161,10 @@ graph <span class="ot">=</span> idGraph <span class="ot">(</span>triple <span cl
 <p>and we create instances of lists as:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">bunch <span class="ot">:</span> List Bool
 bunch <span class="ot">=</span> false :: false :: true :: false :: true :: []</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> TypeOf <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+  typeOf <span class="ot">:</span> List A <span class="ot">→</span> TypeOf A</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">nat <span class="ot">:</span> TypeOf ℕ
+nat <span class="ot">=</span> typeOf <span class="ot">(</span> one :: two :: ten :: [] <span class="ot">)</span></code></pre></div>
 <h2 id="finite-sequences">Finite sequences</h2>
 <p>The type class of a finite set, or merely an index, consists of:</p>
 <ul>

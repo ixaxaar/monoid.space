@@ -1,3 +1,19 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+****
+
+- [Constructing Logic using type theory](#constructing-logic-using-type-theory)
+  - [Objects of Logic](#objects-of-logic)
+    - [Empty / False](#empty--false)
+    - [Singleton / True](#singleton--true)
+  - [Laws or "APIs" of Logic](#laws-or-apis-of-logic)
+    - [Elimination](#elimination)
+    - [Negation](#negation)
+    - [Contradiction](#contradiction)
+    - [Contraposition](#contraposition)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 # Constructing Logic using type theory
 

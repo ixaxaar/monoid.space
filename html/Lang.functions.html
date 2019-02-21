@@ -129,6 +129,7 @@ thirteen <span class="ot">=</span> twelve + one</code></pre></div>
 
 <span class="kw">infixr</span> <span class="dv">5</span> <span class="ot">_</span>++<span class="ot">_</span></code></pre></div>
 <p>This function takes a type as a parameter <code>A</code>, and hence can work on <code>List</code>s of any type <code>A</code>. This feature of functions is called “parametric polymorphism”. These functions tend to work on higher levels of abstraction, with disregard to the types inside.</p>
+<p>Note that the curly braces <code>{}</code> are called “implicit arguments” in Agda. Values of implicit arguments are derived from other arguments’ values and types by solving type equations. You don’t have to apply them or pattern match on them explicitly. Practically, they help in defining the scope of types.</p>
 <h2 id="length">Length</h2>
 <p>The length of a list consists of traversing through the list and adding one for each element:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">length <span class="ot">:</span> List ⊤ <span class="ot">→</span> ℕ

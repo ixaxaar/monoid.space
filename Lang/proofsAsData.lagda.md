@@ -5,7 +5,6 @@
 - [Proofs as data](#proofs-as-data)
   - [Order](#order)
   - [Odd or Even](#odd-or-even)
-  - [Some syntactic sugar](#some-syntactic-sugar)
   - [Equality of natural numbers](#equality-of-natural-numbers)
   - [Belongs to](#belongs-to)
 

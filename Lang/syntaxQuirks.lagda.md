@@ -1,3 +1,15 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+****
+
+- [Syntactic quirks](#syntactic-quirks)
+- [Syntactic sugars](#syntactic-sugars)
+  - [Abstracting common parameters](#abstracting-common-parameters)
+  - [Abstracting parameters from constructors to types](#abstracting-parameters-from-constructors-to-types)
+  - [Implicit arguments](#implicit-arguments)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 # Syntactic quirks
 

@@ -4,6 +4,7 @@
 
 - [Universes and families](#universes-and-families)
 - [Sets](#sets)
+- [Universe Polymorphism](#universe-polymorphism)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

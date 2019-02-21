@@ -1,3 +1,12 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+****
+
+- [Decidablility](#decidablility)
+  - [1. Check if a certain proposition will terminate](#1-check-if-a-certain-proposition-will-terminate)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 
 # Decidablility
