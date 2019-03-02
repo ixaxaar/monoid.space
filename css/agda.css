@@ -171,11 +171,16 @@ div.info {color: gray;}
 
 input           { background-color: #eeeeee; }
 textarea        { background-color: #ffffba; }
+
 hr              {
-  background-color: rgb(75, 80, 60);
-  height: 80px;
-  padding: 20px;
+  background-color:  rgb(75, 80, 60);
+  height:            200px;
+  padding:           20px;
+  background-image:  url("../space.png");
+  background-repeat: repeat;
+  background-size: contain;
 }
+
 div.string span { background-color: yellow; }
 
 a               { color: #ff4444; }
