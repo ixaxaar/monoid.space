@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" type="text/css" />
+</head>
+<body>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<hr />
+<ul>
+<li><a href="#constructing-boolean-algebra-using-type-theory">Constructing Boolean algebra using type theory</a></li>
+<li><a href="#objects-of-logic">Objects of Logic</a>
+<ul>
+<li><a href="#empty--false">Empty / False</a></li>
+<li><a href="#singleton--true">Singleton / True</a></li>
+</ul></li>
+<li><a href="#operations-on-these-objects">Operations on these objects</a>
+<ul>
+<li><a href="#negation-or-the-logical-not">Negation or the logical <code>NOT</code></a></li>
+<li><a href="#product-conjunction-%E2%88%A7-or-the-logical-and">Product, conjunction <code>∧</code> or the logical <code>AND</code></a></li>
+<li><a href="#co-product-disjunction-or-the-logical-or">Co-product, disjunction or the logical <code>OR</code></a></li>
+</ul></li>
+<li><a href="#higher-order-operations">Higher-order operations</a>
+<ul>
+<li><a href="#implication">Implication</a></li>
+<li><a href="#the-exclusive-or-or-xor">The exclusive or or <code>XOR</code></a></li>
+<li><a href="#absurd">Absurd</a></li>
+<li><a href="#contradiction">Contradiction</a></li>
+<li><a href="#contraposition">Contraposition</a></li>
+<li><a href="#boolean-construction">Boolean construction</a></li>
+<li><a href="#existential-quantification">Existential Quantification</a></li>
+<li><a href="#dependent-proposition-type">Dependent proposition type</a></li>
+</ul></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h1 id="constructing-boolean-algebra-using-type-theory">Constructing Boolean algebra using type theory</h1>
+<p>Here we look at constructing logic using type theory. Now, mostly all branches of mathematics involve two kinds of entities: objects and propositions about those objects. This very much corresponds to basic composition of programming languages - objects and their APIs.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Logic<span class="ot">.</span>logicBasics <span class="kw">where</span>
+
+<span class="kw">open</span> <span class="kw">import</span> Level</code></pre></div>
+<h2 id="objects-of-logic">Objects of Logic</h2>
+<h3 id="empty-false">Empty / False</h3>
+<p>Type with no object - cannot ever create an object of this type. This makes it possible to define absurd functions, which map <code>⟂</code> to anything, as given nothing, one can create anything, or assuming any <code>False</code> statement can serve as a proof for anything, which is absurd.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> ⟂ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></code></pre></div>
+<p>Absurd can imply anything, be it true or not. Thus, any statement can be proven using absurdity.</p>
+<p>However, it is, we argue, impossible to create an object of absurd type (as <code>⟂</code> has no constructor) and hence these functions make no sense in the “real world”, as in they can never be invoked. This is called the “absurd pattern”.</p>
+<h3 id="singleton-true">Singleton / True</h3>
+<p>Set with only one object: <code>True</code>.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> ⊤ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+  singleton <span class="ot">:</span> ⊤</code></pre></div>
+<p>We also have a more standard representation of boolean objects, <a href="./Types.dataStructures.html#boolean-type">Bool</a>.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">)</span></code></pre></div>
+<h2 id="operations-on-these-objects">Operations on these objects</h2>
+<h3 id="negation-or-the-logical-not">Negation or the logical <code>NOT</code></h3>
+<p>We use the fact that a negation of a proposition <code>P</code> (to exist and hence be true) implies <code>¬ P</code> has to be false, <code>⟂</code>.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">¬ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> a
+¬ P <span class="ot">=</span> P <span class="ot">→</span> ⟂</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">not <span class="ot">:</span> Bool <span class="ot">→</span> Bool
+not true <span class="ot">=</span> false
+not false <span class="ot">=</span> true</code></pre></div>
+<h3 id="product-conjunction-or-the-logical-and">Product, conjunction <code>∧</code> or the logical <code>AND</code></h3>
+<p>The logic <code>AND</code> and <code>OR</code> are pretty straightforward for both representations:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> <span class="ot">_</span>∧<span class="ot">_</span> <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+  AND <span class="ot">:</span> A <span class="ot">→</span> B <span class="ot">→</span> A ∧ B
+
+<span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>∧<span class="ot">_</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>&amp;&amp;<span class="ot">_</span> <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool
+true &amp;&amp; x <span class="ot">=</span> x
+false &amp;&amp; x <span class="ot">=</span> false
+
+<span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>&amp;&amp;<span class="ot">_</span></code></pre></div>
+<h3 id="co-product-disjunction-or-the-logical-or">Co-product, disjunction or the logical <code>OR</code></h3>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> <span class="ot">_</span>∨<span class="ot">_</span> <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+  inj1 <span class="ot">:</span> A <span class="ot">→</span> A ∨ B
+  inj2 <span class="ot">:</span> B <span class="ot">→</span> A ∨ B
+
+<span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>∨<span class="ot">_</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>||<span class="ot">_</span> <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool
+true || x <span class="ot">=</span> true
+false || x  <span class="ot">=</span> false
+
+<span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>||<span class="ot">_</span></code></pre></div>
+<h2 id="higher-order-operations">Higher-order operations</h2>
+<p>These higher-order operations are built by composing the lower ones in various ways:</p>
+<h3 id="implication">Implication</h3>
+<p>Implication, or <code>if P then Q</code>, is derived from the well-known construction</p>
+<p><br /><span class="math display">$$
+a \implies b = \not a \or b
+$$</span><br /></p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> <span class="ot">_</span>⟹<span class="ot">_</span> <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+  it⟹ <span class="ot">:</span> <span class="ot">(</span>¬ A<span class="ot">)</span> ∨ B <span class="ot">→</span> A ⟹ B</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">impl <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool
+impl x y <span class="ot">=</span> <span class="ot">(</span>not x<span class="ot">)</span> || y</code></pre></div>
+<p>Notice how the two implementations are different: <code>⟹</code> is constructive, whereas <code>impl</code> is computatational.</p>
+<h3 id="the-exclusive-or-or-xor">The exclusive or or <code>XOR</code></h3>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> <span class="ot">_</span>⨁<span class="ot">_</span> <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+  ⨁₁ <span class="ot">:</span> A <span class="ot">→</span> B <span class="ot">→</span> <span class="ot">(</span>A ∨ B<span class="ot">)</span> ∧ <span class="ot">(</span>¬ <span class="ot">(</span>A ∧ B<span class="ot">))</span> <span class="ot">→</span> A ⨁ B</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">xor <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool
+xor x y <span class="ot">=</span> <span class="ot">(</span>x || y<span class="ot">)</span> &amp;&amp; <span class="ot">(</span>not <span class="ot">(</span>x &amp;&amp; y<span class="ot">))</span></code></pre></div>
+<h3 id="absurd">Absurd</h3>
+<p>The absurd pattern for proving <code>Whatever</code>, we discussed <a href="#empty--false">above</a>:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">⟂-elim <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>w<span class="ot">}</span> <span class="ot">{</span>Whatever <span class="ot">:</span> <span class="dt">Set</span> w<span class="ot">}</span>
+        <span class="ot">→</span> ⟂ <span class="ot">→</span> Whatever
+⟂-elim <span class="ot">()</span></code></pre></div>
+<h3 id="contradiction">Contradiction</h3>
+<p>A proposition <code>P</code> can always be true <code>⊤</code> if <code>¬ P</code> is always false <code>⟂</code>. If one were to assume a contradictory proposition <code>P</code>, one could prove anything as a contradiction makes <code>P</code> absurd. This is called as “ex falso quodlibet” or “from falsity, whatever you like”. We can <code>⟂-elim</code> it in such a way to prove this:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">contradiction <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>p w<span class="ot">}</span> <span class="ot">{</span>P <span class="ot">:</span> <span class="dt">Set</span> p<span class="ot">}</span> <span class="ot">{</span>Whatever <span class="ot">:</span> <span class="dt">Set</span> w<span class="ot">}</span>
+        <span class="ot">→</span> P
+        <span class="ot">→</span> ¬ P
+        <span class="ot">→</span> Whatever
+contradiction p <span class="ot">(</span>¬p<span class="ot">)</span> <span class="ot">=</span> ⟂-elim <span class="ot">(</span>¬p p<span class="ot">)</span></code></pre></div>
+<h3 id="contraposition">Contraposition</h3>
+<p>Consider two propositions, <code>A</code> and <code>B</code>. Now if <code>A → B</code> is true, then <code>¬ A → ¬ B</code> will be true. In other words, if a statement <code>A</code> always implies another <code>B</code>, then <code>B</code> not being true would imply <code>A</code> not being true. This is called a contraposition and is proven in the following manner:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">contrapos <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span>
+        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span>
+        <span class="ot">→</span> ¬ B <span class="ot">→</span> ¬ A
+contrapos f ¬b a <span class="ot">=</span> contradiction <span class="ot">(</span>f a<span class="ot">)</span> ¬b</code></pre></div>
+<h3 id="boolean-construction">Boolean construction</h3>
+<p>We can obviously go ahead now and implement the <code>if-then-else</code> semantic:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">if<span class="ot">_</span>then<span class="ot">_</span>else<span class="ot">_</span> <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">-&gt;</span> Bool <span class="ot">-&gt;</span> A <span class="ot">-&gt;</span> A <span class="ot">-&gt;</span> A
+if true  then x else y <span class="ot">=</span> x
+if false then x else y <span class="ot">=</span> y</code></pre></div>
+<p>Note again that since this is a computational semantic, we provide implementation for only the concrete type <code>Bool</code>.</p>
+<h3 id="existential-quantification">Existential Quantification</h3>
+<p>Existential Quantification, or better known as “there exists” or <code>∃</code>, essential indicates if a proposition can exist:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> ∃ <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">(</span>P <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+  exists <span class="ot">:</span> <span class="ot">{</span>x <span class="ot">:</span> A<span class="ot">}</span>
+        <span class="ot">→</span> P x
+        <span class="ot">→</span> ∃ P</code></pre></div>
+<h3 id="dependent-proposition-type">Dependent proposition type</h3>
+<p>This is a dependent type, which creates propositions from a proposition family <code>P</code>:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">∏ <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>P <span class="ot">:</span> A <span class="ot">-&gt;</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">-&gt;</span> <span class="dt">Set</span>
+∏ <span class="ot">{</span>A<span class="ot">}</span> P <span class="ot">=</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> P x</code></pre></div>
+<hr />
+<p><a href="./contents.html">Back to Contents</a></p>
+</body>
+</html>

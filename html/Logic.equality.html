@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" type="text/css" />
+</head>
+<body>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<hr />
+<ul>
+<li><a href="#equality">Equality</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h1 id="equality">Equality</h1>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Logic<span class="ot">.</span>equality <span class="kw">where</span>
+
+<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations <span class="kw">using</span> <span class="ot">(</span>Rel<span class="ot">;</span> Reflexive<span class="ot">;</span> Symmetric<span class="ot">;</span> Transitive<span class="ot">;</span> Congruent<span class="ot">;</span> Substitutive<span class="ot">;</span> Equivalence<span class="ot">)</span>
+
+<span class="kw">open</span> <span class="kw">import</span> Logic<span class="ot">.</span>logicBasics <span class="kw">using</span> <span class="ot">(</span>¬<span class="ot">;</span> not<span class="ot">;</span> xor<span class="ot">;</span> ⟂<span class="ot">;</span> ⊤<span class="ot">;</span> singleton<span class="ot">)</span>
+
+<span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">)</span></code></pre></div>
+<p>Equality, or an equivalence, is the most basic comparison that can be performed between two objects. Let us first see how equality (and inequality) looks like for logical objects:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
+  refl <span class="ot">:</span> x ≡ x
+
+<span class="ot">_</span>≢<span class="ot">_</span> <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span>
+x ≢ y <span class="ot">=</span> ¬ <span class="ot">(</span>x ≡ y<span class="ot">)</span></code></pre></div>
+<p>Equality can also be derived as a negation of XOR:</p>
+<p><br /><span class="math display"><em>a</em> ≡ <em>b</em> <em>i</em><em>s</em>  <em>T</em><em>r</em><em>u</em><em>e</em>  ⟹ ¬(<em>a</em>⨁<em>b</em>) <em>i</em><em>s</em> <em>T</em><em>r</em><em>u</em><em>e</em></span><br /></p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">equal? <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool
+equal? a b <span class="ot">=</span> not <span class="ot">(</span>xor a b<span class="ot">)</span></code></pre></div>
+<p>TODO: write the type version as well.</p>
+<p>The laws of equality are same as what we saw earlier in <a href="Types.equality.html">equality</a>:</p>
+<p>Note, the only difference here is that each law applies to the same datatype, be it <code>⟂</code>, <code>⊤</code> or <code>Bool</code>.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">symmetric <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span>
+        <span class="ot">→</span> x ≡ y
+        <span class="ot">→</span> y ≡ x
+symmetric <span class="ot">{</span>A<span class="ot">}</span> refl <span class="ot">=</span> refl
+
+transitive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y z <span class="ot">:</span> A<span class="ot">}</span>
+        <span class="ot">→</span> x ≡ y
+        <span class="ot">→</span> y ≡ z
+        <span class="ot">→</span> x ≡ z
+transitive <span class="ot">{</span>A<span class="ot">}</span> refl a <span class="ot">=</span> a</code></pre></div>
+<p>Let us fit the above proofs of the properties of the relation <code>≡</code> to prove an equivalence relation:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Equiv <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Equivalence A
+Equiv <span class="ot">=</span> <span class="kw">record</span>
+  <span class="ot">{</span>
+    <span class="ot">_</span>==<span class="ot">_</span>  <span class="ot">=</span> <span class="ot">_</span>≡<span class="ot">_</span>
+    <span class="ot">;</span> refl  <span class="ot">=</span> <span class="ot">\</span>x      <span class="ot">→</span> refl
+    <span class="ot">;</span> sym   <span class="ot">=</span> <span class="ot">\</span>x y    <span class="ot">→</span> symmetric
+    <span class="ot">;</span> trans <span class="ot">=</span> <span class="ot">\</span>x y z  <span class="ot">→</span> transitive
+  <span class="ot">}</span></code></pre></div>
+<p>To see that this applies to a <code>singleton</code>:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">refl⊤ <span class="ot">:</span> singleton ≡ singleton
+refl⊤  <span class="ot">=</span> Equivalence<span class="ot">.</span>refl Equiv singleton
+
+sym⊤ <span class="ot">:</span> singleton ≡ singleton <span class="ot">→</span> singleton ≡ singleton
+sym⊤   <span class="ot">=</span> Equivalence<span class="ot">.</span>sym Equiv singleton singleton
+
+trans⊤ <span class="ot">:</span> singleton ≡ singleton <span class="ot">→</span> singleton ≡ singleton <span class="ot">→</span> singleton ≡ singleton
+trans⊤ <span class="ot">=</span> Equivalence<span class="ot">.</span>trans Equiv singleton singleton singleton</code></pre></div>
+<p>We cannot, however, verify this for <code>⟂</code> explicitly as we cannot produce an object that does not exist / does not have a constructor.</p>
+<p>Inequality <code>≢</code> cannot serve as an equivalence relation as reflexivity and transitivity cannot be satisfied, though symmetry can:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">symmetric≢ <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span>
+        <span class="ot">→</span> x ≢ y
+        <span class="ot">→</span> y ≢ x
+symmetric≢ np p <span class="ot">=</span> np <span class="ot">(</span>symmetric p<span class="ot">)</span></code></pre></div>
+<hr />
+<p><a href="./contents.html">Back to Contents</a></p>
+</body>
+</html>

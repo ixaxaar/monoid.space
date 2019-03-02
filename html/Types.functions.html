@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" type="text/css" />
+</head>
+<body>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<hr />
+<ul>
+<li><a href="#dependent-function-types-or-%CF%80-types">Dependent Function Types or Π-types</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h1 id="dependent-function-types-or-π-types">Dependent Function Types or Π-types</h1>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Types<span class="ot">.</span>functions <span class="kw">where</span>
+
+<span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>
+  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span>
+  ℕ<span class="ot">;</span> List<span class="ot">;</span>
+  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span>
+  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span></code></pre></div>
+<p>Dependent function types or Π-types are functions whose second argument depends upon the first.</p>
+<p>i.e. function <code>f : A → (g A) → Set</code> where <code>g : A → B</code>.</p>
+<p>In the notation of lambda abstraction:</p>
+<p><br /><span class="math display">$$$
+λx. (λx.y).ϕ
+$$</span><br />$</p>
+<p>To show how to use this type, we construct an example:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="co">-- divide by 2</span>
+divBy2 <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ
+divBy2 zero <span class="ot">=</span> zero
+divBy2 <span class="ot">(</span>succ zero<span class="ot">)</span> <span class="ot">=</span> one <span class="co">-- well...</span>
+divBy2 <span class="ot">(</span>succ <span class="ot">(</span>succ n<span class="ot">))</span> <span class="ot">=</span> succ <span class="ot">(</span>divBy2 n<span class="ot">)</span> <span class="co">-- take 2 at a time and count as 1</span>
+
+<span class="co">-- proof of a number being even</span>
+even <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span>
+even zero <span class="ot">=</span> ⊤
+even <span class="ot">(</span>succ zero<span class="ot">)</span> <span class="ot">=</span> ⊥
+even <span class="ot">(</span>succ <span class="ot">(</span>succ n<span class="ot">))</span> <span class="ot">=</span> even n</code></pre></div>
+<p>Now, we can define a function that divides only even numbers by 2:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">divBy2₂ <span class="ot">:</span> <span class="ot">(</span>n <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> even n <span class="ot">→</span> ℕ
+divBy2₂ zero p <span class="ot">=</span> zero
+divBy2₂ <span class="ot">(</span>succ zero<span class="ot">)</span> <span class="ot">()</span>
+divBy2₂ <span class="ot">(</span>succ <span class="ot">(</span>succ y<span class="ot">))</span> p <span class="ot">=</span> succ <span class="ot">(</span>divBy2₂ y p<span class="ot">)</span></code></pre></div>
+<p>In order to be applied, <code>divBy2₂</code> requries its input <code>n</code> to conform to the type <code>even n</code>, which can only exist if the number <code>n</code> is even! This makes <code>divBy2₂</code> a dependent function.</p>
+<hr />
+<p><a href="./contents.html">Back to Contents</a></p>
+</body>
+</html>
