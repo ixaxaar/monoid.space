@@ -108,10 +108,23 @@ input, textarea {
 
 /* border */
 
-h1, h2, h3 {
+h2, h3 {
+  margin-top:     20px;
+  padding-bottom: 15px;
+}
+
+h3 {
+  /*border-bottom:  10px solid rgba(120, 60, 60);*/
+}
+
+h2 {
+  color: rgba(255, 80, 120);
+}
+
+h1 {
   margin-top: 20px;
   padding-bottom: 15px;
-  border-bottom: 2px dashed rgba(30, 60, 60);
+  border-bottom: 50px solid rgba(120, 60, 60);
 }
 
 h1.title, h2.author, h3.date, input, textarea, hr {
@@ -158,12 +171,16 @@ div.info {color: gray;}
 
 input           { background-color: #eeeeee; }
 textarea        { background-color: #ffffba; }
-hr              { background-color: #f5f0ee; }
+hr              {
+  background-color: rgb(75, 80, 60);
+  height: 80px;
+  padding: 20px;
+}
 div.string span { background-color: yellow; }
 
-a               { color: #746560; }
+a               { color: #ff4444; }
 h1 a, h2 a, h3 a { color: white; }
-code            { color: rgb(150, 170, 255) !important; }
+code            { color: rgb(150, 150, 150) !important; }
 .type           { color: #0080ff; }
 .error          { color: #a030a0; }
 .comment        { color: gray; float: right; }
@@ -205,22 +222,45 @@ table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode
 td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
 td.sourceCode { padding-left: 5px; }
 pre.sourceCode span.kw { color: rgb(200, 50, 150) ; /* font-weight: bold; */ }
-pre.sourceCode span.dt { color: #77cc55; font-style: italic; font-weight: bold; }
-pre.sourceCode span.dv { color: #40a070; }
-pre.sourceCode span.bn { color: #40a070; }
+pre.sourceCode span.dt { color: #22ff33; font-style: italic; font-weight: bold; }
+pre.sourceCode span.dv { color: #40a0f0; }
+pre.sourceCode span.bn { color: #40a0d0; }
 pre.sourceCode span.fl { color: #40a070; }
 pre.sourceCode span.ch { color: #4070a0; }
-pre.sourceCode span.st { color: #4070a0; }
+pre.sourceCode span.st { color: #6090a0; }
 pre.sourceCode span.co { color: #60a0b0; /* font-style: italic; */ }
-pre.sourceCode span.ot { color: rgb(100, 255, 180); }
+pre.sourceCode span.ot { color: rgb(255, 0, 120); }
 pre.sourceCode span.al { color: rgb(255, 190, 190) !important; /* font-weight: bold; */ }
 pre.sourceCode span.fu { color: #ff287e; }
 pre.sourceCode span.re { }
 pre.sourceCode span.er { color: rgb(255, 190, 190) !important; /* font-weight: bold; */ }
 
+div.sourceCode {
+  background-color: #272525;
+  border-radius:    20px;
+  margin:           20px;
+  padding:          10px;
+}
+
+ul {
+  background-color: #232323;
+  border-radius:    20px;
+  padding:          20px;
+  padding-left:     50px;
+}
+
+ul:first-of-type {
+  background-color:        #252825;
+  border-top-right-radius: 0px;
+  border-top-left-radius:  0px;
+}
+
+ul:first-of-type a {
+  color: #aaffaa;
+}
 
 html {
-  background-color: #201820
+  background-color: #202020
 }
 
 body {
@@ -228,7 +268,7 @@ body {
 }
 
 li {
-  font-size: 13pt !important;
+  font-size: 15pt !important;
 }
 
 a{
@@ -242,3 +282,9 @@ a > li {
 strong {
   font-size: 200%;
 }
+
+.math {
+  font-size: 130%;
+  color: #cf9400;
+}
+

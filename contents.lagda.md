@@ -45,7 +45,8 @@
   <!-- - [Decidability](./Logic.decidability.html) -->
 
 ## 4. Group Theory
-  - [Semigroups and Groups]
+  - [Introduction](./Algebra.introduction.html)
+  - [Semigroups and Groups](./Algebra.groups.html)
   - [Monoids]
   - [n-Groupoids and the ∞-Groupoid]
 

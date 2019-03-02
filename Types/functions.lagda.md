@@ -16,7 +16,8 @@ open import Lang.dataStructures using (
   Bool; true; false;
   ℕ; List;
   one; two; three; four; five; six; seven; eight; nine; ten; zero; succ;
-  _::_; [])
+  _::_; [];
+  ⊤; singleton; ⟂)
 ```
 
 Dependent function types or Π-types are functions whose second argument depends upon the first.
@@ -41,7 +42,7 @@ divBy2 (succ (succ n)) = succ (divBy2 n) -- take 2 at a time and count as 1
 -- proof of a number being even
 even : ℕ → Set
 even zero = ⊤
-even (succ zero) = ⊥
+even (succ zero) = ⟂
 even (succ (succ n)) = even n
 ```
 

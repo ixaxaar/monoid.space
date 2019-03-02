@@ -66,25 +66,26 @@ For an operation `★`,
 #### Associativity
 
 $$
-x \bigstar (y \bigstar z) \equiv (x \bigstar y) \bigstar z
+x ★ (y ★ z) ≡ (x ★ y) ★ z
 $$
 
 #### Commutativity
 
 $$
-x \bigstar y \equiv y \bigstar x
+x ★ y ≡ y ★ x
 $$
 
 #### Distributivity
 
+
 $$
-(x \bigstar y) \bigstar z \equiv x \bigstar y \x y \bigstar z
+( x ★ y ) ★ z ≡ x ★ y × y ★ z
 $$
 
 #### Identity
 
 $$
-x \bigstar id_{bigstar} \equiv x
+x ★ id_{★} ≡ x
 $$
 
 These form the major laws of boolean algebra. There exists a bunch of others that we'll also see here. Note that for non-commutative systems of algebra, identity can exist in two forms: right and left, similarly for directional operations like distributivity, inverses, etc.
@@ -92,7 +93,7 @@ These form the major laws of boolean algebra. There exists a bunch of others tha
 #### Annihilator
 
 $$
-x \bigstar id \equiv x
+x ★ id ≡ x
 $$
 
 #### Idempotence
@@ -100,7 +101,7 @@ $$
 Idempotence is a more specific law of boolean algebra:
 
 $$
-x \and x \equiv x
+x ∧ x ≡ x
 $$
 
 #### Absorption
@@ -108,8 +109,8 @@ $$
 Another pair of reductive laws that apply only in boolean algebra:
 
 $$
-x \and (x \or y) \equiv x
-x \or (x \and y) \equiv x
+x ∧ (x ∨ y) ≡ x
+x ∨ (x ∧ y) ≡ x
 $$
 
 For proving these laws we need an instance of the equivalence relation `==`:

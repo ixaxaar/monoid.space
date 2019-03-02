@@ -14,6 +14,8 @@
 
 ```agda
 module Types.introduction where
+
+open import Lang.dataStructures using (List; _::_)
 ```
 
 Type theory is an area of mathematics of direct consequence to programming. Type theory is about a class of formal systems, not much unlike type systems in programming languages. Bertrand Russel was the first to propose this theory in order to "fix" Russel's Paradox, though Per Martin-Löf was the one to come up with an actually useful version of it, called "intuitionistic type theory". This is what we will go through here. Though thanks to the Curry-Howard isomorphism, which basically connects two areas of math : type theory can be mapped to logic and studied as such.

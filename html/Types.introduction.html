@@ -57,7 +57,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="introduction">Introduction</h1>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Types<span class="ot">.</span>introduction <span class="kw">where</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Types<span class="ot">.</span>introduction <span class="kw">where</span>
+
+<span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>List<span class="ot">;</span> <span class="ot">_</span>::<span class="ot">_)</span></code></pre></div>
 <p>Type theory is an area of mathematics of direct consequence to programming. Type theory is about a class of formal systems, not much unlike type systems in programming languages. Bertrand Russel was the first to propose this theory in order to “fix” Russel’s Paradox, though Per Martin-Löf was the one to come up with an actually useful version of it, called “intuitionistic type theory”. This is what we will go through here. Though thanks to the Curry-Howard isomorphism, which basically connects two areas of math : type theory can be mapped to logic and studied as such.</p>
 <p>Type systems present especially in statically compiled programming languages could also be seen as those sets that type theory is about. The goal of this section could also be to gain further insight into abstractions using type systems and how to really take advantage of certain compilers.</p>
 <h2 id="the-scala-type-system">The scala type system</h2>

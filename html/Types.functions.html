@@ -60,7 +60,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span>
   ℕ<span class="ot">;</span> List<span class="ot">;</span>
   one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span>
-  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span></code></pre></div>
+  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">;</span>
+  ⊤<span class="ot">;</span> singleton<span class="ot">;</span> ⟂<span class="ot">)</span></code></pre></div>
 <p>Dependent function types or Π-types are functions whose second argument depends upon the first.</p>
 <p>i.e. function <code>f : A → (g A) → Set</code> where <code>g : A → B</code>.</p>
 <p>In the notation of lambda abstraction:</p>
@@ -77,7 +78,7 @@ divBy2 <span class="ot">(</span>succ <span class="ot">(</span>succ n<span class=
 <span class="co">-- proof of a number being even</span>
 even <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span>
 even zero <span class="ot">=</span> ⊤
-even <span class="ot">(</span>succ zero<span class="ot">)</span> <span class="ot">=</span> ⊥
+even <span class="ot">(</span>succ zero<span class="ot">)</span> <span class="ot">=</span> ⟂
 even <span class="ot">(</span>succ <span class="ot">(</span>succ n<span class="ot">))</span> <span class="ot">=</span> even n</code></pre></div>
 <p>Now, we can define a function that divides only even numbers by 2:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">divBy2₂ <span class="ot">:</span> <span class="ot">(</span>n <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> even n <span class="ot">→</span> ℕ

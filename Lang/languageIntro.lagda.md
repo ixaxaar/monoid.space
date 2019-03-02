@@ -39,7 +39,7 @@ The last three file extensions above are part of what's called "literate program
 >     -- agda code goes here
 >     ```
 
-The Agda compiler can then validate the agda code inside the `agda` code blocks, thus guaranteeing the correctness of the math in the documents.
+The Agda compiler can then validate the agda code inside the ` agda ` code blocks, thus guaranteeing the correctness of the math in the documents.
 
 # Emacs
 

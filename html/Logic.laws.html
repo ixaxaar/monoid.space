@@ -96,25 +96,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h4 id="commutativity">Commutativity</h4>
 <p><br /><span class="math display"><em>x</em>★<em>y</em> ≡ <em>y</em>★<em>x</em></span><br /></p>
 <h4 id="distributivity">Distributivity</h4>
-<p><br /><span class="math display">$$
-(x \bigstar y) \bigstar z \equiv x \bigstar y \x y \bigstar z
-$$</span><br /></p>
+<p><br /><span class="math display">(<em>x</em>★<em>y</em>)★<em>z</em> ≡ <em>x</em>★<em>y</em> × <em>y</em>★<em>z</em></span><br /></p>
 <h4 id="identity">Identity</h4>
-<p><br /><span class="math display"><em>x</em>★<em>i</em><em>d</em><sub><em>b</em><em>i</em><em>g</em><em>s</em><em>t</em><em>a</em><em>r</em></sub> ≡ <em>x</em></span><br /></p>
+<p><br /><span class="math display"><em>x</em>★<em>i</em><em>d</em><sub>★</sub> ≡ <em>x</em></span><br /></p>
 <p>These form the major laws of boolean algebra. There exists a bunch of others that we’ll also see here. Note that for non-commutative systems of algebra, identity can exist in two forms: right and left, similarly for directional operations like distributivity, inverses, etc.</p>
 <h4 id="annihilator">Annihilator</h4>
 <p><br /><span class="math display"><em>x</em>★<em>i</em><em>d</em> ≡ <em>x</em></span><br /></p>
 <h4 id="idempotence">Idempotence</h4>
 <p>Idempotence is a more specific law of boolean algebra:</p>
-<p><br /><span class="math display">$$
-x \and x \equiv x
-$$</span><br /></p>
+<p><br /><span class="math display"><em>x</em> ∧ <em>x</em> ≡ <em>x</em></span><br /></p>
 <h4 id="absorption">Absorption</h4>
 <p>Another pair of reductive laws that apply only in boolean algebra:</p>
-<p><br /><span class="math display">$$
-x \and (x \or y) \equiv x
-x \or (x \and y) \equiv x
-$$</span><br /></p>
+<p><br /><span class="math display"><em>x</em> ∧ (<em>x</em> ∨ <em>y</em>)≡<em>x</em><em>x</em> ∨ (<em>x</em> ∧ <em>y</em>)≡<em>x</em></span><br /></p>
 <p>For proving these laws we need an instance of the equivalence relation <code>==</code>:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Laws <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">(</span>eq <span class="ot">:</span> Equivalence A<span class="ot">)</span> <span class="kw">where</span>
   <span class="kw">module</span> Eq₁ <span class="ot">=</span> Equivalence eq
