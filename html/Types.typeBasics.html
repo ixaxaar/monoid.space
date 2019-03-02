@@ -160,6 +160,11 @@ A ×× B <span class="ot">=</span> Σ[ x ∈ A ] B</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> <span class="ot">_</span>∪<span class="ot">_</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">(</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span> <span class="kw">where</span>
   inj₁ <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> A ∪ B
   inj₂ <span class="ot">:</span> <span class="ot">(</span>y <span class="ot">:</span> B<span class="ot">)</span> <span class="ot">→</span> A ∪ B</code></pre></div>
+<p>Co-product types are similar to product types, except with reversed arrows:</p>
+<div class="figure">
+<img src="./coproduct.png" alt="coproducts" />
+<p class="caption">coproducts</p>
+</div>
 <hr />
 <p><a href="./contents.html">Back to Contents</a></p>
 </body>

@@ -21,6 +21,8 @@ declare -a files=(
 
   "Logic/introduction"
   "Logic/logicBasics"
+  "Logic/equality"
+  "Logic/laws"
   "Logic/decidability"
 )
 
@@ -54,3 +56,6 @@ done
 find . -name "*.png" | xargs cp -pr -t ./html
 
 rm -rf tmp
+find -name "*.agdai" | xargs rm -rf
+
+cp -pr ./css ./html

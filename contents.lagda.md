@@ -3,7 +3,7 @@
 ****
 
 - [Contents](#contents)
-  - [1. The Language](#1-the-language)
+  - [1. Agda](#1-agda)
   - [2. Type Theory](#2-type-theory)
   - [3. Logic](#3-logic)
   - [4. Group Theory](#4-group-theory)
@@ -18,7 +18,7 @@
 
 # Contents
 
-## 1. The Language
+## 1. Agda
   - [Setup](./Lang.setup.html)
   - [Introduction](./Lang.languageIntro.html)
   - [Data Structures](./Lang.dataStructures.html)
@@ -34,13 +34,15 @@
   - [Equality](./Types.equality.html)
   - [Dependent Function Types / Π-types](./Types.functions.html)
   - [Product Types / Σ-types](./Types.typeBasics.html)
-  - [Natural Numbers](./Types.naturalNumbers.html)
+  <!-- - [Natural Numbers](./Types.naturalNumbers.html) -->
   <!-- - [Type Equations](./Types.equations.html) -->
 
 ## 3. Logic
   - [Introduction](./Logic.introduction.html)
-  - [Elementary Logic](./Logic.logicBasics.html)
-  - [Decidability](./Logic.decidability.html)
+  - [Boolean Algebra](./Logic.logicBasics.html)
+  - [Equality](./Logic.equality.html)
+  - [Laws of Logic](./Logic.laws.html)
+  <!-- - [Decidability](./Logic.decidability.html) -->
 
 ## 4. Group Theory
   - [Semigroups and Groups]

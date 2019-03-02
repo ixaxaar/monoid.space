@@ -27,42 +27,42 @@ A reflexive relation is one where $ x \bullet y = y \bullet x $ :
 Reflexive : {A : Set}
   → Rel A
   → Set
-Reflexive {A} _R_ = (x : A) → x R x
+Reflexive {A} _★_ = (x : A) → x ★ x
 ```
 
 A symmetric relation is one where $ x \bullet y \implies y \bullet x $ :
 
 ```agda
 Symmetric : {A : Set} → Rel A → Set
-Symmetric {A} _R_  = (x y : A)
-  → x R y
-  → y R x
+Symmetric {A} _★_  = (x y : A)
+  → x ★ y
+  → y ★ x
 ```
 
 A transitive relation is one where $ x \bullet y, y \bullet z then z \bullet x $ :
 
 ```agda
 Transitive : {A : Set} → Rel A → Set
-Transitive {A} _R_ = (x y z : A)
-  → x R y
-  → y R z
-  → x R z
+Transitive {A} _★_ = (x y z : A)
+  → x ★ y
+  → y ★ z
+  → x ★ z
 ```
 
 A congruent relation is one where a function $ x \bullet y \implies f(x) \bullet f(y) $ or the function `f` preserves the relation :
 
 ```agda
 Congruent : {A : Set} → Rel A → Set
-Congruent {A} _R_ = (f : A → A)(x y : A)
-  → x R y
-  → f x R f y
+Congruent {A} _★_ = (f : A → A)(x y : A)
+  → x ★ y
+  → f x ★ f y
 ```
 A substitutive relation is one where $ x \bullet y ~and~ (predicate y) = ⊤ \implies (predicate x) = ⊤ $ :
 
 ```agda
 Substitutive : {A : Set} → Rel A → Set1
-Substitutive {A} _R_ = (P : A → Set)(x y : A)
-  → x R y
+Substitutive {A} _★_ = (P : A → Set)(x y : A)
+  → x ★ y
   → P x
   → P y
 ```

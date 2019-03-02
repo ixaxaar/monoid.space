@@ -177,5 +177,9 @@ data _∪_ {a b} (A : Set a) (B : Set b) : Set (a ⊔ b) where
   inj₂ : (y : B) → A ∪ B
 ```
 
+Co-product types are similar to product types, except with reversed arrows:
+
+![coproducts](./coproduct.png)
+
 ****
 [Back to Contents](./contents.html)
