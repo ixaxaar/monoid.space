@@ -60,16 +60,28 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Rel <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">→</span> <span class="dt">Set1</span>
 Rel A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span></code></pre></div>
 <p>A reflexive relation is one where $ x y = y x $ :</p>
+<div class="figure">
+<img src="refl.png" alt="refl" />
+<p class="caption">refl</p>
+</div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Reflexive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span>
   <span class="ot">→</span> Rel A
   <span class="ot">→</span> <span class="dt">Set</span>
 Reflexive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ★ x</code></pre></div>
 <p>A symmetric relation is one where $ x y y x $ :</p>
+<div class="figure">
+<img src="symmetric.png" alt="symmetric" />
+<p class="caption">symmetric</p>
+</div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Symmetric <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span>
 Symmetric <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span>  <span class="ot">=</span> <span class="ot">(</span>x y <span class="ot">:</span> A<span class="ot">)</span>
   <span class="ot">→</span> x ★ y
   <span class="ot">→</span> y ★ x</code></pre></div>
 <p>A transitive relation is one where $ x y, y z then z x $ :</p>
+<div class="figure">
+<img src="transitive.png" alt="transitive" />
+<p class="caption">transitive</p>
+</div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Transitive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span>
 Transitive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x y z <span class="ot">:</span> A<span class="ot">)</span>
   <span class="ot">→</span> x ★ y

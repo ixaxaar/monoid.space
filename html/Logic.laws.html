@@ -54,12 +54,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#monotone-laws">Monotone Laws</a>
 <ul>
 <li><a href="#operations">Operations</a></li>
-<li><a href="#associativity-commutativity-distributivity-and-identity">Associativity, Commutativity, Distributivity and Identity</a></li>
+<li><a href="#laws">Laws</a></li>
 <li><a href="#associativity">Associativity</a></li>
 <li><a href="#commutativity">Commutativity</a></li>
 <li><a href="#distributivity">Distributivity</a></li>
 <li><a href="#identity">Identity</a></li>
-<li><a href="#annihilator">Annihilator</a></li>
+<li><a href="#annihilation">Annihilation</a></li>
 <li><a href="#idempotence">Idempotence</a></li>
 <li><a href="#absorption">Absorption</a></li>
 </ul></li>
@@ -73,7 +73,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <span class="kw">open</span> <span class="kw">import</span> Logic<span class="ot">.</span>equality <span class="kw">using</span> <span class="ot">(</span>Equiv<span class="ot">;</span> <span class="ot">_</span>≡<span class="ot">_)</span>
 
-<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations <span class="kw">using</span> <span class="ot">(</span>Rel<span class="ot">;</span> Reflexive<span class="ot">;</span> Symmetric<span class="ot">;</span> Transitive<span class="ot">;</span> Congruent<span class="ot">;</span> Substitutive<span class="ot">;</span> Equivalence<span class="ot">)</span>
+<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations <span class="kw">using</span> <span class="ot">(</span>Rel<span class="ot">;</span> Equivalence<span class="ot">)</span>
 
 <span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">)</span>
 
@@ -89,43 +89,39 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">★<span class="ot">_</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">→</span> <span class="dt">Set</span>
 ★ A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> A</code></pre></div>
 <p>Here <code>*_</code> constructs a type family of operations that operate on given type <code>A</code>.</p>
-<h3 id="associativity-commutativity-distributivity-and-identity">Associativity, Commutativity, Distributivity and Identity</h3>
+<p>For proving these laws we need an instance of the equivalence relation <code>==</code>.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> BooleanLaws <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">(</span>eq <span class="ot">:</span> Equivalence A<span class="ot">)</span> <span class="kw">where</span>
+  <span class="kw">module</span> Eq₁ <span class="ot">=</span> Equivalence eq
+  <span class="kw">open</span> Eq₁</code></pre></div>
+<h3 id="laws">Laws</h3>
 <p>For an operation <code>★</code>,</p>
 <h4 id="associativity">Associativity</h4>
 <p><br /><span class="math display"><em>x</em>★(<em>y</em>★<em>z</em>)≡(<em>x</em>★<em>y</em>)★<em>z</em></span><br /></p>
-<h4 id="commutativity">Commutativity</h4>
-<p><br /><span class="math display"><em>x</em>★<em>y</em> ≡ <em>y</em>★<em>x</em></span><br /></p>
-<h4 id="distributivity">Distributivity</h4>
-<p><br /><span class="math display">(<em>x</em>★<em>y</em>)★<em>z</em> ≡ <em>x</em>★<em>y</em> × <em>y</em>★<em>z</em></span><br /></p>
-<h4 id="identity">Identity</h4>
-<p><br /><span class="math display"><em>x</em>★<em>i</em><em>d</em><sub>★</sub> ≡ <em>x</em></span><br /></p>
-<p>These form the major laws of boolean algebra. There exists a bunch of others that we’ll also see here. Note that for non-commutative systems of algebra, identity can exist in two forms: right and left, similarly for directional operations like distributivity, inverses, etc.</p>
-<h4 id="annihilator">Annihilator</h4>
-<p><br /><span class="math display"><em>x</em>★<em>i</em><em>d</em> ≡ <em>x</em></span><br /></p>
-<h4 id="idempotence">Idempotence</h4>
-<p>Idempotence is a more specific law of boolean algebra:</p>
-<p><br /><span class="math display"><em>x</em> ∧ <em>x</em> ≡ <em>x</em></span><br /></p>
-<h4 id="absorption">Absorption</h4>
-<p>Another pair of reductive laws that apply only in boolean algebra:</p>
-<p><br /><span class="math display"><em>x</em> ∧ (<em>x</em> ∨ <em>y</em>)≡<em>x</em><em>x</em> ∨ (<em>x</em> ∧ <em>y</em>)≡<em>x</em></span><br /></p>
-<p>For proving these laws we need an instance of the equivalence relation <code>==</code>:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Laws <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">(</span>eq <span class="ot">:</span> Equivalence A<span class="ot">)</span> <span class="kw">where</span>
-  <span class="kw">module</span> Eq₁ <span class="ot">=</span> Equivalence eq
-  <span class="kw">open</span> Eq₁
-
-  associativity <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span>
+<div class="figure">
+<img src="associative.png" alt="associative" />
+<p class="caption">associative</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  associativity <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span>
   associativity <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x y z <span class="ot">:</span> A<span class="ot">)</span>
           <span class="ot">→</span> <span class="ot">(</span>x ★ <span class="ot">(</span>y ★ z<span class="ot">))</span>
-          == <span class="ot">((</span>x ★ y<span class="ot">)</span> ★ z<span class="ot">)</span>
-
-  commutativity <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span>
+          == <span class="ot">((</span>x ★ y<span class="ot">)</span> ★ z<span class="ot">)</span></code></pre></div>
+<h4 id="commutativity">Commutativity</h4>
+<p><br /><span class="math display"><em>x</em>★<em>y</em> ≡ <em>y</em>★<em>x</em></span><br /></p>
+<div class="figure">
+<img src="commutative.png" alt="commutative" />
+<p class="caption">commutative</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  commutativity <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span>
   commutativity <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x y <span class="ot">:</span> A<span class="ot">)</span>
           <span class="ot">→</span> <span class="ot">(</span>x ★ y<span class="ot">)</span>
-          == <span class="ot">(</span>y ★ x<span class="ot">)</span>
-
-  <span class="co">-- distributivity</span>
-
-  <span class="ot">_</span>distributesOverˡ<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
+          == <span class="ot">(</span>y ★ x<span class="ot">)</span></code></pre></div>
+<h4 id="distributivity">Distributivity</h4>
+<p><br /><span class="math display">(<em>x</em>★<em>y</em>)★<em>z</em> ≡ <em>x</em>★<em>y</em> × <em>y</em>★<em>z</em></span><br /></p>
+<div class="figure">
+<img src="distributive.png" alt="distributive" />
+<p class="caption">distributive</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="ot">_</span>distributesOverˡ<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   <span class="ot">_</span>*<span class="ot">_</span> distributesOverˡ <span class="ot">_</span>+<span class="ot">_</span> <span class="ot">=</span>
     <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">(</span>x * <span class="ot">(</span>y + z<span class="ot">))</span> == <span class="ot">((</span>x * y<span class="ot">)</span> + <span class="ot">(</span>x * z<span class="ot">))</span>
 
@@ -134,11 +130,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">((</span>y + z<span class="ot">)</span> * x<span class="ot">)</span> == <span class="ot">((</span>y * x<span class="ot">)</span> + <span class="ot">(</span>z * x<span class="ot">))</span>
 
   <span class="ot">_</span>distributesOver<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  * distributesOver + <span class="ot">=</span> <span class="ot">(</span>* distributesOverˡ +<span class="ot">)</span> × <span class="ot">(</span>* distributesOverʳ +<span class="ot">)</span>
-
-  <span class="co">-- identities</span>
-
-  identityₗ <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span>
+  * distributesOver + <span class="ot">=</span> <span class="ot">(</span>* distributesOverˡ +<span class="ot">)</span> × <span class="ot">(</span>* distributesOverʳ +<span class="ot">)</span></code></pre></div>
+<h4 id="identity">Identity</h4>
+<p><br /><span class="math display"><em>x</em>★<em>i</em><em>d</em><sub>★</sub> ≡ <em>x</em></span><br /></p>
+<div class="figure">
+<img src="identity.png" alt="identity" />
+<p class="caption">identity</p>
+</div>
+<p>These form the major laws of boolean algebra. There exists a bunch of others that we’ll also see here. Note that for non-commutative systems of algebra, identity can exist in two forms: right and left, similarly for directional operations like distributivity, inverses, etc.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  identityₗ <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span>
   identityₗ x <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span>  <span class="ot">(</span>y <span class="ot">:</span> A<span class="ot">)</span>
           <span class="ot">→</span> <span class="ot">(</span>x ★ y<span class="ot">)</span>
           == x
@@ -149,45 +149,41 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           == x
 
   identity <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span>
-  identity x ★ <span class="ot">=</span> <span class="ot">(</span>identityₗ x ★<span class="ot">)</span> × <span class="ot">(</span>identityᵣ x ★<span class="ot">)</span>
-
-  <span class="co">-- interaction with zero</span>
-
-  leftZero <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
+  identity x ★ <span class="ot">=</span> <span class="ot">(</span>identityₗ x ★<span class="ot">)</span> × <span class="ot">(</span>identityᵣ x ★<span class="ot">)</span></code></pre></div>
+<h4 id="annihilation">Annihilation</h4>
+<p><br /><span class="math display"><em>x</em>★<em>i</em><em>d</em> ≡ <em>x</em></span><br /></p>
+<div class="figure">
+<img src="elimination.png" alt="elimination" />
+<p class="caption">elimination</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  leftZero <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   leftZero z <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>z ★ x<span class="ot">)</span> == z
 
   rightZero <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   rightZero z <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>x ★ z<span class="ot">)</span> == z
 
   zero <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  zero z ★ <span class="ot">=</span> leftZero z ★ × rightZero z ★
-
-  <span class="co">-- inverses</span>
-
-  leftInverse <span class="ot">:</span> A <span class="ot">→</span> ∘ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  leftInverse e <span class="ot">_</span>⁻¹ <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">((</span>x ⁻¹<span class="ot">)</span> ★ x<span class="ot">)</span> == e
-
-  rightInverse <span class="ot">:</span> A <span class="ot">→</span> ∘ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  rightInverse e <span class="ot">_</span>⁻¹ <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>x ★ <span class="ot">(</span>x ⁻¹<span class="ot">))</span> == e
-
-  inverse <span class="ot">:</span> A <span class="ot">→</span> ∘ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  inverse e ⁻¹ ★ <span class="ot">=</span> <span class="ot">(</span>leftInverse e ⁻¹ ★<span class="ot">)</span> × <span class="ot">(</span>rightInverse e ⁻¹ ★<span class="ot">)</span>
-
-  <span class="co">-- absorption</span>
-
-  <span class="ot">_</span>absorbs<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  <span class="ot">_</span>∙<span class="ot">_</span> absorbs <span class="ot">_</span>◌<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x ∙ <span class="ot">(</span>x ◌ y<span class="ot">))</span> == x
-
-  absorptive <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  absorptive ∙ ◌ <span class="ot">=</span> <span class="ot">(</span>∙ absorbs ◌<span class="ot">)</span> × <span class="ot">(</span>◌ absorbs ∙<span class="ot">)</span>
-
-  <span class="co">-- idempotence</span>
-
-  <span class="ot">_</span>idempotentOn<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
+  zero z ★ <span class="ot">=</span> leftZero z ★ × rightZero z ★</code></pre></div>
+<h4 id="idempotence">Idempotence</h4>
+<p>Idempotence is a more specific law of boolean algebra:</p>
+<p><br /><span class="math display"><em>x</em> ∧ <em>x</em> ≡ <em>x</em></span><br /></p>
+<div class="figure">
+<img src="idempotence.png" alt="idempotence" />
+<p class="caption">idempotence</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="ot">_</span>idempotentOn<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   <span class="ot">_</span>★<span class="ot">_</span> idempotentOn x <span class="ot">=</span> <span class="ot">(</span>x ★ x<span class="ot">)</span> == x
 
   idempotent <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   idempotent ★ <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> ★ idempotentOn x</code></pre></div>
+<h4 id="absorption">Absorption</h4>
+<p>Another pair of reductive laws that apply only in boolean algebra:</p>
+<p><br /><span class="math display"><em>x</em> ∧ (<em>x</em> ∨ <em>y</em>)≡<em>x</em><em>x</em> ∨ (<em>x</em> ∧ <em>y</em>)≡<em>x</em></span><br /></p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="ot">_</span>absorbs<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
+  <span class="ot">_</span>∙<span class="ot">_</span> absorbs <span class="ot">_</span>◌<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x ∙ <span class="ot">(</span>x ◌ y<span class="ot">))</span> == x
+
+  absorptive <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
+  absorptive ∙ ◌ <span class="ot">=</span> <span class="ot">(</span>∙ absorbs ◌<span class="ot">)</span> × <span class="ot">(</span>◌ absorbs ∙<span class="ot">)</span></code></pre></div>
 <hr />
 <p><a href="./contents.html">Back to Contents</a></p>
 </body>

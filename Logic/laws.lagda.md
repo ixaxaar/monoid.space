@@ -5,12 +5,12 @@
 - [Laws of Boolean Algebra](#laws-of-boolean-algebra)
   - [Monotone Laws](#monotone-laws)
     - [Operations](#operations)
-    - [Associativity, Commutativity, Distributivity and Identity](#associativity-commutativity-distributivity-and-identity)
+    - [Laws](#laws)
       - [Associativity](#associativity)
       - [Commutativity](#commutativity)
       - [Distributivity](#distributivity)
       - [Identity](#identity)
-      - [Annihilator](#annihilator)
+      - [Annihilation](#annihilation)
       - [Idempotence](#idempotence)
       - [Absorption](#absorption)
 
@@ -28,7 +28,7 @@ open import Logic.logicBasics using (¬; not; xor; ⟂; ⊤; singleton)
 
 open import Logic.equality using (Equiv; _≡_)
 
-open import Types.relations using (Rel; Reflexive; Symmetric; Transitive; Congruent; Substitutive; Equivalence)
+open import Types.relations using (Rel; Equivalence)
 
 open import Lang.dataStructures using (Bool; true; false)
 
@@ -59,7 +59,15 @@ A binary operation `★ A` can be defined as:
 
 Here `*_` constructs a type family of operations that operate on given type `A`.
 
-### Associativity, Commutativity, Distributivity and Identity
+For proving these laws we need an instance of the equivalence relation `==`.
+
+```agda
+module BooleanLaws {A : Set} (eq : Equivalence A) where
+  module Eq₁ = Equivalence eq
+  open Eq₁
+```
+
+### Laws
 
 For an operation `★`,
 
@@ -69,11 +77,29 @@ $$
 x ★ (y ★ z) ≡ (x ★ y) ★ z
 $$
 
+![associative](associative.png)
+
+```agda
+  associativity : ★ A → Set
+  associativity _★_ = (x y z : A)
+          → (x ★ (y ★ z))
+          == ((x ★ y) ★ z)
+```
+
 #### Commutativity
 
 $$
 x ★ y ≡ y ★ x
 $$
+
+![commutative](commutative.png)
+
+```agda
+  commutativity : ★ A → Set
+  commutativity _★_ = (x y : A)
+          → (x ★ y)
+          == (y ★ x)
+```
 
 #### Distributivity
 
@@ -82,56 +108,9 @@ $$
 ( x ★ y ) ★ z ≡ x ★ y × y ★ z
 $$
 
-#### Identity
-
-$$
-x ★ id_{★} ≡ x
-$$
-
-These form the major laws of boolean algebra. There exists a bunch of others that we'll also see here. Note that for non-commutative systems of algebra, identity can exist in two forms: right and left, similarly for directional operations like distributivity, inverses, etc.
-
-#### Annihilator
-
-$$
-x ★ id ≡ x
-$$
-
-#### Idempotence
-
-Idempotence is a more specific law of boolean algebra:
-
-$$
-x ∧ x ≡ x
-$$
-
-#### Absorption
-
-Another pair of reductive laws that apply only in boolean algebra:
-
-$$
-x ∧ (x ∨ y) ≡ x
-x ∨ (x ∧ y) ≡ x
-$$
-
-For proving these laws we need an instance of the equivalence relation `==`:
+![distributive](distributive.png)
 
 ```agda
-module Laws {A : Set} (eq : Equivalence A) where
-  module Eq₁ = Equivalence eq
-  open Eq₁
-
-  associativity : ★ A → Set
-  associativity _★_ = (x y z : A)
-          → (x ★ (y ★ z))
-          == ((x ★ y) ★ z)
-
-  commutativity : ★ A → Set
-  commutativity _★_ = (x y : A)
-          → (x ★ y)
-          == (y ★ x)
-
-  -- distributivity
-
   _distributesOverˡ_ : ★ A → ★ A → Set _
   _*_ distributesOverˡ _+_ =
     ∀ x y z → (x * (y + z)) == ((x * y) + (x * z))
@@ -142,9 +121,19 @@ module Laws {A : Set} (eq : Equivalence A) where
 
   _distributesOver_ : ★ A → ★ A → Set _
   * distributesOver + = (* distributesOverˡ +) × (* distributesOverʳ +)
+```
 
-  -- identities
+#### Identity
 
+$$
+x ★ id_{★} ≡ x
+$$
+
+![identity](identity.png)
+
+These form the major laws of boolean algebra. There exists a bunch of others that we'll also see here. Note that for non-commutative systems of algebra, identity can exist in two forms: right and left, similarly for directional operations like distributivity, inverses, etc.
+
+```agda
   identityₗ : A → ★ A → Set
   identityₗ x _★_ =  (y : A)
           → (x ★ y)
@@ -157,9 +146,17 @@ module Laws {A : Set} (eq : Equivalence A) where
 
   identity : A → ★ A → Set
   identity x ★ = (identityₗ x ★) × (identityᵣ x ★)
+```
 
-  -- interaction with zero
+#### Annihilation
 
+$$
+x ★ id ≡ x
+$$
+
+![elimination](elimination.png)
+
+```agda
   leftZero : A → ★ A → Set _
   leftZero z _★_ = ∀ x → (z ★ x) == z
 
@@ -168,33 +165,41 @@ module Laws {A : Set} (eq : Equivalence A) where
 
   zero : A → ★ A → Set _
   zero z ★ = leftZero z ★ × rightZero z ★
+```
 
-  -- inverses
+#### Idempotence
 
-  leftInverse : A → ∘ A → ★ A → Set _
-  leftInverse e _⁻¹ _★_ = ∀ x → ((x ⁻¹) ★ x) == e
+Idempotence is a more specific law of boolean algebra:
 
-  rightInverse : A → ∘ A → ★ A → Set _
-  rightInverse e _⁻¹ _★_ = ∀ x → (x ★ (x ⁻¹)) == e
+$$
+x ∧ x ≡ x
+$$
 
-  inverse : A → ∘ A → ★ A → Set _
-  inverse e ⁻¹ ★ = (leftInverse e ⁻¹ ★) × (rightInverse e ⁻¹ ★)
+![idempotence](idempotence.png)
 
-  -- absorption
-
-  _absorbs_ : ★ A → ★ A → Set _
-  _∙_ absorbs _◌_ = ∀ x y → (x ∙ (x ◌ y)) == x
-
-  absorptive : ★ A → ★ A → Set _
-  absorptive ∙ ◌ = (∙ absorbs ◌) × (◌ absorbs ∙)
-
-  -- idempotence
-
+```agda
   _idempotentOn_ : ★ A → A → Set _
   _★_ idempotentOn x = (x ★ x) == x
 
   idempotent : ★ A → Set _
   idempotent ★ = ∀ x → ★ idempotentOn x
+```
+
+#### Absorption
+
+Another pair of reductive laws that apply only in boolean algebra:
+
+$$
+x ∧ (x ∨ y) ≡ x
+x ∨ (x ∧ y) ≡ x
+$$
+
+```agda
+  _absorbs_ : ★ A → ★ A → Set _
+  _∙_ absorbs _◌_ = ∀ x y → (x ∙ (x ◌ y)) == x
+
+  absorptive : ★ A → ★ A → Set _
+  absorptive ∙ ◌ = (∙ absorbs ◌) × (◌ absorbs ∙)
 ```
 
 

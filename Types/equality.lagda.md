@@ -8,7 +8,6 @@
       - [Transitivity](#transitivity)
     - [Functions that preserve equality or Congruence](#functions-that-preserve-equality-or-congruence)
     - [Substitution](#substitution)
-    - [](#)
 - [Definitonal Equality](#definitonal-equality)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -31,6 +30,8 @@ There are different kinds equivalence relations and hence, equalities in type th
 ## Propositional Equality
 
 In type theory, all proofs can be represented as a type. Propositional equality is a kind of equality which requires a proof, and hence the equality itself is also a type `≡`:
+
+![equailty](equailty.png)
 
 ```agda
 infix 4 _≡_
@@ -82,8 +83,6 @@ substitution : ∀ {A : Set} {x y : A} (Predicate : A → Set)
   → Predicate y
 substitution Predicate refl p = p
 ```
-
-###
 
 Finally, our table example:
 

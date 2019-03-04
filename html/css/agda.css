@@ -86,6 +86,18 @@ div.indent, pre, table {
   width: 95%;
 }
 
+table {
+  background-color: #272525;
+  border-radius:    20px;
+  margin:           20px;
+  padding:          10px;
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: center;
+}
+
 div.indent, pre {
   margin-top: 0.5em;
   margin-bottom: 0.5em;

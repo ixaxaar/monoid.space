@@ -23,6 +23,8 @@ Rel A = A → A → Set
 
 A reflexive relation is one where $ x \bullet y = y \bullet x $ :
 
+![refl](refl.png)
+
 ```agda
 Reflexive : {A : Set}
   → Rel A
@@ -32,6 +34,8 @@ Reflexive {A} _★_ = (x : A) → x ★ x
 
 A symmetric relation is one where $ x \bullet y \implies y \bullet x $ :
 
+![symmetric](symmetric.png)
+
 ```agda
 Symmetric : {A : Set} → Rel A → Set
 Symmetric {A} _★_  = (x y : A)
@@ -40,6 +44,8 @@ Symmetric {A} _★_  = (x y : A)
 ```
 
 A transitive relation is one where $ x \bullet y, y \bullet z then z \bullet x $ :
+
+![transitive](transitive.png)
 
 ```agda
 Transitive : {A : Set} → Rel A → Set

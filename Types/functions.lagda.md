@@ -26,9 +26,11 @@ i.e. function `f : A → (g A) → Set` where `g : A → B`.
 
 In the notation of lambda abstraction:
 
-$$$
+$$
 λx. (λx.y).ϕ
-$$$
+$$
+
+![dependent_function](dependent_function.png)
 
 To show how to use this type, we construct an example:
 

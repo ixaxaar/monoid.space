@@ -9,16 +9,18 @@
   - [4. Group Theory](#4-group-theory)
   - [5. Algebraic Topology](#5-algebraic-topology)
   - [6. Category Theory](#6-category-theory)
-  - [6. The Curry-Howard-Lambek-Voevodsky isomorphism](#6-the-curry-howard-lambek-voevodsky-isomorphism)
-  - [7. The Equivalence principle](#7-the-equivalence-principle)
-  - [8. Homotopy Type Theory](#8-homotopy-type-theory)
+  - [7. The Curry-Howard-Lambek-Voevodsky isomorphism](#7-the-curry-howard-lambek-voevodsky-isomorphism)
+  - [8. The Equivalence principle](#8-the-equivalence-principle)
+  - [9. Homotopy Type Theory](#9-homotopy-type-theory)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 
 # Contents
 
 ## 1. Agda
+
+![1](1.png)
+
   - [Setup](./Lang.setup.html)
   - [Introduction](./Lang.languageIntro.html)
   - [Data Structures](./Lang.dataStructures.html)
@@ -28,6 +30,9 @@
   - [Modules, Records and Postulates](./Lang.other.html)
 
 ## 2. Type Theory
+
+![2](2.png)
+
   - [Introduction](./Types.introduction.html)
   - [Universes and families](./Types.universe.html)
   - [Relations](./Types.relations.html)
@@ -38,6 +43,9 @@
   <!-- - [Type Equations](./Types.equations.html) -->
 
 ## 3. Logic
+
+![3](3.png)
+
   - [Introduction](./Logic.introduction.html)
   - [Boolean Algebra](./Logic.logicBasics.html)
   - [Equality](./Logic.equality.html)
@@ -45,18 +53,27 @@
   <!-- - [Decidability](./Logic.decidability.html) -->
 
 ## 4. Group Theory
+
+![4](4.png)
+
   - [Introduction](./Algebra.introduction.html)
-  - [Semigroups and Groups](./Algebra.groups.html)
+  - [Groups and family](./Algebra.groups.html)
   - [Monoids]
   - [n-Groupoids and the ∞-Groupoid]
 
 ## 5. Algebraic Topology
+
+![5](5.png)
+
   - [Paths and connected spaces]
   - [The Fundamental Group and Groupoid]
   - [Functor]
   - [The Seifert - van-Kampen theorem]
 
 ## 6. Category Theory
+
+![6](6.png)
+
   - [Natural Transformations]
   - [Hom-Sets and constructions]
   - [The Yoneda Lemma]
@@ -64,10 +81,16 @@
   - [Adjunctions]
   - [Kan Extensions]
 
-## 6. The Curry-Howard-Lambek-Voevodsky isomorphism
+## 7. The Curry-Howard-Lambek-Voevodsky isomorphism
 
-## 7. The Equivalence principle
+![7](7.png)
 
-## 8. Homotopy Type Theory
+## 8. The Equivalence principle
+
+![8](8.png)
+
+## 9. Homotopy Type Theory
+
+![9](9.png)
 
 ****

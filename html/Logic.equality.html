@@ -62,6 +62,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">)</span></code></pre></div>
 <p>Equality, or an equivalence, is the most basic comparison that can be performed between two objects. Let us first see how equality (and inequality) looks like for logical objects:</p>
+<div class="figure">
+<img src="equailty.png" alt="equailty" />
+<p class="caption">equailty</p>
+</div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
   refl <span class="ot">:</span> x ≡ x
 
@@ -77,9 +81,8 @@ equal? a b <span class="ot">=</span> not <span class="ot">(</span>xor a b<span c
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">symmetric <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span>
         <span class="ot">→</span> x ≡ y
         <span class="ot">→</span> y ≡ x
-symmetric <span class="ot">{</span>A<span class="ot">}</span> refl <span class="ot">=</span> refl
-
-transitive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y z <span class="ot">:</span> A<span class="ot">}</span>
+symmetric <span class="ot">{</span>A<span class="ot">}</span> refl <span class="ot">=</span> refl</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">transitive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y z <span class="ot">:</span> A<span class="ot">}</span>
         <span class="ot">→</span> x ≡ y
         <span class="ot">→</span> y ≡ z
         <span class="ot">→</span> x ≡ z

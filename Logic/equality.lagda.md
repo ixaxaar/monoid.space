@@ -21,6 +21,8 @@ open import Lang.dataStructures using (Bool; true; false)
 
 Equality, or an equivalence, is the most basic comparison that can be performed between two objects. Let us first see how equality (and inequality) looks like for logical objects:
 
+![equailty](equailty.png)
+
 ```agda
 data _≡_ {A : Set}(x : A) : A → Set where
   refl : x ≡ x
@@ -51,7 +53,9 @@ symmetric : {A : Set} {x y : A}
         → x ≡ y
         → y ≡ x
 symmetric {A} refl = refl
+```
 
+```agda
 transitive : {A : Set} {x y z : A}
         → x ≡ y
         → y ≡ z

@@ -24,6 +24,9 @@ declare -a files=(
   "Logic/equality"
   "Logic/laws"
   "Logic/decidability"
+
+  "Algebra/introduction"
+  "Algebra/groups"
 )
 
 rm -rf build html tmp

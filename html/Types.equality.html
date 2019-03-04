@@ -57,7 +57,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#transitivity">Transitivity</a></li>
 <li><a href="#functions-that-preserve-equality-or-congruence">Functions that preserve equality or Congruence</a></li>
 <li><a href="#substitution">Substitution</a></li>
-<li><a href="#"></a></li>
 </ul></li>
 <li><a href="#definitonal-equality">Definitonal Equality</a></li>
 </ul>
@@ -73,6 +72,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>There are different kinds equivalence relations and hence, equalities in type theory.</p>
 <h2 id="propositional-equality">Propositional Equality</h2>
 <p>In type theory, all proofs can be represented as a type. Propositional equality is a kind of equality which requires a proof, and hence the equality itself is also a type <code>≡</code>:</p>
+<div class="figure">
+<img src="equailty.png" alt="equailty" />
+<p class="caption">equailty</p>
+</div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≡<span class="ot">_</span>
 
 <span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>a <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
@@ -102,7 +105,6 @@ congruence f refl <span class="ot">=</span> refl</code></pre></div>
   <span class="ot">→</span> Predicate x
   <span class="ot">→</span> Predicate y
 substitution Predicate refl p <span class="ot">=</span> p</code></pre></div>
-<h3 id="section"></h3>
 <p>Finally, our table example:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> Table <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
   generic <span class="ot">:</span> Table
