@@ -22,6 +22,8 @@ open import Types.relations using (Rel; Equivalence)
 
 open import Types.typeBasics using (_×_; _,_; _∪_; inj₁; inj₂)
 
+open import Level
+
 module Algebra.introduction {A : Set} (eq : Equivalence A) where
 
   module Eq₁ = Equivalence eq

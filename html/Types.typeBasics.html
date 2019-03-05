@@ -114,8 +114,8 @@ proj₂ <span class="fu">:</span> {<span class="dt">A</span> <span class="dt">B<
 <p>Note: The above is pseudo-code, the proof is below.</p>
 <p>The second condition is the unique-ness condition, .i.e. for all objects having projections to <code>A</code> and <code>B</code>, there is one through which all projections go through. We call this one object the “Product” This is better visualized in this diagram:</p>
 <div class="figure">
-<img src="./product-universal-property.png" alt="product-universal-property" />
-<p class="caption">product-universal-property</p>
+<img src="./product.png" alt="product" />
+<p class="caption">product</p>
 </div>
 <p>Agda’s <code>Record</code> types provides encapsulate this definition:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Σ <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">(</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span> <span class="kw">where</span>
@@ -146,6 +146,11 @@ A ×× B <span class="ot">=</span> Σ[ x ∈ A ] B</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">∃! <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span> ℓ<span class="ot">)</span> <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b ⊔ ℓ<span class="ot">)</span>
 ∃! <span class="ot">_</span>≈<span class="ot">_</span> B <span class="ot">=</span> ∃ <span class="ot">λ</span> x
   <span class="ot">→</span> B x ×× <span class="ot">(∀</span> <span class="ot">{</span>y<span class="ot">}</span> <span class="ot">→</span> B y <span class="ot">→</span> x ≈ y<span class="ot">)</span></code></pre></div>
+<p>Uniqueness here implies that a “product” can essentially be defined as an object of type <code>A × B</code> such that for any other object, say of type <code>A × B × C</code>, which can have similar projections <code>A × B × C → A</code> and <code>A × B × C → B</code>, there exists a unique function of type <code>A × B × C → A × B</code>.</p>
+<div class="figure">
+<img src="product_full.png" alt="product_full" />
+<p class="caption">product_full</p>
+</div>
 <h1 id="co-product-types">Co-product types</h1>
 <p>Co-products, also called as “sum” types can be thought of as a disjoint uinon of two objects.</p>
 <p>Mathematically, an object <code>X∪Y</code> is a co-product of objects <code>X</code> and <code>Y</code> if,</p>
@@ -162,7 +167,7 @@ A ×× B <span class="ot">=</span> Σ[ x ∈ A ] B</code></pre></div>
   inj₂ <span class="ot">:</span> <span class="ot">(</span>y <span class="ot">:</span> B<span class="ot">)</span> <span class="ot">→</span> A ∪ B</code></pre></div>
 <p>Co-product types are similar to product types, except with reversed arrows:</p>
 <div class="figure">
-<img src="./coproduct.png" alt="coproducts" />
+<img src="coproduct.png" alt="coproducts" />
 <p class="caption">coproducts</p>
 </div>
 <hr />

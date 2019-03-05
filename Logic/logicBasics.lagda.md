@@ -126,7 +126,7 @@ These higher-order operations are built by composing the lower ones in various w
 Implication, or `if P then Q`, is derived from the well-known construction
 
 $$
-a \implies b = \not a \or b
+a ⟹ b = ¬ a ∨ b
 $$
 
 ```agda

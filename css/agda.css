@@ -253,7 +253,7 @@ pre.sourceCode span.re { }
 pre.sourceCode span.er { color: rgb(255, 190, 190) !important; /* font-weight: bold; */ }
 
 div.sourceCode {
-  background-color: #272525;
+  background-color: #302727;
   border-radius:    20px;
   margin:           20px;
   padding:          10px;
@@ -277,7 +277,7 @@ ul:first-of-type a {
 }
 
 html {
-  background-color: #202020
+  background-color: #252525
 }
 
 body {
@@ -308,5 +308,5 @@ strong {
 img {
   margin-left: 50px;
   max-width: 800px;
-  max-height: 300px;
+  max-height: 800px;
 }

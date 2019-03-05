@@ -97,7 +97,7 @@ Note: The above is pseudo-code, the proof is below.
 
 The second condition is the unique-ness condition, .i.e. for all objects having projections to `A` and `B`, there is one through which all projections go through. We call this one object the "Product" This is better visualized in this diagram:
 
-![product-universal-property](./product-universal-property.png)
+![product](./product.png)
 
 Agda's `Record` types provides encapsulate this definition:
 
@@ -150,6 +150,11 @@ We then proceed with the proof:
   → B x ×× (∀ {y} → B y → x ≈ y)
 ```
 
+Uniqueness here implies that a "product" can essentially be defined as an object of type `A × B` such that for any other object, say of type `A × B × C`, which can have similar projections `A × B × C → A` and `A × B × C → B`, there exists a unique function of type `A × B × C → A × B`.
+
+![product_full](product_full.png)
+
+
 # Co-product types
 
 Co-products, also called as "sum" types can be thought of as a disjoint uinon of two objects.
@@ -179,7 +184,7 @@ data _∪_ {a b} (A : Set a) (B : Set b) : Set (a ⊔ b) where
 
 Co-product types are similar to product types, except with reversed arrows:
 
-![coproducts](./coproduct.png)
+![coproducts](coproduct.png)
 
 ****
 [Back to Contents](./contents.html)

@@ -6,12 +6,9 @@
   - [1. Agda](#1-agda)
   - [2. Type Theory](#2-type-theory)
   - [3. Logic](#3-logic)
-  - [4. Group Theory](#4-group-theory)
+  - [4. Algebras](#4-algebras)
   - [5. Algebraic Topology](#5-algebraic-topology)
   - [6. Category Theory](#6-category-theory)
-  - [7. The Curry-Howard-Lambek-Voevodsky isomorphism](#7-the-curry-howard-lambek-voevodsky-isomorphism)
-  - [8. The Equivalence principle](#8-the-equivalence-principle)
-  - [9. Homotopy Type Theory](#9-homotopy-type-theory)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -52,14 +49,14 @@
   - [Laws of Logic](./Logic.laws.html)
   <!-- - [Decidability](./Logic.decidability.html) -->
 
-## 4. Group Theory
+## 4. Algebras
 
 ![4](4.png)
 
   - [Introduction](./Algebra.introduction.html)
+  - [Equivalence](./Algebra.equality.html)
+  - [Ordered objects](./Algebra.order.html)
   - [Groups and family](./Algebra.groups.html)
-  - [Monoids]
-  - [n-Groupoids and the ∞-Groupoid]
 
 ## 5. Algebraic Topology
 
@@ -81,6 +78,7 @@
   - [Adjunctions]
   - [Kan Extensions]
 
+<!--
 ## 7. The Curry-Howard-Lambek-Voevodsky isomorphism
 
 ![7](7.png)
@@ -91,6 +89,6 @@
 
 ## 9. Homotopy Type Theory
 
-![9](9.png)
+![9](9.png) -->
 
 ****
