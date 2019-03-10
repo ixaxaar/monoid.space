@@ -52,14 +52,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#the-scala-type-system">The scala type system</a></li>
-<li><a href="#mathematical-philosophy">Mathematical philosophy</a></li>
+<li><a href="#judgements-and-propositions">Judgements and Propositions</a></li>
 <li><a href="#the-bottom-type">The Bottom type</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="introduction">Introduction</h1>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Types<span class="ot">.</span>introduction <span class="kw">where</span>
 
-<span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>List<span class="ot">;</span> <span class="ot">_</span>::<span class="ot">_)</span></code></pre></div>
+<span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>List<span class="ot">;</span> []<span class="ot">;</span> <span class="ot">_</span>::<span class="ot">_;</span> ℕ<span class="ot">;</span> one<span class="ot">;</span> three<span class="ot">;</span> seven<span class="ot">;</span> nine<span class="ot">)</span></code></pre></div>
 <p>Type theory is an area of mathematics of direct consequence to programming. Type theory is about a class of formal systems, not much unlike type systems in programming languages. Bertrand Russel was the first to propose this theory in order to “fix” Russel’s Paradox, though Per Martin-Löf was the one to come up with an actually useful version of it, called “intuitionistic type theory”. This is what we will go through here. Though thanks to the Curry-Howard isomorphism, which basically connects two areas of math : type theory can be mapped to logic and studied as such.</p>
 <p>Type systems present especially in statically compiled programming languages could also be seen as those sets that type theory is about. The goal of this section could also be to gain further insight into abstractions using type systems and how to really take advantage of certain compilers.</p>
 <h2 id="the-scala-type-system">The scala type system</h2>
@@ -67,13 +67,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <img src="./scala-type-system.png" alt="scala-type-system" />
 <p class="caption">scala-type-system</p>
 </div>
-<h2 id="mathematical-philosophy">Mathematical philosophy</h2>
+<h2 id="judgements-and-propositions">Judgements and Propositions</h2>
 <p>The basic constructs of type theory is based on the concept of “judgement” versus “propositions”.</p>
 <p>Zermelo-Frenkel Set theory (ZFC) consists of:</p>
 <ul>
 <li><code>Set</code>s which are a collection of objects</li>
-<li>a propositional first order logic system to create and manipulate such ets</li>
-<li>maps in and amongst such sets</li>
+<li>a propositional first order logic system to create and manipulate such objects and sets</li>
+<li>maps amongst such sets</li>
 </ul>
 <p>which is in fact pretty much the basic components of any imperative programming language.</p>
 <p>However, the problem here is with <code>propositions</code> as in there can exist propositions which turn out to be false. However, types as objects serve as judgements. An object with type defined, say, <code>List A</code> fully specifies it, and can be type-checked by a first-order logic system to prove or disprove.</p>
@@ -86,6 +86,7 @@ fullySpecified <span class="ot">=</span> one :: three :: seven :: nine :: []</co
 <p>The bottom type can be defined using either the <code>data</code> API or using <code>postulate</code>s:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> False <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">postulate</span> bottom <span class="ot">:</span> False</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> ⟂ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></code></pre></div>
 <hr />
 <p><a href="./contents.html">Back to Contents</a></p>
 </body>

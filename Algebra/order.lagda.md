@@ -15,9 +15,9 @@
 ```agda
 module Algebra.order where
 
-open import Types.typeBasics using (Σ; _,_)
-
-open import Types.relations using (Rel; Equivalence; Reflexive; Symmetric; Transitive)
+open import Types.equality
+open import Types.functions
+open import Types.typeBasics
 
 open import Algebra.introduction
 
@@ -28,7 +28,7 @@ open import Level
 
 Before we define groups, we have to define the laws of equivalence:
 
-```agda
+```lauda
 record IsEquivalence {a ℓ} {A : Set a} (_==_ : Rel A ℓ) : Set (a ⊔ ℓ) where
   field
     refl  : Reflexive _==_
@@ -45,7 +45,7 @@ record IsEquivalence {a ℓ} {A : Set a} (_==_ : Rel A ℓ) : Set (a ⊔ ℓ) wh
 
 # Pre-order
 
-```agda
+```lauda
 record Preorder c ℓ₁ ℓ₂ : Set (suc (c ⊔ ℓ₁ ⊔ ℓ₂)) where
   infix 4 _≈_ _∼_
   field

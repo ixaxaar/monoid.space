@@ -4,7 +4,7 @@
 
 - [Introduction](#introduction)
   - [The scala type system](#the-scala-type-system)
-  - [Mathematical philosophy](#mathematical-philosophy)
+  - [Judgements and Propositions](#judgements-and-propositions)
 - [The Bottom type](#the-bottom-type)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -15,7 +15,7 @@
 ```agda
 module Types.introduction where
 
-open import Lang.dataStructures using (List; _::_)
+open import Lang.dataStructures using (List; []; _::_; ℕ; one; three; seven; nine)
 ```
 
 Type theory is an area of mathematics of direct consequence to programming. Type theory is about a class of formal systems, not much unlike type systems in programming languages. Bertrand Russel was the first to propose this theory in order to "fix" Russel's Paradox, though Per Martin-Löf was the one to come up with an actually useful version of it, called "intuitionistic type theory". This is what we will go through here. Though thanks to the Curry-Howard isomorphism, which basically connects two areas of math : type theory can be mapped to logic and studied as such.
@@ -27,15 +27,15 @@ Type systems present especially in statically compiled programming languages cou
 
 ![scala-type-system](./scala-type-system.png)
 
-## Mathematical philosophy
+## Judgements and Propositions
 
 The basic constructs of type theory is based on the concept of "judgement" versus "propositions".
 
 Zermelo-Frenkel Set theory (ZFC) consists of:
 
 - `Set`s which are a collection of objects
-- a propositional first order logic system to create and manipulate such ets
-- maps in and amongst such sets
+- a propositional first order logic system to create and manipulate such objects and sets
+- maps amongst such sets
 
 which is in fact pretty much the basic components of any imperative programming language.
 
@@ -63,6 +63,10 @@ data False : Set where
 
 ```agda
 postulate bottom : False
+```
+
+```agda
+data ⟂ : Set where
 ```
 
 ****

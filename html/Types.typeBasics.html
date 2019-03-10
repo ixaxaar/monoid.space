@@ -51,31 +51,43 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <hr />
 <ul>
 <li><a href="#product-types-or-tuples">Product types or tuples</a></li>
-<li><a href="#but-what-is-a-product">But What is a product?</a></li>
+<li><a href="#construction">Construction</a></li>
 <li><a href="#uniqueness-proof">Uniqueness proof</a></li>
+<li><a href="#api">API</a>
+<ul>
+<li><a href="#application-of-a-product">Application of a product</a></li>
+<li><a href="#map">Map</a></li>
+<li><a href="#swap">Swap</a></li>
+</ul></li>
 <li><a href="#co-product-types">Co-product types</a></li>
+<li><a href="#maybe">Maybe</a></li>
+<li><a href="#api-1">API</a>
+<ul>
+<li><a href="#eliminator">Eliminator</a></li>
+<li><a href="#map-1">Map</a></li>
+<li><a href="#zip">Zip</a></li>
+</ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Types<span class="ot">.</span>typeBasics <span class="kw">where</span>
 
 <span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>
   Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span>
-  ⊥<span class="ot">;</span> ⊤<span class="ot">;</span> ℕ<span class="ot">;</span> List<span class="ot">;</span>
+  ⊥<span class="ot">;</span> ⊤<span class="ot">;</span> singleton<span class="ot">;</span> ℕ<span class="ot">;</span> List<span class="ot">;</span>
   one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span>
   <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span>
 
 <span class="kw">open</span> <span class="kw">import</span> Level</code></pre></div>
 <h1 id="product-types-or-tuples">Product types or tuples</h1>
 <p>A cartesian product of two types <code>A</code> and <code>B</code> can be defined as a pair of objects <code>(a, b)</code>, where <code>a</code> ∈ <code>A</code>, and <code>b</code> ∈ <code>B</code>.</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">
-<span class="kw">data</span> <span class="ot">_</span>×<span class="ot">_</span> <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
-  <span class="ot">_</span>,<span class="ot">_</span>  <span class="ot">:</span> A <span class="ot">→</span> B <span class="ot">→</span> A × B
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> <span class="ot">_</span>××<span class="ot">_</span> <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+  <span class="ot">_</span>,,<span class="ot">_</span>  <span class="ot">:</span> A <span class="ot">→</span> B <span class="ot">→</span> A ×× B
 
-<span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>×<span class="ot">_</span></code></pre></div>
+<span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>××<span class="ot">_</span></code></pre></div>
 <p>and cartesian products constructed as</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">oneTwo <span class="ot">=</span> one , two
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">oneTwo <span class="ot">=</span> one ,, two
 
-oneTwoThree <span class="ot">=</span> one , <span class="ot">(</span>two , three<span class="ot">)</span></code></pre></div>
+oneTwoThree <span class="ot">=</span> one ,, <span class="ot">(</span>two ,, three<span class="ot">)</span></code></pre></div>
 <p>Some exmaples of product types in programming languages are for e.g. tuples in scala:</p>
 <div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">val</span> tuple:Tuple3[String, String, String] = (<span class="st">&quot;a&quot;</span>, <span class="st">&quot;pointless&quot;</span>, <span class="st">&quot;tuple&quot;</span>)</code></pre></div>
 <p>though a large number of datatypes are sub-types of products, e.g.</p>
@@ -94,7 +106,7 @@ CompositeThrowable,
 End, Include, Index,
 NoLo, Remove, Reset, Start, Update,
 DocBreak, DocCons, DocGroup, DocNest, DocNil, DocText</code></pre></div>
-<h1 id="but-what-is-a-product">But What is a product?</h1>
+<h2 id="construction">Construction</h2>
 <p>While being intuitively familiar with what a cartesian product is, it’s algebraic definition captures the most abstract aspect of a product:</p>
 <p>A cartesian product, in set theory, for two sets <code>A</code> and <code>B</code> is defined as:</p>
 <p><br /><span class="math display"><em>A</em><em>x</em><em>B</em> = {(<em>a</em>, <em>b</em>)|<em>a</em> ∈ <em>A</em> <em>a</em><em>n</em><em>d</em> <em>b</em> ∈ <em>B</em>}</span><br /></p>
@@ -127,12 +139,12 @@ proj₂ <span class="fu">:</span> {<span class="dt">A</span> <span class="dt">B<
 <span class="kw">open</span> Σ <span class="kw">public</span>
 
 <span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>,<span class="ot">_</span></code></pre></div>
-<p>The <code>Σ</code> type is also called a “Dependent” or “Σ” type, as in the second parameter to <code>record</code> depends upon the type <code>A</code>, the first parameter.</p>
+<p>The <code>Σ</code> type is also called a “Dependent” or “Σ” type, dependent as in the second parameter to <code>record</code> depends upon the type <code>A</code>, the first parameter. Note that we use the machinery of universe polymorphism to define this.</p>
 <h2 id="uniqueness-proof">Uniqueness proof</h2>
-<p>To prove uniqueness of a product, we first have to define what existence is:</p>
+<p>To prove uniqueness of a product, we first have to define a version of <code>Σ</code> where the type of the first parameter can be inferred:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">∃ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span>
 ∃ <span class="ot">=</span> Σ <span class="ot">_</span></code></pre></div>
-<p>A <code>syntax</code> declaration binds a pattern to a specified syntax. We define a syntax for Σ:</p>
+<p>A <code>syntax</code> declaration binds a pattern to a specified syntax. We define a syntax for Σ such that <code>Σ[ x ∈ A ] B</code> would be re-written as <code>Σ A (λ x → B)</code>:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">infix</span> <span class="dv">2</span> Σ-syntax
 
 Σ-syntax <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span>
@@ -140,17 +152,35 @@ proj₂ <span class="fu">:</span> {<span class="dt">A</span> <span class="dt">B<
 
 <span class="kw">syntax</span> Σ-syntax A <span class="ot">(λ</span> x <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">=</span> Σ[ x ∈ A ] B</code></pre></div>
 <p>Then we proceed to define composition in the form of Σ-syntax:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>××<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">(</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span>
-A ×× B <span class="ot">=</span> Σ[ x ∈ A ] B</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>×<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">(</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span>
+A × B <span class="ot">=</span> Σ[ x ∈ A ] B</code></pre></div>
 <p>We then proceed with the proof:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">∃! <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span> ℓ<span class="ot">)</span> <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b ⊔ ℓ<span class="ot">)</span>
 ∃! <span class="ot">_</span>≈<span class="ot">_</span> B <span class="ot">=</span> ∃ <span class="ot">λ</span> x
-  <span class="ot">→</span> B x ×× <span class="ot">(∀</span> <span class="ot">{</span>y<span class="ot">}</span> <span class="ot">→</span> B y <span class="ot">→</span> x ≈ y<span class="ot">)</span></code></pre></div>
+  <span class="ot">→</span> B x × <span class="ot">(∀</span> <span class="ot">{</span>y<span class="ot">}</span> <span class="ot">→</span> B y <span class="ot">→</span> x ≈ y<span class="ot">)</span></code></pre></div>
 <p>Uniqueness here implies that a “product” can essentially be defined as an object of type <code>A × B</code> such that for any other object, say of type <code>A × B × C</code>, which can have similar projections <code>A × B × C → A</code> and <code>A × B × C → B</code>, there exists a unique function of type <code>A × B × C → A × B</code>.</p>
 <div class="figure">
 <img src="product_full.png" alt="product_full" />
 <p class="caption">product_full</p>
 </div>
+<h2 id="api">API</h2>
+<h3 id="application-of-a-product">Application of a product</h3>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">&lt;<span class="ot">_</span>,<span class="ot">_</span>&gt; <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">→</span> B x <span class="ot">→</span> <span class="dt">Set</span> c<span class="ot">}</span>
+        <span class="ot">(</span>f <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x<span class="ot">)</span>
+        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> C <span class="ot">(</span>f x<span class="ot">))</span>
+        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> Σ <span class="ot">(</span>B x<span class="ot">)</span> C<span class="ot">)</span>
+&lt; f , g &gt; x <span class="ot">=</span> <span class="ot">(</span>f x , g x<span class="ot">)</span></code></pre></div>
+<h3 id="map">Map</h3>
+<p>Mapping a pair of functions <code>f</code> and <code>g</code> over a product:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">map <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b p q<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>P <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> p<span class="ot">}</span> <span class="ot">{</span>Q <span class="ot">:</span> B <span class="ot">→</span> <span class="dt">Set</span> q<span class="ot">}</span>
+        <span class="ot">→</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> B<span class="ot">)</span>
+        <span class="ot">→</span> <span class="ot">(∀</span> <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">→</span> P x <span class="ot">→</span> Q <span class="ot">(</span>f x<span class="ot">))</span>
+        <span class="ot">→</span> Σ A P
+        <span class="ot">→</span> Σ B Q
+map f g <span class="ot">(</span>x , y<span class="ot">)</span> <span class="ot">=</span> <span class="ot">(</span>f x , g y<span class="ot">)</span></code></pre></div>
+<h3 id="swap">Swap</h3>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">swap <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span> A × B <span class="ot">→</span> B × A
+swap <span class="ot">(</span>x , y<span class="ot">)</span> <span class="ot">=</span> <span class="ot">(</span>y , x<span class="ot">)</span></code></pre></div>
 <h1 id="co-product-types">Co-product types</h1>
 <p>Co-products, also called as “sum” types can be thought of as a disjoint uinon of two objects.</p>
 <p>Mathematically, an object <code>X∪Y</code> is a co-product of objects <code>X</code> and <code>Y</code> if,</p>
@@ -170,6 +200,32 @@ A ×× B <span class="ot">=</span> Σ[ x ∈ A ] B</code></pre></div>
 <img src="coproduct.png" alt="coproducts" />
 <p class="caption">coproducts</p>
 </div>
+<h2 id="maybe">Maybe</h2>
+<p>Just like the cartesian product is the representative type of a product, the <code>Maybe</code> type fills that role for the co-product. This happens to be a very popular datatype in functional programming languages like haskell <code>Maybe</code>, scala <code>Option</code> etc and is widely used to error handling.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> Maybe <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> a <span class="kw">where</span>
+  just    <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> Maybe A
+  nothing <span class="ot">:</span> Maybe A</code></pre></div>
+<h2 id="api-1">API</h2>
+<h3 id="eliminator">Eliminator</h3>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">maybe <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> Maybe A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">}</span>
+        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B <span class="ot">(</span>just x<span class="ot">))</span>
+        <span class="ot">→</span> B nothing
+        <span class="ot">→</span> <span class="ot">(</span>x <span class="ot">:</span> Maybe A<span class="ot">)</span>
+        <span class="ot">→</span> B x
+maybe j n <span class="ot">(</span>just x<span class="ot">)</span> <span class="ot">=</span> j x
+maybe j n nothing  <span class="ot">=</span> n</code></pre></div>
+<h3 id="map-1">Map</h3>
+<p>A <code>Maybe</code> is also a structure which can be map-ed over:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">smap <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> Maybe A <span class="ot">→</span> Maybe B
+smap f <span class="ot">(</span>just x<span class="ot">)</span> <span class="ot">=</span> just <span class="ot">(</span>f x<span class="ot">)</span>
+smap f nothing  <span class="ot">=</span> nothing</code></pre></div>
+<h3 id="zip">Zip</h3>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">zip <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span>
+        <span class="ot">→</span> Maybe A
+        <span class="ot">→</span> Maybe B
+        <span class="ot">→</span> Maybe <span class="ot">(</span>A × B<span class="ot">)</span>
+zip <span class="ot">(</span>just a<span class="ot">)</span> <span class="ot">(</span>just b<span class="ot">)</span> <span class="ot">=</span> just <span class="ot">(</span>a , b<span class="ot">)</span>
+zip <span class="ot">_</span> <span class="ot">_</span> <span class="ot">=</span> nothing</code></pre></div>
 <hr />
 <p><a href="./contents.html">Back to Contents</a></p>
 </body>

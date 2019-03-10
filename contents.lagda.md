@@ -12,6 +12,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+
 # Contents
 
 ## 1. Agda
@@ -34,8 +35,8 @@
   - [Universes and families](./Types.universe.html)
   - [Relations](./Types.relations.html)
   - [Equality](./Types.equality.html)
-  - [Dependent Function Types / Π-types](./Types.functions.html)
   - [Product Types / Σ-types](./Types.typeBasics.html)
+  - [Dependent Function Types / Π-types](./Types.functions.html)
   <!-- - [Natural Numbers](./Types.naturalNumbers.html) -->
   <!-- - [Type Equations](./Types.equations.html) -->
 
@@ -90,5 +91,32 @@
 ## 9. Homotopy Type Theory
 
 ![9](9.png) -->
+
+```agda
+import Lang.setup
+import Lang.languageIntro
+import Lang.dataStructures
+import Lang.proofsAsData
+import Lang.functions
+import Lang.syntaxQuirks
+import Lang.other
+
+import Types.introduction
+import Types.universe
+import Types.relations
+import Types.equality
+import Types.typeBasics
+import Types.functions
+
+import Logic.introduction
+import Logic.logicBasics
+import Logic.equality
+import Logic.laws
+
+import Algebra.introduction
+import Algebra.equality
+import Algebra.order
+import Algebra.groups
+```
 
 ****

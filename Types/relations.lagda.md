@@ -14,22 +14,38 @@
 module Types.relations where
 ```
 
-We begin by constructing relations as types. A relation `∙` between two objects `a` and `b` is a function type:
+We begin by constructing relations as types. A binary relation `∙` between two objects `a` and `b` is a function type:
 
 ```agda
 Rel : Set → Set1
 Rel A = A → A → Set
 ```
 
+A relation with universe polymorphism could also be defined as:
+
+```agda
+open import Level
+
+-- heterogenous relation
+REL : ∀ {a b} → Set a → Set b → (ℓ : Level) → Set (a ⊔ b ⊔ suc ℓ)
+REL A B ℓ = A → B → Set ℓ
+
+-- homogenous relation
+R : ∀ {a} → Set a → (ℓ : Level) → Set (a ⊔ suc ℓ)
+R A ℓ = REL A A ℓ
+```
+
+The first definition being easier for our purposes here, we proceed that.
+
 A reflexive relation is one where $ x \bullet y = y \bullet x $ :
 
 ![refl](refl.png)
 
 ```agda
-Reflexive : {A : Set}
+reflexive : {A : Set}
   → Rel A
   → Set
-Reflexive {A} _★_ = (x : A) → x ★ x
+reflexive {A} _★_ = (x : A) → x ★ x
 ```
 
 A symmetric relation is one where $ x \bullet y \implies y \bullet x $ :
@@ -37,8 +53,8 @@ A symmetric relation is one where $ x \bullet y \implies y \bullet x $ :
 ![symmetric](symmetric.png)
 
 ```agda
-Symmetric : {A : Set} → Rel A → Set
-Symmetric {A} _★_  = (x y : A)
+symmetric : {A : Set} → Rel A → Set
+symmetric {A} _★_  = (x y : A)
   → x ★ y
   → y ★ x
 ```
@@ -48,8 +64,8 @@ A transitive relation is one where $ x \bullet y, y \bullet z then z \bullet x $
 ![transitive](transitive.png)
 
 ```agda
-Transitive : {A : Set} → Rel A → Set
-Transitive {A} _★_ = (x y z : A)
+transitive : {A : Set} → Rel A → Set
+transitive {A} _★_ = (x y z : A)
   → x ★ y
   → y ★ z
   → x ★ z
@@ -58,16 +74,16 @@ Transitive {A} _★_ = (x y z : A)
 A congruent relation is one where a function $ x \bullet y \implies f(x) \bullet f(y) $ or the function `f` preserves the relation :
 
 ```agda
-Congruent : {A : Set} → Rel A → Set
-Congruent {A} _★_ = (f : A → A)(x y : A)
+congruent : {A : Set} → Rel A → Set
+congruent {A} _★_ = (f : A → A)(x y : A)
   → x ★ y
   → f x ★ f y
 ```
 A substitutive relation is one where $ x \bullet y ~and~ (predicate y) = ⊤ \implies (predicate x) = ⊤ $ :
 
 ```agda
-Substitutive : {A : Set} → Rel A → Set1
-Substitutive {A} _★_ = (P : A → Set)(x y : A)
+substitutive : {A : Set} → Rel A → Set1
+substitutive {A} _★_ = (P : A → Set)(x y : A)
   → x ★ y
   → P x
   → P y
@@ -86,10 +102,11 @@ All forms of what we know as "equality" are equivalence relations. They help in 
 record Equivalence (A : Set) : Set1 where
   field
     _==_  : Rel A
-    refl  : Reflexive _==_
-    sym   : Symmetric _==_
-    trans : Transitive _==_
+    refl  : reflexive _==_
+    sym   : symmetric _==_
+    trans : transitive _==_
 ```
+
 
 ****
 [Back to Contents](./contents.html)

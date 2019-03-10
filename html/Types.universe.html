@@ -53,6 +53,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#universes-and-families">Universes and families</a></li>
 <li><a href="#sets">Sets</a></li>
 <li><a href="#universe-polymorphism">Universe Polymorphism</a></li>
+<li><a href="#machinery-on-types">Machinery on Types</a></li>
+<li><a href="#type-of">Type of</a></li>
+<li><a href="#equality-of-types">Equality of types</a></li>
+<li><a href="#identity-type">Identity type</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="universes-and-families">Universes and families</h1>
@@ -63,7 +67,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>
   Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span>
   ⊥<span class="ot">;</span> ⊤<span class="ot">;</span> ℕ<span class="ot">;</span> List<span class="ot">;</span>
-  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span>
+  zero<span class="ot">;</span> one<span class="ot">)</span>
 
 <span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">renaming</span> <span class="ot">(</span>Level <span class="kw">to</span> AgdaLevel<span class="ot">;</span> lzero <span class="kw">to</span> alzero<span class="ot">;</span> lsuc <span class="kw">to</span> alsuc<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_</span> <span class="kw">to</span> <span class="ot">_</span>⊔⊔<span class="ot">_)</span></code></pre></div>
 <p>A universe is a set of types. Now, when we take our universe to be a set of types, there comes a problem of universe of all possible types, and we end up with Russel’s Paradox. To avoid this, we say that our universe is constructed heirarchically, with an index <code>i</code> such that universe <code>Uᵢ</code> ∈ Uᵢ₊₁ and so on.</p>
@@ -95,15 +99,53 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <img src="universes.png" alt="universes" />
 <p class="caption">universes</p>
 </div>
-<p>A “family” of types varying over a given type are called, well “families of types” :grimacing:. An example of this would be the finite set, <a href="./dataStructures.html#finite-sequences">Fin</a> where every finite set has <code>n</code> elements where <code>n ∈ ℕ</code> and hence <code>Fin</code>, the creator of finite sets, is dependent on ℕ.</p>
+<p>A “family” of types varying over a given type are called, well “families of types”. An example of this would be the finite set, <a href="./dataStructures.html#finite-sequences">Fin</a> where every finite set has <code>n</code> elements where <code>n ∈ ℕ</code> and hence <code>Fin</code>, the creator of finite sets, is dependent on ℕ.</p>
 <h1 id="sets">Sets</h1>
 <p>Mathematical sets cannot be directly represented in Agda as they are subject to Russel’s Paradox. However, sets are defined in a way similar to universes.</p>
 <ul>
 <li>Generally a set is represented by <code>Set₁</code>.</li>
-<li>There exist infinite other <code>Setᵢ</code> such that <code>Set₁ ∈ Set₂ ∈ Set₃ ∈ ...</code></li>
+<li>There exist infinite other <code>Setᵢ</code> such that <code>Set₁ : Set₂ : Set₃ : ...</code></li>
 </ul>
-<p>In fact, Ttese <code>Setᵢ</code>s serve as universes in Agda.</p>
+<p>In fact, These <code>Setᵢ</code>s are nothing but universes in Agda. Note that <code>Set₁</code> forms the large set, i.e. the set containing all sets.</p>
+<p>In some implementations, universes are represented using a different keyword <code>Type</code> instead of <code>Set</code> in order to avoid confusing with them:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Type <span class="ot">:</span> <span class="ot">(</span>i <span class="ot">:</span> AgdaLevel<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>alsuc i<span class="ot">)</span>
+Type i <span class="ot">=</span> <span class="dt">Set</span> i
+
+Type₀ <span class="ot">=</span> Type alzero
+Type0 <span class="ot">=</span> Type alzero
+
+Type₁ <span class="ot">=</span> Type <span class="ot">(</span>alsuc alzero<span class="ot">)</span>
+Type1 <span class="ot">=</span> Type <span class="ot">(</span>alsuc alzero<span class="ot">)</span></code></pre></div>
 <h1 id="universe-polymorphism">Universe Polymorphism</h1>
+<p>Now, gieven that we have infinite heirarchical universes, we would have to define the same functions, data types and machinery for each universe level, which would be pretty tedious to say the least. However, we observe how our universes are defined and note that the level-based indexing system, that connects each successive universe, provides us with the mechanics to define objects for all universe levels:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">id <span class="ot">:</span> <span class="ot">{</span>ℓ <span class="ot">:</span> AgdaLevel<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> ℓ<span class="ot">}</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> A
+id x <span class="ot">=</span> x</code></pre></div>
+<p>Here <code>id</code> represents a family of identity functions given a type <code>A</code> and its level <code>ℓ</code>.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">infixr</span> <span class="dv">5</span> <span class="ot">_</span>::<span class="ot">_</span>
+<span class="kw">data</span> List₁ <span class="ot">{</span>ℓ <span class="ot">:</span> AgdaLevel<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> ℓ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>alsuc ℓ<span class="ot">)</span> <span class="kw">where</span>
+  [] <span class="ot">:</span> List₁ A
+  <span class="ot">_</span>::<span class="ot">_</span> <span class="ot">:</span> A <span class="ot">→</span> List₁ A <span class="ot">→</span> List₁ A
+
+someList <span class="ot">:</span> List₁ ℕ
+someList <span class="ot">=</span> <span class="ot">(</span>one :: zero :: []<span class="ot">)</span>
+
+sameList <span class="ot">:</span> List₁ ℕ
+sameList <span class="ot">=</span> id someList</code></pre></div>
+<h1 id="machinery-on-types">Machinery on Types</h1>
+<h2 id="type-of">Type of</h2>
+<p>We obviously need a means to check types:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">typeof <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> Type i<span class="ot">)</span> <span class="ot">(</span>u <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> A
+typeof A u <span class="ot">=</span> u
+
+<span class="kw">infix</span> <span class="dv">40</span> typeof
+<span class="kw">syntax</span> typeof A u <span class="ot">=</span>  u :&gt; A</code></pre></div>
+<h2 id="equality-of-types">Equality of types</h2>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">infix</span> <span class="dv">30</span> <span class="ot">_</span>==<span class="ot">_</span>
+<span class="kw">data</span> <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">{</span>i<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> Type i<span class="ot">}</span> <span class="ot">(</span>a <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> A <span class="ot">→</span> Type i <span class="kw">where</span>
+  idp <span class="ot">:</span> a == a</code></pre></div>
+<h2 id="identity-type">Identity type</h2>
+<p>The equality of types is itself a type - the identity type:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Path <span class="ot">=</span> <span class="ot">_</span>==<span class="ot">_</span></code></pre></div>
 <hr />
 <p><a href="./contents.html">Back to Contents</a></p>
 </body>

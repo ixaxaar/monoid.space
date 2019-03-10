@@ -51,96 +51,20 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <hr />
 <ul>
 <li><a href="#equivalence">Equivalence</a></li>
-<li><a href="#implication">Implication</a></li>
-<li><a href="#preservation">Preservation</a></li>
-<li><a href="#laws">Laws</a></li>
-<li><a href="#reflexivity">Reflexivity</a></li>
-<li><a href="#symmetric">Symmetric</a></li>
-<li><a href="#transitive">Transitive</a></li>
 <li><a href="#respect">Respect</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="equivalence">Equivalence</h1>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Algebra<span class="ot">.</span>equality <span class="kw">where</span>
 
-<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>typeBasics <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_)</span>
+<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality
+<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions
+<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>typeBasics
 
 <span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>introduction
 
 <span class="kw">open</span> <span class="kw">import</span> Level</code></pre></div>
-<p>We start our algebraic machinery with some definitions of binary relations, with universe levels. Homogenous binary relations can be defined as:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">REL <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span>
-        <span class="ot">→</span> <span class="dt">Set</span> a
-        <span class="ot">→</span> <span class="dt">Set</span> b
-        <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span>
-        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b ⊔ suc ℓ<span class="ot">)</span>
-REL A B ℓ <span class="ot">=</span> A <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> ℓ</code></pre></div>
-<p>and homogenous ones:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Rel <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span>
-        <span class="ot">→</span> <span class="dt">Set</span> a
-        <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span>
-        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ suc ℓ<span class="ot">)</span>
-Rel A ℓ <span class="ot">=</span> REL A A ℓ</code></pre></div>
-<h1 id="implication">Implication</h1>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>⇒<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span>
-      <span class="ot">→</span> REL A B ℓ₁
-      <span class="ot">→</span> REL A B ℓ₂
-      <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-P ⇒ Q <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>i j<span class="ot">}</span> <span class="ot">→</span> P i j <span class="ot">→</span> Q i j</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>=[<span class="ot">_</span>]⇒<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span>
-        <span class="ot">→</span> Rel A ℓ₁
-        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span>
-        <span class="ot">→</span> Rel B ℓ₂
-        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-P =[ f ]⇒ Q <span class="ot">=</span> P ⇒ <span class="ot">(</span>Q on f<span class="ot">)</span></code></pre></div>
-<h1 id="preservation">Preservation</h1>
-<p>What do we mean when we say a structure is “preserved”? For any function <code>f</code>, two objects <code>a</code> and <code>b</code>,</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>Preserves<span class="ot">_</span>⟶<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span>
-        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span>
-        <span class="ot">→</span> Rel A ℓ₁
-        <span class="ot">→</span> Rel B ℓ₂
-        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-f Preserves P ⟶ Q <span class="ot">=</span> P =[ f ]⇒ Q
-
-<span class="ot">_</span>Preserves₂<span class="ot">_</span>⟶<span class="ot">_</span>⟶<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c ℓ₁ ℓ₂ ℓ₃<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span>
-        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B <span class="ot">→</span> C<span class="ot">)</span>
-        <span class="ot">→</span> Rel A ℓ₁
-        <span class="ot">→</span> Rel B ℓ₂
-        <span class="ot">→</span> Rel C ℓ₃
-        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-<span class="ot">_</span>+<span class="ot">_</span> Preserves₂ P ⟶ Q ⟶ R <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x y u v<span class="ot">}</span> <span class="ot">→</span> P x y <span class="ot">→</span> Q u v <span class="ot">→</span> R <span class="ot">(</span>x + u<span class="ot">)</span> <span class="ot">(</span>y + v<span class="ot">)</span></code></pre></div>
-<h1 id="laws">Laws</h1>
-<h2 id="reflexivity">Reflexivity</h2>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Reflexive <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span>
-  <span class="ot">→</span> Rel A ℓ
-  <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-Reflexive <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">→</span> x ∼ x</code></pre></div>
-<h2 id="symmetric">Symmetric</h2>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">flip <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> A <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> c<span class="ot">}</span>
-        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(</span>y <span class="ot">:</span> B<span class="ot">)</span> <span class="ot">→</span> C x y<span class="ot">)</span>
-        <span class="ot">→</span> <span class="ot">((</span>y <span class="ot">:</span> B<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> C x y<span class="ot">)</span>
-flip f <span class="ot">=</span> <span class="ot">λ</span> y x <span class="ot">→</span> f x y
-
-Sym <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span>
-        <span class="ot">→</span> REL A B ℓ₁
-        <span class="ot">→</span> REL B A ℓ₂
-        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-Sym P Q <span class="ot">=</span> P ⇒ flip Q
-
-Symmetric <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span>
-        <span class="ot">→</span> Rel A ℓ
-        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-Symmetric <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> Sym <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>∼<span class="ot">_</span></code></pre></div>
-<h2 id="transitive">Transitive</h2>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Trans <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c ℓ₁ ℓ₂ ℓ₃<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span>
-        <span class="ot">→</span> REL A B ℓ₁
-        <span class="ot">→</span> REL B C ℓ₂
-        <span class="ot">→</span> REL A C ℓ₃
-        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-Trans P Q R <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>i j k<span class="ot">}</span> <span class="ot">→</span> P i j <span class="ot">→</span> Q j k <span class="ot">→</span> R i k
-
-Transitive <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> Rel A ℓ <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-Transitive <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> Trans <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>∼<span class="ot">_</span></code></pre></div>
+<p>We start our algebraic machinery the definiton for <strong>respect</strong>.</p>
 <h2 id="respect">Respect</h2>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>Respects<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span>
         <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> <span class="dt">Set</span> ℓ₁<span class="ot">)</span>

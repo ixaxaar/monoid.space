@@ -35,9 +35,9 @@ Filenames and module headers are required to match. The supported filenames that
 The last three file extensions above are part of what's called "literate programming" wherein one can write markdown or latex documents with agda code surrounded in code blocks marked agda, similar to how this page is itself written!
 
 
->     ``` agda
+>     `` agda
 >     -- agda code goes here
->     ```
+>     ``
 
 The Agda compiler can then validate the agda code inside the ` agda ` code blocks, thus guaranteeing the correctness of the math in the documents.
 

@@ -13,9 +13,9 @@
 ```agda
 module Algebra.groups where
 
-open import Types.typeBasics using (Σ; _,_)
-
-open import Types.relations using (Rel; Equivalence; Reflexive; Symmetric; Transitive)
+open import Types.equality
+open import Types.functions
+open import Types.typeBasics
 
 open import Algebra.introduction
 ```

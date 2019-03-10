@@ -5,6 +5,10 @@
 - [Universes and families](#universes-and-families)
 - [Sets](#sets)
 - [Universe Polymorphism](#universe-polymorphism)
+- [Machinery on Types](#machinery-on-types)
+  - [Type of](#type-of)
+  - [Equality of types](#equality-of-types)
+  - [Identity type](#identity-type)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -19,7 +23,7 @@ module Types.universe where
 open import Lang.dataStructures using (
   Bool; true; false;
   ⊥; ⊤; ℕ; List;
-  _::_; [])
+  zero; one)
 
 open import Agda.Primitive renaming (Level to AgdaLevel; lzero to alzero; lsuc to alsuc; _⊔_ to _⊔⊔_)
 ```
@@ -67,21 +71,82 @@ record Universe u e : Set (lsuc (u ⊔ e)) where
 
 ![universes](universes.png)
 
-A "family" of types varying over a given type are called, well "families of types" :grimacing:. An example of this would be the finite set, [Fin](./dataStructures.html#finite-sequences) where every finite set has `n` elements where `n ∈ ℕ` and hence `Fin`, the creator of finite sets, is dependent on ℕ.
+A "family" of types varying over a given type are called, well "families of types". An example of this would be the finite set, [Fin](./dataStructures.html#finite-sequences) where every finite set has `n` elements where `n ∈ ℕ` and hence `Fin`, the creator of finite sets, is dependent on ℕ.
 
 # Sets
 
 Mathematical sets cannot be directly represented in Agda as they are subject to Russel's Paradox. However, sets are defined in a way similar to universes.
 
 - Generally a set is represented by `Set₁`.
-- There exist infinite other `Setᵢ` such that `Set₁ ∈ Set₂ ∈ Set₃ ∈ ...`
+- There exist infinite other `Setᵢ` such that `Set₁ : Set₂ : Set₃ : ...`
 
-In fact, Ttese `Setᵢ`s serve as universes in Agda.
+In fact, These `Setᵢ`s are nothing but universes in Agda. Note that `Set₁` forms the large set, i.e. the set containing all sets.
+
+In some implementations, universes are represented using a different keyword `Type` instead of `Set` in order to avoid confusing with them:
+
+```agda
+Type : (i : AgdaLevel) → Set (alsuc i)
+Type i = Set i
+
+Type₀ = Type alzero
+Type0 = Type alzero
+
+Type₁ = Type (alsuc alzero)
+Type1 = Type (alsuc alzero)
+```
 
 # Universe Polymorphism
 
+Now, gieven that we have infinite heirarchical universes, we would have to define the same functions, data types and machinery for each universe level, which would be pretty tedious to say the least. However, we observe how our universes are defined and note that the level-based indexing system, that connects each successive universe, provides us with the mechanics to define objects for all universe levels:
 
+```agda
+id : {ℓ : AgdaLevel} {A : Set ℓ} (x : A) → A
+id x = x
+```
+Here `id` represents a family of identity functions given a type `A` and its level `ℓ`.
 
+```agda
+infixr 5 _::_
+data List₁ {ℓ : AgdaLevel} (A : Set ℓ) : Set (alsuc ℓ) where
+  [] : List₁ A
+  _::_ : A → List₁ A → List₁ A
+
+someList : List₁ ℕ
+someList = (one :: zero :: [])
+
+sameList : List₁ ℕ
+sameList = id someList
+```
+
+# Machinery on Types
+
+## Type of
+
+We obviously need a means to check types:
+
+```agda
+typeof : ∀ {i} (A : Type i) (u : A) → A
+typeof A u = u
+
+infix 40 typeof
+syntax typeof A u =  u :> A
+```
+
+## Equality of types
+
+```agda
+infix 30 _==_
+data _==_ {i} {A : Type i} (a : A) : A → Type i where
+  idp : a == a
+```
+
+## Identity type
+
+The equality of types is itself a type - the identity type:
+
+```agda
+Path = _==_
+```
 
 ****
 [Back to Contents](./contents.html)

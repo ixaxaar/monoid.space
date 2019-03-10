@@ -12,7 +12,7 @@
 ```agda
 module Logic.equality where
 
-open import Types.relations using (Rel; Reflexive; Symmetric; Transitive; Congruent; Substitutive; Equivalence)
+open import Types.relations using (Rel; Equivalence)
 
 open import Logic.logicBasics using (¬; not; xor; ⟂; ⊤; singleton)
 
