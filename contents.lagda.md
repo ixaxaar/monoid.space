@@ -6,7 +6,7 @@
   - [1. Agda](#1-agda)
   - [2. Type Theory](#2-type-theory)
   - [3. Logic](#3-logic)
-  - [4. Algebras](#4-algebras)
+  - [4. Algebra](#4-algebra)
   - [5. Algebraic Topology](#5-algebraic-topology)
   - [6. Category Theory](#6-category-theory)
 
@@ -50,7 +50,7 @@
   - [Laws of Logic](./Logic.laws.html)
   <!-- - [Decidability](./Logic.decidability.html) -->
 
-## 4. Algebras
+## 4. Algebra
 
 ![4](4.png)
 
