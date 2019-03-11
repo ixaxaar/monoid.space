@@ -13,6 +13,7 @@
       - [Annihilation](#annihilation)
       - [Idempotence](#idempotence)
       - [Absorption](#absorption)
+  - [∧ and ∨](#%E2%88%A7-and-%E2%88%A8)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -202,6 +203,53 @@ $$
   absorptive ∙ ◌ = (∙ absorbs ◌) × (◌ absorbs ∙)
 ```
 
+## ∧ and ∨
+
+The logical `AND` and `OR` operators satisfy the above laws:
+
+```lauda
+open import Logic.logicBasics
+
+∨-assoc : associativity _∨_
+∨-assoc true  y z = refl
+∨-assoc false y z = refl
+
+∨-comm : Commutative _∨_
+∨-comm true  true  = refl
+∨-comm true  false = refl
+∨-comm false true  = refl
+∨-comm false false = refl
+
+∨-identityˡ : LeftIdentity false _∨_
+∨-identityˡ _ = refl
+
+∨-identityʳ : RightIdentity false _∨_
+∨-identityʳ false = refl
+∨-identityʳ true  = refl
+
+∨-identity : Identity false _∨_
+∨-identity = ∨-identityˡ , ∨-identityʳ
+
+∨-zeroˡ : LeftZero true _∨_
+∨-zeroˡ _ = refl
+
+∨-zeroʳ : RightZero true _∨_
+∨-zeroʳ false = refl
+∨-zeroʳ true  = refl
+
+∨-zero : Zero true _∨_
+∨-zero = ∨-zeroˡ , ∨-zeroʳ
+
+∨-inverseˡ : LeftInverse true not _∨_
+∨-inverseˡ false = refl
+∨-inverseˡ true  = refl
+
+∨-inverseʳ : RightInverse true not _∨_
+∨-inverseʳ x = ∨-comm x (not x) ⟨ trans ⟩ ∨-inverseˡ x
+
+∨-inverse : Inverse true not _∨_
+∨-inverse = ∨-inverseˡ , ∨-inverseʳ
+```
 
 ****
 [Back to Contents](./contents.html)

@@ -203,10 +203,10 @@ Mathematically, an object `X∪Y` is a co-product of objects `X` and `Y` if,
 
 1. There exists two functions `inj_₁` and `inj₂` such that:
 ```haskell
-proj₁ : {A B : Set} → A → (A ∪ B)
+inj₁ : {A B : Set} → A → (A ∪ B)
 a = (a ∪ b)
 
-proj₂ : {A B : Set} → B → (A ∪ B)
+inj₂ : {A B : Set} → B → (A ∪ B)
 b = (a ∪ b)
 ```
 

@@ -48,7 +48,7 @@ In type theory, all proofs can be represented as a type. Propositional equality 
 infix 4 _∼_
 
 data _∼_ {A : Set}(a : A) : {B : Set} → B → Set where
-  refl : a ∼ a
+  same : a ∼ a
 ```
 
 Reflexivity is defined with the definition of `∼` by the special keyword in Agda, called `refl`, the others being:
@@ -59,7 +59,7 @@ Reflexivity is defined with the definition of `∼` by the special keyword in Ag
 symmetry : ∀ {A B}{a : A}{b : B}
   → a ∼ b
   → b ∼ a
-symmetry refl = refl
+symmetry same = same
 ```
 
 #### Transitivity
@@ -69,7 +69,7 @@ transitivity : ∀ {A B C}{a : A}{b : B}{c : C}
   → a ∼ b
   → b ∼ c
   → a ∼ c
-transitivity refl p = p
+transitivity same p = p
 ```
 
 ### Functions that preserve equality or Congruence
@@ -80,7 +80,7 @@ Functions that when applied to objects of a type, do not alter the operation of 
 congruence : ∀ {A B : Set} (f : A → B) {x y : A}
   → x ∼ y
   → f x ∼ f y
-congruence f refl = refl
+congruence f same = same
 ```
 
 ### Substitution
@@ -92,7 +92,7 @@ substitution : ∀ {A : Set} {x y : A} (Predicate : A → Set)
   → x ∼ y
   → Predicate x
   → Predicate y
-substitution Predicate refl p = p
+substitution Predicate same p = p
 ```
 
 Finally, our table example:
@@ -103,17 +103,17 @@ data Table : Set where
   specific : ℕ → Table
 
 tableEqZero : generic ∼ generic
-tableEqZero = refl
+tableEqZero = same
 
 tableEqThree : (specific three) ∼ (specific three)
-tableEqThree = refl
+tableEqThree = same
 ```
 
 This, of course does not compile:
 
 ```haskell
 tableEqNot : generic ∼ (specific three)
-tableEqNot = refl
+tableEqNot = same
 ```
 
 # Definitonal Equality
@@ -279,12 +279,12 @@ Transitive _∼_ = Trans _∼_ _∼_ _∼_
 record IsEquivalence {a ℓ} {A : Set a}
                      (_≈_ : Rel A ℓ) : Set (a ⊔ ℓ) where
   field
-    ref   : Reflexive _≈_
+    rfl   : Reflexive _≈_
     sym   : Symmetric _≈_
     trans : Transitive _≈_
 
   reflexive : _≡_ ⇒ _≈_
-  reflexive refl = ref
+  reflexive refl = rfl
 ```
 
 # Setoids

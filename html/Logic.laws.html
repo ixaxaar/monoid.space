@@ -63,6 +63,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#idempotence">Idempotence</a></li>
 <li><a href="#absorption">Absorption</a></li>
 </ul></li>
+<li><a href="#%E2%88%A7-and-%E2%88%A8">∧ and ∨</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="laws-of-boolean-algebra">Laws of Boolean Algebra</h1>
@@ -184,6 +185,49 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
   absorptive <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   absorptive ∙ ◌ <span class="ot">=</span> <span class="ot">(</span>∙ absorbs ◌<span class="ot">)</span> × <span class="ot">(</span>◌ absorbs ∙<span class="ot">)</span></code></pre></div>
+<h2 id="and">∧ and ∨</h2>
+<p>The logical <code>AND</code> and <code>OR</code> operators satisfy the above laws:</p>
+<pre class="lauda"><code>open import Logic.logicBasics
+
+∨-assoc : associativity _∨_
+∨-assoc true  y z = refl
+∨-assoc false y z = refl
+
+∨-comm : Commutative _∨_
+∨-comm true  true  = refl
+∨-comm true  false = refl
+∨-comm false true  = refl
+∨-comm false false = refl
+
+∨-identityˡ : LeftIdentity false _∨_
+∨-identityˡ _ = refl
+
+∨-identityʳ : RightIdentity false _∨_
+∨-identityʳ false = refl
+∨-identityʳ true  = refl
+
+∨-identity : Identity false _∨_
+∨-identity = ∨-identityˡ , ∨-identityʳ
+
+∨-zeroˡ : LeftZero true _∨_
+∨-zeroˡ _ = refl
+
+∨-zeroʳ : RightZero true _∨_
+∨-zeroʳ false = refl
+∨-zeroʳ true  = refl
+
+∨-zero : Zero true _∨_
+∨-zero = ∨-zeroˡ , ∨-zeroʳ
+
+∨-inverseˡ : LeftInverse true not _∨_
+∨-inverseˡ false = refl
+∨-inverseˡ true  = refl
+
+∨-inverseʳ : RightInverse true not _∨_
+∨-inverseʳ x = ∨-comm x (not x) ⟨ trans ⟩ ∨-inverseˡ x
+
+∨-inverse : Inverse true not _∨_
+∨-inverse = ∨-inverseˡ , ∨-inverseʳ</code></pre>
 <hr />
 <p><a href="./contents.html">Back to Contents</a></p>
 </body>

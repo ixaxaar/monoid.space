@@ -50,120 +50,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
 <ul>
-<li><a href="#algebraic-structures">Algebraic structures</a>
-<ul>
-<li><a href="#operations">Operations</a></li>
-</ul></li>
-<li><a href="#associativity">Associativity</a></li>
-<li><a href="#commutativity">Commutativity</a></li>
-<li><a href="#identity">Identity</a></li>
-<li><a href="#elimination">Elimination</a></li>
-<li><a href="#distributive">Distributive</a></li>
-<li><a href="#absorptive">Absorptive</a></li>
-<li><a href="#cancellative">Cancellative</a></li>
+<li><a href="#algebraic-structures">Algebraic structures</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="algebraic-structures">Algebraic structures</h1>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations <span class="kw">using</span> <span class="ot">(</span>Rel<span class="ot">;</span> Equivalence<span class="ot">)</span>
-
-<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>typeBasics <span class="kw">using</span> <span class="ot">(_</span>×<span class="ot">_;</span> <span class="ot">_</span>,<span class="ot">_;</span> <span class="ot">_</span>∪<span class="ot">_;</span> inj₁<span class="ot">;</span> inj₂<span class="ot">)</span>
-
-<span class="kw">open</span> <span class="kw">import</span> Level
-
-<span class="kw">module</span> Algebra<span class="ot">.</span>introduction <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">(</span>eq <span class="ot">:</span> Equivalence A<span class="ot">)</span> <span class="kw">where</span>
-
-  <span class="kw">module</span> Eq₁ <span class="ot">=</span> Equivalence eq
-  <span class="kw">open</span> Eq₁</code></pre></div>
-<p>Here we start to dive into more complex structures - both structured data and maps (function families). Most of these structures are constructed by picking and choosing certain underlying laws or properties of these function families. We first start with building such laws. Many of these laws are similar to the ones of logic that we derived in a <a href="./Logic.laws.html/#operations">previous part</a>.</p>
-<h3 id="operations">Operations</h3>
-<p>A binary operation <code>★ A</code> can be defined as:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  ★<span class="ot">_</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">→</span> <span class="dt">Set</span>
-  ★ A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> A</code></pre></div>
-<h2 id="associativity">Associativity</h2>
-<div class="figure">
-<img src="associative.png" alt="associative" />
-<p class="caption">associative</p>
-</div>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  Associative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  Associative <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">((</span>x ∙ y<span class="ot">)</span> ∙ z<span class="ot">)</span> == <span class="ot">(</span>x ∙ <span class="ot">(</span>y ∙ z<span class="ot">))</span></code></pre></div>
-<h2 id="commutativity">Commutativity</h2>
-<div class="figure">
-<img src="commutative.png" alt="commutative" />
-<p class="caption">commutative</p>
-</div>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  Commutative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  Commutative <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x ∙ y<span class="ot">)</span> == <span class="ot">(</span>y ∙ x<span class="ot">)</span></code></pre></div>
-<h2 id="identity">Identity</h2>
-<div class="figure">
-<img src="identity.png" alt="identity" />
-<p class="caption">identity</p>
-</div>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  LeftIdentity <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  LeftIdentity e <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>e ∙ x<span class="ot">)</span> == x
-
-  RightIdentity <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  RightIdentity e <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>x ∙ e<span class="ot">)</span> == x
-
-  Identity <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  Identity e ∙ <span class="ot">=</span> LeftIdentity e ∙ × RightIdentity e ∙</code></pre></div>
-<h2 id="elimination">Elimination</h2>
-<div class="figure">
-<img src="elimination.png" alt="elimination" />
-<p class="caption">elimination</p>
-</div>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  LeftZero <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  LeftZero z <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>z ∙ x<span class="ot">)</span> == z
-
-  RightZero <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  RightZero z <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>x ∙ z<span class="ot">)</span> == z
-
-  Zero <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  Zero z ∙ <span class="ot">=</span> LeftZero z ∙ × RightZero z ∙</code></pre></div>
-<h2 id="distributive">Distributive</h2>
-<div class="figure">
-<img src="distributive.png" alt="distributive" />
-<p class="caption">distributive</p>
-</div>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="ot">_</span>DistributesOverˡ<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  <span class="ot">_</span>*<span class="ot">_</span> DistributesOverˡ <span class="ot">_</span>+<span class="ot">_</span> <span class="ot">=</span>
-    <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">(</span>x * <span class="ot">(</span>y + z<span class="ot">))</span> == <span class="ot">((</span>x * y<span class="ot">)</span> + <span class="ot">(</span>x * z<span class="ot">))</span>
-
-  <span class="ot">_</span>DistributesOverʳ<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  <span class="ot">_</span>*<span class="ot">_</span> DistributesOverʳ <span class="ot">_</span>+<span class="ot">_</span> <span class="ot">=</span>
-    <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">((</span>y + z<span class="ot">)</span> * x<span class="ot">)</span> == <span class="ot">((</span>y * x<span class="ot">)</span> + <span class="ot">(</span>z * x<span class="ot">))</span>
-
-  <span class="ot">_</span>DistributesOver<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  * DistributesOver + <span class="ot">=</span> <span class="ot">(</span>* DistributesOverˡ +<span class="ot">)</span> × <span class="ot">(</span>* DistributesOverʳ +<span class="ot">)</span></code></pre></div>
-<!-- ## Selective
-
-```haskell
-  Selective : ★ A → Set _
-  Selective _∙_ = ∀ x y → (x ∙ y) == x ∪ (x ∙ y) == y
-```
- -->
-<h2 id="absorptive">Absorptive</h2>
-<div class="figure">
-<img src="absorption.png" alt="absorption" />
-<p class="caption">absorption</p>
-</div>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="ot">_</span>Absorbs<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  <span class="ot">_</span>∙<span class="ot">_</span> Absorbs <span class="ot">_</span>∘<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x ∙ <span class="ot">(</span>x ∘ y<span class="ot">))</span> == x
-
-  Absorptive <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  Absorptive ∙ ∘ <span class="ot">=</span> <span class="ot">(</span>∙ Absorbs ∘<span class="ot">)</span> × <span class="ot">(</span>∘ Absorbs ∙<span class="ot">)</span></code></pre></div>
-<h2 id="cancellative">Cancellative</h2>
-<div class="figure">
-<img src="cancellation.png" alt="cancellation" />
-<p class="caption">cancellation</p>
-</div>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  LeftCancellative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  LeftCancellative <span class="ot">_</span>•<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">{</span>y z<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>x • y<span class="ot">)</span> == <span class="ot">(</span>x • z<span class="ot">)</span> <span class="ot">→</span> y == z
-
-  RightCancellative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  RightCancellative <span class="ot">_</span>•<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> y z <span class="ot">→</span> <span class="ot">(</span>y • x<span class="ot">)</span> == <span class="ot">(</span>z • x<span class="ot">)</span> <span class="ot">→</span> y == z
-
-  Cancellative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-  Cancellative <span class="ot">_</span>•<span class="ot">_</span> <span class="ot">=</span> LeftCancellative <span class="ot">_</span>•<span class="ot">_</span> × RightCancellative <span class="ot">_</span>•<span class="ot">_</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Algebra<span class="ot">.</span>introduction <span class="kw">where</span></code></pre></div>
+<p>Algebra is essentially any system dealing with abstract symbols as objects and their API, that is rules and laws for manipulating such symbols. The most basic of operations that can be done to an object are to compare them, e.g, using equivalences (≡), to order them using some definition of an order (≥, ≤). Generally, more complex structures can be created using the laws of associativity, commutativitiy and identity. An example of this would be natural numbers, which support operations such as addition, subtraction, multiplication and division (except with 0) forms the algebra of natural numbers. Another example is what we have already seen in the case of boolean algebra where ∧ and ∨ follow the <a href="./Logic.laws.html">laws of boolean algebra</a>.</p>
+<p>So far we have had a glimpse of type and boolean algebras. Here we start to dive into more complex structures - both structured data and maps (function families). Most of these structures are constructed by picking and choosing certain underlying laws or properties of these function families. We first start with building such laws. Many of these laws are similar to the ones of logic that we derived in a <a href="./Logic.laws.html/#operations">previous part</a>.</p>
 <hr />
 <p><a href="./contents.html">Back to Contents</a></p>
 </body>

@@ -92,45 +92,45 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>∼<span class="ot">_</span>
 
 <span class="kw">data</span> <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>a <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
-  refl <span class="ot">:</span> a ∼ a</code></pre></div>
+  same <span class="ot">:</span> a ∼ a</code></pre></div>
 <p>Reflexivity is defined with the definition of <code>∼</code> by the special keyword in Agda, called <code>refl</code>, the others being:</p>
 <h4 id="symmetry">Symmetry</h4>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">symmetry <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B<span class="ot">}{</span>a <span class="ot">:</span> A<span class="ot">}{</span>b <span class="ot">:</span> B<span class="ot">}</span>
   <span class="ot">→</span> a ∼ b
   <span class="ot">→</span> b ∼ a
-symmetry refl <span class="ot">=</span> refl</code></pre></div>
+symmetry same <span class="ot">=</span> same</code></pre></div>
 <h4 id="transitivity">Transitivity</h4>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">transitivity <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B C<span class="ot">}{</span>a <span class="ot">:</span> A<span class="ot">}{</span>b <span class="ot">:</span> B<span class="ot">}{</span>c <span class="ot">:</span> C<span class="ot">}</span>
   <span class="ot">→</span> a ∼ b
   <span class="ot">→</span> b ∼ c
   <span class="ot">→</span> a ∼ c
-transitivity refl p <span class="ot">=</span> p</code></pre></div>
+transitivity same p <span class="ot">=</span> p</code></pre></div>
 <h3 id="functions-that-preserve-equality-or-congruence">Functions that preserve equality or Congruence</h3>
 <p>Functions that when applied to objects of a type, do not alter the operation of equality can be defined as:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">congruence <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span>
   <span class="ot">→</span> x ∼ y
   <span class="ot">→</span> f x ∼ f y
-congruence f refl <span class="ot">=</span> refl</code></pre></div>
+congruence f same <span class="ot">=</span> same</code></pre></div>
 <h3 id="substitution">Substitution</h3>
 <p>If <code>a = b</code> and if <code>predicate a = true</code> ⟹ <code>predicate b = true</code></p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">substitution <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">(</span>Predicate <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span>
   <span class="ot">→</span> x ∼ y
   <span class="ot">→</span> Predicate x
   <span class="ot">→</span> Predicate y
-substitution Predicate refl p <span class="ot">=</span> p</code></pre></div>
+substitution Predicate same p <span class="ot">=</span> p</code></pre></div>
 <p>Finally, our table example:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> Table <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
   generic <span class="ot">:</span> Table
   specific <span class="ot">:</span> ℕ <span class="ot">→</span> Table
 
 tableEqZero <span class="ot">:</span> generic ∼ generic
-tableEqZero <span class="ot">=</span> refl
+tableEqZero <span class="ot">=</span> same
 
 tableEqThree <span class="ot">:</span> <span class="ot">(</span>specific three<span class="ot">)</span> ∼ <span class="ot">(</span>specific three<span class="ot">)</span>
-tableEqThree <span class="ot">=</span> refl</code></pre></div>
+tableEqThree <span class="ot">=</span> same</code></pre></div>
 <p>This, of course does not compile:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">tableEqNot <span class="fu">:</span> generic ∼ (specific three)
-tableEqNot <span class="fu">=</span> refl</code></pre></div>
+tableEqNot <span class="fu">=</span> same</code></pre></div>
 <h1 id="definitonal-equality">Definitonal Equality</h1>
 <p>Definitonal equality relates to the Agda compiler’s own integrity check through which a statement is deemed true or correctly compiled. Hence every statemtent has its own notion of equality.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">defEqual₁ <span class="ot">:</span> ℕ
@@ -226,12 +226,12 @@ Transitive <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> IsEquivalence <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span>
                      <span class="ot">(_</span>≈<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span>
   <span class="kw">field</span>
-    ref   <span class="ot">:</span> Reflexive <span class="ot">_</span>≈<span class="ot">_</span>
+    rfl   <span class="ot">:</span> Reflexive <span class="ot">_</span>≈<span class="ot">_</span>
     sym   <span class="ot">:</span> Symmetric <span class="ot">_</span>≈<span class="ot">_</span>
     trans <span class="ot">:</span> Transitive <span class="ot">_</span>≈<span class="ot">_</span>
 
   reflexive <span class="ot">:</span> <span class="ot">_</span>≡<span class="ot">_</span> ⇒ <span class="ot">_</span>≈<span class="ot">_</span>
-  reflexive refl <span class="ot">=</span> ref</code></pre></div>
+  reflexive refl <span class="ot">=</span> rfl</code></pre></div>
 <h1 id="setoids">Setoids</h1>
 <p>Equality, or specifically, equivalence is at the heart of mathematics. In order to build more complex structures, we introduce a new datatype, which essentially encapsulates any datatype and it’s equivalence operation:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Setoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>

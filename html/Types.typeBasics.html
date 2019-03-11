@@ -185,9 +185,9 @@ swap <span class="ot">(</span>x , y<span class="ot">)</span> <span class="ot">=<
 <p>Co-products, also called as “sum” types can be thought of as a disjoint uinon of two objects.</p>
 <p>Mathematically, an object <code>X∪Y</code> is a co-product of objects <code>X</code> and <code>Y</code> if,</p>
 <ol style="list-style-type: decimal">
-<li>There exists two functions <code>inj_₁</code> and <code>inj₂</code> such that: ```haskell proj₁ : {A B : Set} → A → (A ∪ B) a = (a ∪ b)</li>
+<li>There exists two functions <code>inj_₁</code> and <code>inj₂</code> such that: ```haskell inj₁ : {A B : Set} → A → (A ∪ B) a = (a ∪ b)</li>
 </ol>
-<p>proj₂ : {A B : Set} → B → (A ∪ B) b = (a ∪ b) ```</p>
+<p>inj₂ : {A B : Set} → B → (A ∪ B) b = (a ∪ b) ```</p>
 <ol start="2" style="list-style-type: decimal">
 <li>If there is any another object <code>A</code>, such that the functions <code>inj₁ₐ</code> and <code>inj₂ₐ</code> satisfied the above condition, then there exists a function, <code>fₐ₀</code> such that:</li>
 </ol>

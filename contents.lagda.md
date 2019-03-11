@@ -6,7 +6,7 @@
   - [1. Agda](#1-agda)
   - [2. Type Theory](#2-type-theory)
   - [3. Logic](#3-logic)
-  - [4. Algebra](#4-algebra)
+  - [4. Algebras](#4-algebras)
   - [5. Algebraic Topology](#5-algebraic-topology)
   - [6. Category Theory](#6-category-theory)
 
@@ -50,14 +50,16 @@
   - [Laws of Logic](./Logic.laws.html)
   <!-- - [Decidability](./Logic.decidability.html) -->
 
-## 4. Algebra
+## 4. Algebras
 
 ![4](4.png)
 
   - [Introduction](./Algebra.introduction.html)
-  - [Equivalence](./Algebra.equality.html)
+  - [Operations](./Algebra.operations.html)
   - [Ordered objects](./Algebra.order.html)
   - [Groups and family](./Algebra.groups.html)
+  - [Groups and family 2](./Algebra.structures.html)
+  - [Properties of Group-like objects](./Algebra.groupProperties.html)
 
 ## 5. Algebraic Topology
 
@@ -114,9 +116,9 @@ import Logic.equality
 import Logic.laws
 
 import Algebra.introduction
-import Algebra.equality
 import Algebra.order
 import Algebra.groups
+import Algebra.structures
 ```
 
 ****
