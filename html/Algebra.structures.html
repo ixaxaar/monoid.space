@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" type="text/css" />
+</head>
+<body>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<hr />
+<ul>
+<li><a href="#groups-and-family-2">Groups and family 2</a></li>
+<li><a href="#magma">Magma</a></li>
+<li><a href="#semigroupoid">Semigroupoid</a></li>
+<li><a href="#small-category">Small category</a></li>
+<li><a href="#semigroup">Semigroup</a></li>
+<li><a href="#groupoid">Groupoid</a>
+<ul>
+<li><a href="#monoid">Monoid</a></li>
+</ul></li>
+<li><a href="#commutative-monoid">Commutative Monoid</a></li>
+<li><a href="#group">Group</a></li>
+<li><a href="#abelian-group">Abelian Group</a></li>
+<li><a href="#lattice">Lattice</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h1 id="groups-and-family-2">Groups and family 2</h1>
+<p>Here we define the objects based on the conditions defined in the previous section.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Algebra<span class="ot">.</span>structures <span class="kw">where</span>
+
+<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">using</span> <span class="ot">(</span>Rel<span class="ot">)</span>
+<span class="co">-- open import Types.functions</span>
+<span class="co">-- open import Types.typeBasics</span>
+
+<span class="kw">open</span> <span class="kw">import</span> Level <span class="kw">using</span> <span class="ot">(</span>suc<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_)</span>
+
+<span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups</code></pre></div>
+<p>We recall operations again here:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">★<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> a
+★ A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> A
+
+♠<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> a
+♠ A <span class="ot">=</span> A <span class="ot">→</span> A</code></pre></div>
+<h2 id="magma">Magma</h2>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Magma a ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>a ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
+  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
+  <span class="kw">field</span>
+    Data      <span class="ot">:</span> <span class="dt">Set</span> a
+    <span class="ot">_</span>≈<span class="ot">_</span>       <span class="ot">:</span> Rel Data ℓ
+    <span class="ot">_</span>∙<span class="ot">_</span>       <span class="ot">:</span> ★ Data
+    isMagma   <span class="ot">:</span> IsMagma <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span>
+
+  <span class="kw">open</span> IsMagma isMagma <span class="kw">public</span></code></pre></div>
+<h2 id="semigroupoid">Semigroupoid</h2>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Semigroupoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
+  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
+  <span class="kw">field</span>
+    Data            <span class="ot">:</span> <span class="dt">Set</span> c
+    <span class="ot">_</span>≈<span class="ot">_</span>             <span class="ot">:</span> Rel Data ℓ
+    <span class="ot">_</span>∙<span class="ot">_</span>             <span class="ot">:</span> ★ Data
+    isSemigroupoid  <span class="ot">:</span> IsSemigroupoid <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span>
+
+  <span class="kw">open</span> IsSemigroupoid isSemigroupoid <span class="kw">public</span></code></pre></div>
+<h2 id="small-category">Small category</h2>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> SmallCategory c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
+  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
+  <span class="kw">field</span>
+    Data            <span class="ot">:</span> <span class="dt">Set</span> c
+    <span class="ot">_</span>≈<span class="ot">_</span>             <span class="ot">:</span> Rel Data ℓ
+    <span class="ot">_</span>∙<span class="ot">_</span>             <span class="ot">:</span> ★ Data
+    ε               <span class="ot">:</span> Data
+    isSmallCategory <span class="ot">:</span> IsSmallCategory <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε
+
+  <span class="kw">open</span> IsSmallCategory isSmallCategory <span class="kw">public</span></code></pre></div>
+<h2 id="semigroup">Semigroup</h2>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Semigroup c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
+  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
+  <span class="kw">field</span>
+    Data        <span class="ot">:</span> <span class="dt">Set</span> c
+    <span class="ot">_</span>≈<span class="ot">_</span>         <span class="ot">:</span> Rel Data ℓ
+    <span class="ot">_</span>∙<span class="ot">_</span>         <span class="ot">:</span> ★ Data
+    isSemigroup <span class="ot">:</span> IsSemigroup <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span>
+
+  <span class="kw">open</span> IsSemigroup isSemigroup <span class="kw">public</span>
+
+  magma <span class="ot">:</span> Magma c ℓ
+  magma <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMagma <span class="ot">=</span> isMagma <span class="ot">}</span></code></pre></div>
+<h2 id="groupoid">Groupoid</h2>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Groupoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
+  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
+  <span class="kw">field</span>
+    Data            <span class="ot">:</span> <span class="dt">Set</span> c
+    <span class="ot">_</span>≈<span class="ot">_</span>             <span class="ot">:</span> Rel Data ℓ
+    <span class="ot">_</span>∙<span class="ot">_</span>             <span class="ot">:</span> ★ Data
+    ε               <span class="ot">:</span> Data
+    x⁻¹     <span class="ot">:</span> ♠ Data
+    isGroupoid <span class="ot">:</span> IsGroupoid <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε x⁻¹
+
+  <span class="kw">open</span> IsGroupoid isGroupoid <span class="kw">public</span></code></pre></div>
+<h3 id="monoid">Monoid</h3>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Monoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
+  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
+  <span class="kw">field</span>
+    Data     <span class="ot">:</span> <span class="dt">Set</span> c
+    <span class="ot">_</span>≈<span class="ot">_</span>      <span class="ot">:</span> Rel Data ℓ
+    <span class="ot">_</span>∙<span class="ot">_</span>      <span class="ot">:</span> ★ Data
+    ε        <span class="ot">:</span> Data
+    isMonoid <span class="ot">:</span> IsMonoid <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε
+
+  <span class="kw">open</span> IsMonoid isMonoid <span class="kw">public</span>
+
+  semigroup <span class="ot">:</span> Semigroup c ℓ
+  semigroup <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSemigroup <span class="ot">=</span> isSemigroup <span class="ot">}</span></code></pre></div>
+<h2 id="commutative-monoid">Commutative Monoid</h2>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> CommutativeMonoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
+  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
+  <span class="kw">field</span>
+    Data                <span class="ot">:</span> <span class="dt">Set</span> c
+    <span class="ot">_</span>≈<span class="ot">_</span>                 <span class="ot">:</span> Rel Data ℓ
+    <span class="ot">_</span>∙<span class="ot">_</span>                 <span class="ot">:</span> ★ Data
+    ε                   <span class="ot">:</span> Data
+    isCommutativeMonoid <span class="ot">:</span> IsCommutativeMonoid <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε
+
+  <span class="kw">open</span> IsCommutativeMonoid isCommutativeMonoid <span class="kw">public</span>
+
+  monoid <span class="ot">:</span> Monoid c ℓ
+  monoid <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMonoid <span class="ot">=</span> isMonoid <span class="ot">}</span></code></pre></div>
+<h2 id="group">Group</h2>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Group c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
+  <span class="kw">infix</span>  <span class="dv">8</span> x⁻¹
+  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
+  <span class="kw">field</span>
+    Data <span class="ot">:</span> <span class="dt">Set</span> c
+    <span class="ot">_</span>≈<span class="ot">_</span>     <span class="ot">:</span> Rel Data ℓ
+    <span class="ot">_</span>∙<span class="ot">_</span>     <span class="ot">:</span> ★ Data
+    ε       <span class="ot">:</span> Data
+    x⁻¹     <span class="ot">:</span> ♠ Data
+    isGroup <span class="ot">:</span> IsGroup <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε x⁻¹
+
+  <span class="kw">open</span> IsGroup isGroup <span class="kw">public</span>
+
+  monoid <span class="ot">:</span> Monoid <span class="ot">_</span> <span class="ot">_</span>
+  monoid <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMonoid <span class="ot">=</span> isMonoid <span class="ot">}</span></code></pre></div>
+<h2 id="abelian-group">Abelian Group</h2>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups <span class="kw">using</span> <span class="ot">(</span>IsAbelianGroup<span class="ot">)</span>
+
+<span class="kw">record</span> AbelianGroup c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
+  <span class="kw">infix</span>  <span class="dv">8</span> x⁻¹
+  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
+  <span class="kw">field</span>
+    Data           <span class="ot">:</span> <span class="dt">Set</span> c
+    <span class="ot">_</span>≈<span class="ot">_</span>            <span class="ot">:</span> Rel Data ℓ
+    <span class="ot">_</span>∙<span class="ot">_</span>            <span class="ot">:</span> ★ Data
+    ε              <span class="ot">:</span> Data
+    x⁻¹            <span class="ot">:</span> ♠ Data
+    isAbelianGroup <span class="ot">:</span> IsAbelianGroup <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε x⁻¹
+
+  <span class="kw">open</span> IsAbelianGroup isAbelianGroup <span class="kw">public</span>
+
+  group <span class="ot">:</span> Group c ℓ
+  group <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isGroup <span class="ot">=</span> isGroup <span class="ot">}</span></code></pre></div>
+<h2 id="lattice">Lattice</h2>
+<pre class="lauda"><code>record IsLattice (∨ ∧ : ★ A) : Set (a ⊔ ℓ) where
+  field
+    isEquivalence : IsEquivalence _≈_
+    ∨-comm        : Commutative ∨
+    ∨-assoc       : Associative ∨
+    ∨-cong        : Congruent₂ ∨
+    ∧-comm        : Commutative ∧
+    ∧-assoc       : Associative ∧
+    ∧-cong        : Congruent₂ ∧
+    absorptive    : Absorptive ∨ ∧
+
+  open IsEquivalence isEquivalence public
+
+  ∨-absorbs-∧ : ∨ Absorbs ∧
+  ∨-absorbs-∧ = fst absorptive
+
+  ∧-absorbs-∨ : ∧ Absorbs ∨
+  ∧-absorbs-∨ = snd absorptive
+
+  ∧-congˡ : LeftCongruent ∧
+  ∧-congˡ y≈z = ∧-cong y≈z refl
+
+  ∧-congʳ : RightCongruent ∧
+  ∧-congʳ y≈z = ∧-cong refl y≈z
+
+  ∨-congˡ  : LeftCongruent ∨
+  ∨-congˡ y≈z = ∨-cong y≈z refl
+
+  ∨-congʳ : RightCongruent ∨
+  ∨-congʳ y≈z = ∨-cong refl y≈z</code></pre>
+<hr />
+<p><a href="./contents.html">Back to Contents</a></p>
+</body>
+</html>
