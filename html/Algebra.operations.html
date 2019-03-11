@@ -101,6 +101,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <img src="identity.png" alt="identity" />
 <p class="caption">identity</p>
 </div>
+<p>We treat identity as a pair of right and left identities.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  LeftIdentity <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   LeftIdentity e <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>e ∙ x<span class="ot">)</span> == x
 
@@ -123,6 +124,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   Zero <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   Zero z ∙ <span class="ot">=</span> LeftZero z ∙ × RightZero z ∙</code></pre></div>
 <h3 id="inverse">Inverse</h3>
+<div class="figure">
+<img src="inverse.png" alt="inverse" />
+<p class="caption">inverse</p>
+</div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  LeftInverse <span class="ot">:</span> A <span class="ot">→</span> ♠ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   LeftInverse e <span class="ot">_</span>⁻¹ <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">((</span>x ⁻¹<span class="ot">)</span> ∙ x<span class="ot">)</span> == e
 
@@ -170,6 +175,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   Cancellative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   Cancellative <span class="ot">_</span>•<span class="ot">_</span> <span class="ot">=</span> LeftCancellative <span class="ot">_</span>•<span class="ot">_</span> × RightCancellative <span class="ot">_</span>•<span class="ot">_</span></code></pre></div>
 <h3 id="congruence">Congruence</h3>
+<div class="figure">
+<img src="congruence.png" alt="congruence" />
+<p class="caption">congruence</p>
+</div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  Congruent₁ <span class="ot">:</span> ♠ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   Congruent₁ f <span class="ot">=</span> f Preserves <span class="ot">_</span>==<span class="ot">_</span> ⟶ <span class="ot">_</span>==<span class="ot">_</span>
 

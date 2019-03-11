@@ -55,10 +55,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#semigroupoid">Semigroupoid</a></li>
 <li><a href="#small-category">Small category</a></li>
 <li><a href="#semigroup">Semigroup</a></li>
-<li><a href="#groupoid">Groupoid</a>
-<ul>
+<li><a href="#groupoid">Groupoid</a></li>
 <li><a href="#monoid">Monoid</a></li>
-</ul></li>
 <li><a href="#commutative-monoid">Commutative Monoid</a></li>
 <li><a href="#group">Group</a></li>
 <li><a href="#abelian-group">Abelian Group</a></li>
@@ -143,7 +141,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     isGroupoid <span class="ot">:</span> IsGroupoid <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε x⁻¹
 
   <span class="kw">open</span> IsGroupoid isGroupoid <span class="kw">public</span></code></pre></div>
-<h3 id="monoid">Monoid</h3>
+<h2 id="monoid">Monoid</h2>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Monoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
   <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
@@ -210,36 +208,40 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   group <span class="ot">:</span> Group c ℓ
   group <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isGroup <span class="ot">=</span> isGroup <span class="ot">}</span></code></pre></div>
 <h2 id="lattice">Lattice</h2>
-<pre class="lauda"><code>record IsLattice (∨ ∧ : ★ A) : Set (a ⊔ ℓ) where
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">open <span class="kw">import </span>Types.equality
+open <span class="kw">import </span>Algebra.operations using (<span class="dt">Commutative</span>; <span class="dt">Associative</span>; <span class="dt">Congruent</span>₂; <span class="dt">Absorptive</span>; _<span class="dt">Absorbs_</span>; <span class="dt">LeftCongruent</span>; <span class="dt">RightCongruent</span>)
+open <span class="kw">import </span>Types.typeBasics using (Σ; fst; snd)
+
+record <span class="dt">IsLattice</span> {a ℓ} {<span class="dt">A</span> <span class="fu">:</span> <span class="dt">Set</span> a} {_≈_ <span class="fu">:</span> <span class="dt">Rel</span> <span class="dt">A</span> ℓ} (∨ ∧ <span class="fu">:</span> ★ <span class="dt">A</span>) <span class="fu">:</span> <span class="dt">Set</span> (a ⊔ ℓ) <span class="kw">where</span>
   field
-    isEquivalence : IsEquivalence _≈_
-    ∨-comm        : Commutative ∨
-    ∨-assoc       : Associative ∨
-    ∨-cong        : Congruent₂ ∨
-    ∧-comm        : Commutative ∧
-    ∧-assoc       : Associative ∧
-    ∧-cong        : Congruent₂ ∧
-    absorptive    : Absorptive ∨ ∧
+    isEquivalence <span class="fu">:</span> <span class="dt">IsEquivalence</span> _≈_
+    ∨<span class="fu">-</span>comm        <span class="fu">:</span> <span class="dt">Commutative</span> ∨
+    ∨<span class="fu">-</span>assoc       <span class="fu">:</span> <span class="dt">Associative</span> ∨
+    ∨<span class="fu">-</span>cong        <span class="fu">:</span> <span class="dt">Congruent</span>₂ ∨
+    ∧<span class="fu">-</span>comm        <span class="fu">:</span> <span class="dt">Commutative</span> ∧
+    ∧<span class="fu">-</span>assoc       <span class="fu">:</span> <span class="dt">Associative</span> ∧
+    ∧<span class="fu">-</span>cong        <span class="fu">:</span> <span class="dt">Congruent</span>₂ ∧
+    absorptive    <span class="fu">:</span> <span class="dt">Absorptive</span> ∨ ∧
 
-  open IsEquivalence isEquivalence public
+  open <span class="dt">IsEquivalence</span> isEquivalence public
 
-  ∨-absorbs-∧ : ∨ Absorbs ∧
-  ∨-absorbs-∧ = fst absorptive
+  ∨<span class="fu">-</span>absorbs<span class="fu">-</span>∧ <span class="fu">:</span> ∨ <span class="dt">Absorbs</span> ∧
+  ∨<span class="fu">-</span>absorbs<span class="fu">-</span>∧ <span class="fu">=</span> fst absorptive
 
-  ∧-absorbs-∨ : ∧ Absorbs ∨
-  ∧-absorbs-∨ = snd absorptive
+  ∧<span class="fu">-</span>absorbs<span class="fu">-</span>∨ <span class="fu">:</span> ∧ <span class="dt">Absorbs</span> ∨
+  ∧<span class="fu">-</span>absorbs<span class="fu">-</span>∨ <span class="fu">=</span> snd absorptive
 
-  ∧-congˡ : LeftCongruent ∧
-  ∧-congˡ y≈z = ∧-cong y≈z refl
+  ∧<span class="fu">-</span>congˡ <span class="fu">:</span> <span class="dt">LeftCongruent</span> ∧
+  ∧<span class="fu">-</span>congˡ y≈z <span class="fu">=</span> ∧<span class="fu">-</span>cong y≈z refl
 
-  ∧-congʳ : RightCongruent ∧
-  ∧-congʳ y≈z = ∧-cong refl y≈z
+  ∧<span class="fu">-</span>congʳ <span class="fu">:</span> <span class="dt">RightCongruent</span> ∧
+  ∧<span class="fu">-</span>congʳ y≈z <span class="fu">=</span> ∧<span class="fu">-</span>cong refl y≈z
 
-  ∨-congˡ  : LeftCongruent ∨
-  ∨-congˡ y≈z = ∨-cong y≈z refl
+  ∨<span class="fu">-</span>congˡ  <span class="fu">:</span> <span class="dt">LeftCongruent</span> ∨
+  ∨<span class="fu">-</span>congˡ y≈z <span class="fu">=</span> ∨<span class="fu">-</span>cong y≈z refl
 
-  ∨-congʳ : RightCongruent ∨
-  ∨-congʳ y≈z = ∨-cong refl y≈z</code></pre>
+  ∨<span class="fu">-</span>congʳ <span class="fu">:</span> <span class="dt">RightCongruent</span> ∨
+  ∨<span class="fu">-</span>congʳ y≈z <span class="fu">=</span> ∨<span class="fu">-</span>cong refl y≈z</code></pre></div>
 <hr />
 <p><a href="./contents.html">Back to Contents</a></p>
 </body>

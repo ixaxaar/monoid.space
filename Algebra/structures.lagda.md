@@ -8,7 +8,7 @@
   - [Small category](#small-category)
   - [Semigroup](#semigroup)
   - [Groupoid](#groupoid)
-    - [Monoid](#monoid)
+  - [Monoid](#monoid)
   - [Commutative Monoid](#commutative-monoid)
   - [Group](#group)
   - [Abelian Group](#abelian-group)
@@ -124,7 +124,7 @@ record Groupoid c ℓ : Set (suc (c ⊔ ℓ)) where
   open IsGroupoid isGroupoid public
 ```
 
-### Monoid
+## Monoid
 
 ```agda
 record Monoid c ℓ : Set (suc (c ⊔ ℓ)) where
@@ -208,8 +208,12 @@ record AbelianGroup c ℓ : Set (suc (c ⊔ ℓ)) where
 
 ## Lattice
 
-```lauda
-record IsLattice (∨ ∧ : ★ A) : Set (a ⊔ ℓ) where
+```haskell
+open import Types.equality
+open import Algebra.operations using (Commutative; Associative; Congruent₂; Absorptive; _Absorbs_; LeftCongruent; RightCongruent)
+open import Types.typeBasics using (Σ; fst; snd)
+
+record IsLattice {a ℓ} {A : Set a} {_≈_ : Rel A ℓ} (∨ ∧ : ★ A) : Set (a ⊔ ℓ) where
   field
     isEquivalence : IsEquivalence _≈_
     ∨-comm        : Commutative ∨

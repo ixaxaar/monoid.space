@@ -179,6 +179,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2 id="conditions">Conditions</h2>
 <p>Here we encode the conditions for any given binary operation <code>_∙_</code> or operation-object pair to satisfy being an algebraic object. We define the actual objects in the next section.</p>
 <h2 id="magma">Magma</h2>
+<div class="figure">
+<img src="./magma.png" alt="magma" />
+<p class="caption">magma</p>
+</div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="kw">record</span> IsMagma <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span>
     <span class="kw">field</span>
       isEquivalence <span class="ot">:</span> IsEquivalence <span class="ot">_</span>==<span class="ot">_</span>
@@ -192,6 +196,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     ∙-congʳ <span class="ot">:</span> RightCongruent ∙
     ∙-congʳ y==z <span class="ot">=</span> ∙-cong rfl y==z</code></pre></div>
 <h2 id="semigroupoid">Semigroupoid</h2>
+<div class="figure">
+<img src="semigroupoid.png" alt="semigroupoid" />
+<p class="caption">semigroupoid</p>
+</div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="kw">record</span> IsSemigroupoid <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span>
     <span class="kw">field</span>
       isEquivalence <span class="ot">:</span> IsEquivalence <span class="ot">_</span>==<span class="ot">_</span>
@@ -199,6 +207,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
     <span class="kw">open</span> IsEquivalence isEquivalence <span class="kw">public</span></code></pre></div>
 <h2 id="small-category">Small category</h2>
+<div class="figure">
+<img src="smallcategory.png" alt="smallcategory" />
+<p class="caption">smallcategory</p>
+</div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="kw">record</span> IsSmallCategory <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span>
     <span class="kw">field</span>
       isSemigroupoid    <span class="ot">:</span> IsSemigroupoid ∙
@@ -212,6 +224,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     identityʳ <span class="ot">:</span> RightIdentity x ∙
     identityʳ <span class="ot">=</span> snd identity</code></pre></div>
 <h2 id="semigroup">Semigroup</h2>
+<div class="figure">
+<img src="semigroup.png" alt="semigroup" />
+<p class="caption">semigroup</p>
+</div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="kw">record</span> IsSemigroup <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span>
     <span class="kw">field</span>
       isMagma <span class="ot">:</span> IsMagma ∙
@@ -219,6 +235,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
     <span class="kw">open</span> IsMagma isMagma <span class="kw">public</span></code></pre></div>
 <h2 id="groupoid">Groupoid</h2>
+<div class="figure">
+<img src="groupoid.png" alt="groupoid" />
+<p class="caption">groupoid</p>
+</div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="kw">record</span> IsGroupoid <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(</span>x⁻¹ <span class="ot">:</span> ♠ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span>
     <span class="kw">field</span>
       isSmallCategory   <span class="ot">:</span> IsSmallCategory ∙ x
@@ -232,6 +252,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     inverseʳ <span class="ot">:</span> RightInverse x x⁻¹ ∙
     inverseʳ <span class="ot">=</span> snd inverse</code></pre></div>
 <h2 id="monoid">Monoid</h2>
+<div class="figure">
+<img src="monoid.png" alt="monoid" />
+<p class="caption">monoid</p>
+</div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="kw">record</span> IsMonoid <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span>
     <span class="kw">field</span>
       isSemigroup <span class="ot">:</span> IsSemigroup ∙
@@ -245,6 +269,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     identityʳ <span class="ot">:</span> RightIdentity x ∙
     identityʳ <span class="ot">=</span> snd identity</code></pre></div>
 <h2 id="commutative-monoid">Commutative Monoid</h2>
+<div class="figure">
+<img src="group.png" alt="group" />
+<p class="caption">group</p>
+</div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="kw">record</span> IsCommutativeMonoid <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span>
     <span class="kw">field</span>
       isSemigroup <span class="ot">:</span> IsSemigroup ∙
@@ -263,6 +291,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <span class="ot">;</span> identity    <span class="ot">=</span> identity
       <span class="ot">}</span></code></pre></div>
 <h2 id="group">Group</h2>
+<div class="figure">
+<img src="group.png" alt="group" />
+<p class="caption">group</p>
+</div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="kw">record</span> IsGroup <span class="ot">(_</span>∙<span class="ot">_</span> <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(_</span>⁻¹ <span class="ot">:</span> ♠ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span>
     <span class="kw">field</span>
       isMonoid  <span class="ot">:</span> IsMonoid <span class="ot">_</span>∙<span class="ot">_</span> x
