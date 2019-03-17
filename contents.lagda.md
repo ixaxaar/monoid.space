@@ -37,8 +37,7 @@
   - [Equality](./Types.equality.html)
   - [Product Types / Σ-types](./Types.typeBasics.html)
   - [Dependent Function Types / Π-types](./Types.functions.html)
-  <!-- - [Natural Numbers](./Types.naturalNumbers.html) -->
-  <!-- - [Type Equations](./Types.equations.html) -->
+  - [Equational Reasoning](./Types.equational.html)
 
 ## 3. Logic
 
@@ -109,6 +108,7 @@ import Types.relations
 import Types.equality
 import Types.typeBasics
 import Types.functions
+import Types.equational
 
 import Logic.introduction
 import Logic.logicBasics
@@ -119,6 +119,7 @@ import Algebra.introduction
 import Algebra.order
 import Algebra.groups
 import Algebra.structures
+import Algebra.groupProperties
 ```
 
 ****

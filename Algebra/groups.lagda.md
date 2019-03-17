@@ -74,10 +74,7 @@ Here we encode the conditions for any given binary operation `_∙_` or operatio
 ```agda
   record IsSemigroupoid (∙ : ★ A) : Set (a ⊔ ℓ) where
     field
-      isEquivalence : IsEquivalence _==_
       assoc         : Associative ∙
-
-    open IsEquivalence isEquivalence public
 ```
 
 ## Small category

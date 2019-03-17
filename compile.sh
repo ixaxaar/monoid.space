@@ -18,6 +18,7 @@ declare -a files=(
   "Types/equality"
   "Types/functions"
   "Types/typeBasics"
+  "Types/equational"
 
   "Logic/introduction"
   "Logic/logicBasics"
@@ -30,6 +31,7 @@ declare -a files=(
   "Algebra/order"
   "Algebra/groups"
   "Algebra/structures"
+  "Algebra/groupProperties"
 )
 
 rm -rf build html tmp

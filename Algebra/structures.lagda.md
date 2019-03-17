@@ -48,12 +48,12 @@ We recall operations again here:
 ```agda
 record Magma a ℓ : Set (suc (a ⊔ ℓ)) where
   infixl 7 _∙_
-  infix  4 _≈_
+  infix  4 _==_
   field
     Data      : Set a
-    _≈_       : Rel Data ℓ
+    _==_       : Rel Data ℓ
     _∙_       : ★ Data
-    isMagma   : IsMagma _≈_ _∙_
+    isMagma   : IsMagma _==_ _∙_
 
   open IsMagma isMagma public
 ```
@@ -63,12 +63,12 @@ record Magma a ℓ : Set (suc (a ⊔ ℓ)) where
 ```agda
 record Semigroupoid c ℓ : Set (suc (c ⊔ ℓ)) where
   infixl 7 _∙_
-  infix  4 _≈_
+  infix  4 _==_
   field
     Data            : Set c
-    _≈_             : Rel Data ℓ
+    _==_            : Rel Data ℓ
     _∙_             : ★ Data
-    isSemigroupoid  : IsSemigroupoid _≈_ _∙_
+    isSemigroupoid  : IsSemigroupoid _==_ _∙_
 
   open IsSemigroupoid isSemigroupoid public
 ```
@@ -78,15 +78,18 @@ record Semigroupoid c ℓ : Set (suc (c ⊔ ℓ)) where
 ```agda
 record SmallCategory c ℓ : Set (suc (c ⊔ ℓ)) where
   infixl 7 _∙_
-  infix  4 _≈_
+  infix  4 _==_
   field
     Data            : Set c
-    _≈_             : Rel Data ℓ
+    _==_            : Rel Data ℓ
     _∙_             : ★ Data
     ε               : Data
-    isSmallCategory : IsSmallCategory _≈_ _∙_ ε
+    isSmallCategory : IsSmallCategory _==_ _∙_ ε
 
   open IsSmallCategory isSmallCategory public
+
+  semigroupoid : Semigroupoid c ℓ
+  semigroupoid = record { isSemigroupoid = isSemigroupoid }
 ```
 
 ## Semigroup
@@ -94,12 +97,12 @@ record SmallCategory c ℓ : Set (suc (c ⊔ ℓ)) where
 ```agda
 record Semigroup c ℓ : Set (suc (c ⊔ ℓ)) where
   infixl 7 _∙_
-  infix  4 _≈_
+  infix  4 _==_
   field
     Data        : Set c
-    _≈_         : Rel Data ℓ
+    _==_        : Rel Data ℓ
     _∙_         : ★ Data
-    isSemigroup : IsSemigroup _≈_ _∙_
+    isSemigroup : IsSemigroup _==_ _∙_
 
   open IsSemigroup isSemigroup public
 
@@ -112,16 +115,22 @@ record Semigroup c ℓ : Set (suc (c ⊔ ℓ)) where
 ```agda
 record Groupoid c ℓ : Set (suc (c ⊔ ℓ)) where
   infixl 7 _∙_
-  infix  4 _≈_
+  infix  4 _==_
   field
     Data            : Set c
-    _≈_             : Rel Data ℓ
+    _==_            : Rel Data ℓ
     _∙_             : ★ Data
     ε               : Data
-    x⁻¹     : ♠ Data
-    isGroupoid : IsGroupoid _≈_ _∙_ ε x⁻¹
+    x⁻¹             : ♠ Data
+    isGroupoid      : IsGroupoid _==_ _∙_ ε x⁻¹
 
   open IsGroupoid isGroupoid public
+
+  smallcategory : SmallCategory c ℓ
+  smallcategory = record { isSmallCategory = isSmallCategory }
+
+  semigroupoid : Semigroupoid c ℓ
+  semigroupoid = record { isSemigroupoid = isSemigroupoid }
 ```
 
 ### Monoid
@@ -129,18 +138,21 @@ record Groupoid c ℓ : Set (suc (c ⊔ ℓ)) where
 ```agda
 record Monoid c ℓ : Set (suc (c ⊔ ℓ)) where
   infixl 7 _∙_
-  infix  4 _≈_
+  infix  4 _==_
   field
     Data     : Set c
-    _≈_      : Rel Data ℓ
+    _==_      : Rel Data ℓ
     _∙_      : ★ Data
     ε        : Data
-    isMonoid : IsMonoid _≈_ _∙_ ε
+    isMonoid : IsMonoid _==_ _∙_ ε
 
   open IsMonoid isMonoid public
 
   semigroup : Semigroup c ℓ
   semigroup = record { isSemigroup = isSemigroup }
+
+  magma : Magma c ℓ
+  magma = record { isMagma = isMagma }
 ```
 
 ## Commutative Monoid
@@ -148,18 +160,24 @@ record Monoid c ℓ : Set (suc (c ⊔ ℓ)) where
 ```agda
 record CommutativeMonoid c ℓ : Set (suc (c ⊔ ℓ)) where
   infixl 7 _∙_
-  infix  4 _≈_
+  infix  4 _==_
   field
     Data                : Set c
-    _≈_                 : Rel Data ℓ
+    _==_                 : Rel Data ℓ
     _∙_                 : ★ Data
     ε                   : Data
-    isCommutativeMonoid : IsCommutativeMonoid _≈_ _∙_ ε
+    isCommutativeMonoid : IsCommutativeMonoid _==_ _∙_ ε
 
   open IsCommutativeMonoid isCommutativeMonoid public
 
   monoid : Monoid c ℓ
   monoid = record { isMonoid = isMonoid }
+
+  semigroup : Semigroup c ℓ
+  semigroup = record { isSemigroup = isSemigroup }
+
+  magma : Magma c ℓ
+  magma = record { isMagma = isMagma }
 ```
 
 ## Group
@@ -168,19 +186,25 @@ record CommutativeMonoid c ℓ : Set (suc (c ⊔ ℓ)) where
 record Group c ℓ : Set (suc (c ⊔ ℓ)) where
   infix  8 x⁻¹
   infixl 7 _∙_
-  infix  4 _≈_
+  infix  4 _==_
   field
-    Data : Set c
-    _≈_     : Rel Data ℓ
+    Data    : Set c
+    _==_    : Rel Data ℓ
     _∙_     : ★ Data
     ε       : Data
     x⁻¹     : ♠ Data
-    isGroup : IsGroup _≈_ _∙_ ε x⁻¹
+    isGroup : IsGroup _==_ _∙_ ε x⁻¹
 
   open IsGroup isGroup public
 
   monoid : Monoid _ _
   monoid = record { isMonoid = isMonoid }
+
+  semigroup : Semigroup c ℓ
+  semigroup = record { isSemigroup = isSemigroup }
+
+  magma : Magma c ℓ
+  magma = record { isMagma = isMagma }
 ```
 
 ## Abelian Group
@@ -191,27 +215,39 @@ open import Algebra.groups using (IsAbelianGroup)
 record AbelianGroup c ℓ : Set (suc (c ⊔ ℓ)) where
   infix  8 x⁻¹
   infixl 7 _∙_
-  infix  4 _≈_
+  infix  4 _==_
   field
     Data           : Set c
-    _≈_            : Rel Data ℓ
+    _==_            : Rel Data ℓ
     _∙_            : ★ Data
     ε              : Data
     x⁻¹            : ♠ Data
-    isAbelianGroup : IsAbelianGroup _≈_ _∙_ ε x⁻¹
+    isAbelianGroup : IsAbelianGroup _==_ _∙_ ε x⁻¹
 
   open IsAbelianGroup isAbelianGroup public
 
   group : Group c ℓ
   group = record { isGroup = isGroup }
+
+  monoid : Monoid _ _
+  monoid = record { isMonoid = isMonoid }
+
+  semigroup : Semigroup c ℓ
+  semigroup = record { isSemigroup = isSemigroup }
+
+  magma : Magma c ℓ
+  magma = record { isMagma = isMagma }
 ```
 
 ## Lattice
 
 ```lauda
-record IsLattice (∨ ∧ : ★ A) : Set (a ⊔ ℓ) where
+open import Types.equality
+open import Algebra.operations
+
+record IsLattice {a ℓ} {A : Set a} {_==_ : Rel A ℓ} (∨ ∧ : ★ A) : Set (a ⊔ ℓ) where
   field
-    isEquivalence : IsEquivalence _≈_
+    isEquivalence : IsEquivalence _==_
     ∨-comm        : Commutative ∨
     ∨-assoc       : Associative ∨
     ∨-cong        : Congruent₂ ∨
@@ -229,16 +265,16 @@ record IsLattice (∨ ∧ : ★ A) : Set (a ⊔ ℓ) where
   ∧-absorbs-∨ = snd absorptive
 
   ∧-congˡ : LeftCongruent ∧
-  ∧-congˡ y≈z = ∧-cong y≈z refl
+  ∧-congˡ y==z = ∧-cong y==z refl
 
   ∧-congʳ : RightCongruent ∧
-  ∧-congʳ y≈z = ∧-cong refl y≈z
+  ∧-congʳ y==z = ∧-cong refl y==z
 
   ∨-congˡ  : LeftCongruent ∨
-  ∨-congˡ y≈z = ∨-cong y≈z refl
+  ∨-congˡ y==z = ∨-cong y==z refl
 
   ∨-congʳ : RightCongruent ∨
-  ∨-congʳ y≈z = ∨-cong refl y≈z
+  ∨-congʳ y==z = ∨-cong refl y==z
 ```
 
 ****
