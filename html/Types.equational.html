@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" type="text/css" />
+</head>
+<body>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<hr />
+<ul>
+<li><a href="#equational-reasoning">Equational Reasoning</a></li>
+<li><a href="#trivial-example">Trivial example</a></li>
+<li><a href="#equational-reasoning-over-equivalence-relations">Equational Reasoning over equivalence relations</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h1 id="equational-reasoning">Equational Reasoning</h1>
+<p>We now look at constructing a language or algebra atop a given relation and some of its properties. This serves as a nicer way of proving things by application of relations such as chains of transitivity.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="pp">{-# OPTIONS --without-K --safe #-}</span>
+
+<span class="kw">module</span> Types<span class="ot">.</span>equational <span class="kw">where</span>
+
+<span class="kw">open</span> <span class="kw">import</span> Level <span class="kw">using</span> <span class="ot">(</span>suc<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_)</span>
+<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality as Eq <span class="kw">using</span> <span class="ot">(</span>Rel<span class="ot">;</span> Reflexive<span class="ot">;</span> Transitive<span class="ot">;</span> <span class="ot">_</span>≡<span class="ot">_;</span> IsEquivalence<span class="ot">)</span></code></pre></div>
+<h2 id="trivial-example">Trivial example</h2>
+<p>An equational reasoning framework built upon an equivalence relation:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> ≡-Reasoning <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{_</span>≡<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">}</span> <span class="ot">(</span>Eq <span class="ot">:</span> IsEquivalence <span class="ot">_</span>≡<span class="ot">_)</span> <span class="kw">where</span>
+  <span class="kw">open</span> IsEquivalence Eq
+
+  <span class="kw">infix</span>  <span class="dv">3</span> <span class="ot">_</span>∎
+  <span class="kw">infixr</span> <span class="dv">2</span> <span class="ot">_</span>≡⟨⟩<span class="ot">_</span> <span class="ot">_</span>≡⟨<span class="ot">_</span>⟩<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">1</span> begin<span class="ot">_</span>
+
+  begin<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀{</span>x y <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">→</span> x ≡ y <span class="ot">→</span> x ≡ y
+  begin<span class="ot">_</span> x≡y <span class="ot">=</span> x≡y
+
+  <span class="ot">_</span>≡⟨⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">(</span>x <span class="ot">{</span>y<span class="ot">}</span> <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ≡ y <span class="ot">→</span> x ≡ y
+  <span class="ot">_</span> ≡⟨⟩ x≡y <span class="ot">=</span> x≡y
+
+  <span class="ot">_</span>≡⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">(</span>x <span class="ot">{</span>y z<span class="ot">}</span> <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ≡ y <span class="ot">→</span> y ≡ z <span class="ot">→</span> x ≡ z
+  <span class="ot">_</span> ≡⟨ x≡y ⟩ y≡z <span class="ot">=</span> trans x≡y y≡z
+
+  <span class="ot">_</span>∎ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ≡ x
+  <span class="ot">_</span>∎ <span class="ot">_</span> <span class="ot">=</span> rfl</code></pre></div>
+<p>We now define a more complex version where there is symmetry in equivalence preservation, unlike the previous naive version where it is only covariant.</p>
+<h2 id="equational-reasoning-over-equivalence-relations">Equational Reasoning over equivalence relations</h2>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> <span class="ot">_</span> <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{_</span>∼<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">}</span> <span class="ot">(</span>refl <span class="ot">:</span> Reflexive <span class="ot">_</span>∼<span class="ot">_)</span> <span class="ot">(</span>trans <span class="ot">:</span> Transitive <span class="ot">_</span>∼<span class="ot">_)</span> <span class="kw">where</span>
+
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>IsRelatedTo<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">3</span> <span class="ot">_</span>∎
+  <span class="kw">infixr</span> <span class="dv">2</span> <span class="ot">_</span>∼⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">_</span>≡⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">_</span>≡˘⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">_</span>≡⟨⟩<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">1</span> begin<span class="ot">_</span></code></pre></div>
+<p>We start with a vague notion of being related to:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="kw">data</span> <span class="ot">_</span>IsRelatedTo<span class="ot">_</span> <span class="ot">(</span>x y <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span>
+    relTo <span class="ot">:</span> <span class="ot">(</span>x∼y <span class="ot">:</span> x ∼ y<span class="ot">)</span> <span class="ot">→</span> x IsRelatedTo y</code></pre></div>
+<p>we concretize the fact of being related to into a <code>begin</code> statement, this forms the basis or starting point of any reasoning sequence.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  begin<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>x y<span class="ot">}</span> <span class="ot">→</span> x IsRelatedTo y <span class="ot">→</span> x ∼ y
+  begin relTo x∼y <span class="ot">=</span> x∼y</code></pre></div>
+<p>chaining transitivity:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="ot">_</span>∼⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">{</span>y z<span class="ot">}</span> <span class="ot">→</span> x ∼ y <span class="ot">→</span> y IsRelatedTo z <span class="ot">→</span> x IsRelatedTo z
+  <span class="ot">_</span> ∼⟨ x∼y ⟩ relTo y∼z <span class="ot">=</span> relTo <span class="ot">(</span>trans x∼y y∼z<span class="ot">)</span></code></pre></div>
+<p>covariant equivalence preservation:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="ot">_</span>≡⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">{</span>y z<span class="ot">}</span> <span class="ot">→</span> x ≡ y <span class="ot">→</span> y IsRelatedTo z <span class="ot">→</span> x IsRelatedTo z
+  <span class="ot">_</span> ≡⟨ Eq<span class="ot">.</span>refl ⟩ x∼z <span class="ot">=</span> x∼z</code></pre></div>
+<p>contravariant equivalence preservation:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="ot">_</span>≡˘⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">{</span>y z<span class="ot">}</span> <span class="ot">→</span> y ≡ x <span class="ot">→</span> y IsRelatedTo z <span class="ot">→</span> x IsRelatedTo z
+  <span class="ot">_</span> ≡˘⟨ Eq<span class="ot">.</span>refl ⟩ x∼z <span class="ot">=</span> x∼z</code></pre></div>
+<p>preservation of reflexivity:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="ot">_</span>≡⟨⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">{</span>y<span class="ot">}</span> <span class="ot">→</span> x IsRelatedTo y <span class="ot">→</span> x IsRelatedTo y
+  <span class="ot">_</span> ≡⟨⟩ x∼y <span class="ot">=</span> <span class="ot">_</span> ≡⟨ Eq<span class="ot">.</span>refl ⟩ x∼y</code></pre></div>
+<p>and we end chains of reasoning with a QED:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="ot">_</span>∎ <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> x IsRelatedTo x
+  <span class="ot">_</span>∎ <span class="ot">_</span> <span class="ot">=</span> relTo refl</code></pre></div>
+</body>
+</html>

@@ -55,8 +55,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#semigroupoid">Semigroupoid</a></li>
 <li><a href="#small-category">Small category</a></li>
 <li><a href="#semigroup">Semigroup</a></li>
-<li><a href="#groupoid">Groupoid</a></li>
+<li><a href="#groupoid">Groupoid</a>
+<ul>
 <li><a href="#monoid">Monoid</a></li>
+</ul></li>
 <li><a href="#commutative-monoid">Commutative Monoid</a></li>
 <li><a href="#group">Group</a></li>
 <li><a href="#abelian-group">Abelian Group</a></li>
@@ -83,46 +85,49 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2 id="magma">Magma</h2>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Magma a ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>a ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
-  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
   <span class="kw">field</span>
     Data      <span class="ot">:</span> <span class="dt">Set</span> a
-    <span class="ot">_</span>≈<span class="ot">_</span>       <span class="ot">:</span> Rel Data ℓ
+    <span class="ot">_</span>==<span class="ot">_</span>       <span class="ot">:</span> Rel Data ℓ
     <span class="ot">_</span>∙<span class="ot">_</span>       <span class="ot">:</span> ★ Data
-    isMagma   <span class="ot">:</span> IsMagma <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span>
+    isMagma   <span class="ot">:</span> IsMagma <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span>
 
   <span class="kw">open</span> IsMagma isMagma <span class="kw">public</span></code></pre></div>
 <h2 id="semigroupoid">Semigroupoid</h2>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Semigroupoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
-  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
   <span class="kw">field</span>
     Data            <span class="ot">:</span> <span class="dt">Set</span> c
-    <span class="ot">_</span>≈<span class="ot">_</span>             <span class="ot">:</span> Rel Data ℓ
+    <span class="ot">_</span>==<span class="ot">_</span>            <span class="ot">:</span> Rel Data ℓ
     <span class="ot">_</span>∙<span class="ot">_</span>             <span class="ot">:</span> ★ Data
-    isSemigroupoid  <span class="ot">:</span> IsSemigroupoid <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span>
+    isSemigroupoid  <span class="ot">:</span> IsSemigroupoid <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span>
 
   <span class="kw">open</span> IsSemigroupoid isSemigroupoid <span class="kw">public</span></code></pre></div>
 <h2 id="small-category">Small category</h2>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> SmallCategory c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
-  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
   <span class="kw">field</span>
     Data            <span class="ot">:</span> <span class="dt">Set</span> c
-    <span class="ot">_</span>≈<span class="ot">_</span>             <span class="ot">:</span> Rel Data ℓ
+    <span class="ot">_</span>==<span class="ot">_</span>            <span class="ot">:</span> Rel Data ℓ
     <span class="ot">_</span>∙<span class="ot">_</span>             <span class="ot">:</span> ★ Data
     ε               <span class="ot">:</span> Data
-    isSmallCategory <span class="ot">:</span> IsSmallCategory <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε
+    isSmallCategory <span class="ot">:</span> IsSmallCategory <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε
 
-  <span class="kw">open</span> IsSmallCategory isSmallCategory <span class="kw">public</span></code></pre></div>
+  <span class="kw">open</span> IsSmallCategory isSmallCategory <span class="kw">public</span>
+
+  semigroupoid <span class="ot">:</span> Semigroupoid c ℓ
+  semigroupoid <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSemigroupoid <span class="ot">=</span> isSemigroupoid <span class="ot">}</span></code></pre></div>
 <h2 id="semigroup">Semigroup</h2>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Semigroup c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
-  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
   <span class="kw">field</span>
     Data        <span class="ot">:</span> <span class="dt">Set</span> c
-    <span class="ot">_</span>≈<span class="ot">_</span>         <span class="ot">:</span> Rel Data ℓ
+    <span class="ot">_</span>==<span class="ot">_</span>        <span class="ot">:</span> Rel Data ℓ
     <span class="ot">_</span>∙<span class="ot">_</span>         <span class="ot">:</span> ★ Data
-    isSemigroup <span class="ot">:</span> IsSemigroup <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span>
+    isSemigroup <span class="ot">:</span> IsSemigroup <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span>
 
   <span class="kw">open</span> IsSemigroup isSemigroup <span class="kw">public</span>
 
@@ -131,117 +136,146 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2 id="groupoid">Groupoid</h2>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Groupoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
-  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
   <span class="kw">field</span>
     Data            <span class="ot">:</span> <span class="dt">Set</span> c
-    <span class="ot">_</span>≈<span class="ot">_</span>             <span class="ot">:</span> Rel Data ℓ
+    <span class="ot">_</span>==<span class="ot">_</span>            <span class="ot">:</span> Rel Data ℓ
     <span class="ot">_</span>∙<span class="ot">_</span>             <span class="ot">:</span> ★ Data
     ε               <span class="ot">:</span> Data
-    x⁻¹     <span class="ot">:</span> ♠ Data
-    isGroupoid <span class="ot">:</span> IsGroupoid <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε x⁻¹
+    x⁻¹             <span class="ot">:</span> ♠ Data
+    isGroupoid      <span class="ot">:</span> IsGroupoid <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε x⁻¹
 
-  <span class="kw">open</span> IsGroupoid isGroupoid <span class="kw">public</span></code></pre></div>
-<h2 id="monoid">Monoid</h2>
+  <span class="kw">open</span> IsGroupoid isGroupoid <span class="kw">public</span>
+
+  smallcategory <span class="ot">:</span> SmallCategory c ℓ
+  smallcategory <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSmallCategory <span class="ot">=</span> isSmallCategory <span class="ot">}</span>
+
+  semigroupoid <span class="ot">:</span> Semigroupoid c ℓ
+  semigroupoid <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSemigroupoid <span class="ot">=</span> isSemigroupoid <span class="ot">}</span></code></pre></div>
+<h3 id="monoid">Monoid</h3>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Monoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
-  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
   <span class="kw">field</span>
     Data     <span class="ot">:</span> <span class="dt">Set</span> c
-    <span class="ot">_</span>≈<span class="ot">_</span>      <span class="ot">:</span> Rel Data ℓ
+    <span class="ot">_</span>==<span class="ot">_</span>      <span class="ot">:</span> Rel Data ℓ
     <span class="ot">_</span>∙<span class="ot">_</span>      <span class="ot">:</span> ★ Data
     ε        <span class="ot">:</span> Data
-    isMonoid <span class="ot">:</span> IsMonoid <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε
+    isMonoid <span class="ot">:</span> IsMonoid <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε
 
   <span class="kw">open</span> IsMonoid isMonoid <span class="kw">public</span>
 
   semigroup <span class="ot">:</span> Semigroup c ℓ
-  semigroup <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSemigroup <span class="ot">=</span> isSemigroup <span class="ot">}</span></code></pre></div>
+  semigroup <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSemigroup <span class="ot">=</span> isSemigroup <span class="ot">}</span>
+
+  magma <span class="ot">:</span> Magma c ℓ
+  magma <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMagma <span class="ot">=</span> isMagma <span class="ot">}</span></code></pre></div>
 <h2 id="commutative-monoid">Commutative Monoid</h2>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> CommutativeMonoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
-  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
   <span class="kw">field</span>
     Data                <span class="ot">:</span> <span class="dt">Set</span> c
-    <span class="ot">_</span>≈<span class="ot">_</span>                 <span class="ot">:</span> Rel Data ℓ
+    <span class="ot">_</span>==<span class="ot">_</span>                 <span class="ot">:</span> Rel Data ℓ
     <span class="ot">_</span>∙<span class="ot">_</span>                 <span class="ot">:</span> ★ Data
     ε                   <span class="ot">:</span> Data
-    isCommutativeMonoid <span class="ot">:</span> IsCommutativeMonoid <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε
+    isCommutativeMonoid <span class="ot">:</span> IsCommutativeMonoid <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε
 
   <span class="kw">open</span> IsCommutativeMonoid isCommutativeMonoid <span class="kw">public</span>
 
   monoid <span class="ot">:</span> Monoid c ℓ
-  monoid <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMonoid <span class="ot">=</span> isMonoid <span class="ot">}</span></code></pre></div>
+  monoid <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMonoid <span class="ot">=</span> isMonoid <span class="ot">}</span>
+
+  semigroup <span class="ot">:</span> Semigroup c ℓ
+  semigroup <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSemigroup <span class="ot">=</span> isSemigroup <span class="ot">}</span>
+
+  magma <span class="ot">:</span> Magma c ℓ
+  magma <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMagma <span class="ot">=</span> isMagma <span class="ot">}</span></code></pre></div>
 <h2 id="group">Group</h2>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Group c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infix</span>  <span class="dv">8</span> x⁻¹
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
-  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
   <span class="kw">field</span>
-    Data <span class="ot">:</span> <span class="dt">Set</span> c
-    <span class="ot">_</span>≈<span class="ot">_</span>     <span class="ot">:</span> Rel Data ℓ
+    Data    <span class="ot">:</span> <span class="dt">Set</span> c
+    <span class="ot">_</span>==<span class="ot">_</span>    <span class="ot">:</span> Rel Data ℓ
     <span class="ot">_</span>∙<span class="ot">_</span>     <span class="ot">:</span> ★ Data
     ε       <span class="ot">:</span> Data
     x⁻¹     <span class="ot">:</span> ♠ Data
-    isGroup <span class="ot">:</span> IsGroup <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε x⁻¹
+    isGroup <span class="ot">:</span> IsGroup <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε x⁻¹
 
   <span class="kw">open</span> IsGroup isGroup <span class="kw">public</span>
 
   monoid <span class="ot">:</span> Monoid <span class="ot">_</span> <span class="ot">_</span>
-  monoid <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMonoid <span class="ot">=</span> isMonoid <span class="ot">}</span></code></pre></div>
+  monoid <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMonoid <span class="ot">=</span> isMonoid <span class="ot">}</span>
+
+  semigroup <span class="ot">:</span> Semigroup c ℓ
+  semigroup <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSemigroup <span class="ot">=</span> isSemigroup <span class="ot">}</span>
+
+  magma <span class="ot">:</span> Magma c ℓ
+  magma <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMagma <span class="ot">=</span> isMagma <span class="ot">}</span></code></pre></div>
 <h2 id="abelian-group">Abelian Group</h2>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups <span class="kw">using</span> <span class="ot">(</span>IsAbelianGroup<span class="ot">)</span>
 
 <span class="kw">record</span> AbelianGroup c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infix</span>  <span class="dv">8</span> x⁻¹
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
-  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
+  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
   <span class="kw">field</span>
     Data           <span class="ot">:</span> <span class="dt">Set</span> c
-    <span class="ot">_</span>≈<span class="ot">_</span>            <span class="ot">:</span> Rel Data ℓ
+    <span class="ot">_</span>==<span class="ot">_</span>            <span class="ot">:</span> Rel Data ℓ
     <span class="ot">_</span>∙<span class="ot">_</span>            <span class="ot">:</span> ★ Data
     ε              <span class="ot">:</span> Data
     x⁻¹            <span class="ot">:</span> ♠ Data
-    isAbelianGroup <span class="ot">:</span> IsAbelianGroup <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε x⁻¹
+    isAbelianGroup <span class="ot">:</span> IsAbelianGroup <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε x⁻¹
 
   <span class="kw">open</span> IsAbelianGroup isAbelianGroup <span class="kw">public</span>
 
   group <span class="ot">:</span> Group c ℓ
-  group <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isGroup <span class="ot">=</span> isGroup <span class="ot">}</span></code></pre></div>
+  group <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isGroup <span class="ot">=</span> isGroup <span class="ot">}</span>
+
+  monoid <span class="ot">:</span> Monoid <span class="ot">_</span> <span class="ot">_</span>
+  monoid <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMonoid <span class="ot">=</span> isMonoid <span class="ot">}</span>
+
+  semigroup <span class="ot">:</span> Semigroup c ℓ
+  semigroup <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSemigroup <span class="ot">=</span> isSemigroup <span class="ot">}</span>
+
+  magma <span class="ot">:</span> Magma c ℓ
+  magma <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMagma <span class="ot">=</span> isMagma <span class="ot">}</span></code></pre></div>
 <h2 id="lattice">Lattice</h2>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">open <span class="kw">import </span>Types.equality
-open <span class="kw">import </span>Algebra.operations using (<span class="dt">Commutative</span>; <span class="dt">Associative</span>; <span class="dt">Congruent</span>₂; <span class="dt">Absorptive</span>; _<span class="dt">Absorbs_</span>; <span class="dt">LeftCongruent</span>; <span class="dt">RightCongruent</span>)
-open <span class="kw">import </span>Types.typeBasics using (Σ; fst; snd)
+<pre class="lauda"><code>open import Types.equality
+open import Algebra.operations
 
-record <span class="dt">IsLattice</span> {a ℓ} {<span class="dt">A</span> <span class="fu">:</span> <span class="dt">Set</span> a} {_≈_ <span class="fu">:</span> <span class="dt">Rel</span> <span class="dt">A</span> ℓ} (∨ ∧ <span class="fu">:</span> ★ <span class="dt">A</span>) <span class="fu">:</span> <span class="dt">Set</span> (a ⊔ ℓ) <span class="kw">where</span>
+record IsLattice {a ℓ} {A : Set a} {_==_ : Rel A ℓ} (∨ ∧ : ★ A) : Set (a ⊔ ℓ) where
   field
-    isEquivalence <span class="fu">:</span> <span class="dt">IsEquivalence</span> _≈_
-    ∨<span class="fu">-</span>comm        <span class="fu">:</span> <span class="dt">Commutative</span> ∨
-    ∨<span class="fu">-</span>assoc       <span class="fu">:</span> <span class="dt">Associative</span> ∨
-    ∨<span class="fu">-</span>cong        <span class="fu">:</span> <span class="dt">Congruent</span>₂ ∨
-    ∧<span class="fu">-</span>comm        <span class="fu">:</span> <span class="dt">Commutative</span> ∧
-    ∧<span class="fu">-</span>assoc       <span class="fu">:</span> <span class="dt">Associative</span> ∧
-    ∧<span class="fu">-</span>cong        <span class="fu">:</span> <span class="dt">Congruent</span>₂ ∧
-    absorptive    <span class="fu">:</span> <span class="dt">Absorptive</span> ∨ ∧
+    isEquivalence : IsEquivalence _==_
+    ∨-comm        : Commutative ∨
+    ∨-assoc       : Associative ∨
+    ∨-cong        : Congruent₂ ∨
+    ∧-comm        : Commutative ∧
+    ∧-assoc       : Associative ∧
+    ∧-cong        : Congruent₂ ∧
+    absorptive    : Absorptive ∨ ∧
 
-  open <span class="dt">IsEquivalence</span> isEquivalence public
+  open IsEquivalence isEquivalence public
 
-  ∨<span class="fu">-</span>absorbs<span class="fu">-</span>∧ <span class="fu">:</span> ∨ <span class="dt">Absorbs</span> ∧
-  ∨<span class="fu">-</span>absorbs<span class="fu">-</span>∧ <span class="fu">=</span> fst absorptive
+  ∨-absorbs-∧ : ∨ Absorbs ∧
+  ∨-absorbs-∧ = fst absorptive
 
-  ∧<span class="fu">-</span>absorbs<span class="fu">-</span>∨ <span class="fu">:</span> ∧ <span class="dt">Absorbs</span> ∨
-  ∧<span class="fu">-</span>absorbs<span class="fu">-</span>∨ <span class="fu">=</span> snd absorptive
+  ∧-absorbs-∨ : ∧ Absorbs ∨
+  ∧-absorbs-∨ = snd absorptive
 
-  ∧<span class="fu">-</span>congˡ <span class="fu">:</span> <span class="dt">LeftCongruent</span> ∧
-  ∧<span class="fu">-</span>congˡ y≈z <span class="fu">=</span> ∧<span class="fu">-</span>cong y≈z refl
+  ∧-congˡ : LeftCongruent ∧
+  ∧-congˡ y==z = ∧-cong y==z refl
 
-  ∧<span class="fu">-</span>congʳ <span class="fu">:</span> <span class="dt">RightCongruent</span> ∧
-  ∧<span class="fu">-</span>congʳ y≈z <span class="fu">=</span> ∧<span class="fu">-</span>cong refl y≈z
+  ∧-congʳ : RightCongruent ∧
+  ∧-congʳ y==z = ∧-cong refl y==z
 
-  ∨<span class="fu">-</span>congˡ  <span class="fu">:</span> <span class="dt">LeftCongruent</span> ∨
-  ∨<span class="fu">-</span>congˡ y≈z <span class="fu">=</span> ∨<span class="fu">-</span>cong y≈z refl
+  ∨-congˡ  : LeftCongruent ∨
+  ∨-congˡ y==z = ∨-cong y==z refl
 
-  ∨<span class="fu">-</span>congʳ <span class="fu">:</span> <span class="dt">RightCongruent</span> ∨
-  ∨<span class="fu">-</span>congʳ y≈z <span class="fu">=</span> ∨<span class="fu">-</span>cong refl y≈z</code></pre></div>
+  ∨-congʳ : RightCongruent ∨
+  ∨-congʳ y==z = ∨-cong refl y==z</code></pre>
 <hr />
 <p><a href="./contents.html">Back to Contents</a></p>
 </body>

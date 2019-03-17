@@ -202,10 +202,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="kw">record</span> IsSemigroupoid <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span>
     <span class="kw">field</span>
-      isEquivalence <span class="ot">:</span> IsEquivalence <span class="ot">_</span>==<span class="ot">_</span>
-      assoc         <span class="ot">:</span> Associative ∙
-
-    <span class="kw">open</span> IsEquivalence isEquivalence <span class="kw">public</span></code></pre></div>
+      assoc         <span class="ot">:</span> Associative ∙</code></pre></div>
 <h2 id="small-category">Small category</h2>
 <div class="figure">
 <img src="smallcategory.png" alt="smallcategory" />

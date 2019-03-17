@@ -1,3 +1,20 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+****
+
+- [Properties and APIs of groups](#properties-and-apis-of-groups)
+  - [Homomorphisms](#homomorphisms)
+    - [Magma homomorphism](#magma-homomorphism)
+    - [Semigroupoid homomorphism](#semigroupoid-homomorphism)
+    - [Small category homomorphism](#small-category-homomorphism)
+    - [Semigroup homomorphism](#semigroup-homomorphism)
+    - [Groupoid homomorphism](#groupoid-homomorphism)
+  - [Subgroups](#subgroups)
+  - [Cosets](#cosets)
+  - [Quotient groups](#quotient-groups)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 # Properties and APIs of groups
 
