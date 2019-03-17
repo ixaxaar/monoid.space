@@ -70,6 +70,8 @@ and a unary operation as:
 
 ![identity](identity.png)
 
+We treat identity as a pair of right and left identities.
+
 ```agda
   LeftIdentity : A → ★ A → Set _
   LeftIdentity e _∙_ = ∀ x → (e ∙ x) == x
@@ -97,6 +99,8 @@ and a unary operation as:
 ```
 
 ### Inverse
+
+![inverse](inverse.png)
 
 ```agda
   LeftInverse : A → ♠ A → ★ A → Set _
@@ -154,6 +158,8 @@ and a unary operation as:
 ```
 
 ### Congruence
+
+![congruence](congruence.png)
 
 ```agda
   Congruent₁ : ♠ A → Set _

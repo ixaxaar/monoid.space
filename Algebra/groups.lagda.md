@@ -54,6 +54,8 @@ Here we encode the conditions for any given binary operation `_∙_` or operatio
 
 ## Magma
 
+![magma](./magma.png)
+
 ```agda
   record IsMagma (∙ : ★ A) : Set (a ⊔ ℓ) where
     field
@@ -71,6 +73,8 @@ Here we encode the conditions for any given binary operation `_∙_` or operatio
 
 ## Semigroupoid
 
+![semigroupoid](semigroupoid.png)
+
 ```agda
   record IsSemigroupoid (∙ : ★ A) : Set (a ⊔ ℓ) where
     field
@@ -78,6 +82,8 @@ Here we encode the conditions for any given binary operation `_∙_` or operatio
 ```
 
 ## Small category
+
+![smallcategory](smallcategory.png)
 
 ```agda
   record IsSmallCategory (∙ : ★ A) (x : A) : Set (a ⊔ ℓ) where
@@ -96,6 +102,8 @@ Here we encode the conditions for any given binary operation `_∙_` or operatio
 
 ## Semigroup
 
+![semigroup](semigroup.png)
+
 ```agda
   record IsSemigroup (∙ : ★ A) : Set (a ⊔ ℓ) where
     field
@@ -106,6 +114,8 @@ Here we encode the conditions for any given binary operation `_∙_` or operatio
 ```
 
 ## Groupoid
+
+![groupoid](groupoid.png)
 
 ```agda
   record IsGroupoid (∙ : ★ A) (x : A) (x⁻¹ : ♠ A) : Set (a ⊔ ℓ) where
@@ -124,6 +134,8 @@ Here we encode the conditions for any given binary operation `_∙_` or operatio
 
 ## Monoid
 
+![monoid](monoid.png)
+
 ```agda
   record IsMonoid (∙ : ★ A) (x : A) : Set (a ⊔ ℓ) where
     field
@@ -140,6 +152,8 @@ Here we encode the conditions for any given binary operation `_∙_` or operatio
 ```
 
 ## Commutative Monoid
+
+![group](group.png)
 
 ```agda
   record IsCommutativeMonoid (∙ : ★ A) (x : A) : Set (a ⊔ ℓ) where
@@ -162,6 +176,8 @@ Here we encode the conditions for any given binary operation `_∙_` or operatio
 ```
 
 ## Group
+
+![group](group.png)
 
 ```agda
   record IsGroup (_∙_ : ★ A) (x : A) (_⁻¹ : ♠ A) : Set (a ⊔ ℓ) where
