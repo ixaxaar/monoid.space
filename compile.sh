@@ -18,7 +18,6 @@ declare -a files=(
   "Types/equality"
   "Types/functions"
   "Types/typeBasics"
-  "Types/equational"
 
   "Logic/introduction"
   "Logic/logicBasics"
@@ -28,6 +27,7 @@ declare -a files=(
 
   "Algebra/introduction"
   "Algebra/operations"
+  "Algebra/equational"
   "Algebra/order"
   "Algebra/groups"
   "Algebra/structures"

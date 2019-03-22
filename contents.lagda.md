@@ -37,7 +37,6 @@
   - [Equality](./Types.equality.html)
   - [Product Types / Σ-types](./Types.typeBasics.html)
   - [Dependent Function Types / Π-types](./Types.functions.html)
-  - [Equational Reasoning](./Types.equational.html)
 
 ## 3. Logic
 
@@ -49,12 +48,13 @@
   - [Laws of Logic](./Logic.laws.html)
   <!-- - [Decidability](./Logic.decidability.html) -->
 
-## 4. Algebras
+## 4. Abstract Algebras
 
 ![4](4.png)
 
   - [Introduction](./Algebra.introduction.html)
   - [Operations](./Algebra.operations.html)
+  - [Equational Reasoning](./Types.equational.html)
   - [Ordered objects](./Algebra.order.html)
   - [Groups and family](./Algebra.groups.html)
   - [Groups and family 2](./Algebra.structures.html)
@@ -108,7 +108,6 @@ import Types.relations
 import Types.equality
 import Types.typeBasics
 import Types.functions
-import Types.equational
 
 import Logic.introduction
 import Logic.logicBasics
@@ -116,6 +115,8 @@ import Logic.equality
 import Logic.laws
 
 import Algebra.introduction
+import Algebra.operations
+import Algebra.equational
 import Algebra.order
 import Algebra.groups
 import Algebra.structures
