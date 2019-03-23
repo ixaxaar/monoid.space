@@ -121,8 +121,8 @@ record Groupoid c ℓ : Set (suc (c ⊔ ℓ)) where
     _==_            : Rel Data ℓ
     _∙_             : ★ Data
     ε               : Data
-    x⁻¹             : ♠ Data
-    isGroupoid      : IsGroupoid _==_ _∙_ ε x⁻¹
+    _⁻¹             : ♠ Data
+    isGroupoid      : IsGroupoid _==_ _∙_ ε _⁻¹
 
   open IsGroupoid isGroupoid public
 
@@ -184,7 +184,7 @@ record CommutativeMonoid c ℓ : Set (suc (c ⊔ ℓ)) where
 
 ```agda
 record Group c ℓ : Set (suc (c ⊔ ℓ)) where
-  infix  8 x⁻¹
+  infix  8 _⁻¹
   infixl 7 _∙_
   infix  4 _==_
   field
@@ -192,8 +192,8 @@ record Group c ℓ : Set (suc (c ⊔ ℓ)) where
     _==_    : Rel Data ℓ
     _∙_     : ★ Data
     ε       : Data
-    x⁻¹     : ♠ Data
-    isGroup : IsGroup _==_ _∙_ ε x⁻¹
+    _⁻¹     : ♠ Data
+    isGroup : IsGroup _==_ _∙_ ε _⁻¹
 
   open IsGroup isGroup public
 
@@ -213,7 +213,7 @@ record Group c ℓ : Set (suc (c ⊔ ℓ)) where
 open import Algebra.groups using (IsAbelianGroup)
 
 record AbelianGroup c ℓ : Set (suc (c ⊔ ℓ)) where
-  infix  8 x⁻¹
+  infix  8 _⁻¹
   infixl 7 _∙_
   infix  4 _==_
   field
@@ -221,8 +221,8 @@ record AbelianGroup c ℓ : Set (suc (c ⊔ ℓ)) where
     _==_            : Rel Data ℓ
     _∙_            : ★ Data
     ε              : Data
-    x⁻¹            : ♠ Data
-    isAbelianGroup : IsAbelianGroup _==_ _∙_ ε x⁻¹
+    _⁻¹            : ♠ Data
+    isAbelianGroup : IsAbelianGroup _==_ _∙_ ε _⁻¹
 
   open IsAbelianGroup isAbelianGroup public
 

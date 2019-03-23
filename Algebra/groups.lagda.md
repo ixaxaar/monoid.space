@@ -78,7 +78,17 @@ Here we encode the conditions for any given binary operation `_∙_` or operatio
 ```agda
   record IsSemigroupoid (∙ : ★ A) : Set (a ⊔ ℓ) where
     field
+      isEquivalence : IsEquivalence _==_
+      ∙-cong        : Congruent₂ ∙
       assoc         : Associative ∙
+
+    open IsEquivalence isEquivalence public
+
+    ∙-congˡ : LeftCongruent ∙
+    ∙-congˡ y==z = ∙-cong y==z rfl
+
+    ∙-congʳ : RightCongruent ∙
+    ∙-congʳ y==z = ∙-cong rfl y==z
 ```
 
 ## Small category
@@ -118,18 +128,28 @@ Here we encode the conditions for any given binary operation `_∙_` or operatio
 ![groupoid](groupoid.png)
 
 ```agda
-  record IsGroupoid (∙ : ★ A) (x : A) (x⁻¹ : ♠ A) : Set (a ⊔ ℓ) where
+  record IsGroupoid (_∙_ : ★ A) (x : A) (_⁻¹ : ♠ A) : Set (a ⊔ ℓ) where
     field
-      isSmallCategory   : IsSmallCategory ∙ x
-      inverse           : Inverse x x⁻¹ ∙
+      isSmallCategory   : IsSmallCategory _∙_ x
+      inverse           : Inverse x _⁻¹ _∙_
 
     open IsSmallCategory isSmallCategory public
 
-    inverseˡ : LeftInverse x x⁻¹ ∙
+    inverseˡ : LeftInverse x _⁻¹ _∙_
     inverseˡ = fst inverse
 
-    inverseʳ : RightInverse x x⁻¹ ∙
+    inverseʳ : RightInverse x _⁻¹ _∙_
     inverseʳ = snd inverse
+
+    open import Algebra.equational
+    open withCongruence _==_ _∙_ _⁻¹ rfl trans sym ∙-cong x public
+
+    -- uniqueness of the inverses
+    uniqueˡ-⁻¹ : ∀ α β → (α ∙ β) == x → α == (β ⁻¹)
+    uniqueˡ-⁻¹ = assoc+id+invʳ⇒invˡ-unique assoc identity inverseʳ
+
+    uniqueʳ-⁻¹ : ∀ α β → (α ∙ β) == x → β == (α ⁻¹)
+    uniqueʳ-⁻¹ = assoc+id+invˡ⇒invʳ-unique assoc identity inverseˡ
 ```
 
 ## Monoid
@@ -197,6 +217,16 @@ Here we encode the conditions for any given binary operation `_∙_` or operatio
 
     inverseʳ : RightInverse x _⁻¹ _∙_
     inverseʳ = snd inverse
+
+    open import Algebra.equational
+    open withCongruence _==_ _∙_ _⁻¹ rfl trans sym ∙-cong x public
+
+    -- uniqueness of the inverses
+    uniqueˡ-⁻¹ : ∀ α β → (α ∙ β) == x → α == (β ⁻¹)
+    uniqueˡ-⁻¹ = assoc+id+invʳ⇒invˡ-unique assoc identity inverseʳ
+
+    uniqueʳ-⁻¹ : ∀ α β → (α ∙ β) == x → β == (α ⁻¹)
+    uniqueʳ-⁻¹ = assoc+id+invˡ⇒invʳ-unique assoc identity inverseˡ
 ```
 
 ## Abelian Group

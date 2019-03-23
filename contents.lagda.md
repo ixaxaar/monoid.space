@@ -55,10 +55,13 @@
   - [Introduction](./Algebra.introduction.html)
   - [Operations](./Algebra.operations.html)
   - [Equational Reasoning](./Types.equational.html)
-  - [Ordered objects](./Algebra.order.html)
+  <!-- - [Ordered objects](./Algebra.order.html) -->
+  <!-- - [Properties of ordered objects](./Algebra.orderProperties.html) -->
   - [Groups and family](./Algebra.groups.html)
   - [Groups and family 2](./Algebra.structures.html)
   - [Properties of Group-like objects](./Algebra.groupProperties.html)
+  <!-- - [Rings and family](./Algebra.rings.html) -->
+  <!-- - [Properties of Ring-like objects](./Algebra.ringProperties.html) -->
 
 ## 5. Algebraic Topology
 

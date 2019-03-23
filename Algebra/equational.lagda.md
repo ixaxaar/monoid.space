@@ -160,9 +160,9 @@ module withCommutativity {a ℓ}
 ```agda
 module withCongruence {a ℓ}
   {A : Set a}
-  {_∼_ : Rel A ℓ}
-  {_•_ : (★ _∼_) A}
-  {_⁻¹ : (♠ _∼_) A}
+  (_∼_ : Rel A ℓ)
+  (_•_ : (★ _∼_) A)
+  (_⁻¹ : (♠ _∼_) A)
   (reflexive : Reflexive _∼_)
   (trans : Transitive _∼_)
   (sym : Symmetric _∼_)

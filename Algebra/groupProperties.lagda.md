@@ -46,17 +46,17 @@ The basic rules for any morphism to be a homomorphism are if it:
 
 ```agda
   H-identity : Morphism → From → To → Set _
-  H-identity ⟨_⟩ from to = ⟨ from ⟩ == to
+  H-identity ⨭_⨮ from to = ⨭ from ⨮ == to
 ```
 
 2. Composes with operations
 
 ```agda
   H-unary-compose : Morphism → ♠ From → ♠ To → Set _
-  H-unary-compose ⟨_⟩ ∙_ ∘_ = ∀ x → ⟨ ∙ x ⟩ == ( ∘ ⟨ x ⟩ )
+  H-unary-compose ⨭_⨮ ∙_ ∘_ = ∀ x → ⨭ ∙ x ⨮ == ( ∘ ⨭ x ⨮ )
 
   H-binary-compose : Morphism → ★ From → ★ To → Set _
-  H-binary-compose ⟨_⟩ _∙_ _∘_ = ∀ x y → ⟨ x ∙ y ⟩ == ( ⟨ x ⟩ ∘ ⟨ y ⟩ )
+  H-binary-compose ⨭_⨮ _∙_ _∘_ = ∀ x y → ⨭ x ∙ y ⨮ == ( ⨭ x ⨮ ∘ ⨭ y ⨮ )
 ```
 
 Now, we define homomorphisms for various group-like structures we have discussed earlier.
@@ -71,10 +71,10 @@ module _ {f t ℓ₁ ℓ₂} (From : Magma f ℓ₁) (To : Magma t ℓ₂) where
 
   open AbstractHomomorphism F.Data T.Data T._==_
 
-  record IsMagmaHomomorphism ( ⟨_⟩ : Morphism) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+  record IsMagmaHomomorphism ( ⨭_⨮ : Morphism) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
     field
-      preserves-congruence    : ⟨_⟩ Preserves F._==_ ⟶ T._==_
-      is-abstract-homomorphic : H-binary-compose ⟨_⟩ F._∙_ T._∙_
+      preserves-congruence    : ⨭_⨮ Preserves F._==_ ⟶ T._==_
+      is-abstract-homomorphic : H-binary-compose ⨭_⨮ F._∙_ T._∙_
 ```
 
 ### Semigroupoid homomorphism
@@ -87,9 +87,10 @@ module _ {f t ℓ₁ ℓ₂} (From : Semigroupoid f ℓ₁) (To : Semigroupoid t
 
   open AbstractHomomorphism F.Data T.Data T._==_
 
-  record IsSemigroupoidHomomorphism ( ⟨_⟩ : Morphism) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+  record IsSemigroupoidHomomorphism ( ⨭_⨮ : Morphism) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
     field
-      is-abstract-homomorphic : H-binary-compose ⟨_⟩ F._∙_ T._∙_
+      preserves-congruence    : ⨭_⨮ Preserves F._==_ ⟶ T._==_
+      is-abstract-homomorphic : H-binary-compose ⨭_⨮ F._∙_ T._∙_
 ```
 
 ### Small category homomorphism
@@ -102,10 +103,10 @@ module _ {f t ℓ₁ ℓ₂} (From : SmallCategory f ℓ₁) (To : SmallCategory
 
   open AbstractHomomorphism F.Data T.Data T._==_
 
-  record IsSmallCategoryHomomorphism ( ⟨_⟩ : Morphism) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+  record IsSmallCategoryHomomorphism ( ⨭_⨮ : Morphism) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
     field
-      is-semigroupoid-homomorphic    : IsSemigroupoidHomomorphism F.semigroupoid T.semigroupoid ⟨_⟩
-      preserves-identity             : H-identity ⟨_⟩ F.ε T.ε
+      is-semigroupoid-homomorphic    : IsSemigroupoidHomomorphism F.semigroupoid T.semigroupoid ⨭_⨮
+      preserves-identity             : H-identity ⨭_⨮ F.ε T.ε
 
     open IsSemigroupoidHomomorphism is-semigroupoid-homomorphic public
 ```
@@ -120,16 +121,18 @@ module _ {f t ℓ₁ ℓ₂} (From : Semigroup f ℓ₁) (To : Semigroup t ℓ�
 
   open AbstractHomomorphism F.Data T.Data T._==_
 
-  record IsSemigroupHomomorphism ( ⟨_⟩ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+  record IsSemigroupHomomorphism ( ⨭_⨮ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
     field
-      is-magma-homomorphism  : IsMagmaHomomorphism F.magma T.magma ⟨_⟩
+      is-magma-homomorphism  : IsMagmaHomomorphism F.magma T.magma ⨭_⨮
 
     open IsMagmaHomomorphism is-magma-homomorphism public
 ```
 
 ### Groupoid homomorphism
 
-```aghabd
+```lauda
+open import Types.functions using (_$_)
+
 module _ {f t ℓ₁ ℓ₂} (From : Groupoid f ℓ₁) (To : Groupoid t ℓ₂) where
   private
     module F = Groupoid From
@@ -137,12 +140,23 @@ module _ {f t ℓ₁ ℓ₂} (From : Groupoid f ℓ₁) (To : Groupoid t ℓ₂)
 
   open AbstractHomomorphism F.Data T.Data T._==_
 
-  record IsGroupoidHomomorphism ( ⟨_⟩ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+  record IsGroupoidHomomorphism ( ⨭_⨮ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
     field
-      is-smallcategory-homomorphic    : IsSmallCategoryHomomorphism F.smallcategory T.smallcategory ⟨_⟩
-      preserves-inverse               : need equational reasoning
+      is-smallcategory-homomorphic    : IsSmallCategoryHomomorphism F.smallcategory T.smallcategory ⨭_⨮
 
     open IsSmallCategoryHomomorphism is-smallcategory-homomorphic public
+
+    open import Algebra.equational
+    -- open ★-reasoning T._==_ T.rfl T.trans public
+
+    preserves-inverse : H-binary-compose ⨭_⨮ F._⁻¹ T._⁻¹
+    preserves-inverse x = let
+        open ★-reasoning T._==_ T.rfl T.trans
+      in T.uniqueˡ-⁻¹ ⨭ x F.⁻¹ ⨮ ⨭ x ⨮ $ begin
+      ⨭ x F.⁻¹ ⨮ T.∙ ⨭ x ⨮  ∼⟨ T.sym (is-abstract-homomorphic (x F.⁻¹) x) ⟩
+      ⨭ x F.⁻¹ F.∙ x ⨮      ∼⟨ preserves-congruence (F.inverseˡ x) ⟩
+      ⨭ F.ε ⨮               ∼⟨ preserves-identity ⟩
+      T.ε ∎
 ```
 
 ## Subgroups
