@@ -54,7 +54,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#1-agda">1. Agda</a></li>
 <li><a href="#2-type-theory">2. Type Theory</a></li>
 <li><a href="#3-logic">3. Logic</a></li>
-<li><a href="#4-algebras">4. Algebras</a></li>
+<li><a href="#4-abstract-algebras">4. Abstract Algebras</a></li>
 <li><a href="#5-algebraic-topology">5. Algebraic Topology</a></li>
 <li><a href="#6-category-theory">6. Category Theory</a></li>
 </ul>
@@ -86,7 +86,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="./Types.equality.html">Equality</a></li>
 <li><a href="./Types.typeBasics.html">Product Types / Σ-types</a></li>
 <li><a href="./Types.functions.html">Dependent Function Types / Π-types</a></li>
-<li><a href="./Types.equational.html">Equational Reasoning</a></li>
 </ul>
 <h2 id="logic">3. Logic</h2>
 <div class="figure">
@@ -99,7 +98,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="./Logic.equality.html">Equality</a></li>
 <li><a href="./Logic.laws.html">Laws of Logic</a> <!-- - [Decidability](./Logic.decidability.html) --></li>
 </ul>
-<h2 id="algebras">4. Algebras</h2>
+<h2 id="abstract-algebras">4. Abstract Algebras</h2>
 <div class="figure">
 <img src="4.png" alt="4" />
 <p class="caption">4</p>
@@ -107,10 +106,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li><a href="./Algebra.introduction.html">Introduction</a></li>
 <li><a href="./Algebra.operations.html">Operations</a></li>
-<li><a href="./Algebra.order.html">Ordered objects</a></li>
+<li><a href="./Algebra.equational.html">Equational Reasoning</a> <!-- - [Ordered objects](./Algebra.order.html) --> <!-- - [Properties of ordered objects](./Algebra.orderProperties.html) --></li>
 <li><a href="./Algebra.groups.html">Groups and family</a></li>
 <li><a href="./Algebra.structures.html">Groups and family 2</a></li>
-<li><a href="./Algebra.groupProperties.html">Properties of Group-like objects</a></li>
+<li><a href="./Algebra.groupProperties.html">Properties of Group-like objects</a> <!-- - [Rings and family](./Algebra.rings.html) --> <!-- - [Properties of Ring-like objects](./Algebra.ringProperties.html) --></li>
 </ul>
 <h2 id="algebraic-topology">5. Algebraic Topology</h2>
 <div class="figure">
@@ -162,7 +161,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">import</span> Types<span class="ot">.</span>equality
 <span class="kw">import</span> Types<span class="ot">.</span>typeBasics
 <span class="kw">import</span> Types<span class="ot">.</span>functions
-<span class="kw">import</span> Types<span class="ot">.</span>equational
 
 <span class="kw">import</span> Logic<span class="ot">.</span>introduction
 <span class="kw">import</span> Logic<span class="ot">.</span>logicBasics
@@ -170,6 +168,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">import</span> Logic<span class="ot">.</span>laws
 
 <span class="kw">import</span> Algebra<span class="ot">.</span>introduction
+<span class="kw">import</span> Algebra<span class="ot">.</span>operations
+<span class="kw">import</span> Algebra<span class="ot">.</span>equational
 <span class="kw">import</span> Algebra<span class="ot">.</span>order
 <span class="kw">import</span> Algebra<span class="ot">.</span>groups
 <span class="kw">import</span> Algebra<span class="ot">.</span>structures

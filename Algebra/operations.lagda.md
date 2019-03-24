@@ -32,7 +32,7 @@ open import Level
 module Algebra.operations {a ℓ} {A : Set a} (_==_ : Rel A ℓ) where
 ```
 
-A binary operation `★ A` can be defined as:
+A homogenous binary operation `★ A` can be defined as:
 
 ```agda
   ★_ : ∀ {a} → Set a → Set a
@@ -48,9 +48,20 @@ and a unary operation as:
 
 ## Operator laws
 
+We now write a few laws that operators could follow. Essentially, structures built on top of these operators would end up following the same laws as the underlying operator. We have already seen some of these laws in [laws of boolean algebra](./Logic.laws.html), these are universe polymorphism-accounted general versions of those laws.
+
 ### Associativity
 
 ![associative](associative.png)
+
+Mathematically, given an operation `★`, it is called associative if:
+
+```math
+∀ x, y, z ∈ A,
+operation ★ is associative if:
+
+x ★ (y ★ z) ≡ (x ★ y) ★ z
+```
 
 ```agda
   Associative : ★ A → Set _
@@ -61,6 +72,15 @@ and a unary operation as:
 
 ![commutative](commutative.png)
 
+Commutativity is defined as:
+
+```math
+∀ x, y ∈ A,
+operation ★ is commutative if:
+
+x ★ y ≡ y ★ x
+```
+
 ```agda
   Commutative : ★ A → Set _
   Commutative _∙_ = ∀ x y → (x ∙ y) == (y ∙ x)
@@ -70,7 +90,15 @@ and a unary operation as:
 
 ![identity](identity.png)
 
-We treat identity as a pair of right and left identities.
+```math
+∀ x ∈ A,
+if id is the identity object of A,
+
+x ★ id ≡ x
+id ★ x ≡ x
+```
+
+We treat identity as a pair of right and left identities. This helps in working with non-commutative types as well.
 
 ```agda
   LeftIdentity : A → ★ A → Set _
@@ -87,6 +115,15 @@ We treat identity as a pair of right and left identities.
 
 ![elimination](elimination.png)
 
+```math
+∀ x ∈ A,
+
+x ★ 0 ≡ 0
+0 ★ x ≡ 0
+```
+
+How does our object interact with `0`? We define that here.
+
 ```agda
   LeftZero : A → ★ A → Set _
   LeftZero z _∙_ = ∀ x → (z ∙ x) == z
@@ -102,6 +139,16 @@ We treat identity as a pair of right and left identities.
 
 ![inverse](inverse.png)
 
+```math
+∀ x ∈ A, ∃ x⁻¹ ∈ A such that
+
+x ★ x⁻¹ ≡ id
+
+x⁻¹ ★ x ≡ id
+```
+
+Given any unary function `_⁻¹`, we define what it takes for the function to qualify as an inverse.
+
 ```agda
   LeftInverse : A → ♠ A → ★ A → Set _
   LeftInverse e _⁻¹ _∙_ = ∀ x → ((x ⁻¹) ∙ x) == e
@@ -116,6 +163,13 @@ We treat identity as a pair of right and left identities.
 ### Distributive
 
 ![distributive](distributive.png)
+
+```math
+∀ x, y, z ∈ A,
+operation ★ is distributive if:
+
+( x ★ y ) ★ z ≡ x ★ y × y ★ z
+```
 
 ```agda
   _DistributesOverˡ_ : ★ A → ★ A → Set _
@@ -134,6 +188,21 @@ We treat identity as a pair of right and left identities.
 
 ![absorption](absorption.png)
 
+```math
+∀ x ∈ A and two operations
+ ∙ : A → A → A
+ ∘ : A → A → A
+
+operation ∙ absorbs ∘ if:
+
+x ∙ (x ∘ y) ≡ x
+
+and ∘ absorbs ∙ if:
+x ∘ (x ∙ y) ≡ x
+
+and if both are satisfied collectively ∙ and ∘ are absorptive.
+```
+
 ```agda
   _Absorbs_ : ★ A → ★ A → Set _
   _∙_ Absorbs _∘_ = ∀ x y → (x ∙ (x ∘ y)) == x
@@ -145,6 +214,13 @@ We treat identity as a pair of right and left identities.
 ### Cancellative
 
 ![cancellation](cancellation.png)
+
+```math
+∀ x, y ∈ A
+and a function • : A → A → A,
+
+(x • y) == (x • z) ⟹ y == z
+```
 
 ```agda
   LeftCancellative : ★ A → Set _
@@ -161,6 +237,20 @@ We treat identity as a pair of right and left identities.
 
 ![congruence](congruence.png)
 
+```math
+Given
+  a₁, a₂ ∈ A
+  b₁ b₂ ∈ B
+  ∙ : A → B,
+
+if a₁ ≡ a₂,
+   b₁ = ∙ a₁
+   b₂ = ∙ a₂
+then b₁ ≡ b₂
+```
+
+A congruent relation preserves equivalences.
+
 ```agda
   Congruent₁ : ♠ A → Set _
   Congruent₁ f = f Preserves _==_ ⟶ _==_
@@ -176,6 +266,11 @@ We treat identity as a pair of right and left identities.
 ```
 
 ## Respecting a law
+
+We finally define what we mean by "respects" a law. We define two versions here
+
+- `_Respects_` for already commutative laws
+- `_Respects₂_` which combines left and right laws
 
 ```agda
   _Respects_ : ∀ {a ℓ₁ ℓ₂} {A : Set a}

@@ -6,7 +6,7 @@
   - [1. Agda](#1-agda)
   - [2. Type Theory](#2-type-theory)
   - [3. Logic](#3-logic)
-  - [4. Algebras](#4-algebras)
+  - [4. Abstract Algebras](#4-abstract-algebras)
   - [5. Algebraic Topology](#5-algebraic-topology)
   - [6. Category Theory](#6-category-theory)
 
@@ -54,7 +54,7 @@
 
   - [Introduction](./Algebra.introduction.html)
   - [Operations](./Algebra.operations.html)
-  - [Equational Reasoning](./Types.equational.html)
+  - [Equational Reasoning](./Algebra.equational.html)
   <!-- - [Ordered objects](./Algebra.order.html) -->
   <!-- - [Properties of ordered objects](./Algebra.orderProperties.html) -->
   - [Groups and family](./Algebra.groups.html)

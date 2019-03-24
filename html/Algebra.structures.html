@@ -142,8 +142,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     <span class="ot">_</span>==<span class="ot">_</span>            <span class="ot">:</span> Rel Data ℓ
     <span class="ot">_</span>∙<span class="ot">_</span>             <span class="ot">:</span> ★ Data
     ε               <span class="ot">:</span> Data
-    x⁻¹             <span class="ot">:</span> ♠ Data
-    isGroupoid      <span class="ot">:</span> IsGroupoid <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε x⁻¹
+    <span class="ot">_</span>⁻¹             <span class="ot">:</span> ♠ Data
+    isGroupoid      <span class="ot">:</span> IsGroupoid <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε <span class="ot">_</span>⁻¹
 
   <span class="kw">open</span> IsGroupoid isGroupoid <span class="kw">public</span>
 
@@ -193,7 +193,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   magma <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMagma <span class="ot">=</span> isMagma <span class="ot">}</span></code></pre></div>
 <h2 id="group">Group</h2>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Group c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
-  <span class="kw">infix</span>  <span class="dv">8</span> x⁻¹
+  <span class="kw">infix</span>  <span class="dv">8</span> <span class="ot">_</span>⁻¹
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
   <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
   <span class="kw">field</span>
@@ -201,8 +201,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     <span class="ot">_</span>==<span class="ot">_</span>    <span class="ot">:</span> Rel Data ℓ
     <span class="ot">_</span>∙<span class="ot">_</span>     <span class="ot">:</span> ★ Data
     ε       <span class="ot">:</span> Data
-    x⁻¹     <span class="ot">:</span> ♠ Data
-    isGroup <span class="ot">:</span> IsGroup <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε x⁻¹
+    <span class="ot">_</span>⁻¹     <span class="ot">:</span> ♠ Data
+    isGroup <span class="ot">:</span> IsGroup <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε <span class="ot">_</span>⁻¹
 
   <span class="kw">open</span> IsGroup isGroup <span class="kw">public</span>
 
@@ -218,7 +218,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups <span class="kw">using</span> <span class="ot">(</span>IsAbelianGroup<span class="ot">)</span>
 
 <span class="kw">record</span> AbelianGroup c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
-  <span class="kw">infix</span>  <span class="dv">8</span> x⁻¹
+  <span class="kw">infix</span>  <span class="dv">8</span> <span class="ot">_</span>⁻¹
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
   <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
   <span class="kw">field</span>
@@ -226,8 +226,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     <span class="ot">_</span>==<span class="ot">_</span>            <span class="ot">:</span> Rel Data ℓ
     <span class="ot">_</span>∙<span class="ot">_</span>            <span class="ot">:</span> ★ Data
     ε              <span class="ot">:</span> Data
-    x⁻¹            <span class="ot">:</span> ♠ Data
-    isAbelianGroup <span class="ot">:</span> IsAbelianGroup <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε x⁻¹
+    <span class="ot">_</span>⁻¹            <span class="ot">:</span> ♠ Data
+    isAbelianGroup <span class="ot">:</span> IsAbelianGroup <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε <span class="ot">_</span>⁻¹
 
   <span class="kw">open</span> IsAbelianGroup isAbelianGroup <span class="kw">public</span>
 

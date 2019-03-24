@@ -15,6 +15,8 @@
     - [Nullary relations](#nullary-relations)
     - [Unary relations](#unary-relations)
     - [Binary relations](#binary-relations)
+    - [Properties of binary relations](#properties-of-binary-relations)
+  - [Properties of equality](#properties-of-equality)
 - [Setoids](#setoids)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -51,7 +53,7 @@ data _∼_ {A : Set}(a : A) : {B : Set} → B → Set where
   same : a ∼ a
 ```
 
-Reflexivity is defined with the definition of `∼` by the special keyword in Agda, called `refl`, the others being:
+Reflexivity is defined with the definition of `∼` by the keyword `refl`, the others being:
 
 #### Symmetry
 
@@ -202,6 +204,8 @@ Rel : ∀ {a} → Set a → (ℓ : Level) → Set (a ⊔ lsuc ℓ)
 Rel A ℓ = REL A A ℓ
 ```
 
+### Properties of binary relations
+
 We define implication between two relations as:
 
 ```agda
@@ -285,6 +289,30 @@ record IsEquivalence {a ℓ} {A : Set a}
 
   reflexive : _≡_ ⇒ _≈_
   reflexive refl = rfl
+```
+
+## Properties of equality
+
+We use the previous structures to re-define the properties of propositional equality.
+
+```agda
+module ≡-properties {a} {A : Set a} where
+  sym-≡ : Symmetric {A = A} _≡_
+  sym-≡ refl = refl
+
+  trans-≡ : Transitive {A = A} _≡_
+  trans-≡ refl p = p
+
+cong-≡ : ∀ {a b} {A : Set a} {B : Set b} (f : A → B) {x y : A}
+  → x ≡ y
+  → f x ≡ f y
+cong-≡ f refl = refl
+
+subs-≡ : ∀ {a} {A : Set a}{x y : A} (Predicate : A → Set)
+  → x ≡ y
+  → Predicate x
+  → Predicate y
+subs-≡ Predicate refl p = p
 ```
 
 # Setoids

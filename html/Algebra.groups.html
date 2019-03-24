@@ -202,7 +202,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="kw">record</span> IsSemigroupoid <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span>
     <span class="kw">field</span>
-      assoc         <span class="ot">:</span> Associative ∙</code></pre></div>
+      isEquivalence <span class="ot">:</span> IsEquivalence <span class="ot">_</span>==<span class="ot">_</span>
+      ∙-cong        <span class="ot">:</span> Congruent₂ ∙
+      assoc         <span class="ot">:</span> Associative ∙
+
+    <span class="kw">open</span> IsEquivalence isEquivalence <span class="kw">public</span>
+
+    ∙-congˡ <span class="ot">:</span> LeftCongruent ∙
+    ∙-congˡ y==z <span class="ot">=</span> ∙-cong y==z rfl
+
+    ∙-congʳ <span class="ot">:</span> RightCongruent ∙
+    ∙-congʳ y==z <span class="ot">=</span> ∙-cong rfl y==z</code></pre></div>
 <h2 id="small-category">Small category</h2>
 <div class="figure">
 <img src="smallcategory.png" alt="smallcategory" />
@@ -236,18 +246,28 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <img src="groupoid.png" alt="groupoid" />
 <p class="caption">groupoid</p>
 </div>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="kw">record</span> IsGroupoid <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(</span>x⁻¹ <span class="ot">:</span> ♠ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="kw">record</span> IsGroupoid <span class="ot">(_</span>∙<span class="ot">_</span> <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(_</span>⁻¹ <span class="ot">:</span> ♠ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span>
     <span class="kw">field</span>
-      isSmallCategory   <span class="ot">:</span> IsSmallCategory ∙ x
-      inverse           <span class="ot">:</span> Inverse x x⁻¹ ∙
+      isSmallCategory   <span class="ot">:</span> IsSmallCategory <span class="ot">_</span>∙<span class="ot">_</span> x
+      inverse           <span class="ot">:</span> Inverse x <span class="ot">_</span>⁻¹ <span class="ot">_</span>∙<span class="ot">_</span>
 
     <span class="kw">open</span> IsSmallCategory isSmallCategory <span class="kw">public</span>
 
-    inverseˡ <span class="ot">:</span> LeftInverse x x⁻¹ ∙
+    inverseˡ <span class="ot">:</span> LeftInverse x <span class="ot">_</span>⁻¹ <span class="ot">_</span>∙<span class="ot">_</span>
     inverseˡ <span class="ot">=</span> fst inverse
 
-    inverseʳ <span class="ot">:</span> RightInverse x x⁻¹ ∙
-    inverseʳ <span class="ot">=</span> snd inverse</code></pre></div>
+    inverseʳ <span class="ot">:</span> RightInverse x <span class="ot">_</span>⁻¹ <span class="ot">_</span>∙<span class="ot">_</span>
+    inverseʳ <span class="ot">=</span> snd inverse
+
+    <span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>equational
+    <span class="kw">open</span> withCongruence <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">_</span>⁻¹ rfl trans sym ∙-cong x <span class="kw">public</span>
+
+    <span class="co">-- uniqueness of the inverses</span>
+    uniqueˡ-⁻¹ <span class="ot">:</span> <span class="ot">∀</span> α β <span class="ot">→</span> <span class="ot">(</span>α ∙ β<span class="ot">)</span> == x <span class="ot">→</span> α == <span class="ot">(</span>β ⁻¹<span class="ot">)</span>
+    uniqueˡ-⁻¹ <span class="ot">=</span> assoc+id+invʳ⇒invˡ-unique assoc identity inverseʳ
+
+    uniqueʳ-⁻¹ <span class="ot">:</span> <span class="ot">∀</span> α β <span class="ot">→</span> <span class="ot">(</span>α ∙ β<span class="ot">)</span> == x <span class="ot">→</span> β == <span class="ot">(</span>α ⁻¹<span class="ot">)</span>
+    uniqueʳ-⁻¹ <span class="ot">=</span> assoc+id+invˡ⇒invʳ-unique assoc identity inverseˡ</code></pre></div>
 <h2 id="monoid">Monoid</h2>
 <div class="figure">
 <img src="monoid.png" alt="monoid" />
@@ -308,7 +328,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     inverseˡ <span class="ot">=</span> fst inverse
 
     inverseʳ <span class="ot">:</span> RightInverse x <span class="ot">_</span>⁻¹ <span class="ot">_</span>∙<span class="ot">_</span>
-    inverseʳ <span class="ot">=</span> snd inverse</code></pre></div>
+    inverseʳ <span class="ot">=</span> snd inverse
+
+    <span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>equational
+    <span class="kw">open</span> withCongruence <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">_</span>⁻¹ rfl trans sym ∙-cong x <span class="kw">public</span>
+
+    <span class="co">-- uniqueness of the inverses</span>
+    uniqueˡ-⁻¹ <span class="ot">:</span> <span class="ot">∀</span> α β <span class="ot">→</span> <span class="ot">(</span>α ∙ β<span class="ot">)</span> == x <span class="ot">→</span> α == <span class="ot">(</span>β ⁻¹<span class="ot">)</span>
+    uniqueˡ-⁻¹ <span class="ot">=</span> assoc+id+invʳ⇒invˡ-unique assoc identity inverseʳ
+
+    uniqueʳ-⁻¹ <span class="ot">:</span> <span class="ot">∀</span> α β <span class="ot">→</span> <span class="ot">(</span>α ∙ β<span class="ot">)</span> == x <span class="ot">→</span> β == <span class="ot">(</span>α ⁻¹<span class="ot">)</span>
+    uniqueʳ-⁻¹ <span class="ot">=</span> assoc+id+invˡ⇒invʳ-unique assoc identity inverseˡ</code></pre></div>
 <h2 id="abelian-group">Abelian Group</h2>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="kw">record</span> IsAbelianGroup <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(</span>⁻¹ <span class="ot">:</span> ♠ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span>
     <span class="kw">field</span>

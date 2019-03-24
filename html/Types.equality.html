@@ -66,7 +66,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#nullary-relations">Nullary relations</a></li>
 <li><a href="#unary-relations">Unary relations</a></li>
 <li><a href="#binary-relations">Binary relations</a></li>
+<li><a href="#properties-of-binary-relations">Properties of binary relations</a></li>
 </ul></li>
+<li><a href="#properties-of-equality">Properties of equality</a></li>
 <li><a href="#setoids">Setoids</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -93,7 +95,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <span class="kw">data</span> <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>a <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
   same <span class="ot">:</span> a ∼ a</code></pre></div>
-<p>Reflexivity is defined with the definition of <code>∼</code> by the special keyword in Agda, called <code>refl</code>, the others being:</p>
+<p>Reflexivity is defined with the definition of <code>∼</code> by the keyword <code>refl</code>, the others being:</p>
 <h4 id="symmetry">Symmetry</h4>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">symmetry <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B<span class="ot">}{</span>a <span class="ot">:</span> A<span class="ot">}{</span>b <span class="ot">:</span> B<span class="ot">}</span>
   <span class="ot">→</span> a ∼ b
@@ -172,6 +174,7 @@ REL A B ℓ <span class="ot">=</span> A <span class="ot">→</span> B <span clas
 <p>and a homogenous one as:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Rel <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ lsuc ℓ<span class="ot">)</span>
 Rel A ℓ <span class="ot">=</span> REL A A ℓ</code></pre></div>
+<h3 id="properties-of-binary-relations">Properties of binary relations</h3>
 <p>We define implication between two relations as:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>⇒<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span>
         <span class="ot">→</span> REL A B ℓ₁
@@ -232,6 +235,25 @@ Transitive <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot
 
   reflexive <span class="ot">:</span> <span class="ot">_</span>≡<span class="ot">_</span> ⇒ <span class="ot">_</span>≈<span class="ot">_</span>
   reflexive refl <span class="ot">=</span> rfl</code></pre></div>
+<h2 id="properties-of-equality">Properties of equality</h2>
+<p>We use the previous structures to re-define the properties of propositional equality.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> ≡-properties <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="kw">where</span>
+  sym-≡ <span class="ot">:</span> Symmetric <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span> <span class="ot">_</span>≡<span class="ot">_</span>
+  sym-≡ refl <span class="ot">=</span> refl
+
+  trans-≡ <span class="ot">:</span> Transitive <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span> <span class="ot">_</span>≡<span class="ot">_</span>
+  trans-≡ refl p <span class="ot">=</span> p
+
+cong-≡ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span>
+  <span class="ot">→</span> x ≡ y
+  <span class="ot">→</span> f x ≡ f y
+cong-≡ f refl <span class="ot">=</span> refl
+
+subs-≡ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}{</span>x y <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">(</span>Predicate <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span>
+  <span class="ot">→</span> x ≡ y
+  <span class="ot">→</span> Predicate x
+  <span class="ot">→</span> Predicate y
+subs-≡ Predicate refl p <span class="ot">=</span> p</code></pre></div>
 <h1 id="setoids">Setoids</h1>
 <p>Equality, or specifically, equivalence is at the heart of mathematics. In order to build more complex structures, we introduce a new datatype, which essentially encapsulates any datatype and it’s equivalence operation:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Setoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
