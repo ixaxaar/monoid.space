@@ -2,3 +2,4 @@ html/
 *.agdai
 build/
 tmp/
+*.agdai
