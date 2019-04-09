@@ -11,6 +11,7 @@ declare -a files=(
   "Lang/proofsAsData"
   "Lang/syntaxQuirks"
   "Lang/other"
+  "Lang/debugging"
 
   "Types/introduction"
   "Types/universe"

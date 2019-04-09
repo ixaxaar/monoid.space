@@ -26,6 +26,7 @@
   - [Functions](./Lang.functions.html)
   - [Quirks of Syntax](./Lang.syntaxQuirks.html)
   - [Modules, Records and Postulates](./Lang.other.html)
+  - [Debugging](./Lang.debugging.html)
 
 ## 2. Type Theory
 
@@ -104,6 +105,7 @@ import Lang.proofsAsData
 import Lang.functions
 import Lang.syntaxQuirks
 import Lang.other
+import Lang.debugging
 
 import Types.introduction
 import Types.universe
