@@ -1,3 +1,4 @@
+![intro](./Algebra/congruence.png)
 
 # [monoid.space](http://monoid.space)
 
