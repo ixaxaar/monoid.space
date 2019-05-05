@@ -70,9 +70,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   zero<span class="ot">;</span> one<span class="ot">)</span>
 
 <span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">renaming</span> <span class="ot">(</span>Level <span class="kw">to</span> AgdaLevel<span class="ot">;</span> lzero <span class="kw">to</span> alzero<span class="ot">;</span> lsuc <span class="kw">to</span> alsuc<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_</span> <span class="kw">to</span> <span class="ot">_</span>⊔⊔<span class="ot">_)</span></code></pre></div>
+<p>We first define the universe, or type of all types. The type of all types is a <code>Set</code> in agda. The problem of paradoxes resulting from infinite sets and set of all sets can be avoided by constructing the type of all types as “universes” in a heirarchically cumulative way.</p>
 <p>A universe is a set of types. Now, when we take our universe to be a set of types, there comes a problem of universe of all possible types, and we end up with Russel’s Paradox. To avoid this, we say that our universe is constructed heirarchically, with an index <code>i</code> such that universe <code>Uᵢ</code> ∈ Uᵢ₊₁ and so on.</p>
 <p><br /><span class="math display"><em>U</em><sub>0</sub> ∈ <em>U</em><sub>1</sub> ∈ <em>U</em>_2 ∈ ... ∈ <em>U</em><sub><em>i</em></sub> ∈ <em>U</em><sub><em>i</em> + 1</sub> ∈ ... ∈ <em>U</em><sub>∞</sub></span><br /></p>
-<p>Let us define the index, called <code>Level</code> in agda’s standard library:</p>
+<p>Let us define the above index <code>i</code> of universe <code>Uᵢ</code>, called <code>Level</code> in agda’s standard library:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">infixl</span> <span class="dv">6</span> <span class="ot">_</span>⊔<span class="ot">_</span>
 
 <span class="kw">postulate</span>
@@ -117,7 +118,7 @@ Type0 <span class="ot">=</span> Type alzero
 Type₁ <span class="ot">=</span> Type <span class="ot">(</span>alsuc alzero<span class="ot">)</span>
 Type1 <span class="ot">=</span> Type <span class="ot">(</span>alsuc alzero<span class="ot">)</span></code></pre></div>
 <h1 id="universe-polymorphism">Universe Polymorphism</h1>
-<p>Now, gieven that we have infinite heirarchical universes, we would have to define the same functions, data types and machinery for each universe level, which would be pretty tedious to say the least. However, we observe how our universes are defined and note that the level-based indexing system, that connects each successive universe, provides us with the mechanics to define objects for all universe levels:</p>
+<p>Now, gieven that we have infinite heirarchical universes, we would have to define the same functions, data types and machinery for each universe level, which would be pretty tedious to say the least. However, we observe how our universes are defined and note that the level-based indexing system, that connects each successive universe, provides us with the mechanics to define objects for all universe levels <code>ℓ</code>:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">id <span class="ot">:</span> <span class="ot">{</span>ℓ <span class="ot">:</span> AgdaLevel<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> ℓ<span class="ot">}</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> A
 id x <span class="ot">=</span> x</code></pre></div>
 <p>Here <code>id</code> represents a family of identity functions given a type <code>A</code> and its level <code>ℓ</code>.</p>

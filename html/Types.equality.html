@@ -55,7 +55,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li><a href="#symmetry">Symmetry</a></li>
 <li><a href="#transitivity">Transitivity</a></li>
-<li><a href="#functions-that-preserve-equality-or-congruence">Functions that preserve equality or Congruence</a></li>
+<li><a href="#congruence-functions-that-preserve-equality">Congruence: functions that preserve equality</a></li>
 <li><a href="#substitution">Substitution</a></li>
 </ul></li>
 <li><a href="#definitonal-equality">Definitonal Equality</a></li>
@@ -84,7 +84,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">open</span> <span class="kw">import</span> Level <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_)</span> <span class="kw">renaming</span> <span class="ot">(</span>zero <span class="kw">to</span> lzero<span class="ot">;</span> suc <span class="kw">to</span> lsuc<span class="ot">)</span>
 
 <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions <span class="kw">using</span> <span class="ot">(_</span>on<span class="ot">_;</span> flip<span class="ot">)</span></code></pre></div>
-<p>There are different kinds equivalence relations and hence, equalities in type theory.</p>
+<p>As we previously mentioned, equality, in type theory, is itself a type. Hence the definiton of equality can be constructed for different types. There exists an equality by definiton as well. This results in two different kinds of equivalence relations and hence, kinds of equalities in type theory.</p>
 <h2 id="propositional-equality">Propositional Equality</h2>
 <p>In type theory, all proofs can be represented as a type. Propositional equality is a kind of equality which requires a proof, and hence the equality itself is also a type <code>∼</code>:</p>
 <div class="figure">
@@ -107,7 +107,7 @@ symmetry same <span class="ot">=</span> same</code></pre></div>
   <span class="ot">→</span> b ∼ c
   <span class="ot">→</span> a ∼ c
 transitivity same p <span class="ot">=</span> p</code></pre></div>
-<h3 id="functions-that-preserve-equality-or-congruence">Functions that preserve equality or Congruence</h3>
+<h3 id="congruence-functions-that-preserve-equality">Congruence: functions that preserve equality</h3>
 <p>Functions that when applied to objects of a type, do not alter the operation of equality can be defined as:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">congruence <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span>
   <span class="ot">→</span> x ∼ y
@@ -133,8 +133,9 @@ tableEqThree <span class="ot">=</span> same</code></pre></div>
 <p>This, of course does not compile:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">tableEqNot <span class="fu">:</span> generic ∼ (specific three)
 tableEqNot <span class="fu">=</span> same</code></pre></div>
+<p>Any relation which satisfies the above properties of <code>reflexivity</code>, <code>transitivity</code> and <code>symmetry</code> can be considered an equivalence relation and hence can judge a propositional equality.</p>
 <h1 id="definitonal-equality">Definitonal Equality</h1>
-<p>Definitonal equality relates to the Agda compiler’s own integrity check through which a statement is deemed true or correctly compiled. Hence every statemtent has its own notion of equality.</p>
+<p>Definitonal equality relates to the Agda compiler’s own integrity check through which a statement is deemed true or correctly compiled. Hence every statemtent has its own notion of judgemental equality. This is in some way more fundamental than propositional equality as in it forms the very core of type theory’s “judgement” of a <code>type(obj) == T</code>. The notion of definitonal equality also encompasses types that are isomorphic to each other e.g. <code>9 ≡ 3²</code>.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">defEqual₁ <span class="ot">:</span> ℕ
 defEqual₁ <span class="ot">=</span> seven
 
@@ -226,6 +227,7 @@ Transitive <span class="ot">:</span> <span class="ot">∀</span> <span class="ot
         <span class="ot">→</span> Rel A ℓ
         <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
 Transitive <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> Trans <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>∼<span class="ot">_</span></code></pre></div>
+<p>Finally, we define an equivalence relation for binary relations:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> IsEquivalence <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span>
                      <span class="ot">(_</span>≈<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span>
   <span class="kw">field</span>
@@ -236,7 +238,7 @@ Transitive <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot
   reflexive <span class="ot">:</span> <span class="ot">_</span>≡<span class="ot">_</span> ⇒ <span class="ot">_</span>≈<span class="ot">_</span>
   reflexive refl <span class="ot">=</span> rfl</code></pre></div>
 <h2 id="properties-of-equality">Properties of equality</h2>
-<p>We use the previous structures to re-define the properties of propositional equality.</p>
+<p>We use the new structures to re-define the properties of propositional equality.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> ≡-properties <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="kw">where</span>
   sym-≡ <span class="ot">:</span> Symmetric <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span> <span class="ot">_</span>≡<span class="ot">_</span>
   sym-≡ refl <span class="ot">=</span> refl
@@ -264,6 +266,7 @@ subs-≡ Predicate refl p <span class="ot">=</span> p</code></pre></div>
     isEquivalence <span class="ot">:</span> IsEquivalence <span class="ot">_</span>≈<span class="ot">_</span>
 
   <span class="kw">open</span> IsEquivalence isEquivalence <span class="kw">public</span></code></pre></div>
+<p>Setoids are extensively used throughout agda’s standard library, however, we chose to avoid them here to be more explicit.</p>
 <hr />
 <p><a href="./contents.html">Back to Contents</a></p>
 </body>

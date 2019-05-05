@@ -6,7 +6,7 @@
   - [Propositional Equality](#propositional-equality)
       - [Symmetry](#symmetry)
       - [Transitivity](#transitivity)
-    - [Functions that preserve equality or Congruence](#functions-that-preserve-equality-or-congruence)
+    - [Congruence: functions that preserve equality](#congruence-functions-that-preserve-equality)
     - [Substitution](#substitution)
 - [Definitonal Equality](#definitonal-equality)
 - [Relations, a deeper look](#relations-a-deeper-look)
@@ -38,7 +38,7 @@ open import Level using (Level; _⊔_) renaming (zero to lzero; suc to lsuc)
 open import Types.functions using (_on_; flip)
 ```
 
-There are different kinds equivalence relations and hence, equalities in type theory.
+As we previously mentioned, equality, in type theory, is itself a type. Hence the definiton of equality can be constructed for different types. There exists an equality by definiton as well. This results in two different kinds of equivalence relations and hence, kinds of equalities in type theory.
 
 ## Propositional Equality
 
@@ -74,7 +74,7 @@ transitivity : ∀ {A B C}{a : A}{b : B}{c : C}
 transitivity same p = p
 ```
 
-### Functions that preserve equality or Congruence
+### Congruence: functions that preserve equality
 
 Functions that when applied to objects of a type, do not alter the operation of equality can be defined as:
 
@@ -118,9 +118,11 @@ tableEqNot : generic ∼ (specific three)
 tableEqNot = same
 ```
 
+Any relation which satisfies the above properties of `reflexivity`, `transitivity` and `symmetry` can be considered an equivalence relation and hence can judge a propositional equality.
+
 # Definitonal Equality
 
-Definitonal equality relates to the Agda compiler's own integrity check through which a statement is deemed true or correctly compiled. Hence every statemtent has its own notion of equality.
+Definitonal equality relates to the Agda compiler's own integrity check through which a statement is deemed true or correctly compiled. Hence every statemtent has its own notion of judgemental equality. This is in some way more fundamental than propositional equality as in it forms the very core of type theory's "judgement" of a `type(obj) == T`. The notion of definitonal equality also encompasses types that are isomorphic to each other e.g. `9 ≡ 3²`.
 
 ```agda
 defEqual₁ : ℕ
@@ -279,6 +281,8 @@ Transitive : ∀ {a ℓ} {A : Set a}
 Transitive _∼_ = Trans _∼_ _∼_ _∼_
 ```
 
+Finally, we define an equivalence relation for binary relations:
+
 ```agda
 record IsEquivalence {a ℓ} {A : Set a}
                      (_≈_ : Rel A ℓ) : Set (a ⊔ ℓ) where
@@ -293,7 +297,7 @@ record IsEquivalence {a ℓ} {A : Set a}
 
 ## Properties of equality
 
-We use the previous structures to re-define the properties of propositional equality.
+We use the new structures to re-define the properties of propositional equality.
 
 ```agda
 module ≡-properties {a} {A : Set a} where
@@ -330,6 +334,7 @@ record Setoid c ℓ : Set (lsuc (c ⊔ ℓ)) where
   open IsEquivalence isEquivalence public
 ```
 
+Setoids are extensively used throughout agda's standard library, however, we chose to avoid them here to be more explicit.
 
 ****
 [Back to Contents](./contents.html)

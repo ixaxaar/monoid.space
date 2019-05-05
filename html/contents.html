@@ -54,9 +54,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#1-agda">1. Agda</a></li>
 <li><a href="#2-type-theory">2. Type Theory</a></li>
 <li><a href="#3-logic">3. Logic</a></li>
-<li><a href="#4-abstract-algebras">4. Abstract Algebras</a></li>
-<li><a href="#5-algebraic-topology">5. Algebraic Topology</a></li>
-<li><a href="#6-category-theory">6. Category Theory</a></li>
+<li><a href="#4-homotopy-type-theory">4. Homotopy Type Theory</a></li>
+<li><a href="#5-abstract-algebras">5. Abstract Algebras</a></li>
+<li><a href="#7-category-theory">7. Category Theory</a></li>
+<li><a href="#8-algebraic-topology">8. Algebraic Topology</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="contents">Contents</h1>
@@ -99,7 +100,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="./Logic.equality.html">Equality</a></li>
 <li><a href="./Logic.laws.html">Laws of Logic</a> <!-- - [Decidability](./Logic.decidability.html) --></li>
 </ul>
-<h2 id="abstract-algebras">4. Abstract Algebras</h2>
+<h2 id="homotopy-type-theory">4. Homotopy Type Theory</h2>
+<ul>
+<li><a href="./HoTT.introduction.html">Introduction</a></li>
+<li><a href="./HoTT.identity.html">Identity Types</a></li>
+</ul>
+<h2 id="abstract-algebras">5. Abstract Algebras</h2>
 <div class="figure">
 <img src="4.png" alt="4" />
 <p class="caption">4</p>
@@ -112,18 +118,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="./Algebra.structures.html">Groups and family 2</a></li>
 <li><a href="./Algebra.groupProperties.html">Properties of Group-like objects</a> <!-- - [Rings and family](./Algebra.rings.html) --> <!-- - [Properties of Ring-like objects](./Algebra.ringProperties.html) --></li>
 </ul>
-<h2 id="algebraic-topology">5. Algebraic Topology</h2>
-<div class="figure">
-<img src="5.png" alt="5" />
-<p class="caption">5</p>
-</div>
-<ul>
-<li>[Paths and connected spaces]</li>
-<li>[The Fundamental Group and Groupoid]</li>
-<li>[Functor]</li>
-<li>[The Seifert - van-Kampen theorem]</li>
-</ul>
-<h2 id="category-theory">6. Category Theory</h2>
+<h2 id="category-theory">7. Category Theory</h2>
 <div class="figure">
 <img src="6.png" alt="6" />
 <p class="caption">6</p>
@@ -135,6 +130,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>[Limits and Co-Limits]</li>
 <li>[Adjunctions]</li>
 <li>[Kan Extensions]</li>
+</ul>
+<h2 id="algebraic-topology">8. Algebraic Topology</h2>
+<div class="figure">
+<img src="5.png" alt="5" />
+<p class="caption">5</p>
+</div>
+<ul>
+<li>[Paths and connected spaces]</li>
+<li>[The Fundamental Group and Groupoid]</li>
+<li>[Functor]</li>
+<li>[The Seifert - van-Kampen theorem]</li>
 </ul>
 <!--
 ## 7. The Curry-Howard-Lambek-Voevodsky isomorphism
@@ -148,6 +154,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 9. Homotopy Type Theory
 
 ![9](9.png) -->
+<p>Code: <a href="https://github.com/ixaxaar/monoid.space">Github</a>, <a href="https://gitlab.com/ixaxaar/with_agda">Gitlab</a>.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">import</span> Lang<span class="ot">.</span>setup
 <span class="kw">import</span> Lang<span class="ot">.</span>languageIntro
 <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures
@@ -163,6 +170,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">import</span> Types<span class="ot">.</span>equality
 <span class="kw">import</span> Types<span class="ot">.</span>typeBasics
 <span class="kw">import</span> Types<span class="ot">.</span>functions
+
+<span class="kw">import</span> HoTT<span class="ot">.</span>identity
 
 <span class="kw">import</span> Logic<span class="ot">.</span>introduction
 <span class="kw">import</span> Logic<span class="ot">.</span>logicBasics

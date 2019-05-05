@@ -28,6 +28,8 @@ open import Lang.dataStructures using (
 open import Agda.Primitive renaming (Level to AgdaLevel; lzero to alzero; lsuc to alsuc; _⊔_ to _⊔⊔_)
 ```
 
+We first define the universe, or type of all types. The type of all types is a `Set` in agda. The problem of paradoxes resulting from infinite sets and set of all sets can be avoided by constructing the type of all types as "universes" in a heirarchically cumulative way.
+
 A universe is a set of types. Now, when we take our universe to be a set of types, there comes a problem of universe of all possible types, and we end up with Russel's Paradox. To avoid this, we say that our universe is constructed heirarchically, with an index `i` such that universe `Uᵢ` ∈ Uᵢ₊₁ and so on.
 
 
@@ -35,7 +37,7 @@ $$
 U_{0} \in U_{1} \in U\_{2} \in ... \in U_{i} \in U_{i+1}  \in ... \in U_{\infty}
 $$
 
-Let us define the index, called `Level` in agda's standard library:
+Let us define the above index `i` of universe `Uᵢ`, called `Level` in agda's standard library:
 
 ```agda
 infixl 6 _⊔_
@@ -97,7 +99,7 @@ Type1 = Type (alsuc alzero)
 
 # Universe Polymorphism
 
-Now, gieven that we have infinite heirarchical universes, we would have to define the same functions, data types and machinery for each universe level, which would be pretty tedious to say the least. However, we observe how our universes are defined and note that the level-based indexing system, that connects each successive universe, provides us with the mechanics to define objects for all universe levels:
+Now, gieven that we have infinite heirarchical universes, we would have to define the same functions, data types and machinery for each universe level, which would be pretty tedious to say the least. However, we observe how our universes are defined and note that the level-based indexing system, that connects each successive universe, provides us with the mechanics to define objects for all universe levels `ℓ`:
 
 ```agda
 id : {ℓ : AgdaLevel} {A : Set ℓ} (x : A) → A

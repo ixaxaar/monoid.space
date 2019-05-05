@@ -50,11 +50,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
 <ul>
-<li><a href="#product-types-or-tuples">Product types or tuples</a></li>
+<li><a href="#product-types">Product types</a></li>
 <li><a href="#construction">Construction</a></li>
-<li><a href="#uniqueness-proof">Uniqueness proof</a></li>
+<li><a href="#dependent-types-or-%CF%80-types">Dependent Types or Π-types</a></li>
 <li><a href="#api">API</a>
 <ul>
+<li><a href="#cross-product">Cross product</a></li>
 <li><a href="#application-of-a-product">Application of a product</a></li>
 <li><a href="#map">Map</a></li>
 <li><a href="#swap">Swap</a></li>
@@ -78,7 +79,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span>
 
 <span class="kw">open</span> <span class="kw">import</span> Level</code></pre></div>
-<h1 id="product-types-or-tuples">Product types or tuples</h1>
+<h1 id="product-types">Product types</h1>
 <p>A cartesian product of two types <code>A</code> and <code>B</code> can be defined as a pair of objects <code>(a, b)</code>, where <code>a</code> ∈ <code>A</code>, and <code>b</code> ∈ <code>B</code>.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> <span class="ot">_</span>××<span class="ot">_</span> <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
   <span class="ot">_</span>,,<span class="ot">_</span>  <span class="ot">:</span> A <span class="ot">→</span> B <span class="ot">→</span> A ×× B
@@ -88,29 +89,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">oneTwo <span class="ot">=</span> one ,, two
 
 oneTwoThree <span class="ot">=</span> one ,, <span class="ot">(</span>two ,, three<span class="ot">)</span></code></pre></div>
-<p>Some exmaples of product types in programming languages are for e.g. tuples in scala:</p>
-<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">val</span> tuple:Tuple3[String, String, String] = (<span class="st">&quot;a&quot;</span>, <span class="st">&quot;pointless&quot;</span>, <span class="st">&quot;tuple&quot;</span>)</code></pre></div>
-<p>though a large number of datatypes are sub-types of products, e.g.</p>
-<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala">None, Option, Some,
-ScalaReflectionException,
-StringContext,
-UninitializedFieldError,
-Found,
-InsertionPoint,
-::, List, Nil,
-ScanLeaf, ScanNode,
-Deadline,
-Either, LeftProjection, RightProjection, Failure, Left, Right, Success,
-Try, Call, Cont, Done,
-CompositeThrowable,
-End, Include, Index,
-NoLo, Remove, Reset, Start, Update,
-DocBreak, DocCons, DocGroup, DocNest, DocNil, DocText</code></pre></div>
 <h2 id="construction">Construction</h2>
 <p>While being intuitively familiar with what a cartesian product is, it’s algebraic definition captures the most abstract aspect of a product:</p>
 <p>A cartesian product, in set theory, for two sets <code>A</code> and <code>B</code> is defined as:</p>
 <p><br /><span class="math display"><em>A</em><em>x</em><em>B</em> = {(<em>a</em>, <em>b</em>)|<em>a</em> ∈ <em>A</em> <em>a</em><em>n</em><em>d</em> <em>b</em> ∈ <em>B</em>}</span><br /></p>
-<p>We look at another way of defining product types, just by looking at them as objects in themselves: For an object <code>X</code>, we call <code>X</code> a product type if:</p>
+<p>In type theory, we look at another way of defining product types, just by looking at them as objects in themselves: For an object <code>X</code>, we call <code>X</code> a product type if:</p>
 <ol style="list-style-type: decimal">
 <li>There exists two functions, lets call them <code>proj₁</code> and <code>proj₂</code> such that they can be used to “extract” the contents of the product <code>X</code>:</li>
 </ol>
@@ -120,7 +103,7 @@ DocBreak, DocCons, DocGroup, DocNest, DocNil, DocText</code></pre></div>
 proj₂ <span class="fu">:</span> {<span class="dt">A</span> <span class="dt">B</span> <span class="fu">:</span> <span class="dt">Set</span>} <span class="ot">→</span> (<span class="dt">A</span> × <span class="dt">B</span>) <span class="ot">→</span> <span class="dt">B</span>
 (a × b) <span class="fu">=</span> b</code></pre></div>
 <ol start="2" style="list-style-type: decimal">
-<li>If there is any another object <code>A</code>, such that the functions <code>proj₁ₐ</code> and <code>proj₂ₐ</code> satisfied the above condition, then there exists a function, <code>fₐ₀</code> such that:</li>
+<li>If there is any another object <code>A</code>, such that the functions <code>proj₁ₐ</code> and <code>proj₂ₐ</code> satisfied the above condition for <code>A</code>, then there exists a function, <code>fₐ₀</code> such that:</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">fₐ₀ <span class="fu">:</span> <span class="dt">A</span> <span class="ot">→</span> <span class="dt">X</span></code></pre></div>
 <p>Note: The above is pseudo-code, the proof is below.</p>
@@ -129,7 +112,9 @@ proj₂ <span class="fu">:</span> {<span class="dt">A</span> <span class="dt">B<
 <img src="./product.png" alt="product" />
 <p class="caption">product</p>
 </div>
-<p>Agda’s <code>Record</code> types provides encapsulate this definition:</p>
+<h2 id="dependent-types-or-π-types">Dependent Types or Π-types</h2>
+<p>Dependent types are products where the 2nd type is dependent on the first one. i.e. <code>(A, B)</code> such that there exists.</p>
+<p>Agda’s <code>Record</code> types provides encapsulation for this definition and some syntactic sugars like constructors:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Σ <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">(</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span> <span class="kw">where</span>
   <span class="kw">constructor</span> <span class="ot">_</span>,<span class="ot">_</span>
   <span class="kw">field</span>
@@ -139,31 +124,16 @@ proj₂ <span class="fu">:</span> {<span class="dt">A</span> <span class="dt">B<
 <span class="kw">open</span> Σ <span class="kw">public</span>
 
 <span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>,<span class="ot">_</span></code></pre></div>
-<p>The <code>Σ</code> type is also called a “Dependent” or “Σ” type, dependent as in the second parameter to <code>record</code> depends upon the type <code>A</code>, the first parameter. Note that we use the machinery of universe polymorphism to define this.</p>
-<h2 id="uniqueness-proof">Uniqueness proof</h2>
-<p>To prove uniqueness of a product, we first have to define a version of <code>Σ</code> where the type of the first parameter can be inferred:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">∃ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span>
-∃ <span class="ot">=</span> Σ <span class="ot">_</span></code></pre></div>
-<p>A <code>syntax</code> declaration binds a pattern to a specified syntax. We define a syntax for Σ such that <code>Σ[ x ∈ A ] B</code> would be re-written as <code>Σ A (λ x → B)</code>:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">infix</span> <span class="dv">2</span> Σ-syntax
-
-Σ-syntax <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span>
-Σ-syntax <span class="ot">=</span> Σ
-
-<span class="kw">syntax</span> Σ-syntax A <span class="ot">(λ</span> x <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">=</span> Σ[ x ∈ A ] B</code></pre></div>
-<p>Then we proceed to define composition in the form of Σ-syntax:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>×<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">(</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span>
-A × B <span class="ot">=</span> Σ[ x ∈ A ] B</code></pre></div>
-<p>We then proceed with the proof:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">∃! <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span> ℓ<span class="ot">)</span> <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b ⊔ ℓ<span class="ot">)</span>
-∃! <span class="ot">_</span>≈<span class="ot">_</span> B <span class="ot">=</span> ∃ <span class="ot">λ</span> x
-  <span class="ot">→</span> B x × <span class="ot">(∀</span> <span class="ot">{</span>y<span class="ot">}</span> <span class="ot">→</span> B y <span class="ot">→</span> x ≈ y<span class="ot">)</span></code></pre></div>
-<p>Uniqueness here implies that a “product” can essentially be defined as an object of type <code>A × B</code> such that for any other object, say of type <code>A × B × C</code>, which can have similar projections <code>A × B × C → A</code> and <code>A × B × C → B</code>, there exists a unique function of type <code>A × B × C → A × B</code>.</p>
+<p>While constructing algebraic structures, a fairly general pattern is that a bunch of properties can be bundled together to form objects, and then structures are built on top of them. Since all of those properties are types, a record containing a bunch of properties would by construction ensure the objects of such a record belong to the algebraic type. A lot of implementation of mathematical structures can be done in this form of <code>record</code>s of bundled properties.</p>
+<p>The <code>Σ</code> type is also called a “Dependent” or “Σ” (sigma) type - dependent as in the second parameter to <code>record</code> depends upon the type <code>A</code>, the first parameter. Note that we use the machinery of universe polymorphism to define this.</p>
 <div class="figure">
 <img src="product_full.png" alt="product_full" />
 <p class="caption">product_full</p>
 </div>
 <h2 id="api">API</h2>
+<h3 id="cross-product">Cross product</h3>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>×<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">(</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span>
+A × B <span class="ot">=</span> Σ A <span class="ot">(λ</span> x <span class="ot">→</span> B<span class="ot">)</span></code></pre></div>
 <h3 id="application-of-a-product">Application of a product</h3>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">&lt;<span class="ot">_</span>,<span class="ot">_</span>&gt; <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">→</span> B x <span class="ot">→</span> <span class="dt">Set</span> c<span class="ot">}</span>
         <span class="ot">(</span>f <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x<span class="ot">)</span>
@@ -183,7 +153,7 @@ map f g <span class="ot">(</span>x , y<span class="ot">)</span> <span class="ot"
 swap <span class="ot">(</span>x , y<span class="ot">)</span> <span class="ot">=</span> <span class="ot">(</span>y , x<span class="ot">)</span></code></pre></div>
 <h1 id="co-product-types">Co-product types</h1>
 <p>Co-products, also called as “sum” types can be thought of as a disjoint uinon of two objects.</p>
-<p>Mathematically, an object <code>X∪Y</code> is a co-product of objects <code>X</code> and <code>Y</code> if,</p>
+<p>Mathematically, an object <code>X ⋃ Y</code> is a co-product of objects <code>X</code> and <code>Y</code> if,</p>
 <ol style="list-style-type: decimal">
 <li>There exists two functions <code>inj_₁</code> and <code>inj₂</code> such that: ```haskell inj₁ : {A B : Set} → A → (A ∪ B) a = (a ∪ b)</li>
 </ol>
