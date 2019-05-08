@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" type="text/css" />
+</head>
+<body>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<hr />
+<ul>
+<li><a href="#homotopy-type-theory">Homotopy Type Theory</a></li>
+<li><a href="#fields-spaces-points-paths">Fields, Spaces, Points, Paths</a></li>
+<li><a href="#paths-and-their-equalities">Paths and their equalities</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h1 id="homotopy-type-theory">Homotopy Type Theory</h1>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> HoTT<span class="ot">.</span>introduction <span class="kw">where</span></code></pre></div>
+<p>Homotopy type theory (HoTT) is a mathematical framework that treats types as spaces and one can apply the machinery of homotopy theory over those spaces. Homotopy theory is a part of algebraic geometry which deals with paths and functions between paths. HoTT essentially enables one to use the API of algebraic geometry by letting us treat types as spaces. This allows us to implement homotopy theory using type theory in agda while connecting vast areas of mathematics. We see a glimpse of the entire structure here and then proceed to tackle each one individually in agda.</p>
+<h2 id="fields-spaces-points-paths">Fields, Spaces, Points, Paths</h2>
+<p>A field is a set of objects that support or permit addition, subtraction, division and multiplication. Real numbers, rational numbers and complex numbers are some such “set of objects” which we use widely and which can form fields.</p>
+<p>An n-dimensional space can be thought as a collection of n numbers from a field and n directions or bases. Thus we can construct spaces from fields. For e.g. any point in 2-dimensional space of real numbers ℝ can be represented as <span class="math inline"><em>a</em> × <em>x</em> + <em>b</em> × <em>y</em></span> where <span class="math inline"><em>a</em>, <em>b</em> ∈ <em>ℝ</em></span>.</p>
+<p>A path is a line joining two points. This path can be of any shape, be it a straight line or an extremely squiggly one.</p>
+<div class="figure">
+<img src="./pathType.png" alt="path" />
+<p class="caption">path</p>
+</div>
+<h2 id="paths-and-their-equalities">Paths and their equalities</h2>
+<p>Technically, a path p between two points <code>x</code> and <code>y</code> can be represented as a function <code>f</code> that takes a continuous value <code>t</code> and returns a point on the path <code>f(t)</code> such that the first point is <code>x</code> <span class="math inline"><em>f</em>(0)=<em>x</em></span> and the last point is <code>y</code> <span class="math inline"><em>f</em>(1)=<em>y</em></span> and <span class="math inline">0 ≤ <em>t</em> ≤ 1</span>. It might need to be reminded that such a path might not actually exist as a continuous line through space but may help if imagined as such.</p>
+<p>Now, we could take any two paths between the same points and stretch / squeeze one path into another. This process can be used to capture relationships between two paths and is called <em>homotopy</em>. More formally,</p>
+<div class="figure">
+<img src="./two_paths_homotopy.png" alt="two_paths_homotopy" />
+<p class="caption">two_paths_homotopy</p>
+</div>
+<p>A <em>homotopy</em> between two paths <code>p(t)</code> and <code>q(t)</code> is defined as a continuous function <code>H(t, h)</code> such that:</p>
+<ul>
+<li><span class="math inline"><em>H</em>(<em>t</em>, 0)=<em>p</em>(<em>t</em>)</span></li>
+<li><span class="math inline"><em>H</em>(<em>t</em>, 1)=<em>q</em>(<em>t</em>)</span></li>
+<li><span class="math inline"><em>H</em>(0, <em>h</em>)=<em>x</em></span></li>
+<li><span class="math inline"><em>H</em>(1, <em>h</em>)=<em>y</em></span></li>
+</ul>
+<p>There can exist multiple paths between two objects and hence multiple homotopies between them. Homotopies can be thought of as 2-dimensional paths or path-of-path if paths are 1-dimensional paths.</p>
+<div class="figure">
+<img src="./homotopy.png" alt="homotopy" />
+<p class="caption">homotopy</p>
+</div>
+<p>Two homotopies <code>H1</code> and <code>H2</code> can themselves be called equal if <span class="math inline"><em>H</em>(0, <em>h</em>)=<em>H</em>(1, <em>h</em>)=<em>x</em>₀</span>, i.e. if <code>x</code> and <code>y</code> are the same point. We can use this equivalence relation and the fact that homotopies have inverses, to build a group structure around these homotopies, called as the <em>fundamental group</em>.</p>
+<p>We can have n-dimentional paths from n-equalitites or homotopies of homotopies of homotopies of homotopies and so on. Such a structure of infinite levels of homotopies with points followed by paths as base is called the <em>∞-groupoid</em>.</p>
+<hr />
+<p><a href="./contents.html">Back to Contents</a></p>
+</body>
+</html>
