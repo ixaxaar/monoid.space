@@ -6,10 +6,9 @@
   - [1. Agda](#1-agda)
   - [2. Type Theory](#2-type-theory)
   - [3. Logic](#3-logic)
-  - [4. Homotopy Type Theory](#4-homotopy-type-theory)
-  - [5. Abstract Algebras](#5-abstract-algebras)
+  - [4. Abstract Algebras](#4-abstract-algebras)
+  - [5. Homotopy Type Theory](#5-homotopy-type-theory)
   - [7. Category Theory](#7-category-theory)
-  - [8. Algebraic Topology](#8-algebraic-topology)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -48,14 +47,9 @@
   - [Boolean Algebra](./Logic.logicBasics.html)
   - [Equality](./Logic.equality.html)
   - [Laws of Logic](./Logic.laws.html)
-  <!-- - [Decidability](./Logic.decidability.html) -->
+  - [Decidability *todo*](./Logic.decidability.html)
 
-## 4. Homotopy Type Theory
-
-  - [Introduction](./HoTT.introduction.html)
-  - [Identity Types](./HoTT.identity.html)
-
-## 5. Abstract Algebras
+## 4. Abstract Algebras
 
 ![4](4.png)
 
@@ -70,6 +64,26 @@
   <!-- - [Rings and family](./Algebra.rings.html) -->
   <!-- - [Properties of Ring-like objects](./Algebra.ringProperties.html) -->
 
+
+<!-- ## 4. Algebraic Geometry
+
+  - [Introduction](./AlgebraicGeometry.introduction.html)
+
+ -->
+
+## 5. Homotopy Type Theory
+
+![5](5.png)
+
+  - [Introduction](./HoTT.introduction.html)
+  - [Identity Types](./HoTT.identity.html)
+  - [Paths and connected spaces *todo*](./HoTT/paths.html)
+  - [The Univalence Principle *todo*](./HoTT/univalance.html)
+  - [The Fundamental Group and Groupoid *todo*](./HoTT/fundamentalGroup.html)
+
+<!-- - [The Seifert van-Kampen Theorem *todo*](./HoTT/vanKampen.html) -->
+
+
 ## 7. Category Theory
 
 ![6](6.png)
@@ -80,15 +94,6 @@
   - [Limits and Co-Limits]
   - [Adjunctions]
   - [Kan Extensions]
-
-## 8. Algebraic Topology
-
-![5](5.png)
-
-  - [Paths and connected spaces]
-  - [The Fundamental Group and Groupoid]
-  - [Functor]
-  - [The Seifert - van-Kampen theorem]
 
 
 <!--
@@ -123,12 +128,14 @@ import Types.equality
 import Types.typeBasics
 import Types.functions
 
+import HoTT.introduction
 import HoTT.identity
 
 import Logic.introduction
 import Logic.logicBasics
 import Logic.equality
 import Logic.laws
+import Logic.decidability
 
 import Algebra.introduction
 import Algebra.operations

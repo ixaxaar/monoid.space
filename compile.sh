@@ -26,6 +26,7 @@ declare -a files=(
   "Logic/laws"
   "Logic/decidability"
 
+  "HoTT/introduction"
   "HoTT/identity"
 
   "Algebra/introduction"
