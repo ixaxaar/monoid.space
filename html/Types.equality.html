@@ -86,9 +86,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions <span class="kw">using</span> <span class="ot">(_</span>on<span class="ot">_;</span> flip<span class="ot">)</span></code></pre></div>
 <p>As we previously mentioned, equality, in type theory, is itself a type. Hence the definiton of equality can be constructed for different types. There exists an equality by definiton as well. This results in two different kinds of equivalence relations and hence, kinds of equalities in type theory.</p>
 <h2 id="propositional-equality">Propositional Equality</h2>
-<p>In type theory, all proofs can be represented as a type. Propositional equality is a kind of equality which requires a proof, and hence the equality itself is also a type <code>∼</code>:</p>
+<p>In type theory, all proofs can be represented as a type. Propositional equality can be thought of as encapsulating the notion of “similarity”, rather than strict equality. E.g. “roses” or “roads” hint at all roses or roads as being of the same kind but not exactly same, thus we define propositional equality over roses or roads which is different from hard equality. Propositional equality is a kind of equality which requires a proof, and hence the equality itself is also a type <code>∼</code>:</p>
 <div class="figure">
-<img src="equailty.png" alt="equailty" />
+<img src="./equailty.png" alt="equailty" />
 <p class="caption">equailty</p>
 </div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>∼<span class="ot">_</span>

@@ -51,13 +51,21 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <hr />
 <ul>
 <li><a href="#homotopy-type-theory">Homotopy Type Theory</a></li>
+<li><a href="#homotopy-theory">Homotopy Theory</a></li>
 <li><a href="#fields-spaces-points-paths">Fields, Spaces, Points, Paths</a></li>
-<li><a href="#paths-and-their-equalities">Paths and their equalities</a></li>
+<li><a href="#paths-and-their-equalities">Paths and their equalities</a>
+<ul>
+<li><a href="#homotopy">Homotopy</a></li>
+<li><a href="#fundamental-group">Fundamental group</a></li>
+<li><a href="#%E2%88%9E-groupoid">∞-groupoid</a></li>
+</ul></li>
+<li><a href="#induction-principle">Induction principle</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="homotopy-type-theory">Homotopy Type Theory</h1>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> HoTT<span class="ot">.</span>introduction <span class="kw">where</span></code></pre></div>
-<p>Homotopy type theory (HoTT) is a mathematical framework that treats types as spaces and one can apply the machinery of homotopy theory over those spaces. Homotopy theory is a part of algebraic geometry which deals with paths and functions between paths. HoTT essentially enables one to use the API of algebraic geometry by letting us treat types as spaces. This allows us to implement homotopy theory using type theory in agda while connecting vast areas of mathematics. We see a glimpse of the entire structure here and then proceed to tackle each one individually in agda.</p>
+<p>Homotopy type theory (HoTT) is a mathematical framework that treats types as spaces and one can apply the machinery of homotopy theory over those spaces. Homotopy theory is a part of algebraic geometry which deals with paths and functions between paths. HoTT essentially enables one to use the API of homotopy theory by letting us treat types as spaces. This allows us to implement homotopy theory using type theory in agda while connecting vast areas of mathematics. We see a glimpse of the entire structure here and then proceed to tackle each one individually in agda.</p>
+<h1 id="homotopy-theory">Homotopy Theory</h1>
 <h2 id="fields-spaces-points-paths">Fields, Spaces, Points, Paths</h2>
 <p>A field is a set of objects that support or permit addition, subtraction, division and multiplication. Real numbers, rational numbers and complex numbers are some such “set of objects” which we use widely and which can form fields.</p>
 <p>An n-dimensional space can be thought as a collection of n numbers from a field and n directions or bases. Thus we can construct spaces from fields. For e.g. any point in 2-dimensional space of real numbers ℝ can be represented as <span class="math inline"><em>a</em> × <em>x</em> + <em>b</em> × <em>y</em></span> where <span class="math inline"><em>a</em>, <em>b</em> ∈ <em>ℝ</em></span>.</p>
@@ -73,6 +81,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <img src="./two_paths_homotopy.png" alt="two_paths_homotopy" />
 <p class="caption">two_paths_homotopy</p>
 </div>
+<h3 id="homotopy">Homotopy</h3>
 <p>A <em>homotopy</em> between two paths <code>p(t)</code> and <code>q(t)</code> is defined as a continuous function <code>H(t, h)</code> such that:</p>
 <ul>
 <li><span class="math inline"><em>H</em>(<em>t</em>, 0)=<em>p</em>(<em>t</em>)</span></li>
@@ -80,13 +89,23 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><span class="math inline"><em>H</em>(0, <em>h</em>)=<em>x</em></span></li>
 <li><span class="math inline"><em>H</em>(1, <em>h</em>)=<em>y</em></span></li>
 </ul>
-<p>There can exist multiple paths between two objects and hence multiple homotopies between them. Homotopies can be thought of as 2-dimensional paths or path-of-path if paths are 1-dimensional paths.</p>
+<p>There can exist multiple paths between two objects and hence multiple homotopies between them. Homotopies can be thought of as 2-dimensional paths or path-of-path if paths are 1-dimensional paths. Homotopies are built on equivalence relations and hence fit into its API, i.e. homotopy respects reflexivity, symmetry and transitivity, and can be used to build equational reasoning chanins.</p>
 <div class="figure">
 <img src="./homotopy.png" alt="homotopy" />
 <p class="caption">homotopy</p>
 </div>
+<h3 id="fundamental-group">Fundamental group</h3>
 <p>Two homotopies <code>H1</code> and <code>H2</code> can themselves be called equal if <span class="math inline"><em>H</em>(0, <em>h</em>)=<em>H</em>(1, <em>h</em>)=<em>x</em>₀</span>, i.e. if <code>x</code> and <code>y</code> are the same point. We can use this equivalence relation and the fact that homotopies have inverses, to build a group structure around these homotopies, called as the <em>fundamental group</em>.</p>
-<p>We can have n-dimentional paths from n-equalitites or homotopies of homotopies of homotopies of homotopies and so on. Such a structure of infinite levels of homotopies with points followed by paths as base is called the <em>∞-groupoid</em>.</p>
+<h3 id="groupoid">∞-groupoid</h3>
+<p>We can have n-dimentional paths from n-equalitites or homotopies of homotopies of homotopies of homotopies and so on. Such a structure of infinite levels of homotopies with points followed by paths as base is called the <em>∞-groupoid</em>. Every space can be turned into its ∞-groupoid and then homotopy theory can be applied to it as well as every ∞-groupoid can yield a fundamental group. This fact connects algebraic topology (which uses the fundamental group) and category theory (which builds on the ∞-groupoid).</p>
+<p>In HoTT, each type can be represented as an ∞-groupoid. Each pair of objects <code>x</code> and <code>y</code> of a type can have an typelevel equality type <span class="math inline"><em>x</em>≡<sub><em>A</em></sub><em>y</em></span>. For example in python:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">a <span class="op">=</span> <span class="dv">3</span>
+b <span class="op">=</span> <span class="dv">4</span>
+
+<span class="bu">type</span>(a) ≡ <span class="bu">type</span>(b)</code></pre></div>
+<p>These equalities can have further equalities <span class="math inline">(<em>x</em><sub>1</sub>≡<sub><em>A</em></sub><em>y</em><sub>1</sub>)≡<sub>(<em>x</em>≡<sub><em>A</em></sub><em>y</em>)</sub>(<em>x</em><sub>2</sub>≡<sub><em>A</em></sub><em>y</em><sub>2</sub>)</span>. Note: higher levels cannot be done trivially in python.</p>
+<h2 id="induction-principle">Induction principle</h2>
+<p>The induction principle is central to deriving all basic constructions for HoTT. Stated simply, if for every pair of objects <code>x</code> and <code>y</code> of type <code>A</code> - the equlaity type <span class="math inline">≡<sub><em>A</em></sub></span> between <code>x</code> and <code>y</code> exists everytime <code>x</code> and <code>y</code> are equal - for every <code>x ∈ A</code>, the equalities <span class="math inline"><em>x</em>≡<sub><em>A</em></sub><em>x</em></span> are reflexive then for a proposition <code>C</code> which depends upon the equality <span class="math inline"><em>x</em>≡<sub><em>A</em></sub><em>y</em></span>, it turns out that it is sufficient to prove <code>C</code> for all cases where <span class="math inline"><em>x</em>≡<sub><em>A</em></sub><em>x</em></span> alone and it becomes automatically applicable for cases for all <span class="math inline"><em>x</em>≡<sub><em>A</em></sub><em>y</em></span>.</p>
 <hr />
 <p><a href="./contents.html">Back to Contents</a></p>
 </body>

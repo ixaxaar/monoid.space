@@ -42,9 +42,9 @@ As we previously mentioned, equality, in type theory, is itself a type. Hence th
 
 ## Propositional Equality
 
-In type theory, all proofs can be represented as a type. Propositional equality is a kind of equality which requires a proof, and hence the equality itself is also a type `∼`:
+In type theory, all proofs can be represented as a type. Propositional equality can be thought of as encapsulating the notion of "similarity", rather than strict equality. E.g. "roses" or "roads" hint at all roses or roads as being of the same kind but not exactly same, thus we define propositional equality over roses or roads which is different from hard equality. Propositional equality is a kind of equality which requires a proof, and hence the equality itself is also a type `∼`:
 
-![equailty](equailty.png)
+![equailty](./equailty.png)
 
 ```agda
 infix 4 _∼_

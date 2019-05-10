@@ -65,10 +65,9 @@ do
 done
 
 # copy resources
-find . -name "*.png" | xargs cp -pr -t ./html
+cp -pr ./artwork/*.png ./html/
 
 rm -rf tmp
 find -name "*.agdai" | xargs rm -rf
 
 cp -pr ./css ./html
-cp -pr ./space.png ./html
