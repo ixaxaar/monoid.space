@@ -151,4 +151,4 @@ oneAdded = map (one :: two :: three :: four :: []) addOne
 Here, we apply the function `addOne` to a list, using `map`.
 
 ****
-[Back to Contents](./contents.html)
+[Quirks of Syntax](./Lang.syntaxQuirks.html)

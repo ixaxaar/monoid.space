@@ -261,3 +261,6 @@ module withCongruence {a ℓ}
       (x ⁻¹) • ϵ       ∼⟨ idʳ (x ⁻¹) ⟩
       x ⁻¹             ∎
 ```
+
+****
+[Groups and family](./Algebra.groups.html)

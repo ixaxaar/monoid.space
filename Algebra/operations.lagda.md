@@ -300,4 +300,4 @@ We finally define what we mean by "respects" a law. We define two versions here
 
 
 ****
-[Back to Contents](./contents.html)
+[Equational Reasoning](./Algebra.equational.html)

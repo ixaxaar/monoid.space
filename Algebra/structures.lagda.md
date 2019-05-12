@@ -278,4 +278,4 @@ record IsLattice {a ℓ} {A : Set a} {_==_ : Rel A ℓ} (∨ ∧ : ★ A) : Set 
 ```
 
 ****
-[Back to Contents](./contents.html)
+[Properties of Group-like objects](./Algebra.groupProperties.html)

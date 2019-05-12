@@ -259,4 +259,4 @@ containsA = id₂ four
 ```
 
 ****
-[Back to Contents](./contents.html)
+[Proofs as Data](./Lang.proofsAsData.html)

@@ -252,4 +252,4 @@ open import Logic.logicBasics
 ```
 
 ****
-[Back to Contents](./contents.html)
+[Decidability](./Logic.decidability.html)

@@ -230,4 +230,4 @@ case x of f = case x return _ of f
 TODO: provide examples of each API
 
 ****
-[Back to Contents](./contents.html)
+[Logic - Introduction](./Logic.introduction.html)

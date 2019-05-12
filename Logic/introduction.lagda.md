@@ -18,4 +18,4 @@ Boolean algebra is a branch of mathematics dealing with formalized logic, and is
 We try to formally state the system of Logic and its mathematical machinery, consisting of various relations, transformations and laws using the language of Type Theory represented by Agda. We begin with the basics of logic - its objects and operations on those objects, then move on to constructively proving the laws of Boolean algebra. In doing this, we also intend to provide a basic intoduction on how a branch of mathematics can be formalized in Agda.
 
 ****
-[Back to Contents](./contents.html)
+[Boolean Algebra](./Logic.logicBasics.html)

@@ -337,4 +337,4 @@ record Setoid c ℓ : Set (lsuc (c ⊔ ℓ)) where
 Setoids are extensively used throughout agda's standard library, however, we chose to avoid them here to be more explicit.
 
 ****
-[Back to Contents](./contents.html)
+[Product Types / Σ-types](./Types.typeBasics.html)

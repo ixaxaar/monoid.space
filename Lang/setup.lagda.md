@@ -93,4 +93,4 @@ agda ./whatever.agda
 That's pretty much it :grimacing:
 
 ****
-[Back to Contents](./contents.html)
+[Introduction](./Lang.languageIntro.html)

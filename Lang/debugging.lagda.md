@@ -111,3 +111,7 @@ C-c C-a   auto (try to find a solution)
 ```
 
 ## refl
+
+
+****
+[Type Theory - Introduction](./Types.introduction.html)

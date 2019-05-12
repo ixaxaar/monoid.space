@@ -84,4 +84,4 @@ then for a proposition `C` which depends upon the equality $x ≡_A y$, it turns
 ![induction](./induction.png)
 
 ****
-[Back to Contents](./contents.html)
+[Identity Types and Paths](./HoTT.identity.html)

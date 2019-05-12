@@ -155,5 +155,5 @@ threeIsInList = succ∈ (succ∈ (succ∈ (succ∈ refl)))
 ```
 
 ****
-[Back to Contents](./contents.html)
+[Functions](./Lang.functions.html)
 

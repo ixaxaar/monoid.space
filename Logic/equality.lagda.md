@@ -101,5 +101,5 @@ symmetric≢ np p = np (symmetric p)
 ```
 
 ****
-[Back to Contents](./contents.html)
+[Laws of Logic](./Logic.laws.html)
 

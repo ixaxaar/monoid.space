@@ -109,4 +109,4 @@ record Equivalence (A : Set) : Set1 where
 
 
 ****
-[Back to Contents](./contents.html)
+[Equality](./Types.equality.html)

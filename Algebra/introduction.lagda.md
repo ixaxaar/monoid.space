@@ -40,4 +40,4 @@ We can always mix and match and create objects of higher complexity. There are a
 So far we have had a glimpse of type and boolean algebras. Here we start to dive into more complex structures - both structured data and maps (function families). Most of these structures are constructed by picking and choosing certain underlying laws or properties of these objects' APIs. We first start with building such laws. Many of these laws are similar to the ones of logic that we derived in a [previous part](./Logic.laws.html/#operations). We then diverge a bit and look at what equational reasoning is, how it is useful in proving theorems and and how we can do that in Agda. We then get right back into defining group-like objects and their properties.
 
 ****
-[Back to Contents](./contents.html)
+[Operations](./Algebra.operations.html)

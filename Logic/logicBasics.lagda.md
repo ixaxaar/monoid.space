@@ -219,4 +219,4 @@ This is a dependent type, which creates propositions from a proposition family `
 ```
 
 ****
-[Back to Contents](./contents.html)
+[Equality](./Logic.equality.html)
