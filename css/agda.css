@@ -87,15 +87,29 @@ div.indent, pre, table {
 }
 
 table {
-  background-color: #272525;
+  /*background-color: #272525;*/
+  background-color: #151520;
   border-radius:    20px;
   margin:           20px;
   padding:          10px;
   border-collapse: collapse;
 }
 
+th {
+  /*background-color: #333;*/
+}
+
 th, td {
-  text-align: center;
+  text-align: left;
+  padding: 10px;
+}
+
+tbody tr:nth-child(odd){
+  background-color: #232023;
+}
+
+tbody tr:nth-child(even){
+  background-color: #202323;
 }
 
 div.indent, pre {
@@ -313,7 +327,7 @@ img {
   margin-left: 50px;
   max-width: 800px;
   max-height: 800px;
-  background-color: #222227;
+  background-color: #ccc;
   border-radius:    20px;
   margin:           20px;
   padding:          30px;
