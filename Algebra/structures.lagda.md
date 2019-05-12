@@ -28,7 +28,7 @@ open import Types.equality using (Rel)
 -- open import Types.functions
 -- open import Types.typeBasics
 
-open import Level using (suc; _⊔_)
+open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 
 open import Algebra.groups
 ```
@@ -46,7 +46,7 @@ We recall operations again here:
 ## Magma
 
 ```agda
-record Magma a ℓ : Set (suc (a ⊔ ℓ)) where
+record Magma a ℓ : Set (lsuc (a ⊔ ℓ)) where
   infixl 7 _∙_
   infix  4 _==_
   field
@@ -61,7 +61,7 @@ record Magma a ℓ : Set (suc (a ⊔ ℓ)) where
 ## Semigroupoid
 
 ```agda
-record Semigroupoid c ℓ : Set (suc (c ⊔ ℓ)) where
+record Semigroupoid c ℓ : Set (lsuc (c ⊔ ℓ)) where
   infixl 7 _∙_
   infix  4 _==_
   field
@@ -76,7 +76,7 @@ record Semigroupoid c ℓ : Set (suc (c ⊔ ℓ)) where
 ## Small category
 
 ```agda
-record SmallCategory c ℓ : Set (suc (c ⊔ ℓ)) where
+record SmallCategory c ℓ : Set (lsuc (c ⊔ ℓ)) where
   infixl 7 _∙_
   infix  4 _==_
   field
@@ -95,7 +95,7 @@ record SmallCategory c ℓ : Set (suc (c ⊔ ℓ)) where
 ## Semigroup
 
 ```agda
-record Semigroup c ℓ : Set (suc (c ⊔ ℓ)) where
+record Semigroup c ℓ : Set (lsuc (c ⊔ ℓ)) where
   infixl 7 _∙_
   infix  4 _==_
   field
@@ -113,7 +113,7 @@ record Semigroup c ℓ : Set (suc (c ⊔ ℓ)) where
 ## Groupoid
 
 ```agda
-record Groupoid c ℓ : Set (suc (c ⊔ ℓ)) where
+record Groupoid c ℓ : Set (lsuc (c ⊔ ℓ)) where
   infixl 7 _∙_
   infix  4 _==_
   field
@@ -136,7 +136,7 @@ record Groupoid c ℓ : Set (suc (c ⊔ ℓ)) where
 ### Monoid
 
 ```agda
-record Monoid c ℓ : Set (suc (c ⊔ ℓ)) where
+record Monoid c ℓ : Set (lsuc (c ⊔ ℓ)) where
   infixl 7 _∙_
   infix  4 _==_
   field
@@ -158,7 +158,7 @@ record Monoid c ℓ : Set (suc (c ⊔ ℓ)) where
 ## Commutative Monoid
 
 ```agda
-record CommutativeMonoid c ℓ : Set (suc (c ⊔ ℓ)) where
+record CommutativeMonoid c ℓ : Set (lsuc (c ⊔ ℓ)) where
   infixl 7 _∙_
   infix  4 _==_
   field
@@ -183,7 +183,7 @@ record CommutativeMonoid c ℓ : Set (suc (c ⊔ ℓ)) where
 ## Group
 
 ```agda
-record Group c ℓ : Set (suc (c ⊔ ℓ)) where
+record Group c ℓ : Set (lsuc (c ⊔ ℓ)) where
   infix  8 _⁻¹
   infixl 7 _∙_
   infix  4 _==_
@@ -212,7 +212,7 @@ record Group c ℓ : Set (suc (c ⊔ ℓ)) where
 ```agda
 open import Algebra.groups using (IsAbelianGroup)
 
-record AbelianGroup c ℓ : Set (suc (c ⊔ ℓ)) where
+record AbelianGroup c ℓ : Set (lsuc (c ⊔ ℓ)) where
   infix  8 _⁻¹
   infixl 7 _∙_
   infix  4 _==_

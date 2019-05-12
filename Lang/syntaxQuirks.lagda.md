@@ -91,3 +91,5 @@ length'' _ len _   = len
 
 Though these are generally ill-advised as they may cause significant confusion when used unwisely.
 
+****
+[Back to Contents](./contents.html)

@@ -21,7 +21,7 @@
 ```agda
 module Algebra.groupProperties where
 
-open import Level using (suc; _⊔_)
+open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 open import Types.equality using (Rel; _Preserves_⟶_)
 
 open import Algebra.groups

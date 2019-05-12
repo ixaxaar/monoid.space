@@ -30,7 +30,7 @@ Here we look at constructing logic using type theory. Now, mostly all branches o
 ```agda
 module Logic.logicBasics where
 
-open import Level
+open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 ```
 
 ## Objects of Logic

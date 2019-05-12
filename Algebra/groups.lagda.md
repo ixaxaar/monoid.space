@@ -24,7 +24,7 @@ open import Types.equality renaming (refl to ≡-refl)
 open import Types.functions
 open import Types.typeBasics
 
-open import Level
+open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 
 module Algebra.groups {a ℓ} {A : Set a} (_==_ : Rel A ℓ) where
 

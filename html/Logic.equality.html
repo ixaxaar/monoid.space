@@ -63,8 +63,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">)</span></code></pre></div>
 <p>Equality, or an equivalence, is the most basic comparison that can be performed between two objects. Let us first see how equality (and inequality) looks like for logical objects:</p>
 <div class="figure">
-<img src="equailty.png" alt="equailty" />
-<p class="caption">equailty</p>
+<img src="equality.png" alt="equality" />
+<p class="caption">equality</p>
 </div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
   refl <span class="ot">:</span> x ≡ x

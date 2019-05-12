@@ -26,7 +26,7 @@ Homotopy type theory (HoTT) is a mathematical framework that treats types as spa
 
 ## Fields, Spaces, Points, Paths
 
-A field is a set of objects that support or permit addition, subtraction, division and multiplication. Real numbers, rational numbers and complex numbers are some such "set of objects" which we use widely and which can form fields.
+A field (more force-field than data field) is a set of objects that support or permit addition, subtraction, division and multiplication. Real numbers, rational numbers and complex numbers are some such "set of objects" which we use widely and which can form fields.
 
 An n-dimensional space can be thought as a collection of n numbers from a field and n directions or bases. Thus we can construct spaces from fields. For e.g. any point in 2-dimensional space of real numbers ℝ can be represented as $a × x + b × y$ where $a, b ∈ ℝ$.
 
@@ -77,10 +77,11 @@ These equalities can have further equalities $(x_1 ≡_A y_1) ≡_{(x ≡_A y)} 
 ## Induction principle
 
 The induction principle is central to deriving all basic constructions for HoTT. Stated simply, if for every pair of objects `x` and `y` of type `A`
-- the equlaity type $≡_A$ between `x` and `y` exists everytime `x` and `y` are equal
+- the equality type $≡_A$ between `x` and `y` exists everytime `x` and `y` are equal
 - for every `x ∈ A`, the equalities $x ≡_A x$ are reflexive
 then for a proposition `C` which depends upon the equality $x ≡_A y$, it turns out that it is sufficient to prove `C` for all cases where $x ≡_A x$ alone and it becomes automatically applicable for cases for all $x ≡_A y$.
 
+![induction](./induction.png)
 
 ****
 [Back to Contents](./contents.html)

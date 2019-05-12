@@ -76,8 +76,8 @@
 ![5](5.png)
 
   - [Introduction](./HoTT.introduction.html)
-  - [Identity Types](./HoTT.identity.html)
-  - [Paths and connected spaces *todo*](./HoTT/paths.html)
+  - [Identity Types and Paths](./HoTT.identity.html)
+  - [Connected spaces *todo*](./HoTT/paths.html)
   - [The Univalence Principle *todo*](./HoTT/univalance.html)
   - [The Fundamental Group and Groupoid *todo*](./HoTT/fundamentalGroup.html)
 

@@ -20,7 +20,7 @@ We now look at constructing a language or algebra atop a given relation and some
 
 module Algebra.equational where
 
-open import Level using (suc; _⊔_)
+open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 open import Types.equality
 open import Types.typeBasics using (Σ; _,_)
 ```

@@ -4,7 +4,7 @@
 
 - [Product types](#product-types)
   - [Construction](#construction)
-  - [Dependent Types or Π-types](#dependent-types-or-%CF%80-types)
+  - [Dependent Pair Types or Σ-types](#dependent-pair-types-or-%CF%83-types)
   - [API](#api)
     - [Cross product](#cross-product)
     - [Application of a product](#application-of-a-product)
@@ -29,7 +29,7 @@ open import Lang.dataStructures using (
   one; two; three; four; five; six; seven; eight; nine; ten; zero; succ;
   _::_; [])
 
-open import Level
+open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 ```
 
 # Product types
@@ -85,7 +85,7 @@ The second condition is the unique-ness condition, .i.e. for all objects having 
 ![product](./product.png)
 
 
-## Dependent Types or Π-types
+## Dependent Pair Types or Σ-types
 
 Dependent types are products where the 2nd type is dependent on the first one. i.e. `(A, B)` such that there exists.
 

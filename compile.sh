@@ -70,4 +70,4 @@ cp -pr ./artwork/*.png ./html/
 rm -rf tmp
 find -name "*.agdai" | xargs rm -rf
 
-cp -pr ./css ./html
+cp -pr ./css  ./html

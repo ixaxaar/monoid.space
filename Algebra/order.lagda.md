@@ -21,7 +21,7 @@ open import Types.typeBasics
 
 open import Algebra.introduction
 
-open import Level
+open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 ```
 
 # Equivalence

@@ -50,12 +50,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
 <ul>
-<li><a href="#the-identity-type">The Identity Type</a></li>
+<li><a href="#the-identity-type-or-path">The Identity Type or Path</a></li>
 <li><a href="#path-induction">Path Induction</a></li>
 <li><a href="#path-equivalence">Path equivalence</a></li>
+<li><a href="#dependent-paths">Dependent Paths</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<h1 id="the-identity-type">The Identity Type</h1>
+<h1 id="the-identity-type-or-path">The Identity Type or Path</h1>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> HoTT<span class="ot">.</span>identity <span class="kw">where</span>
 
 <span class="kw">open</span> <span class="kw">import</span> Level <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_)</span> <span class="kw">renaming</span> <span class="ot">(</span>zero <span class="kw">to</span> lzero<span class="ot">;</span> suc <span class="kw">to</span> lsuc<span class="ot">)</span>
@@ -73,13 +74,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>==<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> ℓ<span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span> ℓ
 <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">=</span> Path</code></pre></div>
+<p>This forms the base of HoTT wherein we rebuild pretty much everything on the above structure.</p>
 <h2 id="path-induction">Path Induction</h2>
 <div class="figure">
 <img src="./path-induction.png" alt="path-induction" />
 <p class="caption">path-induction</p>
 </div>
 <p>An inductive type is a type with a recursive constructor that can be used to successvely obtain elements of that type. However, though this definition “generally” works, there are more technical ones available <a href="https://github.com/HoTT/book/issues/460">here for example</a>.</p>
-<p>The family of identity types is freely generated from elements of the form <code>identity: x == x</code>. Such a family’s constructor is a function <code>C : {x y : A} → x == y → Set ℓ₂</code>, which on supplying two objects <code>x</code> and <code>y</code> of type <code>A</code> returns an equality type or path between the two objects. Let <code>c</code> be a function that applies an object <code>x</code> to the constructor <code>C</code> and its <code>identity</code> equality type to obtain the path from <code>x → x</code>.</p>
+<p>The family of identity types is freely generated from elements of the form <code>identity: x == x</code>. Such a family’s constructor is a dependent type <code>C : {x y : A} → x == y → Set ℓ₂</code>, which depends on two objects <code>x</code> and <code>y</code> of type <code>A</code> and an equality type or path between the two objects, can also be written as <span class="math inline"><em>Π</em>(<em>x</em>, <em>y</em>, <em>x</em> = =<sub><em>A</em></sub><em>y</em>)</span>. Let <code>c</code> be a function that applies an object <code>x</code> to the constructor <code>C</code> and its <code>identity</code> equality type to obtain the path from <code>x → x</code>.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">path-induction <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> ℓ₁<span class="ot">}</span>
         <span class="ot">(</span>C <span class="ot">:</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">→</span> x == y <span class="ot">→</span> <span class="dt">Set</span> ℓ₂<span class="ot">)</span>
         <span class="ot">→</span> <span class="ot">(</span>c <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> C <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">{</span>x<span class="ot">}</span> identity<span class="ot">)</span>
@@ -102,16 +104,10 @@ path-induction-v2⁻¹ <span class="ot">:</span> <span class="ot">∀</span> <sp
         <span class="ot">→</span> <span class="ot">(</span>c <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> C <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">{</span>x<span class="ot">}</span> identity<span class="ot">)</span>
         <span class="ot">→</span> <span class="ot">({</span>x y <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">(</span>p <span class="ot">:</span> Path y x<span class="ot">)</span> <span class="ot">→</span> C p<span class="ot">)</span>
 path-induction-v2⁻¹ C c <span class="ot">{</span>x<span class="ot">}</span> identity <span class="ot">=</span> c x</code></pre></div>
-<div class="figure">
-<img src="./abstract-path-induction.png" alt="abstract-path-induction" />
-<p class="caption">abstract-path-induction</p>
-</div>
-<p>This induction property could also be interpreted as, for an inductively defined identity type family, the entire family can be completely specified with just the elements <code>identityₓ</code>. Thus, since C(x, x) holds on all x ∈ A, if we are given x == y, then C(x, y) must hold.</p>
+<p><img src="./induction.png" alt="induction" /> <!-- ![abstract-path-induction](./abstract-path-induction.png) --></p>
+<p>This induction property could also be interpreted as, for an inductively defined identity type family, the entire family can be completely specified with just the elements <code>identityₓ</code>. Thus, since C(x, x) holds on all x ∈ A, if we are given x == y, then C(x, y) must hold. Getting the understanding of the induction principle can be tricky as the ideas around it are still in argument / development. Here are a few resources <a href="https://planetmath.org/1121pathinduction">1</a> <a href="https://math.stackexchange.com/questions/1667582/how-am-i-to-interpret-induction-recursion-in-type-theory">2</a> <a href="https://cs.stackexchange.com/questions/28701/is-path-induction-constructive?newreg=3d0d333631c24ef0a8737f6072c14278">3</a>.</p>
 <h2 id="path-equivalence">Path equivalence</h2>
-<div class="figure">
-<img src="./path-equivalence.png" alt="path-equivalence" />
-<p class="caption">path-equivalence</p>
-</div>
+<!-- ![path-equivalence](./path-equivalence.png) -->
 <p>The equivalence relation for paths can be specified such that both paths <code>x → y</code> and <code>y → x</code> exist:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> IsPathEquivalence <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span> <span class="kw">where</span>
   <span class="kw">constructor</span> ispeq
@@ -119,6 +115,19 @@ path-induction-v2⁻¹ C c <span class="ot">{</span>x<span class="ot">}</span> i
     f⁻¹ <span class="ot">:</span> B <span class="ot">→</span> A
     identity₁ <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> Path <span class="ot">(</span>f⁻¹ <span class="ot">(</span>f x<span class="ot">))</span> x
     identity₂ <span class="ot">:</span> <span class="ot">(</span>y <span class="ot">:</span> B<span class="ot">)</span> <span class="ot">→</span> Path y <span class="ot">(</span>f <span class="ot">(</span>f⁻¹ y<span class="ot">))</span></code></pre></div>
+<h2 id="dependent-paths">Dependent Paths</h2>
+<p>A dependent path describes the notion of equality preserving functions. It states that given a dependent type <span class="math inline"><em>Π</em>(<em>a</em>, <em>b</em>)</span> and the equality type between them, there exists a path <span class="math inline"><em>F</em>(<em>a</em>)→<em>F</em>(<em>b</em>)</span>.</p>
+<div class="figure">
+<img src="./dependent_path.png" alt="dependent-path" />
+<p class="caption">dependent-path</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">DependentPath <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i j<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> i<span class="ot">}</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span>
+  <span class="ot">→</span> <span class="ot">(</span>F <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> j<span class="ot">)</span>
+  <span class="ot">→</span> <span class="ot">(</span>p <span class="ot">:</span> x == y<span class="ot">)</span>
+  <span class="ot">→</span> <span class="ot">(</span>a <span class="ot">:</span> F x<span class="ot">)</span>
+  <span class="ot">→</span> <span class="ot">(</span>b <span class="ot">:</span> F y<span class="ot">)</span>
+  <span class="ot">→</span> <span class="dt">Set</span> j
+DependentPath F identity a b <span class="ot">=</span> <span class="ot">(</span>a == b<span class="ot">)</span></code></pre></div>
 <hr />
 <p><a href="./contents.html">Back to Contents</a></p>
 </body>

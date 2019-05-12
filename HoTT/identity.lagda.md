@@ -2,19 +2,20 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ****
 
-- [The Identity Type](#the-identity-type)
+- [The Identity Type or Path](#the-identity-type-or-path)
   - [Path Induction](#path-induction)
   - [Path equivalence](#path-equivalence)
+  - [Dependent Paths](#dependent-paths)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
-# The Identity Type
+# The Identity Type or Path
 
 ```agda
 module HoTT.identity where
 
-open import Level using (Level; _⊔_) renaming (zero to lzero; suc to lsuc)
+open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 
 open import Types.typeBasics using (Σ; _,_; fst; snd)
 ```
@@ -41,13 +42,15 @@ _==_ : ∀ {ℓ} {A : Set ℓ} → A → A → Set ℓ
 _==_ = Path
 ```
 
+This forms the base of HoTT wherein we rebuild pretty much everything on the above structure.
+
 ## Path Induction
 
 ![path-induction](./path-induction.png)
 
 An inductive type is a type with a recursive constructor that can be used to successvely obtain elements of that type. However, though this definition "generally" works, there are more technical ones available [here for example](https://github.com/HoTT/book/issues/460).
 
-The family of identity types is freely generated from elements of the form `identity: x == x`. Such a family's constructor is a function `C : {x y : A} → x == y → Set ℓ₂`, which on supplying two objects `x` and `y` of type `A` returns an equality type or path between the two objects. Let `c` be a function that applies an object `x` to the constructor `C` and its `identity` equality type to obtain the path from `x → x`.
+The family of identity types is freely generated from elements of the form `identity: x == x`. Such a family's constructor is a dependent type `C : {x y : A} → x == y → Set ℓ₂`, which depends on two objects `x` and `y` of type `A` and an equality type or path between the two objects, can also be written as $Π(x, y, x ==_A y)$. Let `c` be a function that applies an object `x` to the constructor `C` and its `identity` equality type to obtain the path from `x → x`.
 
 ```agda
 path-induction : ∀ {ℓ₁ ℓ₂} {A : Set ℓ₁}
@@ -77,25 +80,42 @@ path-induction-v2⁻¹ : ∀ {ℓ₁ ℓ₂} {A : Set ℓ₁}
 path-induction-v2⁻¹ C c {x} identity = c x
 ```
 
-![abstract-path-induction](./abstract-path-induction.png)
+![induction](./induction.png)
+<!-- ![abstract-path-induction](./abstract-path-induction.png) -->
 
-This induction property could also be interpreted as, for an inductively defined identity type family, the entire family can be completely specified with just the elements `identityₓ`. Thus, since C(x, x) holds on all x ∈ A, if we are given x == y, then C(x, y) must hold.
+This induction property could also be interpreted as, for an inductively defined identity type family, the entire family can be completely specified with just the elements `identityₓ`. Thus, since C(x, x) holds on all x ∈ A, if we are given x == y, then C(x, y) must hold. Getting the understanding of the induction principle can be tricky as the ideas around it are still in argument / development. Here are a few resources [1](https://planetmath.org/1121pathinduction) [2](https://math.stackexchange.com/questions/1667582/how-am-i-to-interpret-induction-recursion-in-type-theory) [3](https://cs.stackexchange.com/questions/28701/is-path-induction-constructive?newreg=3d0d333631c24ef0a8737f6072c14278).
 
-## Path equivalence
+## Dependent Paths
 
-![path-equivalence](./path-equivalence.png)
+A dependent path describes the notion of equality preserving functions. It states that given a dependent type $Π(a, b)$ and the equality type between them, there exists a path $F(a) → F(b)$.
 
-The equivalence relation for paths can be specified such that both paths `x → y` and `y → x` exist:
+![dependent-path](./dependent_path.png)
 
 ```agda
-record IsPathEquivalence {a b} {A : Set a} {B : Set b} (f : A → B) : Set (a ⊔ b) where
-  constructor ispeq
-  field
-    f⁻¹ : B → A
-    identity₁ : (x : A) → Path (f⁻¹ (f x)) x
-    identity₂ : (y : B) → Path y (f (f⁻¹ y))
+DependentPath : ∀ {i j} {A : Set i} {x y : A}
+  → (F : A → Set j)
+  → (p : x == y)
+  → (a : F x)
+  → (b : F y)
+  → Set j
+DependentPath F identity a b = (a == b)
 ```
 
+## API
+
+### Composition
+
+Paths can be composed or concatenated:
+
+```lauda
+_∘_ : ∀ {ℓ} {A : Set ℓ} {x y z : A}
+        → (x == y)
+        → (y == z)
+        → (x == z)
+q _∘_ identity = q
+```
+
+### Inverse
 
 ****
 [Back to Contents](./contents.html)

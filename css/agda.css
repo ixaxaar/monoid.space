@@ -188,7 +188,7 @@ hr              {
   background-color:  rgb(75, 80, 60);
   height:            200px;
   padding:           20px;
-  background-image:  url("../space.png");
+  background-image:  url("../html/space.png");
   background-repeat: repeat;
   background-size: contain;
 }

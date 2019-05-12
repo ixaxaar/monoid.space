@@ -31,7 +31,7 @@ open import Lang.dataStructures using (
   _::_; [];
   ⊤; singleton; ⟂)
 
-open import Level using (Level; _⊔_) renaming (zero to lzero; suc to lsuc)
+open import Agda.Primitive using (Level; _⊔_; lsuc)
 
 open import Types.typeBasics using (Σ; _,_; fst; snd)
 ```
@@ -64,6 +64,8 @@ In the notation of lambda abstraction:
 $$
 λx. (λx.y).ϕ
 $$
+
+Another notation is to use $Π(x, y)$, mostly used in type theory to denote Π-types.
 
 ![dependent_function](dependent_function.png)
 

@@ -33,7 +33,7 @@ open import Lang.dataStructures using (
   one; two; three; four; five; six; seven; eight; nine; ten; zero; succ;
   _::_; [])
 
-open import Level using (Level; _⊔_) renaming (zero to lzero; suc to lsuc)
+open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 
 open import Types.functions using (_on_; flip)
 ```
@@ -44,7 +44,7 @@ As we previously mentioned, equality, in type theory, is itself a type. Hence th
 
 In type theory, all proofs can be represented as a type. Propositional equality can be thought of as encapsulating the notion of "similarity", rather than strict equality. E.g. "roses" or "roads" hint at all roses or roads as being of the same kind but not exactly same, thus we define propositional equality over roses or roads which is different from hard equality. Propositional equality is a kind of equality which requires a proof, and hence the equality itself is also a type `∼`:
 
-![equailty](./equailty.png)
+![equality](./equality.png)
 
 ```agda
 infix 4 _∼_

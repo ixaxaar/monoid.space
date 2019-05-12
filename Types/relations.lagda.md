@@ -24,14 +24,14 @@ Rel A = A → A → Set
 A relation with universe polymorphism could also be defined as:
 
 ```agda
-open import Level
+open import Agda.Primitive using (Level; _⊔_; lsuc)
 
 -- heterogenous relation
-REL : ∀ {a b} → Set a → Set b → (ℓ : Level) → Set (a ⊔ b ⊔ suc ℓ)
+REL : ∀ {a b} → Set a → Set b → (ℓ : Level) → Set (a ⊔ b ⊔ lsuc ℓ)
 REL A B ℓ = A → B → Set ℓ
 
 -- homogenous relation
-R : ∀ {a} → Set a → (ℓ : Level) → Set (a ⊔ suc ℓ)
+R : ∀ {a} → Set a → (ℓ : Level) → Set (a ⊔ lsuc ℓ)
 R A ℓ = REL A A ℓ
 ```
 

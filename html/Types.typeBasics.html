@@ -52,7 +52,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li><a href="#product-types">Product types</a></li>
 <li><a href="#construction">Construction</a></li>
-<li><a href="#dependent-types-or-%CF%80-types">Dependent Types or Π-types</a></li>
+<li><a href="#dependent-pair-types-or-%CF%83-types">Dependent Pair Types or Σ-types</a></li>
 <li><a href="#api">API</a>
 <ul>
 <li><a href="#cross-product">Cross product</a></li>
@@ -112,7 +112,7 @@ proj₂ <span class="fu">:</span> {<span class="dt">A</span> <span class="dt">B<
 <img src="./product.png" alt="product" />
 <p class="caption">product</p>
 </div>
-<h2 id="dependent-types-or-π-types">Dependent Types or Π-types</h2>
+<h2 id="dependent-pair-types-or-σ-types">Dependent Pair Types or Σ-types</h2>
 <p>Dependent types are products where the 2nd type is dependent on the first one. i.e. <code>(A, B)</code> such that there exists.</p>
 <p>Agda’s <code>Record</code> types provides encapsulation for this definition and some syntactic sugars like constructors:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Σ <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">(</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span> <span class="kw">where</span>
