@@ -73,7 +73,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="co">-- open import Types.functions</span>
 <span class="co">-- open import Types.typeBasics</span>
 
-<span class="kw">open</span> <span class="kw">import</span> Level <span class="kw">using</span> <span class="ot">(</span>suc<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_)</span>
+<span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span>
 
 <span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups</code></pre></div>
 <p>We recall operations again here:</p>
@@ -83,7 +83,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ♠<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> a
 ♠ A <span class="ot">=</span> A <span class="ot">→</span> A</code></pre></div>
 <h2 id="magma">Magma</h2>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Magma a ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>a ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Magma a ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>a ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
   <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
   <span class="kw">field</span>
@@ -94,7 +94,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
   <span class="kw">open</span> IsMagma isMagma <span class="kw">public</span></code></pre></div>
 <h2 id="semigroupoid">Semigroupoid</h2>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Semigroupoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Semigroupoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
   <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
   <span class="kw">field</span>
@@ -105,7 +105,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
   <span class="kw">open</span> IsSemigroupoid isSemigroupoid <span class="kw">public</span></code></pre></div>
 <h2 id="small-category">Small category</h2>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> SmallCategory c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> SmallCategory c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
   <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
   <span class="kw">field</span>
@@ -120,7 +120,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   semigroupoid <span class="ot">:</span> Semigroupoid c ℓ
   semigroupoid <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSemigroupoid <span class="ot">=</span> isSemigroupoid <span class="ot">}</span></code></pre></div>
 <h2 id="semigroup">Semigroup</h2>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Semigroup c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Semigroup c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
   <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
   <span class="kw">field</span>
@@ -134,7 +134,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   magma <span class="ot">:</span> Magma c ℓ
   magma <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMagma <span class="ot">=</span> isMagma <span class="ot">}</span></code></pre></div>
 <h2 id="groupoid">Groupoid</h2>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Groupoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Groupoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
   <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
   <span class="kw">field</span>
@@ -153,7 +153,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   semigroupoid <span class="ot">:</span> Semigroupoid c ℓ
   semigroupoid <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSemigroupoid <span class="ot">=</span> isSemigroupoid <span class="ot">}</span></code></pre></div>
 <h3 id="monoid">Monoid</h3>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Monoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Monoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
   <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
   <span class="kw">field</span>
@@ -171,7 +171,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   magma <span class="ot">:</span> Magma c ℓ
   magma <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMagma <span class="ot">=</span> isMagma <span class="ot">}</span></code></pre></div>
 <h2 id="commutative-monoid">Commutative Monoid</h2>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> CommutativeMonoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> CommutativeMonoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
   <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
   <span class="kw">field</span>
@@ -192,7 +192,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   magma <span class="ot">:</span> Magma c ℓ
   magma <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMagma <span class="ot">=</span> isMagma <span class="ot">}</span></code></pre></div>
 <h2 id="group">Group</h2>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Group c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Group c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infix</span>  <span class="dv">8</span> <span class="ot">_</span>⁻¹
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
   <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>
@@ -217,7 +217,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2 id="abelian-group">Abelian Group</h2>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups <span class="kw">using</span> <span class="ot">(</span>IsAbelianGroup<span class="ot">)</span>
 
-<span class="kw">record</span> AbelianGroup c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
+<span class="kw">record</span> AbelianGroup c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
   <span class="kw">infix</span>  <span class="dv">8</span> <span class="ot">_</span>⁻¹
   <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span>
   <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span>

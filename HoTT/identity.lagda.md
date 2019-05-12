@@ -4,8 +4,11 @@
 
 - [The Identity Type or Path](#the-identity-type-or-path)
   - [Path Induction](#path-induction)
-  - [Path equivalence](#path-equivalence)
   - [Dependent Paths](#dependent-paths)
+  - [API](#api)
+    - [Composition](#composition)
+    - [Associativity](#associativity)
+    - [Inverse](#inverse)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -105,17 +108,68 @@ DependentPath F identity a b = (a == b)
 
 ### Composition
 
-Paths can be composed or concatenated:
+Paths can be composed or concatenated (both from left and right):
 
-```lauda
+```agda
 _∘_ : ∀ {ℓ} {A : Set ℓ} {x y z : A}
         → (x == y)
         → (y == z)
         → (x == z)
-q _∘_ identity = q
+identity ∘ k = k
 ```
+
+```agda
+_∘ₗ_ : ∀ {ℓ} {A : Set ℓ} {x y z : A}
+        → (x == y)
+        → (y == z)
+        → (x == z)
+k ∘ₗ identity = k
+```
+
+The above concatenations imply the same thing:
+
+```agda
+path-concat-equals-left : ∀ {ℓ} {A : Set ℓ} {x y z : A}
+        → (a : x == y)
+        → (b : y == z)
+        → Identity (a ∘ b) (a ∘ₗ b)
+path-concat-equals-left identity identity = identity
+
+path-concat-equals-right : ∀ {ℓ} {A : Set ℓ} {x y z : A}
+        → (a : x == y)
+        → (b : y == z)
+        → Identity (a ∘ₗ b) (a ∘ b)
+path-concat-equals-right identity identity = identity
+```
+
+### Associativity
+
+Path concatenation is associative:
+
+```agda
+path-concat-assoc : ∀ {ℓ} {A : Set ℓ} {w x y z : A}
+        → (a : w == x)
+        → (b : x == y)
+        → (c : y == z)
+        → Identity ((a ∘ b) ∘ c) (a ∘ (b ∘ c))
+path-concat-assoc identity identity identity = identity
+```
+
+and similar for left and mixed `∘` and `∘ₗ` cases.
 
 ### Inverse
 
+As paths are identities, they also have inverses. For every type `A` and every `x, y ∈ A`, there exists a function:
+
+$f : (x == y) → (y == x)$
+
+```agda
+_⁻¹ : ∀ {ℓ} {A : Set ℓ} {x y : A}
+        → (x == y)
+        → (y == x)
+identity ⁻¹ = identity
+```
+
 ****
 [Back to Contents](./contents.html)
+

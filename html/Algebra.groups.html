@@ -68,7 +68,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions
 <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>typeBasics
 
-<span class="kw">open</span> <span class="kw">import</span> Level
+<span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span>
 
 <span class="kw">module</span> Algebra<span class="ot">.</span>groups <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(_</span>==<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="kw">where</span>
 

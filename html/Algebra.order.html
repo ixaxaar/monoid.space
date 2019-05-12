@@ -65,7 +65,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>introduction
 
-<span class="kw">open</span> <span class="kw">import</span> Level</code></pre></div>
+<span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></code></pre></div>
 <h1 id="equivalence">Equivalence</h1>
 <p>Before we define groups, we have to define the laws of equivalence:</p>
 <pre class="lauda"><code>record IsEquivalence {a ℓ} {A : Set a} (_==_ : Rel A ℓ) : Set (a ⊔ ℓ) where

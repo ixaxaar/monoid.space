@@ -79,7 +79,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Here we look at constructing logic using type theory. Now, mostly all branches of mathematics involve two kinds of entities: objects and propositions about those objects. This very much corresponds to basic composition of programming languages - objects and their APIs.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Logic<span class="ot">.</span>logicBasics <span class="kw">where</span>
 
-<span class="kw">open</span> <span class="kw">import</span> Level</code></pre></div>
+<span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></code></pre></div>
 <h2 id="objects-of-logic">Objects of Logic</h2>
 <h3 id="empty-false">Empty / False</h3>
 <p>Type with no object - cannot ever create an object of this type. This makes it possible to define absurd functions, which map <code>⟂</code> to anything, as given nothing, one can create anything, or assuming any <code>False</code> statement can serve as a proof for anything, which is absurd.</p>

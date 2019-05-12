@@ -60,14 +60,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Rel <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">→</span> <span class="dt">Set1</span>
 Rel A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span></code></pre></div>
 <p>A relation with universe polymorphism could also be defined as:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">open</span> <span class="kw">import</span> Level
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">)</span>
 
 <span class="co">-- heterogenous relation</span>
-REL <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> b <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b ⊔ suc ℓ<span class="ot">)</span>
+REL <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> b <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b ⊔ lsuc ℓ<span class="ot">)</span>
 REL A B ℓ <span class="ot">=</span> A <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> ℓ
 
 <span class="co">-- homogenous relation</span>
-R <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ suc ℓ<span class="ot">)</span>
+R <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ lsuc ℓ<span class="ot">)</span>
 R A ℓ <span class="ot">=</span> REL A A ℓ</code></pre></div>
 <p>The first definition being easier for our purposes here, we proceed that.</p>
 <p>A reflexive relation is one where $ x y = y x $ :</p>

@@ -52,14 +52,19 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li><a href="#the-identity-type-or-path">The Identity Type or Path</a></li>
 <li><a href="#path-induction">Path Induction</a></li>
-<li><a href="#path-equivalence">Path equivalence</a></li>
 <li><a href="#dependent-paths">Dependent Paths</a></li>
+<li><a href="#api">API</a>
+<ul>
+<li><a href="#composition">Composition</a></li>
+<li><a href="#associativity">Associativity</a></li>
+<li><a href="#inverse">Inverse</a></li>
+</ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="the-identity-type-or-path">The Identity Type or Path</h1>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> HoTT<span class="ot">.</span>identity <span class="kw">where</span>
 
-<span class="kw">open</span> <span class="kw">import</span> Level <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_)</span> <span class="kw">renaming</span> <span class="ot">(</span>zero <span class="kw">to</span> lzero<span class="ot">;</span> suc <span class="kw">to</span> lsuc<span class="ot">)</span>
+<span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span>
 
 <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>typeBasics <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_;</span> fst<span class="ot">;</span> snd<span class="ot">)</span></code></pre></div>
 <p>Identity types in type theory are the type of all equality types. An equality type between <code>x, y ∈ A</code> can be considered as a path from <code>x</code> to <code>y</code>. All of such paths share a relation amongst each other.</p>
@@ -106,15 +111,6 @@ path-induction-v2⁻¹ <span class="ot">:</span> <span class="ot">∀</span> <sp
 path-induction-v2⁻¹ C c <span class="ot">{</span>x<span class="ot">}</span> identity <span class="ot">=</span> c x</code></pre></div>
 <p><img src="./induction.png" alt="induction" /> <!-- ![abstract-path-induction](./abstract-path-induction.png) --></p>
 <p>This induction property could also be interpreted as, for an inductively defined identity type family, the entire family can be completely specified with just the elements <code>identityₓ</code>. Thus, since C(x, x) holds on all x ∈ A, if we are given x == y, then C(x, y) must hold. Getting the understanding of the induction principle can be tricky as the ideas around it are still in argument / development. Here are a few resources <a href="https://planetmath.org/1121pathinduction">1</a> <a href="https://math.stackexchange.com/questions/1667582/how-am-i-to-interpret-induction-recursion-in-type-theory">2</a> <a href="https://cs.stackexchange.com/questions/28701/is-path-induction-constructive?newreg=3d0d333631c24ef0a8737f6072c14278">3</a>.</p>
-<h2 id="path-equivalence">Path equivalence</h2>
-<!-- ![path-equivalence](./path-equivalence.png) -->
-<p>The equivalence relation for paths can be specified such that both paths <code>x → y</code> and <code>y → x</code> exist:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> IsPathEquivalence <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span> <span class="kw">where</span>
-  <span class="kw">constructor</span> ispeq
-  <span class="kw">field</span>
-    f⁻¹ <span class="ot">:</span> B <span class="ot">→</span> A
-    identity₁ <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> Path <span class="ot">(</span>f⁻¹ <span class="ot">(</span>f x<span class="ot">))</span> x
-    identity₂ <span class="ot">:</span> <span class="ot">(</span>y <span class="ot">:</span> B<span class="ot">)</span> <span class="ot">→</span> Path y <span class="ot">(</span>f <span class="ot">(</span>f⁻¹ y<span class="ot">))</span></code></pre></div>
 <h2 id="dependent-paths">Dependent Paths</h2>
 <p>A dependent path describes the notion of equality preserving functions. It states that given a dependent type <span class="math inline"><em>Π</em>(<em>a</em>, <em>b</em>)</span> and the equality type between them, there exists a path <span class="math inline"><em>F</em>(<em>a</em>)→<em>F</em>(<em>b</em>)</span>.</p>
 <div class="figure">
@@ -128,6 +124,47 @@ path-induction-v2⁻¹ C c <span class="ot">{</span>x<span class="ot">}</span> i
   <span class="ot">→</span> <span class="ot">(</span>b <span class="ot">:</span> F y<span class="ot">)</span>
   <span class="ot">→</span> <span class="dt">Set</span> j
 DependentPath F identity a b <span class="ot">=</span> <span class="ot">(</span>a == b<span class="ot">)</span></code></pre></div>
+<h2 id="api">API</h2>
+<h3 id="composition">Composition</h3>
+<p>Paths can be composed or concatenated (both from left and right):</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>∘<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> ℓ<span class="ot">}</span> <span class="ot">{</span>x y z <span class="ot">:</span> A<span class="ot">}</span>
+        <span class="ot">→</span> <span class="ot">(</span>x == y<span class="ot">)</span>
+        <span class="ot">→</span> <span class="ot">(</span>y == z<span class="ot">)</span>
+        <span class="ot">→</span> <span class="ot">(</span>x == z<span class="ot">)</span>
+identity ∘ k <span class="ot">=</span> k</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>∘ₗ<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> ℓ<span class="ot">}</span> <span class="ot">{</span>x y z <span class="ot">:</span> A<span class="ot">}</span>
+        <span class="ot">→</span> <span class="ot">(</span>x == y<span class="ot">)</span>
+        <span class="ot">→</span> <span class="ot">(</span>y == z<span class="ot">)</span>
+        <span class="ot">→</span> <span class="ot">(</span>x == z<span class="ot">)</span>
+k ∘ₗ identity <span class="ot">=</span> k</code></pre></div>
+<p>The above concatenations imply the same thing:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">path-concat-equals-left <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> ℓ<span class="ot">}</span> <span class="ot">{</span>x y z <span class="ot">:</span> A<span class="ot">}</span>
+        <span class="ot">→</span> <span class="ot">(</span>a <span class="ot">:</span> x == y<span class="ot">)</span>
+        <span class="ot">→</span> <span class="ot">(</span>b <span class="ot">:</span> y == z<span class="ot">)</span>
+        <span class="ot">→</span> Identity <span class="ot">(</span>a ∘ b<span class="ot">)</span> <span class="ot">(</span>a ∘ₗ b<span class="ot">)</span>
+path-concat-equals-left identity identity <span class="ot">=</span> identity
+
+path-concat-equals-right <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> ℓ<span class="ot">}</span> <span class="ot">{</span>x y z <span class="ot">:</span> A<span class="ot">}</span>
+        <span class="ot">→</span> <span class="ot">(</span>a <span class="ot">:</span> x == y<span class="ot">)</span>
+        <span class="ot">→</span> <span class="ot">(</span>b <span class="ot">:</span> y == z<span class="ot">)</span>
+        <span class="ot">→</span> Identity <span class="ot">(</span>a ∘ₗ b<span class="ot">)</span> <span class="ot">(</span>a ∘ b<span class="ot">)</span>
+path-concat-equals-right identity identity <span class="ot">=</span> identity</code></pre></div>
+<h3 id="associativity">Associativity</h3>
+<p>Path concatenation is associative:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">path-concat-assoc <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> ℓ<span class="ot">}</span> <span class="ot">{</span>w x y z <span class="ot">:</span> A<span class="ot">}</span>
+        <span class="ot">→</span> <span class="ot">(</span>a <span class="ot">:</span> w == x<span class="ot">)</span>
+        <span class="ot">→</span> <span class="ot">(</span>b <span class="ot">:</span> x == y<span class="ot">)</span>
+        <span class="ot">→</span> <span class="ot">(</span>c <span class="ot">:</span> y == z<span class="ot">)</span>
+        <span class="ot">→</span> Identity <span class="ot">((</span>a ∘ b<span class="ot">)</span> ∘ c<span class="ot">)</span> <span class="ot">(</span>a ∘ <span class="ot">(</span>b ∘ c<span class="ot">))</span>
+path-concat-assoc identity identity identity <span class="ot">=</span> identity</code></pre></div>
+<p>and similar for left and mixed <code>∘</code> and <code>∘ₗ</code> cases.</p>
+<h3 id="inverse">Inverse</h3>
+<p>As paths are identities, they also have inverses. For every type <code>A</code> and every <code>x, y ∈ A</code>, there exists a function:</p>
+<p><span class="math inline"><em>f</em> : (<em>x</em> = =<em>y</em>)→(<em>y</em> = =<em>x</em>)</span></p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>⁻¹ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> ℓ<span class="ot">}</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span>
+        <span class="ot">→</span> <span class="ot">(</span>x == y<span class="ot">)</span>
+        <span class="ot">→</span> <span class="ot">(</span>y == x<span class="ot">)</span>
+identity ⁻¹ <span class="ot">=</span> identity</code></pre></div>
 <hr />
 <p><a href="./contents.html">Back to Contents</a></p>
 </body>

@@ -78,7 +78,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span>
   <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span>
 
-<span class="kw">open</span> <span class="kw">import</span> Level</code></pre></div>
+<span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></code></pre></div>
 <h1 id="product-types">Product types</h1>
 <p>A cartesian product of two types <code>A</code> and <code>B</code> can be defined as a pair of objects <code>(a, b)</code>, where <code>a</code> ∈ <code>A</code>, and <code>b</code> ∈ <code>B</code>.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> <span class="ot">_</span>××<span class="ot">_</span> <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>

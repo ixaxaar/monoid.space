@@ -67,7 +67,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1 id="properties-and-apis-of-groups">Properties and APIs of groups</h1>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Algebra<span class="ot">.</span>groupProperties <span class="kw">where</span>
 
-<span class="kw">open</span> <span class="kw">import</span> Level <span class="kw">using</span> <span class="ot">(</span>suc<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_)</span>
+<span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span>
 <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">using</span> <span class="ot">(</span>Rel<span class="ot">;</span> <span class="ot">_</span>Preserves<span class="ot">_</span>⟶<span class="ot">_)</span>
 
 <span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups
