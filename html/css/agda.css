@@ -334,6 +334,8 @@ hr:first-of-type {
 }
 
 p:first-of-type a {
+  background: #305550;
+  border-radius: 10px;
   height: 100%;
   display: block;
   padding: 20px;
@@ -341,8 +343,19 @@ p:first-of-type a {
   font-weight: bold;
 }
 
+p:first-of-type a:hover {
+  background: #305570;
+  border-radius: 10px;
+}
+
+
 p:last-of-type {
   background: #305550;
+  border-radius: 10px;
+}
+
+p:last-of-type a:hover {
+  background: #305570;
   border-radius: 10px;
 }
 
