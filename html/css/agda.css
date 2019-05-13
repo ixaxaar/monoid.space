@@ -198,15 +198,6 @@ div.info {color: gray;}
 input           { background-color: #eeeeee; }
 textarea        { background-color: #ffffba; }
 
-hr              {
-  background-color:  rgb(75, 80, 60);
-  height:            200px;
-  padding:           20px;
-  background-image:  url("../html/space.png");
-  background-repeat: repeat;
-  background-size: contain;
-}
-
 div.string span { background-color: yellow; }
 
 a               { color: #ff4444; }
@@ -331,6 +322,23 @@ img {
   border-radius:    20px;
   margin:           20px;
   padding:          30px;
+}
+
+hr:first-of-type {
+  background-color:  rgb(75, 80, 60);
+  height:            200px;
+  padding:           20px;
+  background-image:  url("../html/space.png");
+  background-repeat: repeat;
+  background-size: contain;
+}
+
+p:first-of-type a {
+  height: 100%;
+  display: block;
+  padding: 20px;
+  color: white;
+  font-weight: bold;
 }
 
 p:last-of-type {
