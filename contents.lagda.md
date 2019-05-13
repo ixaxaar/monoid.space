@@ -150,4 +150,4 @@ import Algebra.groupProperties
 ```
 
 ****
-[Up](contents.html)
+[update](contents.html)

@@ -333,8 +333,13 @@ hr:first-of-type {
   background-size: contain;
 }
 
+p:first-of-type {
+  background-image:  url("../html/space.png");
+  border-radius: 10px;
+}
+
 p:first-of-type a {
-  background: #305550;
+  background: rgba(48, 85, 80, 0.8);
   border-radius: 10px;
   height: 100%;
   display: block;
@@ -344,18 +349,23 @@ p:first-of-type a {
 }
 
 p:first-of-type a:hover {
-  background: #305570;
+  background: rgba(48, 85, 112, 0.8);
   border-radius: 10px;
 }
 
 
 p:last-of-type {
-  background: #305550;
+  background-image:  url("../html/space.png");
+  border-radius: 10px;
+}
+
+p:last-of-type a {
+  background: rgba(48, 85, 80, 0.8);
   border-radius: 10px;
 }
 
 p:last-of-type a:hover {
-  background: #305570;
+  background: rgba(48, 85, 112, 0.8);
   border-radius: 10px;
 }
 
