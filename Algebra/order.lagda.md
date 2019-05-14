@@ -5,56 +5,167 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ****
 
-- [Groups and family](#groups-and-family)
-- [Equivalence](#equivalence)
-- [Implication](#implication)
-- [Pre-order](#pre-order)
+- [Introduction](#introduction)
+  - [Pre-order](#pre-order)
+  - [Partial Order or Poset](#partial-order-or-poset)
+  - [Total Order](#total-order)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
-# Groups and family
+# Introduction
 
 ```agda
 module Algebra.order where
 
-open import Types.equality
-open import Types.functions
-open import Types.typeBasics
+open import Types.equality using (IsEquivalence; Reflexive; Symmetric; Transitive; Rel; _⇒_)
+open import Types.typeBasics using (Σ; _,_; _∪_)
 
-open import Algebra.introduction
+open import Algebra.operations
 
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 ```
 
-# Equivalence
+The equivalence relation remains the most basic relation to be built on objects of all kinds. Higher relations which tend to impose further structural constraints on objects thus creating richer objects and their APIs capable of modeling more complex phenomenon (not much unlike how a programming language's [expressiveness](https://en.wikipedia.org/wiki/Expressive_power_(computer_science)) enables one to build more complex programs).
 
-Before we define groups, we have to define the laws of equivalence:
+Order is one such higher relation and is fundamental in building a class of structures. There are different kinds of ordered objects each with progressively stricter laws.
 
-```lauda
-record IsEquivalence {a ℓ} {A : Set a} (_==_ : Rel A ℓ) : Set (a ⊔ ℓ) where
+## Pre-order
+
+Preorders are relations which are reflexive and transitive. The property of symmetry is left out, and in such a way, preorders are even more general (less strict) than equivalences. We define a pre-order set of objects with an underlying notion of equality `_≈_`.
+
+We first define an object that encapsulates all the rules into one record:
+
+```agda
+record IsPreorder {a ℓ₁ ℓ₂} {A : Set a}
+                  (_≈_ : Rel A ℓ₁) -- The underlying equality.
+                  (_∼_ : Rel A ℓ₂) -- The relation.
+                  : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
   field
-    refl  : Reflexive _==_
-    sym   : Symmetric _==_
-    trans : Transitive _==_
+    isEquivalence : IsEquivalence _≈_
+    -- Reflexivity is expressed in terms of an underlying equality,
+    -- reflexivity of the underlying equality implies reflexivity of the relation:
+    reflexive     : _≈_ ⇒ _∼_
+    trans         : Transitive _∼_
 
-  reflexive : _≡_ ⇒ _≈_
-  reflexive ≡-refl = refl
+  module Eq = IsEquivalence isEquivalence
+
+  refl : Reflexive _∼_
+  refl = reflexive Eq.rfl
+
+  -- we ensure the relation _∼_ respects the underlying equality:
+  -- we cannot use commutativity, hence we use the _Respects₂_ version here.
+  ∼-respˡ-≈ : _∼_ Respectsˡ _≈_
+  ∼-respˡ-≈ x≈y x∼z = trans (reflexive (Eq.sym x≈y)) x∼z
+
+  ∼-respʳ-≈ : _∼_ Respectsʳ _≈_
+  ∼-respʳ-≈ x≈y z∼x = trans z∼x (reflexive x≈y)
+
+  ∼-resp-≈ : _∼_ Respects₂ _≈_
+  ∼-resp-≈ = ∼-respʳ-≈ , ∼-respˡ-≈
 ```
 
-# Implication
+Finally we define the actual object:
 
-
-
-# Pre-order
-
-```lauda
-record Preorder c ℓ₁ ℓ₂ : Set (suc (c ⊔ ℓ₁ ⊔ ℓ₂)) where
+```agda
+record Preorder c ℓ₁ ℓ₂ : Set (lsuc (c ⊔ ℓ₁ ⊔ ℓ₂)) where
   infix 4 _≈_ _∼_
   field
-    Carrier    : Set c
-    _≈_        : Rel Carrier ℓ₁  -- The underlying equality.
-    _∼_        : Rel Carrier ℓ₂  -- The relation.
+    Data       : Set c
+    _≈_        : Rel Data ℓ₁  -- The underlying equality.
+    _∼_        : Rel Data ℓ₂  -- The relation.
+    isPreorder : IsPreorder _≈_ _∼_
+
+  open IsPreorder isPreorder public
+```
+
+## Partial Order or Poset
+
+A partial order, or partially ordered set or Poset, is an antisymmetric preorder. In plain words, we require the relation $_≤_$ to be antisymmetric.
+
+A relation $_≤_$ is anti-symmetric over the underlying equality $_≈_$, if for every $x, y$,
+
+$x ≤ y , y ≤ x ⟹ x ≈ y$
+
+```agda
+Antisymmetric : ∀ {a ℓ₁ ℓ₂} {A : Set a} → Rel A ℓ₁ → Rel A ℓ₂ → Set _
+Antisymmetric _≈_ _≤_ = ∀ {x y} → x ≤ y → y ≤ x → x ≈ y
+```
+
+We can now define partially ordered sets:
+
+```agda
+record IsPartialOrder {a ℓ₁ ℓ₂} {A : Set a}
+                      (_≈_ : Rel A ℓ₁) (_≤_ : Rel A ℓ₂) :
+                      Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
+  field
+    isPreorder : IsPreorder _≈_ _≤_
+    antisym    : Antisymmetric _≈_ _≤_
+
+  open IsPreorder isPreorder public
+    renaming
+    ( ∼-respˡ-≈ to ≤-respˡ-≈
+    ; ∼-respʳ-≈ to ≤-respʳ-≈
+    ; ∼-resp-≈  to ≤-resp-≈
+    )
+```
+
+```agda
+record Poset c ℓ₁ ℓ₂ : Set (lsuc (c ⊔ ℓ₁ ⊔ ℓ₂)) where
+  infix 4 _≈_ _≤_
+  field
+    Data           : Set c
+    _≈_            : Rel Data ℓ₁
+    _≤_            : Rel Data ℓ₂
+    isPartialOrder : IsPartialOrder _≈_ _≤_
+
+  open IsPartialOrder isPartialOrder public
+
+  preorder : Preorder c ℓ₁ ℓ₂
+  preorder = record { isPreorder = isPreorder }
+```
+
+## Total Order
+
+A total order is a total preorder, or the preorder's relation $_≤_$ to be a total function.
+
+A relation $_≤_$ is total if $x ≤ y or y ≤ x$. There is no third possibility.
+
+```agda
+Total : ∀ {a ℓ} {A : Set a} → Rel A ℓ → Set _
+Total _∼_ = ∀ x y → (x ∼ y) ∪ (y ∼ x)
+```
+
+We can now define total orders:
+
+```agda
+record IsTotalOrder {a ℓ₁ ℓ₂} {A : Set a}
+                    (_≈_ : Rel A ℓ₁) (_≤_ : Rel A ℓ₂) :
+                    Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
+  field
+    isPartialOrder : IsPartialOrder _≈_ _≤_
+    total          : Total _≤_
+
+  open IsPartialOrder isPartialOrder public
+```
+
+```agda
+record TotalOrder c ℓ₁ ℓ₂ : Set (lsuc (c ⊔ ℓ₁ ⊔ ℓ₂)) where
+  infix 4 _≈_ _≤_
+  field
+    Data         : Set c
+    _≈_          : Rel Data ℓ₁
+    _≤_          : Rel Data ℓ₂
+    isTotalOrder : IsTotalOrder _≈_ _≤_
+
+  open IsTotalOrder isTotalOrder public
+
+  poset : Poset c ℓ₁ ℓ₂
+  poset = record { isPartialOrder = isPartialOrder }
+
+  open Poset poset public using (preorder)
 ```
 
 
+****
+[Groups and family](./Algebra.groups.html)

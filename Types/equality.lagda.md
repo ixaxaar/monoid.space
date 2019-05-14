@@ -337,7 +337,7 @@ record Setoid c ℓ : Set (lsuc (c ⊔ ℓ)) where
   open IsEquivalence isEquivalence public
 ```
 
-Setoids are extensively used throughout agda's standard library, however, we chose to avoid them here to be more explicit.
+Setoids are extensively used throughout agda's standard library, and they encapsulate well the baic underlying equality. However, we chose to avoid them here to be more explicit.
 
 ****
 [Product Types / Σ-types](./Types.typeBasics.html)

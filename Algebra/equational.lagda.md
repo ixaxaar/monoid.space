@@ -266,4 +266,4 @@ module withCongruence {a ℓ}
 ```
 
 ****
-[Groups and family](./Algebra.groups.html)
+[Ordered objects](./Algebra.order.html)

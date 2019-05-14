@@ -52,39 +52,123 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
 <ul>
-<li><a href="#groups-and-family">Groups and family</a></li>
-<li><a href="#equivalence">Equivalence</a></li>
-<li><a href="#implication">Implication</a></li>
+<li><a href="#introduction">Introduction</a></li>
 <li><a href="#pre-order">Pre-order</a></li>
+<li><a href="#partial-order-or-poset">Partial Order or Poset</a></li>
+<li><a href="#total-order">Total Order</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<h1 id="groups-and-family">Groups and family</h1>
+<h1 id="introduction">Introduction</h1>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Algebra<span class="ot">.</span>order <span class="kw">where</span>
 
-<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality
-<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions
-<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>typeBasics
+<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">using</span> <span class="ot">(</span>IsEquivalence<span class="ot">;</span> Reflexive<span class="ot">;</span> Symmetric<span class="ot">;</span> Transitive<span class="ot">;</span> Rel<span class="ot">;</span> <span class="ot">_</span>⇒<span class="ot">_)</span>
+<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>typeBasics <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_;</span> <span class="ot">_</span>∪<span class="ot">_)</span>
 
-<span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>introduction
+<span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>operations
 
 <span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></code></pre></div>
-<h1 id="equivalence">Equivalence</h1>
-<p>Before we define groups, we have to define the laws of equivalence:</p>
-<pre class="lauda"><code>record IsEquivalence {a ℓ} {A : Set a} (_==_ : Rel A ℓ) : Set (a ⊔ ℓ) where
-  field
-    refl  : Reflexive _==_
-    sym   : Symmetric _==_
-    trans : Transitive _==_
+<p>The equivalence relation remains the most basic relation to be built on objects of all kinds. Higher relations which tend to impose further structural constraints on objects thus creating richer objects and their APIs capable of modeling more complex phenomenon (not much unlike how a programming language’s <a href="https://en.wikipedia.org/wiki/Expressive_power_(computer_science)">expressiveness</a> enables one to build more complex programs).</p>
+<p>Order is one such higher relation and is fundamental in building a class of structures. There are different kinds of ordered objects each with progressively stricter laws.</p>
+<h2 id="pre-order">Pre-order</h2>
+<p>Preorders are relations which are reflexive and transitive. The property of symmetry is left out, and in such a way, preorders are even more general (less strict) than equivalences. We define a pre-order set of objects with an underlying notion of equality <code>_≈_</code>.</p>
+<p>We first define an object that encapsulates all the rules into one record:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> IsPreorder <span class="ot">{</span>a ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span>
+                  <span class="ot">(_</span>≈<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ₁<span class="ot">)</span> <span class="co">-- The underlying equality.</span>
+                  <span class="ot">(_</span>∼<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ₂<span class="ot">)</span> <span class="co">-- The relation.</span>
+                  <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ₁ ⊔ ℓ₂<span class="ot">)</span> <span class="kw">where</span>
+  <span class="kw">field</span>
+    isEquivalence <span class="ot">:</span> IsEquivalence <span class="ot">_</span>≈<span class="ot">_</span>
+    <span class="co">-- Reflexivity is expressed in terms of an underlying equality,</span>
+    <span class="co">-- reflexivity of the underlying equality implies reflexivity of the relation:</span>
+    reflexive     <span class="ot">:</span> <span class="ot">_</span>≈<span class="ot">_</span> ⇒ <span class="ot">_</span>∼<span class="ot">_</span>
+    trans         <span class="ot">:</span> Transitive <span class="ot">_</span>∼<span class="ot">_</span>
 
-  reflexive : _≡_ ⇒ _≈_
-  reflexive ≡-refl = refl</code></pre>
-<h1 id="implication">Implication</h1>
-<h1 id="pre-order">Pre-order</h1>
-<pre class="lauda"><code>record Preorder c ℓ₁ ℓ₂ : Set (suc (c ⊔ ℓ₁ ⊔ ℓ₂)) where
-  infix 4 _≈_ _∼_
-  field
-    Carrier    : Set c
-    _≈_        : Rel Carrier ℓ₁  -- The underlying equality.
-    _∼_        : Rel Carrier ℓ₂  -- The relation.</code></pre>
+  <span class="kw">module</span> Eq <span class="ot">=</span> IsEquivalence isEquivalence
+
+  refl <span class="ot">:</span> Reflexive <span class="ot">_</span>∼<span class="ot">_</span>
+  refl <span class="ot">=</span> reflexive Eq<span class="ot">.</span>rfl
+
+  <span class="co">-- we ensure the relation _∼_ respects the underlying equality:</span>
+  <span class="co">-- we cannot use commutativity, hence we use the _Respects₂_ version here.</span>
+  ∼-respˡ-≈ <span class="ot">:</span> <span class="ot">_</span>∼<span class="ot">_</span> Respectsˡ <span class="ot">_</span>≈<span class="ot">_</span>
+  ∼-respˡ-≈ x≈y x∼z <span class="ot">=</span> trans <span class="ot">(</span>reflexive <span class="ot">(</span>Eq<span class="ot">.</span>sym x≈y<span class="ot">))</span> x∼z
+
+  ∼-respʳ-≈ <span class="ot">:</span> <span class="ot">_</span>∼<span class="ot">_</span> Respectsʳ <span class="ot">_</span>≈<span class="ot">_</span>
+  ∼-respʳ-≈ x≈y z∼x <span class="ot">=</span> trans z∼x <span class="ot">(</span>reflexive x≈y<span class="ot">)</span>
+
+  ∼-resp-≈ <span class="ot">:</span> <span class="ot">_</span>∼<span class="ot">_</span> Respects₂ <span class="ot">_</span>≈<span class="ot">_</span>
+  ∼-resp-≈ <span class="ot">=</span> ∼-respʳ-≈ , ∼-respˡ-≈</code></pre></div>
+<p>Finally we define the actual object:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Preorder c ℓ₁ ℓ₂ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ₁ ⊔ ℓ₂<span class="ot">))</span> <span class="kw">where</span>
+  <span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∼<span class="ot">_</span>
+  <span class="kw">field</span>
+    Data       <span class="ot">:</span> <span class="dt">Set</span> c
+    <span class="ot">_</span>≈<span class="ot">_</span>        <span class="ot">:</span> Rel Data ℓ₁  <span class="co">-- The underlying equality.</span>
+    <span class="ot">_</span>∼<span class="ot">_</span>        <span class="ot">:</span> Rel Data ℓ₂  <span class="co">-- The relation.</span>
+    isPreorder <span class="ot">:</span> IsPreorder <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>∼<span class="ot">_</span>
+
+  <span class="kw">open</span> IsPreorder isPreorder <span class="kw">public</span></code></pre></div>
+<h2 id="partial-order-or-poset">Partial Order or Poset</h2>
+<p>A partial order, or partially ordered set or Poset, is an antisymmetric preorder. In plain words, we require the relation <span class="math inline">$_≤_$</span> to be antisymmetric.</p>
+<p>A relation <span class="math inline">$_≤_$</span> is anti-symmetric over the underlying equality <span class="math inline">$_≈_$</span>, if for every <span class="math inline"><em>x</em>, <em>y</em></span>,</p>
+<p><span class="math inline"><em>x</em> ≤ <em>y</em>, <em>y</em> ≤ <em>x</em> ⟹ <em>x</em> ≈ <em>y</em></span></p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Antisymmetric <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> Rel A ℓ₁ <span class="ot">→</span> Rel A ℓ₂ <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
+Antisymmetric <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>≤<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x y<span class="ot">}</span> <span class="ot">→</span> x ≤ y <span class="ot">→</span> y ≤ x <span class="ot">→</span> x ≈ y</code></pre></div>
+<p>We can now define partially ordered sets:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> IsPartialOrder <span class="ot">{</span>a ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span>
+                      <span class="ot">(_</span>≈<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ₁<span class="ot">)</span> <span class="ot">(_</span>≤<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ₂<span class="ot">)</span> <span class="ot">:</span>
+                      <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ₁ ⊔ ℓ₂<span class="ot">)</span> <span class="kw">where</span>
+  <span class="kw">field</span>
+    isPreorder <span class="ot">:</span> IsPreorder <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>≤<span class="ot">_</span>
+    antisym    <span class="ot">:</span> Antisymmetric <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>≤<span class="ot">_</span>
+
+  <span class="kw">open</span> IsPreorder isPreorder <span class="kw">public</span>
+    <span class="kw">renaming</span>
+    <span class="ot">(</span> ∼-respˡ-≈ <span class="kw">to</span> ≤-respˡ-≈
+    <span class="ot">;</span> ∼-respʳ-≈ <span class="kw">to</span> ≤-respʳ-≈
+    <span class="ot">;</span> ∼-resp-≈  <span class="kw">to</span> ≤-resp-≈
+    <span class="ot">)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Poset c ℓ₁ ℓ₂ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ₁ ⊔ ℓ₂<span class="ot">))</span> <span class="kw">where</span>
+  <span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>≤<span class="ot">_</span>
+  <span class="kw">field</span>
+    Data           <span class="ot">:</span> <span class="dt">Set</span> c
+    <span class="ot">_</span>≈<span class="ot">_</span>            <span class="ot">:</span> Rel Data ℓ₁
+    <span class="ot">_</span>≤<span class="ot">_</span>            <span class="ot">:</span> Rel Data ℓ₂
+    isPartialOrder <span class="ot">:</span> IsPartialOrder <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>≤<span class="ot">_</span>
+
+  <span class="kw">open</span> IsPartialOrder isPartialOrder <span class="kw">public</span>
+
+  preorder <span class="ot">:</span> Preorder c ℓ₁ ℓ₂
+  preorder <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isPreorder <span class="ot">=</span> isPreorder <span class="ot">}</span></code></pre></div>
+<h2 id="total-order">Total Order</h2>
+<p>A total order is a total preorder, or the preorder’s relation <span class="math inline">$_≤_$</span> to be a total function.</p>
+<p>A relation <span class="math inline">$_≤_$</span> is total if <span class="math inline"><em>x</em> ≤ <em>y</em><em>o</em><em>r</em><em>y</em> ≤ <em>x</em></span>. There is no third possibility.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Total <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> Rel A ℓ <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
+Total <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x ∼ y<span class="ot">)</span> ∪ <span class="ot">(</span>y ∼ x<span class="ot">)</span></code></pre></div>
+<p>We can now define total orders:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> IsTotalOrder <span class="ot">{</span>a ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span>
+                    <span class="ot">(_</span>≈<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ₁<span class="ot">)</span> <span class="ot">(_</span>≤<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ₂<span class="ot">)</span> <span class="ot">:</span>
+                    <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ₁ ⊔ ℓ₂<span class="ot">)</span> <span class="kw">where</span>
+  <span class="kw">field</span>
+    isPartialOrder <span class="ot">:</span> IsPartialOrder <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>≤<span class="ot">_</span>
+    total          <span class="ot">:</span> Total <span class="ot">_</span>≤<span class="ot">_</span>
+
+  <span class="kw">open</span> IsPartialOrder isPartialOrder <span class="kw">public</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> TotalOrder c ℓ₁ ℓ₂ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ₁ ⊔ ℓ₂<span class="ot">))</span> <span class="kw">where</span>
+  <span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>≤<span class="ot">_</span>
+  <span class="kw">field</span>
+    Data         <span class="ot">:</span> <span class="dt">Set</span> c
+    <span class="ot">_</span>≈<span class="ot">_</span>          <span class="ot">:</span> Rel Data ℓ₁
+    <span class="ot">_</span>≤<span class="ot">_</span>          <span class="ot">:</span> Rel Data ℓ₂
+    isTotalOrder <span class="ot">:</span> IsTotalOrder <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>≤<span class="ot">_</span>
+
+  <span class="kw">open</span> IsTotalOrder isTotalOrder <span class="kw">public</span>
+
+  poset <span class="ot">:</span> Poset c ℓ₁ ℓ₂
+  poset <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isPartialOrder <span class="ot">=</span> isPartialOrder <span class="ot">}</span>
+
+  <span class="kw">open</span> Poset poset <span class="kw">public</span> <span class="kw">using</span> <span class="ot">(</span>preorder<span class="ot">)</span></code></pre></div>
+<hr />
+<p><a href="./Algebra.groups.html">Groups and family</a></p>
 </body>
 </html>

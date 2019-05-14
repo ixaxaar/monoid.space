@@ -65,7 +65,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#cancellative">Cancellative</a></li>
 <li><a href="#congruence">Congruence</a></li>
 </ul></li>
-<li><a href="#respecting-a-law">Respecting a law</a></li>
+<li><a href="#respecting-an-relation">Respecting an relation</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="operations">Operations</h1>
@@ -237,7 +237,11 @@ if a₁ ≡ a₂,
    b₁ = ∙ a₁
    b₂ = ∙ a₂
 then b₁ ≡ b₂</code></pre>
-<p>A congruent relation preserves equivalences.</p>
+<p>A congruent relation preserves equivalences:</p>
+<ul>
+<li>for binary relation <code>♣</code>, if <span class="math inline">(<em>x</em>₁,<em>y</em>₁) = =(<em>x</em>₂,<em>y</em>₂)</span> then <span class="math inline">(<em>x</em>₁♣<em>y</em>₁) = =(<em>x</em>₂♣<em>y</em>₂)</span>.</li>
+<li>for unary relation <code>♡</code>, if <span class="math inline"><em>x</em> = =<em>y</em></span> then <span class="math inline">♡<em>x</em> = =♡<em>y</em></span>.</li>
+</ul>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  Congruent₁ <span class="ot">:</span> ♠ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   Congruent₁ f <span class="ot">=</span> f Preserves <span class="ot">_</span>==<span class="ot">_</span> ⟶ <span class="ot">_</span>==<span class="ot">_</span>
 
@@ -249,11 +253,11 @@ then b₁ ≡ b₂</code></pre>
 
   RightCongruent <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   RightCongruent <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>x ∙<span class="ot">_)</span> Preserves <span class="ot">_</span>==<span class="ot">_</span> ⟶ <span class="ot">_</span>==<span class="ot">_</span></code></pre></div>
-<h2 id="respecting-a-law">Respecting a law</h2>
-<p>We finally define what we mean by “respects” a law. We define two versions here</p>
+<h2 id="respecting-an-relation">Respecting an relation</h2>
+<p>We finally define what we mean by a functions “respects” an operation or is invariant of it. For a function <span class="math inline"><em>f</em></span> and an operation <span class="math inline">∘</span>, if <span class="math inline"><em>x</em> ∘ <em>y</em> ⟹ <em>f</em>(<em>x</em>)∘<em>f</em>(<em>y</em>)</span>, we say the function <span class="math inline"><em>f</em></span> respects the operation <span class="math inline">∘</span>. We define two versions of this utility here</p>
 <ul>
 <li><code>_Respects_</code> for already commutative laws</li>
-<li><code>_Respects₂_</code> which combines left and right laws</li>
+<li><code>_Respects₂_</code> which combines left <code>_Respectsˡ_</code> and right <code>_Respectsʳ_</code> laws</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="ot">_</span>Respects<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span>
           <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> <span class="dt">Set</span> ℓ₁<span class="ot">)</span>

@@ -59,8 +59,7 @@
   - [Introduction](./Algebra.introduction.html)
   - [Operations](./Algebra.operations.html)
   - [Equational Reasoning](./Algebra.equational.html)
-  <!-- - [Ordered objects](./Algebra.order.html) -->
-  <!-- - [Properties of ordered objects](./Algebra.orderProperties.html) -->
+  - [Ordered objects](./Algebra.order.html)
   - [Groups and family](./Algebra.groups.html)
   - [Groups and family 2](./Algebra.structures.html)
   - [Properties of Group-like objects *todo*](./Algebra.groupProperties.html)

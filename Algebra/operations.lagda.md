@@ -16,7 +16,7 @@
     - [Absorptive](#absorptive)
     - [Cancellative](#cancellative)
     - [Congruence](#congruence)
-  - [Respecting a law](#respecting-a-law)
+  - [Respecting an relation](#respecting-an-relation)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -252,7 +252,10 @@ if a₁ ≡ a₂,
 then b₁ ≡ b₂
 ```
 
-A congruent relation preserves equivalences.
+A congruent relation preserves equivalences:
+
+- for binary relation `♣`, if $(x₁, y₁) == (x₂, y₂)$ then $(x₁ ♣ y₁) == (x₂ ♣ y₂)$.
+- for unary relation `♡`, if $x == y$ then $♡ x == ♡ y$.
 
 ```agda
   Congruent₁ : ♠ A → Set _
@@ -268,12 +271,12 @@ A congruent relation preserves equivalences.
   RightCongruent _∙_ = ∀ {x} → (x ∙_) Preserves _==_ ⟶ _==_
 ```
 
-## Respecting a law
+## Respecting an relation
 
-We finally define what we mean by "respects" a law. We define two versions here
+We finally define what we mean by a functions "respects" an operation or is invariant of it. For a function $f$ and an operation $∘$, if  $x ∘ y ⟹ f(x) ∘ f(y)$, we say the function $f$ respects the operation $∘$. We define two versions of this utility here
 
 - `_Respects_` for already commutative laws
-- `_Respects₂_` which combines left and right laws
+- `_Respects₂_` which combines left `_Respectsˡ_` and right `_Respectsʳ_` laws
 
 ```agda
   _Respects_ : ∀ {a ℓ₁ ℓ₂} {A : Set a}
