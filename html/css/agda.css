@@ -89,7 +89,7 @@ div.indent, pre, table {
 table {
   /*background-color: #272525;*/
   background-color: #151520;
-  border-radius:    20px;
+  border-radius:    10px;
   margin:           20px;
   padding:          10px;
   border-collapse: collapse;
@@ -202,7 +202,7 @@ div.string span { background-color: yellow; }
 
 a               { color: #ff4444; }
 h1 a, h2 a, h3 a { color: white; }
-code            { color: rgb(150, 150, 150) !important; }
+/*code            { color: rgb(150, 150, 150) !important; }*/
 .type           { color: #0080ff; }
 .error          { color: #a030a0; }
 .comment        { color: gray; float: right; }
@@ -211,6 +211,28 @@ code            { color: rgb(150, 150, 150) !important; }
   color: rgb(10, 250, 170) !important;
   font-size: 16pt !important;
 }
+
+code {
+  padding-left: 7px;
+  padding-right: 7px;
+  background-color: #404060;
+  border-radius: 5px;
+}
+
+.math {
+  padding-left: 7px;
+  padding-right: 7px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #404060;
+  border-radius: 5px;
+  color: white;
+}
+
+.sourceCode code {
+  background-color: transparent;
+}
+
 
 /* misc */
 
@@ -262,15 +284,15 @@ pre.sourceCode span.re { }
 pre.sourceCode span.er { color: rgb(255, 190, 190) !important; /* font-weight: bold; */ }
 
 div.sourceCode {
-  background-color: #302727;
-  border-radius:    20px;
+  background-color: #303037;
+  border-radius:    10px;
   margin:           20px;
   padding:          10px;
 }
 
 ul {
   background-color: #232323;
-  border-radius:    20px;
+  border-radius:    10px;
   padding:          20px;
   padding-left:     50px;
 }
@@ -309,19 +331,18 @@ strong {
   font-size: 200%;
 }
 
-.math {
-  font-size: 130%;
-  color: #cf9400;
-}
-
 img {
   margin-left: 50px;
   max-width: 800px;
   max-height: 800px;
-  background-color: #ccc;
-  border-radius:    20px;
+  /*background-color: #303037;*/
+  border-radius:    10px;
   margin:           20px;
   padding:          30px;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: repeat;
 }
 
 hr:first-of-type {

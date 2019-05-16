@@ -58,16 +58,16 @@ record IsPreorder {a ℓ₁ ℓ₂} {A : Set a}
   ∼-respˡ-≈ : _∼_ Respectsˡ _≈_
   ∼-respˡ-≈ x≈y x∼z = trans (reflexive (Eq.sym x≈y)) x∼z
 
-  ∼-respʳ-≈ : _∼_ Respectsʳ _≈_
-  ∼-respʳ-≈ x≈y z∼x = trans z∼x (reflexive x≈y)
+  -- ∼-respʳ-≈ : _∼_ Respectsʳ _≈_
+  -- ∼-respʳ-≈ x≈y z∼x = trans z∼x (reflexive x≈y)
 
-  ∼-resp-≈ : _∼_ Respects₂ _≈_
-  ∼-resp-≈ = ∼-respʳ-≈ , ∼-respˡ-≈
+  -- ∼-resp-≈ : _∼_ Respects₂ _≈_
+  -- ∼-resp-≈ = ∼-respʳ-≈ , ∼-respˡ-≈
 ```
 
 Finally we define the actual object:
 
-```agda
+```lauda
 record Preorder c ℓ₁ ℓ₂ : Set (lsuc (c ⊔ ℓ₁ ⊔ ℓ₂)) where
   infix 4 _≈_ _∼_
   field
@@ -87,14 +87,14 @@ A relation $_≤_$ is anti-symmetric over the underlying equality $_≈_$, if fo
 
 $x ≤ y , y ≤ x ⟹ x ≈ y$
 
-```agda
+```lauda
 Antisymmetric : ∀ {a ℓ₁ ℓ₂} {A : Set a} → Rel A ℓ₁ → Rel A ℓ₂ → Set _
 Antisymmetric _≈_ _≤_ = ∀ {x y} → x ≤ y → y ≤ x → x ≈ y
 ```
 
 We can now define partially ordered sets:
 
-```agda
+```lauda
 record IsPartialOrder {a ℓ₁ ℓ₂} {A : Set a}
                       (_≈_ : Rel A ℓ₁) (_≤_ : Rel A ℓ₂) :
                       Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
@@ -110,7 +110,7 @@ record IsPartialOrder {a ℓ₁ ℓ₂} {A : Set a}
     )
 ```
 
-```agda
+```lauda
 record Poset c ℓ₁ ℓ₂ : Set (lsuc (c ⊔ ℓ₁ ⊔ ℓ₂)) where
   infix 4 _≈_ _≤_
   field
@@ -131,14 +131,14 @@ A total order is a total preorder, or the preorder's relation $_≤_$ to be a to
 
 A relation $_≤_$ is total if $x ≤ y or y ≤ x$. There is no third possibility.
 
-```agda
+```lauda
 Total : ∀ {a ℓ} {A : Set a} → Rel A ℓ → Set _
 Total _∼_ = ∀ x y → (x ∼ y) ∪ (y ∼ x)
 ```
 
 We can now define total orders:
 
-```agda
+```lauda
 record IsTotalOrder {a ℓ₁ ℓ₂} {A : Set a}
                     (_≈_ : Rel A ℓ₁) (_≤_ : Rel A ℓ₂) :
                     Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
@@ -149,7 +149,7 @@ record IsTotalOrder {a ℓ₁ ℓ₂} {A : Set a}
   open IsPartialOrder isPartialOrder public
 ```
 
-```agda
+```lauda
 record TotalOrder c ℓ₁ ℓ₂ : Set (lsuc (c ⊔ ℓ₁ ⊔ ℓ₂)) where
   infix 4 _≈_ _≤_
   field

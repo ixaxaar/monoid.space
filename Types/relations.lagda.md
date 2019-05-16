@@ -38,9 +38,9 @@ R : ∀ {a} → Set a → (ℓ : Level) → Set (a ⊔ lsuc ℓ)
 R A ℓ = REL A A ℓ
 ```
 
-The first definition being easier for our purposes here, we proceed that.
+The first definition being easier for our purposes here, we proceed with that.
 
-A reflexive relation is one where $ x \bullet y = y \bullet x $ :
+A reflexive relation is one where $x \bullet y = y \bullet x$:
 
 ![refl](refl.png)
 
@@ -51,7 +51,7 @@ reflexive : {A : Set}
 reflexive {A} _★_ = (x : A) → x ★ x
 ```
 
-A symmetric relation is one where $ x \bullet y \implies y \bullet x $ :
+A symmetric relation is one where $x \bullet y \implies y \bullet x$:
 
 ![symmetric](symmetric.png)
 
@@ -62,7 +62,7 @@ symmetric {A} _★_  = (x y : A)
   → y ★ x
 ```
 
-A transitive relation is one where $ x \bullet y, y \bullet z then z \bullet x $ :
+A transitive relation is one where $x \bullet y, y \bullet z ~then~ z \bullet x$:
 
 ![transitive](transitive.png)
 
@@ -74,7 +74,7 @@ transitive {A} _★_ = (x y z : A)
   → x ★ z
 ```
 
-A congruent relation is one where a function $ x \bullet y \implies f(x) \bullet f(y) $ or the function `f` preserves the relation :
+A congruent relation is one where a function $x \bullet y \implies f(x) \bullet f(y)$ or the function `f` preserves the relation :
 
 ```agda
 congruent : {A : Set} → Rel A → Set
@@ -82,7 +82,7 @@ congruent {A} _★_ = (f : A → A)(x y : A)
   → x ★ y
   → f x ★ f y
 ```
-A substitutive relation is one where $ x \bullet y ~and~ (predicate y) = ⊤ \implies (predicate x) = ⊤ $ :
+A substitutive relation is one where $x \bullet y ~and~ (predicate~ y) = ⊤ \implies (predicate~ x) = ⊤$ :
 
 ```agda
 substitutive : {A : Set} → Rel A → Set1
@@ -94,10 +94,11 @@ substitutive {A} _★_ = (P : A → Set)(x y : A)
 
 # Equivalence relation
 
-An equivalence relation is a relation which is
-- reflexive $ a = a $
-- symmetric $ if a = b ~then~ b = a $
-- transitive $ if a = b ~and~ b = c ~then~ a = c $
+An equivalence relation is a relation which is:
+
+- reflexive $a = a$
+- symmetric $if~ a = b ~then~ b = a$
+- transitive $if~ a = b ~and~ b = c ~then~ a = c$
 
 All forms of what we know as "equality" are equivalence relations. They help in identifying similar objects and can be "weak" or "strong" depending upon how much similarity they capture of the objects they compare. For e.g. all "tables" fall under one equivalence class wherein when we refer to a generic "table" we mean as in all tables as equal. Whereas, if we were comparing tables amongst themselves, we'd use other finer criteria in our equivalence relations, classifying some tables as coffee tables and so on.
 

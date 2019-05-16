@@ -61,7 +61,7 @@
   - [Equational Reasoning](./Algebra.equational.html)
   - [Ordered objects](./Algebra.order.html)
   - [Groups and family](./Algebra.groups.html)
-  - [Groups and family 2](./Algebra.structures.html)
+  - [Groups and family 2](./Algebra.groups2.html)
   - [Properties of Group-like objects *todo*](./Algebra.groupProperties.html)
   <!-- - [Rings and family](./Algebra.rings.html) -->
   <!-- - [Properties of Ring-like objects](./Algebra.ringProperties.html) -->

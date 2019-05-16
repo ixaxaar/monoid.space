@@ -97,4 +97,4 @@ data Even : ℕ → Set where
 
 
 ****
-[Back to Contents](./contents.html)
+[Introduction](./Algebra.introduction.html)

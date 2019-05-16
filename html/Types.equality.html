@@ -97,13 +97,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <span class="kw">data</span> <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>a <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
   same <span class="ot">:</span> a ∼ a</code></pre></div>
-<p>Reflexivity is defined with the definition of <code>∼</code> by the keyword <code>refl</code>, the others being:</p>
+<p>Reflexivity is defined with the definition of <code>∼</code> by the keyword <code>same</code>, the others being:</p>
 <h4 id="symmetry">Symmetry</h4>
+<p>Symmetry is the property where binary a relation’s behavior does not depend upon its argument’s position (left or right):</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">symmetry <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B<span class="ot">}{</span>a <span class="ot">:</span> A<span class="ot">}{</span>b <span class="ot">:</span> B<span class="ot">}</span>
   <span class="ot">→</span> a ∼ b
   <span class="ot">→</span> b ∼ a
 symmetry same <span class="ot">=</span> same</code></pre></div>
 <h4 id="transitivity">Transitivity</h4>
+<p>Transitivity is when a binary relation <code>_∼_</code> and <span class="math inline"><em>x</em> ∼ <em>y</em><em>a</em><em>n</em><em>d</em><em>y</em> ∼ <em>z</em> ⟹ <em>x</em> ∼ <em>z</em></span></p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">transitivity <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B C<span class="ot">}{</span>a <span class="ot">:</span> A<span class="ot">}{</span>b <span class="ot">:</span> B<span class="ot">}{</span>c <span class="ot">:</span> C<span class="ot">}</span>
   <span class="ot">→</span> a ∼ b
   <span class="ot">→</span> b ∼ c
@@ -178,13 +180,13 @@ REL A B ℓ <span class="ot">=</span> A <span class="ot">→</span> B <span clas
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Rel <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ lsuc ℓ<span class="ot">)</span>
 Rel A ℓ <span class="ot">=</span> REL A A ℓ</code></pre></div>
 <h3 id="properties-of-binary-relations">Properties of binary relations</h3>
-<p>We define implication between two relations as:</p>
+<p>In type theory, an implication <span class="math inline"><em>A</em> ⟹ <em>B</em></span> is just a function type <span class="math inline"><em>f</em> : <em>A</em> → <em>B</em></span>, and if <code>f</code> exists, the implication does too. We define implication between two relations in agda as:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>⇒<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span>
         <span class="ot">→</span> REL A B ℓ₁
         <span class="ot">→</span> REL A B ℓ₂
         <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
 P ⇒ Q <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>i j<span class="ot">}</span> <span class="ot">→</span> P i j <span class="ot">→</span> Q i j</code></pre></div>
-<p>Two homogenous relations <code>Rel A ℓ₁</code> and <code>Rel B ℓ₂</code>, given a function <code>f : A → B</code> are equivalent if:</p>
+<p>A function <code>f : A → B</code> is invariant to two homogenous relations <code>Rel A ℓ₁</code> and <code>Rel B ℓ₂</code> if <span class="math inline">∀<em>x</em>, <em>y</em> ∈ <em>A</em> <em>a</em><em>n</em><em>d</em> <em>f</em>(<em>x</em>),<em>f</em>(<em>y</em>)∈<em>B</em>, (<em>R</em><em>e</em><em>l</em><em>x</em><em>y</em>)⟹(<em>R</em><em>e</em><em>l</em><em>f</em>(<em>x</em>)<em>f</em>(<em>y</em>))</span>:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>=[<span class="ot">_</span>]⇒<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span>
           Rel A ℓ₁ <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> Rel B ℓ₂ <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
 P =[ f ]⇒ Q <span class="ot">=</span> P ⇒ <span class="ot">(</span>Q on f<span class="ot">)</span></code></pre></div>
@@ -194,9 +196,9 @@ P =[ f ]⇒ Q <span class="ot">=</span> P ⇒ <span class="ot">(</span>Q on f<sp
         <span class="ot">→</span> Rel A ℓ₁
         <span class="ot">→</span> Rel B ℓ₂
         <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-f Preserves P ⟶ Q <span class="ot">=</span> P =[ f ]⇒ Q
-
-<span class="ot">_</span>Preserves₂<span class="ot">_</span>⟶<span class="ot">_</span>⟶<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c ℓ₁ ℓ₂ ℓ₃<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span>
+f Preserves P ⟶ Q <span class="ot">=</span> P =[ f ]⇒ Q</code></pre></div>
+<p>Similarly, a binary operation <code>_+_</code> preserves the underlying relation if:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>Preserves₂<span class="ot">_</span>⟶<span class="ot">_</span>⟶<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c ℓ₁ ℓ₂ ℓ₃<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span>
         <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B <span class="ot">→</span> C<span class="ot">)</span>
         <span class="ot">→</span> Rel A ℓ₁
         <span class="ot">→</span> Rel B ℓ₂

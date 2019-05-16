@@ -215,7 +215,7 @@ Rel A ℓ = REL A A ℓ
 
 ### Properties of binary relations
 
-We define implication between two relations as:
+In type theory, an implication $A ⟹ B$ is just a function type $f: A → B$, and if `f` exists, the implication does too. We define implication between two relations in agda as:
 
 ```agda
 _⇒_ : ∀ {a b ℓ₁ ℓ₂} {A : Set a} {B : Set b}
