@@ -25,11 +25,9 @@
 Here we define the objects based on the conditions defined in the previous section.
 
 ```agda
-module Algebra.structures where
+module Algebra.groups2 where
 
 open import Types.equality using (Rel)
--- open import Types.functions
--- open import Types.typeBasics
 
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 
