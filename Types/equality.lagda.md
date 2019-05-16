@@ -56,9 +56,11 @@ data _∼_ {A : Set}(a : A) : {B : Set} → B → Set where
   same : a ∼ a
 ```
 
-Reflexivity is defined with the definition of `∼` by the keyword `refl`, the others being:
+Reflexivity is defined with the definition of `∼` by the keyword `same`, the others being:
 
 #### Symmetry
+
+Symmetry is the property where binary a relation's behavior does not depend upon its argument's position (left or right):
 
 ```agda
 symmetry : ∀ {A B}{a : A}{b : B}
@@ -68,6 +70,8 @@ symmetry same = same
 ```
 
 #### Transitivity
+
+Transitivity is when a binary relation `_∼_` and $x ∼ y and y ∼ z ⟹ x ∼ z$
 
 ```agda
 transitivity : ∀ {A B C}{a : A}{b : B}{c : C}
@@ -221,7 +225,7 @@ _⇒_ : ∀ {a b ℓ₁ ℓ₂} {A : Set a} {B : Set b}
 P ⇒ Q = ∀ {i j} → P i j → Q i j
 ```
 
-Two homogenous relations `Rel A ℓ₁` and `Rel B ℓ₂`, given a function `f : A → B` are equivalent if:
+A function `f : A → B` is invariant to two homogenous relations `Rel A ℓ₁` and `Rel B ℓ₂` if $∀ x, y ∈ A ~and~ f(x), f(y) ∈ B, (Rel x y) ⟹ (Rel f(x) f(y))$:
 
 ```agda
 _=[_]⇒_ : ∀ {a b ℓ₁ ℓ₂} {A : Set a} {B : Set b} →
@@ -238,7 +242,11 @@ _Preserves_⟶_ : ∀ {a b ℓ₁ ℓ₂} {A : Set a} {B : Set b}
         → Rel B ℓ₂
         → Set _
 f Preserves P ⟶ Q = P =[ f ]⇒ Q
+```
 
+Similarly, a binary operation `_+_` preserves the underlying relation if:
+
+```agda
 _Preserves₂_⟶_⟶_ : ∀ {a b c ℓ₁ ℓ₂ ℓ₃} {A : Set a} {B : Set b} {C : Set c}
         → (A → B → C)
         → Rel A ℓ₁

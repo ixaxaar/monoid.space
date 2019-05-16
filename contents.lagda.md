@@ -111,7 +111,7 @@
 
 ![9](9.png) -->
 
-Code: [Github](https://github.com/ixaxaar/monoid.space), [Gitlab](https://gitlab.com/ixaxaar/with_agda).
+Code: [Github](https://github.com/ixaxaar/monoid.space), [Gitlab](https://gitlab.com/ixaxaar/monoid.space).
 
 ```agda
 import Lang.setup
@@ -144,7 +144,7 @@ import Algebra.operations
 import Algebra.equational
 import Algebra.order
 import Algebra.groups
-import Algebra.structures
+import Algebra.groups2
 import Algebra.groupProperties
 ```
 

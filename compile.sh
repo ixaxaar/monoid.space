@@ -34,7 +34,7 @@ declare -a files=(
   "Algebra/equational"
   "Algebra/order"
   "Algebra/groups"
-  "Algebra/structures"
+  "Algebra/groups2"
   "Algebra/groupProperties"
 )
 

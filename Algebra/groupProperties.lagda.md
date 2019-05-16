@@ -28,7 +28,7 @@ open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 open import Types.equality using (Rel; _Preserves_⟶_)
 
 open import Algebra.groups
-open import Algebra.structures
+open import Algebra.groups2
 ```
 
 ## Homomorphisms
