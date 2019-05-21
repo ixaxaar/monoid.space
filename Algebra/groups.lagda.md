@@ -50,7 +50,7 @@ Group-like structures, studied in the field of abstract algebra, can be thought 
 | Group |  ★ |  ★ |  ★ |  ★ |   |
 | Abelian group |  ★ |  ★ |  ★ |  ★ |  ★ |
 
-Some of these objects can be visualized as if they were successors of each other, with the ones at the bottom more "strict" as in with more restrictions in the form of supported laws. We also code them this way below. Note that we implement only the packaged version of laws here, the actual object types we define in the next section [Groups and family 2](./Algebra.groups2.html).
+Some of these objects can be visualized as if they were successors of each other, with the ones at the bottom more "strict" as in with more restrictions in the form of supported laws. We also code them this way below. Note that we implement only the packaged version of laws here, the actual object types we define in the next section [Groups and family 2](./Algebra.groups2.html), this is precisely because we cannot have two high level modules per agda file.
 
 ![algebra-structure](./algebra_structure.png)
 
