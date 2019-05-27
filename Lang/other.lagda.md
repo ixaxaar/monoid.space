@@ -18,18 +18,14 @@
 ```agda
 module Lang.other where
 
-open import Lang.dataStructures using (
-  Bool; true; false;
-  ⊥; ⊤; ℕ; List;
-  one; two; three; four; five; six; seven; eight; nine; ten; zero; succ;
-  _::_; []; Vec; vec3)
+open import Lang.dataStructures
 
 open import Lang.functions using (_+_)
 ```
 
 ## Modules
 
-Modules are essentially a "bunch" of definitions. They behave as closures with the identation the indicator of the extent, similar to python. A Module object `object` can be accessed with `ModuleName.object`.
+Modules are essentially a "bunch" of definitions. They behave as closures with the indentation the indicator of the extent, similar to python. A Module object `object` can be accessed with `ModuleName.object`.
 
 ```agda
 module nested where
@@ -66,11 +62,6 @@ module Sort (A : Set)(_≤_ : A → A → Bool) where
   sort []       = []
   sort (x :: xs) = insert x (sort xs)
 ```
-
-These might start to look terribly akin to classes in object oriented languages, however let us caution the reader that there are a few fundamental differences:
-
-1. The abstraction has no notion of state or mutability
-- Modules behave as type creators, instead of object-creators in for e.g. java
 
 Thus, modules primarily help in structuring code. Modules also provide additional functionalities like private and public components, we tackle them as and when we need to.
 
@@ -137,8 +128,7 @@ list₂ : List' Bool
 list₂ = L three vec3
 ```
 
-All `Data` definitions support an equivalent `Record` definiton, however `Record` are preferred whenever possible as a convention. Records have the obvious advantage of providing `getters` and `setters` for free.
-
+All `Data` definitions have an equivalent `Record` definiton, however `Record`s are preferred whenever possible as a convention. Records have the obvious advantage of providing `getters` and `setters` for free.
 
 ## Postulates
 
@@ -163,4 +153,3 @@ postulate bottom : False
 
 ****
 [Debugging](./Lang.debugging.html)
-

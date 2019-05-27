@@ -54,27 +54,40 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li><a href="#setup-and-installation">Setup and installation</a></li>
 <li><a href="#using-docker">Using Docker</a></li>
+<li><a href="#stack">Stack</a></li>
 <li><a href="#via-package-managers">Via package managers</a>
 <ul>
 <li><a href="#apt-debian-ubuntu-mint-elementary-mx-linux-etc">apt (Debian, Ubuntu, Mint, Elementary, MX Linux etc)</a></li>
 <li><a href="#yum-fedora-opensuse-rhel">yum (Fedora, openSUSE, RHEL)</a></li>
 <li><a href="#pacman-arch-manjaro-antergos">pacman (Arch, Manjaro, Antergos)</a></li>
 <li><a href="#brew-osx">brew (OSX)</a></li>
-<li><a href="#cabal-os-independent">Cabal (OS-independent)</a></li>
 </ul></li>
-<li><a href="#run-the-proofn-checker--compiler">Run the proofn checker / compiler</a></li>
+<li><a href="#run">Run</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<p>We begin with setting up our Agda environment.</p>
 <h1 id="setup-and-installation">Setup and installation</h1>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Lang<span class="ot">.</span>setup <span class="kw">where</span></code></pre></div>
+<div class="figure">
+<img src="./install.png" alt="install" />
+<p class="caption">install</p>
+</div>
 <h2 id="using-docker">Using Docker</h2>
-<p>We’ve done most of the heavy-lifting, and packaged everything into a docker container.</p>
+<p>We’ve done most of the heavy-lifting, and packaged everything into a docker container. This is a platform-independent solution and can be run inside any major operating system. Though it is recommended to run all of the subsequent code in a <a href="https://www.wikihow.com/Use-Linux">Linux-based OS</a> as the author disregards “windouz™” enough to not even consider googling for installation instructions to put them here.</p>
 <p>Install docker</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">curl</span> -fsSL https://get.docker.com -o get-docker.sh
 <span class="fu">sh</span> get-docker.sh</code></pre></div>
 <p>Pull the pre-configured docker image</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">docker</span> pull ixaxaar/agda:latest</code></pre></div>
+<h2 id="stack">Stack</h2>
+<p>Stack is one of haskell’s package manager. Install stack first, if not done already</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">curl</span> -sSL https://get.haskellstack.org/ <span class="kw">|</span> <span class="fu">sh</span></code></pre></div>
+<p>Proceed to use stack to install agda</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">stack</span> install cabal-install
+<span class="ex">stack</span> install happy
+<span class="ex">stack</span> --resolver lts-12.0 --install-ghc install Agda</code></pre></div>
 <h2 id="via-package-managers">Via package managers</h2>
+<p>Note: none of these are guaranteed to work as distro maintainers always seem to disagree with haskell subsystem’s practices and rituals.</p>
 <h3 id="apt-debian-ubuntu-mint-elementary-mx-linux-etc">apt (Debian, Ubuntu, Mint, Elementary, MX Linux etc)</h3>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">sudo</span> apt-get install agda-mode agda-stdlib</code></pre></div>
 <h3 id="yum-fedora-opensuse-rhel">yum (Fedora, openSUSE, RHEL)</h3>
@@ -83,10 +96,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">sudo</span> pacman -S agda agda-stdlib</code></pre></div>
 <h3 id="brew-osx">brew (OSX)</h3>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">brew</span> install agda</code></pre></div>
-<h3 id="cabal-os-independent">Cabal (OS-independent)</h3>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">cabal</span> new-install Agda</code></pre></div>
-<p>Windows users may look at <a href="https://medium.com/@danidiaz/installing-agda-2-5-4-1-on-windows-10-7bf296f3e5bc">this blog</a> to install Agda.</p>
-<h1 id="run-the-proofn-checker-compiler">Run the proofn checker / compiler</h1>
+<h1 id="run">Run</h1>
 <p>To run the agda compiler:</p>
 <ul>
 <li>Launch the docker container’s bash:</li>
@@ -96,7 +106,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Compile <code>whatever.agda</code></li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">agda</span> ./whatever.agda</code></pre></div>
-<p>That’s pretty much it :grimacing:</p>
+<p>That’s pretty much it. Now we go ahead and learn some basics of the language.</p>
 <hr />
 <p><a href="./Lang.languageIntro.html">Introduction</a></p>
 </body>

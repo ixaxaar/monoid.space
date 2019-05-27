@@ -28,7 +28,7 @@ module Lang.debugging where
 open import Agda.Builtin.Nat
 ```
 
-Debugging and tooling are arguably the most vital parts of the development process and a language ecosystem. Tools tend to help developers figure out issues and assit them in the entire development process. Agda has a small set of indisposable tools. We look at how to use some of them to make our lives easier.
+Debugging and tooling are arguably the most vital parts of the development process and a language ecosystem. Tools tend to help developers figure out issues and assit them in the entire process. Agda has a small set of indisposable tools for such purposes. We look at how to use some of them to make our lives easier.
 
 ## Holes
 
@@ -42,9 +42,13 @@ data _even : Nat → Set where
 proof₁ : suc (suc (suc (suc zero))) even
 proof₁ = ?
 ```
-The agda compiler hints the `?` should be `4 even`. This placeholder is called a **hole**.
+The agda compiler hints the `?` should be `4 even`. This placeholder `?` is called a **hole**.
 
 ## Features
+
+Agda supports various `Interaction` commands to provide several features via the `agda --interaction` command. This implements a client-server protocol whereby a client can communicate with the agda compiler to do various tasks on the source files.
+
+Agda supports the following commands:
 
 ### Global commands
 
@@ -84,7 +88,7 @@ The agda compiler hints the `?` should be `4 even`. This placeholder is called a
 
 ## Text editor support
 
-Agda supports various `Interaction` commands to provide several features via the `agda --interaction` command. This implements a client-server protocol whereby a client can communicate with the agda compiler to do various tasks on the source files. This can be tied to text editors and IDEs to provide additional assistance for programmers. Such integrations exist for the following text editors:
+The interaction commands mentioned above can be tied to text editors and IDEs to provide additional assistance for programmers. Such integrations exist for the following text editors:
 
 - Emacs - developed first, has tighest integration [Emacs mode](https://agda.readthedocs.io/en/v2.5.2/tools/emacs-mode.html)
 - Atom - [agda-mode](https://atom.io/packages/agda-mode)

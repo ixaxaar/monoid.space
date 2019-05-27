@@ -23,12 +23,12 @@
 ![1](1.png)
 
   - [Setup](./Lang.setup.html)
-  - [Introduction](./Lang.languageIntro.html)
+  - [Introduction](./Lang.intro.html)
   - [Data Structures](./Lang.dataStructures.html)
-  - [Proofs as Data](./Lang.proofsAsData.html)
   - [Functions](./Lang.functions.html)
-  - [Quirks of Syntax](./Lang.syntaxQuirks.html)
+  - [Proofs as Data](./Lang.proofsAsData.html)
   - [Modules, Records and Postulates](./Lang.other.html)
+  - [Quirks of Syntax](./Lang.syntaxQuirks.html)
   - [Debugging](./Lang.debugging.html)
 
 ## 2. Type Theory
@@ -115,7 +115,7 @@ Code: [Github](https://github.com/ixaxaar/monoid.space), [Gitlab](https://gitlab
 
 ```agda
 import Lang.setup
-import Lang.languageIntro
+import Lang.intro
 import Lang.dataStructures
 import Lang.proofsAsData
 import Lang.functions

@@ -16,17 +16,12 @@
 
 # Syntactic quirks
 
-Agda, being a pretty obscure language, inspite of having no dearth of documentation, still tends to lack some where it gets most confusing. We capture some of them here.
+Agda, being a pretty obscure language, inspite of having no dearth of documentation, still tends to lack some where it gets most confusing. We capture some of them here though we also acknowledge that this remains incomplete.
 
 ```agda
 module Lang.syntaxQuirks where
 
-open import Lang.dataStructures using (
-  Bool; true; false;
-  ⊥; ⊤; ℕ; List;
-  one; two; three; four; five; six; seven; eight; nine; ten; zero; succ;
-  _::_; [];
-  Vec; cons; vec3)
+open import Lang.dataStructures
 ```
 
 # Syntactic sugars
@@ -34,6 +29,8 @@ open import Lang.dataStructures using (
 Mostly short-forms of various stuff used more often.
 
 ## Abstracting common parameters
+
+The implicit parameter `{m : ℕ}` common to all constructors can be abstracted out into the data definition:
 
 ```haskell
 data _≤′_ : ℕ → ℕ → Set where
@@ -50,6 +47,8 @@ data _≤′₁_ (m : ℕ) : ℕ → Set where
 ```
 
 ## Abstracting parameters from constructors to types
+
+The previous technique also works for concrete parameters:
 
 ```haskell
 data _≤″_ : ℕ → ℕ → Set where

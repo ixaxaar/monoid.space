@@ -5,7 +5,7 @@ declare -a files=(
   "contents"
 
   "Lang/setup"
-  "Lang/languageIntro"
+  "Lang/intro"
   "Lang/dataStructures"
   "Lang/functions"
   "Lang/proofsAsData"

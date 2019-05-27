@@ -6,6 +6,7 @@
 ****
 
 - [Data Structures](#data-structures)
+- [`Data` keyword](#data-keyword)
   - [Trivial types](#trivial-types)
     - [Empty](#empty)
     - [Singleton](#singleton)
@@ -22,21 +23,74 @@
 
 # Data Structures
 
+Here we look at how to define data structures in Agda.
+
 ```agda
 module Lang.dataStructures where
+```
+
+Agda is an implementation of type theory, a branch of mathematics where everything is a *type*. Unlike programming languages where there is a clear distinction betwen (data)type and data, where `1` is data of type `int`. In Agda, `1` is a type itself and is of type say `ℕ` (natural numbers). There do remain quite a few similarities, for example, like some programming languages allow functions to be passed around as objects of type `A => B`, similarly, all functions are also types in type theory. This simplicity could get confusing at first and takes some time to get used to given the reader has been a programmer for a while.
+
+Just remember: in type theory, **EVERYTHING is a type**.
+
+# `Data` keyword
+
+As we probably know already, programming languages come bundled with some primitive data types like `int`, `float`, `string` etc and some that combine these primitive types into more complex structures, e.g. `map` can be used to construct say `map<string, array<string>>`.
+
+Some languages also provide the mechanism to define new data types, sometimes by alias-ing a data type with a name like in scala:
+
+```scala
+type newData = Map[String, List[Float]]
+```
+
+This is called *type aliasing*.
+
+Some languages provide the facility to define new data types, like haskell does with the `data` keyword:
+
+```haskell
+-- this states that the type `Bool` can have two values False and True
+data Bool = False | True
+```
+
+A haskell datatype can also have constructors. For e.g. if we were to define a shape type which can either be a circle or a rectange:
+
+```haskell
+data Shape = Circle Float Float Float | Rectangle Float Float Float Float
+
+-- uses the Circle constructor to create an object of type Shape
+Circle 1.2 12.1 123.1
+
+-- uses the Rectange constructor to create an object of type Shape
+Rectange 1.2 12.1 123.1 1234.5
+```
+
+The `data` keyword works in a similar manner in Agda:
+
+```agda
+-- lets assume SomeType1 and SomeType2 to be previously defined
+module _ {SomeType1 SomeType2 : Set} where
+
+  data AgdaData : Set where
+    -- constructors, all return AgdaData
+    constructor1 : SomeType1 → AgdaData
+    constructor2 : SomeType2 → AgdaData
+    trivialConstructor : AgdaData
+    etc : SomeType1 → SomeType2 → AgdaData
 ```
 
 ## Trivial types
 
 ### Empty
 
+An empty object cannot be created cause it has no constructor. This is the most barebones of a `data` definition.
+
 ```agda
 data ⊥ : Set where
 ```
 
-An empty object cannot be created cause it has no constructor.
-
 ### Singleton
+
+A singleton is just a type containing only one object. Note that this is different from the singleton patterns prevalent in various languages like java.
 
 ```agda
 data ⊤ : Set where
@@ -47,21 +101,15 @@ A singleton constructor `singleton` creates a single object of type `T`.
 
 ## Boolean type
 
+The boolean type has just two values:
+
 ```agda
 data Bool : Set where
   true : Bool
   false : Bool
 ```
 
-Here `data Bool` represents a data type creator Bool, which contains two type constructors, `true` and `false`. Each consructor here, `true` and `false` returns a `Bool` value, this is represented as `true : Bool`. Notice that the data type constructor itself is a menber of `Set`. There can be ones that depend on others though we know a about them in type theory.
-
 ## Natural numbers
-
-```agda
-data ℕ : Set where
-  zero : ℕ
-  succ : ℕ → ℕ
-```
 
 All natural numbers can be created from `zero` and n successive numbers after `zero`. All we need to know are
 
@@ -69,6 +117,12 @@ All natural numbers can be created from `zero` and n successive numbers after `z
 - how to increment a number
 
 and then, increment zero to infinity!
+
+```agda
+data ℕ : Set where
+  zero : ℕ
+  succ : ℕ → ℕ
+```
 
 Examples:
 
@@ -91,13 +145,15 @@ and so on recursively.
 
 We define a generic complete binary tree using the following definition. Note that this merely creates an empty structure of a tree, the nodes or leaves contain no information in them:
 
+![bintree](./bintree.png)
+
 ```agda
 data BinTree : Set where
   leaf : BinTree
   node : BinTree → BinTree → BinTree
 ```
 
-Binary trees with leaves containing natural numbers in leaf nodes:
+Now let us augment the binary trees with leaves containing natural numbers in leaf nodes:
 
 ```agda
 data ℕBinTree : Set where
@@ -121,6 +177,8 @@ data ℕMixedBinTree : Set where
 ```
 
 ## Graph
+
+![graph](./graph.png)
 
 We define a graph with:
 
@@ -157,6 +215,8 @@ graph = idGraph (triple (vertex zero)   (vertex seven))     +|+
 ```
 
 ## List
+
+![list](./list.png)
 
 A list containing objects of type `A` can be defined as an object which has:
 
@@ -210,6 +270,8 @@ fourFin = succ three (succ two (succ one (id zero)))
 
 ## Indexed sequences or Vectors
 
+![vectors](./vector.png)
+
 We now define a finite sized indexed list, also called a vector `Vec`. The constructor consists of:
 
 - An identity constructor, `[]` which constructs an empty vector
@@ -262,4 +324,4 @@ containsA = id₂ four
 ```
 
 ****
-[Proofs as Data](./Lang.proofsAsData.html)
+[Functions](./Lang.functions.html)

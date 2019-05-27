@@ -52,29 +52,34 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
 <ul>
-<li><a href="#language-introduction">Language Introduction</a></li>
-<li><a href="#module-headers">Module headers</a></li>
+<li><a href="#naming-conventions">Naming conventions</a></li>
+<li><a href="#files-and-modules">Files and modules</a></li>
 <li><a href="#literate-programming">Literate programming</a></li>
-<li><a href="#emacs">Emacs</a></li>
+<li><a href="#other-material">Other material</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<h1 id="language-introduction">Language Introduction</h1>
-<p>Here we provide some introduction to Agda and its functional style. Those familiar with haskell can brush quickly through this section pretty fast as it is still a programmer’s territory.</p>
-<h2 id="module-headers">Module headers</h2>
+<h1 id="naming-conventions">Naming conventions</h1>
+<h2 id="files-and-modules">Files and modules</h2>
 <p>A namespace in Agda, called a module, appears at the beginning of every file:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Lang<span class="ot">.</span>languageIntro <span class="kw">where</span></code></pre></div>
-<p>Filenames and module headers are required to match. The supported filenames that can contain the module <code>languageIntro</code> being:</p>
-<p>[x] languageIntro.agda [x] languageIntro.lagda [x] languageIntro.lagda.md [x] languageIntro.ladga.rst [x] languageIntro.ladga.tex</p>
-<h1 id="literate-programming">Literate programming</h1>
-<p>The last three file extensions above are part of what’s called “literate programming” wherein one can write markdown or latex documents with agda code surrounded in code blocks marked agda, similar to how this page is itself written!</p>
-<blockquote>
-<pre><code>`` agda
--- agda code goes here
-``</code></pre>
-</blockquote>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Lang<span class="ot">.</span>intro <span class="kw">where</span></code></pre></div>
+<p>Filenames and module headers are required to match. The supported filenames that can contain the module <code>intro</code> being:</p>
+<ul>
+<li>[x] intro.agda</li>
+<li>[x] intro.lagda</li>
+<li>[x] intro.lagda.md</li>
+<li>[x] intro.ladga.rst</li>
+<li>[x] intro.ladga.tex</li>
+</ul>
+<p>This file is written in markdown and hence we use the name <code>intro.lagda.md</code>.</p>
+<h2 id="literate-programming">Literate programming</h2>
+<p>The last three file extensions above are part of what’s called “literate programming” wherein one can write markdown or latex documents with agda code surrounded in code blocks marked agda, similar to how this page itself is written!</p>
+<div class="figure">
+<img src="./codeblock.png" alt="codeblock" />
+<p class="caption">codeblock</p>
+</div>
 <p>The Agda compiler can then validate the agda code inside the <code>agda</code> code blocks, thus guaranteeing the correctness of the math in the documents.</p>
-<h1 id="emacs">Emacs</h1>
-<p>Though Agda is integrated with emacs and similar behavior with <a href="https://atom.io/packages/agda-mode">Atom</a>. Agda emacs symbols is documented <a href="https://people.inf.elte.hu/divip/AgdaTutorial/Symbols.html">here</a>. This document does not really assume familiarity with Emacs, and neither do we use it in favor of the command-line compiler.</p>
+<h2 id="other-material">Other material</h2>
+<p>There are a host of other high quality material on the web, though all of them might not be beginner friendly. They are listed in <a href="https://my-agda.readthedocs.io/en/latest/getting-started/tutorial-list.html">Agda’s official documentation</a>. We flick some stuff from many of them and water them down for novices here.</p>
 <hr />
 <p><a href="./Lang.dataStructures.html">Data Structures</a></p>
 </body>

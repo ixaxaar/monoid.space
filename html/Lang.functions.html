@@ -59,7 +59,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#the-logical-and">The logical AND</a></li>
 <li><a href="#the-logical-or">The logical OR</a></li>
 </ul></li>
-<li><a href="#recursive">Recursive</a>
+<li><a href="#recursive-functions">Recursive functions</a>
 <ul>
 <li><a href="#addition-of-natural-numbers">Addition of natural numbers</a></li>
 </ul></li>
@@ -70,35 +70,33 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="functions">Functions</h1>
-<p>Functions, also being technically types, can sometimes have practically simpler syntax.</p>
+<p>Functions, also being technically types, can sometimes have practically simpler syntax than data while serving the same purpose.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Lang<span class="ot">.</span>functions <span class="kw">where</span>
 
-<span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>
-  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span>
-  ⊥<span class="ot">;</span> ⊤<span class="ot">;</span> ℕ<span class="ot">;</span> List<span class="ot">;</span>
-  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span>
-  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span>
-
-<span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>proofsAsData <span class="kw">using</span> <span class="ot">(_</span>≡<span class="ot">_)</span></code></pre></div>
+<span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures</code></pre></div>
 <h2 id="pattern-matching-functions">Pattern matching functions</h2>
 <h3 id="the-logical-not">The Logical Not</h3>
-<p>The simplest of functions simply match patterns. For example the fuction for <code>not</code>:</p>
+<p>The simplest of functions simply match patterns. For example the function for <code>not</code>:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">not <span class="ot">:</span> Bool <span class="ot">→</span> Bool
-not true <span class="ot">=</span> false
-not false <span class="ot">=</span> true</code></pre></div>
+not true <span class="ot">=</span> false <span class="co">-- return false if we are given a true</span>
+not false <span class="ot">=</span> true <span class="co">-- return a true if we are given a false</span></code></pre></div>
+<p>we could also use wildcard type like this:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">not₁ <span class="ot">:</span> Bool <span class="ot">→</span> Bool
+not₁ true <span class="ot">=</span> false <span class="co">-- return false if we are given a true</span>
+not₁ <span class="ot">_</span> <span class="ot">=</span> true <span class="co">-- return true in all other cases</span></code></pre></div>
 <h3 id="the-logical-and">The logical AND</h3>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>∧<span class="ot">_</span> <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool
-true ∧ x <span class="ot">=</span> x
-false ∧ x <span class="ot">=</span> false
+true ∧ whatever <span class="ot">=</span> whatever <span class="co">-- true AND whatever is whatever</span>
+false ∧ whatever <span class="ot">=</span> false <span class="co">-- false AND whatever is false</span>
 
 <span class="kw">infixr</span> <span class="dv">6</span> <span class="ot">_</span>∧<span class="ot">_</span></code></pre></div>
 <h3 id="the-logical-or">The logical OR</h3>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>∨<span class="ot">_</span> <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool
-true ∨ x <span class="ot">=</span> true
-false ∨ x <span class="ot">=</span> x
+true ∨ whatever <span class="ot">=</span> true <span class="co">-- true or whatever is true</span>
+false ∨ whatever <span class="ot">=</span> whatever <span class="co">-- false or whatever is whatever</span>
 
 <span class="kw">infixr</span> <span class="dv">6</span> <span class="ot">_</span>∨<span class="ot">_</span></code></pre></div>
-<p>These can be applied as:</p>
+<p>These functions can be applied as:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">notTrue <span class="ot">:</span> Bool
 notTrue <span class="ot">=</span> not true
 
@@ -107,9 +105,9 @@ false₁ <span class="ot">=</span> true ∧ false
 
 true₁ <span class="ot">:</span> Bool
 true₁ <span class="ot">=</span> true ∨ false ∨ false₁</code></pre></div>
-<h2 id="recursive">Recursive</h2>
+<h2 id="recursive-functions">Recursive functions</h2>
 <h3 id="addition-of-natural-numbers">Addition of natural numbers</h3>
-<p>Here we follow a similar pattern as in data, we define:</p>
+<p>Here we follow a similar pattern as in <code>data</code>, we define:</p>
 <ul>
 <li>the identity condition, what happens on addition with zero in this case</li>
 <li>and how to successively build up the final value</li>
@@ -130,8 +128,8 @@ thirteen <span class="ot">=</span> twelve + one</code></pre></div>
 <span class="ot">(</span>x :: xs<span class="ot">)</span> ++ ys <span class="ot">=</span> x :: <span class="ot">(</span>xs ++ ys<span class="ot">)</span>
 
 <span class="kw">infixr</span> <span class="dv">5</span> <span class="ot">_</span>++<span class="ot">_</span></code></pre></div>
-<p>This function takes a type as a parameter <code>A</code>, and hence can work on <code>List</code>s of any type <code>A</code>. This feature of functions is called “parametric polymorphism”. These functions tend to work on higher levels of abstraction, with disregard to the types inside.</p>
-<p>Note that the curly braces <code>{}</code> are called “implicit arguments” in Agda. Values of implicit arguments are derived from other arguments’ values and types by solving type equations. You don’t have to apply them or pattern match on them explicitly. Practically, they help in defining the scope of types.</p>
+<p>This function takes a type as a parameter <code>A</code>, and hence can work on <code>List</code>s of any type <code>A</code>. This feature of functions is called “parametric polymorphism”. These functions tend to work on higher levels of abstraction, and work for all list types.</p>
+<p>Note that the curly braces <code>{}</code> are called “implicit arguments” in Agda. Values of implicit arguments are derived from other arguments’ values and types by solving type equations. You don’t have to apply them or pattern match on them explicitly (though they can be explicitly stated like <code>{A = A}</code>). Practically, they help in defining the scope of types.</p>
 <h2 id="length">Length</h2>
 <p>The length of a list consists of traversing through the list and adding one for each element:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">length <span class="ot">:</span> List ⊤ <span class="ot">→</span> ℕ
@@ -140,16 +138,20 @@ length <span class="ot">(</span>x :: xs<span class="ot">)</span> <span class="ot
 <h2 id="map">Map</h2>
 <p>We implement the <code>map</code> function, of “map-reduce” fame, for <code>List</code>s: A map function for a <code>List</code> is a function that applies a lambda (un-named) function to all elements of a <code>List</code>.</p>
 <p>If <code>f</code> were a lambda function, map-ing <code>f</code> over <code>List(a, b, c, d)</code> would produce <code>List(f(a), f(b), f(c), f(d))</code></p>
+<div class="figure">
+<img src="./map.png" alt="map" />
+<p class="caption">map</p>
+</div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">map <span class="ot">:</span> <span class="ot">{</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> List A <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> List B
 map [] f <span class="ot">=</span> []
 map <span class="ot">(</span>x :: xs<span class="ot">)</span> f <span class="ot">=</span> <span class="ot">(</span>f x<span class="ot">)</span> :: <span class="ot">(</span>map xs f<span class="ot">)</span></code></pre></div>
+<p>Here, we apply the function <code>addOne</code> to a list, using <code>map</code>:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">addOne <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ
 addOne x  <span class="ot">=</span> x + one
 
 oneAdded <span class="ot">:</span> List ℕ
 oneAdded <span class="ot">=</span> map <span class="ot">(</span>one :: two :: three :: four :: []<span class="ot">)</span> addOne</code></pre></div>
-<p>Here, we apply the function <code>addOne</code> to a list, using <code>map</code>.</p>
 <hr />
-<p><a href="./Lang.syntaxQuirks.html">Quirks of Syntax</a></p>
+<p><a href="./Lang.proofsAsData.html">Proofs as Data</a></p>
 </body>
 </html>

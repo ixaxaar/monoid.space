@@ -61,15 +61,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1 id="other-language-constructs">Other language constructs</h1>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Lang<span class="ot">.</span>other <span class="kw">where</span>
 
-<span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>
-  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span>
-  ⊥<span class="ot">;</span> ⊤<span class="ot">;</span> ℕ<span class="ot">;</span> List<span class="ot">;</span>
-  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span>
-  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">;</span> Vec<span class="ot">;</span> vec3<span class="ot">)</span>
+<span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures
 
 <span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>functions <span class="kw">using</span> <span class="ot">(_</span>+<span class="ot">_)</span></code></pre></div>
 <h2 id="modules">Modules</h2>
-<p>Modules are essentially a “bunch” of definitions. They behave as closures with the identation the indicator of the extent, similar to python. A Module object <code>object</code> can be accessed with <code>ModuleName.object</code>.</p>
+<p>Modules are essentially a “bunch” of definitions. They behave as closures with the indentation the indicator of the extent, similar to python. A Module object <code>object</code> can be accessed with <code>ModuleName.object</code>.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> nested <span class="kw">where</span>
   <span class="kw">module</span> X <span class="kw">where</span>
     x₁ <span class="ot">=</span> one
@@ -95,13 +91,6 @@ x₂ <span class="ot">=</span> x₃ + one</code></pre></div>
   sort <span class="ot">:</span> List A <span class="ot">→</span> List A
   sort []       <span class="ot">=</span> []
   sort <span class="ot">(</span>x :: xs<span class="ot">)</span> <span class="ot">=</span> insert x <span class="ot">(</span>sort xs<span class="ot">)</span></code></pre></div>
-<p>These might start to look terribly akin to classes in object oriented languages, however let us caution the reader that there are a few fundamental differences:</p>
-<ol style="list-style-type: decimal">
-<li>The abstraction has no notion of state or mutability</li>
-</ol>
-<ul>
-<li>Modules behave as type creators, instead of object-creators in for e.g. java</li>
-</ul>
 <p>Thus, modules primarily help in structuring code. Modules also provide additional functionalities like private and public components, we tackle them as and when we need to.</p>
 <h2 id="records">Records</h2>
 <p>Tuples are called as <code>Record</code>s in Agda. Some examples are:</p>
@@ -140,7 +129,7 @@ left <span class="ot">(</span>x , y<span class="ot">)</span> <span class="ot">=<
 
 list₂ <span class="ot">:</span> List&#39; Bool
 list₂ <span class="ot">=</span> L three vec3</code></pre></div>
-<p>All <code>Data</code> definitions support an equivalent <code>Record</code> definiton, however <code>Record</code> are preferred whenever possible as a convention. Records have the obvious advantage of providing <code>getters</code> and <code>setters</code> for free.</p>
+<p>All <code>Data</code> definitions have an equivalent <code>Record</code> definiton, however <code>Record</code>s are preferred whenever possible as a convention. Records have the obvious advantage of providing <code>getters</code> and <code>setters</code> for free.</p>
 <h2 id="postulates">Postulates</h2>
 <p><code>postulate</code>s are another Agda language construct. These facilitate defining some type without the actual implementation.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">postulate</span>

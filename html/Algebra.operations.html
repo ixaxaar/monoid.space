@@ -69,7 +69,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="operations">Operations</h1>
-<p>We start by defining operations and laws they obey.</p>
+<p>We start by defining operations and laws these operations obey.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality
 <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions
 <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>typeBasics
@@ -77,7 +77,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span>
 
 <span class="kw">module</span> Algebra<span class="ot">.</span>operations <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(_</span>==<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="kw">where</span></code></pre></div>
-<p>A homogenous binary operation <code>★ A</code> can be defined as:</p>
+<p>A binary operation <span class="math inline">★</span> on a set A is a function (function type!) that takes two elements of type A and returns an element of A:</p>
+<pre class="math"><code>★ : A × A → A</code></pre>
+<p>More often the operation is applied to the two objects <code>x, y ∈ A</code> as <span class="math inline"><em>x</em>★<em>y</em></span>.</p>
+<p>A unary operation on the other hand operates on only one element of A to return an element of A:</p>
+<pre class="math"><code>♠ : A → A</code></pre>
+<p>In agda, a homogenous binary operation <code>★ A</code> can be defined as:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  ★<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> a
   ★ A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> A</code></pre></div>
 <p>and a unary operation as:</p>

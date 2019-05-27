@@ -15,7 +15,6 @@
   - [Commutative Monoid](#commutative-monoid)
   - [Group](#group)
   - [Abelian Group](#abelian-group)
-  - [Lattice](#lattice)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

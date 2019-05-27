@@ -72,32 +72,32 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2 id="pre-order">Pre-order</h2>
 <p>Preorders are relations which are reflexive and transitive. The property of symmetry is left out, and in such a way, preorders are even more general (less strict) than equivalences. We define a pre-order set of objects with an underlying notion of equality <code>_≈_</code>.</p>
 <p>We first define an object that encapsulates all the rules into one record:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> IsPreorder <span class="ot">{</span>a ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span>
-                  <span class="ot">(_</span>≈<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ₁<span class="ot">)</span> <span class="co">-- The underlying equality.</span>
-                  <span class="ot">(_</span>∼<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ₂<span class="ot">)</span> <span class="co">-- The relation.</span>
-                  <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ₁ ⊔ ℓ₂<span class="ot">)</span> <span class="kw">where</span>
-  <span class="kw">field</span>
-    isEquivalence <span class="ot">:</span> IsEquivalence <span class="ot">_</span>≈<span class="ot">_</span>
-    <span class="co">-- Reflexivity is expressed in terms of an underlying equality,</span>
-    <span class="co">-- reflexivity of the underlying equality implies reflexivity of the relation:</span>
-    reflexive     <span class="ot">:</span> <span class="ot">_</span>≈<span class="ot">_</span> ⇒ <span class="ot">_</span>∼<span class="ot">_</span>
-    trans         <span class="ot">:</span> Transitive <span class="ot">_</span>∼<span class="ot">_</span>
+<pre class="lauda"><code>record IsPreorder {a ℓ₁ ℓ₂} {A : Set a}
+                  (_≈_ : Rel A ℓ₁) -- The underlying equality.
+                  (_∼_ : Rel A ℓ₂) -- The relation.
+                  : Set (a ⊔ ℓ₁ ⊔ ℓ₂) where
+  field
+    isEquivalence : IsEquivalence _≈_
+    -- Reflexivity is expressed in terms of an underlying equality,
+    -- reflexivity of the underlying equality implies reflexivity of the relation:
+    reflexive     : _≈_ ⇒ _∼_
+    trans         : Transitive _∼_
 
-  <span class="kw">module</span> Eq <span class="ot">=</span> IsEquivalence isEquivalence
+  module Eq = IsEquivalence isEquivalence
 
-  refl <span class="ot">:</span> Reflexive <span class="ot">_</span>∼<span class="ot">_</span>
-  refl <span class="ot">=</span> reflexive Eq<span class="ot">.</span>rfl
+  refl : Reflexive _∼_
+  refl = reflexive Eq.rfl
 
-  <span class="co">-- we ensure the relation _∼_ respects the underlying equality:</span>
-  <span class="co">-- we cannot use commutativity, hence we use the _Respects₂_ version here.</span>
-  ∼-respˡ-≈ <span class="ot">:</span> <span class="ot">_</span>∼<span class="ot">_</span> Respectsˡ <span class="ot">_</span>≈<span class="ot">_</span>
-  ∼-respˡ-≈ x≈y x∼z <span class="ot">=</span> trans <span class="ot">(</span>reflexive <span class="ot">(</span>Eq<span class="ot">.</span>sym x≈y<span class="ot">))</span> x∼z
+  -- we ensure the relation _∼_ respects the underlying equality:
+  -- we cannot use commutativity, hence we use the _Respects₂_ version here.
+  ∼-respˡ-≈ : _∼_ Respectsˡ _≈_
+  ∼-respˡ-≈ x≈y x∼z = trans (reflexive (Eq.sym x≈y)) x∼z
 
-  <span class="co">-- ∼-respʳ-≈ : _∼_ Respectsʳ _≈_</span>
-  <span class="co">-- ∼-respʳ-≈ x≈y z∼x = trans z∼x (reflexive x≈y)</span>
+  -- ∼-respʳ-≈ : _∼_ Respectsʳ _≈_
+  -- ∼-respʳ-≈ x≈y z∼x = trans z∼x (reflexive x≈y)
 
-  <span class="co">-- ∼-resp-≈ : _∼_ Respects₂ _≈_</span>
-  <span class="co">-- ∼-resp-≈ = ∼-respʳ-≈ , ∼-respˡ-≈</span></code></pre></div>
+  -- ∼-resp-≈ : _∼_ Respects₂ _≈_
+  -- ∼-resp-≈ = ∼-respʳ-≈ , ∼-respˡ-≈</code></pre>
 <p>Finally we define the actual object:</p>
 <pre class="lauda"><code>record Preorder c ℓ₁ ℓ₂ : Set (lsuc (c ⊔ ℓ₁ ⊔ ℓ₂)) where
   infix 4 _≈_ _∼_

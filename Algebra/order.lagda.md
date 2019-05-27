@@ -36,7 +36,7 @@ Preorders are relations which are reflexive and transitive. The property of symm
 
 We first define an object that encapsulates all the rules into one record:
 
-```agda
+```lauda
 record IsPreorder {a ℓ₁ ℓ₂} {A : Set a}
                   (_≈_ : Rel A ℓ₁) -- The underlying equality.
                   (_∼_ : Rel A ℓ₂) -- The relation.

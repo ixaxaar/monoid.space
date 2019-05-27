@@ -53,6 +53,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <hr />
 <ul>
 <li><a href="#data-structures">Data Structures</a></li>
+<li><a href="#data-keyword"><code>Data</code> keyword</a></li>
 <li><a href="#trivial-types">Trivial types</a>
 <ul>
 <li><a href="#empty">Empty</a></li>
@@ -68,30 +69,60 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="data-structures">Data Structures</h1>
+<p>Here we look at how to define data structures in Agda.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Lang<span class="ot">.</span>dataStructures <span class="kw">where</span></code></pre></div>
+<p>Agda is an implementation of type theory, a branch of mathematics where everything is a <em>type</em>. Unlike programming languages where there is a clear distinction betwen (data)type and data, where <code>1</code> is data of type <code>int</code>. In Agda, <code>1</code> is a type itself and is of type say <code>ℕ</code> (natural numbers). There do remain quite a few similarities, for example, like some programming languages allow functions to be passed around as objects of type <code>A =&gt; B</code>, similarly, all functions are also types in type theory. This simplicity could get confusing at first and takes some time to get used to given the reader has been a programmer for a while.</p>
+<p>Just remember: in type theory, <strong>EVERYTHING is a type</strong>.</p>
+<h1 id="data-keyword"><code>Data</code> keyword</h1>
+<p>As we probably know already, programming languages come bundled with some primitive data types like <code>int</code>, <code>float</code>, <code>string</code> etc and some that combine these primitive types into more complex structures, e.g. <code>map</code> can be used to construct say <code>map&lt;string, array&lt;string&gt;&gt;</code>.</p>
+<p>Some languages also provide the mechanism to define new data types, sometimes by alias-ing a data type with a name like in scala:</p>
+<div class="sourceCode"><pre class="sourceCode scala"><code class="sourceCode scala"><span class="kw">type</span> newData = Map[String, List[Float]]</code></pre></div>
+<p>This is called <em>type aliasing</em>.</p>
+<p>Some languages provide the facility to define new data types, like haskell does with the <code>data</code> keyword:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- this states that the type `Bool` can have two values False and True</span>
+<span class="kw">data</span> <span class="dt">Bool</span> <span class="fu">=</span> <span class="dt">False</span> <span class="fu">|</span> <span class="dt">True</span></code></pre></div>
+<p>A haskell datatype can also have constructors. For e.g. if we were to define a shape type which can either be a circle or a rectange:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Shape</span> <span class="fu">=</span> <span class="dt">Circle</span> <span class="dt">Float</span> <span class="dt">Float</span> <span class="dt">Float</span> <span class="fu">|</span> <span class="dt">Rectangle</span> <span class="dt">Float</span> <span class="dt">Float</span> <span class="dt">Float</span> <span class="dt">Float</span>
+
+<span class="co">-- uses the Circle constructor to create an object of type Shape</span>
+<span class="dt">Circle</span> <span class="fl">1.2</span> <span class="fl">12.1</span> <span class="fl">123.1</span>
+
+<span class="co">-- uses the Rectange constructor to create an object of type Shape</span>
+<span class="dt">Rectange</span> <span class="fl">1.2</span> <span class="fl">12.1</span> <span class="fl">123.1</span> <span class="fl">1234.5</span></code></pre></div>
+<p>The <code>data</code> keyword works in a similar manner in Agda:</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="co">-- lets assume SomeType1 and SomeType2 to be previously defined</span>
+<span class="kw">module</span> <span class="ot">_</span> <span class="ot">{</span>SomeType1 SomeType2 <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="kw">where</span>
+
+  <span class="kw">data</span> AgdaData <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+    <span class="co">-- constructors, all return AgdaData</span>
+    constructor1 <span class="ot">:</span> SomeType1 <span class="ot">→</span> AgdaData
+    constructor2 <span class="ot">:</span> SomeType2 <span class="ot">→</span> AgdaData
+    trivialConstructor <span class="ot">:</span> AgdaData
+    etc <span class="ot">:</span> SomeType1 <span class="ot">→</span> SomeType2 <span class="ot">→</span> AgdaData</code></pre></div>
 <h2 id="trivial-types">Trivial types</h2>
 <h3 id="empty">Empty</h3>
+<p>An empty object cannot be created cause it has no constructor. This is the most barebones of a <code>data</code> definition.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> ⊥ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></code></pre></div>
-<p>An empty object cannot be created cause it has no constructor.</p>
 <h3 id="singleton">Singleton</h3>
+<p>A singleton is just a type containing only one object. Note that this is different from the singleton patterns prevalent in various languages like java.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> ⊤ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
   singleton <span class="ot">:</span> ⊤</code></pre></div>
 <p>A singleton constructor <code>singleton</code> creates a single object of type <code>T</code>.</p>
 <h2 id="boolean-type">Boolean type</h2>
+<p>The boolean type has just two values:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> Bool <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
   true <span class="ot">:</span> Bool
   false <span class="ot">:</span> Bool</code></pre></div>
-<p>Here <code>data Bool</code> represents a data type creator Bool, which contains two type constructors, <code>true</code> and <code>false</code>. Each consructor here, <code>true</code> and <code>false</code> returns a <code>Bool</code> value, this is represented as <code>true : Bool</code>. Notice that the data type constructor itself is a menber of <code>Set</code>. There can be ones that depend on others though we know a about them in type theory.</p>
 <h2 id="natural-numbers">Natural numbers</h2>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> ℕ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
-  zero <span class="ot">:</span> ℕ
-  succ <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ</code></pre></div>
 <p>All natural numbers can be created from <code>zero</code> and n successive numbers after <code>zero</code>. All we need to know are</p>
 <ul>
 <li>zero</li>
 <li>how to increment a number</li>
 </ul>
 <p>and then, increment zero to infinity!</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> ℕ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
+  zero <span class="ot">:</span> ℕ
+  succ <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ</code></pre></div>
 <p>Examples:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">one   <span class="ot">=</span> succ zero
 two   <span class="ot">=</span> succ one
@@ -106,10 +137,14 @@ ten   <span class="ot">=</span> succ nine</code></pre></div>
 <p>and so on recursively.</p>
 <h2 id="binary-trees">Binary Trees</h2>
 <p>We define a generic complete binary tree using the following definition. Note that this merely creates an empty structure of a tree, the nodes or leaves contain no information in them:</p>
+<div class="figure">
+<img src="./bintree.png" alt="bintree" />
+<p class="caption">bintree</p>
+</div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> BinTree <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
   leaf <span class="ot">:</span> BinTree
   node <span class="ot">:</span> BinTree <span class="ot">→</span> BinTree <span class="ot">→</span> BinTree</code></pre></div>
-<p>Binary trees with leaves containing natural numbers in leaf nodes:</p>
+<p>Now let us augment the binary trees with leaves containing natural numbers in leaf nodes:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> ℕBinTree <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
   leaf <span class="ot">:</span> ℕ <span class="ot">→</span> ℕBinTree
   node <span class="ot">:</span> ℕBinTree <span class="ot">→</span> ℕBinTree <span class="ot">→</span> ℕBinTree</code></pre></div>
@@ -122,6 +157,10 @@ ten   <span class="ot">=</span> succ nine</code></pre></div>
   leaf <span class="ot">:</span> Bool <span class="ot">→</span> ℕMixedBinTree
   node <span class="ot">:</span> ℕ <span class="ot">→</span> ℕMixedBinTree <span class="ot">→</span> ℕMixedBinTree <span class="ot">→</span> ℕMixedBinTree</code></pre></div>
 <h2 id="graph">Graph</h2>
+<div class="figure">
+<img src="./graph.png" alt="graph" />
+<p class="caption">graph</p>
+</div>
 <p>We define a graph with:</p>
 <ul>
 <li>edges containing a natural number</li>
@@ -150,6 +189,10 @@ graph <span class="ot">=</span> idGraph <span class="ot">(</span>triple <span cl
                 triple  <span class="ot">(</span>vertex seven<span class="ot">)</span>  <span class="ot">(</span>vertex four<span class="ot">)</span>       +|+
                 triple  <span class="ot">(</span>vertex nine<span class="ot">)</span>   <span class="ot">(</span>vertex <span class="ot">(</span>succ six<span class="ot">))</span></code></pre></div>
 <h2 id="list">List</h2>
+<div class="figure">
+<img src="./list.png" alt="list" />
+<p class="caption">list</p>
+</div>
 <p>A list containing objects of type <code>A</code> can be defined as an object which has:</p>
 <ul>
 <li>an identity element, i.e. an empty list <code>[]</code></li>
@@ -180,6 +223,10 @@ nat <span class="ot">=</span> typeOf <span class="ot">(</span> one :: two :: ten
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">fourFin <span class="ot">:</span> Fin four
 fourFin <span class="ot">=</span> succ three <span class="ot">(</span>succ two <span class="ot">(</span>succ one <span class="ot">(</span>id zero<span class="ot">)))</span></code></pre></div>
 <h2 id="indexed-sequences-or-vectors">Indexed sequences or Vectors</h2>
+<div class="figure">
+<img src="./vector.png" alt="vectors" />
+<p class="caption">vectors</p>
+</div>
 <p>We now define a finite sized indexed list, also called a vector <code>Vec</code>. The constructor consists of:</p>
 <ul>
 <li>An identity constructor, <code>[]</code> which constructs an empty vector</li>
@@ -215,6 +262,6 @@ containsB <span class="ot">=</span> id₁ three
 containsA <span class="ot">:</span> BoolVec ℕ ⟂ true
 containsA <span class="ot">=</span> id₂ four</code></pre></div>
 <hr />
-<p><a href="./Lang.proofsAsData.html">Proofs as Data</a></p>
+<p><a href="./Lang.functions.html">Functions</a></p>
 </body>
 </html>

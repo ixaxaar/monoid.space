@@ -60,18 +60,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="syntactic-quirks">Syntactic quirks</h1>
-<p>Agda, being a pretty obscure language, inspite of having no dearth of documentation, still tends to lack some where it gets most confusing. We capture some of them here.</p>
+<p>Agda, being a pretty obscure language, inspite of having no dearth of documentation, still tends to lack some where it gets most confusing. We capture some of them here though we also acknowledge that this remains incomplete.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Lang<span class="ot">.</span>syntaxQuirks <span class="kw">where</span>
 
-<span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>
-  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span>
-  ⊥<span class="ot">;</span> ⊤<span class="ot">;</span> ℕ<span class="ot">;</span> List<span class="ot">;</span>
-  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span>
-  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">;</span>
-  Vec<span class="ot">;</span> cons<span class="ot">;</span> vec3<span class="ot">)</span></code></pre></div>
+<span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures</code></pre></div>
 <h1 id="syntactic-sugars">Syntactic sugars</h1>
 <p>Mostly short-forms of various stuff used more often.</p>
 <h2 id="abstracting-common-parameters">Abstracting common parameters</h2>
+<p>The implicit parameter <code>{m : ℕ}</code> common to all constructors can be abstracted out into the data definition:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> _≤′_ <span class="fu">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
   ≤′<span class="fu">-</span>refl <span class="fu">:</span> {m <span class="fu">:</span> ℕ} <span class="ot">→</span>                       m ≤′ m
   ≤′<span class="fu">-</span>step <span class="fu">:</span> {m <span class="fu">:</span> ℕ} <span class="ot">→</span> {n <span class="fu">:</span> ℕ} <span class="ot">→</span>  m ≤′ n  <span class="ot">→</span>  m ≤′ succ n</code></pre></div>
@@ -80,6 +76,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   ≤′₁<span class="fu">-</span>refl <span class="fu">:</span>                       m ≤′₁ m
   ≤′₁<span class="fu">-</span>step <span class="fu">:</span> {n <span class="fu">:</span> ℕ} <span class="ot">→</span>  m ≤′₁ n  <span class="ot">→</span>  m ≤′₁ succ n</code></pre></div>
 <h2 id="abstracting-parameters-from-constructors-to-types">Abstracting parameters from constructors to types</h2>
+<p>The previous technique also works for concrete parameters:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> _≤″_ <span class="fu">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
   ≤<span class="fu">+</span> <span class="fu">:</span> <span class="ot">∀</span> {m n k} <span class="ot">→</span> m <span class="fu">+</span> n ≡ k <span class="ot">→</span> m ≤″ k</code></pre></div>
 <p>is similar to</p>

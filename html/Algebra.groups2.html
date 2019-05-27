@@ -64,7 +64,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#commutative-monoid">Commutative Monoid</a></li>
 <li><a href="#group">Group</a></li>
 <li><a href="#abelian-group">Abelian Group</a></li>
-<li><a href="#lattice">Lattice</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="groups-and-family-2">Groups and family 2</h1>
@@ -242,40 +241,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
   magma <span class="ot">:</span> Magma c ℓ
   magma <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMagma <span class="ot">=</span> isMagma <span class="ot">}</span></code></pre></div>
-<h2 id="lattice">Lattice</h2>
-<pre class="lauda"><code>open import Types.equality
-open import Algebra.operations
-
-record IsLattice {a ℓ} {A : Set a} {_==_ : Rel A ℓ} (∨ ∧ : ★ A) : Set (a ⊔ ℓ) where
-  field
-    isEquivalence : IsEquivalence _==_
-    ∨-comm        : Commutative ∨
-    ∨-assoc       : Associative ∨
-    ∨-cong        : Congruent₂ ∨
-    ∧-comm        : Commutative ∧
-    ∧-assoc       : Associative ∧
-    ∧-cong        : Congruent₂ ∧
-    absorptive    : Absorptive ∨ ∧
-
-  open IsEquivalence isEquivalence public
-
-  ∨-absorbs-∧ : ∨ Absorbs ∧
-  ∨-absorbs-∧ = fst absorptive
-
-  ∧-absorbs-∨ : ∧ Absorbs ∨
-  ∧-absorbs-∨ = snd absorptive
-
-  ∧-congˡ : LeftCongruent ∧
-  ∧-congˡ y==z = ∧-cong y==z refl
-
-  ∧-congʳ : RightCongruent ∧
-  ∧-congʳ y==z = ∧-cong refl y==z
-
-  ∨-congˡ  : LeftCongruent ∨
-  ∨-congˡ y==z = ∨-cong y==z refl
-
-  ∨-congʳ : RightCongruent ∨
-  ∨-congʳ y==z = ∨-cong refl y==z</code></pre>
 <hr />
 <p><a href="./Algebra.groupProperties.html">Properties of Group-like objects</a></p>
 </body>

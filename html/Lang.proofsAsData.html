@@ -60,15 +60,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="proofs-as-data">Proofs as data</h1>
-<p>Propositions can be defined in a recursive way such that termination of computation proves the correctness of the proof. We use constructive proofs, as in we build the proof of a proposition (which in itself is a type) with recursion and pattern matching.</p>
-<p>Usually, a proof consists of: - trivial cases, serving as termination markers - recursive pattern matchers, for constructing the proof from the trivial cases</p>
+<p>In type theory, mathematical proofs take a different course than the ones we’re generally familiar with. Since in type theory everything, including proofs themselves, are types, the correctness of a proof translates to the ability to create an object of that proof’s type. In simpler terms, if one claims a proposition, one has to show the proposition (which is a type) is valid. A type can be shown to be valid if one can construct an object of that type. Thus, in order to prove something, we need to create an object having the type of the proposition.</p>
+<p>Propositions can be defined in a recursive way such that termination of computation proves the correctness of the proof. We recursively dismantle the input until the trivial case is left which completes the recursion process and our proof is done. This also implies that in cases where termination is not reached, one can say that the proof does not apply to, or, is invalid for such inputs.</p>
+<p>Usually, a proof consists of: - trivial cases, serving as termination markers - recursive pattern matchers, for (de) constructing the proof from (to) the trivial cases</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Lang<span class="ot">.</span>proofsAsData <span class="kw">where</span>
 
-<span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>
-  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span>
-  ⊥<span class="ot">;</span> ⊤<span class="ot">;</span> ℕ<span class="ot">;</span> List<span class="ot">;</span>
-  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span>
-  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span></code></pre></div>
+<span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures</code></pre></div>
 <h2 id="order">Order</h2>
 <p>For example, the <code>&lt;=</code> operator can be defined as consisting of two constructors:</p>
 <ul>
@@ -152,6 +149,6 @@ theList <span class="ot">=</span> one :: two :: four :: seven :: three :: []
 threeIsInList <span class="ot">:</span> three ∈ theList
 threeIsInList <span class="ot">=</span> succ∈ <span class="ot">(</span>succ∈ <span class="ot">(</span>succ∈ <span class="ot">(</span>succ∈ refl<span class="ot">)))</span></code></pre></div>
 <hr />
-<p><a href="./Lang.functions.html">Functions</a></p>
+<p><a href="./Lang.syntaxQuirks.html">Quirks of Syntax</a></p>
 </body>
 </html>

@@ -23,7 +23,7 @@
 
 # Operations
 
-We start by defining operations and laws they obey.
+We start by defining operations and laws these operations obey.
 
 ```agda
 open import Types.equality
@@ -35,7 +35,21 @@ open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 module Algebra.operations {a ℓ} {A : Set a} (_==_ : Rel A ℓ) where
 ```
 
-A homogenous binary operation `★ A` can be defined as:
+A binary operation $★$ on a set A is a function (function type!) that takes two elements of type A and returns an element of A:
+
+```math
+★ : A × A → A
+```
+
+More often the operation is applied to the two objects `x, y ∈ A` as $x ★ y$.
+
+A unary operation on the other hand operates on only one element of A to return an element of A:
+
+```math
+♠ : A → A
+```
+
+In agda, a homogenous binary operation `★ A` can be defined as:
 
 ```agda
   ★_ : ∀ {a} → Set a → Set a

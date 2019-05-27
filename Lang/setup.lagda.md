@@ -7,16 +7,17 @@
 
 - [Setup and installation](#setup-and-installation)
   - [Using Docker](#using-docker)
+  - [Stack](#stack)
   - [Via package managers](#via-package-managers)
     - [apt (Debian, Ubuntu, Mint, Elementary, MX Linux etc)](#apt-debian-ubuntu-mint-elementary-mx-linux-etc)
     - [yum (Fedora, openSUSE, RHEL)](#yum-fedora-opensuse-rhel)
     - [pacman (Arch, Manjaro, Antergos)](#pacman-arch-manjaro-antergos)
     - [brew (OSX)](#brew-osx)
-    - [Cabal (OS-independent)](#cabal-os-independent)
-- [Run the proofn checker / compiler](#run-the-proofn-checker--compiler)
+- [Run](#run)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+We begin with setting up our Agda environment.
 
 # Setup and installation
 
@@ -24,9 +25,11 @@
 module Lang.setup where
 ```
 
+![install](./install.png)
+
 ## Using Docker
 
-We've done most of the heavy-lifting, and packaged everything into a docker container.
+We've done most of the heavy-lifting, and packaged everything into a docker container. This is a platform-independent solution and can be run inside any major operating system. Though it is recommended to run all of the subsequent code in a [Linux-based OS](https://www.wikihow.com/Use-Linux) as the author disregards "windouz™" enough to not even consider googling for installation instructions to put them here.
 
 Install docker
 
@@ -41,7 +44,25 @@ Pull the pre-configured docker image
 docker pull ixaxaar/agda:latest
 ```
 
+## Stack
+
+Stack is one of haskell's package manager. Install stack first, if not done already
+
+```bash
+curl -sSL https://get.haskellstack.org/ | sh
+```
+
+Proceed to use stack to install agda
+
+```bash
+stack install cabal-install
+stack install happy
+stack --resolver lts-12.0 --install-ghc install Agda
+```
+
 ## Via package managers
+
+Note: none of these are guaranteed to work as distro maintainers always seem to disagree with haskell subsystem's practices and rituals.
 
 ### apt (Debian, Ubuntu, Mint, Elementary, MX Linux etc)
 
@@ -67,17 +88,7 @@ sudo pacman -S agda agda-stdlib
 brew install agda
 ```
 
-
-### Cabal (OS-independent)
-
-```bash
-cabal new-install Agda
-```
-
-Windows users may look at [this blog](https://medium.com/@danidiaz/installing-agda-2-5-4-1-on-windows-10-7bf296f3e5bc) to install Agda.
-
-
-# Run the proofn checker / compiler
+# Run
 
 To run the agda compiler:
 
@@ -93,7 +104,7 @@ docker run -it -v /local/source/directory:/local/source/directory ixaxaar/agda b
 agda ./whatever.agda
 ```
 
-That's pretty much it :grimacing:
+That's pretty much it. Now we go ahead and learn some basics of the language.
 
 ****
 [Introduction](./Lang.languageIntro.html)

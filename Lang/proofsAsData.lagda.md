@@ -16,21 +16,18 @@
 
 # Proofs as data
 
-Propositions can be defined in a recursive way such that termination of computation proves the correctness of the proof.
-We use constructive proofs, as in we build the proof of a proposition (which in itself is a type) with recursion and pattern matching.
+In type theory, mathematical proofs take a different course than the ones we're generally familiar with. Since in type theory everything, including proofs themselves, are types, the correctness of a proof translates to the ability to create an object of that proof's type. In simpler terms, if one claims a proposition, one has to show the proposition (which is a type) is valid. A type can be shown to be valid if one can construct an object of that type. Thus, in order to prove something, we need to create an object having the type of the proposition.
+
+Propositions can be defined in a recursive way such that termination of computation proves the correctness of the proof. We recursively dismantle the input until the trivial case is left which completes the recursion process and our proof is done. This also implies that in cases where termination is not reached, one can say that the proof does not apply to, or, is invalid for such inputs.
 
 Usually, a proof consists of:
 - trivial cases, serving as termination markers
-- recursive pattern matchers, for constructing the proof from the trivial cases
+- recursive pattern matchers, for (de) constructing the proof from (to) the trivial cases
 
 ```agda
 module Lang.proofsAsData where
 
-open import Lang.dataStructures using (
-  Bool; true; false;
-  ⊥; ⊤; ℕ; List;
-  one; two; three; four; five; six; seven; eight; nine; ten; zero; succ;
-  _::_; [])
+open import Lang.dataStructures
 ```
 
 ## Order
@@ -158,5 +155,4 @@ threeIsInList = succ∈ (succ∈ (succ∈ (succ∈ refl)))
 ```
 
 ****
-[Functions](./Lang.functions.html)
-
+[Quirks of Syntax](./Lang.syntaxQuirks.html)

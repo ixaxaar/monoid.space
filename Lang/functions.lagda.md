@@ -10,7 +10,7 @@
     - [The Logical Not](#the-logical-not)
     - [The logical AND](#the-logical-and)
     - [The logical OR](#the-logical-or)
-  - [Recursive](#recursive)
+  - [Recursive functions](#recursive-functions)
     - [Addition of natural numbers](#addition-of-natural-numbers)
 - [List functions](#list-functions)
   - [List concatenation](#list-concatenation)
@@ -22,38 +22,40 @@
 
 # Functions
 
-Functions, also being technically types, can sometimes have practically simpler syntax.
+Functions, also being technically types, can sometimes have practically simpler syntax than data while serving the same purpose.
 
 ```agda
 module Lang.functions where
 
-open import Lang.dataStructures using (
-  Bool; true; false;
-  ⊥; ⊤; ℕ; List;
-  one; two; three; four; five; six; seven; eight; nine; ten; zero; succ;
-  _::_; [])
-
-open import Lang.proofsAsData using (_≡_)
+open import Lang.dataStructures
 ```
 
 ## Pattern matching functions
 
 ### The Logical Not
 
-The simplest of functions simply match patterns. For example the fuction for `not`:
+The simplest of functions simply match patterns. For example the function for `not`:
 
 ```agda
 not : Bool → Bool
-not true = false
-not false = true
+not true = false -- return false if we are given a true
+not false = true -- return a true if we are given a false
+```
+
+we could also use wildcard type like this:
+
+```agda
+not₁ : Bool → Bool
+not₁ true = false -- return false if we are given a true
+not₁ _ = true -- return true in all other cases
 ```
 
 ### The logical AND
 
 ```agda
 _∧_ : Bool → Bool → Bool
-true ∧ x = x
-false ∧ x = false
+true ∧ whatever = whatever -- true AND whatever is whatever
+false ∧ whatever = false -- false AND whatever is false
 
 infixr 6 _∧_
 ```
@@ -62,13 +64,13 @@ infixr 6 _∧_
 
 ```agda
 _∨_ : Bool → Bool → Bool
-true ∨ x = true
-false ∨ x = x
+true ∨ whatever = true -- true or whatever is true
+false ∨ whatever = whatever -- false or whatever is whatever
 
 infixr 6 _∨_
 ```
 
-These can be applied as:
+These functions can be applied as:
 
 ```agda
 notTrue : Bool
@@ -81,11 +83,11 @@ true₁ : Bool
 true₁ = true ∨ false ∨ false₁
 ```
 
-## Recursive
+## Recursive functions
 
 ### Addition of natural numbers
 
-Here we follow a similar pattern as in data, we define:
+Here we follow a similar pattern as in `data`, we define:
 
 - the identity condition, what happens on addition with zero in this case
 - and how to successively build up the final value
@@ -117,9 +119,9 @@ _++_ : {A : Set} → List A → List A → List A
 infixr 5 _++_
 ```
 
-This function takes a type as a parameter `A`, and hence can work on `List`s of any type `A`. This feature of functions is called "parametric polymorphism". These functions tend to work on higher levels of abstraction, with disregard to the types inside.
+This function takes a type as a parameter `A`, and hence can work on `List`s of any type `A`. This feature of functions is called "parametric polymorphism". These functions tend to work on higher levels of abstraction, and work for all list types.
 
-Note that the curly braces `{}` are called "implicit arguments" in Agda. Values of implicit arguments are derived from other arguments' values and types by solving type equations. You don’t have to apply them or pattern match on them explicitly. Practically, they help in defining the scope of types.
+Note that the curly braces `{}` are called "implicit arguments" in Agda. Values of implicit arguments are derived from other arguments' values and types by solving type equations. You don’t have to apply them or pattern match on them explicitly (though they can be explicitly stated like `{A = A}`). Practically, they help in defining the scope of types.
 
 ## Length
 
@@ -138,11 +140,15 @@ A map function for a `List` is a function that applies a lambda (un-named) funct
 
 If `f` were a lambda function, map-ing `f` over `List(a, b, c, d)` would produce `List(f(a), f(b), f(c), f(d))`
 
+![map](./map.png)
+
 ```agda
 map : {A B : Set} → List A → (A → B) → List B
 map [] f = []
 map (x :: xs) f = (f x) :: (map xs f)
 ```
+
+Here, we apply the function `addOne` to a list, using `map`:
 
 ```agda
 addOne : ℕ → ℕ
@@ -151,7 +157,7 @@ addOne x  = x + one
 oneAdded : List ℕ
 oneAdded = map (one :: two :: three :: four :: []) addOne
 ```
-Here, we apply the function `addOne` to a list, using `map`.
+
 
 ****
-[Quirks of Syntax](./Lang.syntaxQuirks.html)
+[Proofs as Data](./Lang.proofsAsData.html)

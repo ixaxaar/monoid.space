@@ -270,7 +270,7 @@ table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode
 td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
 td.sourceCode { padding-left: 5px; }
 pre.sourceCode span.kw { color: rgb(200, 50, 150) ; /* font-weight: bold; */ }
-pre.sourceCode span.dt { color: #22ff33; font-style: italic; font-weight: bold; }
+pre.sourceCode span.dt { color: #ff88aa; font-style: italic; font-weight: bold; }
 pre.sourceCode span.dv { color: #40a0f0; }
 pre.sourceCode span.bn { color: #40a0d0; }
 pre.sourceCode span.fl { color: #40a070; }
@@ -397,4 +397,3 @@ p:last-of-type a {
   color: white;
   font-weight: bold;
 }
-
