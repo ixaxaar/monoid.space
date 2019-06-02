@@ -353,13 +353,13 @@ hr:first-of-type {
   background-color:  rgb(75, 80, 60);
   height:            200px;
   padding:           20px;
-  background-image:  url("../html/space.png");
+  background-image:  url("/space.png");
   background-repeat: repeat;
   background-size: contain;
 }
 
 p:first-of-type {
-  background-image:  url("../html/space.png");
+  background-image:  url("/space.png");
   border-radius: 10px;
 }
 
@@ -380,7 +380,7 @@ p:first-of-type a:hover {
 
 
 p:last-of-type {
-  background-image:  url("../html/space.png");
+  background-image:  url("/space.png");
   border-radius: 10px;
 }
 
