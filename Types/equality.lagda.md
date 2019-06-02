@@ -6,12 +6,12 @@
 ****
 
 - [Equalities](#equalities)
+- [Definitonal Equality](#definitonal-equality)
   - [Propositional Equality](#propositional-equality)
       - [Symmetry](#symmetry)
       - [Transitivity](#transitivity)
     - [Congruence: functions that preserve equality](#congruence-functions-that-preserve-equality)
     - [Substitution](#substitution)
-- [Definitonal Equality](#definitonal-equality)
 - [Relations, a deeper look](#relations-a-deeper-look)
   - [Equality](#equality)
   - [Types of relations](#types-of-relations)
@@ -33,7 +33,7 @@ module Types.equality where
 open import Lang.dataStructures using (
   Bool; true; false;
   ⟂; ⊤; ℕ; List;
-  one; two; three; four; five; six; seven; eight; nine; ten; zero; succ;
+  one; two; three; four; five; six; seven; eight; nine; ten; zero; succ; _+_;
   _::_; [])
 
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
@@ -41,9 +41,43 @@ open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 open import Types.functions using (_on_; flip)
 ```
 
-As we previously mentioned, equality, in type theory, is itself a type. Hence the definiton of equality can be constructed for different types. There exists an equality by definiton as well. This results in two different kinds of equivalence relations and hence, kinds of equalities in type theory.
+Equality is perhaps one of the most richest but most naively understood concepts. Here we try to provide some structural analysis as to what equality really means in various contexts of mathematics. Equality is treated as a relation in type theory and can be classified broadly as three types:
 
-## Propositional Equality
+- Propositional equality
+- Computational equality
+- Definitonal equality
+
+# Definitional Equality
+
+Definitonal equality is the most basic notion of equality which appeals to our notion of equality being the sameness of meaning (by definition). Definitonal equality relates to the Agda compiler's own integrity check through which a statement is deemed true or correctly compiled. Hence every statemtent has its own notion of judgemental equality. This is in some way more fundamental than propositional equality as in it forms the very core of type theory's "judgement" of a `type(obj) == T`. The notion of definitonal equality also encompasses types that are isomorphic to each other e.g. `9 ≡ 3²` or `two ≡ succ (succ zero)`.
+
+```agda
+defEqual₁ : ℕ
+defEqual₁ = seven
+
+defEqual₂ : ℕ
+defEqual₂ = succ (succ five)
+```
+
+Here, `defEqual₁` and `defEqual₂` both are of type `ℕ` and hence definitionally equal is known to the compiler.
+
+# Computational Equality
+
+This kind of equality describes the sameness of types that are not directly equal but can be reduced to be equal. An example of this is `two + two ≡ four`. For our purposes, we club together definitional and computational equality and call them together "definitional equality" as they serve the same purpose anyway.
+
+```agda
+compEqual₁ : ℕ
+compEqual₁ = six + three
+
+compEqual₂ : ℕ
+compEqual₂ = nine
+```
+
+Here, `compEqual₁` and `compEqual₂` both are of type `ℕ` and hence computationally equal is known to the compiler.
+
+# Propositional Equality
+
+Definitonal and computational equalities describe something intrinsic - a property that does not depend upon a proof. However, other notions of equalities can be defined that do require proofs. Consider for example natural language - when we say "all flowers are beautiful" the "all flowers" part of the sentence implies all flowers are equal in some way. Or, consider natural numbers `a + b = b + a ∀ a, b ∈ ℕ`. Here we would need to prove the symmetry of the `+` operator in order to prove the equality. Such equalities that require to be specified come under the umbrella of propositional equality.
 
 In type theory, all proofs can be represented as a type. Propositional equality can be thought of as encapsulating the notion of "similarity", rather than strict equality. E.g. "roses" or "roads" hint at all roses or roads as being of the same kind but not exactly same, thus we define propositional equality over roses or roads which is different from hard equality. Propositional equality is a kind of equality which requires a proof, and hence the equality itself is also a type `∼`:
 
@@ -58,7 +92,7 @@ data _∼_ {A : Set}(a : A) : {B : Set} → B → Set where
 
 Reflexivity is defined with the definition of `∼` by the keyword `same`, the others being:
 
-#### Symmetry
+## Symmetry
 
 Symmetry is the property where binary a relation's behavior does not depend upon its argument's position (left or right):
 
@@ -69,7 +103,7 @@ symmetry : ∀ {A B}{a : A}{b : B}
 symmetry same = same
 ```
 
-#### Transitivity
+## Transitivity
 
 Transitivity is when a binary relation `_∼_` and $x ∼ y and y ∼ z ⟹ x ∼ z$
 
@@ -81,7 +115,7 @@ transitivity : ∀ {A B C}{a : A}{b : B}{c : C}
 transitivity same p = p
 ```
 
-### Congruence: functions that preserve equality
+## Congruence: functions that preserve equality
 
 Functions that when applied to objects of a type, do not alter the operation of equality can be defined as:
 
@@ -92,7 +126,7 @@ congruence : ∀ {A B : Set} (f : A → B) {x y : A}
 congruence f same = same
 ```
 
-### Substitution
+## Substitution
 
 If `a = b` and if `predicate a = true` ⟹ `predicate b = true`
 
@@ -104,43 +138,7 @@ substitution : ∀ {A : Set} {x y : A} (Predicate : A → Set)
 substitution Predicate same p = p
 ```
 
-Finally, our table example:
-
-```agda
-data Table : Set where
-  generic : Table
-  specific : ℕ → Table
-
-tableEqZero : generic ∼ generic
-tableEqZero = same
-
-tableEqThree : (specific three) ∼ (specific three)
-tableEqThree = same
-```
-
-This, of course does not compile:
-
-```haskell
-tableEqNot : generic ∼ (specific three)
-tableEqNot = same
-```
-
 Any relation which satisfies the above properties of `reflexivity`, `transitivity` and `symmetry` can be considered an equivalence relation and hence can judge a propositional equality.
-
-# Definitonal Equality
-
-Definitonal equality relates to the Agda compiler's own integrity check through which a statement is deemed true or correctly compiled. Hence every statemtent has its own notion of judgemental equality. This is in some way more fundamental than propositional equality as in it forms the very core of type theory's "judgement" of a `type(obj) == T`. The notion of definitonal equality also encompasses types that are isomorphic to each other e.g. `9 ≡ 3²`.
-
-```agda
-defEqual₁ : ℕ
-defEqual₁ = seven
-
-defEqual₂ : ℕ
-defEqual₂ = seven
-```
-
-Here, `defEqual₁` and `defEqual₂` both are of type `ℕ` and hence definitionally equal is known to the compiler.
-
 
 # Relations, a deeper look
 

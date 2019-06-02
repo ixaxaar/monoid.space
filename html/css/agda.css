@@ -39,14 +39,16 @@ a[href]:hover { background-color: rgba(0,0,0,0.2) }
 body {
   margin: auto;
   padding: 1em 1em 1em 1em;
-  max-width: 60%;
+  max-width: 50%;
   /*line-height: 130%;*/
   background-color: transparent;
   color: white;
 }
 
 p {
-  font-size: 14pt !important;
+  font-size: 20px !important;
+  font-family: Verdana, Geneva, sans-serif;
+  line-height: 32px;
 }
 
 h1 {
@@ -176,7 +178,7 @@ h1, h2, h3 {
 
 pre code, textarea, div.string {
   font-family: monospace;
-  font-size: 150%;
+  font-size: 120%;
 }
 
 pre.normal, pre.normal code, code, .error, input {
@@ -284,21 +286,21 @@ pre.sourceCode span.re { }
 pre.sourceCode span.er { color: rgb(255, 190, 190) !important; /* font-weight: bold; */ }
 
 div.sourceCode {
-  background-color: #303037;
+  background-color: #202030;
   border-radius:    10px;
   margin:           20px;
   padding:          10px;
 }
 
 ul {
-  background-color: #232323;
-  border-radius:    10px;
+  background-color: transparent;
+  /*border-radius:    10px;*/
   padding:          20px;
   padding-left:     50px;
 }
 
 ul:first-of-type {
-  background-color:        #252825;
+  background-color:        transparent;
   border-top-right-radius: 0px;
   border-top-left-radius:  0px;
 }
@@ -308,7 +310,7 @@ ul:first-of-type a {
 }
 
 html {
-  background-color: #252525
+  background-color: #303040
 }
 
 body {
@@ -316,15 +318,17 @@ body {
 }
 
 li {
-  font-size: 15pt !important;
+  font-size: 20px !important;
+  font-family: Verdana, Geneva, sans-serif;
+  line-height: 32px;
 }
 
 a{
-  font-size: 13pt !important;
+  /*font-size: 13pt !important;*/
 }
 
 a > li {
-  font-size: 13pt !important;
+  /*font-size: 13pt !important;*/
 }
 
 strong {

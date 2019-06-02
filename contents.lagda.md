@@ -21,8 +21,6 @@
 
 ## 1. Agda
 
-![1](1.png)
-
   - [Setup](./Lang.setup.html)
   - [Introduction](./Lang.intro.html)
   - [Data Structures](./Lang.dataStructures.html)
@@ -34,8 +32,6 @@
 
 ## 2. Type Theory
 
-![2](2.png)
-
   - [Introduction](./Types.introduction.html)
   - [Universes and families](./Types.universe.html)
   - [Relations](./Types.relations.html)
@@ -45,8 +41,6 @@
 
 ## 3. Logic
 
-![3](3.png)
-
   - [Introduction](./Logic.introduction.html)
   - [Boolean Algebra](./Logic.logicBasics.html)
   - [Equality](./Logic.equality.html)
@@ -54,8 +48,6 @@
   - [Decidability *todo*](./Logic.decidability.html)
 
 ## 4. Abstract Algebras
-
-![4](4.png)
 
   - [Introduction](./Algebra.introduction.html)
   - [Operations](./Algebra.operations.html)
@@ -76,8 +68,6 @@
 
 ## 5. Homotopy Type Theory
 
-![5](5.png)
-
   - [Introduction](./HoTT.introduction.html)
   - [Identity Types and Paths](./HoTT.identity.html)
   - [Connected spaces *todo*](./HoTT/paths.html)
@@ -88,8 +78,6 @@
 
 
 ## 7. Category Theory
-
-![6](6.png)
 
   - [Natural Transformations]
   - [Hom-Sets and constructions]

@@ -53,12 +53,20 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <hr />
 <ul>
 <li><a href="#relations">Relations</a></li>
+<li><a href="#properties-of-relations">Properties of relations</a>
+<ul>
+<li><a href="#reflexive">Reflexive</a></li>
+<li><a href="#symmetric">Symmetric</a></li>
+<li><a href="#transitive">Transitive</a></li>
+<li><a href="#congruent">Congruent</a></li>
+<li><a href="#substitutive">Substitutive</a></li>
+</ul></li>
 <li><a href="#equivalence-relation">Equivalence relation</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="relations">Relations</h1>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Types<span class="ot">.</span>relations <span class="kw">where</span></code></pre></div>
-<p>We begin by constructing relations as types. A binary relation <code>∙</code> between two objects <code>a</code> and <code>b</code> is a function type:</p>
+<p>Relations can be defined as properties that assign truth values to finite tuples of elements. A binary relation would output a truth value given two objects, similarly a unary relation would apply on a single object to output a truth value. This can be generalized to k-ary relations. In type theory, however, since relations are also types and “truth values” of a proposition is replaced by existence or belonging to the universe of all types, one can think of relations as functions that take n-tuples as input and return some object of type <code>Set1</code> - the set of all <code>Set</code>s. A binary relation <code>∙</code> between two objects <code>a</code> and <code>b</code> is a function type:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Rel <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">→</span> <span class="dt">Set1</span>
 Rel A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span></code></pre></div>
 <p>A relation with universe polymorphism could also be defined as:</p>
@@ -72,6 +80,9 @@ REL A B ℓ <span class="ot">=</span> A <span class="ot">→</span> B <span clas
 R <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ lsuc ℓ<span class="ot">)</span>
 R A ℓ <span class="ot">=</span> REL A A ℓ</code></pre></div>
 <p>The first definition being easier for our purposes here, we proceed with that.</p>
+<h2 id="properties-of-relations">Properties of relations</h2>
+<p>Relations can conform to certain properties, which later come in handy for classifying relations and building a lot of mathematical structure.</p>
+<h3 id="reflexive">Reflexive</h3>
 <p>A reflexive relation is one where <span class="math inline"><em>x</em> • <em>y</em> = <em>y</em> • <em>x</em></span>:</p>
 <div class="figure">
 <img src="refl.png" alt="refl" />
@@ -81,6 +92,7 @@ R A ℓ <span class="ot">=</span> REL A A ℓ</code></pre></div>
   <span class="ot">→</span> Rel A
   <span class="ot">→</span> <span class="dt">Set</span>
 reflexive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ★ x</code></pre></div>
+<h3 id="symmetric">Symmetric</h3>
 <p>A symmetric relation is one where <span class="math inline"><em>x</em> • <em>y</em> ⟹ <em>y</em> • <em>x</em></span>:</p>
 <div class="figure">
 <img src="symmetric.png" alt="symmetric" />
@@ -90,6 +102,7 @@ reflexive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_
 symmetric <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span>  <span class="ot">=</span> <span class="ot">(</span>x y <span class="ot">:</span> A<span class="ot">)</span>
   <span class="ot">→</span> x ★ y
   <span class="ot">→</span> y ★ x</code></pre></div>
+<h3 id="transitive">Transitive</h3>
 <p>A transitive relation is one where <span class="math inline"><em>x</em> • <em>y</em>, <em>y</em> • <em>z</em> <em>t</em><em>h</em><em>e</em><em>n</em> <em>z</em> • <em>x</em></span>:</p>
 <div class="figure">
 <img src="transitive.png" alt="transitive" />
@@ -100,11 +113,13 @@ transitive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">
   <span class="ot">→</span> x ★ y
   <span class="ot">→</span> y ★ z
   <span class="ot">→</span> x ★ z</code></pre></div>
+<h3 id="congruent">Congruent</h3>
 <p>A congruent relation is one where a function <span class="math inline"><em>x</em> • <em>y</em> ⟹ <em>f</em>(<em>x</em>)•<em>f</em>(<em>y</em>)</span> or the function <code>f</code> preserves the relation :</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">congruent <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span>
 congruent <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> A<span class="ot">)(</span>x y <span class="ot">:</span> A<span class="ot">)</span>
   <span class="ot">→</span> x ★ y
   <span class="ot">→</span> f x ★ f y</code></pre></div>
+<h3 id="substitutive">Substitutive</h3>
 <p>A substitutive relation is one where <span class="math inline"><em>x</em> • <em>y</em> <em>a</em><em>n</em><em>d</em> (<em>p</em><em>r</em><em>e</em><em>d</em><em>i</em><em>c</em><em>a</em><em>t</em><em>e</em> <em>y</em>)=⊤⟹(<em>p</em><em>r</em><em>e</em><em>d</em><em>i</em><em>c</em><em>a</em><em>t</em><em>e</em> <em>x</em>)=⊤</span> :</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">substitutive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set1</span>
 substitutive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>P <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)(</span>x y <span class="ot">:</span> A<span class="ot">)</span>

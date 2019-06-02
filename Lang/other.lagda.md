@@ -18,7 +18,7 @@
 ```agda
 module Lang.other where
 
-open import Lang.dataStructures
+open import Lang.dataStructures renaming (_+_ to _⨦_)
 
 open import Lang.functions using (_+_)
 ```

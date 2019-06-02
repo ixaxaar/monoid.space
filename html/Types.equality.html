@@ -53,6 +53,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <hr />
 <ul>
 <li><a href="#equalities">Equalities</a></li>
+<li><a href="#definitonal-equality">Definitonal Equality</a></li>
 <li><a href="#propositional-equality">Propositional Equality</a>
 <ul>
 <li><a href="#symmetry">Symmetry</a></li>
@@ -60,7 +61,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#congruence-functions-that-preserve-equality">Congruence: functions that preserve equality</a></li>
 <li><a href="#substitution">Substitution</a></li>
 </ul></li>
-<li><a href="#definitonal-equality">Definitonal Equality</a></li>
 <li><a href="#relations-a-deeper-look">Relations, a deeper look</a></li>
 <li><a href="#equality">Equality</a></li>
 <li><a href="#types-of-relations">Types of relations</a>
@@ -86,7 +86,20 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span>
 
 <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions <span class="kw">using</span> <span class="ot">(_</span>on<span class="ot">_;</span> flip<span class="ot">)</span></code></pre></div>
-<p>As we previously mentioned, equality, in type theory, is itself a type. Hence the definiton of equality can be constructed for different types. There exists an equality by definiton as well. This results in two different kinds of equivalence relations and hence, kinds of equalities in type theory.</p>
+<p>Equality is perhaps one of the most richest but most naively understood concepts. Here we try to provide some structural analysis as to what equality really means in various contexts of mathematics. Equality is treated as a relation in type theory and can be classified broadly as three types:</p>
+<ul>
+<li>Propositional equality</li>
+<li>Computational equality</li>
+<li>Definitonal equality</li>
+</ul>
+<h1 id="definitonal-equality">Definitonal Equality</h1>
+<p>Definitonal equality is the most basic notion of equality which appeals to our notion of equality being the sameness of meaning (by definition). Definitonal equality relates to the Agda compiler’s own integrity check through which a statement is deemed true or correctly compiled. Hence every statemtent has its own notion of judgemental equality. This is in some way more fundamental than propositional equality as in it forms the very core of type theory’s “judgement” of a <code>type(obj) == T</code>. The notion of definitonal equality also encompasses types that are isomorphic to each other e.g. <code>9 ≡ 3²</code> or <code>two ≡ succ (succ zero)</code>.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">defEqual₁ <span class="ot">:</span> ℕ
+defEqual₁ <span class="ot">=</span> seven
+
+defEqual₂ <span class="ot">:</span> ℕ
+defEqual₂ <span class="ot">=</span> succ <span class="ot">(</span>succ five<span class="ot">)</span></code></pre></div>
+<p>Here, <code>defEqual₁</code> and <code>defEqual₂</code> both are of type <code>ℕ</code> and hence definitionally equal is known to the compiler.</p>
 <h2 id="propositional-equality">Propositional Equality</h2>
 <p>In type theory, all proofs can be represented as a type. Propositional equality can be thought of as encapsulating the notion of “similarity”, rather than strict equality. E.g. “roses” or “roads” hint at all roses or roads as being of the same kind but not exactly same, thus we define propositional equality over roses or roads which is different from hard equality. Propositional equality is a kind of equality which requires a proof, and hence the equality itself is also a type <code>∼</code>:</p>
 <div class="figure">
@@ -138,14 +151,6 @@ tableEqThree <span class="ot">=</span> same</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">tableEqNot <span class="fu">:</span> generic ∼ (specific three)
 tableEqNot <span class="fu">=</span> same</code></pre></div>
 <p>Any relation which satisfies the above properties of <code>reflexivity</code>, <code>transitivity</code> and <code>symmetry</code> can be considered an equivalence relation and hence can judge a propositional equality.</p>
-<h1 id="definitonal-equality">Definitonal Equality</h1>
-<p>Definitonal equality relates to the Agda compiler’s own integrity check through which a statement is deemed true or correctly compiled. Hence every statemtent has its own notion of judgemental equality. This is in some way more fundamental than propositional equality as in it forms the very core of type theory’s “judgement” of a <code>type(obj) == T</code>. The notion of definitonal equality also encompasses types that are isomorphic to each other e.g. <code>9 ≡ 3²</code>.</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">defEqual₁ <span class="ot">:</span> ℕ
-defEqual₁ <span class="ot">=</span> seven
-
-defEqual₂ <span class="ot">:</span> ℕ
-defEqual₂ <span class="ot">=</span> seven</code></pre></div>
-<p>Here, <code>defEqual₁</code> and <code>defEqual₂</code> both are of type <code>ℕ</code> and hence definitionally equal is known to the compiler.</p>
 <h1 id="relations-a-deeper-look">Relations, a deeper look</h1>
 <p>We now present a more formal machinery for relations. We use <a href="Types.universe.html#universe-polymorphism">universe polymorphism</a> throughout to develop this machinery.</p>
 <h2 id="equality">Equality</h2>

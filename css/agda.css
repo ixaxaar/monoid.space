@@ -286,21 +286,21 @@ pre.sourceCode span.re { }
 pre.sourceCode span.er { color: rgb(255, 190, 190) !important; /* font-weight: bold; */ }
 
 div.sourceCode {
-  background-color: #303037;
+  background-color: #202030;
   border-radius:    10px;
   margin:           20px;
   padding:          10px;
 }
 
 ul {
-  background-color: #232323;
-  border-radius:    10px;
+  background-color: transparent;
+  /*border-radius:    10px;*/
   padding:          20px;
   padding-left:     50px;
 }
 
 ul:first-of-type {
-  background-color:        #252825;
+  background-color:        transparent;
   border-top-right-radius: 0px;
   border-top-left-radius:  0px;
 }
@@ -310,7 +310,7 @@ ul:first-of-type a {
 }
 
 html {
-  background-color: #252525
+  background-color: #303040
 }
 
 body {

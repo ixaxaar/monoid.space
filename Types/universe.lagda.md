@@ -15,9 +15,6 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-
-# Universes and families
-
 ```agda
 {-# OPTIONS --without-K #-}
 
@@ -28,13 +25,20 @@ open import Lang.dataStructures using (
   ⊥; ⊤; ℕ; List;
   zero; one)
 
-open import Agda.Primitive renaming (Level to AgdaLevel; lzero to alzero; lsuc to alsuc; _⊔_ to _⊔⊔_)
+open import Agda.Primitive renaming (
+  Level to AgdaLevel; 
+  lzero to alzero; 
+  lsuc to alsuc; 
+  _⊔_ to _⊔⊔_)
 ```
 
-We first define the universe, or type of all types. The type of all types is a `Set` in agda. The problem of paradoxes resulting from infinite sets and set of all sets can be avoided by constructing the type of all types as "universes" in a heirarchically cumulative way.
+# Universes and families
 
-A universe is a set of types. Now, when we take our universe to be a set of types, there comes a problem of universe of all possible types, and we end up with Russel's Paradox. To avoid this, we say that our universe is constructed heirarchically, with an index `i` such that universe `Uᵢ` ∈ Uᵢ₊₁ and so on.
+A universe can be thought of as a container for all of mathematics. There is no mathematics that is possible outside of universe. Now obviously this differs from our physical universe in a way that mathematics also describes purely conceptual stuff that need not have a physical manifestation, rather, in many ways our univrerse is a subset of the mathematical universe as it can be described by mathematical models.
 
+For set theory, the universe can be thought as the set of all sets. For type theory, universes contain all types - hence essentially everything including objects, laws, theorems etc. The structure of the universe used in type theory are [Russel-style and Taski-style universes](http://www.cs.rhul.ac.uk/home/zhaohui/universes.pdf) though we use the former as it is easier and sufficient for our purposes. There are other kinds of universes in mathematics, for example the [Grothendieck universe](https://ncatlab.org/nlab/show/Grothendieck+universe), [Von Neumann universe](https://en.wikipedia.org/wiki/Von_Neumann_universe).
+
+The type of all types is called `Set` in agda. Now, in constructing this type of all types naively we encounter a bunch of paradoxes, namely [Russel's Paradox](https://ncatlab.org/nlab/show/Russell%27s+paradox), [Cantor's Paradox](https://ncatlab.org/nlab/show/Cantor%27s+paradox), [Girard's Paradox](https://ncatlab.org/nlab/show/Burali-Forti%27s+paradox) etc. These can be avoided by constructing the type of all types as "universes" in a heirarchically cumulative way. When we consider our universe to be the set of all types, we say that our universe is constructed heirarchically, with an index `i` such that universe `Uᵢ` ∈ Uᵢ₊₁ and so on.
 
 $$
 U_{0} \in U_{1} \in U\_{2} \in ... \in U_{i} \in U_{i+1}  \in ... \in U_{\infty}
@@ -102,7 +106,7 @@ Type1 = Type (alsuc alzero)
 
 # Universe Polymorphism
 
-Now, gieven that we have infinite heirarchical universes, we would have to define the same functions, data types and machinery for each universe level, which would be pretty tedious to say the least. However, we observe how our universes are defined and note that the level-based indexing system, that connects each successive universe, provides us with the mechanics to define objects for all universe levels `ℓ`:
+Now, given that we have infinite heirarchical universes, we would have to define the same functions, data types and machinery for each universe level, which would be pretty tedious to say the least. However, we observe how our universes are defined and note that the level-based indexing system, that connects each successive universe, provides us with the mechanics to define objects for all universe levels `ℓ`:
 
 ```agda
 id : {ℓ : AgdaLevel} {A : Set ℓ} (x : A) → A

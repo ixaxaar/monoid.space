@@ -6,6 +6,12 @@
 ****
 
 - [Relations](#relations)
+  - [Properties of relations](#properties-of-relations)
+    - [Reflexive](#reflexive)
+    - [Symmetric](#symmetric)
+    - [Transitive](#transitive)
+    - [Congruent](#congruent)
+    - [Substitutive](#substitutive)
 - [Equivalence relation](#equivalence-relation)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -17,7 +23,7 @@
 module Types.relations where
 ```
 
-We begin by constructing relations as types. A binary relation `∙` between two objects `a` and `b` is a function type:
+Relations can be defined as properties that assign truth values to finite tuples of elements. A binary relation would output a truth value given two objects, similarly a unary relation would apply on a single object to output a truth value. This can be generalized to k-ary relations. In type theory, however, since relations are also types and "truth values" of a proposition is replaced by existence or belonging to the universe of all types, one can think of relations as functions that take n-tuples as input and return some  object of type `Set1` - the set of all `Set`s. A binary relation `∙` between two objects `a` and `b` is a function type:
 
 ```agda
 Rel : Set → Set1
@@ -40,6 +46,12 @@ R A ℓ = REL A A ℓ
 
 The first definition being easier for our purposes here, we proceed with that.
 
+## Properties of relations
+
+Relations can conform to certain properties, which later come in handy for classifying relations and building a lot of mathematical structure.
+
+### Reflexive
+
 A reflexive relation is one where $x \bullet y = y \bullet x$:
 
 ![refl](refl.png)
@@ -51,6 +63,8 @@ reflexive : {A : Set}
 reflexive {A} _★_ = (x : A) → x ★ x
 ```
 
+### Symmetric
+
 A symmetric relation is one where $x \bullet y \implies y \bullet x$:
 
 ![symmetric](symmetric.png)
@@ -61,6 +75,8 @@ symmetric {A} _★_  = (x y : A)
   → x ★ y
   → y ★ x
 ```
+
+### Transitive
 
 A transitive relation is one where $x \bullet y, y \bullet z ~then~ z \bullet x$:
 
@@ -74,6 +90,8 @@ transitive {A} _★_ = (x y z : A)
   → x ★ z
 ```
 
+### Congruent
+
 A congruent relation is one where a function $x \bullet y \implies f(x) \bullet f(y)$ or the function `f` preserves the relation :
 
 ```agda
@@ -82,6 +100,9 @@ congruent {A} _★_ = (f : A → A)(x y : A)
   → x ★ y
   → f x ★ f y
 ```
+
+### Substitutive
+
 A substitutive relation is one where $x \bullet y ~and~ (predicate~ y) = ⊤ \implies (predicate~ x) = ⊤$ :
 
 ```agda

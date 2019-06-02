@@ -27,7 +27,7 @@ Functions, also being technically types, can sometimes have practically simpler 
 ```agda
 module Lang.functions where
 
-open import Lang.dataStructures
+open import Lang.dataStructures renaming (_+_ to _⨦_)
 ```
 
 ## Pattern matching functions

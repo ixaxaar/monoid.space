@@ -124,6 +124,12 @@ data ℕ : Set where
   succ : ℕ → ℕ
 ```
 
+```agda
+_+_ : ℕ → ℕ → ℕ
+x + zero = x
+x + (succ y) = succ (x + y)
+```
+
 Examples:
 
 ```agda
