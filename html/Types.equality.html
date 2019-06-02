@@ -55,21 +55,23 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#equalities">Equalities</a></li>
 <li><a href="#definitional-equality">Definitional Equality</a></li>
 <li><a href="#computational-equality">Computational Equality</a></li>
-<li><a href="#propositional-equality">Propositional Equality</a></li>
+<li><a href="#propositional-equality">Propositional Equality</a>
+<ul>
 <li><a href="#symmetry">Symmetry</a></li>
 <li><a href="#transitivity">Transitivity</a></li>
 <li><a href="#congruence-functions-that-preserve-equality">Congruence: functions that preserve equality</a></li>
 <li><a href="#substitution">Substitution</a></li>
-<li><a href="#relations-a-deeper-look">Relations, a deeper look</a></li>
-<li><a href="#equality">Equality</a></li>
-<li><a href="#types-of-relations">Types of relations</a>
+</ul></li>
+<li><a href="#relations-a-deeper-look">Relations, a deeper look</a>
 <ul>
+<li><a href="#equality">Equality</a></li>
+<li><a href="#types-of-relations">Types of relations</a></li>
 <li><a href="#nullary-relations">Nullary relations</a></li>
 <li><a href="#unary-relations">Unary relations</a></li>
 <li><a href="#binary-relations">Binary relations</a></li>
 <li><a href="#properties-of-binary-relations">Properties of binary relations</a></li>
-</ul></li>
 <li><a href="#properties-of-equality">Properties of equality</a></li>
+</ul></li>
 <li><a href="#setoids">Setoids</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -110,35 +112,32 @@ compEqual₂ <span class="ot">=</span> nine</code></pre></div>
 <h1 id="propositional-equality">Propositional Equality</h1>
 <p>Definitonal and computational equalities describe something intrinsic - a property that does not depend upon a proof. However, other notions of equalities can be defined that do require proofs. Consider for example natural language - when we say “all flowers are beautiful” the “all flowers” part of the sentence implies all flowers are equal in some way. Or, consider natural numbers <code>a + b = b + a ∀ a, b ∈ ℕ</code>. Here we would need to prove the symmetry of the <code>+</code> operator in order to prove the equality. Such equalities that require to be specified come under the umbrella of propositional equality.</p>
 <p>In type theory, all proofs can be represented as a type. Propositional equality can be thought of as encapsulating the notion of “similarity”, rather than strict equality. E.g. “roses” or “roads” hint at all roses or roads as being of the same kind but not exactly same, thus we define propositional equality over roses or roads which is different from hard equality. Propositional equality is a kind of equality which requires a proof, and hence the equality itself is also a type <code>∼</code>:</p>
-<div class="figure">
-<img src="./equality.png" alt="equality" />
-<p class="caption">equality</p>
-</div>
+<p><img src="./equality.png" alt="equality" /></p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>∼<span class="ot">_</span>
 
 <span class="kw">data</span> <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>a <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
   same <span class="ot">:</span> a ∼ a</code></pre></div>
 <p>Reflexivity is defined with the definition of <code>∼</code> by the keyword <code>same</code>, the others being:</p>
-<h2 id="symmetry">Symmetry</h2>
+<h3 id="symmetry">Symmetry</h3>
 <p>Symmetry is the property where binary a relation’s behavior does not depend upon its argument’s position (left or right):</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">symmetry <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B<span class="ot">}{</span>a <span class="ot">:</span> A<span class="ot">}{</span>b <span class="ot">:</span> B<span class="ot">}</span>
   <span class="ot">→</span> a ∼ b
   <span class="ot">→</span> b ∼ a
 symmetry same <span class="ot">=</span> same</code></pre></div>
-<h2 id="transitivity">Transitivity</h2>
-<p>Transitivity is when a binary relation <code>_∼_</code> and <span class="math inline"><em>x</em> ∼ <em>y</em><em>a</em><em>n</em><em>d</em><em>y</em> ∼ <em>z</em> ⟹ <em>x</em> ∼ <em>z</em></span></p>
+<h3 id="transitivity">Transitivity</h3>
+<p>Transitivity is when a binary relation <code>_∼_</code> and $x ∼ y and y ∼ z ⟹ x ∼ z$</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">transitivity <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B C<span class="ot">}{</span>a <span class="ot">:</span> A<span class="ot">}{</span>b <span class="ot">:</span> B<span class="ot">}{</span>c <span class="ot">:</span> C<span class="ot">}</span>
   <span class="ot">→</span> a ∼ b
   <span class="ot">→</span> b ∼ c
   <span class="ot">→</span> a ∼ c
 transitivity same p <span class="ot">=</span> p</code></pre></div>
-<h2 id="congruence-functions-that-preserve-equality">Congruence: functions that preserve equality</h2>
+<h3 id="congruence-functions-that-preserve-equality">Congruence: functions that preserve equality</h3>
 <p>Functions that when applied to objects of a type, do not alter the operation of equality can be defined as:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">congruence <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span>
   <span class="ot">→</span> x ∼ y
   <span class="ot">→</span> f x ∼ f y
 congruence f same <span class="ot">=</span> same</code></pre></div>
-<h2 id="substitution">Substitution</h2>
+<h3 id="substitution">Substitution</h3>
 <p>If <code>a = b</code> and if <code>predicate a = true</code> ⟹ <code>predicate b = true</code></p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">substitution <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">(</span>Predicate <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span>
   <span class="ot">→</span> x ∼ y
@@ -148,12 +147,12 @@ substitution Predicate same p <span class="ot">=</span> p</code></pre></div>
 <p>Any relation which satisfies the above properties of <code>reflexivity</code>, <code>transitivity</code> and <code>symmetry</code> can be considered an equivalence relation and hence can judge a propositional equality.</p>
 <h1 id="relations-a-deeper-look">Relations, a deeper look</h1>
 <p>We now present a more formal machinery for relations. We use <a href="Types.universe.html#universe-polymorphism">universe polymorphism</a> throughout to develop this machinery.</p>
-<h2 id="equality">Equality</h2>
+<h3 id="equality">Equality</h3>
 <p>We first re-define propositional equality within the framework of universe polymorphism:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≡<span class="ot">_</span>
 <span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> a <span class="kw">where</span>
   instance refl <span class="ot">:</span> x ≡ x</code></pre></div>
-<h2 id="types-of-relations">Types of relations</h2>
+<h3 id="types-of-relations">Types of relations</h3>
 <h3 id="nullary-relations">Nullary relations</h3>
 <p>Nullary relations are functions that can take any object and return an empty set <code>∅</code>:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">¬  <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>ℓ<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> ℓ <span class="ot">→</span> <span class="dt">Set</span> ℓ
@@ -180,13 +179,13 @@ REL A B ℓ <span class="ot">=</span> A <span class="ot">→</span> B <span clas
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Rel <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ lsuc ℓ<span class="ot">)</span>
 Rel A ℓ <span class="ot">=</span> REL A A ℓ</code></pre></div>
 <h3 id="properties-of-binary-relations">Properties of binary relations</h3>
-<p>In type theory, an implication <span class="math inline"><em>A</em> ⟹ <em>B</em></span> is just a function type <span class="math inline"><em>f</em> : <em>A</em> → <em>B</em></span>, and if <code>f</code> exists, the implication does too. We define implication between two relations in agda as:</p>
+<p>In type theory, an implication $A ⟹ B$ is just a function type $f: A → B$, and if <code>f</code> exists, the implication does too. We define implication between two relations in agda as:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>⇒<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span>
         <span class="ot">→</span> REL A B ℓ₁
         <span class="ot">→</span> REL A B ℓ₂
         <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
 P ⇒ Q <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>i j<span class="ot">}</span> <span class="ot">→</span> P i j <span class="ot">→</span> Q i j</code></pre></div>
-<p>A function <code>f : A → B</code> is invariant to two homogenous relations <code>Rel A ℓ₁</code> and <code>Rel B ℓ₂</code> if <span class="math inline">∀<em>x</em>, <em>y</em> ∈ <em>A</em> <em>a</em><em>n</em><em>d</em> <em>f</em>(<em>x</em>),<em>f</em>(<em>y</em>)∈<em>B</em>, (<em>R</em><em>e</em><em>l</em><em>x</em><em>y</em>)⟹(<em>R</em><em>e</em><em>l</em><em>f</em>(<em>x</em>)<em>f</em>(<em>y</em>))</span>:</p>
+<p>A function <code>f : A → B</code> is invariant to two homogenous relations <code>Rel A ℓ₁</code> and <code>Rel B ℓ₂</code> if $∀ x, y ∈ A ~and~ f(x), f(y) ∈ B, (Rel x y) ⟹ (Rel f(x) f(y))$:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>=[<span class="ot">_</span>]⇒<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span>
           Rel A ℓ₁ <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> Rel B ℓ₂ <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
 P =[ f ]⇒ Q <span class="ot">=</span> P ⇒ <span class="ot">(</span>Q on f<span class="ot">)</span></code></pre></div>
@@ -241,7 +240,7 @@ Transitive <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot
 
   reflexive <span class="ot">:</span> <span class="ot">_</span>≡<span class="ot">_</span> ⇒ <span class="ot">_</span>≈<span class="ot">_</span>
   reflexive refl <span class="ot">=</span> rfl</code></pre></div>
-<h2 id="properties-of-equality">Properties of equality</h2>
+<h3 id="properties-of-equality">Properties of equality</h3>
 <p>We use the new structures to re-define the properties of propositional equality.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> ≡-properties <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="kw">where</span>
   sym-≡ <span class="ot">:</span> Symmetric <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span> <span class="ot">_</span>≡<span class="ot">_</span>

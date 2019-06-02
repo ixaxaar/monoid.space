@@ -99,31 +99,28 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h3 id="laws">Laws</h3>
 <p>For an operation <code>★</code>,</p>
 <h4 id="associativity">Associativity</h4>
-<p><br /><span class="math display"><em>x</em>★(<em>y</em>★<em>z</em>)≡(<em>x</em>★<em>y</em>)★<em>z</em></span><br /></p>
-<div class="figure">
-<img src="associative.png" alt="associative" />
-<p class="caption">associative</p>
-</div>
+<p>$$<br />
+x ★ (y ★ z) ≡ (x ★ y) ★ z<br />
+$$</p>
+<p><img src="associative.png" alt="associative" /></p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  associativity <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span>
   associativity <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x y z <span class="ot">:</span> A<span class="ot">)</span>
           <span class="ot">→</span> <span class="ot">(</span>x ★ <span class="ot">(</span>y ★ z<span class="ot">))</span>
           == <span class="ot">((</span>x ★ y<span class="ot">)</span> ★ z<span class="ot">)</span></code></pre></div>
 <h4 id="commutativity">Commutativity</h4>
-<p><br /><span class="math display"><em>x</em>★<em>y</em> ≡ <em>y</em>★<em>x</em></span><br /></p>
-<div class="figure">
-<img src="commutative.png" alt="commutative" />
-<p class="caption">commutative</p>
-</div>
+<p>$$<br />
+x ★ y ≡ y ★ x<br />
+$$</p>
+<p><img src="commutative.png" alt="commutative" /></p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  commutativity <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span>
   commutativity <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x y <span class="ot">:</span> A<span class="ot">)</span>
           <span class="ot">→</span> <span class="ot">(</span>x ★ y<span class="ot">)</span>
           == <span class="ot">(</span>y ★ x<span class="ot">)</span></code></pre></div>
 <h4 id="distributivity">Distributivity</h4>
-<p><br /><span class="math display">(<em>x</em>★<em>y</em>)★<em>z</em> ≡ <em>x</em>★<em>y</em> × <em>y</em>★<em>z</em></span><br /></p>
-<div class="figure">
-<img src="distributive.png" alt="distributive" />
-<p class="caption">distributive</p>
-</div>
+<p>$$<br />
+( x ★ y ) ★ z ≡ x ★ y × y ★ z<br />
+$$</p>
+<p><img src="distributive.png" alt="distributive" /></p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="ot">_</span>distributesOverˡ<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   <span class="ot">_</span>*<span class="ot">_</span> distributesOverˡ <span class="ot">_</span>+<span class="ot">_</span> <span class="ot">=</span>
     <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">(</span>x * <span class="ot">(</span>y + z<span class="ot">))</span> == <span class="ot">((</span>x * y<span class="ot">)</span> + <span class="ot">(</span>x * z<span class="ot">))</span>
@@ -135,11 +132,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   <span class="ot">_</span>distributesOver<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   * distributesOver + <span class="ot">=</span> <span class="ot">(</span>* distributesOverˡ +<span class="ot">)</span> × <span class="ot">(</span>* distributesOverʳ +<span class="ot">)</span></code></pre></div>
 <h4 id="identity">Identity</h4>
-<p><br /><span class="math display"><em>x</em>★<em>i</em><em>d</em><sub>★</sub> ≡ <em>x</em></span><br /></p>
-<div class="figure">
-<img src="identity.png" alt="identity" />
-<p class="caption">identity</p>
-</div>
+<p>$$<br />
+x ★ id_{★} ≡ x<br />
+$$</p>
+<p><img src="identity.png" alt="identity" /></p>
 <p>These form the major laws of boolean algebra. There exists a bunch of others that we’ll also see here. Note that for non-commutative systems of algebra, identity can exist in two forms: right and left, similarly for directional operations like distributivity, inverses, etc.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  identityₗ <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span>
   identityₗ x <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span>  <span class="ot">(</span>y <span class="ot">:</span> A<span class="ot">)</span>
@@ -154,11 +150,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   identity <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span>
   identity x ★ <span class="ot">=</span> <span class="ot">(</span>identityₗ x ★<span class="ot">)</span> × <span class="ot">(</span>identityᵣ x ★<span class="ot">)</span></code></pre></div>
 <h4 id="annihilation">Annihilation</h4>
-<p><br /><span class="math display"><em>x</em>★<em>i</em><em>d</em> ≡ <em>x</em></span><br /></p>
-<div class="figure">
-<img src="elimination.png" alt="elimination" />
-<p class="caption">elimination</p>
-</div>
+<p>$$<br />
+x ★ id ≡ x<br />
+$$</p>
+<p><img src="elimination.png" alt="elimination" /></p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  leftZero <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   leftZero z <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>z ★ x<span class="ot">)</span> == z
 
@@ -169,11 +164,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   zero z ★ <span class="ot">=</span> leftZero z ★ × rightZero z ★</code></pre></div>
 <h4 id="idempotence">Idempotence</h4>
 <p>Idempotence is a more specific law of boolean algebra:</p>
-<p><br /><span class="math display"><em>x</em> ∧ <em>x</em> ≡ <em>x</em></span><br /></p>
-<div class="figure">
-<img src="idempotence.png" alt="idempotence" />
-<p class="caption">idempotence</p>
-</div>
+<p>$$<br />
+x ∧ x ≡ x<br />
+$$</p>
+<p><img src="idempotence.png" alt="idempotence" /></p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="ot">_</span>idempotentOn<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   <span class="ot">_</span>★<span class="ot">_</span> idempotentOn x <span class="ot">=</span> <span class="ot">(</span>x ★ x<span class="ot">)</span> == x
 
@@ -181,7 +175,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   idempotent ★ <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> ★ idempotentOn x</code></pre></div>
 <h4 id="absorption">Absorption</h4>
 <p>Another pair of reductive laws that apply only in boolean algebra:</p>
-<p><br /><span class="math display"><em>x</em> ∧ (<em>x</em> ∨ <em>y</em>)≡<em>x</em><em>x</em> ∨ (<em>x</em> ∧ <em>y</em>)≡<em>x</em></span><br /></p>
+<p>$$<br />
+x ∧ (x ∨ y) ≡ x<br />
+x ∨ (x ∧ y) ≡ x<br />
+$$</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  <span class="ot">_</span>absorbs<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   <span class="ot">_</span>∙<span class="ot">_</span> absorbs <span class="ot">_</span>◌<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x ∙ <span class="ot">(</span>x ◌ y<span class="ot">))</span> == x
 

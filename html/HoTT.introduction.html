@@ -70,48 +70,41 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1 id="homotopy-theory">Homotopy Theory</h1>
 <h2 id="fields-spaces-points-paths">Fields, Spaces, Points, Paths</h2>
 <p>A field (more force-field than data field) is a set of objects that support or permit addition, subtraction, division and multiplication. Real numbers, rational numbers and complex numbers are some such “set of objects” which we use widely and which can form fields.</p>
-<p>An n-dimensional space can be thought as a collection of n numbers from a field and n directions or bases. Thus we can construct spaces from fields. For e.g. any point in 2-dimensional space of real numbers ℝ can be represented as <span class="math inline"><em>a</em> × <em>x</em> + <em>b</em> × <em>y</em></span> where <span class="math inline"><em>a</em>, <em>b</em> ∈ <em>ℝ</em></span>.</p>
+<p>An n-dimensional space can be thought as a collection of n numbers from a field and n directions or bases. Thus we can construct spaces from fields. For e.g. any point in 2-dimensional space of real numbers ℝ can be represented as $a × x + b × y$ where $a, b ∈ ℝ$.</p>
 <p>A path is a line joining two points. This path can be of any shape, be it a straight line or an extremely squiggly one.</p>
-<div class="figure">
-<img src="./pathType.png" alt="path" />
-<p class="caption">path</p>
-</div>
+<p><img src="./pathType.png" alt="path" /></p>
 <h2 id="paths-and-their-equalities">Paths and their equalities</h2>
-<p>Technically, a path p between two points <code>x</code> and <code>y</code> can be represented as a function <code>f</code> that takes a continuous value <code>t</code> and returns a point on the path <code>f(t)</code> such that the first point is <code>x</code> <span class="math inline"><em>f</em>(0)=<em>x</em></span> and the last point is <code>y</code> <span class="math inline"><em>f</em>(1)=<em>y</em></span> and <span class="math inline">0 ≤ <em>t</em> ≤ 1</span>. It might need to be reminded that such a path might not actually exist as a continuous line through space but may help if imagined as such.</p>
+<p>Technically, a path p between two points <code>x</code> and <code>y</code> can be represented as a function <code>f</code> that takes a continuous value <code>t</code> and returns a point on the path <code>f(t)</code> such that the first point is <code>x</code> $f(0) = x$ and the last point is <code>y</code> $f(1) = y$ and $0 ≤ t ≤ 1$. It might need to be reminded that such a path might not actually exist as a continuous line through space but may help if imagined as such.</p>
 <p>Now, we could take any two paths between the same points and stretch / squeeze one path into another. This process can be used to capture relationships between two paths and is called <em>homotopy</em>. More formally,</p>
-<div class="figure">
-<img src="./two_paths_homotopy.png" alt="two_paths_homotopy" />
-<p class="caption">two_paths_homotopy</p>
-</div>
+<p><img src="./two_paths_homotopy.png" alt="two_paths_homotopy" /></p>
 <h3 id="homotopy">Homotopy</h3>
 <p>A <em>homotopy</em> between two paths <code>p(t)</code> and <code>q(t)</code> is defined as a continuous function <code>H(t, h)</code> such that:</p>
 <ul>
-<li><span class="math inline"><em>H</em>(<em>t</em>, 0)=<em>p</em>(<em>t</em>)</span></li>
-<li><span class="math inline"><em>H</em>(<em>t</em>, 1)=<em>q</em>(<em>t</em>)</span></li>
-<li><span class="math inline"><em>H</em>(0, <em>h</em>)=<em>x</em></span></li>
-<li><span class="math inline"><em>H</em>(1, <em>h</em>)=<em>y</em></span></li>
+<li>$H(t, 0) = p(t)$</li>
+<li>$H(t, 1) = q(t)$</li>
+<li>$H(0, h) = x$</li>
+<li>$H(1, h) = y$</li>
 </ul>
 <p>There can exist multiple paths between two objects and hence multiple homotopies between them. Homotopies can be thought of as 2-dimensional paths or path-of-path if paths are 1-dimensional paths. Homotopies are built on equivalence relations and hence fit into its API, i.e. homotopy respects reflexivity, symmetry and transitivity, and can be used to build equational reasoning chanins.</p>
-<div class="figure">
-<img src="./homotopy.png" alt="homotopy" />
-<p class="caption">homotopy</p>
-</div>
+<p><img src="./homotopy.png" alt="homotopy" /></p>
 <h3 id="fundamental-group">Fundamental group</h3>
-<p>Two homotopies <code>H1</code> and <code>H2</code> can themselves be called equal if <span class="math inline"><em>H</em>(0, <em>h</em>)=<em>H</em>(1, <em>h</em>)=<em>x</em>₀</span>, i.e. if <code>x</code> and <code>y</code> are the same point. We can use this equivalence relation and the fact that homotopies have inverses, to build a group structure around these homotopies, called as the <em>fundamental group</em>.</p>
+<p>Two homotopies <code>H1</code> and <code>H2</code> can themselves be called equal if $H(0, h) = H(1, h) = x₀$, i.e. if <code>x</code> and <code>y</code> are the same point. We can use this equivalence relation and the fact that homotopies have inverses, to build a group structure around these homotopies, called as the <em>fundamental group</em>.</p>
 <h3 id="groupoid">∞-groupoid</h3>
 <p>We can have n-dimentional paths from n-equalitites or homotopies of homotopies of homotopies of homotopies and so on. Such a structure of infinite levels of homotopies with points followed by paths as base is called the <em>∞-groupoid</em>. Every space can be turned into its ∞-groupoid and then homotopy theory can be applied to it as well as every ∞-groupoid can yield a fundamental group. This fact connects algebraic topology (which uses the fundamental group) and category theory (which builds on the ∞-groupoid).</p>
-<p>In HoTT, each type can be represented as an ∞-groupoid. Each pair of objects <code>x</code> and <code>y</code> of a type can have an typelevel equality type <span class="math inline"><em>x</em>≡<sub><em>A</em></sub><em>y</em></span>. For example in python:</p>
+<p>In HoTT, each type can be represented as an ∞-groupoid. Each pair of objects <code>x</code> and <code>y</code> of a type can have an typelevel equality type $x ≡_A y$. For example in python:</p>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">a <span class="op">=</span> <span class="dv">3</span>
 b <span class="op">=</span> <span class="dv">4</span>
 
 <span class="bu">type</span>(a) ≡ <span class="bu">type</span>(b)</code></pre></div>
-<p>These equalities can have further equalities <span class="math inline">(<em>x</em><sub>1</sub>≡<sub><em>A</em></sub><em>y</em><sub>1</sub>)≡<sub>(<em>x</em>≡<sub><em>A</em></sub><em>y</em>)</sub>(<em>x</em><sub>2</sub>≡<sub><em>A</em></sub><em>y</em><sub>2</sub>)</span>. Note: higher levels cannot be done trivially in python.</p>
+<p>These equalities can have further equalities $(x_1 ≡<em>A y_1) ≡</em>{(x ≡_A y)} (x_2 ≡_A y_2)$. Note: higher levels cannot be done trivially in python.</p>
 <h2 id="induction-principle">Induction principle</h2>
-<p>The induction principle is central to deriving all basic constructions for HoTT. Stated simply, if for every pair of objects <code>x</code> and <code>y</code> of type <code>A</code> - the equality type <span class="math inline">≡<sub><em>A</em></sub></span> between <code>x</code> and <code>y</code> exists everytime <code>x</code> and <code>y</code> are equal - for every <code>x ∈ A</code>, the equalities <span class="math inline"><em>x</em>≡<sub><em>A</em></sub><em>x</em></span> are reflexive then for a proposition <code>C</code> which depends upon the equality <span class="math inline"><em>x</em>≡<sub><em>A</em></sub><em>y</em></span>, it turns out that it is sufficient to prove <code>C</code> for all cases where <span class="math inline"><em>x</em>≡<sub><em>A</em></sub><em>x</em></span> alone and it becomes automatically applicable for cases for all <span class="math inline"><em>x</em>≡<sub><em>A</em></sub><em>y</em></span>.</p>
-<div class="figure">
-<img src="./induction.png" alt="induction" />
-<p class="caption">induction</p>
-</div>
+<p>The induction principle is central to deriving all basic constructions for HoTT. Stated simply, if for every pair of objects <code>x</code> and <code>y</code> of type <code>A</code></p>
+<ul>
+<li>the equality type $≡_A$ between <code>x</code> and <code>y</code> exists everytime <code>x</code> and <code>y</code> are equal</li>
+<li>for every <code>x ∈ A</code>, the equalities $x ≡_A x$ are reflexive<br />
+then for a proposition <code>C</code> which depends upon the equality $x ≡_A y$, it turns out that it is sufficient to prove <code>C</code> for all cases where $x ≡_A x$ alone and it becomes automatically applicable for cases for all $x ≡_A y$.</li>
+</ul>
+<p><img src="./induction.png" alt="induction" /></p>
 <hr />
 <p><a href="./HoTT.identity.html">Identity Types and Paths</a></p>
 </body>

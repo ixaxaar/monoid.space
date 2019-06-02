@@ -81,12 +81,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   Morphism <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">_</span>
   Morphism <span class="ot">=</span> From <span class="ot">→</span> To</code></pre></div>
 <p>The basic rules for any morphism to be a homomorphism are if it:</p>
-<ol style="list-style-type: decimal">
+<ol>
 <li>Preserves identity</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  H-identity <span class="ot">:</span> Morphism <span class="ot">→</span> From <span class="ot">→</span> To <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
   H-identity ⨭<span class="ot">_</span>⨮ from <span class="kw">to</span> <span class="ot">=</span> ⨭ from ⨮ == <span class="kw">to</span></code></pre></div>
-<ol start="2" style="list-style-type: decimal">
+<ol>
 <li>Composes with operations</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">  H-unary-compose <span class="ot">:</span> Morphism <span class="ot">→</span> ♠ From <span class="ot">→</span> ♠ To <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>

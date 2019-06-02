@@ -60,7 +60,7 @@ do
    # """ >> "${i}.ladga.md"
 
    echo "Generating HTML for " "${i}.lagda.md"
-   pandoc -s -S --css=../css/agda.css --from=markdown --to=html --columns=120 -o ./html/"${i/\//\.}.html" "${i}.lagda.md"
+   pandoc -s -S --css=../css/agda.css --from=markdown_github --to=html --columns=120 -o ./html/"${i/\//\.}.html" "${i}.lagda.md"
 
 done
 

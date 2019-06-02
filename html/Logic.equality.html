@@ -64,17 +64,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">)</span></code></pre></div>
 <p>Equality, or an equivalence, is the most basic comparison that can be performed between two objects. Let us first see how equality (and inequality) looks like for logical objects:</p>
-<div class="figure">
-<img src="equality.png" alt="equality" />
-<p class="caption">equality</p>
-</div>
+<p><img src="equality.png" alt="equality" /></p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
   refl <span class="ot">:</span> x ≡ x
 
 <span class="ot">_</span>≢<span class="ot">_</span> <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span>
 x ≢ y <span class="ot">=</span> ¬ <span class="ot">(</span>x ≡ y<span class="ot">)</span></code></pre></div>
 <p>Equality can also be derived as a negation of XOR:</p>
-<p><br /><span class="math display"><em>a</em> ≡ <em>b</em> <em>i</em><em>s</em>  <em>T</em><em>r</em><em>u</em><em>e</em>  ⟹ ¬(<em>a</em>⨁<em>b</em>) <em>i</em><em>s</em> <em>T</em><em>r</em><em>u</em><em>e</em></span><br /></p>
+<p>$$<br />
+a \equiv b ~is~ ~True~ \implies ¬ (a \bigoplus b) ~is~ True<br />
+$$</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">equal? <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool
 equal? a b <span class="ot">=</span> not <span class="ot">(</span>xor a b<span class="ot">)</span></code></pre></div>
 <p>TODO: write the type version as well.</p>

@@ -128,7 +128,9 @@ false || x  <span class="ot">=</span> false
 <p>These higher-order operations are built by composing the lower ones in various ways:</p>
 <h3 id="implication">Implication</h3>
 <p>Implication, or <code>if P then Q</code>, is derived from the well-known construction</p>
-<p><br /><span class="math display"><em>a</em> ⟹ <em>b</em> = ¬<em>a</em> ∨ <em>b</em></span><br /></p>
+<p>$$<br />
+a ⟹ b = ¬ a ∨ b<br />
+$$</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> <span class="ot">_</span>⟹<span class="ot">_</span> <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
   it⟹ <span class="ot">:</span> <span class="ot">(</span>¬ A<span class="ot">)</span> ∨ B <span class="ot">→</span> A ⟹ B</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">impl <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool

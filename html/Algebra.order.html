@@ -109,9 +109,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
   open IsPreorder isPreorder public</code></pre>
 <h2 id="partial-order-or-poset">Partial Order or Poset</h2>
-<p>A partial order, or partially ordered set or Poset, is an antisymmetric preorder. In plain words, we require the relation <span class="math inline">$_≤_$</span> to be antisymmetric.</p>
-<p>A relation <span class="math inline">$_≤_$</span> is anti-symmetric over the underlying equality <span class="math inline">$_≈_$</span>, if for every <span class="math inline"><em>x</em>, <em>y</em></span>,</p>
-<p><span class="math inline"><em>x</em> ≤ <em>y</em>, <em>y</em> ≤ <em>x</em> ⟹ <em>x</em> ≈ <em>y</em></span></p>
+<p>A partial order, or partially ordered set or Poset, is an antisymmetric preorder. In plain words, we require the relation $<em>≤</em>$ to be antisymmetric.</p>
+<p>A relation $<em>≤</em>$ is anti-symmetric over the underlying equality $<em>≈</em>$, if for every $x, y$,</p>
+<p>$x ≤ y , y ≤ x ⟹ x ≈ y$</p>
 <pre class="lauda"><code>Antisymmetric : ∀ {a ℓ₁ ℓ₂} {A : Set a} → Rel A ℓ₁ → Rel A ℓ₂ → Set _
 Antisymmetric _≈_ _≤_ = ∀ {x y} → x ≤ y → y ≤ x → x ≈ y</code></pre>
 <p>We can now define partially ordered sets:</p>
@@ -141,8 +141,8 @@ Antisymmetric _≈_ _≤_ = ∀ {x y} → x ≤ y → y ≤ x → x ≈ y</code>
   preorder : Preorder c ℓ₁ ℓ₂
   preorder = record { isPreorder = isPreorder }</code></pre>
 <h2 id="total-order">Total Order</h2>
-<p>A total order is a total preorder, or the preorder’s relation <span class="math inline">$_≤_$</span> to be a total function.</p>
-<p>A relation <span class="math inline">$_≤_$</span> is total if <span class="math inline"><em>x</em> ≤ <em>y</em><em>o</em><em>r</em><em>y</em> ≤ <em>x</em></span>. There is no third possibility.</p>
+<p>A total order is a total preorder, or the preorder’s relation $<em>≤</em>$ to be a total function.</p>
+<p>A relation $<em>≤</em>$ is total if $x ≤ y or y ≤ x$. There is no third possibility.</p>
 <pre class="lauda"><code>Total : ∀ {a ℓ} {A : Set a} → Rel A ℓ → Set _
 Total _∼_ = ∀ x y → (x ∼ y) ∪ (y ∼ x)</code></pre>
 <p>We can now define total orders:</p>

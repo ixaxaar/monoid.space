@@ -83,44 +83,35 @@ R A ℓ <span class="ot">=</span> REL A A ℓ</code></pre></div>
 <h2 id="properties-of-relations">Properties of relations</h2>
 <p>Relations can conform to certain properties, which later come in handy for classifying relations and building a lot of mathematical structure.</p>
 <h3 id="reflexive">Reflexive</h3>
-<p>A reflexive relation is one where <span class="math inline"><em>x</em> • <em>y</em> = <em>y</em> • <em>x</em></span>:</p>
-<div class="figure">
-<img src="refl.png" alt="refl" />
-<p class="caption">refl</p>
-</div>
+<p>A reflexive relation is one where $x \bullet y = y \bullet x$:</p>
+<p><img src="refl.png" alt="refl" /></p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">reflexive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span>
   <span class="ot">→</span> Rel A
   <span class="ot">→</span> <span class="dt">Set</span>
 reflexive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ★ x</code></pre></div>
 <h3 id="symmetric">Symmetric</h3>
-<p>A symmetric relation is one where <span class="math inline"><em>x</em> • <em>y</em> ⟹ <em>y</em> • <em>x</em></span>:</p>
-<div class="figure">
-<img src="symmetric.png" alt="symmetric" />
-<p class="caption">symmetric</p>
-</div>
+<p>A symmetric relation is one where $x \bullet y \implies y \bullet x$:</p>
+<p><img src="symmetric.png" alt="symmetric" /></p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">symmetric <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span>
 symmetric <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span>  <span class="ot">=</span> <span class="ot">(</span>x y <span class="ot">:</span> A<span class="ot">)</span>
   <span class="ot">→</span> x ★ y
   <span class="ot">→</span> y ★ x</code></pre></div>
 <h3 id="transitive">Transitive</h3>
-<p>A transitive relation is one where <span class="math inline"><em>x</em> • <em>y</em>, <em>y</em> • <em>z</em> <em>t</em><em>h</em><em>e</em><em>n</em> <em>z</em> • <em>x</em></span>:</p>
-<div class="figure">
-<img src="transitive.png" alt="transitive" />
-<p class="caption">transitive</p>
-</div>
+<p>A transitive relation is one where $x \bullet y, y \bullet z ~then~ z \bullet x$:</p>
+<p><img src="transitive.png" alt="transitive" /></p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">transitive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span>
 transitive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x y z <span class="ot">:</span> A<span class="ot">)</span>
   <span class="ot">→</span> x ★ y
   <span class="ot">→</span> y ★ z
   <span class="ot">→</span> x ★ z</code></pre></div>
 <h3 id="congruent">Congruent</h3>
-<p>A congruent relation is one where a function <span class="math inline"><em>x</em> • <em>y</em> ⟹ <em>f</em>(<em>x</em>)•<em>f</em>(<em>y</em>)</span> or the function <code>f</code> preserves the relation :</p>
+<p>A congruent relation is one where a function $x \bullet y \implies f(x) \bullet f(y)$ or the function <code>f</code> preserves the relation :</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">congruent <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span>
 congruent <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> A<span class="ot">)(</span>x y <span class="ot">:</span> A<span class="ot">)</span>
   <span class="ot">→</span> x ★ y
   <span class="ot">→</span> f x ★ f y</code></pre></div>
 <h3 id="substitutive">Substitutive</h3>
-<p>A substitutive relation is one where <span class="math inline"><em>x</em> • <em>y</em> <em>a</em><em>n</em><em>d</em> (<em>p</em><em>r</em><em>e</em><em>d</em><em>i</em><em>c</em><em>a</em><em>t</em><em>e</em> <em>y</em>)=⊤⟹(<em>p</em><em>r</em><em>e</em><em>d</em><em>i</em><em>c</em><em>a</em><em>t</em><em>e</em> <em>x</em>)=⊤</span> :</p>
+<p>A substitutive relation is one where $x \bullet y ~and~ (predicate~ y) = ⊤ \implies (predicate~ x) = ⊤$ :</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">substitutive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set1</span>
 substitutive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>P <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)(</span>x y <span class="ot">:</span> A<span class="ot">)</span>
   <span class="ot">→</span> x ★ y
@@ -129,9 +120,9 @@ substitutive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot
 <h1 id="equivalence-relation">Equivalence relation</h1>
 <p>An equivalence relation is a relation which is:</p>
 <ul>
-<li>reflexive <span class="math inline"><em>a</em> = <em>a</em></span></li>
-<li>symmetric <span class="math inline"><em>i</em><em>f</em> <em>a</em> = <em>b</em> <em>t</em><em>h</em><em>e</em><em>n</em> <em>b</em> = <em>a</em></span></li>
-<li>transitive <span class="math inline"><em>i</em><em>f</em> <em>a</em> = <em>b</em> <em>a</em><em>n</em><em>d</em> <em>b</em> = <em>c</em> <em>t</em><em>h</em><em>e</em><em>n</em> <em>a</em> = <em>c</em></span></li>
+<li>reflexive $a = a$</li>
+<li>symmetric $if~ a = b ~then~ b = a$</li>
+<li>transitive $if~ a = b ~and~ b = c ~then~ a = c$</li>
 </ul>
 <p>All forms of what we know as “equality” are equivalence relations. They help in identifying similar objects and can be “weak” or “strong” depending upon how much similarity they capture of the objects they compare. For e.g. all “tables” fall under one equivalence class wherein when we refer to a generic “table” we mean as in all tables as equal. Whereas, if we were comparing tables amongst themselves, we’d use other finer criteria in our equivalence relations, classifying some tables as coffee tables and so on.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Equivalence <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set1</span> <span class="kw">where</span>

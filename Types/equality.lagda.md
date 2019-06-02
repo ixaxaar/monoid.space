@@ -9,18 +9,18 @@
 - [Definitional Equality](#definitional-equality)
 - [Computational Equality](#computational-equality)
 - [Propositional Equality](#propositional-equality)
-  - [Symmetry](#symmetry)
-  - [Transitivity](#transitivity)
-  - [Congruence: functions that preserve equality](#congruence-functions-that-preserve-equality)
-  - [Substitution](#substitution)
+    - [Symmetry](#symmetry)
+    - [Transitivity](#transitivity)
+    - [Congruence: functions that preserve equality](#congruence-functions-that-preserve-equality)
+    - [Substitution](#substitution)
 - [Relations, a deeper look](#relations-a-deeper-look)
-  - [Equality](#equality)
-  - [Types of relations](#types-of-relations)
+    - [Equality](#equality)
+    - [Types of relations](#types-of-relations)
     - [Nullary relations](#nullary-relations)
     - [Unary relations](#unary-relations)
     - [Binary relations](#binary-relations)
     - [Properties of binary relations](#properties-of-binary-relations)
-  - [Properties of equality](#properties-of-equality)
+    - [Properties of equality](#properties-of-equality)
 - [Setoids](#setoids)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -93,7 +93,7 @@ data _∼_ {A : Set}(a : A) : {B : Set} → B → Set where
 
 Reflexivity is defined with the definition of `∼` by the keyword `same`, the others being:
 
-## Symmetry
+### Symmetry
 
 Symmetry is the property where binary a relation's behavior does not depend upon its argument's position (left or right):
 
@@ -104,7 +104,7 @@ symmetry : ∀ {A B}{a : A}{b : B}
 symmetry same = same
 ```
 
-## Transitivity
+### Transitivity
 
 Transitivity is when a binary relation `_∼_` and $x ∼ y and y ∼ z ⟹ x ∼ z$
 
@@ -116,7 +116,7 @@ transitivity : ∀ {A B C}{a : A}{b : B}{c : C}
 transitivity same p = p
 ```
 
-## Congruence: functions that preserve equality
+### Congruence: functions that preserve equality
 
 Functions that when applied to objects of a type, do not alter the operation of equality can be defined as:
 
@@ -127,7 +127,7 @@ congruence : ∀ {A B : Set} (f : A → B) {x y : A}
 congruence f same = same
 ```
 
-## Substitution
+### Substitution
 
 If `a = b` and if `predicate a = true` ⟹ `predicate b = true`
 
@@ -145,7 +145,7 @@ Any relation which satisfies the above properties of `reflexivity`, `transitivit
 
 We now present a more formal machinery for relations. We use [universe polymorphism](Types.universe.html#universe-polymorphism) throughout to develop this machinery.
 
-## Equality
+### Equality
 
 We first re-define propositional equality within the framework of universe polymorphism:
 
@@ -155,7 +155,7 @@ data _≡_ {a} {A : Set a} (x : A) : A → Set a where
   instance refl : x ≡ x
 ```
 
-## Types of relations
+### Types of relations
 
 ### Nullary relations
 
@@ -305,7 +305,7 @@ record IsEquivalence {a ℓ} {A : Set a}
   reflexive refl = rfl
 ```
 
-## Properties of equality
+### Properties of equality
 
 We use the new structures to re-define the properties of propositional equality.
 

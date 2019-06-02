@@ -140,10 +140,7 @@ ten   <span class="ot">=</span> succ nine</code></pre></div>
 <p>and so on recursively.</p>
 <h2 id="binary-trees">Binary Trees</h2>
 <p>We define a generic complete binary tree using the following definition. Note that this merely creates an empty structure of a tree, the nodes or leaves contain no information in them:</p>
-<div class="figure">
-<img src="./bintree.png" alt="bintree" />
-<p class="caption">bintree</p>
-</div>
+<p><img src="./bintree.png" alt="bintree" /></p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> BinTree <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
   leaf <span class="ot">:</span> BinTree
   node <span class="ot">:</span> BinTree <span class="ot">→</span> BinTree <span class="ot">→</span> BinTree</code></pre></div>
@@ -160,10 +157,7 @@ ten   <span class="ot">=</span> succ nine</code></pre></div>
   leaf <span class="ot">:</span> Bool <span class="ot">→</span> ℕMixedBinTree
   node <span class="ot">:</span> ℕ <span class="ot">→</span> ℕMixedBinTree <span class="ot">→</span> ℕMixedBinTree <span class="ot">→</span> ℕMixedBinTree</code></pre></div>
 <h2 id="graph">Graph</h2>
-<div class="figure">
-<img src="./graph.png" alt="graph" />
-<p class="caption">graph</p>
-</div>
+<p><img src="./graph.png" alt="graph" /></p>
 <p>We define a graph with:</p>
 <ul>
 <li>edges containing a natural number</li>
@@ -192,10 +186,7 @@ graph <span class="ot">=</span> idGraph <span class="ot">(</span>triple <span cl
                 triple  <span class="ot">(</span>vertex seven<span class="ot">)</span>  <span class="ot">(</span>vertex four<span class="ot">)</span>       +|+
                 triple  <span class="ot">(</span>vertex nine<span class="ot">)</span>   <span class="ot">(</span>vertex <span class="ot">(</span>succ six<span class="ot">))</span></code></pre></div>
 <h2 id="list">List</h2>
-<div class="figure">
-<img src="./list.png" alt="list" />
-<p class="caption">list</p>
-</div>
+<p><img src="./list.png" alt="list" /></p>
 <p>A list containing objects of type <code>A</code> can be defined as an object which has:</p>
 <ul>
 <li>an identity element, i.e. an empty list <code>[]</code></li>
@@ -226,10 +217,7 @@ nat <span class="ot">=</span> typeOf <span class="ot">(</span> one :: two :: ten
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">fourFin <span class="ot">:</span> Fin four
 fourFin <span class="ot">=</span> succ three <span class="ot">(</span>succ two <span class="ot">(</span>succ one <span class="ot">(</span>id zero<span class="ot">)))</span></code></pre></div>
 <h2 id="indexed-sequences-or-vectors">Indexed sequences or Vectors</h2>
-<div class="figure">
-<img src="./vector.png" alt="vectors" />
-<p class="caption">vectors</p>
-</div>
+<p><img src="./vector.png" alt="vectors" /></p>
 <p>We now define a finite sized indexed list, also called a vector <code>Vec</code>. The constructor consists of:</p>
 <ul>
 <li>An identity constructor, <code>[]</code> which constructs an empty vector</li>

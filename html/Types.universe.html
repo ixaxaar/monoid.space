@@ -79,7 +79,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>A universe can be thought of as a container for all of mathematics. There is no mathematics that is possible outside of universe. Now obviously this differs from our physical universe in a way that mathematics also describes purely conceptual stuff that need not have a physical manifestation, rather, in many ways our univrerse is a subset of the mathematical universe as it can be described by mathematical models.</p>
 <p>For set theory, the universe can be thought as the set of all sets. For type theory, universes contain all types - hence essentially everything including objects, laws, theorems etc. The structure of the universe used in type theory are <a href="http://www.cs.rhul.ac.uk/home/zhaohui/universes.pdf">Russel-style and Taski-style universes</a> though we use the former as it is easier and sufficient for our purposes. There are other kinds of universes in mathematics, for example the <a href="https://ncatlab.org/nlab/show/Grothendieck+universe">Grothendieck universe</a>, <a href="https://en.wikipedia.org/wiki/Von_Neumann_universe">Von Neumann universe</a>.</p>
 <p>The type of all types is called <code>Set</code> in agda. Now, in constructing this type of all types naively we encounter a bunch of paradoxes, namely <a href="https://ncatlab.org/nlab/show/Russell%27s+paradox">Russel’s Paradox</a>, <a href="https://ncatlab.org/nlab/show/Cantor%27s+paradox">Cantor’s Paradox</a>, <a href="https://ncatlab.org/nlab/show/Burali-Forti%27s+paradox">Girard’s Paradox</a> etc. These can be avoided by constructing the type of all types as “universes” in a heirarchically cumulative way. When we consider our universe to be the set of all types, we say that our universe is constructed heirarchically, with an index <code>i</code> such that universe <code>Uᵢ</code> ∈ Uᵢ₊₁ and so on.</p>
-<p><br /><span class="math display"><em>U</em><sub>0</sub> ∈ <em>U</em><sub>1</sub> ∈ <em>U</em>_2 ∈ ... ∈ <em>U</em><sub><em>i</em></sub> ∈ <em>U</em><sub><em>i</em> + 1</sub> ∈ ... ∈ <em>U</em><sub>∞</sub></span><br /></p>
+<p>$$<br />
+U_{0} \in U_{1} \in U_{2} \in … \in U_{i} \in U_{i+1} \in … \in U_{\infty}<br />
+$$</p>
 <p>Let us define the above index <code>i</code> of universe <code>Uᵢ</code>, called <code>Level</code> in agda’s standard library:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">infixl</span> <span class="dv">6</span> <span class="ot">_</span>⊔<span class="ot">_</span>
 
@@ -103,10 +105,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
     <span class="co">-- Decoding function.</span>
     <span class="dt">El</span> <span class="fu">:</span> <span class="dt">U</span> <span class="ot">→</span> <span class="dt">Set</span> e</code></pre></div>
-<div class="figure">
-<img src="universes.png" alt="universes" />
-<p class="caption">universes</p>
-</div>
+<p><img src="universes.png" alt="universes" /></p>
 <p>A “family” of types varying over a given type are called, well “families of types”. An example of this would be the finite set, <a href="./dataStructures.html#finite-sequences">Fin</a> where every finite set has <code>n</code> elements where <code>n ∈ ℕ</code> and hence <code>Fin</code>, the creator of finite sets, is dependent on ℕ.</p>
 <h1 id="sets">Sets</h1>
 <p>Mathematical sets cannot be directly represented in Agda as they are subject to Russel’s Paradox. However, sets are defined in a way similar to universes.</p>
