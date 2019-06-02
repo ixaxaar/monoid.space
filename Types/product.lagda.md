@@ -24,7 +24,7 @@
 
 
 ```agda
-module Types.typeBasics where
+module Types.product where
 
 open import Lang.dataStructures using (
   Bool; true; false;

@@ -36,7 +36,7 @@ open import Lang.dataStructures using (
 
 open import Agda.Primitive using (Level; _⊔_; lsuc)
 
-open import Types.typeBasics using (Σ; _,_; fst; snd)
+open import Types.product using (Σ; _,_; fst; snd)
 ```
 
 We have previously looked at how [functions are defined in Agda](Lang.functions.html). Here we will look at some abstract representations of functions and their properties.

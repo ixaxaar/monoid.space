@@ -23,7 +23,7 @@ module HoTT.identity where
 
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 
-open import Types.typeBasics using (Σ; _,_; fst; snd)
+open import Types.product using (Σ; _,_; fst; snd)
 ```
 
 Identity types in type theory are the type of all equality types. An equality type between `x, y ∈ A` can be considered as a path from `x` to `y`. All of such paths share a relation amongst each other.

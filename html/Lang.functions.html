@@ -73,7 +73,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Functions, also being technically types, can sometimes have practically simpler syntax than data while serving the same purpose.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Lang<span class="ot">.</span>functions <span class="kw">where</span>
 
-<span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures</code></pre></div>
+<span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">renaming</span> <span class="ot">(_</span>+<span class="ot">_</span> <span class="kw">to</span> <span class="ot">_</span>⨦<span class="ot">_)</span></code></pre></div>
 <h2 id="pattern-matching-functions">Pattern matching functions</h2>
 <h3 id="the-logical-not">The Logical Not</h3>
 <p>The simplest of functions simply match patterns. For example the function for <code>not</code>:</p>

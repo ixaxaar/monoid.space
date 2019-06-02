@@ -36,7 +36,7 @@ open import Types.relations using (Rel; Equivalence)
 
 open import Lang.dataStructures using (Bool; true; false)
 
-open import Types.typeBasics using (_×_; _,_)
+open import Types.product using (_×_; _,_)
 ```
 
 ## Monotone Laws

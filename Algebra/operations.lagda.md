@@ -28,7 +28,7 @@ We start by defining operations and laws these operations obey.
 ```agda
 open import Types.equality
 open import Types.functions
-open import Types.typeBasics
+open import Types.product
 
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 

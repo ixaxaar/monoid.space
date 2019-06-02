@@ -66,7 +66,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span>
 <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality
-<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>typeBasics <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_)</span></code></pre></div>
+<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_)</span></code></pre></div>
 <h2 id="trivial-example">Trivial example</h2>
 <p>Given an equivalence relation <code>_≡_</code>, we have reflexivity, transitivity and symmetry to apply around. We can perform algebra on terms like <code>a ≡ b</code> using a combination of these laws, e.g. we could chain transitivity bounded by reflexivity into chains looking like:</p>
 <p><code>refl - transitive - transitive - transitive - refl</code></p>

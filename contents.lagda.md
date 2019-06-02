@@ -36,7 +36,7 @@
   - [Universes and families](./Types.universe.html)
   - [Relations](./Types.relations.html)
   - [Equality](./Types.equality.html)
-  - [Product Types / Σ-types](./Types.typeBasics.html)
+  - [Product Types / Σ-types](./Types.product.html)
   - [Dependent Function Types / Π-types](./Types.functions.html)
 
 ## 3. Logic
@@ -116,7 +116,7 @@ import Types.introduction
 import Types.universe
 import Types.relations
 import Types.equality
-import Types.typeBasics
+import Types.product
 import Types.functions
 
 import HoTT.introduction

@@ -123,6 +123,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> ℕ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
   zero <span class="ot">:</span> ℕ
   succ <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>+<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> ℕ
+x + zero <span class="ot">=</span> x
+x + <span class="ot">(</span>succ y<span class="ot">)</span> <span class="ot">=</span> succ <span class="ot">(</span>x + y<span class="ot">)</span></code></pre></div>
 <p>Examples:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">one   <span class="ot">=</span> succ zero
 two   <span class="ot">=</span> succ one

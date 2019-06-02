@@ -25,7 +25,7 @@
 ```agda
 open import Types.equality renaming (refl to ≡-refl)
 open import Types.functions
-open import Types.typeBasics
+open import Types.product
 
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 

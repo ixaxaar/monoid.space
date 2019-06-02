@@ -6,12 +6,13 @@
 ****
 
 - [Equalities](#equalities)
-- [Definitonal Equality](#definitonal-equality)
-  - [Propositional Equality](#propositional-equality)
-      - [Symmetry](#symmetry)
-      - [Transitivity](#transitivity)
-    - [Congruence: functions that preserve equality](#congruence-functions-that-preserve-equality)
-    - [Substitution](#substitution)
+- [Definitional Equality](#definitional-equality)
+- [Computational Equality](#computational-equality)
+- [Propositional Equality](#propositional-equality)
+  - [Symmetry](#symmetry)
+  - [Transitivity](#transitivity)
+  - [Congruence: functions that preserve equality](#congruence-functions-that-preserve-equality)
+  - [Substitution](#substitution)
 - [Relations, a deeper look](#relations-a-deeper-look)
   - [Equality](#equality)
   - [Types of relations](#types-of-relations)
@@ -346,4 +347,4 @@ record Setoid c ℓ : Set (lsuc (c ⊔ ℓ)) where
 Setoids are extensively used throughout agda's standard library, and they encapsulate well the baic underlying equality. However, we chose to avoid them here to be more explicit.
 
 ****
-[Product Types / Σ-types](./Types.typeBasics.html)
+[Product Types / Σ-types](./Types.product.html)

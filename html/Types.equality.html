@@ -53,14 +53,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <hr />
 <ul>
 <li><a href="#equalities">Equalities</a></li>
-<li><a href="#definitonal-equality">Definitonal Equality</a></li>
-<li><a href="#propositional-equality">Propositional Equality</a>
-<ul>
+<li><a href="#definitional-equality">Definitional Equality</a></li>
+<li><a href="#computational-equality">Computational Equality</a></li>
+<li><a href="#propositional-equality">Propositional Equality</a></li>
 <li><a href="#symmetry">Symmetry</a></li>
 <li><a href="#transitivity">Transitivity</a></li>
 <li><a href="#congruence-functions-that-preserve-equality">Congruence: functions that preserve equality</a></li>
 <li><a href="#substitution">Substitution</a></li>
-</ul></li>
 <li><a href="#relations-a-deeper-look">Relations, a deeper look</a></li>
 <li><a href="#equality">Equality</a></li>
 <li><a href="#types-of-relations">Types of relations</a>
@@ -80,7 +79,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>
   Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span>
   ⟂<span class="ot">;</span> ⊤<span class="ot">;</span> ℕ<span class="ot">;</span> List<span class="ot">;</span>
-  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span>
+  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span> <span class="ot">_</span>+<span class="ot">_;</span>
   <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span>
 
 <span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span>
@@ -92,7 +91,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Computational equality</li>
 <li>Definitonal equality</li>
 </ul>
-<h1 id="definitonal-equality">Definitonal Equality</h1>
+<h1 id="definitional-equality">Definitional Equality</h1>
 <p>Definitonal equality is the most basic notion of equality which appeals to our notion of equality being the sameness of meaning (by definition). Definitonal equality relates to the Agda compiler’s own integrity check through which a statement is deemed true or correctly compiled. Hence every statemtent has its own notion of judgemental equality. This is in some way more fundamental than propositional equality as in it forms the very core of type theory’s “judgement” of a <code>type(obj) == T</code>. The notion of definitonal equality also encompasses types that are isomorphic to each other e.g. <code>9 ≡ 3²</code> or <code>two ≡ succ (succ zero)</code>.</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">defEqual₁ <span class="ot">:</span> ℕ
 defEqual₁ <span class="ot">=</span> seven
@@ -100,7 +99,16 @@ defEqual₁ <span class="ot">=</span> seven
 defEqual₂ <span class="ot">:</span> ℕ
 defEqual₂ <span class="ot">=</span> succ <span class="ot">(</span>succ five<span class="ot">)</span></code></pre></div>
 <p>Here, <code>defEqual₁</code> and <code>defEqual₂</code> both are of type <code>ℕ</code> and hence definitionally equal is known to the compiler.</p>
-<h2 id="propositional-equality">Propositional Equality</h2>
+<h1 id="computational-equality">Computational Equality</h1>
+<p>This kind of equality describes the sameness of types that are not directly equal but can be reduced to be equal. An example of this is <code>two + two ≡ four</code>. For our purposes, we club together definitional and computational equality and call them together “definitional equality” as they serve the same purpose anyway.</p>
+<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">compEqual₁ <span class="ot">:</span> ℕ
+compEqual₁ <span class="ot">=</span> six + three
+
+compEqual₂ <span class="ot">:</span> ℕ
+compEqual₂ <span class="ot">=</span> nine</code></pre></div>
+<p>Here, <code>compEqual₁</code> and <code>compEqual₂</code> both are of type <code>ℕ</code> and hence computationally equal is known to the compiler.</p>
+<h1 id="propositional-equality">Propositional Equality</h1>
+<p>Definitonal and computational equalities describe something intrinsic - a property that does not depend upon a proof. However, other notions of equalities can be defined that do require proofs. Consider for example natural language - when we say “all flowers are beautiful” the “all flowers” part of the sentence implies all flowers are equal in some way. Or, consider natural numbers <code>a + b = b + a ∀ a, b ∈ ℕ</code>. Here we would need to prove the symmetry of the <code>+</code> operator in order to prove the equality. Such equalities that require to be specified come under the umbrella of propositional equality.</p>
 <p>In type theory, all proofs can be represented as a type. Propositional equality can be thought of as encapsulating the notion of “similarity”, rather than strict equality. E.g. “roses” or “roads” hint at all roses or roads as being of the same kind but not exactly same, thus we define propositional equality over roses or roads which is different from hard equality. Propositional equality is a kind of equality which requires a proof, and hence the equality itself is also a type <code>∼</code>:</p>
 <div class="figure">
 <img src="./equality.png" alt="equality" />
@@ -111,45 +119,32 @@ defEqual₂ <span class="ot">=</span> succ <span class="ot">(</span>succ five<sp
 <span class="kw">data</span> <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>a <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
   same <span class="ot">:</span> a ∼ a</code></pre></div>
 <p>Reflexivity is defined with the definition of <code>∼</code> by the keyword <code>same</code>, the others being:</p>
-<h4 id="symmetry">Symmetry</h4>
+<h2 id="symmetry">Symmetry</h2>
 <p>Symmetry is the property where binary a relation’s behavior does not depend upon its argument’s position (left or right):</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">symmetry <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B<span class="ot">}{</span>a <span class="ot">:</span> A<span class="ot">}{</span>b <span class="ot">:</span> B<span class="ot">}</span>
   <span class="ot">→</span> a ∼ b
   <span class="ot">→</span> b ∼ a
 symmetry same <span class="ot">=</span> same</code></pre></div>
-<h4 id="transitivity">Transitivity</h4>
+<h2 id="transitivity">Transitivity</h2>
 <p>Transitivity is when a binary relation <code>_∼_</code> and <span class="math inline"><em>x</em> ∼ <em>y</em><em>a</em><em>n</em><em>d</em><em>y</em> ∼ <em>z</em> ⟹ <em>x</em> ∼ <em>z</em></span></p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">transitivity <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B C<span class="ot">}{</span>a <span class="ot">:</span> A<span class="ot">}{</span>b <span class="ot">:</span> B<span class="ot">}{</span>c <span class="ot">:</span> C<span class="ot">}</span>
   <span class="ot">→</span> a ∼ b
   <span class="ot">→</span> b ∼ c
   <span class="ot">→</span> a ∼ c
 transitivity same p <span class="ot">=</span> p</code></pre></div>
-<h3 id="congruence-functions-that-preserve-equality">Congruence: functions that preserve equality</h3>
+<h2 id="congruence-functions-that-preserve-equality">Congruence: functions that preserve equality</h2>
 <p>Functions that when applied to objects of a type, do not alter the operation of equality can be defined as:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">congruence <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span>
   <span class="ot">→</span> x ∼ y
   <span class="ot">→</span> f x ∼ f y
 congruence f same <span class="ot">=</span> same</code></pre></div>
-<h3 id="substitution">Substitution</h3>
+<h2 id="substitution">Substitution</h2>
 <p>If <code>a = b</code> and if <code>predicate a = true</code> ⟹ <code>predicate b = true</code></p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">substitution <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">(</span>Predicate <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span>
   <span class="ot">→</span> x ∼ y
   <span class="ot">→</span> Predicate x
   <span class="ot">→</span> Predicate y
 substitution Predicate same p <span class="ot">=</span> p</code></pre></div>
-<p>Finally, our table example:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">data</span> Table <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span>
-  generic <span class="ot">:</span> Table
-  specific <span class="ot">:</span> ℕ <span class="ot">→</span> Table
-
-tableEqZero <span class="ot">:</span> generic ∼ generic
-tableEqZero <span class="ot">=</span> same
-
-tableEqThree <span class="ot">:</span> <span class="ot">(</span>specific three<span class="ot">)</span> ∼ <span class="ot">(</span>specific three<span class="ot">)</span>
-tableEqThree <span class="ot">=</span> same</code></pre></div>
-<p>This, of course does not compile:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">tableEqNot <span class="fu">:</span> generic ∼ (specific three)
-tableEqNot <span class="fu">=</span> same</code></pre></div>
 <p>Any relation which satisfies the above properties of <code>reflexivity</code>, <code>transitivity</code> and <code>symmetry</code> can be considered an equivalence relation and hence can judge a propositional equality.</p>
 <h1 id="relations-a-deeper-look">Relations, a deeper look</h1>
 <p>We now present a more formal machinery for relations. We use <a href="Types.universe.html#universe-polymorphism">universe polymorphism</a> throughout to develop this machinery.</p>
@@ -277,6 +272,6 @@ subs-≡ Predicate refl p <span class="ot">=</span> p</code></pre></div>
   <span class="kw">open</span> IsEquivalence isEquivalence <span class="kw">public</span></code></pre></div>
 <p>Setoids are extensively used throughout agda’s standard library, and they encapsulate well the baic underlying equality. However, we chose to avoid them here to be more explicit.</p>
 <hr />
-<p><a href="./Types.typeBasics.html">Product Types / Σ-types</a></p>
+<p><a href="./Types.product.html">Product Types / Σ-types</a></p>
 </body>
 </html>

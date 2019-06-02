@@ -82,7 +82,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">)</span>
 
-<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>typeBasics <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_;</span> fst<span class="ot">;</span> snd<span class="ot">)</span></code></pre></div>
+<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_;</span> fst<span class="ot">;</span> snd<span class="ot">)</span></code></pre></div>
 <p>We have previously looked at how <a href="Lang.functions.html">functions are defined in Agda</a>. Here we will look at some abstract representations of functions and their properties.</p>
 <p>A unary function is defined as:</p>
 <div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Fun₁ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> i <span class="ot">→</span> <span class="dt">Set</span> i

@@ -18,7 +18,7 @@ declare -a files=(
   "Types/relations"
   "Types/equality"
   "Types/functions"
-  "Types/typeBasics"
+  "Types/product"
 
   "Logic/introduction"
   "Logic/logicBasics"

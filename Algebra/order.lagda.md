@@ -19,7 +19,7 @@
 module Algebra.order where
 
 open import Types.equality using (IsEquivalence; Reflexive; Symmetric; Transitive; Rel; _⇒_)
-open import Types.typeBasics using (Σ; _,_; _∪_)
+open import Types.product using (Σ; _,_; _∪_)
 
 open import Algebra.operations
 
