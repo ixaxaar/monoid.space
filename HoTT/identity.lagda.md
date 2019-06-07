@@ -41,7 +41,7 @@ Path = Identity
 
 We define equality itself as a path:
 
-![path](./path.png)
+![Figure 1: Path](./path.png)
 
 ```agda
 _==_ : ∀ {ℓ} {A : Set ℓ} → A → A → Set ℓ
@@ -52,7 +52,7 @@ This forms the base of HoTT wherein we rebuild pretty much everything on the abo
 
 ## Path Induction
 
-![path-induction](./path-induction.png)
+![Figure 2: Path Induction](./path-induction.png)
 
 An inductive type is a type with a recursive constructor that can be used to successvely obtain elements of that type. However, though this definition "generally" works, there are more technical ones available [here for example](https://github.com/HoTT/book/issues/460).
 
@@ -86,8 +86,8 @@ path-induction-v2⁻¹ : ∀ {ℓ₁ ℓ₂} {A : Set ℓ₁}
 path-induction-v2⁻¹ C c {x} identity = c x
 ```
 
-![induction](./induction.png)
-<!-- ![abstract-path-induction](./abstract-path-induction.png) -->
+![Figure 3: Induction](./induction.png)
+<!-- ![Figure 0: Abstract-path-induction](./abstract-path-induction.png) -->
 
 This induction property could also be interpreted as, for an inductively defined identity type family, the entire family can be completely specified with just the elements `identityₓ`. Thus, since C(x, x) holds on all x ∈ A, if we are given x == y, then C(x, y) must hold. Getting the understanding of the induction principle can be tricky as the ideas around it are still in argument / development. Here are a few resources [1](https://planetmath.org/1121pathinduction) [2](https://math.stackexchange.com/questions/1667582/how-am-i-to-interpret-induction-recursion-in-type-theory) [3](https://cs.stackexchange.com/questions/28701/is-path-induction-constructive?newreg=3d0d333631c24ef0a8737f6072c14278).
 
@@ -95,7 +95,7 @@ This induction property could also be interpreted as, for an inductively defined
 
 A dependent path describes the notion of equality preserving functions. It states that given a dependent type $Π(a, b)$ and the equality type between them, there exists a path $F(a) → F(b)$.
 
-![dependent-path](./dependent_path.png)
+![Figure 4: Dependent Path](./dependent_path.png)
 
 ```agda
 DependentPath : ∀ {i j} {A : Set i} {x y : A}

@@ -23,7 +23,7 @@ open import Lang.dataStructures using (
   one; two; three; four; five; six; seven; eight; nine; ten; zero; succ;
   _::_; [])
 
-open import Lang.proofsAsData using (
+open import Types.proofsAsData using (
   _≡_; eq₀; eq;
   _≠_; neq₀; neq₁; neq;
   _∈_; refl; succ∈;

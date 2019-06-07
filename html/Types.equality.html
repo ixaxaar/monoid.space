@@ -1,49 +1,84 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
-  <title></title>
-  <style type="text/css">code{white-space: pre;}</style>
-  <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>equality.lagda</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
-  <link rel="stylesheet" href="../css/agda.css" type="text/css" />
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body>
 <hr />
@@ -76,17 +111,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="equalities">Equalities</h1>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> Types<span class="ot">.</span>equality <span class="kw">where</span>
-
-<span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>
-  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span>
-  ⟂<span class="ot">;</span> ⊤<span class="ot">;</span> ℕ<span class="ot">;</span> List<span class="ot">;</span>
-  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span> <span class="ot">_</span>+<span class="ot">_;</span>
-  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span>
-
-<span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span>
-
-<span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions <span class="kw">using</span> <span class="ot">(_</span>on<span class="ot">_;</span> flip<span class="ot">)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">module</span> Types<span class="ot">.</span>equality <span class="kw">where</span></a>
+<a class="sourceLine" id="cb1-2" title="2"></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span></a>
+<a class="sourceLine" id="cb1-4" title="4">  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span></a>
+<a class="sourceLine" id="cb1-5" title="5">  ⟂<span class="ot">;</span> ⊤<span class="ot">;</span> ℕ<span class="ot">;</span> List<span class="ot">;</span></a>
+<a class="sourceLine" id="cb1-6" title="6">  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span> <span class="ot">_</span>+<span class="ot">_;</span></a>
+<a class="sourceLine" id="cb1-7" title="7">  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span></a>
+<a class="sourceLine" id="cb1-8" title="8"></a>
+<a class="sourceLine" id="cb1-9" title="9"><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></a>
+<a class="sourceLine" id="cb1-10" title="10"></a>
+<a class="sourceLine" id="cb1-11" title="11"><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions <span class="kw">using</span> <span class="ot">(_</span>on<span class="ot">_;</span> flip<span class="ot">)</span></a></code></pre></div>
 <p>Equality is perhaps one of the most richest but most naively understood concepts. Here we try to provide some structural analysis as to what equality really means in various contexts of mathematics. Equality is treated as a relation in type theory and can be classified broadly as three types:</p>
 <ul>
 <li>Propositional equality</li>
@@ -94,181 +129,183 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Definitonal equality</li>
 </ul>
 <h1 id="definitional-equality">Definitional Equality</h1>
-<p>Definitonal equality is the most basic notion of equality which appeals to our notion of equality being the sameness of meaning (by definition). Definitonal equality relates to the Agda compiler’s own integrity check through which a statement is deemed true or correctly compiled. Hence every statemtent has its own notion of judgemental equality. This is in some way more fundamental than propositional equality as in it forms the very core of type theory’s “judgement” of a <code>type(obj) == T</code>. The notion of definitonal equality also encompasses types that are isomorphic to each other e.g. <code>9 ≡ 3²</code> or <code>two ≡ succ (succ zero)</code>.</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">defEqual₁ <span class="ot">:</span> ℕ
-defEqual₁ <span class="ot">=</span> seven
-
-defEqual₂ <span class="ot">:</span> ℕ
-defEqual₂ <span class="ot">=</span> succ <span class="ot">(</span>succ five<span class="ot">)</span></code></pre></div>
+<p>Definitonal equality is the most basic notion of equality which appeals to our notion of equality being the sameness of meaning (by definition). Definitonal equality relates to the Agda compiler’s own integrity check through which a statement is deemed true or correctly compiled. Hence every statemtent has its own notion of judgemental equality. This is in some way more fundamental than propositional equality as in it forms the very core of type theory’s “judgement” of a <code>type(obj) == T</code>. The notion of definitonal equality also encompasses types that are isomorphic to each other e.g. <code>9 ≡ 3²</code> or <code>two ≡ succ (succ zero)</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb2-1" title="1">defEqual₁ <span class="ot">:</span> ℕ</a>
+<a class="sourceLine" id="cb2-2" title="2">defEqual₁ <span class="ot">=</span> seven</a>
+<a class="sourceLine" id="cb2-3" title="3"></a>
+<a class="sourceLine" id="cb2-4" title="4">defEqual₂ <span class="ot">:</span> ℕ</a>
+<a class="sourceLine" id="cb2-5" title="5">defEqual₂ <span class="ot">=</span> succ <span class="ot">(</span>succ five<span class="ot">)</span></a></code></pre></div>
 <p>Here, <code>defEqual₁</code> and <code>defEqual₂</code> both are of type <code>ℕ</code> and hence definitionally equal is known to the compiler.</p>
 <h1 id="computational-equality">Computational Equality</h1>
 <p>This kind of equality describes the sameness of types that are not directly equal but can be reduced to be equal. An example of this is <code>two + two ≡ four</code>. For our purposes, we club together definitional and computational equality and call them together “definitional equality” as they serve the same purpose anyway.</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">compEqual₁ <span class="ot">:</span> ℕ
-compEqual₁ <span class="ot">=</span> six + three
-
-compEqual₂ <span class="ot">:</span> ℕ
-compEqual₂ <span class="ot">=</span> nine</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb3-1" title="1">compEqual₁ <span class="ot">:</span> ℕ</a>
+<a class="sourceLine" id="cb3-2" title="2">compEqual₁ <span class="ot">=</span> six + three</a>
+<a class="sourceLine" id="cb3-3" title="3"></a>
+<a class="sourceLine" id="cb3-4" title="4">compEqual₂ <span class="ot">:</span> ℕ</a>
+<a class="sourceLine" id="cb3-5" title="5">compEqual₂ <span class="ot">=</span> nine</a></code></pre></div>
 <p>Here, <code>compEqual₁</code> and <code>compEqual₂</code> both are of type <code>ℕ</code> and hence computationally equal is known to the compiler.</p>
 <h1 id="propositional-equality">Propositional Equality</h1>
 <p>Definitonal and computational equalities describe something intrinsic - a property that does not depend upon a proof. However, other notions of equalities can be defined that do require proofs. Consider for example natural language - when we say “all flowers are beautiful” the “all flowers” part of the sentence implies all flowers are equal in some way. Or, consider natural numbers <code>a + b = b + a ∀ a, b ∈ ℕ</code>. Here we would need to prove the symmetry of the <code>+</code> operator in order to prove the equality. Such equalities that require to be specified come under the umbrella of propositional equality.</p>
 <p>In type theory, all proofs can be represented as a type. Propositional equality can be thought of as encapsulating the notion of “similarity”, rather than strict equality. E.g. “roses” or “roads” hint at all roses or roads as being of the same kind but not exactly same, thus we define propositional equality over roses or roads which is different from hard equality. Propositional equality is a kind of equality which requires a proof, and hence the equality itself is also a type <code>∼</code>:</p>
-<p><img src="./equality.png" alt="equality" /></p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>∼<span class="ot">_</span>
-
-<span class="kw">data</span> <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>a <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span>
-  same <span class="ot">:</span> a ∼ a</code></pre></div>
+<figure>
+<img src="./equality.png" alt="equality" /><figcaption>equality</figcaption>
+</figure>
+<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>∼<span class="ot">_</span></a>
+<a class="sourceLine" id="cb4-2" title="2"></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="kw">data</span> <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>a <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb4-4" title="4">  same <span class="ot">:</span> a ∼ a</a></code></pre></div>
 <p>Reflexivity is defined with the definition of <code>∼</code> by the keyword <code>same</code>, the others being:</p>
 <h3 id="symmetry">Symmetry</h3>
 <p>Symmetry is the property where binary a relation’s behavior does not depend upon its argument’s position (left or right):</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">symmetry <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B<span class="ot">}{</span>a <span class="ot">:</span> A<span class="ot">}{</span>b <span class="ot">:</span> B<span class="ot">}</span>
-  <span class="ot">→</span> a ∼ b
-  <span class="ot">→</span> b ∼ a
-symmetry same <span class="ot">=</span> same</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb5-1" title="1">symmetry <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B<span class="ot">}{</span>a <span class="ot">:</span> A<span class="ot">}{</span>b <span class="ot">:</span> B<span class="ot">}</span></a>
+<a class="sourceLine" id="cb5-2" title="2">  <span class="ot">→</span> a ∼ b</a>
+<a class="sourceLine" id="cb5-3" title="3">  <span class="ot">→</span> b ∼ a</a>
+<a class="sourceLine" id="cb5-4" title="4">symmetry same <span class="ot">=</span> same</a></code></pre></div>
 <h3 id="transitivity">Transitivity</h3>
-<p>Transitivity is when a binary relation <code>_∼_</code> and $x ∼ y and y ∼ z ⟹ x ∼ z$</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">transitivity <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B C<span class="ot">}{</span>a <span class="ot">:</span> A<span class="ot">}{</span>b <span class="ot">:</span> B<span class="ot">}{</span>c <span class="ot">:</span> C<span class="ot">}</span>
-  <span class="ot">→</span> a ∼ b
-  <span class="ot">→</span> b ∼ c
-  <span class="ot">→</span> a ∼ c
-transitivity same p <span class="ot">=</span> p</code></pre></div>
+<p>Transitivity is when a binary relation <code>_∼_</code> and <span class="math inline">\(x ∼ y and y ∼ z ⟹ x ∼ z\)</span></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb6-1" title="1">transitivity <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B C<span class="ot">}{</span>a <span class="ot">:</span> A<span class="ot">}{</span>b <span class="ot">:</span> B<span class="ot">}{</span>c <span class="ot">:</span> C<span class="ot">}</span></a>
+<a class="sourceLine" id="cb6-2" title="2">  <span class="ot">→</span> a ∼ b</a>
+<a class="sourceLine" id="cb6-3" title="3">  <span class="ot">→</span> b ∼ c</a>
+<a class="sourceLine" id="cb6-4" title="4">  <span class="ot">→</span> a ∼ c</a>
+<a class="sourceLine" id="cb6-5" title="5">transitivity same p <span class="ot">=</span> p</a></code></pre></div>
 <h3 id="congruence-functions-that-preserve-equality">Congruence: functions that preserve equality</h3>
 <p>Functions that when applied to objects of a type, do not alter the operation of equality can be defined as:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">congruence <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span>
-  <span class="ot">→</span> x ∼ y
-  <span class="ot">→</span> f x ∼ f y
-congruence f same <span class="ot">=</span> same</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb7-1" title="1">congruence <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span></a>
+<a class="sourceLine" id="cb7-2" title="2">  <span class="ot">→</span> x ∼ y</a>
+<a class="sourceLine" id="cb7-3" title="3">  <span class="ot">→</span> f x ∼ f y</a>
+<a class="sourceLine" id="cb7-4" title="4">congruence f same <span class="ot">=</span> same</a></code></pre></div>
 <h3 id="substitution">Substitution</h3>
 <p>If <code>a = b</code> and if <code>predicate a = true</code> ⟹ <code>predicate b = true</code></p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">substitution <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">(</span>Predicate <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span>
-  <span class="ot">→</span> x ∼ y
-  <span class="ot">→</span> Predicate x
-  <span class="ot">→</span> Predicate y
-substitution Predicate same p <span class="ot">=</span> p</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb8-1" title="1">substitution <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">(</span>Predicate <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span></a>
+<a class="sourceLine" id="cb8-2" title="2">  <span class="ot">→</span> x ∼ y</a>
+<a class="sourceLine" id="cb8-3" title="3">  <span class="ot">→</span> Predicate x</a>
+<a class="sourceLine" id="cb8-4" title="4">  <span class="ot">→</span> Predicate y</a>
+<a class="sourceLine" id="cb8-5" title="5">substitution Predicate same p <span class="ot">=</span> p</a></code></pre></div>
 <p>Any relation which satisfies the above properties of <code>reflexivity</code>, <code>transitivity</code> and <code>symmetry</code> can be considered an equivalence relation and hence can judge a propositional equality.</p>
 <h1 id="relations-a-deeper-look">Relations, a deeper look</h1>
 <p>We now present a more formal machinery for relations. We use <a href="Types.universe.html#universe-polymorphism">universe polymorphism</a> throughout to develop this machinery.</p>
 <h3 id="equality">Equality</h3>
 <p>We first re-define propositional equality within the framework of universe polymorphism:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≡<span class="ot">_</span>
-<span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> a <span class="kw">where</span>
-  instance refl <span class="ot">:</span> x ≡ x</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≡<span class="ot">_</span></a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> a <span class="kw">where</span></a>
+<a class="sourceLine" id="cb9-3" title="3">  instance refl <span class="ot">:</span> x ≡ x</a></code></pre></div>
 <h3 id="types-of-relations">Types of relations</h3>
 <h3 id="nullary-relations">Nullary relations</h3>
 <p>Nullary relations are functions that can take any object and return an empty set <code>∅</code>:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">¬  <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>ℓ<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> ℓ <span class="ot">→</span> <span class="dt">Set</span> ℓ
-¬ P <span class="ot">=</span> P <span class="ot">→</span> ⟂</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb10-1" title="1">¬  <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>ℓ<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> ℓ <span class="ot">→</span> <span class="dt">Set</span> ℓ</a>
+<a class="sourceLine" id="cb10-2" title="2">¬ P <span class="ot">=</span> P <span class="ot">→</span> ⟂</a></code></pre></div>
 <h3 id="unary-relations">Unary relations</h3>
 <p>In logic, a predicate can essentially be defined as a function that returns a binary value - whether the proposition that the predicate represents is true or false. In type theory, however, we define predicate in a different way. A predicate for us is a function that exists (and hence, is true):</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Pred <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ lsuc ℓ<span class="ot">)</span>
-Pred A ℓ <span class="ot">=</span> A <span class="ot">→</span> <span class="dt">Set</span> ℓ</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb11-1" title="1">Pred <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ lsuc ℓ<span class="ot">)</span></a>
+<a class="sourceLine" id="cb11-2" title="2">Pred A ℓ <span class="ot">=</span> A <span class="ot">→</span> <span class="dt">Set</span> ℓ</a></code></pre></div>
 <p>The empty (or false) predicate becomes:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">∅ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> Pred A lzero
-∅ <span class="ot">=</span> <span class="ot">λ</span> <span class="ot">_</span> <span class="ot">→</span> ⟂</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb12-1" title="1">∅ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> Pred A lzero</a>
+<a class="sourceLine" id="cb12-2" title="2">∅ <span class="ot">=</span> <span class="ot">λ</span> <span class="ot">_</span> <span class="ot">→</span> ⟂</a></code></pre></div>
 <p>The singleton predicate (constructor):</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">is<span class="ot">_</span>sameAs <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span>
-        <span class="ot">→</span> A
-        <span class="ot">→</span> Pred A a
-is x sameAs <span class="ot">=</span> x ≡<span class="ot">_</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">equal? <span class="ot">:</span> is six sameAs <span class="ot">(</span>succ five<span class="ot">)</span>
-equal? <span class="ot">=</span> refl</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb13-1" title="1">is<span class="ot">_</span>sameAs <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></a>
+<a class="sourceLine" id="cb13-2" title="2">        <span class="ot">→</span> A</a>
+<a class="sourceLine" id="cb13-3" title="3">        <span class="ot">→</span> Pred A a</a>
+<a class="sourceLine" id="cb13-4" title="4">is x sameAs <span class="ot">=</span> x ≡<span class="ot">_</span></a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb14-1" title="1">equal? <span class="ot">:</span> is six sameAs <span class="ot">(</span>succ five<span class="ot">)</span></a>
+<a class="sourceLine" id="cb14-2" title="2">equal? <span class="ot">=</span> refl</a></code></pre></div>
 <h3 id="binary-relations">Binary relations</h3>
 <p>A heterogeneous binary relation is defined as:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">REL <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> b <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b ⊔ lsuc ℓ<span class="ot">)</span>
-REL A B ℓ <span class="ot">=</span> A <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> ℓ</code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb15-1" title="1">REL <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> b <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b ⊔ lsuc ℓ<span class="ot">)</span></a>
+<a class="sourceLine" id="cb15-2" title="2">REL A B ℓ <span class="ot">=</span> A <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> ℓ</a></code></pre></div>
 <p>and a homogenous one as:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Rel <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ lsuc ℓ<span class="ot">)</span>
-Rel A ℓ <span class="ot">=</span> REL A A ℓ</code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb16-1" title="1">Rel <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ lsuc ℓ<span class="ot">)</span></a>
+<a class="sourceLine" id="cb16-2" title="2">Rel A ℓ <span class="ot">=</span> REL A A ℓ</a></code></pre></div>
 <h3 id="properties-of-binary-relations">Properties of binary relations</h3>
-<p>In type theory, an implication $A ⟹ B$ is just a function type $f: A → B$, and if <code>f</code> exists, the implication does too. We define implication between two relations in agda as:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>⇒<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span>
-        <span class="ot">→</span> REL A B ℓ₁
-        <span class="ot">→</span> REL A B ℓ₂
-        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-P ⇒ Q <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>i j<span class="ot">}</span> <span class="ot">→</span> P i j <span class="ot">→</span> Q i j</code></pre></div>
-<p>A function <code>f : A → B</code> is invariant to two homogenous relations <code>Rel A ℓ₁</code> and <code>Rel B ℓ₂</code> if $∀ x, y ∈ A ~and~ f(x), f(y) ∈ B, (Rel x y) ⟹ (Rel f(x) f(y))$:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>=[<span class="ot">_</span>]⇒<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span>
-          Rel A ℓ₁ <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> Rel B ℓ₂ <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-P =[ f ]⇒ Q <span class="ot">=</span> P ⇒ <span class="ot">(</span>Q on f<span class="ot">)</span></code></pre></div>
+<p>In type theory, an implication <span class="math inline">\(A ⟹ B\)</span> is just a function type <span class="math inline">\(f: A → B\)</span>, and if <code>f</code> exists, the implication does too. We define implication between two relations in agda as:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb17-1" title="1"><span class="ot">_</span>⇒<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span></a>
+<a class="sourceLine" id="cb17-2" title="2">        <span class="ot">→</span> REL A B ℓ₁</a>
+<a class="sourceLine" id="cb17-3" title="3">        <span class="ot">→</span> REL A B ℓ₂</a>
+<a class="sourceLine" id="cb17-4" title="4">        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
+<a class="sourceLine" id="cb17-5" title="5">P ⇒ Q <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>i j<span class="ot">}</span> <span class="ot">→</span> P i j <span class="ot">→</span> Q i j</a></code></pre></div>
+<p>A function <code>f : A → B</code> is invariant to two homogenous relations <code>Rel A ℓ₁</code> and <code>Rel B ℓ₂</code> if <span class="math inline">\(∀ x, y ∈ A ~and~ f(x), f(y) ∈ B, (Rel x y) ⟹ (Rel f(x) f(y))\)</span>:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb18-1" title="1"><span class="ot">_</span>=[<span class="ot">_</span>]⇒<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span></a>
+<a class="sourceLine" id="cb18-2" title="2">          Rel A ℓ₁ <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> Rel B ℓ₂ <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
+<a class="sourceLine" id="cb18-3" title="3">P =[ f ]⇒ Q <span class="ot">=</span> P ⇒ <span class="ot">(</span>Q on f<span class="ot">)</span></a></code></pre></div>
 <p>A function <code>f</code> preserves an underlying relation while operating on a datatype if:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>Preserves<span class="ot">_</span>⟶<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span>
-        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span>
-        <span class="ot">→</span> Rel A ℓ₁
-        <span class="ot">→</span> Rel B ℓ₂
-        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-f Preserves P ⟶ Q <span class="ot">=</span> P =[ f ]⇒ Q</code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb19-1" title="1"><span class="ot">_</span>Preserves<span class="ot">_</span>⟶<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span></a>
+<a class="sourceLine" id="cb19-2" title="2">        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span></a>
+<a class="sourceLine" id="cb19-3" title="3">        <span class="ot">→</span> Rel A ℓ₁</a>
+<a class="sourceLine" id="cb19-4" title="4">        <span class="ot">→</span> Rel B ℓ₂</a>
+<a class="sourceLine" id="cb19-5" title="5">        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
+<a class="sourceLine" id="cb19-6" title="6">f Preserves P ⟶ Q <span class="ot">=</span> P =[ f ]⇒ Q</a></code></pre></div>
 <p>Similarly, a binary operation <code>_+_</code> preserves the underlying relation if:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="ot">_</span>Preserves₂<span class="ot">_</span>⟶<span class="ot">_</span>⟶<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c ℓ₁ ℓ₂ ℓ₃<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span>
-        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B <span class="ot">→</span> C<span class="ot">)</span>
-        <span class="ot">→</span> Rel A ℓ₁
-        <span class="ot">→</span> Rel B ℓ₂
-        <span class="ot">→</span> Rel C ℓ₃
-        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-<span class="ot">_</span>+<span class="ot">_</span> Preserves₂ P ⟶ Q ⟶ R <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x y u v<span class="ot">}</span> <span class="ot">→</span> P x y <span class="ot">→</span> Q u v <span class="ot">→</span> R <span class="ot">(</span>x + u<span class="ot">)</span> <span class="ot">(</span>y + v<span class="ot">)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb20-1" title="1"><span class="ot">_</span>Preserves₂<span class="ot">_</span>⟶<span class="ot">_</span>⟶<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c ℓ₁ ℓ₂ ℓ₃<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span></a>
+<a class="sourceLine" id="cb20-2" title="2">        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B <span class="ot">→</span> C<span class="ot">)</span></a>
+<a class="sourceLine" id="cb20-3" title="3">        <span class="ot">→</span> Rel A ℓ₁</a>
+<a class="sourceLine" id="cb20-4" title="4">        <span class="ot">→</span> Rel B ℓ₂</a>
+<a class="sourceLine" id="cb20-5" title="5">        <span class="ot">→</span> Rel C ℓ₃</a>
+<a class="sourceLine" id="cb20-6" title="6">        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
+<a class="sourceLine" id="cb20-7" title="7"><span class="ot">_</span>+<span class="ot">_</span> Preserves₂ P ⟶ Q ⟶ R <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x y u v<span class="ot">}</span> <span class="ot">→</span> P x y <span class="ot">→</span> Q u v <span class="ot">→</span> R <span class="ot">(</span>x + u<span class="ot">)</span> <span class="ot">(</span>y + v<span class="ot">)</span></a></code></pre></div>
 <p>Properties of binary relations:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Reflexive <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span>
-        <span class="ot">→</span> Rel A ℓ
-        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-Reflexive <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">→</span> x ∼ x</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Sym <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span>
-        <span class="ot">→</span> REL A B ℓ₁
-        <span class="ot">→</span> REL B A ℓ₂
-        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-Sym P Q <span class="ot">=</span> P ⇒ flip Q
-
-Symmetric <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span>
-        <span class="ot">→</span> Rel A ℓ
-        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-Symmetric <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> Sym <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>∼<span class="ot">_</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda">Trans <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c ℓ₁ ℓ₂ ℓ₃<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span>
-        <span class="ot">→</span> REL A B ℓ₁
-        <span class="ot">→</span> REL B C ℓ₂
-        <span class="ot">→</span> REL A C ℓ₃
-        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-Trans P Q R <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>i j k<span class="ot">}</span> <span class="ot">→</span> P i j <span class="ot">→</span> Q j k <span class="ot">→</span> R i k
-
-Transitive <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span>
-        <span class="ot">→</span> Rel A ℓ
-        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span>
-Transitive <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> Trans <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>∼<span class="ot">_</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb21-1" title="1">Reflexive <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></a>
+<a class="sourceLine" id="cb21-2" title="2">        <span class="ot">→</span> Rel A ℓ</a>
+<a class="sourceLine" id="cb21-3" title="3">        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
+<a class="sourceLine" id="cb21-4" title="4">Reflexive <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">→</span> x ∼ x</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb22-1" title="1">Sym <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span></a>
+<a class="sourceLine" id="cb22-2" title="2">        <span class="ot">→</span> REL A B ℓ₁</a>
+<a class="sourceLine" id="cb22-3" title="3">        <span class="ot">→</span> REL B A ℓ₂</a>
+<a class="sourceLine" id="cb22-4" title="4">        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
+<a class="sourceLine" id="cb22-5" title="5">Sym P Q <span class="ot">=</span> P ⇒ flip Q</a>
+<a class="sourceLine" id="cb22-6" title="6"></a>
+<a class="sourceLine" id="cb22-7" title="7">Symmetric <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></a>
+<a class="sourceLine" id="cb22-8" title="8">        <span class="ot">→</span> Rel A ℓ</a>
+<a class="sourceLine" id="cb22-9" title="9">        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
+<a class="sourceLine" id="cb22-10" title="10">Symmetric <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> Sym <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>∼<span class="ot">_</span></a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb23-1" title="1">Trans <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c ℓ₁ ℓ₂ ℓ₃<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span></a>
+<a class="sourceLine" id="cb23-2" title="2">        <span class="ot">→</span> REL A B ℓ₁</a>
+<a class="sourceLine" id="cb23-3" title="3">        <span class="ot">→</span> REL B C ℓ₂</a>
+<a class="sourceLine" id="cb23-4" title="4">        <span class="ot">→</span> REL A C ℓ₃</a>
+<a class="sourceLine" id="cb23-5" title="5">        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
+<a class="sourceLine" id="cb23-6" title="6">Trans P Q R <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>i j k<span class="ot">}</span> <span class="ot">→</span> P i j <span class="ot">→</span> Q j k <span class="ot">→</span> R i k</a>
+<a class="sourceLine" id="cb23-7" title="7"></a>
+<a class="sourceLine" id="cb23-8" title="8">Transitive <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></a>
+<a class="sourceLine" id="cb23-9" title="9">        <span class="ot">→</span> Rel A ℓ</a>
+<a class="sourceLine" id="cb23-10" title="10">        <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
+<a class="sourceLine" id="cb23-11" title="11">Transitive <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> Trans <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>∼<span class="ot">_</span></a></code></pre></div>
 <p>Finally, we define an equivalence relation for binary relations:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> IsEquivalence <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span>
-                     <span class="ot">(_</span>≈<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span>
-  <span class="kw">field</span>
-    rfl   <span class="ot">:</span> Reflexive <span class="ot">_</span>≈<span class="ot">_</span>
-    sym   <span class="ot">:</span> Symmetric <span class="ot">_</span>≈<span class="ot">_</span>
-    trans <span class="ot">:</span> Transitive <span class="ot">_</span>≈<span class="ot">_</span>
-
-  reflexive <span class="ot">:</span> <span class="ot">_</span>≡<span class="ot">_</span> ⇒ <span class="ot">_</span>≈<span class="ot">_</span>
-  reflexive refl <span class="ot">=</span> rfl</code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">record</span> IsEquivalence <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></a>
+<a class="sourceLine" id="cb24-2" title="2">                     <span class="ot">(_</span>≈<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb24-3" title="3">  <span class="kw">field</span></a>
+<a class="sourceLine" id="cb24-4" title="4">    rfl   <span class="ot">:</span> Reflexive <span class="ot">_</span>≈<span class="ot">_</span></a>
+<a class="sourceLine" id="cb24-5" title="5">    sym   <span class="ot">:</span> Symmetric <span class="ot">_</span>≈<span class="ot">_</span></a>
+<a class="sourceLine" id="cb24-6" title="6">    trans <span class="ot">:</span> Transitive <span class="ot">_</span>≈<span class="ot">_</span></a>
+<a class="sourceLine" id="cb24-7" title="7"></a>
+<a class="sourceLine" id="cb24-8" title="8">  reflexive <span class="ot">:</span> <span class="ot">_</span>≡<span class="ot">_</span> ⇒ <span class="ot">_</span>≈<span class="ot">_</span></a>
+<a class="sourceLine" id="cb24-9" title="9">  reflexive refl <span class="ot">=</span> rfl</a></code></pre></div>
 <h3 id="properties-of-equality">Properties of equality</h3>
 <p>We use the new structures to re-define the properties of propositional equality.</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> ≡-properties <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="kw">where</span>
-  sym-≡ <span class="ot">:</span> Symmetric <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span> <span class="ot">_</span>≡<span class="ot">_</span>
-  sym-≡ refl <span class="ot">=</span> refl
-
-  trans-≡ <span class="ot">:</span> Transitive <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span> <span class="ot">_</span>≡<span class="ot">_</span>
-  trans-≡ refl p <span class="ot">=</span> p
-
-cong-≡ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span>
-  <span class="ot">→</span> x ≡ y
-  <span class="ot">→</span> f x ≡ f y
-cong-≡ f refl <span class="ot">=</span> refl
-
-subs-≡ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}{</span>x y <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">(</span>Predicate <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span>
-  <span class="ot">→</span> x ≡ y
-  <span class="ot">→</span> Predicate x
-  <span class="ot">→</span> Predicate y
-subs-≡ Predicate refl p <span class="ot">=</span> p</code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb25-1" title="1"><span class="kw">module</span> ≡-properties <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb25-2" title="2">  sym-≡ <span class="ot">:</span> Symmetric <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span> <span class="ot">_</span>≡<span class="ot">_</span></a>
+<a class="sourceLine" id="cb25-3" title="3">  sym-≡ refl <span class="ot">=</span> refl</a>
+<a class="sourceLine" id="cb25-4" title="4"></a>
+<a class="sourceLine" id="cb25-5" title="5">  trans-≡ <span class="ot">:</span> Transitive <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span> <span class="ot">_</span>≡<span class="ot">_</span></a>
+<a class="sourceLine" id="cb25-6" title="6">  trans-≡ refl p <span class="ot">=</span> p</a>
+<a class="sourceLine" id="cb25-7" title="7"></a>
+<a class="sourceLine" id="cb25-8" title="8">cong-≡ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span></a>
+<a class="sourceLine" id="cb25-9" title="9">  <span class="ot">→</span> x ≡ y</a>
+<a class="sourceLine" id="cb25-10" title="10">  <span class="ot">→</span> f x ≡ f y</a>
+<a class="sourceLine" id="cb25-11" title="11">cong-≡ f refl <span class="ot">=</span> refl</a>
+<a class="sourceLine" id="cb25-12" title="12"></a>
+<a class="sourceLine" id="cb25-13" title="13">subs-≡ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}{</span>x y <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">(</span>Predicate <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span></a>
+<a class="sourceLine" id="cb25-14" title="14">  <span class="ot">→</span> x ≡ y</a>
+<a class="sourceLine" id="cb25-15" title="15">  <span class="ot">→</span> Predicate x</a>
+<a class="sourceLine" id="cb25-16" title="16">  <span class="ot">→</span> Predicate y</a>
+<a class="sourceLine" id="cb25-17" title="17">subs-≡ Predicate refl p <span class="ot">=</span> p</a></code></pre></div>
 <h1 id="setoids">Setoids</h1>
 <p>Equality, or specifically, equivalence is at the heart of mathematics. In order to build more complex structures, we introduce a new datatype, which essentially encapsulates any datatype and it’s equivalence operation:</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">record</span> Setoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span>
-  <span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span>
-  <span class="kw">field</span>
-    Data          <span class="ot">:</span> <span class="dt">Set</span> c
-    <span class="ot">_</span>≈<span class="ot">_</span>           <span class="ot">:</span> Rel Data ℓ
-    isEquivalence <span class="ot">:</span> IsEquivalence <span class="ot">_</span>≈<span class="ot">_</span>
-
-  <span class="kw">open</span> IsEquivalence isEquivalence <span class="kw">public</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">record</span> Setoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb26-2" title="2">  <span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span></a>
+<a class="sourceLine" id="cb26-3" title="3">  <span class="kw">field</span></a>
+<a class="sourceLine" id="cb26-4" title="4">    Data          <span class="ot">:</span> <span class="dt">Set</span> c</a>
+<a class="sourceLine" id="cb26-5" title="5">    <span class="ot">_</span>≈<span class="ot">_</span>           <span class="ot">:</span> Rel Data ℓ</a>
+<a class="sourceLine" id="cb26-6" title="6">    isEquivalence <span class="ot">:</span> IsEquivalence <span class="ot">_</span>≈<span class="ot">_</span></a>
+<a class="sourceLine" id="cb26-7" title="7"></a>
+<a class="sourceLine" id="cb26-8" title="8">  <span class="kw">open</span> IsEquivalence isEquivalence <span class="kw">public</span></a></code></pre></div>
 <p>Setoids are extensively used throughout agda’s standard library, and they encapsulate well the baic underlying equality. However, we chose to avoid them here to be more explicit.</p>
 <hr />
 <p><a href="./Types.product.html">Product Types / Σ-types</a></p>

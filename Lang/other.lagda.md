@@ -152,4 +152,4 @@ postulate bottom : False
 ```
 
 ****
-[Debugging](./Lang.debugging.html)
+[Quirks of Syntax](./Lang.syntaxQuirks.html)

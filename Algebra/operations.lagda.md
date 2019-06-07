@@ -69,7 +69,7 @@ We now write a few laws that operators could follow. Essentially, structures bui
 
 ### Associativity
 
-![associative](associative.png)
+![Figure 1: Associative](associative.png)
 
 Mathematically, given an operation `★`, it is called associative if:
 
@@ -87,7 +87,7 @@ x ★ (y ★ z) ≡ (x ★ y) ★ z
 
 ### Commutativity
 
-![commutative](commutative.png)
+![Figure 2: Commutative](commutative.png)
 
 Commutativity is defined as:
 
@@ -105,7 +105,7 @@ x ★ y ≡ y ★ x
 
 ### Identity
 
-![identity](identity.png)
+![Figure 3: Identity](identity.png)
 
 ```math
 ∀ x ∈ A,
@@ -130,7 +130,7 @@ We treat identity as a pair of right and left identities. This helps in working 
 
 ### Elimination
 
-![elimination](elimination.png)
+![Figure 4: Elimination](elimination.png)
 
 ```math
 ∀ x ∈ A,
@@ -154,7 +154,7 @@ How does our object interact with `0`? We define that here.
 
 ### Inverse
 
-![inverse](inverse.png)
+![Figure 5: Inverse](inverse.png)
 
 ```math
 ∀ x ∈ A, ∃ x⁻¹ ∈ A such that
@@ -179,7 +179,7 @@ Given any unary function `_⁻¹`, we define what it takes for the function to q
 
 ### Distributive
 
-![distributive](distributive.png)
+![Figure 6: Distributive](distributive.png)
 
 ```math
 ∀ x, y, z ∈ A,
@@ -203,7 +203,7 @@ operation ★ is distributive if:
 
 ### Absorptive
 
-![absorption](absorption.png)
+![Figure 7: Absorption](absorption.png)
 
 ```math
 ∀ x ∈ A and two operations
@@ -230,7 +230,7 @@ and if both are satisfied collectively ∙ and ∘ are absorptive.
 
 ### Cancellative
 
-![cancellation](cancellation.png)
+![Figure 8: Cancellation](cancellation.png)
 
 ```math
 ∀ x, y ∈ A
@@ -252,7 +252,7 @@ and a function • : A → A → A,
 
 ### Congruence
 
-![congruence](congruence.png)
+![Figure 9: Congruence](congruence.png)
 
 ```math
 Given

@@ -25,7 +25,7 @@ We begin with setting up our Agda environment.
 module Lang.setup where
 ```
 
-![install](./install.png)
+![Figure 1: Install](./install.png)
 
 ## Using Docker
 

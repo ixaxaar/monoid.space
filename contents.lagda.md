@@ -15,7 +15,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-![cover](./cover.png)
+![Fig 0: The Snake Lemma](./cover.png)
 
 # Contents
 
@@ -25,7 +25,6 @@
   - [Introduction](./Lang.intro.html)
   - [Data Structures](./Lang.dataStructures.html)
   - [Functions](./Lang.functions.html)
-  - [Proofs as Data](./Lang.proofsAsData.html)
   - [Modules, Records and Postulates](./Lang.other.html)
   - [Quirks of Syntax](./Lang.syntaxQuirks.html)
   - [Debugging](./Lang.debugging.html)
@@ -38,6 +37,8 @@
   - [Equality](./Types.equality.html)
   - [Product Types / Σ-types](./Types.product.html)
   - [Dependent Function Types / Π-types](./Types.functions.html)
+  - [Proofs as Data](./Types.proofsAsData.html)
+  - [Kinds of Type Theories](./Types.variations.html)
 
 ## 3. Logic
 
@@ -87,26 +88,12 @@
   - [Kan Extensions]
 
 
-<!--
-## 7. The Curry-Howard-Lambek-Voevodsky isomorphism
-
-![7](7.png)
-
-## 8. The Equivalence principle
-
-![8](8.png)
-
-## 9. Homotopy Type Theory
-
-![9](9.png) -->
-
 Code: [Github](https://github.com/ixaxaar/monoid.space), [Gitlab](https://gitlab.com/ixaxaar/monoid.space).
 
 ```agda
 import Lang.setup
 import Lang.intro
 import Lang.dataStructures
-import Lang.proofsAsData
 import Lang.functions
 import Lang.syntaxQuirks
 import Lang.other
@@ -118,6 +105,8 @@ import Types.relations
 import Types.equality
 import Types.product
 import Types.functions
+import Types.proofsAsData
+import Types.variations
 
 import HoTT.introduction
 import HoTT.identity

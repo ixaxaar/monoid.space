@@ -85,7 +85,7 @@ Note: The above is pseudo-code, the proof is below.
 
 The second condition is the unique-ness condition, .i.e. for all objects having projections to `A` and `B`, there is one through which all projections go through. We call this one object the "Product" This is better visualized in this diagram:
 
-![product](./product.png)
+![Figure 1: Product](./product.png)
 
 
 ## Dependent Pair Types or Σ-types
@@ -110,7 +110,7 @@ While constructing algebraic structures, a fairly general pattern is that a bunc
 
 The `Σ` type is also called a "Dependent" or "Σ" (sigma) type - dependent as in the second parameter to `record` depends upon the type `A`, the first parameter. Note that we use the machinery of universe polymorphism to define this.
 
-![product_full](product_full.png)
+![Figure 2: Product (math)](product_full.png)
 
 
 ## API
@@ -181,7 +181,7 @@ data _∪_ {a b} (A : Set a) (B : Set b) : Set (a ⊔ b) where
 
 Co-product types are similar to product types, except with reversed arrows:
 
-![coproducts](coproduct.png)
+![Figure 3: Coproducts](coproduct.png)
 
 ## Maybe
 

@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 
 declare -a files=(
-  "intro"
   "contents"
 
   "Lang/setup"
   "Lang/intro"
   "Lang/dataStructures"
   "Lang/functions"
-  "Lang/proofsAsData"
   "Lang/syntaxQuirks"
   "Lang/other"
   "Lang/debugging"
@@ -19,6 +17,8 @@ declare -a files=(
   "Types/equality"
   "Types/functions"
   "Types/product"
+  "Types/proofsAsData"
+  "Types/variations"
 
   "Logic/introduction"
   "Logic/logicBasics"
@@ -60,7 +60,7 @@ do
    # """ >> "${i}.ladga.md"
 
    echo "Generating HTML for " "${i}.lagda.md"
-   pandoc -s -S --css=../css/agda.css --from=markdown_github --to=html --columns=120 -o ./html/"${i/\//\.}.html" "${i}.lagda.md"
+   pandoc -s --mathjax --css=../css/agda.css --from=markdown+smart --to=html --columns=120 -o ./html/"${i/\//\.}.html" "${i}.lagda.md"
 
 done
 

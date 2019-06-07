@@ -140,7 +140,7 @@ A map function for a `List` is a function that applies a lambda (un-named) funct
 
 If `f` were a lambda function, map-ing `f` over `List(a, b, c, d)` would produce `List(f(a), f(b), f(c), f(d))`
 
-![map](./map.png)
+![Figure 1: Map](./map.png)
 
 ```agda
 map : {A B : Set} → List A → (A → B) → List B
@@ -160,4 +160,4 @@ oneAdded = map (one :: two :: three :: four :: []) addOne
 
 
 ****
-[Proofs as Data](./Lang.proofsAsData.html)
+[Modules, Records and Postulates](./Lang.other.html)

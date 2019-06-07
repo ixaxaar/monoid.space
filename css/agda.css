@@ -89,29 +89,32 @@ div.indent, pre, table {
 }
 
 table {
-  /*background-color: #272525;*/
-  background-color: #151520;
-  border-radius:    10px;
+  background-color: #101020;
   margin:           20px;
   padding:          10px;
   border-collapse: collapse;
 }
 
 th {
-  /*background-color: #333;*/
+  font-size: 120%;
+  font-weight: bold;
 }
 
 th, td {
   text-align: left;
   padding: 10px;
+  border: 1px black solid;
+  text-align: center;
 }
 
 tbody tr:nth-child(odd){
-  background-color: #232023;
+  background-color: #202035;
+  border: 1px black solid;
 }
 
 tbody tr:nth-child(even){
-  background-color: #202323;
+  background-color: #303050;
+  border: 1px black solid;
 }
 
 div.indent, pre {
@@ -239,7 +242,7 @@ code {
 /* misc */
 
 p.caption {
-  display: none;
+  /*display: none;*/
 }
 
 div#lang {
@@ -332,21 +335,28 @@ a > li {
 }
 
 strong {
-  font-size: 200%;
+  color: #aaf;
+}
+
+figure {
+  border: none;
+  padding: none;
+  margin: none;
 }
 
 img {
-  margin-left: 50px;
-  max-width: 800px;
+  /*margin-left: 50px;*/
+  max-width: 600px;
   max-height: 800px;
-  /*background-color: #303037;*/
   border-radius:    10px;
-  margin:           20px;
-  padding:          30px;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: repeat;
+}
+
+figcaption {
+  padding-left: 20px;
+  padding-top: 20px;
+  text-align: left;
+  font-size: 120%;
+  font-weight: bold;
 }
 
 hr:first-of-type {

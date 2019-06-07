@@ -70,7 +70,7 @@ $$
 
 Another notation is to use $Π(x, y)$, mostly used in type theory to denote Π-types.
 
-![dependent_function](dependent_function.png)
+![Figure 1: Dependent Function](dependent_function.png)
 
 To show how to use this type, we construct an example:
 
@@ -233,4 +233,4 @@ case x of f = case x return _ of f
 TODO: provide examples of each API
 
 ****
-[Logic - Introduction](./Logic.introduction.html)
+[Proofs as Data](./Types.proofsAsData.html)

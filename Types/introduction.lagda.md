@@ -22,7 +22,7 @@ open import Lang.dataStructures using (List; []; _::_; ℕ; one; three; seven; n
 
 Set theory is a formal system of mathematics which serves as a language for constructing and studying collections of objects called "sets". A set, in plain language, is a collection of zero or more objects. These objects can be literally anything.
 
-![set](./set.png)
+![Figure 1: Set](./set.png)
 
 Set theory is about sets as objects of study. There happen to be several flavors, or versions if you will, of set theory starting from naive set theory, to axiomatic Zermelo-Fraenkel set theory (ZFC) which is currently the most well known, accepted and popular flavor. Much of mathematics and computer science fundamentals has been built upon the foundations of set theory. In its infancy, naive set theory faced certain technical challenges, called paradoxes or inconsistencies, which were progressively removed, the rules or "axoims" refined and the very meaning of "object" redefined, resulting what is called ZFC. Other variations have also surfaced to accomodate higher abstract math, and which may even include the equality operator to be a part of sets. However, most of foundational mathematics is rather based on Type theory, whose genesis can be credit to Bertrand Russell.
 
@@ -32,7 +32,7 @@ A type system in programming languages typically specifies data and appears like
 
 ## The scala type system
 
-![scala-type-system](./scala-type-system.png)
+![Figure 2: Scala Type System](./scala-type-system.png)
 
 ## Judgements and Propositions
 

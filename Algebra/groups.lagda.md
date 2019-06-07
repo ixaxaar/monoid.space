@@ -52,7 +52,7 @@ Group-like structures, studied in the field of abstract algebra, can be thought 
 
 Some of these objects can be visualized as if they were successors of each other, with the ones at the bottom more "strict" as in with more restrictions in the form of supported laws. We also code them this way below. Note that we implement only the packaged version of laws here, the actual object types we define in the next section [Groups and family 2](./Algebra.groups2.html), this is precisely because we cannot have two high level modules per agda file.
 
-![algebra-structure](./algebra_structure.png)
+![Figure 1: Algebraic structures](./algebra_structure.png)
 
 As we see above, semigroupoid is a generalization of the semigroup, group is a stricter form of a monoid or all groups are also monoids etc. Semigroupoids, Small Categories and Groupoids form what is called as partial abstract algebra such that they dont require the totality axiom which thus allows their operations to be partial functions.
 
@@ -64,7 +64,7 @@ Here we encode the conditions for any given binary operation `_∙_` or operatio
 
 A magma is a set of objects with an equivalence relation defined on them. It is one of the simplest objects in abstract algebra.
 
-![magma](./magma.png)
+![Figure 2: Magma](./magma.png)
 
 ```agda
   record IsMagma (∙ : ★ A) : Set (a ⊔ ℓ) where
@@ -85,7 +85,7 @@ A magma is a set of objects with an equivalence relation defined on them. It is 
 
 A semigroupoid is a set of objects some of which support an operation `★`, which must be associative.
 
-![semigroupoid](semigroupoid.png)
+![Figure 3: Semigroupoid](semigroupoid.png)
 
 ```agda
   record IsSemigroupoid (∙ : ★ A) : Set (a ⊔ ℓ) where
@@ -107,7 +107,7 @@ A semigroupoid is a set of objects some of which support an operation `★`, whi
 
 A small category suports identities and the operation supports the identity function. Apart from that, it inherits all properties of a semigroupoid.
 
-![smallcategory](smallcategory.png)
+![Figure 4: Smallcategory](smallcategory.png)
 
 ```agda
   record IsSmallCategory (∙ : ★ A) (x : A) : Set (a ⊔ ℓ) where
@@ -128,7 +128,7 @@ A small category suports identities and the operation supports the identity func
 
 A semigroup is a structure where the operation is associative. It differs with semigroupoids as in the operation for semigroups are total (or cannot be partial). Hence, semigroupoids are a generalization of semigroups. Semigroups are essentially semigroupoids with the totality condition.
 
-![semigroup](semigroup.png)
+![Figure 5: Semigroup](semigroup.png)
 
 ```agda
   record IsSemigroup (∙ : ★ A) : Set (a ⊔ ℓ) where
@@ -143,7 +143,7 @@ A semigroup is a structure where the operation is associative. It differs with s
 
 A groupoid is a small category with the restriction that the operation has have its inverse defined.
 
-![groupoid](groupoid.png)
+![Figure 6: Groupoid](groupoid.png)
 
 ```agda
   record IsGroupoid (_∙_ : ★ A) (x : A) (_⁻¹ : ♠ A) : Set (a ⊔ ℓ) where
@@ -174,7 +174,7 @@ A groupoid is a small category with the restriction that the operation has have 
 
 A monoid is a structure formed by adding the totality condition to small categories.
 
-![monoid](monoid.png)
+![Figure 7: Monoid](monoid.png)
 
 ```agda
   record IsMonoid (∙ : ★ A) (x : A) : Set (a ⊔ ℓ) where
@@ -195,7 +195,7 @@ A monoid is a structure formed by adding the totality condition to small categor
 
 A commutative monoid is a monoid with its operation required to be commutative.
 
-![group](group.png)
+![Figure 8: Commutative Monoid](group.png)
 
 ```agda
   record IsCommutativeMonoid (∙ : ★ A) (x : A) : Set (a ⊔ ℓ) where
@@ -221,7 +221,7 @@ A commutative monoid is a monoid with its operation required to be commutative.
 
 A group is a monoid with requiring for inverses to exist for every pair of elements. A groupoid is a generalization of groups by removing the totality restriction.
 
-![group](group.png)
+![Figure 9: Group](group.png)
 
 ```agda
   record IsGroup (_∙_ : ★ A) (x : A) (_⁻¹ : ♠ A) : Set (a ⊔ ℓ) where

@@ -81,7 +81,7 @@ $$
 x ★ (y ★ z) ≡ (x ★ y) ★ z
 $$
 
-![associative](associative.png)
+![Fig 1: Associative property](associative.png)
 
 ```agda
   associativity : ★ A → Set
@@ -96,7 +96,7 @@ $$
 x ★ y ≡ y ★ x
 $$
 
-![commutative](commutative.png)
+![Fig 2: Commutative property](commutative.png)
 
 ```agda
   commutativity : ★ A → Set
@@ -112,7 +112,7 @@ $$
 ( x ★ y ) ★ z ≡ x ★ y × y ★ z
 $$
 
-![distributive](distributive.png)
+![Fig 3: Distributive property](distributive.png)
 
 ```agda
   _distributesOverˡ_ : ★ A → ★ A → Set _
@@ -133,7 +133,7 @@ $$
 x ★ id_{★} ≡ x
 $$
 
-![identity](identity.png)
+![Fig 4: Identity](identity.png)
 
 These form the major laws of boolean algebra. There exists a bunch of others that we'll also see here. Note that for non-commutative systems of algebra, identity can exist in two forms: right and left, similarly for directional operations like distributivity, inverses, etc.
 
@@ -158,7 +158,7 @@ $$
 x ★ id ≡ x
 $$
 
-![elimination](elimination.png)
+![Fig 5: Elimination](elimination.png)
 
 ```agda
   leftZero : A → ★ A → Set _
@@ -179,7 +179,7 @@ $$
 x ∧ x ≡ x
 $$
 
-![idempotence](idempotence.png)
+![Fig 6: Idempotence](idempotence.png)
 
 ```agda
   _idempotentOn_ : ★ A → A → Set _

@@ -25,7 +25,7 @@ Each algebra behaves more like a [DSL](https://en.wikipedia.org/wiki/Domain-spec
 
 The most basic operation that can be done to an object or to a collection (set) of objects is to compare them, e.g, using equivalences (≡). Thus equivalanences can be used as a law for creating albegras of `Setoid`s - sets with equivalences. The operation of sorting using some definition of an order (≥, ≤) is another such basic law used to construct higher objects and their algebras such as `Poset`s and `PreOrder`s. In this way we construct higher algerbaic objects on top of simpler ones.
 
-![magma](./magma.png)
+![Fig 1: Magma](./magma.png)
 
 Generally, more complex structures can be created using operations that support the laws of associativity, commutativitiy and inverse. An example of this would be natural numbers, which support operations such as addition, subtraction, multiplication and division (except with 0), all of which are associative and commutative, forming the peano arithmetic. Another example is what we have already seen in the case of boolean algebra where `∧` and `∨` follow the [laws of boolean algebra](./Logic.laws.html). There are more complex objects that follow essentially the same principles of construction.
 

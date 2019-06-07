@@ -151,7 +151,7 @@ and so on recursively.
 
 We define a generic complete binary tree using the following definition. Note that this merely creates an empty structure of a tree, the nodes or leaves contain no information in them:
 
-![bintree](./bintree.png)
+![Figure 1: Bintree](./bintree.png)
 
 ```agda
 data BinTree : Set where
@@ -184,7 +184,7 @@ data ℕMixedBinTree : Set where
 
 ## Graph
 
-![graph](./graph.png)
+![Figure 2: Graph](./graph.png)
 
 We define a graph with:
 
@@ -222,7 +222,7 @@ graph = idGraph (triple (vertex zero)   (vertex seven))     +|+
 
 ## List
 
-![list](./list.png)
+![Figure 3: List](./list.png)
 
 A list containing objects of type `A` can be defined as an object which has:
 
@@ -276,7 +276,7 @@ fourFin = succ three (succ two (succ one (id zero)))
 
 ## Indexed sequences or Vectors
 
-![vectors](./vector.png)
+![Figure 4: Vectors](./vector.png)
 
 We now define a finite sized indexed list, also called a vector `Vec`. The constructor consists of:
 

@@ -54,7 +54,7 @@ Relations can conform to certain properties, which later come in handy for class
 
 A reflexive relation is one where $x \bullet y = y \bullet x$:
 
-![refl](refl.png)
+![Figure 1: Refl](refl.png)
 
 ```agda
 reflexive : {A : Set}
@@ -67,7 +67,7 @@ reflexive {A} _★_ = (x : A) → x ★ x
 
 A symmetric relation is one where $x \bullet y \implies y \bullet x$:
 
-![symmetric](symmetric.png)
+![Figure 2: Symmetric](symmetric.png)
 
 ```agda
 symmetric : {A : Set} → Rel A → Set
@@ -80,7 +80,7 @@ symmetric {A} _★_  = (x y : A)
 
 A transitive relation is one where $x \bullet y, y \bullet z ~then~ z \bullet x$:
 
-![transitive](transitive.png)
+![Figure 3: Transitive](transitive.png)
 
 ```agda
 transitive : {A : Set} → Rel A → Set

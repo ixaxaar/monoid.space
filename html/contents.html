@@ -1,49 +1,83 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
-  <title></title>
-  <style type="text/css">code{white-space: pre;}</style>
-  <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>contents.lagda</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
-  <link rel="stylesheet" href="../css/agda.css" type="text/css" />
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body>
 <hr />
@@ -52,16 +86,20 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
 <ul>
-<li><a href="#contents">Contents</a></li>
+<li><a href="#contents">Contents</a>
+<ul>
 <li><a href="#1-agda">1. Agda</a></li>
 <li><a href="#2-type-theory">2. Type Theory</a></li>
 <li><a href="#3-logic">3. Logic</a></li>
 <li><a href="#4-abstract-algebras">4. Abstract Algebras</a></li>
 <li><a href="#5-homotopy-type-theory">5. Homotopy Type Theory</a></li>
 <li><a href="#7-category-theory">7. Category Theory</a></li>
+</ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<p><img src="./cover.png" alt="cover" /></p>
+<figure>
+<img src="./cover.png" alt="Fig 0: The Snake Lemma" /><figcaption>Fig 0: The Snake Lemma</figcaption>
+</figure>
 <h1 id="contents">Contents</h1>
 <h2 id="agda">1. Agda</h2>
 <ul>
@@ -69,7 +107,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="./Lang.intro.html">Introduction</a></li>
 <li><a href="./Lang.dataStructures.html">Data Structures</a></li>
 <li><a href="./Lang.functions.html">Functions</a></li>
-<li><a href="./Lang.proofsAsData.html">Proofs as Data</a></li>
 <li><a href="./Lang.other.html">Modules, Records and Postulates</a></li>
 <li><a href="./Lang.syntaxQuirks.html">Quirks of Syntax</a></li>
 <li><a href="./Lang.debugging.html">Debugging</a></li>
@@ -82,6 +119,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="./Types.equality.html">Equality</a></li>
 <li><a href="./Types.product.html">Product Types / Σ-types</a></li>
 <li><a href="./Types.functions.html">Dependent Function Types / Π-types</a></li>
+<li><a href="./Types.proofsAsData.html">Proofs as Data</a></li>
+<li><a href="./Types.variations.html">Kinds of Type Theories</a></li>
 </ul>
 <h2 id="logic">3. Logic</h2>
 <ul>
@@ -99,9 +138,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="./Algebra.order.html">Ordered objects</a></li>
 <li><a href="./Algebra.groups.html">Groups and family</a></li>
 <li><a href="./Algebra.groups2.html">Groups and family 2</a></li>
-<li><a href="./Algebra.groupProperties.html">Properties of Group-like objects <em>todo</em></a><br />
-<!-- - [Rings and family](./Algebra.rings.html) --><br />
-<!-- - [Properties of Ring-like objects](./Algebra.ringProperties.html) --></li>
+<li><a href="./Algebra.groupProperties.html">Properties of Group-like objects <em>todo</em></a> <!-- - [Rings and family](./Algebra.rings.html) --> <!-- - [Properties of Ring-like objects](./Algebra.ringProperties.html) --></li>
 </ul>
 <!-- ## 4. Algebraic Geometry
 
@@ -139,38 +176,39 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 ![9](9.png) -->
 <p>Code: <a href="https://github.com/ixaxaar/monoid.space">Github</a>, <a href="https://gitlab.com/ixaxaar/monoid.space">Gitlab</a>.</p>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">import</span> Lang<span class="ot">.</span>setup
-<span class="kw">import</span> Lang<span class="ot">.</span>intro
-<span class="kw">import</span> Lang<span class="ot">.</span>dataStructures
-<span class="kw">import</span> Lang<span class="ot">.</span>proofsAsData
-<span class="kw">import</span> Lang<span class="ot">.</span>functions
-<span class="kw">import</span> Lang<span class="ot">.</span>syntaxQuirks
-<span class="kw">import</span> Lang<span class="ot">.</span>other
-<span class="kw">import</span> Lang<span class="ot">.</span>debugging
-
-<span class="kw">import</span> Types<span class="ot">.</span>introduction
-<span class="kw">import</span> Types<span class="ot">.</span>universe
-<span class="kw">import</span> Types<span class="ot">.</span>relations
-<span class="kw">import</span> Types<span class="ot">.</span>equality
-<span class="kw">import</span> Types<span class="ot">.</span>product
-<span class="kw">import</span> Types<span class="ot">.</span>functions
-
-<span class="kw">import</span> HoTT<span class="ot">.</span>introduction
-<span class="kw">import</span> HoTT<span class="ot">.</span>identity
-
-<span class="kw">import</span> Logic<span class="ot">.</span>introduction
-<span class="kw">import</span> Logic<span class="ot">.</span>logicBasics
-<span class="kw">import</span> Logic<span class="ot">.</span>equality
-<span class="kw">import</span> Logic<span class="ot">.</span>laws
-<span class="kw">import</span> Logic<span class="ot">.</span>decidability
-
-<span class="kw">import</span> Algebra<span class="ot">.</span>introduction
-<span class="kw">import</span> Algebra<span class="ot">.</span>operations
-<span class="kw">import</span> Algebra<span class="ot">.</span>equational
-<span class="kw">import</span> Algebra<span class="ot">.</span>order
-<span class="kw">import</span> Algebra<span class="ot">.</span>groups
-<span class="kw">import</span> Algebra<span class="ot">.</span>groups2
-<span class="kw">import</span> Algebra<span class="ot">.</span>groupProperties</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">import</span> Lang<span class="ot">.</span>setup</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">import</span> Lang<span class="ot">.</span>intro</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">import</span> Lang<span class="ot">.</span>dataStructures</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw">import</span> Lang<span class="ot">.</span>functions</a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw">import</span> Lang<span class="ot">.</span>syntaxQuirks</a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="kw">import</span> Lang<span class="ot">.</span>other</a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="kw">import</span> Lang<span class="ot">.</span>debugging</a>
+<a class="sourceLine" id="cb1-8" title="8"></a>
+<a class="sourceLine" id="cb1-9" title="9"><span class="kw">import</span> Types<span class="ot">.</span>introduction</a>
+<a class="sourceLine" id="cb1-10" title="10"><span class="kw">import</span> Types<span class="ot">.</span>universe</a>
+<a class="sourceLine" id="cb1-11" title="11"><span class="kw">import</span> Types<span class="ot">.</span>relations</a>
+<a class="sourceLine" id="cb1-12" title="12"><span class="kw">import</span> Types<span class="ot">.</span>equality</a>
+<a class="sourceLine" id="cb1-13" title="13"><span class="kw">import</span> Types<span class="ot">.</span>product</a>
+<a class="sourceLine" id="cb1-14" title="14"><span class="kw">import</span> Types<span class="ot">.</span>functions</a>
+<a class="sourceLine" id="cb1-15" title="15"><span class="kw">import</span> Types<span class="ot">.</span>proofsAsData</a>
+<a class="sourceLine" id="cb1-16" title="16"><span class="kw">import</span> Types<span class="ot">.</span>variations</a>
+<a class="sourceLine" id="cb1-17" title="17"></a>
+<a class="sourceLine" id="cb1-18" title="18"><span class="kw">import</span> HoTT<span class="ot">.</span>introduction</a>
+<a class="sourceLine" id="cb1-19" title="19"><span class="kw">import</span> HoTT<span class="ot">.</span>identity</a>
+<a class="sourceLine" id="cb1-20" title="20"></a>
+<a class="sourceLine" id="cb1-21" title="21"><span class="kw">import</span> Logic<span class="ot">.</span>introduction</a>
+<a class="sourceLine" id="cb1-22" title="22"><span class="kw">import</span> Logic<span class="ot">.</span>logicBasics</a>
+<a class="sourceLine" id="cb1-23" title="23"><span class="kw">import</span> Logic<span class="ot">.</span>equality</a>
+<a class="sourceLine" id="cb1-24" title="24"><span class="kw">import</span> Logic<span class="ot">.</span>laws</a>
+<a class="sourceLine" id="cb1-25" title="25"><span class="kw">import</span> Logic<span class="ot">.</span>decidability</a>
+<a class="sourceLine" id="cb1-26" title="26"></a>
+<a class="sourceLine" id="cb1-27" title="27"><span class="kw">import</span> Algebra<span class="ot">.</span>introduction</a>
+<a class="sourceLine" id="cb1-28" title="28"><span class="kw">import</span> Algebra<span class="ot">.</span>operations</a>
+<a class="sourceLine" id="cb1-29" title="29"><span class="kw">import</span> Algebra<span class="ot">.</span>equational</a>
+<a class="sourceLine" id="cb1-30" title="30"><span class="kw">import</span> Algebra<span class="ot">.</span>order</a>
+<a class="sourceLine" id="cb1-31" title="31"><span class="kw">import</span> Algebra<span class="ot">.</span>groups</a>
+<a class="sourceLine" id="cb1-32" title="32"><span class="kw">import</span> Algebra<span class="ot">.</span>groups2</a>
+<a class="sourceLine" id="cb1-33" title="33"><span class="kw">import</span> Algebra<span class="ot">.</span>groupProperties</a></code></pre></div>
 <hr />
 <p><a href="contents.html">Up</a></p>
 </body>

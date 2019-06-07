@@ -1,49 +1,84 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
-  <title></title>
-  <style type="text/css">code{white-space: pre;}</style>
-  <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>introduction.lagda</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
-  <link rel="stylesheet" href="../css/agda.css" type="text/css" />
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body>
 <hr />
@@ -53,7 +88,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <hr />
 <ul>
 <li><a href="#homotopy-type-theory">Homotopy Type Theory</a></li>
-<li><a href="#homotopy-theory">Homotopy Theory</a></li>
+<li><a href="#homotopy-theory">Homotopy Theory</a>
+<ul>
 <li><a href="#fields-spaces-points-paths">Fields, Spaces, Points, Paths</a></li>
 <li><a href="#paths-and-their-equalities">Paths and their equalities</a>
 <ul>
@@ -62,49 +98,53 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#%E2%88%9E-groupoid">∞-groupoid</a></li>
 </ul></li>
 <li><a href="#induction-principle">Induction principle</a></li>
+</ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="homotopy-type-theory">Homotopy Type Theory</h1>
-<div class="sourceCode"><pre class="sourceCode agda"><code class="sourceCode agda"><span class="kw">module</span> HoTT<span class="ot">.</span>introduction <span class="kw">where</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">module</span> HoTT<span class="ot">.</span>introduction <span class="kw">where</span></a></code></pre></div>
 <p>Homotopy type theory (HoTT) is a mathematical framework that treats types as spaces and one can apply the machinery of homotopy theory over those spaces. Homotopy theory is a part of algebraic geometry which deals with paths and functions between paths. HoTT essentially enables one to use the API of homotopy theory by letting us treat types as spaces. This allows us to implement homotopy theory using type theory in agda while connecting vast areas of mathematics. We see a glimpse of the entire structure here and then proceed to tackle each one individually in agda.</p>
 <h1 id="homotopy-theory">Homotopy Theory</h1>
 <h2 id="fields-spaces-points-paths">Fields, Spaces, Points, Paths</h2>
 <p>A field (more force-field than data field) is a set of objects that support or permit addition, subtraction, division and multiplication. Real numbers, rational numbers and complex numbers are some such “set of objects” which we use widely and which can form fields.</p>
-<p>An n-dimensional space can be thought as a collection of n numbers from a field and n directions or bases. Thus we can construct spaces from fields. For e.g. any point in 2-dimensional space of real numbers ℝ can be represented as $a × x + b × y$ where $a, b ∈ ℝ$.</p>
+<p>An n-dimensional space can be thought as a collection of n numbers from a field and n directions or bases. Thus we can construct spaces from fields. For e.g. any point in 2-dimensional space of real numbers ℝ can be represented as <span class="math inline">\(a × x + b × y\)</span> where <span class="math inline">\(a, b ∈ ℝ\)</span>.</p>
 <p>A path is a line joining two points. This path can be of any shape, be it a straight line or an extremely squiggly one.</p>
-<p><img src="./pathType.png" alt="path" /></p>
+<figure>
+<img src="./pathType.png" alt="path" /><figcaption>path</figcaption>
+</figure>
 <h2 id="paths-and-their-equalities">Paths and their equalities</h2>
-<p>Technically, a path p between two points <code>x</code> and <code>y</code> can be represented as a function <code>f</code> that takes a continuous value <code>t</code> and returns a point on the path <code>f(t)</code> such that the first point is <code>x</code> $f(0) = x$ and the last point is <code>y</code> $f(1) = y$ and $0 ≤ t ≤ 1$. It might need to be reminded that such a path might not actually exist as a continuous line through space but may help if imagined as such.</p>
+<p>Technically, a path p between two points <code>x</code> and <code>y</code> can be represented as a function <code>f</code> that takes a continuous value <code>t</code> and returns a point on the path <code>f(t)</code> such that the first point is <code>x</code> <span class="math inline">\(f(0) = x\)</span> and the last point is <code>y</code> <span class="math inline">\(f(1) = y\)</span> and <span class="math inline">\(0 ≤ t ≤ 1\)</span>. It might need to be reminded that such a path might not actually exist as a continuous line through space but may help if imagined as such.</p>
 <p>Now, we could take any two paths between the same points and stretch / squeeze one path into another. This process can be used to capture relationships between two paths and is called <em>homotopy</em>. More formally,</p>
-<p><img src="./two_paths_homotopy.png" alt="two_paths_homotopy" /></p>
+<figure>
+<img src="./two_paths_homotopy.png" alt="two_paths_homotopy" /><figcaption>two_paths_homotopy</figcaption>
+</figure>
 <h3 id="homotopy">Homotopy</h3>
 <p>A <em>homotopy</em> between two paths <code>p(t)</code> and <code>q(t)</code> is defined as a continuous function <code>H(t, h)</code> such that:</p>
 <ul>
-<li>$H(t, 0) = p(t)$</li>
-<li>$H(t, 1) = q(t)$</li>
-<li>$H(0, h) = x$</li>
-<li>$H(1, h) = y$</li>
+<li><span class="math inline">\(H(t, 0) = p(t)\)</span></li>
+<li><span class="math inline">\(H(t, 1) = q(t)\)</span></li>
+<li><span class="math inline">\(H(0, h) = x\)</span></li>
+<li><span class="math inline">\(H(1, h) = y\)</span></li>
 </ul>
 <p>There can exist multiple paths between two objects and hence multiple homotopies between them. Homotopies can be thought of as 2-dimensional paths or path-of-path if paths are 1-dimensional paths. Homotopies are built on equivalence relations and hence fit into its API, i.e. homotopy respects reflexivity, symmetry and transitivity, and can be used to build equational reasoning chanins.</p>
-<p><img src="./homotopy.png" alt="homotopy" /></p>
+<figure>
+<img src="./homotopy.png" alt="homotopy" /><figcaption>homotopy</figcaption>
+</figure>
 <h3 id="fundamental-group">Fundamental group</h3>
-<p>Two homotopies <code>H1</code> and <code>H2</code> can themselves be called equal if $H(0, h) = H(1, h) = x₀$, i.e. if <code>x</code> and <code>y</code> are the same point. We can use this equivalence relation and the fact that homotopies have inverses, to build a group structure around these homotopies, called as the <em>fundamental group</em>.</p>
+<p>Two homotopies <code>H1</code> and <code>H2</code> can themselves be called equal if <span class="math inline">\(H(0, h) = H(1, h) = x₀\)</span>, i.e. if <code>x</code> and <code>y</code> are the same point. We can use this equivalence relation and the fact that homotopies have inverses, to build a group structure around these homotopies, called as the <em>fundamental group</em>.</p>
 <h3 id="groupoid">∞-groupoid</h3>
 <p>We can have n-dimentional paths from n-equalitites or homotopies of homotopies of homotopies of homotopies and so on. Such a structure of infinite levels of homotopies with points followed by paths as base is called the <em>∞-groupoid</em>. Every space can be turned into its ∞-groupoid and then homotopy theory can be applied to it as well as every ∞-groupoid can yield a fundamental group. This fact connects algebraic topology (which uses the fundamental group) and category theory (which builds on the ∞-groupoid).</p>
-<p>In HoTT, each type can be represented as an ∞-groupoid. Each pair of objects <code>x</code> and <code>y</code> of a type can have an typelevel equality type $x ≡_A y$. For example in python:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">a <span class="op">=</span> <span class="dv">3</span>
-b <span class="op">=</span> <span class="dv">4</span>
-
-<span class="bu">type</span>(a) ≡ <span class="bu">type</span>(b)</code></pre></div>
-<p>These equalities can have further equalities $(x_1 ≡<em>A y_1) ≡</em>{(x ≡_A y)} (x_2 ≡_A y_2)$. Note: higher levels cannot be done trivially in python.</p>
+<p>In HoTT, each type can be represented as an ∞-groupoid. Each pair of objects <code>x</code> and <code>y</code> of a type can have an typelevel equality type <span class="math inline">\(x ≡_A y\)</span>. For example in python:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" title="1">a <span class="op">=</span> <span class="dv">3</span></a>
+<a class="sourceLine" id="cb2-2" title="2">b <span class="op">=</span> <span class="dv">4</span></a>
+<a class="sourceLine" id="cb2-3" title="3"></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="bu">type</span>(a) ≡ <span class="bu">type</span>(b)</a></code></pre></div>
+<p>These equalities can have further equalities <span class="math inline">\((x_1 ≡_A y_1) ≡_{(x ≡_A y)} (x_2 ≡_A y_2)\)</span>. Note: higher levels cannot be done trivially in python.</p>
 <h2 id="induction-principle">Induction principle</h2>
-<p>The induction principle is central to deriving all basic constructions for HoTT. Stated simply, if for every pair of objects <code>x</code> and <code>y</code> of type <code>A</code></p>
-<ul>
-<li>the equality type $≡_A$ between <code>x</code> and <code>y</code> exists everytime <code>x</code> and <code>y</code> are equal</li>
-<li>for every <code>x ∈ A</code>, the equalities $x ≡_A x$ are reflexive<br />
-then for a proposition <code>C</code> which depends upon the equality $x ≡_A y$, it turns out that it is sufficient to prove <code>C</code> for all cases where $x ≡_A x$ alone and it becomes automatically applicable for cases for all $x ≡_A y$.</li>
-</ul>
-<p><img src="./induction.png" alt="induction" /></p>
+<p>The induction principle is central to deriving all basic constructions for HoTT. Stated simply, if for every pair of objects <code>x</code> and <code>y</code> of type <code>A</code> - the equality type <span class="math inline">\(≡_A\)</span> between <code>x</code> and <code>y</code> exists everytime <code>x</code> and <code>y</code> are equal - for every <code>x ∈ A</code>, the equalities <span class="math inline">\(x ≡_A x\)</span> are reflexive then for a proposition <code>C</code> which depends upon the equality <span class="math inline">\(x ≡_A y\)</span>, it turns out that it is sufficient to prove <code>C</code> for all cases where <span class="math inline">\(x ≡_A x\)</span> alone and it becomes automatically applicable for cases for all <span class="math inline">\(x ≡_A y\)</span>.</p>
+<figure>
+<img src="./induction.png" alt="induction" /><figcaption>induction</figcaption>
+</figure>
 <hr />
 <p><a href="./HoTT.identity.html">Identity Types and Paths</a></p>
 </body>

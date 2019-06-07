@@ -10,6 +10,7 @@
   - [Odd or Even](#odd-or-even)
   - [Equality of natural numbers](#equality-of-natural-numbers)
   - [Belongs to](#belongs-to)
+- [Curry-Howard Isomorphism](#curry-howard-isomorphism)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -25,7 +26,7 @@ Usually, a proof consists of:
 - recursive pattern matchers, for (de) constructing the proof from (to) the trivial cases
 
 ```agda
-module Lang.proofsAsData where
+module Types.proofsAsData where
 
 open import Lang.dataStructures
 ```
@@ -154,5 +155,26 @@ threeIsInList : three ∈ theList
 threeIsInList = succ∈ (succ∈ (succ∈ (succ∈ refl)))
 ```
 
+# Curry-Howard Isomorphism
+
+The relationship we saw earlier between [formal proofs and computer programs](./Types.proofsAsData.html) is called the **Curry-Howard isomorphism**, also known as the **Curry-Howard correspondence**. This states that a proof is a program and the formula it proves is the type of the program. Broadly, they discovered that logical operations have analogues in types as can be seen below:
+
+| Type Theory | Logic |
+| --- | --- |
+| `A` | proposition |
+| `x : A` | proof |
+| `ϕ`, `1` | ⟂, ⊤ |
+| `A × B` | A ∧ B (and / conjunction) |
+| `A + B` | A ∨ B (or / disjunction) |
+| `A → B` | A ⟹ B (implication) |
+| `x : A ⊢ B(x)` | predicate |
+| `x : A ⊢ b : B(x)` | conditional proof |
+| $\Pi_{x:A} B(x)$  | ∀ x B(x) |
+| $\Sigma_{x:A} B(x)$ | ∃ x B(x) |
+| $p : x =_A y$ | proof of equality |
+| $\Sigma_{x,y:A} x =_A y$ | equality relation |
+
+Thus, type theory can be considered a proof writing system in a standard programming language as an alternative to formal logic. This essentially open up a new medium of doing mathematics as well will be seeing in subsequent sections.
+
 ****
-[Quirks of Syntax](./Lang.syntaxQuirks.html)
+[Kinds of Type Theories](./Types.variations.html)

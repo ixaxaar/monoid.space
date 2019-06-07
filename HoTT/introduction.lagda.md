@@ -35,7 +35,7 @@ An n-dimensional space can be thought as a collection of n numbers from a field 
 
 A path is a line joining two points. This path can be of any shape, be it a straight line or an extremely squiggly one.
 
-![path](./pathType.png)
+![Figure 1: Path](./pathType.png)
 
 ## Paths and their equalities
 
@@ -43,7 +43,7 @@ Technically, a path p between two points `x` and `y` can be represented as a fun
 
 Now, we could take any two paths between the same points and stretch / squeeze one path into another. This process can be used to capture relationships between two paths and is called *homotopy*. More formally,
 
-![two_paths_homotopy](./two_paths_homotopy.png)
+![Figure 2: Two Paths Homotopy](./two_paths_homotopy.png)
 
 ### Homotopy
 
@@ -56,7 +56,7 @@ A *homotopy* between two paths `p(t)` and `q(t)` is defined as a continuous func
 
 There can exist multiple paths between two objects and hence multiple homotopies between them. Homotopies can be thought of as 2-dimensional paths or path-of-path if paths are 1-dimensional paths. Homotopies are built on equivalence relations and hence fit into its API, i.e. homotopy respects reflexivity, symmetry and transitivity,  and can be used to build equational reasoning chanins.
 
-![homotopy](./homotopy.png)
+![Figure 3: Homotopy](./homotopy.png)
 
 ### Fundamental group
 
@@ -84,7 +84,7 @@ The induction principle is central to deriving all basic constructions for HoTT.
 - for every `x ∈ A`, the equalities $x ≡_A x$ are reflexive
 then for a proposition `C` which depends upon the equality $x ≡_A y$, it turns out that it is sufficient to prove `C` for all cases where $x ≡_A x$ alone and it becomes automatically applicable for cases for all $x ≡_A y$.
 
-![induction](./induction.png)
+![Figure 4: Induction](./induction.png)
 
 ****
 [Identity Types and Paths](./HoTT.identity.html)

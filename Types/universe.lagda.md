@@ -78,7 +78,7 @@ record Universe u e : Set (lsuc (u ⊔ e)) where
     El : U → Set e
 ```
 
-![universes](universes.png)
+![Figure 1: Universes](universes.png)
 
 A "family" of types varying over a given type are called, well "families of types". An example of this would be the finite set, [Fin](./dataStructures.html#finite-sequences) where every finite set has `n` elements where `n ∈ ℕ` and hence `Fin`, the creator of finite sets, is dependent on ℕ.
 
