@@ -177,7 +177,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="binary-trees">Binary Trees</h2>
 <p>We define a generic complete binary tree using the following definition. Note that this merely creates an empty structure of a tree, the nodes or leaves contain no information in them:</p>
 <figure>
-<img src="./bintree.png" alt="bintree" /><figcaption>bintree</figcaption>
+<img src="./bintree.png" alt="Figure 1: Bintree" /><figcaption>Figure 1: Bintree</figcaption>
 </figure>
 <div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">data</span> BinTree <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></a>
 <a class="sourceLine" id="cb12-2" title="2">  leaf <span class="ot">:</span> BinTree</a>
@@ -196,7 +196,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb15-3" title="3">  node <span class="ot">:</span> ℕ <span class="ot">→</span> ℕMixedBinTree <span class="ot">→</span> ℕMixedBinTree <span class="ot">→</span> ℕMixedBinTree</a></code></pre></div>
 <h2 id="graph">Graph</h2>
 <figure>
-<img src="./graph.png" alt="graph" /><figcaption>graph</figcaption>
+<img src="./graph.png" alt="Figure 2: Graph" /><figcaption>Figure 2: Graph</figcaption>
 </figure>
 <p>We define a graph with:</p>
 <ul>
@@ -227,7 +227,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb17-5" title="5">                triple  <span class="ot">(</span>vertex nine<span class="ot">)</span>   <span class="ot">(</span>vertex <span class="ot">(</span>succ six<span class="ot">))</span></a></code></pre></div>
 <h2 id="list">List</h2>
 <figure>
-<img src="./list.png" alt="list" /><figcaption>list</figcaption>
+<img src="./list.png" alt="Figure 3: List" /><figcaption>Figure 3: List</figcaption>
 </figure>
 <p>A list containing objects of type <code>A</code> can be defined as an object which has:</p>
 <ul>
@@ -260,7 +260,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb23-2" title="2">fourFin <span class="ot">=</span> succ three <span class="ot">(</span>succ two <span class="ot">(</span>succ one <span class="ot">(</span>id zero<span class="ot">)))</span></a></code></pre></div>
 <h2 id="indexed-sequences-or-vectors">Indexed sequences or Vectors</h2>
 <figure>
-<img src="./vector.png" alt="vectors" /><figcaption>vectors</figcaption>
+<img src="./vector.png" alt="Figure 4: Vectors" /><figcaption>Figure 4: Vectors</figcaption>
 </figure>
 <p>We now define a finite sized indexed list, also called a vector <code>Vec</code>. The constructor consists of:</p>
 <ul>

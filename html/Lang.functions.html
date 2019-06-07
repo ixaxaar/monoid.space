@@ -177,7 +177,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We implement the <code>map</code> function, of “map-reduce” fame, for <code>List</code>s: A map function for a <code>List</code> is a function that applies a lambda (un-named) function to all elements of a <code>List</code>.</p>
 <p>If <code>f</code> were a lambda function, map-ing <code>f</code> over <code>List(a, b, c, d)</code> would produce <code>List(f(a), f(b), f(c), f(d))</code></p>
 <figure>
-<img src="./map.png" alt="map" /><figcaption>map</figcaption>
+<img src="./map.png" alt="Figure 1: Map" /><figcaption>Figure 1: Map</figcaption>
 </figure>
 <div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb11-1" title="1">map <span class="ot">:</span> <span class="ot">{</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> List A <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> List B</a>
 <a class="sourceLine" id="cb11-2" title="2">map [] f <span class="ot">=</span> []</a>

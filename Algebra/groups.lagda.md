@@ -268,4 +268,4 @@ An Abelian group, named after Niels Henrik Abel, is a group and requires its ope
 
 
 ****
-[Groups and family 2](./Algebra.structures.html)
+[Groups and family 2](./Algebra.groups2.html)

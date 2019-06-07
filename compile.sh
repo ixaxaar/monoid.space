@@ -42,7 +42,7 @@ rm -rf build html tmp
 mkdir html
 
  # compile
- agda -i . --compile --no-main --compile-dir=./build contents.lagda.md
+ agda -i . --compile --without-K --no-main --compile-dir=./build contents.lagda.md
 
 for i in "${files[@]}"
 do

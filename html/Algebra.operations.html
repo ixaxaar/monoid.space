@@ -129,7 +129,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We now write a few laws that operators could follow. Essentially, structures built on top of these operators would end up following the same laws as the underlying operator. We have already seen some of these laws in <a href="./Logic.laws.html">laws of boolean algebra</a>, these are universe polymorphism-accounted general versions of those laws.</p>
 <h3 id="associativity">Associativity</h3>
 <figure>
-<img src="associative.png" alt="associative" /><figcaption>associative</figcaption>
+<img src="associative.png" alt="Figure 1: Associative" /><figcaption>Figure 1: Associative</figcaption>
 </figure>
 <p>Mathematically, given an operation <code>★</code>, it is called associative if:</p>
 <pre class="math"><code>∀ x, y, z ∈ A,
@@ -140,7 +140,7 @@ x ★ (y ★ z) ≡ (x ★ y) ★ z</code></pre>
 <a class="sourceLine" id="cb7-2" title="2">  Associative <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">((</span>x ∙ y<span class="ot">)</span> ∙ z<span class="ot">)</span> == <span class="ot">(</span>x ∙ <span class="ot">(</span>y ∙ z<span class="ot">))</span></a></code></pre></div>
 <h3 id="commutativity">Commutativity</h3>
 <figure>
-<img src="commutative.png" alt="commutative" /><figcaption>commutative</figcaption>
+<img src="commutative.png" alt="Figure 2: Commutative" /><figcaption>Figure 2: Commutative</figcaption>
 </figure>
 <p>Commutativity is defined as:</p>
 <pre class="math"><code>∀ x, y ∈ A,
@@ -151,7 +151,7 @@ x ★ y ≡ y ★ x</code></pre>
 <a class="sourceLine" id="cb9-2" title="2">  Commutative <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x ∙ y<span class="ot">)</span> == <span class="ot">(</span>y ∙ x<span class="ot">)</span></a></code></pre></div>
 <h3 id="identity">Identity</h3>
 <figure>
-<img src="identity.png" alt="identity" /><figcaption>identity</figcaption>
+<img src="identity.png" alt="Figure 3: Identity" /><figcaption>Figure 3: Identity</figcaption>
 </figure>
 <pre class="math"><code>∀ x ∈ A,
 if id is the identity object of A,
@@ -169,7 +169,7 @@ id ★ x ≡ x</code></pre>
 <a class="sourceLine" id="cb11-8" title="8">  Identity e ∙ <span class="ot">=</span> LeftIdentity e ∙ × RightIdentity e ∙</a></code></pre></div>
 <h3 id="elimination">Elimination</h3>
 <figure>
-<img src="elimination.png" alt="elimination" /><figcaption>elimination</figcaption>
+<img src="elimination.png" alt="Figure 4: Elimination" /><figcaption>Figure 4: Elimination</figcaption>
 </figure>
 <pre class="math"><code>∀ x ∈ A,
 
@@ -186,7 +186,7 @@ x ★ 0 ≡ 0
 <a class="sourceLine" id="cb13-8" title="8">  Zero z ∙ <span class="ot">=</span> LeftZero z ∙ × RightZero z ∙</a></code></pre></div>
 <h3 id="inverse">Inverse</h3>
 <figure>
-<img src="inverse.png" alt="inverse" /><figcaption>inverse</figcaption>
+<img src="inverse.png" alt="Figure 5: Inverse" /><figcaption>Figure 5: Inverse</figcaption>
 </figure>
 <pre class="math"><code>∀ x ∈ A, ∃ x⁻¹ ∈ A such that
 
@@ -204,7 +204,7 @@ x⁻¹ ★ x ≡ id</code></pre>
 <a class="sourceLine" id="cb15-8" title="8">  Inverse e ⁻¹ ∙ <span class="ot">=</span> LeftInverse e ⁻¹ ∙ × RightInverse e ⁻¹ ∙</a></code></pre></div>
 <h3 id="distributive">Distributive</h3>
 <figure>
-<img src="distributive.png" alt="distributive" /><figcaption>distributive</figcaption>
+<img src="distributive.png" alt="Figure 6: Distributive" /><figcaption>Figure 6: Distributive</figcaption>
 </figure>
 <pre class="math"><code>∀ x, y, z ∈ A,
 operation ★ is distributive if:
@@ -222,7 +222,7 @@ operation ★ is distributive if:
 <a class="sourceLine" id="cb17-10" title="10">  * DistributesOver + <span class="ot">=</span> <span class="ot">(</span>* DistributesOverˡ +<span class="ot">)</span> × <span class="ot">(</span>* DistributesOverʳ +<span class="ot">)</span></a></code></pre></div>
 <h3 id="absorptive">Absorptive</h3>
 <figure>
-<img src="absorption.png" alt="absorption" /><figcaption>absorption</figcaption>
+<img src="absorption.png" alt="Figure 7: Absorption" /><figcaption>Figure 7: Absorption</figcaption>
 </figure>
 <pre class="math"><code>∀ x ∈ A and two operations
  ∙ : A → A → A
@@ -243,7 +243,7 @@ and if both are satisfied collectively ∙ and ∘ are absorptive.</code></pre>
 <a class="sourceLine" id="cb19-5" title="5">  Absorptive ∙ ∘ <span class="ot">=</span> <span class="ot">(</span>∙ Absorbs ∘<span class="ot">)</span> × <span class="ot">(</span>∘ Absorbs ∙<span class="ot">)</span></a></code></pre></div>
 <h3 id="cancellative">Cancellative</h3>
 <figure>
-<img src="cancellation.png" alt="cancellation" /><figcaption>cancellation</figcaption>
+<img src="cancellation.png" alt="Figure 8: Cancellation" /><figcaption>Figure 8: Cancellation</figcaption>
 </figure>
 <pre class="math"><code>∀ x, y ∈ A
 and a function • : A → A → A,
@@ -259,7 +259,7 @@ and a function • : A → A → A,
 <a class="sourceLine" id="cb21-8" title="8">  Cancellative <span class="ot">_</span>•<span class="ot">_</span> <span class="ot">=</span> LeftCancellative <span class="ot">_</span>•<span class="ot">_</span> × RightCancellative <span class="ot">_</span>•<span class="ot">_</span></a></code></pre></div>
 <h3 id="congruence">Congruence</h3>
 <figure>
-<img src="congruence.png" alt="congruence" /><figcaption>congruence</figcaption>
+<img src="congruence.png" alt="Figure 9: Congruence" /><figcaption>Figure 9: Congruence</figcaption>
 </figure>
 <pre class="math"><code>Given
   a₁, a₂ ∈ A

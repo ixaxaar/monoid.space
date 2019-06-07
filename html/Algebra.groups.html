@@ -216,7 +216,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <p>Some of these objects can be visualized as if they were successors of each other, with the ones at the bottom more “strict” as in with more restrictions in the form of supported laws. We also code them this way below. Note that we implement only the packaged version of laws here, the actual object types we define in the next section <a href="./Algebra.groups2.html">Groups and family 2</a>, this is precisely because we cannot have two high level modules per agda file.</p>
 <figure>
-<img src="./algebra_structure.png" alt="algebra-structure" /><figcaption>algebra-structure</figcaption>
+<img src="./algebra_structure.png" alt="Figure 1: Algebraic structures" /><figcaption>Figure 1: Algebraic structures</figcaption>
 </figure>
 <p>As we see above, semigroupoid is a generalization of the semigroup, group is a stricter form of a monoid or all groups are also monoids etc. Semigroupoids, Small Categories and Groupoids form what is called as partial abstract algebra such that they dont require the totality axiom which thus allows their operations to be partial functions.</p>
 <h2 id="conditions">Conditions</h2>
@@ -224,7 +224,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="magma">Magma</h2>
 <p>A magma is a set of objects with an equivalence relation defined on them. It is one of the simplest objects in abstract algebra.</p>
 <figure>
-<img src="./magma.png" alt="magma" /><figcaption>magma</figcaption>
+<img src="./magma.png" alt="Figure 2: Magma" /><figcaption>Figure 2: Magma</figcaption>
 </figure>
 <div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb2-1" title="1">  <span class="kw">record</span> IsMagma <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></a>
 <a class="sourceLine" id="cb2-2" title="2">    <span class="kw">field</span></a>
@@ -241,7 +241,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="semigroupoid">Semigroupoid</h2>
 <p>A semigroupoid is a set of objects some of which support an operation <code>★</code>, which must be associative.</p>
 <figure>
-<img src="semigroupoid.png" alt="semigroupoid" /><figcaption>semigroupoid</figcaption>
+<img src="semigroupoid.png" alt="Figure 3: Semigroupoid" /><figcaption>Figure 3: Semigroupoid</figcaption>
 </figure>
 <div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb3-1" title="1">  <span class="kw">record</span> IsSemigroupoid <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></a>
 <a class="sourceLine" id="cb3-2" title="2">    <span class="kw">field</span></a>
@@ -259,7 +259,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="small-category">Small category</h2>
 <p>A small category suports identities and the operation supports the identity function. Apart from that, it inherits all properties of a semigroupoid.</p>
 <figure>
-<img src="smallcategory.png" alt="smallcategory" /><figcaption>smallcategory</figcaption>
+<img src="smallcategory.png" alt="Figure 4: Smallcategory" /><figcaption>Figure 4: Smallcategory</figcaption>
 </figure>
 <div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb4-1" title="1">  <span class="kw">record</span> IsSmallCategory <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></a>
 <a class="sourceLine" id="cb4-2" title="2">    <span class="kw">field</span></a>
@@ -276,7 +276,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="semigroup">Semigroup</h2>
 <p>A semigroup is a structure where the operation is associative. It differs with semigroupoids as in the operation for semigroups are total (or cannot be partial). Hence, semigroupoids are a generalization of semigroups. Semigroups are essentially semigroupoids with the totality condition.</p>
 <figure>
-<img src="semigroup.png" alt="semigroup" /><figcaption>semigroup</figcaption>
+<img src="semigroup.png" alt="Figure 5: Semigroup" /><figcaption>Figure 5: Semigroup</figcaption>
 </figure>
 <div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb5-1" title="1">  <span class="kw">record</span> IsSemigroup <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></a>
 <a class="sourceLine" id="cb5-2" title="2">    <span class="kw">field</span></a>
@@ -287,7 +287,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="groupoid">Groupoid</h2>
 <p>A groupoid is a small category with the restriction that the operation has have its inverse defined.</p>
 <figure>
-<img src="groupoid.png" alt="groupoid" /><figcaption>groupoid</figcaption>
+<img src="groupoid.png" alt="Figure 6: Groupoid" /><figcaption>Figure 6: Groupoid</figcaption>
 </figure>
 <div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb6-1" title="1">  <span class="kw">record</span> IsGroupoid <span class="ot">(_</span>∙<span class="ot">_</span> <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(_</span>⁻¹ <span class="ot">:</span> ♠ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></a>
 <a class="sourceLine" id="cb6-2" title="2">    <span class="kw">field</span></a>
@@ -314,7 +314,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="monoid">Monoid</h2>
 <p>A monoid is a structure formed by adding the totality condition to small categories.</p>
 <figure>
-<img src="monoid.png" alt="monoid" /><figcaption>monoid</figcaption>
+<img src="monoid.png" alt="Figure 7: Monoid" /><figcaption>Figure 7: Monoid</figcaption>
 </figure>
 <div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb7-1" title="1">  <span class="kw">record</span> IsMonoid <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></a>
 <a class="sourceLine" id="cb7-2" title="2">    <span class="kw">field</span></a>
@@ -331,7 +331,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="commutative-monoid">Commutative Monoid</h2>
 <p>A commutative monoid is a monoid with its operation required to be commutative.</p>
 <figure>
-<img src="group.png" alt="group" /><figcaption>group</figcaption>
+<img src="group.png" alt="Figure 8: Commutative Monoid" /><figcaption>Figure 8: Commutative Monoid</figcaption>
 </figure>
 <div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb8-1" title="1">  <span class="kw">record</span> IsCommutativeMonoid <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></a>
 <a class="sourceLine" id="cb8-2" title="2">    <span class="kw">field</span></a>
@@ -353,7 +353,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="group">Group</h2>
 <p>A group is a monoid with requiring for inverses to exist for every pair of elements. A groupoid is a generalization of groups by removing the totality restriction.</p>
 <figure>
-<img src="group.png" alt="group" /><figcaption>group</figcaption>
+<img src="group.png" alt="Figure 9: Group" /><figcaption>Figure 9: Group</figcaption>
 </figure>
 <div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb9-1" title="1">  <span class="kw">record</span> IsGroup <span class="ot">(_</span>∙<span class="ot">_</span> <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(_</span>⁻¹ <span class="ot">:</span> ♠ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></a>
 <a class="sourceLine" id="cb9-2" title="2">    <span class="kw">field</span></a>
@@ -391,6 +391,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb10-5" title="5"></a>
 <a class="sourceLine" id="cb10-6" title="6">    <span class="kw">open</span> IsGroup isGroup <span class="kw">public</span></a></code></pre></div>
 <hr />
-<p><a href="./Algebra.structures.html">Groups and family 2</a></p>
+<p><a href="./Algebra.groups2.html">Groups and family 2</a></p>
 </body>
 </html>

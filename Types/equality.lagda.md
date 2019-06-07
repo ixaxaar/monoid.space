@@ -29,6 +29,8 @@
 # Equalities
 
 ```agda
+{-# OPTIONS --with-K #-}
+
 module Types.equality where
 
 open import Lang.dataStructures using (

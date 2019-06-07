@@ -110,13 +110,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>An n-dimensional space can be thought as a collection of n numbers from a field and n directions or bases. Thus we can construct spaces from fields. For e.g. any point in 2-dimensional space of real numbers ℝ can be represented as <span class="math inline">\(a × x + b × y\)</span> where <span class="math inline">\(a, b ∈ ℝ\)</span>.</p>
 <p>A path is a line joining two points. This path can be of any shape, be it a straight line or an extremely squiggly one.</p>
 <figure>
-<img src="./pathType.png" alt="path" /><figcaption>path</figcaption>
+<img src="./pathType.png" alt="Figure 1: Path" /><figcaption>Figure 1: Path</figcaption>
 </figure>
 <h2 id="paths-and-their-equalities">Paths and their equalities</h2>
 <p>Technically, a path p between two points <code>x</code> and <code>y</code> can be represented as a function <code>f</code> that takes a continuous value <code>t</code> and returns a point on the path <code>f(t)</code> such that the first point is <code>x</code> <span class="math inline">\(f(0) = x\)</span> and the last point is <code>y</code> <span class="math inline">\(f(1) = y\)</span> and <span class="math inline">\(0 ≤ t ≤ 1\)</span>. It might need to be reminded that such a path might not actually exist as a continuous line through space but may help if imagined as such.</p>
 <p>Now, we could take any two paths between the same points and stretch / squeeze one path into another. This process can be used to capture relationships between two paths and is called <em>homotopy</em>. More formally,</p>
 <figure>
-<img src="./two_paths_homotopy.png" alt="two_paths_homotopy" /><figcaption>two_paths_homotopy</figcaption>
+<img src="./two_paths_homotopy.png" alt="Figure 2: Two Paths Homotopy" /><figcaption>Figure 2: Two Paths Homotopy</figcaption>
 </figure>
 <h3 id="homotopy">Homotopy</h3>
 <p>A <em>homotopy</em> between two paths <code>p(t)</code> and <code>q(t)</code> is defined as a continuous function <code>H(t, h)</code> such that:</p>
@@ -128,7 +128,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>There can exist multiple paths between two objects and hence multiple homotopies between them. Homotopies can be thought of as 2-dimensional paths or path-of-path if paths are 1-dimensional paths. Homotopies are built on equivalence relations and hence fit into its API, i.e. homotopy respects reflexivity, symmetry and transitivity, and can be used to build equational reasoning chanins.</p>
 <figure>
-<img src="./homotopy.png" alt="homotopy" /><figcaption>homotopy</figcaption>
+<img src="./homotopy.png" alt="Figure 3: Homotopy" /><figcaption>Figure 3: Homotopy</figcaption>
 </figure>
 <h3 id="fundamental-group">Fundamental group</h3>
 <p>Two homotopies <code>H1</code> and <code>H2</code> can themselves be called equal if <span class="math inline">\(H(0, h) = H(1, h) = x₀\)</span>, i.e. if <code>x</code> and <code>y</code> are the same point. We can use this equivalence relation and the fact that homotopies have inverses, to build a group structure around these homotopies, called as the <em>fundamental group</em>.</p>
@@ -143,7 +143,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="induction-principle">Induction principle</h2>
 <p>The induction principle is central to deriving all basic constructions for HoTT. Stated simply, if for every pair of objects <code>x</code> and <code>y</code> of type <code>A</code> - the equality type <span class="math inline">\(≡_A\)</span> between <code>x</code> and <code>y</code> exists everytime <code>x</code> and <code>y</code> are equal - for every <code>x ∈ A</code>, the equalities <span class="math inline">\(x ≡_A x\)</span> are reflexive then for a proposition <code>C</code> which depends upon the equality <span class="math inline">\(x ≡_A y\)</span>, it turns out that it is sufficient to prove <code>C</code> for all cases where <span class="math inline">\(x ≡_A x\)</span> alone and it becomes automatically applicable for cases for all <span class="math inline">\(x ≡_A y\)</span>.</p>
 <figure>
-<img src="./induction.png" alt="induction" /><figcaption>induction</figcaption>
+<img src="./induction.png" alt="Figure 4: Induction" /><figcaption>Figure 4: Induction</figcaption>
 </figure>
 <hr />
 <p><a href="./HoTT.identity.html">Identity Types and Paths</a></p>

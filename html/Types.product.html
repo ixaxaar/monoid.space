@@ -150,7 +150,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Note: The above is pseudo-code, the proof is below.</p>
 <p>The second condition is the unique-ness condition, .i.e. for all objects having projections to <code>A</code> and <code>B</code>, there is one through which all projections go through. We call this one object the “Product” This is better visualized in this diagram:</p>
 <figure>
-<img src="./product.png" alt="product" /><figcaption>product</figcaption>
+<img src="./product.png" alt="Figure 1: Product" /><figcaption>Figure 1: Product</figcaption>
 </figure>
 <h2 id="dependent-pair-types-or-σ-types">Dependent Pair Types or Σ-types</h2>
 <p>Dependent types are products where the 2nd type is dependent on the first one. i.e. <code>(A, B)</code> such that there exists.</p>
@@ -167,7 +167,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>While constructing algebraic structures, a fairly general pattern is that a bunch of properties can be bundled together to form objects, and then structures are built on top of them. Since all of those properties are types, a record containing a bunch of properties would by construction ensure the objects of such a record belong to the algebraic type. A lot of implementation of mathematical structures can be done in this form of <code>record</code>s of bundled properties.</p>
 <p>The <code>Σ</code> type is also called a “Dependent” or “Σ” (sigma) type - dependent as in the second parameter to <code>record</code> depends upon the type <code>A</code>, the first parameter. Note that we use the machinery of universe polymorphism to define this.</p>
 <figure>
-<img src="product_full.png" alt="product_full" /><figcaption>product_full</figcaption>
+<img src="product_full.png" alt="Figure 2: Product (math)" /><figcaption>Figure 2: Product (math)</figcaption>
 </figure>
 <h2 id="api">API</h2>
 <h3 id="cross-product">Cross product</h3>
@@ -210,7 +210,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb13-3" title="3">  inj₂ <span class="ot">:</span> <span class="ot">(</span>y <span class="ot">:</span> B<span class="ot">)</span> <span class="ot">→</span> A ∪ B</a></code></pre></div>
 <p>Co-product types are similar to product types, except with reversed arrows:</p>
 <figure>
-<img src="coproduct.png" alt="coproducts" /><figcaption>coproducts</figcaption>
+<img src="coproduct.png" alt="Figure 3: Coproducts" /><figcaption>Figure 3: Coproducts</figcaption>
 </figure>
 <h2 id="maybe">Maybe</h2>
 <p>Just like the cartesian product is the representative type of a product, the <code>Maybe</code> type fills that role for the co-product. This happens to be a very popular datatype in functional programming languages like haskell <code>Maybe</code>, scala <code>Option</code> etc and is widely used to error handling.</p>

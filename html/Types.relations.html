@@ -122,7 +122,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 id="reflexive">Reflexive</h3>
 <p>A reflexive relation is one where <span class="math inline">\(x \bullet y = y \bullet x\)</span>:</p>
 <figure>
-<img src="refl.png" alt="refl" /><figcaption>refl</figcaption>
+<img src="refl.png" alt="Figure 1: Refl" /><figcaption>Figure 1: Refl</figcaption>
 </figure>
 <div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb4-1" title="1">reflexive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span></a>
 <a class="sourceLine" id="cb4-2" title="2">  <span class="ot">→</span> Rel A</a>
@@ -131,7 +131,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 id="symmetric">Symmetric</h3>
 <p>A symmetric relation is one where <span class="math inline">\(x \bullet y \implies y \bullet x\)</span>:</p>
 <figure>
-<img src="symmetric.png" alt="symmetric" /><figcaption>symmetric</figcaption>
+<img src="symmetric.png" alt="Figure 2: Symmetric" /><figcaption>Figure 2: Symmetric</figcaption>
 </figure>
 <div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb5-1" title="1">symmetric <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span></a>
 <a class="sourceLine" id="cb5-2" title="2">symmetric <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span>  <span class="ot">=</span> <span class="ot">(</span>x y <span class="ot">:</span> A<span class="ot">)</span></a>
@@ -140,7 +140,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 id="transitive">Transitive</h3>
 <p>A transitive relation is one where <span class="math inline">\(x \bullet y, y \bullet z ~then~ z \bullet x\)</span>:</p>
 <figure>
-<img src="transitive.png" alt="transitive" /><figcaption>transitive</figcaption>
+<img src="transitive.png" alt="Figure 3: Transitive" /><figcaption>Figure 3: Transitive</figcaption>
 </figure>
 <div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb6-1" title="1">transitive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span></a>
 <a class="sourceLine" id="cb6-2" title="2">transitive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x y z <span class="ot">:</span> A<span class="ot">)</span></a>
