@@ -129,15 +129,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>and a binary one as:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb3-1" title="1">Fun₂ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> i <span class="ot">→</span> <span class="dt">Set</span> i</a>
 <a class="sourceLine" id="cb3-2" title="2">Fun₂ A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> A</a></code></pre></div>
-<p>In Type Theory, a function is also a type, called a <strong>function type</strong>.</p>
+<p>In Type Theory, a function is also a type, called a <strong>function type</strong> represented as the type <code>Input₁ → Input₂ → ... → Inputₙ → Output</code>, where <code>Inputᵢ</code> are the input types and <code>Output</code> is the output type. A function type <code>f : A → B</code> can also be considered to be an exponential <code>f : Bᴬ</code> and can be thought of as belonging to the set of all <code>b ∈ B</code> that can be obtained from any <code>a ∈ A</code>, hence <code>Bᴬ</code> such elements.</p>
+<p>The concept of <strong>currying</strong> can be explained using this representation as <span class="math inline">\(C^{A \x B} = (C^A)^B\)</span> hence a function taking multiple arguments <code>f : (A, B) → C</code> is the same as <code>f : A → B → C</code>. <strong>Partial functions</strong> can then be trivally described as functions that return functions with lesser number of arguments, or <strong>arity</strong>: <code>∀ a ∈ A, g = f(a) : B → C</code>.</p>
 <h1 id="dependent-function-types-or-π-types">Dependent Function Types or Π-types</h1>
-<p>Dependent function types or Π-types are functions whose second argument depends upon the first.</p>
+<p>Dependent function types or Π-types are functions whose type of second argument depends upon the type of first.</p>
 <p>i.e. function <code>f : A → (g A) → Set</code> where <code>g : A → B</code>.</p>
 <p>In the notation of lambda abstraction:</p>
 <p><span class="math display">\[
 λx. (λx.y).ϕ
 \]</span></p>
-<p>Another notation is to use <span class="math inline">\(Π(x, y)\)</span>, mostly used in type theory to denote Π-types.</p>
+<p>Another notation is to use <span class="math inline">\(\Pi_{x : A} B(x)\)</span>, mostly used in type theory to denote Π-types.</p>
 <figure>
 <img src="dependent_function.png" alt="Figure 1: Dependent Function" /><figcaption>Figure 1: Dependent Function</figcaption>
 </figure>
@@ -197,7 +198,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb10-3" title="3">        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x<span class="ot">)</span></a>
 <a class="sourceLine" id="cb10-4" title="4">f $ x <span class="ot">=</span> f x</a></code></pre></div>
 <h2 id="currying">Currying</h2>
-<p>Currying converts a function that takes multiple arguments into a sequence of functions each taking one argument. Un-currying is the opposite of currying. We define both for binary functions, though further extensions are trivial:</p>
+<p>Currying, as we saw earlier, converts a function that takes multiple arguments into a sequence of functions each taking one argument. Un-currying is the opposite of currying. We define both for binary functions, though further extensions are trivial:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb11-1" title="1">curry <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i j k<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> i<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> j<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> Σ A B <span class="ot">→</span> <span class="dt">Set</span> k<span class="ot">}</span></a>
 <a class="sourceLine" id="cb11-2" title="2">        <span class="ot">→</span> <span class="ot">(∀</span> s <span class="ot">→</span> C s<span class="ot">)</span></a>
 <a class="sourceLine" id="cb11-3" title="3">        <span class="ot">→</span> <span class="ot">(∀</span> x y <span class="ot">→</span> C <span class="ot">(</span>x , y<span class="ot">))</span></a>
@@ -239,7 +240,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb16-7" title="7"></a>
 <a class="sourceLine" id="cb16-8" title="8">case<span class="ot">_</span>of<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> B</a>
 <a class="sourceLine" id="cb16-9" title="9">case x of f <span class="ot">=</span> case x return <span class="ot">_</span> of f</a></code></pre></div>
-<p>TODO: provide examples of each API</p>
 <hr />
 <p><a href="./Types.proofsAsData.html">Proofs as Data</a></p>
 </body>
