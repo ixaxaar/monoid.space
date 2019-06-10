@@ -54,11 +54,13 @@ and a binary one as:
 Fun₂ : ∀ {i} → Set i → Set i
 Fun₂ A = A → A → A
 ```
-In Type Theory, a function is also a type, called a **function type**.
+In Type Theory, a function is also a type, called a **function type** represented as the type `Input₁ → Input₂ → ... → Inputₙ → Output`, where `Inputᵢ` are the input types and `Output` is the output type. A function type `f : A → B` can also be considered to be an exponential `f : Bᴬ` and can be thought of as belonging to the set of all `b ∈ B` that can be obtained from any `a ∈ A`, hence `Bᴬ` such elements. 
+
+The concept of **currying** can be explained using this representation as $C^{A \x B} = (C^A)^B$  hence a function taking multiple arguments `f : (A, B) → C` is the same as `f : A → B → C`. **Partial functions** can then be trivally described as functions that return functions with lesser number of arguments, or **arity**: `∀ a ∈ A, g = f(a) : B → C`.
 
 # Dependent Function Types or Π-types
 
-Dependent function types or Π-types are functions whose second argument depends upon the first.
+Dependent function types or Π-types are functions whose type of second argument depends upon the type of first.
 
 i.e. function `f : A → (g A) → Set` where `g : A → B`.
 
@@ -68,7 +70,7 @@ $$
 λx. (λx.y).ϕ
 $$
 
-Another notation is to use $Π(x, y)$, mostly used in type theory to denote Π-types.
+Another notation is to use $\Pi_{x : A} B(x)$, mostly used in type theory to denote Π-types.
 
 ![Figure 1: Dependent Function](dependent_function.png)
 
@@ -163,7 +165,7 @@ f $ x = f x
 
 ## Currying
 
-Currying converts a function that takes multiple arguments into a sequence of functions each taking one argument. Un-currying is the opposite of currying. We define both for binary functions, though further extensions are trivial:
+Currying, as we saw earlier, converts a function that takes multiple arguments into a sequence of functions each taking one argument. Un-currying is the opposite of currying. We define both for binary functions, though further extensions are trivial:
 
 ```agda
 curry : ∀ {i j k} {A : Set i} {B : A → Set j} {C : Σ A B → Set k}
@@ -229,8 +231,6 @@ case x return B of f = f x
 case_of_ : ∀ {a b} {A : Set a} {B : Set b} → A → (A → B) → B
 case x of f = case x return _ of f
 ```
-
-TODO: provide examples of each API
 
 ****
 [Proofs as Data](./Types.proofsAsData.html)

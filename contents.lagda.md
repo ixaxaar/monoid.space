@@ -35,10 +35,10 @@
   - [Universes and families](./Types.universe.html)
   - [Relations](./Types.relations.html)
   - [Equality](./Types.equality.html)
-  - [Product Types / Σ-types](./Types.product.html)
-  - [Dependent Function Types / Π-types](./Types.functions.html)
+  - [Product Types and Σ-types](./Types.product.html)
+  - [Function Types and Π-types](./Types.functions.html)
   - [Proofs as Data](./Types.proofsAsData.html)
-  - [Kinds of Type Theories](./Types.variations.html)
+  - [Identity Types](./Types.variations.html)
 
 ## 3. Logic
 
