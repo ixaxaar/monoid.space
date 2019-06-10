@@ -225,11 +225,25 @@ code {
 .math {
   padding-left: 7px;
   padding-right: 7px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  margin-left: 0px !important;
   background-color: #404060;
   border-radius: 5px;
   color: white;
+}
+
+.display {
+  background-color: transparent !important;
+}
+
+/*a:has(> img)*/
+
+.mjx-chtml {
+  background-color: #404060;
+  border-radius: 5px;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
 }
 
 .sourceCode code {

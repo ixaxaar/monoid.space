@@ -130,7 +130,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb3-1" title="1">Fun₂ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> i <span class="ot">→</span> <span class="dt">Set</span> i</a>
 <a class="sourceLine" id="cb3-2" title="2">Fun₂ A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> A</a></code></pre></div>
 <p>In Type Theory, a function is also a type, called a <strong>function type</strong> represented as the type <code>Input₁ → Input₂ → ... → Inputₙ → Output</code>, where <code>Inputᵢ</code> are the input types and <code>Output</code> is the output type. A function type <code>f : A → B</code> can also be considered to be an exponential <code>f : Bᴬ</code> and can be thought of as belonging to the set of all <code>b ∈ B</code> that can be obtained from any <code>a ∈ A</code>, hence <code>Bᴬ</code> such elements.</p>
-<p>The concept of <strong>currying</strong> can be explained using this representation as <span class="math inline">\(C^{A \x B} = (C^A)^B\)</span> hence a function taking multiple arguments <code>f : (A, B) → C</code> is the same as <code>f : A → B → C</code>. <strong>Partial functions</strong> can then be trivally described as functions that return functions with lesser number of arguments, or <strong>arity</strong>: <code>∀ a ∈ A, g = f(a) : B → C</code>.</p>
+<p>The concept of <strong>currying</strong> can be explained using this representation as <span class="math inline">\(C^{A × B} = (C^A)^B\)</span> hence a function taking multiple arguments <code>f : (A, B) → C</code> is the same as <code>f : A → B → C</code>. <strong>Partial functions</strong> can then be trivally described as functions that return functions with lesser number of arguments, or <strong>arity</strong>: <code>∀ a ∈ A, g = f(a) : B → C</code>.</p>
 <h1 id="dependent-function-types-or-π-types">Dependent Function Types or Π-types</h1>
 <p>Dependent function types or Π-types are functions whose type of second argument depends upon the type of first.</p>
 <p>i.e. function <code>f : A → (g A) → Set</code> where <code>g : A → B</code>.</p>
@@ -138,7 +138,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><span class="math display">\[
 λx. (λx.y).ϕ
 \]</span></p>
-<p>Another notation is to use <span class="math inline">\(\Pi_{x : A} B(x)\)</span>, mostly used in type theory to denote Π-types.</p>
+<p>Another notation is to use <span class="math inline">\(\Pi_{x : A} B(x)\)</span>, mostly used in type theory to denote Π-types. Functions of higher arity then take the form <span class="math inline">\(\Pi_{x : A}\Pi_{y : B(x)} D(y)\)</span> and so on.</p>
 <figure>
 <img src="dependent_function.png" alt="Figure 1: Dependent Function" /><figcaption>Figure 1: Dependent Function</figcaption>
 </figure>

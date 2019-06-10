@@ -60,7 +60,9 @@ While being intuitively familiar with what a cartesian product is, it's algebrai
 
 A cartesian product, in set theory, for two sets `A` and `B` is defined as:
 
-$$ A x B = \{ (a , b) | a ∈ A ~and~ b ∈ B \} $$
+```math
+A x B = { (a , b) | a ∈ A and b ∈ B }
+```
 
 In  type theory, we look at another way of defining product types, just by looking at them as objects in themselves:
 For an object `X`, we call `X` a product type if:
@@ -90,9 +92,21 @@ The second condition is the unique-ness condition, .i.e. for all objects having 
 
 ## Dependent Pair Types or Σ-types
 
-Dependent types are products where the 2nd type is dependent on the first one. i.e. `(A, B)` such that there exists.
+Dependent types are products where the 2nd type is dependent on the first one. They are of the form `(x : A, B(x))`. The notation in type theory looks like this for binary dependent pairs:
 
-Agda's `Record` types provides encapsulation for this definition and some syntactic sugars like constructors:
+$$
+\sum_{x : A} B(x)
+$$
+
+with ternary dependent pair types being represented as:
+
+$$
+\sum_{x : A} \sum_{y : B(x)} C(y)
+$$
+
+and so on.
+
+Agda's `record` types provides encapsulation for this definition and some syntactic sugars like constructors:
 
 ```agda
 record Σ {a b} (A : Set a) (B : A → Set b) : Set (a ⊔ b) where
@@ -106,9 +120,22 @@ open Σ public
 infixr 4 _,_
 ```
 
-While constructing algebraic structures, a fairly general pattern is that a bunch of properties can be bundled together to form objects, and then structures are built on top of them. Since all of those properties are types, a record containing a bunch of properties would by construction ensure the objects of such a record belong to the algebraic type. A lot of implementation of mathematical structures can be done in this form of `record`s of bundled properties.
+While constructing complex mathematical structures, a fairly general pattern is that a bunch of properties can be bundled together to form objects, and then structures are built on top of them. Since all of those properties are types, a record containing a bunch of properties would by construction ensure the objects of such a record belong to the type represented. A lot of implementation of mathematical structures can be done in this form of `record`s of bundled properties.
 
-The `Σ` type is also called a "Dependent" or "Σ" (sigma) type - dependent as in the second parameter to `record` depends upon the type `A`, the first parameter. Note that we use the machinery of universe polymorphism to define this.
+Hence if, say `Prop₁` and `Prop₂` are two properties, an object that satisfies both is a record with both properties as fields:
+
+```agda
+data Prop₁ : Set where
+
+data Prop₂ : Set where
+
+record Satisfies (x : Prop₁)(y : Prop₁) : Set where
+  field
+    p1 : Prop₁
+    p2 : Prop₂
+```
+
+The `record` type is a special syntax for representing dependent or Σ (sigma) types in Agda, though they can very well also be represented in other ways such as using the `data` keyword.
 
 ![Figure 2: Product (math)](product_full.png)
 

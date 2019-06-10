@@ -121,6 +121,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./Types.functions.html">Function Types and Π-types</a></li>
 <li><a href="./Types.proofsAsData.html">Proofs as Data</a></li>
 <li><a href="./Types.variations.html">Identity Types</a></li>
+<li><a href="./Types.introductionRules.html">Type Introduction Rules</a></li>
 </ul>
 <h2 id="logic">3. Logic</h2>
 <ul>
@@ -180,23 +181,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb1-14" title="14"><span class="kw">import</span> Types<span class="ot">.</span>functions</a>
 <a class="sourceLine" id="cb1-15" title="15"><span class="kw">import</span> Types<span class="ot">.</span>proofsAsData</a>
 <a class="sourceLine" id="cb1-16" title="16"><span class="kw">import</span> Types<span class="ot">.</span>variations</a>
-<a class="sourceLine" id="cb1-17" title="17"></a>
-<a class="sourceLine" id="cb1-18" title="18"><span class="kw">import</span> HoTT<span class="ot">.</span>introduction</a>
-<a class="sourceLine" id="cb1-19" title="19"><span class="kw">import</span> HoTT<span class="ot">.</span>identity</a>
-<a class="sourceLine" id="cb1-20" title="20"></a>
-<a class="sourceLine" id="cb1-21" title="21"><span class="kw">import</span> Logic<span class="ot">.</span>introduction</a>
-<a class="sourceLine" id="cb1-22" title="22"><span class="kw">import</span> Logic<span class="ot">.</span>logicBasics</a>
-<a class="sourceLine" id="cb1-23" title="23"><span class="kw">import</span> Logic<span class="ot">.</span>equality</a>
-<a class="sourceLine" id="cb1-24" title="24"><span class="kw">import</span> Logic<span class="ot">.</span>laws</a>
-<a class="sourceLine" id="cb1-25" title="25"><span class="kw">import</span> Logic<span class="ot">.</span>decidability</a>
-<a class="sourceLine" id="cb1-26" title="26"></a>
-<a class="sourceLine" id="cb1-27" title="27"><span class="kw">import</span> Algebra<span class="ot">.</span>introduction</a>
-<a class="sourceLine" id="cb1-28" title="28"><span class="kw">import</span> Algebra<span class="ot">.</span>operations</a>
-<a class="sourceLine" id="cb1-29" title="29"><span class="kw">import</span> Algebra<span class="ot">.</span>equational</a>
-<a class="sourceLine" id="cb1-30" title="30"><span class="kw">import</span> Algebra<span class="ot">.</span>order</a>
-<a class="sourceLine" id="cb1-31" title="31"><span class="kw">import</span> Algebra<span class="ot">.</span>groups</a>
-<a class="sourceLine" id="cb1-32" title="32"><span class="kw">import</span> Algebra<span class="ot">.</span>groups2</a>
-<a class="sourceLine" id="cb1-33" title="33"><span class="kw">import</span> Algebra<span class="ot">.</span>groupProperties</a></code></pre></div>
+<a class="sourceLine" id="cb1-17" title="17"><span class="kw">import</span> Types<span class="ot">.</span>introductionRules</a>
+<a class="sourceLine" id="cb1-18" title="18"></a>
+<a class="sourceLine" id="cb1-19" title="19"><span class="kw">import</span> HoTT<span class="ot">.</span>introduction</a>
+<a class="sourceLine" id="cb1-20" title="20"><span class="kw">import</span> HoTT<span class="ot">.</span>identity</a>
+<a class="sourceLine" id="cb1-21" title="21"></a>
+<a class="sourceLine" id="cb1-22" title="22"><span class="kw">import</span> Logic<span class="ot">.</span>introduction</a>
+<a class="sourceLine" id="cb1-23" title="23"><span class="kw">import</span> Logic<span class="ot">.</span>logicBasics</a>
+<a class="sourceLine" id="cb1-24" title="24"><span class="kw">import</span> Logic<span class="ot">.</span>equality</a>
+<a class="sourceLine" id="cb1-25" title="25"><span class="kw">import</span> Logic<span class="ot">.</span>laws</a>
+<a class="sourceLine" id="cb1-26" title="26"><span class="kw">import</span> Logic<span class="ot">.</span>decidability</a>
+<a class="sourceLine" id="cb1-27" title="27"></a>
+<a class="sourceLine" id="cb1-28" title="28"><span class="kw">import</span> Algebra<span class="ot">.</span>introduction</a>
+<a class="sourceLine" id="cb1-29" title="29"><span class="kw">import</span> Algebra<span class="ot">.</span>operations</a>
+<a class="sourceLine" id="cb1-30" title="30"><span class="kw">import</span> Algebra<span class="ot">.</span>equational</a>
+<a class="sourceLine" id="cb1-31" title="31"><span class="kw">import</span> Algebra<span class="ot">.</span>order</a>
+<a class="sourceLine" id="cb1-32" title="32"><span class="kw">import</span> Algebra<span class="ot">.</span>groups</a>
+<a class="sourceLine" id="cb1-33" title="33"><span class="kw">import</span> Algebra<span class="ot">.</span>groups2</a>
+<a class="sourceLine" id="cb1-34" title="34"><span class="kw">import</span> Algebra<span class="ot">.</span>groupProperties</a></code></pre></div>
 <hr />
 <p><a href="contents.html">Up</a></p>
 </body>
