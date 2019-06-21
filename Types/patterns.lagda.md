@@ -101,7 +101,7 @@ Nat-comp P p proof n = Nat-elim P p proof (succ n)
 
 For function types, $(λx.Φ)(a) ≡ substitute(a, x.Φ)$, i.e. the function is equal to substituting `a` for every occurrence of `x`. For products, the computation rule boils down to $f : A × B → C ≡ A → B → C$, also called [currying](./Types.functions.html#currying).
 
-## Uniquness principle
+## Uniqueness principle
 
 Finally the uniqueness principle describes how functions to and from the new type are unique. For some types the uniqueness principle behaves as the dual of the computation rule by describing how constructors act on eliminators. For other types the uniqueness principle implies conditions under which functions from the new type are unique.
 
