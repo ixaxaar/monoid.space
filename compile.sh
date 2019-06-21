@@ -19,7 +19,7 @@ declare -a files=(
   "Types/product"
   "Types/proofsAsData"
   "Types/variations"
-  "Types/introductionRules"
+  "Types/patterns"
 
   "Logic/introduction"
   "Logic/logicBasics"

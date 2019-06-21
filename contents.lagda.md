@@ -39,7 +39,8 @@
   - [Function Types and Π-types](./Types.functions.html)
   - [Proofs as Data](./Types.proofsAsData.html)
   - [Identity Types](./Types.variations.html)
-  - [Type Introduction Rules](./Types.introductionRules.html)
+  - [Patterns of Construction](./Types.patterns.html)
+  - [Equational Reasoning](./Types.equational.html)
 
 ## 3. Logic
 
@@ -108,7 +109,7 @@ import Types.product
 import Types.functions
 import Types.proofsAsData
 import Types.variations
-import Types.introductionRules
+import Types.patterns
 
 import HoTT.introduction
 import HoTT.identity
