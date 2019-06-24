@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>equational.lagda</title>
+  <title>equational2.lagda</title>
   <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -98,7 +98,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We now look at constructing a language or algebra atop a given relation and some of its properties. This serves as a nicer way of proving things by application of relations such as chains of transitivity.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb1-1" title="1"><span class="pp">{-# OPTIONS --without-K #-}</span></a>
 <a class="sourceLine" id="cb1-2" title="2"></a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">module</span> Algebra<span class="ot">.</span>equational <span class="kw">where</span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">module</span> Types<span class="ot">.</span>equational2 <span class="kw">where</span></a>
 <a class="sourceLine" id="cb1-4" title="4"></a>
 <a class="sourceLine" id="cb1-5" title="5"><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></a>
 <a class="sourceLine" id="cb1-6" title="6"><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</a>
@@ -125,9 +125,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb2-15" title="15">  <span class="ot">_</span> ≡⟨ x≡y ⟩ y≡z <span class="ot">=</span> trans x≡y y≡z</a>
 <a class="sourceLine" id="cb2-16" title="16"></a>
 <a class="sourceLine" id="cb2-17" title="17">  <span class="ot">_</span>∎ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ≡ x</a>
-<a class="sourceLine" id="cb2-18" title="18">  <span class="ot">_</span>∎ <span class="ot">_</span> <span class="ot">=</span> rfl</a>
-<a class="sourceLine" id="cb2-19" title="19"></a>
-<a class="sourceLine" id="cb2-20" title="20"><span class="co">----</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-18" title="18">  <span class="ot">_</span>∎ <span class="ot">_</span> <span class="ot">=</span> rfl</a></code></pre></div>
 <p>We could use this to, say prove transitivity and commutativity of addition of natural numbers:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">data</span> ℕ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></a>
 <a class="sourceLine" id="cb3-2" title="2">  zero <span class="ot">:</span> ℕ</a>
@@ -202,7 +200,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb12-2" title="2">  <span class="ot">_</span>∎ <span class="ot">_</span> <span class="ot">=</span> relTo reflexive</a></code></pre></div>
 <h2 id="some-proofs-using-equational-reasoning">Some Proofs using equational reasoning</h2>
 <p>A lot of assymetric laws can be derived with one half of the symmetry and mixing it with commutativity. E.g. left inverse coiuld be derived using right inverse and commutativity, similarly, right inverse can be derived using left inverse and commutativity.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>operations</a>
+<div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>operations</a>
 <a class="sourceLine" id="cb13-2" title="2"></a>
 <a class="sourceLine" id="cb13-3" title="3"><span class="kw">module</span> withCommutativity <span class="ot">{</span>a ℓ<span class="ot">}</span></a>
 <a class="sourceLine" id="cb13-4" title="4">  <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></a>

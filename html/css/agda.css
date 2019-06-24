@@ -214,7 +214,7 @@ h1 a, h2 a, h3 a { color: white; }
 
 .math code      {
   color: rgb(10, 250, 170) !important;
-  font-size: 16pt !important;
+  font-size: 18px !important;
 }
 
 code {

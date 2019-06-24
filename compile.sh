@@ -15,11 +15,15 @@ declare -a files=(
   "Types/universe"
   "Types/relations"
   "Types/equality"
+  "Algebra/operations"
   "Types/functions"
   "Types/product"
+
   "Types/proofsAsData"
   "Types/variations"
   "Types/patterns"
+  "Types/equational"
+  "Types/equational2"
 
   "Logic/introduction"
   "Logic/logicBasics"
@@ -31,8 +35,6 @@ declare -a files=(
   "HoTT/identity"
 
   "Algebra/introduction"
-  "Algebra/operations"
-  "Algebra/equational"
   "Algebra/order"
   "Algebra/groups"
   "Algebra/groups2"

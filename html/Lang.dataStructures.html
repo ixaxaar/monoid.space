@@ -161,7 +161,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb9-3" title="3">  succ <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ</a></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb10-1" title="1"><span class="ot">_</span>+<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> ℕ</a>
 <a class="sourceLine" id="cb10-2" title="2">x + zero <span class="ot">=</span> x</a>
-<a class="sourceLine" id="cb10-3" title="3">x + <span class="ot">(</span>succ y<span class="ot">)</span> <span class="ot">=</span> succ <span class="ot">(</span>x + y<span class="ot">)</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-3" title="3">x + <span class="ot">(</span>succ y<span class="ot">)</span> <span class="ot">=</span> succ <span class="ot">(</span>x + y<span class="ot">)</span></a>
+<a class="sourceLine" id="cb10-4" title="4"></a>
+<a class="sourceLine" id="cb10-5" title="5"><span class="ot">_</span>−<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> ℕ</a>
+<a class="sourceLine" id="cb10-6" title="6">zero  − m     <span class="ot">=</span> zero</a>
+<a class="sourceLine" id="cb10-7" title="7">succ n − zero  <span class="ot">=</span> succ n</a>
+<a class="sourceLine" id="cb10-8" title="8">succ n − succ m <span class="ot">=</span> n − m</a>
+<a class="sourceLine" id="cb10-9" title="9"></a>
+<a class="sourceLine" id="cb10-10" title="10"><span class="ot">_</span>×<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> ℕ</a>
+<a class="sourceLine" id="cb10-11" title="11">x × zero     <span class="ot">=</span> zero</a>
+<a class="sourceLine" id="cb10-12" title="12">x × <span class="ot">(</span>succ y<span class="ot">)</span> <span class="ot">=</span> x + <span class="ot">(</span>x × y<span class="ot">)</span></a>
+<a class="sourceLine" id="cb10-13" title="13"></a>
+<a class="sourceLine" id="cb10-14" title="14"><span class="ot">_</span>² <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ</a>
+<a class="sourceLine" id="cb10-15" title="15">x ² <span class="ot">=</span> x × x</a>
+<a class="sourceLine" id="cb10-16" title="16"></a>
+<a class="sourceLine" id="cb10-17" title="17"><span class="ot">_</span>^<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> ℕ</a>
+<a class="sourceLine" id="cb10-18" title="18">x ^ zero <span class="ot">=</span> succ zero</a>
+<a class="sourceLine" id="cb10-19" title="19">x ^ <span class="ot">(</span>succ y<span class="ot">)</span> <span class="ot">=</span> x × <span class="ot">(</span>x ^ y<span class="ot">)</span></a></code></pre></div>
 <p>Examples:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb11-1" title="1">one   <span class="ot">=</span> succ zero</a>
 <a class="sourceLine" id="cb11-2" title="2">two   <span class="ot">=</span> succ one</a>

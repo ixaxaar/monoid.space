@@ -21,7 +21,7 @@ We now look at constructing a language or algebra atop a given relation and some
 ```agda
 {-# OPTIONS --without-K #-}
 
-module Algebra.equational where
+module Types.equational2 where
 
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 open import Types.equality
@@ -57,8 +57,6 @@ module ≡-Reasoning {a ℓ} {A : Set a} (_≡_ : Rel A ℓ) (Eq : IsEquivalence
 
   _∎ : ∀ (x : A) → x ≡ x
   _∎ _ = rfl
-
-----
 ```
 
 We could use this to, say prove transitivity and commutativity of addition of natural numbers:
@@ -181,7 +179,7 @@ A lot of assymetric laws can be derived with one half of the symmetry and mixing
 
 
 ```agda
-open import Algebra.operations
+open import Types.operations
 
 module withCommutativity {a ℓ}
   {A : Set a}

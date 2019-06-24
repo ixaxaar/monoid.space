@@ -128,6 +128,22 @@ data ℕ : Set where
 _+_ : ℕ → ℕ → ℕ
 x + zero = x
 x + (succ y) = succ (x + y)
+
+_−_ : ℕ → ℕ → ℕ
+zero  − m     = zero
+succ n − zero  = succ n
+succ n − succ m = n − m
+
+_×_ : ℕ → ℕ → ℕ
+x × zero     = zero
+x × (succ y) = x + (x × y)
+
+_² : ℕ → ℕ
+x ² = x × x
+
+_^_ : ℕ → ℕ → ℕ
+x ^ zero = succ zero
+x ^ (succ y) = x × (x ^ y)
 ```
 
 Examples:

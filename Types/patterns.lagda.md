@@ -10,7 +10,7 @@
   - [Constructor / Introduction](#constructor--introduction)
   - [Elimination](#elimination)
   - [Computation](#computation)
-  - [Uniquness principle](#uniquness-principle)
+  - [Uniqueness principle](#uniqueness-principle)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -57,7 +57,7 @@ three = succ two
 Function types can be described by their implementation using lambda abstraction:
 
 ```math
-f : A \to B \equiv \lambda A . B
+f : A → B ≡ λ A . B
 ```
 
 Products have the constructor `,` to create product types, so do coproducts have the `inj₁` and `inj₂` constructors.

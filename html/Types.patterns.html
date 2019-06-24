@@ -93,7 +93,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="#constructor--introduction">Constructor / Introduction</a></li>
 <li><a href="#elimination">Elimination</a></li>
 <li><a href="#computation">Computation</a></li>
-<li><a href="#uniquness-principle">Uniquness principle</a></li>
+<li><a href="#uniqueness-principle">Uniqueness principle</a></li>
 </ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -122,7 +122,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb3-2" title="2">two <span class="ot">=</span> succ one</a>
 <a class="sourceLine" id="cb3-3" title="3">three <span class="ot">=</span> succ two</a></code></pre></div>
 <p>Function types can be described by their implementation using lambda abstraction:</p>
-<pre class="math"><code>f : A \to B \equiv \lambda A . B</code></pre>
+<pre class="math"><code>f : A → B ≡ λ A . B</code></pre>
 <p>Products have the constructor <code>,</code> to create product types, so do coproducts have the <code>inj₁</code> and <code>inj₂</code> constructors.</p>
 <h2 id="elimination">Elimination</h2>
 <p>Next we describe how to consume or make use of elements of this type.</p>
@@ -150,7 +150,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb6-11" title="11">        <span class="ot">→</span> P <span class="ot">(</span>succ n<span class="ot">)</span></a>
 <a class="sourceLine" id="cb6-12" title="12">Nat-comp P p proof n <span class="ot">=</span> Nat-elim P p proof <span class="ot">(</span>succ n<span class="ot">)</span></a></code></pre></div>
 <p>For function types, <span class="math inline">\((λx.Φ)(a) ≡ substitute(a, x.Φ)\)</span>, i.e. the function is equal to substituting <code>a</code> for every occurrence of <code>x</code>. For products, the computation rule boils down to <span class="math inline">\(f : A × B → C ≡ A → B → C\)</span>, also called <a href="./Types.functions.html#currying">currying</a>.</p>
-<h2 id="uniquness-principle">Uniquness principle</h2>
+<h2 id="uniqueness-principle">Uniqueness principle</h2>
 <p>Finally the uniqueness principle describes how functions to and from the new type are unique. For some types the uniqueness principle behaves as the dual of the computation rule by describing how constructors act on eliminators. For other types the uniqueness principle implies conditions under which functions from the new type are unique.</p>
 <hr />
 <p><a href="./Types.equational.html">Equational Reasoning</a></p>

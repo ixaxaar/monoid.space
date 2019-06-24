@@ -90,10 +90,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li><a href="#1-agda">1. Agda</a></li>
 <li><a href="#2-type-theory">2. Type Theory</a></li>
-<li><a href="#3-logic">3. Logic</a></li>
-<li><a href="#4-abstract-algebras">4. Abstract Algebras</a></li>
-<li><a href="#5-homotopy-type-theory">5. Homotopy Type Theory</a></li>
-<li><a href="#7-category-theory">7. Category Theory</a></li>
+<li><a href="#3-type-theory-2">3. Type Theory 2</a></li>
+<li><a href="#4-applied-type-theory">4. Applied Type Theory</a></li>
+<li><a href="#5-logic">5. Logic</a></li>
+<li><a href="#6-abstract-algebras">6. Abstract Algebras</a></li>
+<li><a href="#7-homotopy-type-theory">7. Homotopy Type Theory</a></li>
+<li><a href="#8-category-theory">8. Category Theory</a></li>
 </ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -117,14 +119,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./Types.universe.html">Universes and families</a></li>
 <li><a href="./Types.relations.html">Relations</a></li>
 <li><a href="./Types.equality.html">Equality</a></li>
+<li><a href="./Types.operations.html">Operations</a></li>
 <li><a href="./Types.product.html">Product Types and Σ-types</a></li>
 <li><a href="./Types.functions.html">Function Types and Π-types</a></li>
+</ul>
+<h2 id="type-theory-2">3. Type Theory 2</h2>
+<ul>
 <li><a href="./Types.proofsAsData.html">Proofs as Data</a></li>
 <li><a href="./Types.variations.html">Identity Types</a></li>
 <li><a href="./Types.patterns.html">Patterns of Construction</a></li>
 <li><a href="./Types.equational.html">Equational Reasoning</a></li>
+<li><a href="./Types.equational2.html">Equational Reasoning 2</a></li>
 </ul>
-<h2 id="logic">3. Logic</h2>
+<h2 id="applied-type-theory">4. Applied Type Theory</h2>
+<h2 id="logic">5. Logic</h2>
 <ul>
 <li><a href="./Logic.introduction.html">Introduction</a></li>
 <li><a href="./Logic.logicBasics.html">Boolean Algebra</a></li>
@@ -132,11 +140,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./Logic.laws.html">Laws of Logic</a></li>
 <li><a href="./Logic.decidability.html">Decidability <em>todo</em></a></li>
 </ul>
-<h2 id="abstract-algebras">4. Abstract Algebras</h2>
+<h2 id="abstract-algebras">6. Abstract Algebras</h2>
 <ul>
 <li><a href="./Algebra.introduction.html">Introduction</a></li>
-<li><a href="./Algebra.operations.html">Operations</a></li>
-<li><a href="./Algebra.equational.html">Equational Reasoning</a></li>
 <li><a href="./Algebra.order.html">Ordered objects</a></li>
 <li><a href="./Algebra.groups.html">Groups and family</a></li>
 <li><a href="./Algebra.groups2.html">Groups and family 2</a></li>
@@ -147,7 +153,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   - [Introduction](./AlgebraicGeometry.introduction.html)
 
  -->
-<h2 id="homotopy-type-theory">5. Homotopy Type Theory</h2>
+<h2 id="homotopy-type-theory">7. Homotopy Type Theory</h2>
 <ul>
 <li><a href="./HoTT.introduction.html">Introduction</a></li>
 <li><a href="./HoTT.identity.html">Identity Types and Paths</a></li>
@@ -156,7 +162,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./HoTT/fundamentalGroup.html">The Fundamental Group and Groupoid <em>todo</em></a></li>
 </ul>
 <!-- - [The Seifert van-Kampen Theorem *todo*](./HoTT/vanKampen.html) -->
-<h2 id="category-theory">7. Category Theory</h2>
+<h2 id="category-theory">8. Category Theory</h2>
 <ul>
 <li>[Natural Transformations]</li>
 <li>[Hom-Sets and constructions]</li>
@@ -178,28 +184,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb1-10" title="10"><span class="kw">import</span> Types<span class="ot">.</span>universe</a>
 <a class="sourceLine" id="cb1-11" title="11"><span class="kw">import</span> Types<span class="ot">.</span>relations</a>
 <a class="sourceLine" id="cb1-12" title="12"><span class="kw">import</span> Types<span class="ot">.</span>equality</a>
-<a class="sourceLine" id="cb1-13" title="13"><span class="kw">import</span> Types<span class="ot">.</span>product</a>
-<a class="sourceLine" id="cb1-14" title="14"><span class="kw">import</span> Types<span class="ot">.</span>functions</a>
-<a class="sourceLine" id="cb1-15" title="15"><span class="kw">import</span> Types<span class="ot">.</span>proofsAsData</a>
-<a class="sourceLine" id="cb1-16" title="16"><span class="kw">import</span> Types<span class="ot">.</span>variations</a>
-<a class="sourceLine" id="cb1-17" title="17"><span class="kw">import</span> Types<span class="ot">.</span>patterns</a>
-<a class="sourceLine" id="cb1-18" title="18"></a>
-<a class="sourceLine" id="cb1-19" title="19"><span class="kw">import</span> HoTT<span class="ot">.</span>introduction</a>
-<a class="sourceLine" id="cb1-20" title="20"><span class="kw">import</span> HoTT<span class="ot">.</span>identity</a>
-<a class="sourceLine" id="cb1-21" title="21"></a>
-<a class="sourceLine" id="cb1-22" title="22"><span class="kw">import</span> Logic<span class="ot">.</span>introduction</a>
-<a class="sourceLine" id="cb1-23" title="23"><span class="kw">import</span> Logic<span class="ot">.</span>logicBasics</a>
-<a class="sourceLine" id="cb1-24" title="24"><span class="kw">import</span> Logic<span class="ot">.</span>equality</a>
-<a class="sourceLine" id="cb1-25" title="25"><span class="kw">import</span> Logic<span class="ot">.</span>laws</a>
-<a class="sourceLine" id="cb1-26" title="26"><span class="kw">import</span> Logic<span class="ot">.</span>decidability</a>
-<a class="sourceLine" id="cb1-27" title="27"></a>
-<a class="sourceLine" id="cb1-28" title="28"><span class="kw">import</span> Algebra<span class="ot">.</span>introduction</a>
-<a class="sourceLine" id="cb1-29" title="29"><span class="kw">import</span> Algebra<span class="ot">.</span>operations</a>
-<a class="sourceLine" id="cb1-30" title="30"><span class="kw">import</span> Algebra<span class="ot">.</span>equational</a>
-<a class="sourceLine" id="cb1-31" title="31"><span class="kw">import</span> Algebra<span class="ot">.</span>order</a>
-<a class="sourceLine" id="cb1-32" title="32"><span class="kw">import</span> Algebra<span class="ot">.</span>groups</a>
-<a class="sourceLine" id="cb1-33" title="33"><span class="kw">import</span> Algebra<span class="ot">.</span>groups2</a>
-<a class="sourceLine" id="cb1-34" title="34"><span class="kw">import</span> Algebra<span class="ot">.</span>groupProperties</a></code></pre></div>
+<a class="sourceLine" id="cb1-13" title="13"><span class="kw">import</span> Types<span class="ot">.</span>operations</a>
+<a class="sourceLine" id="cb1-14" title="14"><span class="kw">import</span> Types<span class="ot">.</span>product</a>
+<a class="sourceLine" id="cb1-15" title="15"><span class="kw">import</span> Types<span class="ot">.</span>functions</a>
+<a class="sourceLine" id="cb1-16" title="16"></a>
+<a class="sourceLine" id="cb1-17" title="17"><span class="kw">import</span> Types<span class="ot">.</span>proofsAsData</a>
+<a class="sourceLine" id="cb1-18" title="18"><span class="kw">import</span> Types<span class="ot">.</span>variations</a>
+<a class="sourceLine" id="cb1-19" title="19"><span class="kw">import</span> Types<span class="ot">.</span>patterns</a>
+<a class="sourceLine" id="cb1-20" title="20"><span class="kw">import</span> Types<span class="ot">.</span>equational</a>
+<a class="sourceLine" id="cb1-21" title="21"><span class="kw">import</span> Types<span class="ot">.</span>equational2</a>
+<a class="sourceLine" id="cb1-22" title="22"></a>
+<a class="sourceLine" id="cb1-23" title="23"><span class="kw">import</span> HoTT<span class="ot">.</span>introduction</a>
+<a class="sourceLine" id="cb1-24" title="24"><span class="kw">import</span> HoTT<span class="ot">.</span>identity</a>
+<a class="sourceLine" id="cb1-25" title="25"></a>
+<a class="sourceLine" id="cb1-26" title="26"><span class="kw">import</span> Logic<span class="ot">.</span>introduction</a>
+<a class="sourceLine" id="cb1-27" title="27"><span class="kw">import</span> Logic<span class="ot">.</span>logicBasics</a>
+<a class="sourceLine" id="cb1-28" title="28"><span class="kw">import</span> Logic<span class="ot">.</span>equality</a>
+<a class="sourceLine" id="cb1-29" title="29"><span class="kw">import</span> Logic<span class="ot">.</span>laws</a>
+<a class="sourceLine" id="cb1-30" title="30"><span class="kw">import</span> Logic<span class="ot">.</span>decidability</a>
+<a class="sourceLine" id="cb1-31" title="31"></a>
+<a class="sourceLine" id="cb1-32" title="32"><span class="kw">import</span> Algebra<span class="ot">.</span>introduction</a>
+<a class="sourceLine" id="cb1-33" title="33"><span class="kw">import</span> Algebra<span class="ot">.</span>order</a>
+<a class="sourceLine" id="cb1-34" title="34"><span class="kw">import</span> Algebra<span class="ot">.</span>groups</a>
+<a class="sourceLine" id="cb1-35" title="35"><span class="kw">import</span> Algebra<span class="ot">.</span>groups2</a>
+<a class="sourceLine" id="cb1-36" title="36"><span class="kw">import</span> Algebra<span class="ot">.</span>groupProperties</a></code></pre></div>
 <hr />
 <p><a href="contents.html">Up</a></p>
 </body>

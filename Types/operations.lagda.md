@@ -32,7 +32,7 @@ open import Types.product
 
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 
-module Algebra.operations {a ℓ} {A : Set a} (_==_ : Rel A ℓ) where
+module Types.operations {a ℓ} {A : Set a} (_==_ : Rel A ℓ) where
 ```
 
 A binary operation $★$ on a set A is a function (function type!) that takes two elements of type A and returns an element of A:

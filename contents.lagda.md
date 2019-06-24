@@ -8,10 +8,12 @@
 - [Contents](#contents)
   - [1. Agda](#1-agda)
   - [2. Type Theory](#2-type-theory)
-  - [3. Logic](#3-logic)
-  - [4. Abstract Algebras](#4-abstract-algebras)
-  - [5. Homotopy Type Theory](#5-homotopy-type-theory)
-  - [7. Category Theory](#7-category-theory)
+  - [3. Type Theory 2](#3-type-theory-2)
+  - [4. Applied Type Theory](#4-applied-type-theory)
+  - [5. Logic](#5-logic)
+  - [6. Abstract Algebras](#6-abstract-algebras)
+  - [7. Homotopy Type Theory](#7-homotopy-type-theory)
+  - [8. Category Theory](#8-category-theory)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -35,14 +37,23 @@
   - [Universes and families](./Types.universe.html)
   - [Relations](./Types.relations.html)
   - [Equality](./Types.equality.html)
+  - [Operations](./Types.operations.html)
   - [Product Types and Σ-types](./Types.product.html)
   - [Function Types and Π-types](./Types.functions.html)
+
+## 3. Type Theory 2
+
   - [Proofs as Data](./Types.proofsAsData.html)
   - [Identity Types](./Types.variations.html)
   - [Patterns of Construction](./Types.patterns.html)
   - [Equational Reasoning](./Types.equational.html)
+  - [Equational Reasoning 2](./Types.equational2.html)
 
-## 3. Logic
+## 4. Applied Type Theory
+
+
+
+## 5. Logic
 
   - [Introduction](./Logic.introduction.html)
   - [Boolean Algebra](./Logic.logicBasics.html)
@@ -50,11 +61,9 @@
   - [Laws of Logic](./Logic.laws.html)
   - [Decidability *todo*](./Logic.decidability.html)
 
-## 4. Abstract Algebras
+## 6. Abstract Algebras
 
   - [Introduction](./Algebra.introduction.html)
-  - [Operations](./Algebra.operations.html)
-  - [Equational Reasoning](./Algebra.equational.html)
   - [Ordered objects](./Algebra.order.html)
   - [Groups and family](./Algebra.groups.html)
   - [Groups and family 2](./Algebra.groups2.html)
@@ -69,7 +78,7 @@
 
  -->
 
-## 5. Homotopy Type Theory
+## 7. Homotopy Type Theory
 
   - [Introduction](./HoTT.introduction.html)
   - [Identity Types and Paths](./HoTT.identity.html)
@@ -80,7 +89,7 @@
 <!-- - [The Seifert van-Kampen Theorem *todo*](./HoTT/vanKampen.html) -->
 
 
-## 7. Category Theory
+## 8. Category Theory
 
   - [Natural Transformations]
   - [Hom-Sets and constructions]
@@ -105,11 +114,15 @@ import Types.introduction
 import Types.universe
 import Types.relations
 import Types.equality
+import Types.operations
 import Types.product
 import Types.functions
+
 import Types.proofsAsData
 import Types.variations
 import Types.patterns
+import Types.equational
+import Types.equational2
 
 import HoTT.introduction
 import HoTT.identity
@@ -121,8 +134,6 @@ import Logic.laws
 import Logic.decidability
 
 import Algebra.introduction
-import Algebra.operations
-import Algebra.equational
 import Algebra.order
 import Algebra.groups
 import Algebra.groups2
