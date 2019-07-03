@@ -319,6 +319,13 @@ module ≡-properties {a} {A : Set a} where
   trans-≡ : Transitive {A = A} _≡_
   trans-≡ refl p = p
 
+  isEquivalence : IsEquivalence {A = A} _≡_
+  isEquivalence = record
+    { rfl  = refl
+    ; sym   = sym-≡
+    ; trans = trans-≡
+    }
+
 cong-≡ : ∀ {a b} {A : Set a} {B : Set b} (f : A → B) {x y : A}
   → x ≡ y
   → f x ≡ f y

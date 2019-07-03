@@ -14,10 +14,9 @@
 ```agda
 module Types.equational where
 
-open import Lang.dataStructures using (ℕ; zero; one; succ; _+_; _−_; _×_; _^_)
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
-open import Types.equality
-open import Types.product using (Σ; _,_) renaming (_×_ to _and_)
+open import Types.equality renaming (cong-≡ to cong)
+open import Types.product using (Σ; _,_; _×_)
 ```
 
 Though we looked at the type theory way of constructively proving propositions, there is another way which we tend to be more familiar with: the way we solve equations on paper. However, note that in practice, "type-hackers", tend to use a combination of both constructive and equational as per convenience as well see below.
@@ -42,16 +41,23 @@ Q.E.D.
 
 Each step of such a solution essentially follows through the rule of transitivity of equality. Hence setp₂ = step₁ + actions₁ and so on. We can write an apparatus to let us do exactly that in Agda. That apparatus is "equational reasoning". Here, we define the framework on top of equivalence relations:
 
+```sdkefagda
+module ≡-Reasoning {a} {A : Set a} where
+  open ≡-properties {A = A}
+  open IsEquivalence isEquivalence public
+```
+
 ```agda
-module ≡-Reasoning {a ℓ} {A : Set a} (_≡_ : Rel A ℓ) (Eq : IsEquivalence _≡_) where
-  open IsEquivalence Eq
+module ≡-Reasoning {a} {A : Set a} where
+  open ≡-properties {A = A}
+  open IsEquivalence isEquivalence public
 
   infix  3 _∎
   infixr 2 _≡⟨⟩_ _≡⟨_⟩_
   infix  1 begin_
 
   -- This is just syntactical sugar to define the start of the proof
-  begin_ : ∀{x y : A} → x ≡ y → x ≡ y
+  begin_ : ∀ {x y : A} → x ≡ y → x ≡ y
   begin_ x≡y = x≡y
 
   -- Apply reflexivity, no axioms or theorems applied within the ⟨⟩
@@ -76,52 +82,116 @@ In order to define $(a+b) × (a-b) ≡ a² - b²$ in Agda, we have to define som
 
 We dont need to prove the reflexivity of `≡` as it is a part of our equational reasoning framework as has been already assumed.
 
-We begin by defining that `Commutativity` and `Distributivity` are:
-
 ```agda
-module Properties {a ℓ} {A : Set a} (_==_ : Rel A ℓ) where
-  ★_ : ∀ {a} → Set a → Set a
-  ★ A = A → A → A
-```
+module Properties {a} {A : Set a} where
+  open ≡-Reasoning
 
-**Commutativity**:
+  -- open ≡-Reasoning eq
+  -- open IsEquivalence eq
 
-```agda
-  Commutative : ★ A → Set _
-  Commutative _∙_ = ∀ x y → (x ∙ y) == (y ∙ x)
-```
+  data ℕ : Set where
+    zero : ℕ
+    succ : ℕ → ℕ
 
-**Distributivity**:
+  infixl 6 _+_ _−_
+  infixl 7 _*_
 
-```agda
-  -- distributive from the left side
-  _DistributesOverˡ_ : ★ A → ★ A → Set _
-  _*_ DistributesOverˡ _+_ = ∀ x y z → (x * (y + z)) == ((x * y) + (x * z))
+  _+_ : ℕ → ℕ →  ℕ
+  m + zero   = m
+  m + succ n = succ (m + n)
 
-  -- distributive from the right side
-  _DistributesOverʳ_ : ★ A → ★ A → Set _
-  _*_ DistributesOverʳ _+_ = ∀ x y z → ((y + z) * x) == ((y * x) + (z * x))
+  _−_ : ℕ → ℕ → ℕ
+  zero  − m     = zero
+  succ n − zero  = succ n
+  succ n − succ m = n − m
 
-  -- encapsulates both of the above
-  _DistributesOver_ : ★ A → ★ A → Set _
-  * DistributesOver + = (* DistributesOverˡ +) and (* DistributesOverʳ +)
-```
+  _*_ : ℕ → ℕ → ℕ
+  zero * x     = zero
+  (succ x) * y = y + (x * y)
 
-Next, we prove the commutativity of `×`:
-For this we need to start with proving the commutativity of `+` as `×` is defined on it:
+  -- _^_ : ℕ → ℕ → ℕ
+  -- x ^ zero = {!!}
+  -- x ^ (succ y) = x × (x ^ y)
 
-```askneagda
-open Properties {A = ℕ} _≡_
+  +-succ-l : ∀ x y → x + (succ y) ≡ succ (x + y)
+  +-succ-l zero    n = refl
+  +-succ-l (succ m) n = refl
 
-comm-+ : Commutative _+_
-comm-+ 
-```
+  +-succ-r : ∀ x y → (succ x) + y ≡ succ (x + y)
+  +-succ-r n zero = refl
+  +-succ-r m (succ n) = cong succ (+-succ-r m n)
 
+  +-unsucc-l : ∀ x y → succ (x + y) ≡ x + (succ y)
+  +-unsucc-l n zero     = refl
+  +-unsucc-l n (succ m) = refl
 
-```kdsewofagda
--- comm-× : Commutative _×_
--- comm-× a zero = zero a
--- comm-× a (succ b) =
+  +-unsucc-r : ∀ x y → succ (x + y) ≡ (succ x) + y
+  +-unsucc-r m zero = refl
+  +-unsucc-r m (succ n) = cong succ (+-unsucc-r m n)
+
+  +-assoc-l : ∀ x y z → ((x + y) + z) ≡ (x + (y + z))
+  +-assoc-l l m zero = refl
+  +-assoc-l l m (succ n) = cong succ (+-assoc-l l m n)
+
+  +-assoc-r : ∀ x y z → (x + (y + z)) ≡ ((x + y) + z)
+  +-assoc-r l m zero = refl
+  +-assoc-r l m (succ n) = cong succ (+-assoc-r l m n)
+
+  +-identity-l : ∀ x → x + zero ≡ x
+  +-identity-l _ = refl
+
+  +-identity-r : ∀ x → zero + x ≡ x
+  +-identity-r zero    = refl
+  +-identity-r (succ n) = cong succ (+-identity-r n)
+
+  +-identity : ∀ x → (x + zero ≡ x) × (zero + x ≡ x)
+  +-identity n = (+-identity-l n) , (+-identity-r n)
+
+  +-comm : ∀ x y → (x + y) ≡ (y + x)
+  +-comm zero n = +-identity-r n
+  +-comm (succ m) n = begin
+    (succ m) + n   ≡⟨ +-succ-r m n ⟩
+    succ (m + n) ≡⟨ cong succ (+-comm m n) ⟩
+    succ (n + m) ≡⟨ refl ⟩
+    n + succ m   ∎
+
+  *-succ-l : ∀ x y → succ x * y ≡ y + (x * y)
+  *-succ-l m zero = refl
+  *-succ-l m (succ n) = refl
+
+  *-succ-r : ∀ x y → x * succ y ≡ x + (x * y)
+  *-succ-r zero m = refl
+  *-succ-r (succ m) n = begin
+    succ m * succ n             ≡⟨⟩
+    succ n + m * succ n         ≡⟨ cong (_+_ (succ n)) (*-succ-r m n) ⟩
+    succ n + (m + m * n)        ≡⟨ +-succ-r n (m + (m * n)) ⟩
+    succ (n + (m + m * n))      ≡⟨⟩
+    succ (n + (m + (m * n)))    ≡⟨ cong succ (+-assoc-r n m (m * n)) ⟩
+    succ (n + m + m * n)        ≡⟨ cong (λ x → succ (x + m * n)) (+-comm n m) ⟩
+    succ ((m + n) + m * n)      ≡⟨ cong succ (+-assoc-l m n (m * n)) ⟩
+    succ (m + (n + m * n))      ≡⟨ +-unsucc-r m (n + m * n) ⟩
+    (succ m) + (n + m * n)      ≡⟨⟩
+    succ m + succ m * n         ∎
+
+  *-zero-r : ∀ x → x * zero ≡ zero
+  *-zero-r zero = refl
+  *-zero-r (succ n) = begin
+    (succ n) * zero ≡⟨ refl ⟩
+    zero + n * zero ≡⟨ +-identity-r (n * zero) ⟩
+    n * zero ≡⟨ *-zero-r n ⟩
+    zero ∎
+
+  *-zero-l : ∀ x → zero * x ≡ zero
+  *-zero-l zero = refl
+  *-zero-l (succ n) = refl
+
+  *-comm : ∀ x y → x * y ≡ y * x
+  *-comm m zero = *-zero-r m
+  *-comm m (succ n) = begin
+    m * (succ n)  ≡⟨ *-succ-r m n ⟩
+    m + m * n ≡⟨ cong (m +_) (*-comm m n) ⟩
+    m + n * m ≡⟨ sym (*-succ-l n m) ⟩
+    (succ n) * m _∎
 ```
 
 ****
