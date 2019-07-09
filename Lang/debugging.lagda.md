@@ -117,6 +117,20 @@ C-c C-r   refine (one step further)
 C-c C-a   auto (try to find a solution)
 ```
 
+Agda-mode for emacs can be installed using
+
+```bash
+agda-mode setup
+```
+
+This entire project can be loaded into emacs like:
+
+```bash
+emacs ./contents.lagda.md
+```
+
+followed by loading `agda-mode` by typing `space` `space` `agda-mode`. Using [spacemacs](http://spacemacs.org/) is recommended.
+
 ## refl
 
 

@@ -5,105 +5,18 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ****
 
-- [Equational Reasoning](#equational-reasoning)
-  - [Trivial example](#trivial-example)
-  - [Equational Reasoning over equivalence relations](#equational-reasoning-over-equivalence-relations)
-  - [Some Proofs using equational reasoning](#some-proofs-using-equational-reasoning)
+- [Equational Reasoning over equivalence relations](#equational-reasoning-over-equivalence-relations)
+- [Some Proofs using equational reasoning](#some-proofs-using-equational-reasoning)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-
-
-# Equational Reasoning
-
-We now look at constructing a language or algebra atop a given relation and some of its properties. This serves as a nicer way of proving things by application of relations such as chains of transitivity.
-
 ```agda
-{-# OPTIONS --without-K #-}
-
 module Types.equational2 where
 
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 open import Types.equality
 open import Types.product using (Σ; _,_)
 ```
-
-## Trivial example
-
-Given an equivalence relation `_≡_`, we have reflexivity, transitivity and symmetry to apply around. We can perform algebra on terms like `a ≡ b` using a combination of these laws, e.g. we could chain transitivity bounded by reflexivity into chains looking like:
-
-`refl - transitive - transitive - transitive - refl`
-
-This provides a more convenient way of writing proofs similar to how we write them more naturally on paper.
-
-We define a trivial example of an equational reasoning module here:
-
-```agda
-module ≡-Reasoning {a ℓ} {A : Set a} (_≡_ : Rel A ℓ) (Eq : IsEquivalence _≡_) where
-  open IsEquivalence Eq
-
-  infix  3 _∎
-  infixr 2 _≡⟨⟩_ _≡⟨_⟩_
-  infix  1 begin_
-
-  begin_ : ∀{x y : A} → x ≡ y → x ≡ y
-  begin_ x≡y = x≡y
-
-  _≡⟨⟩_ : ∀ (x {y} : A) → x ≡ y → x ≡ y
-  _ ≡⟨⟩ x≡y = x≡y
-
-  _≡⟨_⟩_ : ∀ (x {y z} : A) → x ≡ y → y ≡ z → x ≡ z
-  _ ≡⟨ x≡y ⟩ y≡z = trans x≡y y≡z
-
-  _∎ : ∀ (x : A) → x ≡ x
-  _∎ _ = rfl
-```
-
-We could use this to, say prove transitivity and commutativity of addition of natural numbers:
-
-```agda
-data ℕ : Set where
-  zero : ℕ
-  succ : ℕ → ℕ
-
-_+_ : ℕ → ℕ → ℕ
-m + zero   = m
-m + succ n = succ (m + n)
-```
-
-We can now prove transitivity of `+`:
-
-```agda
-module +-properties {ℓ} (_≡_ : Rel ℕ ℓ) (Eq : IsEquivalence _≡_) where
-  open ≡-Reasoning _≡_ Eq public
-  open IsEquivalence Eq public
-
-  trans-+ : {x y z : ℕ} → x ≡ y → y ≡ z → x ≡ z
-  trans-+ {x} {y} {z} x≡y y≡z = begin
-    x ≡⟨ x≡y ⟩
-    y ≡⟨ y≡z ⟩
-    z ∎
-```
-
-<!-- To prove the law of commutativity of `+`, we need some properties of equality, like congruence `cong-≡`:
-
-```lll
-  open import Algebra.operations _≡_
-
-  +-identityˡ : LeftIdentity zero _+_
-  +-identityˡ _ = refl
-```
-
-```lll
-  comm+ : ∀ {x, y} → x + y ≡ y + x
-  comm+ x zero =
-```
-
-  comm+ x (succ y) = begin
-    succ (x + y) ≡⟨ succ (sym x y) ⟩
-    succ (y + x) ≡⟨ rfl  ⟩
-    (succ y) + x ∎
- -->
 
 We now define a more complex version where there is symmetry in equivalence preservation, unlike the previous naive version where it is only covariant, capturing the commutativity of the equivalence relation.
 

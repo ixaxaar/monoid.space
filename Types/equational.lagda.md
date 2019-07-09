@@ -21,31 +21,25 @@ open import Types.product using (Σ; _,_; _×_)
 
 Though we looked at the type theory way of constructively proving propositions, there is another way which we tend to be more familiar with: the way we solve equations on paper. However, note that in practice, "type-hackers", tend to use a combination of both constructive and equational as per convenience as well see below.
 
-For example, consider the problem of proving a well known identity from linear algebra:
+For example, consider the problem of proving a well known identity for natural numbers from linear algebra:
 
 ```math
-∀ a, b ∈ ℕ: (a+b) × (a-b) ≡ a² - b²
+∀ a, b ∈ ℕ: (a+b)² ≡ a² + 2 * a * b + b²
 
-(a + b) × (a - b)
+(a + b) × (a + b)
     Applying distributivity of + and × (a + b) * c ≡ (a × c) + (b × c)
- = a × (a - b) + b × (a - b)
+ = a × (a + b) + b × (a + b)
     Applying distributivity again, this time from the left-hand side
- = a × a - a × b + b × a - b²
+ = a × a + a × b + b × a + b²
     Applying
         1. The fact that a × a ≡ a²
         2. Commutativity of multiplication: a × b ≡ b × a
-        3. Reflexivity of ≡ for a × b and b × a to cancel each other out
-= a² - b²
+        3. Reflexivity of ≡ for a × b and b × a to add to 2 times
+= a² + 2 * a * b + b² 
 Q.E.D.
 ```
 
 Each step of such a solution essentially follows through the rule of transitivity of equality. Hence setp₂ = step₁ + actions₁ and so on. We can write an apparatus to let us do exactly that in Agda. That apparatus is "equational reasoning". Here, we define the framework on top of equivalence relations:
-
-```sdkefagda
-module ≡-Reasoning {a} {A : Set a} where
-  open ≡-properties {A = A}
-  open IsEquivalence isEquivalence public
-```
 
 ```agda
 module ≡-Reasoning {a} {A : Set a} where
@@ -80,19 +74,24 @@ In order to define $(a+b) × (a-b) ≡ a² - b²$ in Agda, we have to define som
 - Commutativity of `×`
 - Reflexivity of `≡`
 
-We dont need to prove the reflexivity of `≡` as it is a part of our equational reasoning framework as has been already assumed.
+Since we are proving this literally from scratch, we have to prove quite a few basic constructions:
 
 ```agda
 module Properties {a} {A : Set a} where
   open ≡-Reasoning
+```
 
-  -- open ≡-Reasoning eq
-  -- open IsEquivalence eq
+We start with the type of natural numbers:
 
+```agda
   data ℕ : Set where
     zero : ℕ
     succ : ℕ → ℕ
+```
 
+We then proceed to define the required operations on natural numbers:
+
+```agda
   infixl 6 _+_ _−_
   infixl 7 _*_
 
@@ -109,9 +108,15 @@ module Properties {a} {A : Set a} where
   zero * x     = zero
   (succ x) * y = y + (x * y)
 
-  -- _^_ : ℕ → ℕ → ℕ
-  -- x ^ zero = {!!}
-  -- x ^ (succ y) = x × (x ^ y)
+  _² : ℕ → ℕ
+  x ² = x * x
+```
+
+We now prove properties of addition, upto commutativity:
+
+```agda
+  one = succ zero
+  two = succ (succ zero)
 
   +-succ-l : ∀ x y → x + (succ y) ≡ succ (x + y)
   +-succ-l zero    n = refl
@@ -154,7 +159,13 @@ module Properties {a} {A : Set a} where
     succ (m + n) ≡⟨ cong succ (+-comm m n) ⟩
     succ (n + m) ≡⟨ refl ⟩
     n + succ m   ∎
+```
 
+As we saw, we had to prove quite a few laws in their right and left handed versions. These will come in handy later, in fact some of them have been written while trying to prove later propositions. This highlights a central way of solving mathematics - proofs are broken up into pieces and each piece is solved separately. Mostly such smaller proofs tend to be inductively proved and used to prove more complex proofs using equational reasoning.
+
+We now proceed to prove some propositions for multiplication:
+
+```agda
   *-succ-l : ∀ x y → succ x * y ≡ y + (x * y)
   *-succ-l m zero = refl
   *-succ-l m (succ n) = refl
@@ -176,22 +187,154 @@ module Properties {a} {A : Set a} where
   *-zero-r : ∀ x → x * zero ≡ zero
   *-zero-r zero = refl
   *-zero-r (succ n) = begin
-    (succ n) * zero ≡⟨ refl ⟩
-    zero + n * zero ≡⟨ +-identity-r (n * zero) ⟩
-    n * zero ≡⟨ *-zero-r n ⟩
-    zero ∎
+    (succ n) * zero       ≡⟨⟩
+    zero + n * zero       ≡⟨ +-identity-r (n * zero) ⟩
+    n * zero              ≡⟨ *-zero-r n ⟩
+    zero                  ∎
 
   *-zero-l : ∀ x → zero * x ≡ zero
   *-zero-l zero = refl
   *-zero-l (succ n) = refl
 
+  *-identity-l : ∀ x → one * x ≡ x
+  *-identity-l zero = refl
+  *-identity-l (succ n) = refl
+
   *-comm : ∀ x y → x * y ≡ y * x
   *-comm m zero = *-zero-r m
   *-comm m (succ n) = begin
-    m * (succ n)  ≡⟨ *-succ-r m n ⟩
-    m + m * n ≡⟨ cong (m +_) (*-comm m n) ⟩
-    m + n * m ≡⟨ sym (*-succ-l n m) ⟩
-    (succ n) * m _∎
+    m * (succ n)        ≡⟨ *-succ-r m n ⟩
+    m + m * n           ≡⟨ cong (m +_) (*-comm m n) ⟩
+    m + n * m           ≡⟨ sym (*-succ-l n m) ⟩
+    (succ n) * m        ∎
+
+  *-identity-r : ∀ x → x * one ≡ x
+  *-identity-r zero = refl
+  *-identity-r (succ n) = begin
+    (succ n) * one          ≡⟨⟩
+    one + n * one           ≡⟨ cong (_+_ one) (*-identity-r n) ⟩
+    (succ zero) + n         ≡⟨ +-succ-r zero n ⟩
+    succ (zero + n)         ≡⟨ cong (λ x → succ x) (+-comm zero n) ⟩
+    succ (n + zero)         ≡⟨⟩
+    succ n                  ∎
+
+  *-succ-r-r : ∀ x y → x * succ y ≡ (x * y) + x
+  *-succ-r-r zero m = refl
+  *-succ-r-r (succ m) n = begin
+    succ m * succ n             ≡⟨ *-succ-r (succ m) n ⟩
+    succ m + succ m * n         ≡⟨ +-comm (succ m) (succ m * n) ⟩
+    succ m * n + succ m         ∎
+```
+
+Here we see a noteworthy pattern, 
+
+To prove for example `a + (b * c) + d ≡ a + (c * b) + d`, we have to apply commutativity only to `(b * c)` only while keeping the rest as it is. This is often achieved by using congruence over lambda pattern matching expressions in agda like `cong (λ x a + x + d) (*-comm b c)`. Or in other words,
+
+```haskell
+a + (b * c) + d     ≡⟨ cong (λ x a + x + d) (*-comm b c) ⟩
+a + (c * b) + d     ∎
+```
+
+Note that the above proofs might not be the best way to prove these propositions.
+
+We now prove the distributive property of `*` over `+`:
+
+```agda
+  +-distrib-*-r : ∀ x y z → x * (y + z) ≡ (x * y) + (x * z)
+  +-distrib-*-r l m zero = begin
+    l * (m + zero)            ≡⟨⟩
+    l * m                     ≡⟨⟩
+    (l * m) + zero            ≡⟨ cong ((l * m) +_) (sym (*-zero-r l)) ⟩
+    (l * m) + (l * zero)      ∎
+  +-distrib-*-r l m (succ n) = begin
+    l * (m + (succ n))        ≡⟨⟩
+    l * succ (m + n)          ≡⟨ *-succ-r l (m + n) ⟩
+    l + l * (m + n)           ≡⟨ +-comm l (l * (m + n)) ⟩
+    l * (m + n) + l           ≡⟨ cong (λ z → z + l) (+-distrib-*-r l m n) ⟩
+    ((l * m) + (l * n)) + l   ≡⟨ +-assoc-l (l * m) (l * n) l ⟩
+    (l * m) + ((l * n) + l)   ≡⟨ cong ((l * m) +_) (sym (*-succ-r-r l n)) ⟩
+    (l * m) + l * (succ n)    ∎
+
+  +-distrib-*-l : ∀ x y z → (x + y) * z ≡ (x * z) + (y * z)
+  +-distrib-*-l zero m n = begin
+    (zero + m) * n            ≡⟨ *-comm (zero + m) n ⟩
+    n * (zero + m)            ≡⟨ +-distrib-*-r n zero m ⟩
+    (n * zero) + (n * m)      ≡⟨ cong (λ x → x + (n * m)) (*-comm n zero) ⟩
+    (zero * n) + (n * m)      ≡⟨ cong (λ x → (zero * n) + x) (*-comm n m) ⟩
+    (zero * n) + (m * n)      ∎
+  +-distrib-*-l (succ l) m n = begin
+    ((succ l) + m) * n        ≡⟨ cong (λ x → x * n) (+-succ-r l m) ⟩
+    succ (l + m) * n          ≡⟨⟩
+    n + ((l + m) * n)         ≡⟨ cong (_+_ n) (+-distrib-*-l l m n) ⟩
+    n + (l * n + m * n)       ≡⟨ +-assoc-r n (l * n) (m * n) ⟩
+    (n + l * n) + (m * n)     ≡⟨⟩
+    (succ l) * n + m * n      ∎
+```
+
+And now, finally the proof of our original proposition:
+
+```agda
+  proof : ∀ x y → (x + y) ² ≡ (x ² + two * (x * y) + y ²)
+  proof zero n = begin
+    (zero + n) * (zero + n)
+        ≡⟨ cong (λ x → (zero + n) * x) (+-identity-r n) ⟩
+    (zero + n) * n
+        ≡⟨ cong (λ x → x * n) (+-identity-r n) ⟩
+    n * n
+        ≡⟨⟩
+    n ²
+        ≡⟨⟩
+    n ² + zero
+        ≡⟨ cong ((n ²) +_) (sym (*-zero-r zero)) ⟩
+    n ² + (zero * zero)
+        ≡⟨⟩
+    n ² + zero ²
+        ≡⟨ +-comm (n ²) (zero ²) ⟩
+    (zero ² + n ²)
+        ≡⟨⟩
+    (zero ² + n ²) + zero
+        ≡⟨ cong ((zero ² + n ²) +_) (sym (*-zero-r (two))) ⟩
+    (zero ² + n ²) + (two * zero)
+        ≡⟨⟩
+    (zero ² + n ²) + (two * zero * n)
+        ≡⟨ +-assoc-l (zero ²) (n ²) (two * zero * n) ⟩
+    zero ² + (n ² + (two * zero * n))
+        ≡⟨ cong (λ x → zero ² + x) (+-comm (n ²) (two * zero * n)) ⟩
+    zero ² + ((two * zero * n) + n ²)
+        ≡⟨ +-assoc-r (zero ²) (two * zero * n) (n ²) ⟩
+    zero ² + two * zero * n + n ²
+        ∎
+  proof (succ m) n = begin
+    ((succ m) + n) * ((succ m) + n)
+        ≡⟨ +-distrib-*-l (succ m) n (succ m + n) ⟩
+    (succ m) * (succ m + n) + n * (succ m + n)
+        ≡⟨ cong (λ x → x + n * (succ m + n)) (+-distrib-*-r (succ m) (succ m) n) ⟩
+    (succ m) * (succ m) + (succ m) * n + n * (succ m + n)
+        ≡⟨ cong (λ x → (succ m) * (succ m) + (succ m) * n + x) (+-distrib-*-r n (succ m) n) ⟩
+    (succ m) * (succ m) + (succ m) * n + (n * (succ m) + n * n)
+        ≡⟨ +-assoc-r ((succ m) * (succ m) + (succ m) * n) (n * (succ m)) (n * n)  ⟩
+    (succ m) * (succ m) + (succ m) * n + n * (succ m) + n * n
+        ≡⟨ cong (λ x → (succ m) * (succ m) + (succ m) * n + x + n * n) (*-comm n (succ m)) ⟩
+    (succ m) * (succ m) + (succ m) * n + (succ m) * n + n * n
+        ≡⟨⟩
+    (succ m) ² + (succ m) * n + (succ m) * n + n * n
+        ≡⟨⟩
+    ((succ m) ² + (succ m) * n) + (succ m) * n + n ²
+        ≡⟨ cong (_+ n ²) (+-assoc-l ((succ m) ²) ((succ m) * n) ((succ m) * n)) ⟩
+    (succ m) ² + (succ m * n + succ m * n) + n ²
+        ≡⟨ cong (λ x → (succ m) ² + x + n ²) (sym (*-identity-r ((succ m) * n + (succ m) * n))) ⟩
+    (succ m) ² + ( (succ m * n) + (succ m * n) ) * one + n ²
+        ≡⟨ refl ⟩
+    (succ m) ² + ((succ m * n) + (succ m * n)) * one + n ²
+        ≡⟨ cong (λ x → (succ m) ² + x + n ²) (+-distrib-*-l (succ m * n) (succ m * n) one) ⟩
+    (succ m) ² + ((succ m * n) * one + (succ m * n) * one) + n ²
+        ≡⟨ cong (λ x → (succ m) ² + x + n ²) (sym (+-distrib-*-r (succ m * n) one one)) ⟩
+    (succ m) ² + ((succ m * n) * (one + one)) + n ²
+        ≡⟨⟩
+    (succ m) ² + ((succ m * n) * two) + n ²
+        ≡⟨ cong (λ x → (succ m) ² + x + n ²) (*-comm (succ m * n) two) ⟩
+    (succ m) ² + two * ((succ m) * n) + n ²
+        ∎
 ```
 
 ****
