@@ -338,4 +338,4 @@ And now, finally the proof of our original proposition:
 ```
 
 ****
-[Logic Introduction](./Logic.introduction.html)
+[Equational Reasoning 2](./Types.equational2.html)

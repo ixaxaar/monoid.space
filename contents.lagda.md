@@ -1,6 +1,10 @@
 ****
 [Contents](contents.html)
 
+------
+⨺⨺⨺ UNDER CONSTRUCTION ⨺⨺⨺
+------
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ****
@@ -51,7 +55,11 @@
 
 ## 4. Applied Type Theory
 
-
+  - [Introduction](./AppliedTypes.introduction.html)
+  - [Gödel's T](./AppliedTypes.godels_t.html)
+  - [System F](./AppliedTypes.system_f.html)
+  - [Bitcoin](./AppliedTypes.bitcoin.html)
+  - [Verified Programming](./AppliedTypes.verified_programming.html)
 
 ## 5. Logic
 
@@ -71,13 +79,6 @@
   <!-- - [Rings and family](./Algebra.rings.html) -->
   <!-- - [Properties of Ring-like objects](./Algebra.ringProperties.html) -->
 
-
-<!-- ## 4. Algebraic Geometry
-
-  - [Introduction](./AlgebraicGeometry.introduction.html)
-
- -->
-
 ## 7. Homotopy Type Theory
 
   - [Introduction](./HoTT.introduction.html)
@@ -88,7 +89,6 @@
 
 <!-- - [The Seifert van-Kampen Theorem *todo*](./HoTT/vanKampen.html) -->
 
-
 ## 8. Category Theory
 
   - [Natural Transformations]
@@ -98,8 +98,7 @@
   - [Adjunctions]
   - [Kan Extensions]
 
-
-Code: [Github](https://github.com/ixaxaar/monoid.space), [Gitlab](https://gitlab.com/ixaxaar/monoid.space).
+Code: [Github](https://github.com/ixaxaar/monoid.space), [Gitlab](https://gitlab.com/ixaxaar/monoid.space), Contributions welcome!.
 
 ```agda
 import Lang.setup

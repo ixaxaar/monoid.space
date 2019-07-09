@@ -177,4 +177,4 @@ module withCongruence {a ℓ}
 ```
 
 ****
-[Ordered objects](./Algebra.order.html)
+[Introduction](./Logic.introduction.html)
