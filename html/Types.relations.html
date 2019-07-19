@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>relations.lagda</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a></p>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<hr />
+<ul>
+<li><a href="#relations">Relations</a>
+<ul>
+<li><a href="#properties-of-relations">Properties of relations</a>
+<ul>
+<li><a href="#reflexive">Reflexive</a></li>
+<li><a href="#symmetric">Symmetric</a></li>
+<li><a href="#transitive">Transitive</a></li>
+<li><a href="#congruent">Congruent</a></li>
+<li><a href="#substitutive">Substitutive</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#equivalence-relation">Equivalence relation</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h1 id="relations">Relations</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">module</span> Types<span class="ot">.</span>relations <span class="kw">where</span></a></code></pre></div>
+<p>Relations can be defined as properties that assign truth values to finite tuples of elements. A binary relation would output a truth value given two objects, similarly a unary relation would apply on a single object to output a truth value. This can be generalized to k-ary relations. In type theory, however, since relations are also types and “truth values” of a proposition is replaced by existence or belonging to the universe of all types, one can think of relations as functions that take n-tuples as input and return some object of type <code>Set1</code> - the set of all <code>Set</code>s. A binary relation <code>∙</code> between two objects <code>a</code> and <code>b</code> is a function type:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb2-1" title="1">Rel <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">→</span> <span class="dt">Set1</span></a>
+<a class="sourceLine" id="cb2-2" title="2">Rel A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span></a></code></pre></div>
+<p>A relation with universe polymorphism could also be defined as:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">)</span></a>
+<a class="sourceLine" id="cb3-2" title="2"></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="co">-- heterogenous relation</span></a>
+<a class="sourceLine" id="cb3-4" title="4">REL <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> b <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b ⊔ lsuc ℓ<span class="ot">)</span></a>
+<a class="sourceLine" id="cb3-5" title="5">REL A B ℓ <span class="ot">=</span> A <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> ℓ</a>
+<a class="sourceLine" id="cb3-6" title="6"></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="co">-- homogenous relation</span></a>
+<a class="sourceLine" id="cb3-8" title="8">R <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ lsuc ℓ<span class="ot">)</span></a>
+<a class="sourceLine" id="cb3-9" title="9">R A ℓ <span class="ot">=</span> REL A A ℓ</a></code></pre></div>
+<p>The first definition being easier for our purposes here, we proceed with that.</p>
+<h2 id="properties-of-relations">Properties of relations</h2>
+<p>Relations can conform to certain properties, which later come in handy for classifying relations and building a lot of mathematical structure.</p>
+<h3 id="reflexive">Reflexive</h3>
+<p>A reflexive relation is one where <span class="math inline">\(x \bullet y = y \bullet x\)</span>:</p>
+<figure>
+<img src="refl.png" alt="Figure 1: Refl" /><figcaption>Figure 1: Refl</figcaption>
+</figure>
+<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb4-1" title="1">reflexive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span></a>
+<a class="sourceLine" id="cb4-2" title="2">  <span class="ot">→</span> Rel A</a>
+<a class="sourceLine" id="cb4-3" title="3">  <span class="ot">→</span> <span class="dt">Set</span></a>
+<a class="sourceLine" id="cb4-4" title="4">reflexive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ★ x</a></code></pre></div>
+<h3 id="symmetric">Symmetric</h3>
+<p>A symmetric relation is one where <span class="math inline">\(x \bullet y \implies y \bullet x\)</span>:</p>
+<figure>
+<img src="symmetric.png" alt="Figure 2: Symmetric" /><figcaption>Figure 2: Symmetric</figcaption>
+</figure>
+<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb5-1" title="1">symmetric <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span></a>
+<a class="sourceLine" id="cb5-2" title="2">symmetric <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span>  <span class="ot">=</span> <span class="ot">(</span>x y <span class="ot">:</span> A<span class="ot">)</span></a>
+<a class="sourceLine" id="cb5-3" title="3">  <span class="ot">→</span> x ★ y</a>
+<a class="sourceLine" id="cb5-4" title="4">  <span class="ot">→</span> y ★ x</a></code></pre></div>
+<h3 id="transitive">Transitive</h3>
+<p>A transitive relation is one where <span class="math inline">\(x \bullet y, y \bullet z ~then~ z \bullet x\)</span>:</p>
+<figure>
+<img src="transitive.png" alt="Figure 3: Transitive" /><figcaption>Figure 3: Transitive</figcaption>
+</figure>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb6-1" title="1">transitive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span></a>
+<a class="sourceLine" id="cb6-2" title="2">transitive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x y z <span class="ot">:</span> A<span class="ot">)</span></a>
+<a class="sourceLine" id="cb6-3" title="3">  <span class="ot">→</span> x ★ y</a>
+<a class="sourceLine" id="cb6-4" title="4">  <span class="ot">→</span> y ★ z</a>
+<a class="sourceLine" id="cb6-5" title="5">  <span class="ot">→</span> x ★ z</a></code></pre></div>
+<h3 id="congruent">Congruent</h3>
+<p>A congruent relation is one where a function <span class="math inline">\(x \bullet y \implies f(x) \bullet f(y)\)</span> or the function <code>f</code> preserves the relation :</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb7-1" title="1">congruent <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span></a>
+<a class="sourceLine" id="cb7-2" title="2">congruent <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> A<span class="ot">)(</span>x y <span class="ot">:</span> A<span class="ot">)</span></a>
+<a class="sourceLine" id="cb7-3" title="3">  <span class="ot">→</span> x ★ y</a>
+<a class="sourceLine" id="cb7-4" title="4">  <span class="ot">→</span> f x ★ f y</a></code></pre></div>
+<h3 id="substitutive">Substitutive</h3>
+<p>A substitutive relation is one where <span class="math inline">\(x \bullet y ~and~ (predicate~ y) = ⊤ \implies (predicate~ x) = ⊤\)</span> :</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb8-1" title="1">substitutive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set1</span></a>
+<a class="sourceLine" id="cb8-2" title="2">substitutive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>P <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)(</span>x y <span class="ot">:</span> A<span class="ot">)</span></a>
+<a class="sourceLine" id="cb8-3" title="3">  <span class="ot">→</span> x ★ y</a>
+<a class="sourceLine" id="cb8-4" title="4">  <span class="ot">→</span> P x</a>
+<a class="sourceLine" id="cb8-5" title="5">  <span class="ot">→</span> P y</a></code></pre></div>
+<h1 id="equivalence-relation">Equivalence relation</h1>
+<p>An equivalence relation is a relation which is:</p>
+<ul>
+<li>reflexive <span class="math inline">\(a = a\)</span></li>
+<li>symmetric <span class="math inline">\(if~ a = b ~then~ b = a\)</span></li>
+<li>transitive <span class="math inline">\(if~ a = b ~and~ b = c ~then~ a = c\)</span></li>
+</ul>
+<p>All forms of what we know as “equality” are equivalence relations. They help in identifying similar objects and can be “weak” or “strong” depending upon how much similarity they capture of the objects they compare. For e.g. all “tables” fall under one equivalence class wherein when we refer to a generic “table” we mean as in all tables as equal. Whereas, if we were comparing tables amongst themselves, we’d use other finer criteria in our equivalence relations, classifying some tables as coffee tables and so on.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">record</span> Equivalence <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set1</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb9-2" title="2">  <span class="kw">field</span></a>
+<a class="sourceLine" id="cb9-3" title="3">    <span class="ot">_</span>==<span class="ot">_</span>  <span class="ot">:</span> Rel A</a>
+<a class="sourceLine" id="cb9-4" title="4">    refl  <span class="ot">:</span> reflexive <span class="ot">_</span>==<span class="ot">_</span></a>
+<a class="sourceLine" id="cb9-5" title="5">    sym   <span class="ot">:</span> symmetric <span class="ot">_</span>==<span class="ot">_</span></a>
+<a class="sourceLine" id="cb9-6" title="6">    trans <span class="ot">:</span> transitive <span class="ot">_</span>==<span class="ot">_</span></a></code></pre></div>
+<hr />
+<p><a href="./Types.equality.html">Equality</a></p>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>introduction.lagda</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a></p>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<hr />
+<ul>
+<li><a href="#introduction">Introduction</a>
+<ul>
+<li><a href="#the-scala-type-system">The scala type system</a></li>
+<li><a href="#judgements-and-propositions">Judgements and Propositions</a></li>
+</ul></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h1 id="introduction">Introduction</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">module</span> Types<span class="ot">.</span>introduction <span class="kw">where</span></a>
+<a class="sourceLine" id="cb1-2" title="2"></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>List<span class="ot">;</span> []<span class="ot">;</span> <span class="ot">_</span>::<span class="ot">_;</span> ℕ<span class="ot">;</span> one<span class="ot">;</span> three<span class="ot">;</span> seven<span class="ot">;</span> nine<span class="ot">)</span></a></code></pre></div>
+<p>Set theory is a formal system of mathematics which serves as a language for constructing and studying collections of objects called “sets”. A set, in plain language, is a collection of zero or more objects. These objects can be literally anything.</p>
+<figure>
+<img src="./set.png" alt="Figure 1: Set" /><figcaption>Figure 1: Set</figcaption>
+</figure>
+<p>Set theory is about sets as objects of study. There happen to be several flavors, or versions if you will, of set theory starting from naive set theory, to axiomatic Zermelo-Fraenkel set theory (ZFC) which is currently the most well known, accepted and popular flavor. Much of mathematics and computer science fundamentals has been built upon the foundations of set theory. In its infancy, naive set theory faced certain technical challenges, called paradoxes or inconsistencies, which were progressively removed, the rules or “axoims” refined and the very meaning of “object” redefined, resulting what is called ZFC. Other variations have also surfaced to accomodate higher abstract math, and which may even include the equality operator to be a part of sets. However, most of foundational mathematics is rather based on Type theory, whose genesis can be credit to Bertrand Russell.</p>
+<p>Type theory is an area of mathematics of direct consequence to programming. Type theory is a formal system of symbolic logic where everything is a “type”. Bertrand Russell was the first to propose this theory in order to fix Russell’s Paradox which plauged naive set theory, though Per Martin-Löf was the one to come up with a more useful version of it, called “intuitionistic type theory”. This is what we will go through here.</p>
+<p>A type system in programming languages typically specifies data and appears like a tree of objects, where each successive level tries to represent data more specifically. E.g., A <code>Float</code> is a subtype of <code>Number</code> and is a more specialized case of a numbers. Type systems are designed using type theory and languages tend to have varying levels of tightness of integration with type theory broadly resulting in staticaly and dynaically typed languages. However, in type theory, a “type” can essentially mean anything - from as general as the type of all types, to super specific, like the number <code>3</code>. Hence everything, individual objects, sets or collections of objects, types in programming languages, entire programming langauge type systems, every logical statement, theorems, proofs, functions, any other mathematical object, even equality itself, are all “types”.</p>
+<h2 id="the-scala-type-system">The scala type system</h2>
+<figure>
+<img src="./scala-type-system.png" alt="Figure 2: Scala Type System" /><figcaption>Figure 2: Scala Type System</figcaption>
+</figure>
+<h2 id="judgements-and-propositions">Judgements and Propositions</h2>
+<p>The basic constructs of type theory as opposed to set theory is based on the concept of “judgement”s versus “proposition”s.</p>
+<p>Zermelo-Frenkel Set theory (ZFC) consists of:</p>
+<ul>
+<li><code>Set</code>s which are a collection of objects</li>
+<li>a propositional first order logic system to create and manipulate them</li>
+<li>maps or functions amongst sets</li>
+</ul>
+<p>which is in fact pretty much the basic components of any programming language, with data types as collections or sets of objects, first order logic to construct such objects and functions to manipulate them.</p>
+<p>However, the problem here is with <code>propositions</code> as in there can exist propositions which turn out to be false. However, types as objects serve as judgements. An object with type defined, say, <code>List[Int]</code> fully specifies it, and can be type-checked by a first-order logic system for validity. In type theory, propositions are just another kind of types, and hence the judgement of a proposition being true relies on the fact that the proposition can be fully specified. Thus type theory eliminates the possibility of specifying something that can be disproven. Hence, whereas a proposition <code>prop</code> in set theory would require a proof to be proven later, and can turn out to be false, a proposition <code>prop : P</code> fully specified as type <code>P</code> requires the proof as part of its specification otherwise it will not compile!. Though this distinction is very subtle, it is so crucial that it ended up replacing set theory as the foundation on which to build mathematics.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb2-1" title="1">fullySpecified <span class="ot">:</span> List ℕ</a>
+<a class="sourceLine" id="cb2-2" title="2">fullySpecified <span class="ot">=</span> one :: three :: seven :: nine :: []</a></code></pre></div>
+<p>Thus, <code>fullySpecified</code> once specified, has already been proven and requires no proving. Hence it is a judgement, whereas something like <code>x ∈ ℕ</code> is a proposition, which needs a proof for every given a of “∈ to ℕ”.</p>
+<p>In type theory, we cannot introduce a variable without specifying its type. Hence, everything becomes a judgement by default if it compiles, and by piling up these judgements we can prove theories, simply by constructing and composing them as objects. This fundamental difference is what makes type theory more consistent and easier to use to construct higher mathematical structures on and moreso do it using better tools such as a programming language. Agda is a faithful implementation of type theory and hence serves as an effective tool to do mathematics constructively.</p>
+<hr />
+<p><a href="./Types.universe.html">Universes and families</a></p>
+</body>
+</html>

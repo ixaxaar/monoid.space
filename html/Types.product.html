@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>product.lagda</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a></p>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<hr />
+<ul>
+<li><a href="#product-types">Product types</a>
+<ul>
+<li><a href="#construction">Construction</a></li>
+<li><a href="#dependent-pair-types-or-%CF%83-types">Dependent Pair Types or Σ-types</a></li>
+<li><a href="#api">API</a>
+<ul>
+<li><a href="#cross-product">Cross product</a></li>
+<li><a href="#application-of-a-product">Application of a product</a></li>
+<li><a href="#map">Map</a></li>
+<li><a href="#swap">Swap</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#co-product-types">Co-product types</a>
+<ul>
+<li><a href="#maybe">Maybe</a></li>
+<li><a href="#api-1">API</a>
+<ul>
+<li><a href="#eliminator">Eliminator</a></li>
+<li><a href="#map-1">Map</a></li>
+<li><a href="#zip">Zip</a></li>
+</ul></li>
+</ul></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">module</span> Types<span class="ot">.</span>product <span class="kw">where</span></a>
+<a class="sourceLine" id="cb1-2" title="2"></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span></a>
+<a class="sourceLine" id="cb1-4" title="4">  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span></a>
+<a class="sourceLine" id="cb1-5" title="5">  ⊥<span class="ot">;</span> ⊤<span class="ot">;</span> singleton<span class="ot">;</span> ℕ<span class="ot">;</span> List<span class="ot">;</span></a>
+<a class="sourceLine" id="cb1-6" title="6">  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span></a>
+<a class="sourceLine" id="cb1-7" title="7">  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span></a>
+<a class="sourceLine" id="cb1-8" title="8"></a>
+<a class="sourceLine" id="cb1-9" title="9"><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></a></code></pre></div>
+<h1 id="product-types">Product types</h1>
+<p>A cartesian product of two types <code>A</code> and <code>B</code> can be defined as a pair of objects <code>(a, b)</code>, where <code>a</code> ∈ <code>A</code>, and <code>b</code> ∈ <code>B</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">data</span> <span class="ot">_</span>××<span class="ot">_</span> <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb2-2" title="2">  <span class="ot">_</span>,,<span class="ot">_</span>  <span class="ot">:</span> A <span class="ot">→</span> B <span class="ot">→</span> A ×× B</a>
+<a class="sourceLine" id="cb2-3" title="3"></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>××<span class="ot">_</span></a></code></pre></div>
+<p>and cartesian products constructed as</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb3-1" title="1">oneTwo <span class="ot">=</span> one ,, two</a>
+<a class="sourceLine" id="cb3-2" title="2"></a>
+<a class="sourceLine" id="cb3-3" title="3">oneTwoThree <span class="ot">=</span> one ,, <span class="ot">(</span>two ,, three<span class="ot">)</span></a></code></pre></div>
+<h2 id="construction">Construction</h2>
+<p>While being intuitively familiar with what a cartesian product is, it’s algebraic definition captures the most abstract aspect of a product:</p>
+<p>A cartesian product, in set theory, for two sets <code>A</code> and <code>B</code> is defined as:</p>
+<pre class="math"><code>A x B = { (a , b) | a ∈ A and b ∈ B }</code></pre>
+<p>In type theory, we look at another way of defining product types, just by looking at them as objects in themselves: For an object <code>X</code>, we call <code>X</code> a product type if:</p>
+<ol type="1">
+<li>There exists two functions, lets call them <code>proj₁</code> and <code>proj₂</code> such that they can be used to “extract” the contents of the product <code>X</code>:</li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" title="1">proj₁ <span class="op">:</span> {<span class="dt">A</span> <span class="dt">B</span> <span class="op">:</span> <span class="dt">Set</span>} <span class="ot">→</span> (<span class="dt">A</span> × <span class="dt">B</span>) <span class="ot">→</span> <span class="dt">A</span></a>
+<a class="sourceLine" id="cb5-2" title="2">(a × b) <span class="ot">=</span> a</a>
+<a class="sourceLine" id="cb5-3" title="3"></a>
+<a class="sourceLine" id="cb5-4" title="4">proj₂ <span class="op">:</span> {<span class="dt">A</span> <span class="dt">B</span> <span class="op">:</span> <span class="dt">Set</span>} <span class="ot">→</span> (<span class="dt">A</span> × <span class="dt">B</span>) <span class="ot">→</span> <span class="dt">B</span></a>
+<a class="sourceLine" id="cb5-5" title="5">(a × b) <span class="ot">=</span> b</a></code></pre></div>
+<ol start="2" type="1">
+<li>If there is any another object <code>A</code>, such that the functions <code>proj₁ₐ</code> and <code>proj₂ₐ</code> satisfied the above condition for <code>A</code>, then there exists a function, <code>fₐ₀</code> such that:</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" title="1">fₐ₀ <span class="op">:</span> <span class="dt">A</span> <span class="ot">→</span> <span class="dt">X</span></a></code></pre></div>
+<p>Note: The above is pseudo-code, the proof is below.</p>
+<p>The second condition is the unique-ness condition, .i.e. for all objects having projections to <code>A</code> and <code>B</code>, there is one through which all projections go through. We call this one object the “Product” This is better visualized in this diagram:</p>
+<figure>
+<img src="./product.png" alt="Figure 1: Product" /><figcaption>Figure 1: Product</figcaption>
+</figure>
+<h2 id="dependent-pair-types-or-σ-types">Dependent Pair Types or Σ-types</h2>
+<p>Dependent types are products where the 2nd type is dependent on the first one. They are of the form <code>(x : A, B(x))</code>. The notation in type theory looks like this for binary dependent pairs:</p>
+<p><span class="math display">\[
+\sum_{x : A} B(x)
+\]</span></p>
+<p>with ternary dependent pair types being represented as:</p>
+<p><span class="math display">\[
+\sum_{x : A} \sum_{y : B(x)} C(y)
+\]</span></p>
+<p>and so on.</p>
+<p>Agda’s <code>record</code> types provides encapsulation for this definition and some syntactic sugars like constructors:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">record</span> Σ <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">(</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb7-2" title="2">  <span class="kw">constructor</span> <span class="ot">_</span>,<span class="ot">_</span></a>
+<a class="sourceLine" id="cb7-3" title="3">  <span class="kw">field</span></a>
+<a class="sourceLine" id="cb7-4" title="4">    fst <span class="ot">:</span> A</a>
+<a class="sourceLine" id="cb7-5" title="5">    snd <span class="ot">:</span> B fst</a>
+<a class="sourceLine" id="cb7-6" title="6"></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="kw">open</span> Σ <span class="kw">public</span></a>
+<a class="sourceLine" id="cb7-8" title="8"></a>
+<a class="sourceLine" id="cb7-9" title="9"><span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>,<span class="ot">_</span></a></code></pre></div>
+<p>While constructing complex mathematical structures, a fairly general pattern is that a bunch of properties can be bundled together to form objects, and then structures are built on top of them. Since all of those properties are types, a record containing a bunch of properties would by construction ensure the objects of such a record belong to the type represented. A lot of implementation of mathematical structures can be done in this form of <code>record</code>s of bundled properties.</p>
+<p>Hence if, say <code>Prop₁</code> and <code>Prop₂</code> are two properties, an object that satisfies both is a record with both properties as fields:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">data</span> Prop₁ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb8-2" title="2"></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="kw">data</span> Prop₂ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb8-4" title="4"></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="kw">record</span> Satisfies <span class="ot">(</span>x <span class="ot">:</span> Prop₁<span class="ot">)(</span>y <span class="ot">:</span> Prop₁<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb8-6" title="6">  <span class="kw">field</span></a>
+<a class="sourceLine" id="cb8-7" title="7">    p1 <span class="ot">:</span> Prop₁</a>
+<a class="sourceLine" id="cb8-8" title="8">    p2 <span class="ot">:</span> Prop₂</a></code></pre></div>
+<p>The <code>record</code> type is a special syntax for representing dependent or Σ (sigma) types in Agda, though they can very well also be represented in other ways such as using the <code>data</code> keyword.</p>
+<figure>
+<img src="product_full.png" alt="Figure 2: Product (math)" /><figcaption>Figure 2: Product (math)</figcaption>
+</figure>
+<h2 id="api">API</h2>
+<h3 id="cross-product">Cross product</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb9-1" title="1"><span class="ot">_</span>×<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">(</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span></a>
+<a class="sourceLine" id="cb9-2" title="2">A × B <span class="ot">=</span> Σ A <span class="ot">(λ</span> x <span class="ot">→</span> B<span class="ot">)</span></a></code></pre></div>
+<h3 id="application-of-a-product">Application of a product</h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb10-1" title="1">&lt;<span class="ot">_</span>,<span class="ot">_</span>&gt; <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">→</span> B x <span class="ot">→</span> <span class="dt">Set</span> c<span class="ot">}</span></a>
+<a class="sourceLine" id="cb10-2" title="2">        <span class="ot">(</span>f <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x<span class="ot">)</span></a>
+<a class="sourceLine" id="cb10-3" title="3">        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> C <span class="ot">(</span>f x<span class="ot">))</span></a>
+<a class="sourceLine" id="cb10-4" title="4">        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> Σ <span class="ot">(</span>B x<span class="ot">)</span> C<span class="ot">)</span></a>
+<a class="sourceLine" id="cb10-5" title="5">&lt; f , g &gt; x <span class="ot">=</span> <span class="ot">(</span>f x , g x<span class="ot">)</span></a></code></pre></div>
+<h3 id="map">Map</h3>
+<p>Mapping a pair of functions <code>f</code> and <code>g</code> over a product:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb11-1" title="1">map <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b p q<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>P <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> p<span class="ot">}</span> <span class="ot">{</span>Q <span class="ot">:</span> B <span class="ot">→</span> <span class="dt">Set</span> q<span class="ot">}</span></a>
+<a class="sourceLine" id="cb11-2" title="2">        <span class="ot">→</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> B<span class="ot">)</span></a>
+<a class="sourceLine" id="cb11-3" title="3">        <span class="ot">→</span> <span class="ot">(∀</span> <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">→</span> P x <span class="ot">→</span> Q <span class="ot">(</span>f x<span class="ot">))</span></a>
+<a class="sourceLine" id="cb11-4" title="4">        <span class="ot">→</span> Σ A P</a>
+<a class="sourceLine" id="cb11-5" title="5">        <span class="ot">→</span> Σ B Q</a>
+<a class="sourceLine" id="cb11-6" title="6">map f g <span class="ot">(</span>x , y<span class="ot">)</span> <span class="ot">=</span> <span class="ot">(</span>f x , g y<span class="ot">)</span></a></code></pre></div>
+<h3 id="swap">Swap</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb12-1" title="1">swap <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span> A × B <span class="ot">→</span> B × A</a>
+<a class="sourceLine" id="cb12-2" title="2">swap <span class="ot">(</span>x , y<span class="ot">)</span> <span class="ot">=</span> <span class="ot">(</span>y , x<span class="ot">)</span></a></code></pre></div>
+<h1 id="co-product-types">Co-product types</h1>
+<p>Co-products, also called as “sum” types can be thought of as a disjoint uinon of two objects.</p>
+<p>Mathematically, an object <code>X ⋃ Y</code> is a co-product of objects <code>X</code> and <code>Y</code> if,</p>
+<ol type="1">
+<li>There exists two functions <code>inj_₁</code> and <code>inj₂</code> such that:</li>
+</ol>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb13-1" title="1">inj₁ <span class="op">:</span> {<span class="dt">A</span> <span class="dt">B</span> <span class="op">:</span> <span class="dt">Set</span>} <span class="ot">→</span> <span class="dt">A</span> <span class="ot">→</span> (<span class="dt">A</span> ∪ <span class="dt">B</span>)</a>
+<a class="sourceLine" id="cb13-2" title="2">a <span class="ot">=</span> (a ∪ b)</a>
+<a class="sourceLine" id="cb13-3" title="3"></a>
+<a class="sourceLine" id="cb13-4" title="4">inj₂ <span class="op">:</span> {<span class="dt">A</span> <span class="dt">B</span> <span class="op">:</span> <span class="dt">Set</span>} <span class="ot">→</span> <span class="dt">B</span> <span class="ot">→</span> (<span class="dt">A</span> ∪ <span class="dt">B</span>)</a>
+<a class="sourceLine" id="cb13-5" title="5">b <span class="ot">=</span> (a ∪ b)</a></code></pre></div>
+<ol start="2" type="1">
+<li>If there is any another object <code>A</code>, such that the functions <code>inj₁ₐ</code> and <code>inj₂ₐ</code> satisfied the above condition, then there exists a function, <code>fₐ₀</code> such that:</li>
+</ol>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb14-1" title="1">fₐ₀ <span class="op">:</span> <span class="dt">X</span> <span class="ot">→</span> <span class="dt">A</span></a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">data</span> <span class="ot">_</span>∪<span class="ot">_</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">(</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb15-2" title="2">  inj₁ <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> A ∪ B</a>
+<a class="sourceLine" id="cb15-3" title="3">  inj₂ <span class="ot">:</span> <span class="ot">(</span>y <span class="ot">:</span> B<span class="ot">)</span> <span class="ot">→</span> A ∪ B</a></code></pre></div>
+<p>Co-product types are similar to product types, except with reversed arrows:</p>
+<figure>
+<img src="coproduct.png" alt="Figure 3: Coproducts" /><figcaption>Figure 3: Coproducts</figcaption>
+</figure>
+<h2 id="maybe">Maybe</h2>
+<p>Just like the cartesian product is the representative type of a product, the <code>Maybe</code> type fills that role for the co-product. This happens to be a very popular datatype in functional programming languages like haskell <code>Maybe</code>, scala <code>Option</code> etc and is widely used to error handling.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">data</span> Maybe <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> a <span class="kw">where</span></a>
+<a class="sourceLine" id="cb16-2" title="2">  just    <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> Maybe A</a>
+<a class="sourceLine" id="cb16-3" title="3">  nothing <span class="ot">:</span> Maybe A</a></code></pre></div>
+<h2 id="api-1">API</h2>
+<h3 id="eliminator">Eliminator</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb17-1" title="1">maybe <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> Maybe A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">}</span></a>
+<a class="sourceLine" id="cb17-2" title="2">        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B <span class="ot">(</span>just x<span class="ot">))</span></a>
+<a class="sourceLine" id="cb17-3" title="3">        <span class="ot">→</span> B nothing</a>
+<a class="sourceLine" id="cb17-4" title="4">        <span class="ot">→</span> <span class="ot">(</span>x <span class="ot">:</span> Maybe A<span class="ot">)</span></a>
+<a class="sourceLine" id="cb17-5" title="5">        <span class="ot">→</span> B x</a>
+<a class="sourceLine" id="cb17-6" title="6">maybe j n <span class="ot">(</span>just x<span class="ot">)</span> <span class="ot">=</span> j x</a>
+<a class="sourceLine" id="cb17-7" title="7">maybe j n nothing  <span class="ot">=</span> n</a></code></pre></div>
+<h3 id="map-1">Map</h3>
+<p>A <code>Maybe</code> is also a structure which can be map-ed over:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb18-1" title="1">smap <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> Maybe A <span class="ot">→</span> Maybe B</a>
+<a class="sourceLine" id="cb18-2" title="2">smap f <span class="ot">(</span>just x<span class="ot">)</span> <span class="ot">=</span> just <span class="ot">(</span>f x<span class="ot">)</span></a>
+<a class="sourceLine" id="cb18-3" title="3">smap f nothing  <span class="ot">=</span> nothing</a></code></pre></div>
+<h3 id="zip">Zip</h3>
+<div class="sourceCode" id="cb19"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb19-1" title="1">zip <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span></a>
+<a class="sourceLine" id="cb19-2" title="2">        <span class="ot">→</span> Maybe A</a>
+<a class="sourceLine" id="cb19-3" title="3">        <span class="ot">→</span> Maybe B</a>
+<a class="sourceLine" id="cb19-4" title="4">        <span class="ot">→</span> Maybe <span class="ot">(</span>A × B<span class="ot">)</span></a>
+<a class="sourceLine" id="cb19-5" title="5">zip <span class="ot">(</span>just a<span class="ot">)</span> <span class="ot">(</span>just b<span class="ot">)</span> <span class="ot">=</span> just <span class="ot">(</span>a , b<span class="ot">)</span></a>
+<a class="sourceLine" id="cb19-6" title="6">zip <span class="ot">_</span> <span class="ot">_</span> <span class="ot">=</span> nothing</a></code></pre></div>
+<hr />
+<p><a href="./Types.functions.html">Dependent Function Types / Π-types</a></p>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>groups2.lagda</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a></p>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<hr />
+<ul>
+<li><a href="#groups-and-family-2">Groups and family 2</a>
+<ul>
+<li><a href="#magma">Magma</a></li>
+<li><a href="#semigroupoid">Semigroupoid</a></li>
+<li><a href="#small-category">Small category</a></li>
+<li><a href="#semigroup">Semigroup</a></li>
+<li><a href="#groupoid">Groupoid</a>
+<ul>
+<li><a href="#monoid">Monoid</a></li>
+</ul></li>
+<li><a href="#commutative-monoid">Commutative Monoid</a></li>
+<li><a href="#group">Group</a></li>
+<li><a href="#abelian-group">Abelian Group</a></li>
+</ul></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h1 id="groups-and-family-2">Groups and family 2</h1>
+<p>Here we define the objects based on the conditions defined in the previous section.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">module</span> Algebra<span class="ot">.</span>groups2 <span class="kw">where</span></a>
+<a class="sourceLine" id="cb1-2" title="2"></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">using</span> <span class="ot">(</span>Rel<span class="ot">)</span></a>
+<a class="sourceLine" id="cb1-4" title="4"></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></a>
+<a class="sourceLine" id="cb1-6" title="6"></a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups</a></code></pre></div>
+<p>We recall operations again here:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb2-1" title="1">★<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> a</a>
+<a class="sourceLine" id="cb2-2" title="2">★ A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> A</a>
+<a class="sourceLine" id="cb2-3" title="3"></a>
+<a class="sourceLine" id="cb2-4" title="4">♠<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> a</a>
+<a class="sourceLine" id="cb2-5" title="5">♠ A <span class="ot">=</span> A <span class="ot">→</span> A</a></code></pre></div>
+<h2 id="magma">Magma</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">record</span> Magma a ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>a ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb3-2" title="2">  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span></a>
+<a class="sourceLine" id="cb3-3" title="3">  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span></a>
+<a class="sourceLine" id="cb3-4" title="4">  <span class="kw">field</span></a>
+<a class="sourceLine" id="cb3-5" title="5">    Data      <span class="ot">:</span> <span class="dt">Set</span> a</a>
+<a class="sourceLine" id="cb3-6" title="6">    <span class="ot">_</span>==<span class="ot">_</span>       <span class="ot">:</span> Rel Data ℓ</a>
+<a class="sourceLine" id="cb3-7" title="7">    <span class="ot">_</span>∙<span class="ot">_</span>       <span class="ot">:</span> ★ Data</a>
+<a class="sourceLine" id="cb3-8" title="8">    isMagma   <span class="ot">:</span> IsMagma <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span></a>
+<a class="sourceLine" id="cb3-9" title="9"></a>
+<a class="sourceLine" id="cb3-10" title="10">  <span class="kw">open</span> IsMagma isMagma <span class="kw">public</span></a></code></pre></div>
+<h2 id="semigroupoid">Semigroupoid</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">record</span> Semigroupoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb4-2" title="2">  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span></a>
+<a class="sourceLine" id="cb4-3" title="3">  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span></a>
+<a class="sourceLine" id="cb4-4" title="4">  <span class="kw">field</span></a>
+<a class="sourceLine" id="cb4-5" title="5">    Data            <span class="ot">:</span> <span class="dt">Set</span> c</a>
+<a class="sourceLine" id="cb4-6" title="6">    <span class="ot">_</span>==<span class="ot">_</span>            <span class="ot">:</span> Rel Data ℓ</a>
+<a class="sourceLine" id="cb4-7" title="7">    <span class="ot">_</span>∙<span class="ot">_</span>             <span class="ot">:</span> ★ Data</a>
+<a class="sourceLine" id="cb4-8" title="8">    isSemigroupoid  <span class="ot">:</span> IsSemigroupoid <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span></a>
+<a class="sourceLine" id="cb4-9" title="9"></a>
+<a class="sourceLine" id="cb4-10" title="10">  <span class="kw">open</span> IsSemigroupoid isSemigroupoid <span class="kw">public</span></a></code></pre></div>
+<h2 id="small-category">Small category</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">record</span> SmallCategory c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb5-2" title="2">  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span></a>
+<a class="sourceLine" id="cb5-3" title="3">  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span></a>
+<a class="sourceLine" id="cb5-4" title="4">  <span class="kw">field</span></a>
+<a class="sourceLine" id="cb5-5" title="5">    Data            <span class="ot">:</span> <span class="dt">Set</span> c</a>
+<a class="sourceLine" id="cb5-6" title="6">    <span class="ot">_</span>==<span class="ot">_</span>            <span class="ot">:</span> Rel Data ℓ</a>
+<a class="sourceLine" id="cb5-7" title="7">    <span class="ot">_</span>∙<span class="ot">_</span>             <span class="ot">:</span> ★ Data</a>
+<a class="sourceLine" id="cb5-8" title="8">    ε               <span class="ot">:</span> Data</a>
+<a class="sourceLine" id="cb5-9" title="9">    isSmallCategory <span class="ot">:</span> IsSmallCategory <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε</a>
+<a class="sourceLine" id="cb5-10" title="10"></a>
+<a class="sourceLine" id="cb5-11" title="11">  <span class="kw">open</span> IsSmallCategory isSmallCategory <span class="kw">public</span></a>
+<a class="sourceLine" id="cb5-12" title="12"></a>
+<a class="sourceLine" id="cb5-13" title="13">  semigroupoid <span class="ot">:</span> Semigroupoid c ℓ</a>
+<a class="sourceLine" id="cb5-14" title="14">  semigroupoid <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSemigroupoid <span class="ot">=</span> isSemigroupoid <span class="ot">}</span></a></code></pre></div>
+<h2 id="semigroup">Semigroup</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">record</span> Semigroup c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb6-2" title="2">  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span></a>
+<a class="sourceLine" id="cb6-3" title="3">  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span></a>
+<a class="sourceLine" id="cb6-4" title="4">  <span class="kw">field</span></a>
+<a class="sourceLine" id="cb6-5" title="5">    Data        <span class="ot">:</span> <span class="dt">Set</span> c</a>
+<a class="sourceLine" id="cb6-6" title="6">    <span class="ot">_</span>==<span class="ot">_</span>        <span class="ot">:</span> Rel Data ℓ</a>
+<a class="sourceLine" id="cb6-7" title="7">    <span class="ot">_</span>∙<span class="ot">_</span>         <span class="ot">:</span> ★ Data</a>
+<a class="sourceLine" id="cb6-8" title="8">    isSemigroup <span class="ot">:</span> IsSemigroup <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span></a>
+<a class="sourceLine" id="cb6-9" title="9"></a>
+<a class="sourceLine" id="cb6-10" title="10">  <span class="kw">open</span> IsSemigroup isSemigroup <span class="kw">public</span></a>
+<a class="sourceLine" id="cb6-11" title="11"></a>
+<a class="sourceLine" id="cb6-12" title="12">  magma <span class="ot">:</span> Magma c ℓ</a>
+<a class="sourceLine" id="cb6-13" title="13">  magma <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMagma <span class="ot">=</span> isMagma <span class="ot">}</span></a></code></pre></div>
+<h2 id="groupoid">Groupoid</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">record</span> Groupoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb7-2" title="2">  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span></a>
+<a class="sourceLine" id="cb7-3" title="3">  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span></a>
+<a class="sourceLine" id="cb7-4" title="4">  <span class="kw">field</span></a>
+<a class="sourceLine" id="cb7-5" title="5">    Data            <span class="ot">:</span> <span class="dt">Set</span> c</a>
+<a class="sourceLine" id="cb7-6" title="6">    <span class="ot">_</span>==<span class="ot">_</span>            <span class="ot">:</span> Rel Data ℓ</a>
+<a class="sourceLine" id="cb7-7" title="7">    <span class="ot">_</span>∙<span class="ot">_</span>             <span class="ot">:</span> ★ Data</a>
+<a class="sourceLine" id="cb7-8" title="8">    ε               <span class="ot">:</span> Data</a>
+<a class="sourceLine" id="cb7-9" title="9">    <span class="ot">_</span>⁻¹             <span class="ot">:</span> ♠ Data</a>
+<a class="sourceLine" id="cb7-10" title="10">    isGroupoid      <span class="ot">:</span> IsGroupoid <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε <span class="ot">_</span>⁻¹</a>
+<a class="sourceLine" id="cb7-11" title="11"></a>
+<a class="sourceLine" id="cb7-12" title="12">  <span class="kw">open</span> IsGroupoid isGroupoid <span class="kw">public</span></a>
+<a class="sourceLine" id="cb7-13" title="13"></a>
+<a class="sourceLine" id="cb7-14" title="14">  smallcategory <span class="ot">:</span> SmallCategory c ℓ</a>
+<a class="sourceLine" id="cb7-15" title="15">  smallcategory <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSmallCategory <span class="ot">=</span> isSmallCategory <span class="ot">}</span></a>
+<a class="sourceLine" id="cb7-16" title="16"></a>
+<a class="sourceLine" id="cb7-17" title="17">  semigroupoid <span class="ot">:</span> Semigroupoid c ℓ</a>
+<a class="sourceLine" id="cb7-18" title="18">  semigroupoid <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSemigroupoid <span class="ot">=</span> isSemigroupoid <span class="ot">}</span></a></code></pre></div>
+<h3 id="monoid">Monoid</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">record</span> Monoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb8-2" title="2">  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span></a>
+<a class="sourceLine" id="cb8-3" title="3">  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span></a>
+<a class="sourceLine" id="cb8-4" title="4">  <span class="kw">field</span></a>
+<a class="sourceLine" id="cb8-5" title="5">    Data     <span class="ot">:</span> <span class="dt">Set</span> c</a>
+<a class="sourceLine" id="cb8-6" title="6">    <span class="ot">_</span>==<span class="ot">_</span>      <span class="ot">:</span> Rel Data ℓ</a>
+<a class="sourceLine" id="cb8-7" title="7">    <span class="ot">_</span>∙<span class="ot">_</span>      <span class="ot">:</span> ★ Data</a>
+<a class="sourceLine" id="cb8-8" title="8">    ε        <span class="ot">:</span> Data</a>
+<a class="sourceLine" id="cb8-9" title="9">    isMonoid <span class="ot">:</span> IsMonoid <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε</a>
+<a class="sourceLine" id="cb8-10" title="10"></a>
+<a class="sourceLine" id="cb8-11" title="11">  <span class="kw">open</span> IsMonoid isMonoid <span class="kw">public</span></a>
+<a class="sourceLine" id="cb8-12" title="12"></a>
+<a class="sourceLine" id="cb8-13" title="13">  semigroup <span class="ot">:</span> Semigroup c ℓ</a>
+<a class="sourceLine" id="cb8-14" title="14">  semigroup <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSemigroup <span class="ot">=</span> isSemigroup <span class="ot">}</span></a>
+<a class="sourceLine" id="cb8-15" title="15"></a>
+<a class="sourceLine" id="cb8-16" title="16">  magma <span class="ot">:</span> Magma c ℓ</a>
+<a class="sourceLine" id="cb8-17" title="17">  magma <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMagma <span class="ot">=</span> isMagma <span class="ot">}</span></a></code></pre></div>
+<h2 id="commutative-monoid">Commutative Monoid</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">record</span> CommutativeMonoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb9-2" title="2">  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span></a>
+<a class="sourceLine" id="cb9-3" title="3">  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span></a>
+<a class="sourceLine" id="cb9-4" title="4">  <span class="kw">field</span></a>
+<a class="sourceLine" id="cb9-5" title="5">    Data                <span class="ot">:</span> <span class="dt">Set</span> c</a>
+<a class="sourceLine" id="cb9-6" title="6">    <span class="ot">_</span>==<span class="ot">_</span>                 <span class="ot">:</span> Rel Data ℓ</a>
+<a class="sourceLine" id="cb9-7" title="7">    <span class="ot">_</span>∙<span class="ot">_</span>                 <span class="ot">:</span> ★ Data</a>
+<a class="sourceLine" id="cb9-8" title="8">    ε                   <span class="ot">:</span> Data</a>
+<a class="sourceLine" id="cb9-9" title="9">    isCommutativeMonoid <span class="ot">:</span> IsCommutativeMonoid <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε</a>
+<a class="sourceLine" id="cb9-10" title="10"></a>
+<a class="sourceLine" id="cb9-11" title="11">  <span class="kw">open</span> IsCommutativeMonoid isCommutativeMonoid <span class="kw">public</span></a>
+<a class="sourceLine" id="cb9-12" title="12"></a>
+<a class="sourceLine" id="cb9-13" title="13">  monoid <span class="ot">:</span> Monoid c ℓ</a>
+<a class="sourceLine" id="cb9-14" title="14">  monoid <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMonoid <span class="ot">=</span> isMonoid <span class="ot">}</span></a>
+<a class="sourceLine" id="cb9-15" title="15"></a>
+<a class="sourceLine" id="cb9-16" title="16">  semigroup <span class="ot">:</span> Semigroup c ℓ</a>
+<a class="sourceLine" id="cb9-17" title="17">  semigroup <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSemigroup <span class="ot">=</span> isSemigroup <span class="ot">}</span></a>
+<a class="sourceLine" id="cb9-18" title="18"></a>
+<a class="sourceLine" id="cb9-19" title="19">  magma <span class="ot">:</span> Magma c ℓ</a>
+<a class="sourceLine" id="cb9-20" title="20">  magma <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMagma <span class="ot">=</span> isMagma <span class="ot">}</span></a></code></pre></div>
+<h2 id="group">Group</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">record</span> Group c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb10-2" title="2">  <span class="kw">infix</span>  <span class="dv">8</span> <span class="ot">_</span>⁻¹</a>
+<a class="sourceLine" id="cb10-3" title="3">  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span></a>
+<a class="sourceLine" id="cb10-4" title="4">  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span></a>
+<a class="sourceLine" id="cb10-5" title="5">  <span class="kw">field</span></a>
+<a class="sourceLine" id="cb10-6" title="6">    Data    <span class="ot">:</span> <span class="dt">Set</span> c</a>
+<a class="sourceLine" id="cb10-7" title="7">    <span class="ot">_</span>==<span class="ot">_</span>    <span class="ot">:</span> Rel Data ℓ</a>
+<a class="sourceLine" id="cb10-8" title="8">    <span class="ot">_</span>∙<span class="ot">_</span>     <span class="ot">:</span> ★ Data</a>
+<a class="sourceLine" id="cb10-9" title="9">    ε       <span class="ot">:</span> Data</a>
+<a class="sourceLine" id="cb10-10" title="10">    <span class="ot">_</span>⁻¹     <span class="ot">:</span> ♠ Data</a>
+<a class="sourceLine" id="cb10-11" title="11">    isGroup <span class="ot">:</span> IsGroup <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε <span class="ot">_</span>⁻¹</a>
+<a class="sourceLine" id="cb10-12" title="12"></a>
+<a class="sourceLine" id="cb10-13" title="13">  <span class="kw">open</span> IsGroup isGroup <span class="kw">public</span></a>
+<a class="sourceLine" id="cb10-14" title="14"></a>
+<a class="sourceLine" id="cb10-15" title="15">  monoid <span class="ot">:</span> Monoid <span class="ot">_</span> <span class="ot">_</span></a>
+<a class="sourceLine" id="cb10-16" title="16">  monoid <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMonoid <span class="ot">=</span> isMonoid <span class="ot">}</span></a>
+<a class="sourceLine" id="cb10-17" title="17"></a>
+<a class="sourceLine" id="cb10-18" title="18">  semigroup <span class="ot">:</span> Semigroup c ℓ</a>
+<a class="sourceLine" id="cb10-19" title="19">  semigroup <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSemigroup <span class="ot">=</span> isSemigroup <span class="ot">}</span></a>
+<a class="sourceLine" id="cb10-20" title="20"></a>
+<a class="sourceLine" id="cb10-21" title="21">  magma <span class="ot">:</span> Magma c ℓ</a>
+<a class="sourceLine" id="cb10-22" title="22">  magma <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMagma <span class="ot">=</span> isMagma <span class="ot">}</span></a></code></pre></div>
+<h2 id="abelian-group">Abelian Group</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups <span class="kw">using</span> <span class="ot">(</span>IsAbelianGroup<span class="ot">)</span></a>
+<a class="sourceLine" id="cb11-2" title="2"></a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="kw">record</span> AbelianGroup c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb11-4" title="4">  <span class="kw">infix</span>  <span class="dv">8</span> <span class="ot">_</span>⁻¹</a>
+<a class="sourceLine" id="cb11-5" title="5">  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span></a>
+<a class="sourceLine" id="cb11-6" title="6">  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span></a>
+<a class="sourceLine" id="cb11-7" title="7">  <span class="kw">field</span></a>
+<a class="sourceLine" id="cb11-8" title="8">    Data           <span class="ot">:</span> <span class="dt">Set</span> c</a>
+<a class="sourceLine" id="cb11-9" title="9">    <span class="ot">_</span>==<span class="ot">_</span>            <span class="ot">:</span> Rel Data ℓ</a>
+<a class="sourceLine" id="cb11-10" title="10">    <span class="ot">_</span>∙<span class="ot">_</span>            <span class="ot">:</span> ★ Data</a>
+<a class="sourceLine" id="cb11-11" title="11">    ε              <span class="ot">:</span> Data</a>
+<a class="sourceLine" id="cb11-12" title="12">    <span class="ot">_</span>⁻¹            <span class="ot">:</span> ♠ Data</a>
+<a class="sourceLine" id="cb11-13" title="13">    isAbelianGroup <span class="ot">:</span> IsAbelianGroup <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> ε <span class="ot">_</span>⁻¹</a>
+<a class="sourceLine" id="cb11-14" title="14"></a>
+<a class="sourceLine" id="cb11-15" title="15">  <span class="kw">open</span> IsAbelianGroup isAbelianGroup <span class="kw">public</span></a>
+<a class="sourceLine" id="cb11-16" title="16"></a>
+<a class="sourceLine" id="cb11-17" title="17">  group <span class="ot">:</span> Group c ℓ</a>
+<a class="sourceLine" id="cb11-18" title="18">  group <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isGroup <span class="ot">=</span> isGroup <span class="ot">}</span></a>
+<a class="sourceLine" id="cb11-19" title="19"></a>
+<a class="sourceLine" id="cb11-20" title="20">  monoid <span class="ot">:</span> Monoid <span class="ot">_</span> <span class="ot">_</span></a>
+<a class="sourceLine" id="cb11-21" title="21">  monoid <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMonoid <span class="ot">=</span> isMonoid <span class="ot">}</span></a>
+<a class="sourceLine" id="cb11-22" title="22"></a>
+<a class="sourceLine" id="cb11-23" title="23">  semigroup <span class="ot">:</span> Semigroup c ℓ</a>
+<a class="sourceLine" id="cb11-24" title="24">  semigroup <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSemigroup <span class="ot">=</span> isSemigroup <span class="ot">}</span></a>
+<a class="sourceLine" id="cb11-25" title="25"></a>
+<a class="sourceLine" id="cb11-26" title="26">  magma <span class="ot">:</span> Magma c ℓ</a>
+<a class="sourceLine" id="cb11-27" title="27">  magma <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isMagma <span class="ot">=</span> isMagma <span class="ot">}</span></a></code></pre></div>
+<hr />
+<p><a href="./Algebra.groupProperties.html">Properties of Group-like objects</a></p>
+</body>
+</html>
