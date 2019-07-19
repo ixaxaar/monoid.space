@@ -60,6 +60,7 @@
   - [System F](./AppliedTypes.system_f.html)
   - [Bitcoin](./AppliedTypes.bitcoin.html)
   - [Verified Programming](./AppliedTypes.verified_programming.html)
+  - [Binding with the outside world](./AppliedTypes.bindings.html)
 
 ## 5. Logic
 
@@ -122,6 +123,12 @@ import Types.variations
 import Types.patterns
 import Types.equational
 import Types.equational2
+
+import AppliedTypes.introduction
+import AppliedTypes.godels_t
+import AppliedTypes.system_f
+import AppliedTypes.bitcoin
+import AppliedTypes.verified_programming
 
 import HoTT.introduction
 import HoTT.identity

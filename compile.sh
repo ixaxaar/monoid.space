@@ -15,7 +15,7 @@ declare -a files=(
   "Types/universe"
   "Types/relations"
   "Types/equality"
-  "Algebra/operations"
+  "Types/operations"
   "Types/functions"
   "Types/product"
 
@@ -24,6 +24,12 @@ declare -a files=(
   "Types/patterns"
   "Types/equational"
   "Types/equational2"
+
+  "AppliedTypes/introduction"
+  "AppliedTypes/godels_t"
+  "AppliedTypes/system_f"
+  "AppliedTypes/bitcoin"
+  "AppliedTypes/verified_programming"
 
   "Logic/introduction"
   "Logic/logicBasics"
@@ -70,7 +76,6 @@ done
 # copy resources
 cp -pr ./artwork/*.png ./html/
 
-rm -rf tmp
 find -name "*.agdai" | xargs rm -rf
 
 cp -pr ./css  ./html

@@ -19,7 +19,7 @@ open import Types.equality renaming (cong-≡ to cong)
 open import Types.product using (Σ; _,_; _×_)
 ```
 
-Though we looked at the type theory way of constructively proving propositions, there is another way which we tend to be more familiar with: the way we solve equations on paper. However, note that in practice, "type-hackers", tend to use a combination of both constructive and equational as per convenience as well see below.
+Though we looked at the type theory way of constructively proving propositions, there is another way which we tend to be more familiar with: the way we solve equations on paper. We call that method "equational reasoning".
 
 For example, consider the problem of proving a well known identity for natural numbers from linear algebra:
 
