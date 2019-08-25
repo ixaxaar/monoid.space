@@ -47,6 +47,7 @@ declare -a files=(
   "Algebra/groupProperties"
 )
 
+stack build
 rm -rf build html tmp
 mkdir html
 

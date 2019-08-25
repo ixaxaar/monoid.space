@@ -12,26 +12,27 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style>
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -40,9 +41,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -91,64 +92,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="equality">Equality</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">module</span> Logic<span class="ot">.</span>equality <span class="kw">where</span></a>
-<a class="sourceLine" id="cb1-2" title="2"></a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations <span class="kw">using</span> <span class="ot">(</span>Rel<span class="ot">;</span> Equivalence<span class="ot">)</span></a>
-<a class="sourceLine" id="cb1-4" title="4"></a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="kw">open</span> <span class="kw">import</span> Logic<span class="ot">.</span>logicBasics <span class="kw">using</span> <span class="ot">(</span>¬<span class="ot">;</span> not<span class="ot">;</span> xor<span class="ot">;</span> ⟂<span class="ot">;</span> ⊤<span class="ot">;</span> singleton<span class="ot">)</span></a>
-<a class="sourceLine" id="cb1-6" title="6"></a>
-<a class="sourceLine" id="cb1-7" title="7"><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Logic<span class="ot">.</span>equality <span class="kw">where</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations <span class="kw">using</span> <span class="ot">(</span>Rel<span class="ot">;</span> Equivalence<span class="ot">)</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">open</span> <span class="kw">import</span> Logic<span class="ot">.</span>logicBasics <span class="kw">using</span> <span class="ot">(</span>¬<span class="ot">;</span> not<span class="ot">;</span> xor<span class="ot">;</span> ⟂<span class="ot">;</span> ⊤<span class="ot">;</span> singleton<span class="ot">)</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">)</span></span></code></pre></div>
 <p>Equality, or an equivalence, is the most basic comparison that can be performed between two objects. Let us first see how equality (and inequality) looks like for logical objects:</p>
 <figure>
-<img src="equality.png" alt="Fig 1: Equality" /><figcaption>Fig 1: Equality</figcaption>
+<img src="equality.png" alt="" /><figcaption>Fig 1: Equality</figcaption>
 </figure>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></a>
-<a class="sourceLine" id="cb2-2" title="2">  refl <span class="ot">:</span> x ≡ x</a>
-<a class="sourceLine" id="cb2-3" title="3"></a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="ot">_</span>≢<span class="ot">_</span> <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span></a>
-<a class="sourceLine" id="cb2-5" title="5">x ≢ y <span class="ot">=</span> ¬ <span class="ot">(</span>x ≡ y<span class="ot">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>  refl <span class="ot">:</span> x ≡ x</span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="ot">_</span>≢<span class="ot">_</span> <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>x ≢ y <span class="ot">=</span> ¬ <span class="ot">(</span>x ≡ y<span class="ot">)</span></span></code></pre></div>
 <p>Equality can also be derived as a negation of XOR:</p>
 <p><span class="math display">\[
 a \equiv b ~is~ ~True~ \implies ¬ (a \bigoplus b) ~is~ True
 \]</span></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb3-1" title="1">equal? <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool</a>
-<a class="sourceLine" id="cb3-2" title="2">equal? a b <span class="ot">=</span> not <span class="ot">(</span>xor a b<span class="ot">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a>equal? <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool</span>
+<span id="cb3-2"><a href="#cb3-2"></a>equal? a b <span class="ot">=</span> not <span class="ot">(</span>xor a b<span class="ot">)</span></span></code></pre></div>
 <p>TODO: write the type version as well.</p>
 <p>The laws of equality are same as what we saw earlier in <a href="Types.equality.html">equality</a>:</p>
 <p>Note, the only difference here is that each law applies to the same datatype, be it <code>⟂</code>, <code>⊤</code> or <code>Bool</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb4-1" title="1">symmetric <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span></a>
-<a class="sourceLine" id="cb4-2" title="2">        <span class="ot">→</span> x ≡ y</a>
-<a class="sourceLine" id="cb4-3" title="3">        <span class="ot">→</span> y ≡ x</a>
-<a class="sourceLine" id="cb4-4" title="4">symmetric <span class="ot">{</span>A<span class="ot">}</span> refl <span class="ot">=</span> refl</a></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb5-1" title="1">transitive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y z <span class="ot">:</span> A<span class="ot">}</span></a>
-<a class="sourceLine" id="cb5-2" title="2">        <span class="ot">→</span> x ≡ y</a>
-<a class="sourceLine" id="cb5-3" title="3">        <span class="ot">→</span> y ≡ z</a>
-<a class="sourceLine" id="cb5-4" title="4">        <span class="ot">→</span> x ≡ z</a>
-<a class="sourceLine" id="cb5-5" title="5">transitive <span class="ot">{</span>A<span class="ot">}</span> refl a <span class="ot">=</span> a</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1"></a>symmetric <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>        <span class="ot">→</span> x ≡ y</span>
+<span id="cb4-3"><a href="#cb4-3"></a>        <span class="ot">→</span> y ≡ x</span>
+<span id="cb4-4"><a href="#cb4-4"></a>symmetric <span class="ot">{</span>A<span class="ot">}</span> refl <span class="ot">=</span> refl</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a>transitive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y z <span class="ot">:</span> A<span class="ot">}</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>        <span class="ot">→</span> x ≡ y</span>
+<span id="cb5-3"><a href="#cb5-3"></a>        <span class="ot">→</span> y ≡ z</span>
+<span id="cb5-4"><a href="#cb5-4"></a>        <span class="ot">→</span> x ≡ z</span>
+<span id="cb5-5"><a href="#cb5-5"></a>transitive <span class="ot">{</span>A<span class="ot">}</span> refl a <span class="ot">=</span> a</span></code></pre></div>
 <p>Let us fit the above proofs of the properties of the relation <code>≡</code> to prove an equivalence relation:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb6-1" title="1">Equiv <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Equivalence A</a>
-<a class="sourceLine" id="cb6-2" title="2">Equiv <span class="ot">=</span> <span class="kw">record</span></a>
-<a class="sourceLine" id="cb6-3" title="3">  <span class="ot">{</span></a>
-<a class="sourceLine" id="cb6-4" title="4">    <span class="ot">_</span>==<span class="ot">_</span>  <span class="ot">=</span> <span class="ot">_</span>≡<span class="ot">_</span></a>
-<a class="sourceLine" id="cb6-5" title="5">    <span class="ot">;</span> refl  <span class="ot">=</span> <span class="ot">\</span>x      <span class="ot">→</span> refl</a>
-<a class="sourceLine" id="cb6-6" title="6">    <span class="ot">;</span> sym   <span class="ot">=</span> <span class="ot">\</span>x y    <span class="ot">→</span> symmetric</a>
-<a class="sourceLine" id="cb6-7" title="7">    <span class="ot">;</span> trans <span class="ot">=</span> <span class="ot">\</span>x y z  <span class="ot">→</span> transitive</a>
-<a class="sourceLine" id="cb6-8" title="8">  <span class="ot">}</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a>Equiv <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Equivalence A</span>
+<span id="cb6-2"><a href="#cb6-2"></a>Equiv <span class="ot">=</span> <span class="kw">record</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>  <span class="ot">{</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>    <span class="ot">_</span>==<span class="ot">_</span>  <span class="ot">=</span> <span class="ot">_</span>≡<span class="ot">_</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>    <span class="ot">;</span> refl  <span class="ot">=</span> <span class="ot">\</span>x      <span class="ot">→</span> refl</span>
+<span id="cb6-6"><a href="#cb6-6"></a>    <span class="ot">;</span> sym   <span class="ot">=</span> <span class="ot">\</span>x y    <span class="ot">→</span> symmetric</span>
+<span id="cb6-7"><a href="#cb6-7"></a>    <span class="ot">;</span> trans <span class="ot">=</span> <span class="ot">\</span>x y z  <span class="ot">→</span> transitive</span>
+<span id="cb6-8"><a href="#cb6-8"></a>  <span class="ot">}</span></span></code></pre></div>
 <p>To see that this applies to a <code>singleton</code>:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb7-1" title="1">refl⊤ <span class="ot">:</span> singleton ≡ singleton</a>
-<a class="sourceLine" id="cb7-2" title="2">refl⊤  <span class="ot">=</span> Equivalence<span class="ot">.</span>refl Equiv singleton</a>
-<a class="sourceLine" id="cb7-3" title="3"></a>
-<a class="sourceLine" id="cb7-4" title="4">sym⊤ <span class="ot">:</span> singleton ≡ singleton <span class="ot">→</span> singleton ≡ singleton</a>
-<a class="sourceLine" id="cb7-5" title="5">sym⊤   <span class="ot">=</span> Equivalence<span class="ot">.</span>sym Equiv singleton singleton</a>
-<a class="sourceLine" id="cb7-6" title="6"></a>
-<a class="sourceLine" id="cb7-7" title="7">trans⊤ <span class="ot">:</span> singleton ≡ singleton <span class="ot">→</span> singleton ≡ singleton <span class="ot">→</span> singleton ≡ singleton</a>
-<a class="sourceLine" id="cb7-8" title="8">trans⊤ <span class="ot">=</span> Equivalence<span class="ot">.</span>trans Equiv singleton singleton singleton</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a>refl⊤ <span class="ot">:</span> singleton ≡ singleton</span>
+<span id="cb7-2"><a href="#cb7-2"></a>refl⊤  <span class="ot">=</span> Equivalence<span class="ot">.</span>refl Equiv singleton</span>
+<span id="cb7-3"><a href="#cb7-3"></a></span>
+<span id="cb7-4"><a href="#cb7-4"></a>sym⊤ <span class="ot">:</span> singleton ≡ singleton <span class="ot">→</span> singleton ≡ singleton</span>
+<span id="cb7-5"><a href="#cb7-5"></a>sym⊤   <span class="ot">=</span> Equivalence<span class="ot">.</span>sym Equiv singleton singleton</span>
+<span id="cb7-6"><a href="#cb7-6"></a></span>
+<span id="cb7-7"><a href="#cb7-7"></a>trans⊤ <span class="ot">:</span> singleton ≡ singleton <span class="ot">→</span> singleton ≡ singleton <span class="ot">→</span> singleton ≡ singleton</span>
+<span id="cb7-8"><a href="#cb7-8"></a>trans⊤ <span class="ot">=</span> Equivalence<span class="ot">.</span>trans Equiv singleton singleton singleton</span></code></pre></div>
 <p>We cannot, however, verify this for <code>⟂</code> explicitly as we cannot produce an object that does not exist / does not have a constructor.</p>
 <p>Inequality <code>≢</code> cannot serve as an equivalence relation as reflexivity and transitivity cannot be satisfied, though symmetry can:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb8-1" title="1">symmetric≢ <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span></a>
-<a class="sourceLine" id="cb8-2" title="2">        <span class="ot">→</span> x ≢ y</a>
-<a class="sourceLine" id="cb8-3" title="3">        <span class="ot">→</span> y ≢ x</a>
-<a class="sourceLine" id="cb8-4" title="4">symmetric≢ np p <span class="ot">=</span> np <span class="ot">(</span>symmetric p<span class="ot">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a>symmetric≢ <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>        <span class="ot">→</span> x ≢ y</span>
+<span id="cb8-3"><a href="#cb8-3"></a>        <span class="ot">→</span> y ≢ x</span>
+<span id="cb8-4"><a href="#cb8-4"></a>symmetric≢ np p <span class="ot">=</span> np <span class="ot">(</span>symmetric p<span class="ot">)</span></span></code></pre></div>
 <hr />
 <p><a href="./Logic.laws.html">Laws of Logic</a></p>
 </body>

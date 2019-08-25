@@ -12,26 +12,27 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style>
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -40,9 +41,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -110,25 +111,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="functions">Functions</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">module</span> Types<span class="ot">.</span>functions <span class="kw">where</span></a>
-<a class="sourceLine" id="cb1-2" title="2"></a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span></a>
-<a class="sourceLine" id="cb1-4" title="4">  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span></a>
-<a class="sourceLine" id="cb1-5" title="5">  ℕ<span class="ot">;</span> List<span class="ot">;</span></a>
-<a class="sourceLine" id="cb1-6" title="6">  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span></a>
-<a class="sourceLine" id="cb1-7" title="7">  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">;</span></a>
-<a class="sourceLine" id="cb1-8" title="8">  ⊤<span class="ot">;</span> singleton<span class="ot">;</span> ⟂<span class="ot">)</span></a>
-<a class="sourceLine" id="cb1-9" title="9"></a>
-<a class="sourceLine" id="cb1-10" title="10"><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">)</span></a>
-<a class="sourceLine" id="cb1-11" title="11"></a>
-<a class="sourceLine" id="cb1-12" title="12"><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_;</span> fst<span class="ot">;</span> snd<span class="ot">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Types<span class="ot">.</span>functions <span class="kw">where</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>  ℕ<span class="ot">;</span> List<span class="ot">;</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a>  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">;</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>  ⊤<span class="ot">;</span> singleton<span class="ot">;</span> ⟂<span class="ot">)</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">)</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_;</span> fst<span class="ot">;</span> snd<span class="ot">)</span></span></code></pre></div>
 <p>We have previously looked at how <a href="Lang.functions.html">functions are defined in Agda</a>. Here we will look at some abstract representations of functions and their properties.</p>
 <p>A unary function is defined as:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb2-1" title="1">Fun₁ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> i <span class="ot">→</span> <span class="dt">Set</span> i</a>
-<a class="sourceLine" id="cb2-2" title="2">Fun₁ A <span class="ot">=</span> A <span class="ot">→</span> A</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a>Fun₁ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> i <span class="ot">→</span> <span class="dt">Set</span> i</span>
+<span id="cb2-2"><a href="#cb2-2"></a>Fun₁ A <span class="ot">=</span> A <span class="ot">→</span> A</span></code></pre></div>
 <p>and a binary one as:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb3-1" title="1">Fun₂ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> i <span class="ot">→</span> <span class="dt">Set</span> i</a>
-<a class="sourceLine" id="cb3-2" title="2">Fun₂ A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> A</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a>Fun₂ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> i <span class="ot">→</span> <span class="dt">Set</span> i</span>
+<span id="cb3-2"><a href="#cb3-2"></a>Fun₂ A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> A</span></code></pre></div>
 <p>In Type Theory, a function is also a type, called a <strong>function type</strong> represented as the type <code>Input₁ → Input₂ → ... → Inputₙ → Output</code>, where <code>Inputᵢ</code> are the input types and <code>Output</code> is the output type. A function type <code>f : A → B</code> can also be considered to be an exponential <code>f : Bᴬ</code> and can be thought of as belonging to the set of all <code>b ∈ B</code> that can be obtained from any <code>a ∈ A</code>, hence <code>Bᴬ</code> such elements.</p>
 <p>The concept of <strong>currying</strong> can be explained using this representation as <span class="math inline">\(C^{A × B} = (C^A)^B\)</span> hence a function taking multiple arguments <code>f : (A, B) → C</code> is the same as <code>f : A → B → C</code>. <strong>Partial functions</strong> can then be trivally described as functions that return functions with lesser number of arguments, or <strong>arity</strong>: <code>∀ a ∈ A, g = f(a) : B → C</code>.</p>
 <h1 id="dependent-function-types-or-π-types">Dependent Function Types or Π-types</h1>
@@ -140,106 +141,106 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 \]</span></p>
 <p>Another notation is to use <span class="math inline">\(\Pi_{x : A} B(x)\)</span>, mostly used in type theory to denote Π-types. Functions of higher arity then take the form <span class="math inline">\(\Pi_{x : A}\Pi_{y : B(x)} D(y)\)</span> and so on.</p>
 <figure>
-<img src="dependent_function.png" alt="Figure 1: Dependent Function" /><figcaption>Figure 1: Dependent Function</figcaption>
+<img src="dependent_function.png" alt="" /><figcaption>Figure 1: Dependent Function</figcaption>
 </figure>
 <p>To show how to use this type, we construct an example:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb4-1" title="1"><span class="co">-- divide by 2</span></a>
-<a class="sourceLine" id="cb4-2" title="2">divBy2 <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ</a>
-<a class="sourceLine" id="cb4-3" title="3">divBy2 zero <span class="ot">=</span> zero</a>
-<a class="sourceLine" id="cb4-4" title="4">divBy2 <span class="ot">(</span>succ zero<span class="ot">)</span> <span class="ot">=</span> one <span class="co">-- well...</span></a>
-<a class="sourceLine" id="cb4-5" title="5">divBy2 <span class="ot">(</span>succ <span class="ot">(</span>succ n<span class="ot">))</span> <span class="ot">=</span> succ <span class="ot">(</span>divBy2 n<span class="ot">)</span> <span class="co">-- take 2 at a time and count as 1</span></a>
-<a class="sourceLine" id="cb4-6" title="6"></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="co">-- proof of a number being even</span></a>
-<a class="sourceLine" id="cb4-8" title="8">even <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span></a>
-<a class="sourceLine" id="cb4-9" title="9">even zero <span class="ot">=</span> ⊤</a>
-<a class="sourceLine" id="cb4-10" title="10">even <span class="ot">(</span>succ zero<span class="ot">)</span> <span class="ot">=</span> ⟂</a>
-<a class="sourceLine" id="cb4-11" title="11">even <span class="ot">(</span>succ <span class="ot">(</span>succ n<span class="ot">))</span> <span class="ot">=</span> even n</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">-- divide by 2</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>divBy2 <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ</span>
+<span id="cb4-3"><a href="#cb4-3"></a>divBy2 zero <span class="ot">=</span> zero</span>
+<span id="cb4-4"><a href="#cb4-4"></a>divBy2 <span class="ot">(</span>succ zero<span class="ot">)</span> <span class="ot">=</span> one <span class="co">-- well...</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a>divBy2 <span class="ot">(</span>succ <span class="ot">(</span>succ n<span class="ot">))</span> <span class="ot">=</span> succ <span class="ot">(</span>divBy2 n<span class="ot">)</span> <span class="co">-- take 2 at a time and count as 1</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">-- proof of a number being even</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a>even <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a>even zero <span class="ot">=</span> ⊤</span>
+<span id="cb4-10"><a href="#cb4-10"></a>even <span class="ot">(</span>succ zero<span class="ot">)</span> <span class="ot">=</span> ⟂</span>
+<span id="cb4-11"><a href="#cb4-11"></a>even <span class="ot">(</span>succ <span class="ot">(</span>succ n<span class="ot">))</span> <span class="ot">=</span> even n</span></code></pre></div>
 <p>Now, we can define a function that divides only even numbers by 2:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb5-1" title="1">divBy2₂ <span class="ot">:</span> <span class="ot">(</span>n <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> even n <span class="ot">→</span> ℕ</a>
-<a class="sourceLine" id="cb5-2" title="2">divBy2₂ zero p <span class="ot">=</span> zero</a>
-<a class="sourceLine" id="cb5-3" title="3">divBy2₂ <span class="ot">(</span>succ zero<span class="ot">)</span> <span class="ot">()</span></a>
-<a class="sourceLine" id="cb5-4" title="4">divBy2₂ <span class="ot">(</span>succ <span class="ot">(</span>succ y<span class="ot">))</span> p <span class="ot">=</span> succ <span class="ot">(</span>divBy2₂ y p<span class="ot">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a>divBy2₂ <span class="ot">:</span> <span class="ot">(</span>n <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> even n <span class="ot">→</span> ℕ</span>
+<span id="cb5-2"><a href="#cb5-2"></a>divBy2₂ zero p <span class="ot">=</span> zero</span>
+<span id="cb5-3"><a href="#cb5-3"></a>divBy2₂ <span class="ot">(</span>succ zero<span class="ot">)</span> <span class="ot">()</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>divBy2₂ <span class="ot">(</span>succ <span class="ot">(</span>succ y<span class="ot">))</span> p <span class="ot">=</span> succ <span class="ot">(</span>divBy2₂ y p<span class="ot">)</span></span></code></pre></div>
 <p>In order to be applied, <code>divBy2₂</code> requries its input <code>n</code> to conform to the type <code>even n</code>, which can only exist if the number <code>n</code> is even! This makes <code>divBy2₂</code> a dependent function.</p>
 <h2 id="construction">Construction</h2>
 <p>A dependent Π-type can be constructively defined as:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb6-1" title="1">Π <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i j<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> i<span class="ot">)</span> <span class="ot">(</span>P <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> j<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>i ⊔ j<span class="ot">)</span></a>
-<a class="sourceLine" id="cb6-2" title="2">Π A P <span class="ot">=</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> P x</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a>Π <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i j<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> i<span class="ot">)</span> <span class="ot">(</span>P <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> j<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>i ⊔ j<span class="ot">)</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>Π A P <span class="ot">=</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> P x</span></code></pre></div>
 <h1 id="properties-of-function-types">Properties of function types</h1>
 <h2 id="function-composition">Function composition</h2>
 <p>A function composition is defined as:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb7-1" title="1"><span class="ot">_</span>∘<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="ot">{</span>x <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">→</span> B x <span class="ot">→</span> <span class="dt">Set</span> c<span class="ot">}</span></a>
-<a class="sourceLine" id="cb7-2" title="2">        <span class="ot">→</span> <span class="ot">(</span>g <span class="ot">:</span> <span class="ot">{</span>x <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">(</span>y <span class="ot">:</span> B x<span class="ot">)</span> <span class="ot">→</span> C y<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-3" title="3">        <span class="ot">→</span> <span class="ot">(</span>f <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-4" title="4">        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> C <span class="ot">(</span>f x<span class="ot">))</span></a>
-<a class="sourceLine" id="cb7-5" title="5">g ∘ f <span class="ot">=</span> <span class="ot">λ</span> x <span class="ot">→</span> g <span class="ot">(</span>f x<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-6" title="6"></a>
-<a class="sourceLine" id="cb7-7" title="7"><span class="ot">_</span>∘′<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span></a>
-<a class="sourceLine" id="cb7-8" title="8">        <span class="ot">→</span> <span class="ot">(</span>B <span class="ot">→</span> C<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-9" title="9">        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-10" title="10">        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> C<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-11" title="11">f ∘′ g <span class="ot">=</span> <span class="ot">_</span>∘<span class="ot">_</span> f g</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a><span class="ot">_</span>∘<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="ot">{</span>x <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">→</span> B x <span class="ot">→</span> <span class="dt">Set</span> c<span class="ot">}</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>        <span class="ot">→</span> <span class="ot">(</span>g <span class="ot">:</span> <span class="ot">{</span>x <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">(</span>y <span class="ot">:</span> B x<span class="ot">)</span> <span class="ot">→</span> C y<span class="ot">)</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>        <span class="ot">→</span> <span class="ot">(</span>f <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x<span class="ot">)</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> C <span class="ot">(</span>f x<span class="ot">))</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a>g ∘ f <span class="ot">=</span> <span class="ot">λ</span> x <span class="ot">→</span> g <span class="ot">(</span>f x<span class="ot">)</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="ot">_</span>∘′<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a>        <span class="ot">→</span> <span class="ot">(</span>B <span class="ot">→</span> C<span class="ot">)</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a>        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a>        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> C<span class="ot">)</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a>f ∘′ g <span class="ot">=</span> <span class="ot">_</span>∘<span class="ot">_</span> f g</span></code></pre></div>
 <p>and specifically for dependent types:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb8-1" title="1"><span class="ot">_</span>○<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x <span class="ot">→</span> <span class="dt">Set</span> c<span class="ot">}</span></a>
-<a class="sourceLine" id="cb8-2" title="2">        <span class="ot">→</span> <span class="ot">(</span>g <span class="ot">:</span> <span class="ot">{</span>x <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">→</span> Π <span class="ot">(</span>B x<span class="ot">)</span> <span class="ot">(</span>C x<span class="ot">))</span></a>
-<a class="sourceLine" id="cb8-3" title="3">        <span class="ot">→</span> <span class="ot">(</span>f <span class="ot">:</span> Π A B<span class="ot">)</span></a>
-<a class="sourceLine" id="cb8-4" title="4">        <span class="ot">→</span> Π A <span class="ot">(λ</span> x <span class="ot">→</span> C x <span class="ot">(</span>f x<span class="ot">))</span></a>
-<a class="sourceLine" id="cb8-5" title="5">g ○ f <span class="ot">=</span> <span class="ot">λ</span> x <span class="ot">→</span> g <span class="ot">(</span>f x<span class="ot">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a><span class="ot">_</span>○<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x <span class="ot">→</span> <span class="dt">Set</span> c<span class="ot">}</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>        <span class="ot">→</span> <span class="ot">(</span>g <span class="ot">:</span> <span class="ot">{</span>x <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">→</span> Π <span class="ot">(</span>B x<span class="ot">)</span> <span class="ot">(</span>C x<span class="ot">))</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a>        <span class="ot">→</span> <span class="ot">(</span>f <span class="ot">:</span> Π A B<span class="ot">)</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a>        <span class="ot">→</span> Π A <span class="ot">(λ</span> x <span class="ot">→</span> C x <span class="ot">(</span>f x<span class="ot">))</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a>g ○ f <span class="ot">=</span> <span class="ot">λ</span> x <span class="ot">→</span> g <span class="ot">(</span>f x<span class="ot">)</span></span></code></pre></div>
 <p>Going further, we define our machinery on all functions, dependent or not. However, it is worth nothing that by functions, we mean <strong>pure functions</strong>, i.e. without any side effects, for example IO, state manipulation, etc.</p>
 <h2 id="identity-and-constant-functions">Identity and constant functions</h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb9-1" title="1">id <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> A</a>
-<a class="sourceLine" id="cb9-2" title="2">id x <span class="ot">=</span> x</a>
-<a class="sourceLine" id="cb9-3" title="3"></a>
-<a class="sourceLine" id="cb9-4" title="4">const <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> B <span class="ot">→</span> A</a>
-<a class="sourceLine" id="cb9-5" title="5">const x <span class="ot">=</span> <span class="ot">λ</span> <span class="ot">_</span> <span class="ot">→</span> x</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1"></a>id <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> A</span>
+<span id="cb9-2"><a href="#cb9-2"></a>id x <span class="ot">=</span> x</span>
+<span id="cb9-3"><a href="#cb9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4"></a>const <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> B <span class="ot">→</span> A</span>
+<span id="cb9-5"><a href="#cb9-5"></a>const x <span class="ot">=</span> <span class="ot">λ</span> <span class="ot">_</span> <span class="ot">→</span> x</span></code></pre></div>
 <h2 id="application">Application</h2>
 <p>A function application is a type which actually applies a bunch of arguments to a function.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb10-1" title="1"><span class="ot">_</span>$<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">}</span></a>
-<a class="sourceLine" id="cb10-2" title="2">        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x<span class="ot">)</span></a>
-<a class="sourceLine" id="cb10-3" title="3">        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x<span class="ot">)</span></a>
-<a class="sourceLine" id="cb10-4" title="4">f $ x <span class="ot">=</span> f x</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1"></a><span class="ot">_</span>$<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">}</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x<span class="ot">)</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a>        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x<span class="ot">)</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a>f $ x <span class="ot">=</span> f x</span></code></pre></div>
 <h2 id="currying">Currying</h2>
 <p>Currying, as we saw earlier, converts a function that takes multiple arguments into a sequence of functions each taking one argument. Un-currying is the opposite of currying. We define both for binary functions, though further extensions are trivial:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb11-1" title="1">curry <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i j k<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> i<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> j<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> Σ A B <span class="ot">→</span> <span class="dt">Set</span> k<span class="ot">}</span></a>
-<a class="sourceLine" id="cb11-2" title="2">        <span class="ot">→</span> <span class="ot">(∀</span> s <span class="ot">→</span> C s<span class="ot">)</span></a>
-<a class="sourceLine" id="cb11-3" title="3">        <span class="ot">→</span> <span class="ot">(∀</span> x y <span class="ot">→</span> C <span class="ot">(</span>x , y<span class="ot">))</span></a>
-<a class="sourceLine" id="cb11-4" title="4">curry f x y <span class="ot">=</span> f <span class="ot">(</span>x , y<span class="ot">)</span></a>
-<a class="sourceLine" id="cb11-5" title="5"></a>
-<a class="sourceLine" id="cb11-6" title="6">uncurry <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i j k<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> i<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> j<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> B x <span class="ot">→</span> <span class="dt">Set</span> k<span class="ot">}</span></a>
-<a class="sourceLine" id="cb11-7" title="7">        <span class="ot">→</span> <span class="ot">(∀</span> x y <span class="ot">→</span> C x y<span class="ot">)</span></a>
-<a class="sourceLine" id="cb11-8" title="8">        <span class="ot">→</span> <span class="ot">(∀</span> s <span class="ot">→</span> C <span class="ot">(</span>fst s<span class="ot">)</span> <span class="ot">(</span>snd s<span class="ot">))</span></a>
-<a class="sourceLine" id="cb11-9" title="9">uncurry f <span class="ot">(</span>x , y<span class="ot">)</span> <span class="ot">=</span> f x y</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1"></a>curry <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i j k<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> i<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> j<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> Σ A B <span class="ot">→</span> <span class="dt">Set</span> k<span class="ot">}</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>        <span class="ot">→</span> <span class="ot">(∀</span> s <span class="ot">→</span> C s<span class="ot">)</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>        <span class="ot">→</span> <span class="ot">(∀</span> x y <span class="ot">→</span> C <span class="ot">(</span>x , y<span class="ot">))</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>curry f x y <span class="ot">=</span> f <span class="ot">(</span>x , y<span class="ot">)</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a></span>
+<span id="cb11-6"><a href="#cb11-6"></a>uncurry <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i j k<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> i<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> j<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> B x <span class="ot">→</span> <span class="dt">Set</span> k<span class="ot">}</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a>        <span class="ot">→</span> <span class="ot">(∀</span> x y <span class="ot">→</span> C x y<span class="ot">)</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a>        <span class="ot">→</span> <span class="ot">(∀</span> s <span class="ot">→</span> C <span class="ot">(</span>fst s<span class="ot">)</span> <span class="ot">(</span>snd s<span class="ot">))</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a>uncurry f <span class="ot">(</span>x , y<span class="ot">)</span> <span class="ot">=</span> f x y</span></code></pre></div>
 <h2 id="infix-application">Infix application</h2>
-<div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb12-1" title="1"><span class="ot">_</span>⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span></a>
-<a class="sourceLine" id="cb12-2" title="2">        <span class="ot">→</span> A</a>
-<a class="sourceLine" id="cb12-3" title="3">        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B <span class="ot">→</span> C<span class="ot">)</span></a>
-<a class="sourceLine" id="cb12-4" title="4">        <span class="ot">→</span> B</a>
-<a class="sourceLine" id="cb12-5" title="5">        <span class="ot">→</span> C</a>
-<a class="sourceLine" id="cb12-6" title="6">x ⟨ f ⟩ y <span class="ot">=</span> f x y</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb12-1"><a href="#cb12-1"></a><span class="ot">_</span>⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>        <span class="ot">→</span> A</span>
+<span id="cb12-3"><a href="#cb12-3"></a>        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B <span class="ot">→</span> C<span class="ot">)</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a>        <span class="ot">→</span> B</span>
+<span id="cb12-5"><a href="#cb12-5"></a>        <span class="ot">→</span> C</span>
+<span id="cb12-6"><a href="#cb12-6"></a>x ⟨ f ⟩ y <span class="ot">=</span> f x y</span></code></pre></div>
 <h2 id="other-useful-api">Other useful API</h2>
 <h3 id="flip">Flip</h3>
-<div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb13-1" title="1">flip <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> A <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> c<span class="ot">}</span></a>
-<a class="sourceLine" id="cb13-2" title="2">        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(</span>y <span class="ot">:</span> B<span class="ot">)</span> <span class="ot">→</span> C x y<span class="ot">)</span></a>
-<a class="sourceLine" id="cb13-3" title="3">        <span class="ot">→</span> <span class="ot">((</span>y <span class="ot">:</span> B<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> C x y<span class="ot">)</span></a>
-<a class="sourceLine" id="cb13-4" title="4">flip f <span class="ot">=</span> <span class="ot">λ</span> y x <span class="ot">→</span> f x y</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb13-1"><a href="#cb13-1"></a>flip <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> A <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> c<span class="ot">}</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(</span>y <span class="ot">:</span> B<span class="ot">)</span> <span class="ot">→</span> C x y<span class="ot">)</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>        <span class="ot">→</span> <span class="ot">((</span>y <span class="ot">:</span> B<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> C x y<span class="ot">)</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>flip f <span class="ot">=</span> <span class="ot">λ</span> y x <span class="ot">→</span> f x y</span></code></pre></div>
 <h3 id="on">On</h3>
-<div class="sourceCode" id="cb14"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb14-1" title="1"><span class="ot">_</span>on<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span></a>
-<a class="sourceLine" id="cb14-2" title="2">        <span class="ot">→</span> <span class="ot">(</span>B <span class="ot">→</span> B <span class="ot">→</span> C<span class="ot">)</span></a>
-<a class="sourceLine" id="cb14-3" title="3">        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span></a>
-<a class="sourceLine" id="cb14-4" title="4">        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> A <span class="ot">→</span> C<span class="ot">)</span></a>
-<a class="sourceLine" id="cb14-5" title="5"><span class="ot">_</span>*<span class="ot">_</span> on f <span class="ot">=</span> <span class="ot">λ</span> x y <span class="ot">→</span> f x * f y</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb14-1"><a href="#cb14-1"></a><span class="ot">_</span>on<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a>        <span class="ot">→</span> <span class="ot">(</span>B <span class="ot">→</span> B <span class="ot">→</span> C<span class="ot">)</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a>        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a>        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> A <span class="ot">→</span> C<span class="ot">)</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="ot">_</span>*<span class="ot">_</span> on f <span class="ot">=</span> <span class="ot">λ</span> x y <span class="ot">→</span> f x * f y</span></code></pre></div>
 <h3 id="type-extractor">Type extractor</h3>
-<div class="sourceCode" id="cb15"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb15-1" title="1">typeOf <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span> a</a>
-<a class="sourceLine" id="cb15-2" title="2">typeOf <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span> <span class="ot">_</span> <span class="ot">=</span> A</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb15-1"><a href="#cb15-1"></a>typeOf <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span> a</span>
+<span id="cb15-2"><a href="#cb15-2"></a>typeOf <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span> <span class="ot">_</span> <span class="ot">=</span> A</span></code></pre></div>
 <h3 id="case-statements">Case statements</h3>
-<div class="sourceCode" id="cb16"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">infix</span> <span class="dv">0</span> case<span class="ot">_</span>return<span class="ot">_</span>of<span class="ot">_</span> case<span class="ot">_</span>of<span class="ot">_</span></a>
-<a class="sourceLine" id="cb16-2" title="2"></a>
-<a class="sourceLine" id="cb16-3" title="3">case<span class="ot">_</span>return<span class="ot">_</span>of<span class="ot">_</span> <span class="ot">:</span></a>
-<a class="sourceLine" id="cb16-4" title="4">  <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></a>
-<a class="sourceLine" id="cb16-5" title="5">  <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x<span class="ot">)</span> <span class="ot">→</span> B x</a>
-<a class="sourceLine" id="cb16-6" title="6">case x return B of f <span class="ot">=</span> f x</a>
-<a class="sourceLine" id="cb16-7" title="7"></a>
-<a class="sourceLine" id="cb16-8" title="8">case<span class="ot">_</span>of<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> B</a>
-<a class="sourceLine" id="cb16-9" title="9">case x of f <span class="ot">=</span> case x return <span class="ot">_</span> of f</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">infix</span> <span class="dv">0</span> case<span class="ot">_</span>return<span class="ot">_</span>of<span class="ot">_</span> case<span class="ot">_</span>of<span class="ot">_</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a></span>
+<span id="cb16-3"><a href="#cb16-3"></a>case<span class="ot">_</span>return<span class="ot">_</span>of<span class="ot">_</span> <span class="ot">:</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a>  <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></span>
+<span id="cb16-5"><a href="#cb16-5"></a>  <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x<span class="ot">)</span> <span class="ot">→</span> B x</span>
+<span id="cb16-6"><a href="#cb16-6"></a>case x return B of f <span class="ot">=</span> f x</span>
+<span id="cb16-7"><a href="#cb16-7"></a></span>
+<span id="cb16-8"><a href="#cb16-8"></a>case<span class="ot">_</span>of<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> B</span>
+<span id="cb16-9"><a href="#cb16-9"></a>case x of f <span class="ot">=</span> case x return <span class="ot">_</span> of f</span></code></pre></div>
 <hr />
 <p><a href="./Types.proofsAsData.html">Proofs as Data</a></p>
 </body>

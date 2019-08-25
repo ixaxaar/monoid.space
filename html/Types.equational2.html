@@ -12,26 +12,27 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style>
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -40,9 +41,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -90,115 +91,115 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="#some-proofs-using-equational-reasoning">Some Proofs using equational reasoning</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">module</span> Types<span class="ot">.</span>equational2 <span class="kw">where</span></a>
-<a class="sourceLine" id="cb1-2" title="2"></a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_)</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Types<span class="ot">.</span>equational2 <span class="kw">where</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_)</span></span></code></pre></div>
 <p>We now define a more complex version where there is symmetry in equivalence preservation, unlike the previous naive version where it is only covariant, capturing the commutativity of the equivalence relation.</p>
 <h2 id="equational-reasoning-over-equivalence-relations">Equational Reasoning over equivalence relations</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">module</span> ★-reasoning</a>
-<a class="sourceLine" id="cb2-2" title="2">  <span class="ot">{</span>a ℓ<span class="ot">}</span></a>
-<a class="sourceLine" id="cb2-3" title="3">  <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></a>
-<a class="sourceLine" id="cb2-4" title="4">  <span class="ot">(_</span>∼<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span></a>
-<a class="sourceLine" id="cb2-5" title="5">  <span class="ot">(</span>reflexive <span class="ot">:</span> Reflexive <span class="ot">_</span>∼<span class="ot">_)</span></a>
-<a class="sourceLine" id="cb2-6" title="6">  <span class="ot">(</span>trans <span class="ot">:</span> Transitive <span class="ot">_</span>∼<span class="ot">_)</span></a>
-<a class="sourceLine" id="cb2-7" title="7">  <span class="kw">where</span></a>
-<a class="sourceLine" id="cb2-8" title="8"></a>
-<a class="sourceLine" id="cb2-9" title="9">  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>IsRelatedTo<span class="ot">_</span></a>
-<a class="sourceLine" id="cb2-10" title="10">  <span class="kw">infix</span>  <span class="dv">3</span> <span class="ot">_</span>∎</a>
-<a class="sourceLine" id="cb2-11" title="11">  <span class="kw">infixr</span> <span class="dv">2</span> <span class="ot">_</span>∼⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">_</span>≡⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">_</span>≡˘⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">_</span>≡⟨⟩<span class="ot">_</span></a>
-<a class="sourceLine" id="cb2-12" title="12">  <span class="kw">infix</span>  <span class="dv">1</span> begin<span class="ot">_</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">module</span> ★-reasoning</span>
+<span id="cb2-2"><a href="#cb2-2"></a>  <span class="ot">{</span>a ℓ<span class="ot">}</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>  <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>  <span class="ot">(_</span>∼<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>  <span class="ot">(</span>reflexive <span class="ot">:</span> Reflexive <span class="ot">_</span>∼<span class="ot">_)</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>  <span class="ot">(</span>trans <span class="ot">:</span> Transitive <span class="ot">_</span>∼<span class="ot">_)</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>  <span class="kw">where</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a></span>
+<span id="cb2-9"><a href="#cb2-9"></a>  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>IsRelatedTo<span class="ot">_</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a>  <span class="kw">infix</span>  <span class="dv">3</span> <span class="ot">_</span>∎</span>
+<span id="cb2-11"><a href="#cb2-11"></a>  <span class="kw">infixr</span> <span class="dv">2</span> <span class="ot">_</span>∼⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">_</span>≡⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">_</span>≡˘⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">_</span>≡⟨⟩<span class="ot">_</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a>  <span class="kw">infix</span>  <span class="dv">1</span> begin<span class="ot">_</span></span></code></pre></div>
 <p>We start with a vague notion of being related to:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb3-1" title="1">  <span class="kw">data</span> <span class="ot">_</span>IsRelatedTo<span class="ot">_</span> <span class="ot">(</span>x y <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></a>
-<a class="sourceLine" id="cb3-2" title="2">    relTo <span class="ot">:</span> <span class="ot">(</span>x∼y <span class="ot">:</span> x ∼ y<span class="ot">)</span> <span class="ot">→</span> x IsRelatedTo y</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a>  <span class="kw">data</span> <span class="ot">_</span>IsRelatedTo<span class="ot">_</span> <span class="ot">(</span>x y <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>    relTo <span class="ot">:</span> <span class="ot">(</span>x∼y <span class="ot">:</span> x ∼ y<span class="ot">)</span> <span class="ot">→</span> x IsRelatedTo y</span></code></pre></div>
 <p>we concretize the fact of being related to into a <code>begin</code> statement, this forms the basis or starting point of any reasoning sequence.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb4-1" title="1">  begin<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>x y<span class="ot">}</span> <span class="ot">→</span> x IsRelatedTo y <span class="ot">→</span> x ∼ y</a>
-<a class="sourceLine" id="cb4-2" title="2">  begin relTo x∼y <span class="ot">=</span> x∼y</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1"></a>  begin<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>x y<span class="ot">}</span> <span class="ot">→</span> x IsRelatedTo y <span class="ot">→</span> x ∼ y</span>
+<span id="cb4-2"><a href="#cb4-2"></a>  begin relTo x∼y <span class="ot">=</span> x∼y</span></code></pre></div>
 <p>chaining transitivity:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb5-1" title="1">  <span class="ot">_</span>∼⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">{</span>y z<span class="ot">}</span> <span class="ot">→</span> x ∼ y <span class="ot">→</span> y IsRelatedTo z <span class="ot">→</span> x IsRelatedTo z</a>
-<a class="sourceLine" id="cb5-2" title="2">  <span class="ot">_</span> ∼⟨ x∼y ⟩ relTo y∼z <span class="ot">=</span> relTo <span class="ot">(</span>trans x∼y y∼z<span class="ot">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a>  <span class="ot">_</span>∼⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">{</span>y z<span class="ot">}</span> <span class="ot">→</span> x ∼ y <span class="ot">→</span> y IsRelatedTo z <span class="ot">→</span> x IsRelatedTo z</span>
+<span id="cb5-2"><a href="#cb5-2"></a>  <span class="ot">_</span> ∼⟨ x∼y ⟩ relTo y∼z <span class="ot">=</span> relTo <span class="ot">(</span>trans x∼y y∼z<span class="ot">)</span></span></code></pre></div>
 <p>covariant equivalence preservation:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb6-1" title="1">  <span class="ot">_</span>≡⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">{</span>y z<span class="ot">}</span> <span class="ot">→</span> x ≡ y <span class="ot">→</span> y IsRelatedTo z <span class="ot">→</span> x IsRelatedTo z</a>
-<a class="sourceLine" id="cb6-2" title="2">  <span class="ot">_</span> ≡⟨ refl ⟩ x∼z <span class="ot">=</span> x∼z</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a>  <span class="ot">_</span>≡⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">{</span>y z<span class="ot">}</span> <span class="ot">→</span> x ≡ y <span class="ot">→</span> y IsRelatedTo z <span class="ot">→</span> x IsRelatedTo z</span>
+<span id="cb6-2"><a href="#cb6-2"></a>  <span class="ot">_</span> ≡⟨ refl ⟩ x∼z <span class="ot">=</span> x∼z</span></code></pre></div>
 <p>contravariant equivalence preservation:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb7-1" title="1">  <span class="ot">_</span>≡˘⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">{</span>y z<span class="ot">}</span> <span class="ot">→</span> y ≡ x <span class="ot">→</span> y IsRelatedTo z <span class="ot">→</span> x IsRelatedTo z</a>
-<a class="sourceLine" id="cb7-2" title="2">  <span class="ot">_</span> ≡˘⟨ refl ⟩ x∼z <span class="ot">=</span> x∼z</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a>  <span class="ot">_</span>≡˘⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">{</span>y z<span class="ot">}</span> <span class="ot">→</span> y ≡ x <span class="ot">→</span> y IsRelatedTo z <span class="ot">→</span> x IsRelatedTo z</span>
+<span id="cb7-2"><a href="#cb7-2"></a>  <span class="ot">_</span> ≡˘⟨ refl ⟩ x∼z <span class="ot">=</span> x∼z</span></code></pre></div>
 <p>preservation of reflexivity:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb8-1" title="1">  <span class="ot">_</span>≡⟨⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">{</span>y<span class="ot">}</span> <span class="ot">→</span> x IsRelatedTo y <span class="ot">→</span> x IsRelatedTo y</a>
-<a class="sourceLine" id="cb8-2" title="2">  <span class="ot">_</span> ≡⟨⟩ x∼y <span class="ot">=</span> <span class="ot">_</span> ≡⟨ refl ⟩ x∼y</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a>  <span class="ot">_</span>≡⟨⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">{</span>y<span class="ot">}</span> <span class="ot">→</span> x IsRelatedTo y <span class="ot">→</span> x IsRelatedTo y</span>
+<span id="cb8-2"><a href="#cb8-2"></a>  <span class="ot">_</span> ≡⟨⟩ x∼y <span class="ot">=</span> <span class="ot">_</span> ≡⟨ refl ⟩ x∼y</span></code></pre></div>
 <p>and we end chains of reasoning with a QED:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb9-1" title="1">  <span class="ot">_</span>∎ <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> x IsRelatedTo x</a>
-<a class="sourceLine" id="cb9-2" title="2">  <span class="ot">_</span>∎ <span class="ot">_</span> <span class="ot">=</span> relTo reflexive</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1"></a>  <span class="ot">_</span>∎ <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> x IsRelatedTo x</span>
+<span id="cb9-2"><a href="#cb9-2"></a>  <span class="ot">_</span>∎ <span class="ot">_</span> <span class="ot">=</span> relTo reflexive</span></code></pre></div>
 <h2 id="some-proofs-using-equational-reasoning">Some Proofs using equational reasoning</h2>
 <p>A lot of assymetric laws can be derived with one half of the symmetry and mixing it with commutativity. E.g. left inverse coiuld be derived using right inverse and commutativity, similarly, right inverse can be derived using left inverse and commutativity.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>operations</a>
-<a class="sourceLine" id="cb10-2" title="2"></a>
-<a class="sourceLine" id="cb10-3" title="3"><span class="kw">module</span> withCommutativity <span class="ot">{</span>a ℓ<span class="ot">}</span></a>
-<a class="sourceLine" id="cb10-4" title="4">  <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></a>
-<a class="sourceLine" id="cb10-5" title="5">  <span class="ot">{_</span>∼<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">}</span></a>
-<a class="sourceLine" id="cb10-6" title="6">  <span class="ot">{_</span>•<span class="ot">_</span> <span class="ot">:</span> <span class="ot">(</span>★ <span class="ot">_</span>∼<span class="ot">_)</span> A<span class="ot">}</span></a>
-<a class="sourceLine" id="cb10-7" title="7">  <span class="ot">{_</span>⁻¹ <span class="ot">:</span> <span class="ot">(</span>♠ <span class="ot">_</span>∼<span class="ot">_)</span> A<span class="ot">}</span></a>
-<a class="sourceLine" id="cb10-8" title="8">  <span class="ot">(</span>reflexive <span class="ot">:</span> Reflexive <span class="ot">_</span>∼<span class="ot">_)</span></a>
-<a class="sourceLine" id="cb10-9" title="9">  <span class="ot">(</span>trans <span class="ot">:</span> Transitive <span class="ot">_</span>∼<span class="ot">_)</span></a>
-<a class="sourceLine" id="cb10-10" title="10">  <span class="ot">(</span>comm <span class="ot">:</span> Commutative <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>•<span class="ot">_)</span></a>
-<a class="sourceLine" id="cb10-11" title="11">  <span class="ot">(</span>ϵ <span class="ot">:</span> A<span class="ot">)</span></a>
-<a class="sourceLine" id="cb10-12" title="12">  <span class="kw">where</span></a>
-<a class="sourceLine" id="cb10-13" title="13"></a>
-<a class="sourceLine" id="cb10-14" title="14">    <span class="kw">open</span> ★-reasoning <span class="ot">_</span>∼<span class="ot">_</span> reflexive trans <span class="kw">public</span></a></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb11-1" title="1">    comm+invˡ⇒invʳ <span class="ot">:</span></a>
-<a class="sourceLine" id="cb11-2" title="2">        LeftInverse <span class="ot">_</span>∼<span class="ot">_</span> ϵ <span class="ot">_</span>⁻¹ <span class="ot">_</span>•<span class="ot">_</span></a>
-<a class="sourceLine" id="cb11-3" title="3">      <span class="ot">→</span> RightInverse <span class="ot">_</span>∼<span class="ot">_</span> ϵ <span class="ot">_</span>⁻¹ <span class="ot">_</span>•<span class="ot">_</span></a>
-<a class="sourceLine" id="cb11-4" title="4">    comm+invˡ⇒invʳ invˡ x <span class="ot">=</span> begin</a>
-<a class="sourceLine" id="cb11-5" title="5">      x • <span class="ot">(</span>x ⁻¹<span class="ot">)</span> ∼⟨ comm x <span class="ot">(</span>x ⁻¹<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb11-6" title="6">      <span class="ot">(</span>x ⁻¹<span class="ot">)</span> • x ∼⟨ invˡ x ⟩</a>
-<a class="sourceLine" id="cb11-7" title="7">      ϵ          ∎</a></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb12-1" title="1">    comm+invʳ⇒invˡ <span class="ot">:</span> RightInverse <span class="ot">_</span>∼<span class="ot">_</span> ϵ <span class="ot">_</span>⁻¹ <span class="ot">_</span>•<span class="ot">_</span> <span class="ot">→</span> LeftInverse <span class="ot">_</span>∼<span class="ot">_</span> ϵ <span class="ot">_</span>⁻¹ <span class="ot">_</span>•<span class="ot">_</span></a>
-<a class="sourceLine" id="cb12-2" title="2">    comm+invʳ⇒invˡ invʳ x <span class="ot">=</span> begin</a>
-<a class="sourceLine" id="cb12-3" title="3">      <span class="ot">(</span>x ⁻¹<span class="ot">)</span> • x ∼⟨ comm <span class="ot">(</span>x ⁻¹<span class="ot">)</span> x ⟩</a>
-<a class="sourceLine" id="cb12-4" title="4">      x • <span class="ot">(</span>x ⁻¹<span class="ot">)</span> ∼⟨ invʳ x ⟩</a>
-<a class="sourceLine" id="cb12-5" title="5">      ϵ          ∎</a></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">module</span> withCongruence <span class="ot">{</span>a ℓ<span class="ot">}</span></a>
-<a class="sourceLine" id="cb13-2" title="2">  <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></a>
-<a class="sourceLine" id="cb13-3" title="3">  <span class="ot">(_</span>∼<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span></a>
-<a class="sourceLine" id="cb13-4" title="4">  <span class="ot">(_</span>•<span class="ot">_</span> <span class="ot">:</span> <span class="ot">(</span>★ <span class="ot">_</span>∼<span class="ot">_)</span> A<span class="ot">)</span></a>
-<a class="sourceLine" id="cb13-5" title="5">  <span class="ot">(_</span>⁻¹ <span class="ot">:</span> <span class="ot">(</span>♠ <span class="ot">_</span>∼<span class="ot">_)</span> A<span class="ot">)</span></a>
-<a class="sourceLine" id="cb13-6" title="6">  <span class="ot">(</span>reflexive <span class="ot">:</span> Reflexive <span class="ot">_</span>∼<span class="ot">_)</span></a>
-<a class="sourceLine" id="cb13-7" title="7">  <span class="ot">(</span>trans <span class="ot">:</span> Transitive <span class="ot">_</span>∼<span class="ot">_)</span></a>
-<a class="sourceLine" id="cb13-8" title="8">  <span class="ot">(</span>sym <span class="ot">:</span> Symmetric <span class="ot">_</span>∼<span class="ot">_)</span></a>
-<a class="sourceLine" id="cb13-9" title="9">  <span class="ot">(</span>cong <span class="ot">:</span> Congruent₂ <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>•<span class="ot">_)</span></a>
-<a class="sourceLine" id="cb13-10" title="10">  <span class="ot">(</span>ϵ <span class="ot">:</span> A<span class="ot">)</span></a>
-<a class="sourceLine" id="cb13-11" title="11">  <span class="kw">where</span></a>
-<a class="sourceLine" id="cb13-12" title="12"></a>
-<a class="sourceLine" id="cb13-13" title="13">    <span class="kw">open</span> ★-reasoning <span class="ot">_</span>∼<span class="ot">_</span> reflexive trans <span class="kw">public</span></a></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb14-1" title="1">    assoc+id+invʳ⇒invˡ-unique <span class="ot">:</span></a>
-<a class="sourceLine" id="cb14-2" title="2">        Associative <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>•<span class="ot">_</span></a>
-<a class="sourceLine" id="cb14-3" title="3">      <span class="ot">→</span> Identity <span class="ot">_</span>∼<span class="ot">_</span> ϵ <span class="ot">_</span>•<span class="ot">_</span></a>
-<a class="sourceLine" id="cb14-4" title="4">      <span class="ot">→</span> RightInverse <span class="ot">_</span>∼<span class="ot">_</span> ϵ <span class="ot">_</span>⁻¹ <span class="ot">_</span>•<span class="ot">_</span></a>
-<a class="sourceLine" id="cb14-5" title="5">      <span class="ot">→</span> <span class="ot">∀</span> x y</a>
-<a class="sourceLine" id="cb14-6" title="6">      <span class="ot">→</span> <span class="ot">(</span>x • y<span class="ot">)</span> ∼ ϵ</a>
-<a class="sourceLine" id="cb14-7" title="7">      <span class="ot">→</span> x ∼ <span class="ot">(</span>y ⁻¹<span class="ot">)</span></a>
-<a class="sourceLine" id="cb14-8" title="8">    assoc+id+invʳ⇒invˡ-unique assoc <span class="ot">(</span>idˡ , idʳ<span class="ot">)</span> invʳ x y eq <span class="ot">=</span> begin</a>
-<a class="sourceLine" id="cb14-9" title="9">      x                ∼⟨ sym <span class="ot">(</span>idʳ x<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb14-10" title="10">      x • ϵ            ∼⟨ cong reflexive <span class="ot">(</span>sym <span class="ot">(</span>invʳ y<span class="ot">))</span> ⟩</a>
-<a class="sourceLine" id="cb14-11" title="11">      x • <span class="ot">(</span>y • <span class="ot">(</span>y ⁻¹<span class="ot">))</span> ∼⟨ sym <span class="ot">(</span>assoc x y <span class="ot">(</span>y ⁻¹<span class="ot">))</span> ⟩</a>
-<a class="sourceLine" id="cb14-12" title="12">      <span class="ot">(</span>x • y<span class="ot">)</span> • <span class="ot">(</span>y ⁻¹<span class="ot">)</span> ∼⟨ cong eq reflexive ⟩</a>
-<a class="sourceLine" id="cb14-13" title="13">      ϵ • <span class="ot">(</span>y ⁻¹<span class="ot">)</span>       ∼⟨ idˡ <span class="ot">(</span>y ⁻¹<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb14-14" title="14">      y ⁻¹             ∎</a></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb15-1" title="1">    assoc+id+invˡ⇒invʳ-unique <span class="ot">:</span></a>
-<a class="sourceLine" id="cb15-2" title="2">        Associative <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>•<span class="ot">_</span></a>
-<a class="sourceLine" id="cb15-3" title="3">      <span class="ot">→</span> Identity <span class="ot">_</span>∼<span class="ot">_</span> ϵ <span class="ot">_</span>•<span class="ot">_</span></a>
-<a class="sourceLine" id="cb15-4" title="4">      <span class="ot">→</span> LeftInverse <span class="ot">_</span>∼<span class="ot">_</span> ϵ <span class="ot">_</span>⁻¹ <span class="ot">_</span>•<span class="ot">_</span></a>
-<a class="sourceLine" id="cb15-5" title="5">      <span class="ot">→</span> <span class="ot">∀</span> x y</a>
-<a class="sourceLine" id="cb15-6" title="6">      <span class="ot">→</span> <span class="ot">(</span>x • y<span class="ot">)</span> ∼ ϵ</a>
-<a class="sourceLine" id="cb15-7" title="7">      <span class="ot">→</span> y ∼ <span class="ot">(</span>x ⁻¹<span class="ot">)</span></a>
-<a class="sourceLine" id="cb15-8" title="8">    assoc+id+invˡ⇒invʳ-unique assoc <span class="ot">(</span>idˡ , idʳ<span class="ot">)</span> invˡ x y eq <span class="ot">=</span> begin</a>
-<a class="sourceLine" id="cb15-9" title="9">      y                ∼⟨ sym <span class="ot">(</span>idˡ y<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb15-10" title="10">      ϵ • y            ∼⟨ cong <span class="ot">(</span>sym <span class="ot">(</span>invˡ x<span class="ot">))</span> reflexive ⟩</a>
-<a class="sourceLine" id="cb15-11" title="11">      <span class="ot">((</span>x ⁻¹<span class="ot">)</span> • x<span class="ot">)</span> • y ∼⟨ assoc <span class="ot">(</span>x ⁻¹<span class="ot">)</span> x y ⟩</a>
-<a class="sourceLine" id="cb15-12" title="12">      <span class="ot">(</span>x ⁻¹<span class="ot">)</span> • <span class="ot">(</span>x • y<span class="ot">)</span> ∼⟨ cong reflexive eq ⟩</a>
-<a class="sourceLine" id="cb15-13" title="13">      <span class="ot">(</span>x ⁻¹<span class="ot">)</span> • ϵ       ∼⟨ idʳ <span class="ot">(</span>x ⁻¹<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb15-14" title="14">      x ⁻¹             ∎</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>operations</span>
+<span id="cb10-2"><a href="#cb10-2"></a></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="kw">module</span> withCommutativity <span class="ot">{</span>a ℓ<span class="ot">}</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a>  <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a>  <span class="ot">{_</span>∼<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">}</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a>  <span class="ot">{_</span>•<span class="ot">_</span> <span class="ot">:</span> <span class="ot">(</span>★ <span class="ot">_</span>∼<span class="ot">_)</span> A<span class="ot">}</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a>  <span class="ot">{_</span>⁻¹ <span class="ot">:</span> <span class="ot">(</span>♠ <span class="ot">_</span>∼<span class="ot">_)</span> A<span class="ot">}</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a>  <span class="ot">(</span>reflexive <span class="ot">:</span> Reflexive <span class="ot">_</span>∼<span class="ot">_)</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a>  <span class="ot">(</span>trans <span class="ot">:</span> Transitive <span class="ot">_</span>∼<span class="ot">_)</span></span>
+<span id="cb10-10"><a href="#cb10-10"></a>  <span class="ot">(</span>comm <span class="ot">:</span> Commutative <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>•<span class="ot">_)</span></span>
+<span id="cb10-11"><a href="#cb10-11"></a>  <span class="ot">(</span>ϵ <span class="ot">:</span> A<span class="ot">)</span></span>
+<span id="cb10-12"><a href="#cb10-12"></a>  <span class="kw">where</span></span>
+<span id="cb10-13"><a href="#cb10-13"></a></span>
+<span id="cb10-14"><a href="#cb10-14"></a>    <span class="kw">open</span> ★-reasoning <span class="ot">_</span>∼<span class="ot">_</span> reflexive trans <span class="kw">public</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1"></a>    comm+invˡ⇒invʳ <span class="ot">:</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>        LeftInverse <span class="ot">_</span>∼<span class="ot">_</span> ϵ <span class="ot">_</span>⁻¹ <span class="ot">_</span>•<span class="ot">_</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>      <span class="ot">→</span> RightInverse <span class="ot">_</span>∼<span class="ot">_</span> ϵ <span class="ot">_</span>⁻¹ <span class="ot">_</span>•<span class="ot">_</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>    comm+invˡ⇒invʳ invˡ x <span class="ot">=</span> begin</span>
+<span id="cb11-5"><a href="#cb11-5"></a>      x • <span class="ot">(</span>x ⁻¹<span class="ot">)</span> ∼⟨ comm x <span class="ot">(</span>x ⁻¹<span class="ot">)</span> ⟩</span>
+<span id="cb11-6"><a href="#cb11-6"></a>      <span class="ot">(</span>x ⁻¹<span class="ot">)</span> • x ∼⟨ invˡ x ⟩</span>
+<span id="cb11-7"><a href="#cb11-7"></a>      ϵ          ∎</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb12-1"><a href="#cb12-1"></a>    comm+invʳ⇒invˡ <span class="ot">:</span> RightInverse <span class="ot">_</span>∼<span class="ot">_</span> ϵ <span class="ot">_</span>⁻¹ <span class="ot">_</span>•<span class="ot">_</span> <span class="ot">→</span> LeftInverse <span class="ot">_</span>∼<span class="ot">_</span> ϵ <span class="ot">_</span>⁻¹ <span class="ot">_</span>•<span class="ot">_</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>    comm+invʳ⇒invˡ invʳ x <span class="ot">=</span> begin</span>
+<span id="cb12-3"><a href="#cb12-3"></a>      <span class="ot">(</span>x ⁻¹<span class="ot">)</span> • x ∼⟨ comm <span class="ot">(</span>x ⁻¹<span class="ot">)</span> x ⟩</span>
+<span id="cb12-4"><a href="#cb12-4"></a>      x • <span class="ot">(</span>x ⁻¹<span class="ot">)</span> ∼⟨ invʳ x ⟩</span>
+<span id="cb12-5"><a href="#cb12-5"></a>      ϵ          ∎</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">module</span> withCongruence <span class="ot">{</span>a ℓ<span class="ot">}</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>  <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>  <span class="ot">(_</span>∼<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>  <span class="ot">(_</span>•<span class="ot">_</span> <span class="ot">:</span> <span class="ot">(</span>★ <span class="ot">_</span>∼<span class="ot">_)</span> A<span class="ot">)</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a>  <span class="ot">(_</span>⁻¹ <span class="ot">:</span> <span class="ot">(</span>♠ <span class="ot">_</span>∼<span class="ot">_)</span> A<span class="ot">)</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a>  <span class="ot">(</span>reflexive <span class="ot">:</span> Reflexive <span class="ot">_</span>∼<span class="ot">_)</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a>  <span class="ot">(</span>trans <span class="ot">:</span> Transitive <span class="ot">_</span>∼<span class="ot">_)</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a>  <span class="ot">(</span>sym <span class="ot">:</span> Symmetric <span class="ot">_</span>∼<span class="ot">_)</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a>  <span class="ot">(</span>cong <span class="ot">:</span> Congruent₂ <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>•<span class="ot">_)</span></span>
+<span id="cb13-10"><a href="#cb13-10"></a>  <span class="ot">(</span>ϵ <span class="ot">:</span> A<span class="ot">)</span></span>
+<span id="cb13-11"><a href="#cb13-11"></a>  <span class="kw">where</span></span>
+<span id="cb13-12"><a href="#cb13-12"></a></span>
+<span id="cb13-13"><a href="#cb13-13"></a>    <span class="kw">open</span> ★-reasoning <span class="ot">_</span>∼<span class="ot">_</span> reflexive trans <span class="kw">public</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb14-1"><a href="#cb14-1"></a>    assoc+id+invʳ⇒invˡ-unique <span class="ot">:</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a>        Associative <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>•<span class="ot">_</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a>      <span class="ot">→</span> Identity <span class="ot">_</span>∼<span class="ot">_</span> ϵ <span class="ot">_</span>•<span class="ot">_</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a>      <span class="ot">→</span> RightInverse <span class="ot">_</span>∼<span class="ot">_</span> ϵ <span class="ot">_</span>⁻¹ <span class="ot">_</span>•<span class="ot">_</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a>      <span class="ot">→</span> <span class="ot">∀</span> x y</span>
+<span id="cb14-6"><a href="#cb14-6"></a>      <span class="ot">→</span> <span class="ot">(</span>x • y<span class="ot">)</span> ∼ ϵ</span>
+<span id="cb14-7"><a href="#cb14-7"></a>      <span class="ot">→</span> x ∼ <span class="ot">(</span>y ⁻¹<span class="ot">)</span></span>
+<span id="cb14-8"><a href="#cb14-8"></a>    assoc+id+invʳ⇒invˡ-unique assoc <span class="ot">(</span>idˡ , idʳ<span class="ot">)</span> invʳ x y eq <span class="ot">=</span> begin</span>
+<span id="cb14-9"><a href="#cb14-9"></a>      x                ∼⟨ sym <span class="ot">(</span>idʳ x<span class="ot">)</span> ⟩</span>
+<span id="cb14-10"><a href="#cb14-10"></a>      x • ϵ            ∼⟨ cong reflexive <span class="ot">(</span>sym <span class="ot">(</span>invʳ y<span class="ot">))</span> ⟩</span>
+<span id="cb14-11"><a href="#cb14-11"></a>      x • <span class="ot">(</span>y • <span class="ot">(</span>y ⁻¹<span class="ot">))</span> ∼⟨ sym <span class="ot">(</span>assoc x y <span class="ot">(</span>y ⁻¹<span class="ot">))</span> ⟩</span>
+<span id="cb14-12"><a href="#cb14-12"></a>      <span class="ot">(</span>x • y<span class="ot">)</span> • <span class="ot">(</span>y ⁻¹<span class="ot">)</span> ∼⟨ cong eq reflexive ⟩</span>
+<span id="cb14-13"><a href="#cb14-13"></a>      ϵ • <span class="ot">(</span>y ⁻¹<span class="ot">)</span>       ∼⟨ idˡ <span class="ot">(</span>y ⁻¹<span class="ot">)</span> ⟩</span>
+<span id="cb14-14"><a href="#cb14-14"></a>      y ⁻¹             ∎</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb15-1"><a href="#cb15-1"></a>    assoc+id+invˡ⇒invʳ-unique <span class="ot">:</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a>        Associative <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">_</span>•<span class="ot">_</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a>      <span class="ot">→</span> Identity <span class="ot">_</span>∼<span class="ot">_</span> ϵ <span class="ot">_</span>•<span class="ot">_</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a>      <span class="ot">→</span> LeftInverse <span class="ot">_</span>∼<span class="ot">_</span> ϵ <span class="ot">_</span>⁻¹ <span class="ot">_</span>•<span class="ot">_</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a>      <span class="ot">→</span> <span class="ot">∀</span> x y</span>
+<span id="cb15-6"><a href="#cb15-6"></a>      <span class="ot">→</span> <span class="ot">(</span>x • y<span class="ot">)</span> ∼ ϵ</span>
+<span id="cb15-7"><a href="#cb15-7"></a>      <span class="ot">→</span> y ∼ <span class="ot">(</span>x ⁻¹<span class="ot">)</span></span>
+<span id="cb15-8"><a href="#cb15-8"></a>    assoc+id+invˡ⇒invʳ-unique assoc <span class="ot">(</span>idˡ , idʳ<span class="ot">)</span> invˡ x y eq <span class="ot">=</span> begin</span>
+<span id="cb15-9"><a href="#cb15-9"></a>      y                ∼⟨ sym <span class="ot">(</span>idˡ y<span class="ot">)</span> ⟩</span>
+<span id="cb15-10"><a href="#cb15-10"></a>      ϵ • y            ∼⟨ cong <span class="ot">(</span>sym <span class="ot">(</span>invˡ x<span class="ot">))</span> reflexive ⟩</span>
+<span id="cb15-11"><a href="#cb15-11"></a>      <span class="ot">((</span>x ⁻¹<span class="ot">)</span> • x<span class="ot">)</span> • y ∼⟨ assoc <span class="ot">(</span>x ⁻¹<span class="ot">)</span> x y ⟩</span>
+<span id="cb15-12"><a href="#cb15-12"></a>      <span class="ot">(</span>x ⁻¹<span class="ot">)</span> • <span class="ot">(</span>x • y<span class="ot">)</span> ∼⟨ cong reflexive eq ⟩</span>
+<span id="cb15-13"><a href="#cb15-13"></a>      <span class="ot">(</span>x ⁻¹<span class="ot">)</span> • ϵ       ∼⟨ idʳ <span class="ot">(</span>x ⁻¹<span class="ot">)</span> ⟩</span>
+<span id="cb15-14"><a href="#cb15-14"></a>      x ⁻¹             ∎</span></code></pre></div>
 <hr />
 <p><a href="./Logic.introduction.html">Introduction</a></p>
 </body>

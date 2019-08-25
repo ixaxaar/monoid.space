@@ -124,15 +124,14 @@ While constructing complex mathematical structures, a fairly general pattern is 
 
 Hence if, say `Prop₁` and `Prop₂` are two properties, an object that satisfies both is a record with both properties as fields:
 
-```agda
-data Prop₁ : Set where
+```
+data prop1 : Set where
+data prop2 : Set where
 
-data Prop₂ : Set where
-
-record Satisfies (x : Prop₁)(y : Prop₁) : Set where
+record Satisfies (x : prop1)(y : prop2) : Set where
   field
-    p1 : Prop₁
-    p2 : Prop₂
+    p1 : prop1
+    p2 : prop2
 ```
 
 The `record` type is a special syntax for representing dependent or Σ (sigma) types in Agda, though they can very well also be represented in other ways such as using the `data` keyword.

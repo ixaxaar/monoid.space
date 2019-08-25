@@ -12,26 +12,27 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style>
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -40,9 +41,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -91,11 +92,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <hr />
 <p><a href="contents.html">Contents</a></p>
 <h1 id="equational-reasoning">Equational Reasoning</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">module</span> Types<span class="ot">.</span>equational <span class="kw">where</span></a>
-<a class="sourceLine" id="cb1-2" title="2"></a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">renaming</span> <span class="ot">(</span>cong-≡ <span class="kw">to</span> cong<span class="ot">)</span></a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_;</span> <span class="ot">_</span>×<span class="ot">_)</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Types<span class="ot">.</span>equational <span class="kw">where</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">renaming</span> <span class="ot">(</span>cong-≡ <span class="kw">to</span> cong<span class="ot">)</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_;</span> <span class="ot">_</span>×<span class="ot">_)</span></span></code></pre></div>
 <p>Though we looked at the type theory way of constructively proving propositions, there is another way which we tend to be more familiar with: the way we solve equations on paper. We call that method “equational reasoning”.</p>
 <p>For example, consider the problem of proving a well known identity for natural numbers from linear algebra:</p>
 <pre class="math"><code>∀ a, b ∈ ℕ: (a+b)² ≡ a² + 2 * a * b + b²
@@ -112,29 +113,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 = a² + 2 * a * b + b² 
 Q.E.D.</code></pre>
 <p>Each step of such a solution essentially follows through the rule of transitivity of equality. Hence setp₂ = step₁ + actions₁ and so on. We can write an apparatus to let us do exactly that in Agda. That apparatus is “equational reasoning”. Here, we define the framework on top of equivalence relations:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">module</span> ≡-Reasoning <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="kw">where</span></a>
-<a class="sourceLine" id="cb3-2" title="2">  <span class="kw">open</span> ≡-properties <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span></a>
-<a class="sourceLine" id="cb3-3" title="3">  <span class="kw">open</span> IsEquivalence isEquivalence <span class="kw">public</span></a>
-<a class="sourceLine" id="cb3-4" title="4"></a>
-<a class="sourceLine" id="cb3-5" title="5">  <span class="kw">infix</span>  <span class="dv">3</span> <span class="ot">_</span>∎</a>
-<a class="sourceLine" id="cb3-6" title="6">  <span class="kw">infixr</span> <span class="dv">2</span> <span class="ot">_</span>≡⟨⟩<span class="ot">_</span> <span class="ot">_</span>≡⟨<span class="ot">_</span>⟩<span class="ot">_</span></a>
-<a class="sourceLine" id="cb3-7" title="7">  <span class="kw">infix</span>  <span class="dv">1</span> begin<span class="ot">_</span></a>
-<a class="sourceLine" id="cb3-8" title="8"></a>
-<a class="sourceLine" id="cb3-9" title="9">  <span class="co">-- This is just syntactical sugar to define the start of the proof</span></a>
-<a class="sourceLine" id="cb3-10" title="10">  begin<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">→</span> x ≡ y <span class="ot">→</span> x ≡ y</a>
-<a class="sourceLine" id="cb3-11" title="11">  begin<span class="ot">_</span> x≡y <span class="ot">=</span> x≡y</a>
-<a class="sourceLine" id="cb3-12" title="12"></a>
-<a class="sourceLine" id="cb3-13" title="13">  <span class="co">-- Apply reflexivity, no axioms or theorems applied within the ⟨⟩</span></a>
-<a class="sourceLine" id="cb3-14" title="14">  <span class="ot">_</span>≡⟨⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">(</span>x <span class="ot">{</span>y<span class="ot">}</span> <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ≡ y <span class="ot">→</span> x ≡ y</a>
-<a class="sourceLine" id="cb3-15" title="15">  <span class="ot">_</span> ≡⟨⟩ x≡y <span class="ot">=</span> x≡y</a>
-<a class="sourceLine" id="cb3-16" title="16"></a>
-<a class="sourceLine" id="cb3-17" title="17">  <span class="co">-- Transitivity with axioms and theorems applied within the ⟨⟩</span></a>
-<a class="sourceLine" id="cb3-18" title="18">  <span class="ot">_</span>≡⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">(</span>x <span class="ot">{</span>y z<span class="ot">}</span> <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ≡ y <span class="ot">→</span> y ≡ z <span class="ot">→</span> x ≡ z</a>
-<a class="sourceLine" id="cb3-19" title="19">  <span class="ot">_</span> ≡⟨ x≡y ⟩ y≡z <span class="ot">=</span> trans x≡y y≡z</a>
-<a class="sourceLine" id="cb3-20" title="20"></a>
-<a class="sourceLine" id="cb3-21" title="21">  <span class="co">-- The QED or &quot;hence, proved&quot; marker to end the proof.</span></a>
-<a class="sourceLine" id="cb3-22" title="22">  <span class="ot">_</span>∎ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ≡ x</a>
-<a class="sourceLine" id="cb3-23" title="23">  <span class="ot">_</span>∎ <span class="ot">_</span> <span class="ot">=</span> rfl</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">module</span> ≡-Reasoning <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="kw">where</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>  <span class="kw">open</span> ≡-properties <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="kw">open</span> IsEquivalence isEquivalence <span class="kw">public</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a>  <span class="kw">infix</span>  <span class="dv">3</span> <span class="ot">_</span>∎</span>
+<span id="cb3-6"><a href="#cb3-6"></a>  <span class="kw">infixr</span> <span class="dv">2</span> <span class="ot">_</span>≡⟨⟩<span class="ot">_</span> <span class="ot">_</span>≡⟨<span class="ot">_</span>⟩<span class="ot">_</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a>  <span class="kw">infix</span>  <span class="dv">1</span> begin<span class="ot">_</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a></span>
+<span id="cb3-9"><a href="#cb3-9"></a>  <span class="co">-- This is just syntactical sugar to define the start of the proof</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a>  begin<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">→</span> x ≡ y <span class="ot">→</span> x ≡ y</span>
+<span id="cb3-11"><a href="#cb3-11"></a>  begin<span class="ot">_</span> x≡y <span class="ot">=</span> x≡y</span>
+<span id="cb3-12"><a href="#cb3-12"></a></span>
+<span id="cb3-13"><a href="#cb3-13"></a>  <span class="co">-- Apply reflexivity, no axioms or theorems applied within the ⟨⟩</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a>  <span class="ot">_</span>≡⟨⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">(</span>x <span class="ot">{</span>y<span class="ot">}</span> <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ≡ y <span class="ot">→</span> x ≡ y</span>
+<span id="cb3-15"><a href="#cb3-15"></a>  <span class="ot">_</span> ≡⟨⟩ x≡y <span class="ot">=</span> x≡y</span>
+<span id="cb3-16"><a href="#cb3-16"></a></span>
+<span id="cb3-17"><a href="#cb3-17"></a>  <span class="co">-- Transitivity with axioms and theorems applied within the ⟨⟩</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a>  <span class="ot">_</span>≡⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">(</span>x <span class="ot">{</span>y z<span class="ot">}</span> <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ≡ y <span class="ot">→</span> y ≡ z <span class="ot">→</span> x ≡ z</span>
+<span id="cb3-19"><a href="#cb3-19"></a>  <span class="ot">_</span> ≡⟨ x≡y ⟩ y≡z <span class="ot">=</span> trans x≡y y≡z</span>
+<span id="cb3-20"><a href="#cb3-20"></a></span>
+<span id="cb3-21"><a href="#cb3-21"></a>  <span class="co">-- The QED or &quot;hence, proved&quot; marker to end the proof.</span></span>
+<span id="cb3-22"><a href="#cb3-22"></a>  <span class="ot">_</span>∎ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ≡ x</span>
+<span id="cb3-23"><a href="#cb3-23"></a>  <span class="ot">_</span>∎ <span class="ot">_</span> <span class="ot">=</span> rfl</span></code></pre></div>
 <p>In order to define <span class="math inline">\((a+b) × (a-b) ≡ a² - b²\)</span> in Agda, we have to define some properties of <code>+</code>, <code>-</code> and <code>*</code>:</p>
 <ul>
 <li>Distributivity of <code>+</code> over <code>×</code> from the right side</li>
@@ -143,233 +144,233 @@ Q.E.D.</code></pre>
 <li>Reflexivity of <code>≡</code></li>
 </ul>
 <p>Since we are proving this literally from scratch, we have to prove quite a few basic constructions:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">module</span> Properties <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="kw">where</span></a>
-<a class="sourceLine" id="cb4-2" title="2">  <span class="kw">open</span> ≡-Reasoning</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">module</span> Properties <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="kw">where</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>  <span class="kw">open</span> ≡-Reasoning</span></code></pre></div>
 <p>We start with the type of natural numbers:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb5-1" title="1">  <span class="kw">data</span> ℕ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></a>
-<a class="sourceLine" id="cb5-2" title="2">    zero <span class="ot">:</span> ℕ</a>
-<a class="sourceLine" id="cb5-3" title="3">    succ <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a>  <span class="kw">data</span> ℕ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>    zero <span class="ot">:</span> ℕ</span>
+<span id="cb5-3"><a href="#cb5-3"></a>    succ <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ</span></code></pre></div>
 <p>We then proceed to define the required operations on natural numbers:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb6-1" title="1">  <span class="kw">infixl</span> <span class="dv">6</span> <span class="ot">_</span>+<span class="ot">_</span> <span class="ot">_</span>−<span class="ot">_</span></a>
-<a class="sourceLine" id="cb6-2" title="2">  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>*<span class="ot">_</span></a>
-<a class="sourceLine" id="cb6-3" title="3"></a>
-<a class="sourceLine" id="cb6-4" title="4">  <span class="ot">_</span>+<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span>  ℕ</a>
-<a class="sourceLine" id="cb6-5" title="5">  m + zero   <span class="ot">=</span> m</a>
-<a class="sourceLine" id="cb6-6" title="6">  m + succ n <span class="ot">=</span> succ <span class="ot">(</span>m + n<span class="ot">)</span></a>
-<a class="sourceLine" id="cb6-7" title="7"></a>
-<a class="sourceLine" id="cb6-8" title="8">  <span class="ot">_</span>−<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> ℕ</a>
-<a class="sourceLine" id="cb6-9" title="9">  zero  − m     <span class="ot">=</span> zero</a>
-<a class="sourceLine" id="cb6-10" title="10">  succ n − zero  <span class="ot">=</span> succ n</a>
-<a class="sourceLine" id="cb6-11" title="11">  succ n − succ m <span class="ot">=</span> n − m</a>
-<a class="sourceLine" id="cb6-12" title="12"></a>
-<a class="sourceLine" id="cb6-13" title="13">  <span class="ot">_</span>*<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> ℕ</a>
-<a class="sourceLine" id="cb6-14" title="14">  zero * x     <span class="ot">=</span> zero</a>
-<a class="sourceLine" id="cb6-15" title="15">  <span class="ot">(</span>succ x<span class="ot">)</span> * y <span class="ot">=</span> y + <span class="ot">(</span>x * y<span class="ot">)</span></a>
-<a class="sourceLine" id="cb6-16" title="16"></a>
-<a class="sourceLine" id="cb6-17" title="17">  <span class="ot">_</span>² <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ</a>
-<a class="sourceLine" id="cb6-18" title="18">  x ² <span class="ot">=</span> x * x</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a>  <span class="kw">infixl</span> <span class="dv">6</span> <span class="ot">_</span>+<span class="ot">_</span> <span class="ot">_</span>−<span class="ot">_</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>*<span class="ot">_</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a>  <span class="ot">_</span>+<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span>  ℕ</span>
+<span id="cb6-5"><a href="#cb6-5"></a>  m + zero   <span class="ot">=</span> m</span>
+<span id="cb6-6"><a href="#cb6-6"></a>  m + succ n <span class="ot">=</span> succ <span class="ot">(</span>m + n<span class="ot">)</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a></span>
+<span id="cb6-8"><a href="#cb6-8"></a>  <span class="ot">_</span>−<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> ℕ</span>
+<span id="cb6-9"><a href="#cb6-9"></a>  zero  − m     <span class="ot">=</span> zero</span>
+<span id="cb6-10"><a href="#cb6-10"></a>  succ n − zero  <span class="ot">=</span> succ n</span>
+<span id="cb6-11"><a href="#cb6-11"></a>  succ n − succ m <span class="ot">=</span> n − m</span>
+<span id="cb6-12"><a href="#cb6-12"></a></span>
+<span id="cb6-13"><a href="#cb6-13"></a>  <span class="ot">_</span>*<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> ℕ</span>
+<span id="cb6-14"><a href="#cb6-14"></a>  zero * x     <span class="ot">=</span> zero</span>
+<span id="cb6-15"><a href="#cb6-15"></a>  <span class="ot">(</span>succ x<span class="ot">)</span> * y <span class="ot">=</span> y + <span class="ot">(</span>x * y<span class="ot">)</span></span>
+<span id="cb6-16"><a href="#cb6-16"></a></span>
+<span id="cb6-17"><a href="#cb6-17"></a>  <span class="ot">_</span>² <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ</span>
+<span id="cb6-18"><a href="#cb6-18"></a>  x ² <span class="ot">=</span> x * x</span></code></pre></div>
 <p>We now prove properties of addition, upto commutativity:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb7-1" title="1">  one <span class="ot">=</span> succ zero</a>
-<a class="sourceLine" id="cb7-2" title="2">  two <span class="ot">=</span> succ <span class="ot">(</span>succ zero<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-3" title="3"></a>
-<a class="sourceLine" id="cb7-4" title="4">  +-succ-l <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> x + <span class="ot">(</span>succ y<span class="ot">)</span> ≡ succ <span class="ot">(</span>x + y<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-5" title="5">  +-succ-l zero    n <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb7-6" title="6">  +-succ-l <span class="ot">(</span>succ m<span class="ot">)</span> n <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb7-7" title="7"></a>
-<a class="sourceLine" id="cb7-8" title="8">  +-succ-r <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>succ x<span class="ot">)</span> + y ≡ succ <span class="ot">(</span>x + y<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-9" title="9">  +-succ-r n zero <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb7-10" title="10">  +-succ-r m <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> cong succ <span class="ot">(</span>+-succ-r m n<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-11" title="11"></a>
-<a class="sourceLine" id="cb7-12" title="12">  +-unsucc-l <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> succ <span class="ot">(</span>x + y<span class="ot">)</span> ≡ x + <span class="ot">(</span>succ y<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-13" title="13">  +-unsucc-l n zero     <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb7-14" title="14">  +-unsucc-l n <span class="ot">(</span>succ m<span class="ot">)</span> <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb7-15" title="15"></a>
-<a class="sourceLine" id="cb7-16" title="16">  +-unsucc-r <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> succ <span class="ot">(</span>x + y<span class="ot">)</span> ≡ <span class="ot">(</span>succ x<span class="ot">)</span> + y</a>
-<a class="sourceLine" id="cb7-17" title="17">  +-unsucc-r m zero <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb7-18" title="18">  +-unsucc-r m <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> cong succ <span class="ot">(</span>+-unsucc-r m n<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-19" title="19"></a>
-<a class="sourceLine" id="cb7-20" title="20">  +-assoc-l <span class="ot">:</span> <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">((</span>x + y<span class="ot">)</span> + z<span class="ot">)</span> ≡ <span class="ot">(</span>x + <span class="ot">(</span>y + z<span class="ot">))</span></a>
-<a class="sourceLine" id="cb7-21" title="21">  +-assoc-l l m zero <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb7-22" title="22">  +-assoc-l l m <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> cong succ <span class="ot">(</span>+-assoc-l l m n<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-23" title="23"></a>
-<a class="sourceLine" id="cb7-24" title="24">  +-assoc-r <span class="ot">:</span> <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">(</span>x + <span class="ot">(</span>y + z<span class="ot">))</span> ≡ <span class="ot">((</span>x + y<span class="ot">)</span> + z<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-25" title="25">  +-assoc-r l m zero <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb7-26" title="26">  +-assoc-r l m <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> cong succ <span class="ot">(</span>+-assoc-r l m n<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-27" title="27"></a>
-<a class="sourceLine" id="cb7-28" title="28">  +-identity-l <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> x + zero ≡ x</a>
-<a class="sourceLine" id="cb7-29" title="29">  +-identity-l <span class="ot">_</span> <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb7-30" title="30"></a>
-<a class="sourceLine" id="cb7-31" title="31">  +-identity-r <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> zero + x ≡ x</a>
-<a class="sourceLine" id="cb7-32" title="32">  +-identity-r zero    <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb7-33" title="33">  +-identity-r <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> cong succ <span class="ot">(</span>+-identity-r n<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-34" title="34"></a>
-<a class="sourceLine" id="cb7-35" title="35">  +-identity <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>x + zero ≡ x<span class="ot">)</span> × <span class="ot">(</span>zero + x ≡ x<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-36" title="36">  +-identity n <span class="ot">=</span> <span class="ot">(</span>+-identity-l n<span class="ot">)</span> , <span class="ot">(</span>+-identity-r n<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-37" title="37"></a>
-<a class="sourceLine" id="cb7-38" title="38">  +-comm <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x + y<span class="ot">)</span> ≡ <span class="ot">(</span>y + x<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-39" title="39">  +-comm zero n <span class="ot">=</span> +-identity-r n</a>
-<a class="sourceLine" id="cb7-40" title="40">  +-comm <span class="ot">(</span>succ m<span class="ot">)</span> n <span class="ot">=</span> begin</a>
-<a class="sourceLine" id="cb7-41" title="41">    <span class="ot">(</span>succ m<span class="ot">)</span> + n   ≡⟨ +-succ-r m n ⟩</a>
-<a class="sourceLine" id="cb7-42" title="42">    succ <span class="ot">(</span>m + n<span class="ot">)</span> ≡⟨ cong succ <span class="ot">(</span>+-comm m n<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb7-43" title="43">    succ <span class="ot">(</span>n + m<span class="ot">)</span> ≡⟨ refl ⟩</a>
-<a class="sourceLine" id="cb7-44" title="44">    n + succ m   ∎</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a>  one <span class="ot">=</span> succ zero</span>
+<span id="cb7-2"><a href="#cb7-2"></a>  two <span class="ot">=</span> succ <span class="ot">(</span>succ zero<span class="ot">)</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a></span>
+<span id="cb7-4"><a href="#cb7-4"></a>  +-succ-l <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> x + <span class="ot">(</span>succ y<span class="ot">)</span> ≡ succ <span class="ot">(</span>x + y<span class="ot">)</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a>  +-succ-l zero    n <span class="ot">=</span> refl</span>
+<span id="cb7-6"><a href="#cb7-6"></a>  +-succ-l <span class="ot">(</span>succ m<span class="ot">)</span> n <span class="ot">=</span> refl</span>
+<span id="cb7-7"><a href="#cb7-7"></a></span>
+<span id="cb7-8"><a href="#cb7-8"></a>  +-succ-r <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>succ x<span class="ot">)</span> + y ≡ succ <span class="ot">(</span>x + y<span class="ot">)</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a>  +-succ-r n zero <span class="ot">=</span> refl</span>
+<span id="cb7-10"><a href="#cb7-10"></a>  +-succ-r m <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> cong succ <span class="ot">(</span>+-succ-r m n<span class="ot">)</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a></span>
+<span id="cb7-12"><a href="#cb7-12"></a>  +-unsucc-l <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> succ <span class="ot">(</span>x + y<span class="ot">)</span> ≡ x + <span class="ot">(</span>succ y<span class="ot">)</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a>  +-unsucc-l n zero     <span class="ot">=</span> refl</span>
+<span id="cb7-14"><a href="#cb7-14"></a>  +-unsucc-l n <span class="ot">(</span>succ m<span class="ot">)</span> <span class="ot">=</span> refl</span>
+<span id="cb7-15"><a href="#cb7-15"></a></span>
+<span id="cb7-16"><a href="#cb7-16"></a>  +-unsucc-r <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> succ <span class="ot">(</span>x + y<span class="ot">)</span> ≡ <span class="ot">(</span>succ x<span class="ot">)</span> + y</span>
+<span id="cb7-17"><a href="#cb7-17"></a>  +-unsucc-r m zero <span class="ot">=</span> refl</span>
+<span id="cb7-18"><a href="#cb7-18"></a>  +-unsucc-r m <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> cong succ <span class="ot">(</span>+-unsucc-r m n<span class="ot">)</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a></span>
+<span id="cb7-20"><a href="#cb7-20"></a>  +-assoc-l <span class="ot">:</span> <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">((</span>x + y<span class="ot">)</span> + z<span class="ot">)</span> ≡ <span class="ot">(</span>x + <span class="ot">(</span>y + z<span class="ot">))</span></span>
+<span id="cb7-21"><a href="#cb7-21"></a>  +-assoc-l l m zero <span class="ot">=</span> refl</span>
+<span id="cb7-22"><a href="#cb7-22"></a>  +-assoc-l l m <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> cong succ <span class="ot">(</span>+-assoc-l l m n<span class="ot">)</span></span>
+<span id="cb7-23"><a href="#cb7-23"></a></span>
+<span id="cb7-24"><a href="#cb7-24"></a>  +-assoc-r <span class="ot">:</span> <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">(</span>x + <span class="ot">(</span>y + z<span class="ot">))</span> ≡ <span class="ot">((</span>x + y<span class="ot">)</span> + z<span class="ot">)</span></span>
+<span id="cb7-25"><a href="#cb7-25"></a>  +-assoc-r l m zero <span class="ot">=</span> refl</span>
+<span id="cb7-26"><a href="#cb7-26"></a>  +-assoc-r l m <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> cong succ <span class="ot">(</span>+-assoc-r l m n<span class="ot">)</span></span>
+<span id="cb7-27"><a href="#cb7-27"></a></span>
+<span id="cb7-28"><a href="#cb7-28"></a>  +-identity-l <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> x + zero ≡ x</span>
+<span id="cb7-29"><a href="#cb7-29"></a>  +-identity-l <span class="ot">_</span> <span class="ot">=</span> refl</span>
+<span id="cb7-30"><a href="#cb7-30"></a></span>
+<span id="cb7-31"><a href="#cb7-31"></a>  +-identity-r <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> zero + x ≡ x</span>
+<span id="cb7-32"><a href="#cb7-32"></a>  +-identity-r zero    <span class="ot">=</span> refl</span>
+<span id="cb7-33"><a href="#cb7-33"></a>  +-identity-r <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> cong succ <span class="ot">(</span>+-identity-r n<span class="ot">)</span></span>
+<span id="cb7-34"><a href="#cb7-34"></a></span>
+<span id="cb7-35"><a href="#cb7-35"></a>  +-identity <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>x + zero ≡ x<span class="ot">)</span> × <span class="ot">(</span>zero + x ≡ x<span class="ot">)</span></span>
+<span id="cb7-36"><a href="#cb7-36"></a>  +-identity n <span class="ot">=</span> <span class="ot">(</span>+-identity-l n<span class="ot">)</span> , <span class="ot">(</span>+-identity-r n<span class="ot">)</span></span>
+<span id="cb7-37"><a href="#cb7-37"></a></span>
+<span id="cb7-38"><a href="#cb7-38"></a>  +-comm <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x + y<span class="ot">)</span> ≡ <span class="ot">(</span>y + x<span class="ot">)</span></span>
+<span id="cb7-39"><a href="#cb7-39"></a>  +-comm zero n <span class="ot">=</span> +-identity-r n</span>
+<span id="cb7-40"><a href="#cb7-40"></a>  +-comm <span class="ot">(</span>succ m<span class="ot">)</span> n <span class="ot">=</span> begin</span>
+<span id="cb7-41"><a href="#cb7-41"></a>    <span class="ot">(</span>succ m<span class="ot">)</span> + n   ≡⟨ +-succ-r m n ⟩</span>
+<span id="cb7-42"><a href="#cb7-42"></a>    succ <span class="ot">(</span>m + n<span class="ot">)</span> ≡⟨ cong succ <span class="ot">(</span>+-comm m n<span class="ot">)</span> ⟩</span>
+<span id="cb7-43"><a href="#cb7-43"></a>    succ <span class="ot">(</span>n + m<span class="ot">)</span> ≡⟨ refl ⟩</span>
+<span id="cb7-44"><a href="#cb7-44"></a>    n + succ m   ∎</span></code></pre></div>
 <p>As we saw, we had to prove quite a few laws in their right and left handed versions. These will come in handy later, in fact some of them have been written while trying to prove later propositions. This highlights a central way of solving mathematics - proofs are broken up into pieces and each piece is solved separately. Mostly such smaller proofs tend to be inductively proved and used to prove more complex proofs using equational reasoning.</p>
 <p>We now proceed to prove some propositions for multiplication:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb8-1" title="1">  *-succ-l <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> succ x * y ≡ y + <span class="ot">(</span>x * y<span class="ot">)</span></a>
-<a class="sourceLine" id="cb8-2" title="2">  *-succ-l m zero <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb8-3" title="3">  *-succ-l m <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb8-4" title="4"></a>
-<a class="sourceLine" id="cb8-5" title="5">  *-succ-r <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> x * succ y ≡ x + <span class="ot">(</span>x * y<span class="ot">)</span></a>
-<a class="sourceLine" id="cb8-6" title="6">  *-succ-r zero m <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb8-7" title="7">  *-succ-r <span class="ot">(</span>succ m<span class="ot">)</span> n <span class="ot">=</span> begin</a>
-<a class="sourceLine" id="cb8-8" title="8">    succ m * succ n             ≡⟨⟩</a>
-<a class="sourceLine" id="cb8-9" title="9">    succ n + m * succ n         ≡⟨ cong <span class="ot">(_</span>+<span class="ot">_</span> <span class="ot">(</span>succ n<span class="ot">))</span> <span class="ot">(</span>*-succ-r m n<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb8-10" title="10">    succ n + <span class="ot">(</span>m + m * n<span class="ot">)</span>        ≡⟨ +-succ-r n <span class="ot">(</span>m + <span class="ot">(</span>m * n<span class="ot">))</span> ⟩</a>
-<a class="sourceLine" id="cb8-11" title="11">    succ <span class="ot">(</span>n + <span class="ot">(</span>m + m * n<span class="ot">))</span>      ≡⟨⟩</a>
-<a class="sourceLine" id="cb8-12" title="12">    succ <span class="ot">(</span>n + <span class="ot">(</span>m + <span class="ot">(</span>m * n<span class="ot">)))</span>    ≡⟨ cong succ <span class="ot">(</span>+-assoc-r n m <span class="ot">(</span>m * n<span class="ot">))</span> ⟩</a>
-<a class="sourceLine" id="cb8-13" title="13">    succ <span class="ot">(</span>n + m + m * n<span class="ot">)</span>        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> succ <span class="ot">(</span>x + m * n<span class="ot">))</span> <span class="ot">(</span>+-comm n m<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb8-14" title="14">    succ <span class="ot">((</span>m + n<span class="ot">)</span> + m * n<span class="ot">)</span>      ≡⟨ cong succ <span class="ot">(</span>+-assoc-l m n <span class="ot">(</span>m * n<span class="ot">))</span> ⟩</a>
-<a class="sourceLine" id="cb8-15" title="15">    succ <span class="ot">(</span>m + <span class="ot">(</span>n + m * n<span class="ot">))</span>      ≡⟨ +-unsucc-r m <span class="ot">(</span>n + m * n<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb8-16" title="16">    <span class="ot">(</span>succ m<span class="ot">)</span> + <span class="ot">(</span>n + m * n<span class="ot">)</span>      ≡⟨⟩</a>
-<a class="sourceLine" id="cb8-17" title="17">    succ m + succ m * n         ∎</a>
-<a class="sourceLine" id="cb8-18" title="18"></a>
-<a class="sourceLine" id="cb8-19" title="19">  *-zero-r <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> x * zero ≡ zero</a>
-<a class="sourceLine" id="cb8-20" title="20">  *-zero-r zero <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb8-21" title="21">  *-zero-r <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> begin</a>
-<a class="sourceLine" id="cb8-22" title="22">    <span class="ot">(</span>succ n<span class="ot">)</span> * zero       ≡⟨⟩</a>
-<a class="sourceLine" id="cb8-23" title="23">    zero + n * zero       ≡⟨ +-identity-r <span class="ot">(</span>n * zero<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb8-24" title="24">    n * zero              ≡⟨ *-zero-r n ⟩</a>
-<a class="sourceLine" id="cb8-25" title="25">    zero                  ∎</a>
-<a class="sourceLine" id="cb8-26" title="26"></a>
-<a class="sourceLine" id="cb8-27" title="27">  *-zero-l <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> zero * x ≡ zero</a>
-<a class="sourceLine" id="cb8-28" title="28">  *-zero-l zero <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb8-29" title="29">  *-zero-l <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb8-30" title="30"></a>
-<a class="sourceLine" id="cb8-31" title="31">  *-identity-l <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> one * x ≡ x</a>
-<a class="sourceLine" id="cb8-32" title="32">  *-identity-l zero <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb8-33" title="33">  *-identity-l <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb8-34" title="34"></a>
-<a class="sourceLine" id="cb8-35" title="35">  *-comm <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> x * y ≡ y * x</a>
-<a class="sourceLine" id="cb8-36" title="36">  *-comm m zero <span class="ot">=</span> *-zero-r m</a>
-<a class="sourceLine" id="cb8-37" title="37">  *-comm m <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> begin</a>
-<a class="sourceLine" id="cb8-38" title="38">    m * <span class="ot">(</span>succ n<span class="ot">)</span>        ≡⟨ *-succ-r m n ⟩</a>
-<a class="sourceLine" id="cb8-39" title="39">    m + m * n           ≡⟨ cong <span class="ot">(</span>m +<span class="ot">_)</span> <span class="ot">(</span>*-comm m n<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb8-40" title="40">    m + n * m           ≡⟨ sym <span class="ot">(</span>*-succ-l n m<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb8-41" title="41">    <span class="ot">(</span>succ n<span class="ot">)</span> * m        ∎</a>
-<a class="sourceLine" id="cb8-42" title="42"></a>
-<a class="sourceLine" id="cb8-43" title="43">  *-identity-r <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> x * one ≡ x</a>
-<a class="sourceLine" id="cb8-44" title="44">  *-identity-r zero <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb8-45" title="45">  *-identity-r <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> begin</a>
-<a class="sourceLine" id="cb8-46" title="46">    <span class="ot">(</span>succ n<span class="ot">)</span> * one          ≡⟨⟩</a>
-<a class="sourceLine" id="cb8-47" title="47">    one + n * one           ≡⟨ cong <span class="ot">(_</span>+<span class="ot">_</span> one<span class="ot">)</span> <span class="ot">(</span>*-identity-r n<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb8-48" title="48">    <span class="ot">(</span>succ zero<span class="ot">)</span> + n         ≡⟨ +-succ-r zero n ⟩</a>
-<a class="sourceLine" id="cb8-49" title="49">    succ <span class="ot">(</span>zero + n<span class="ot">)</span>         ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> succ x<span class="ot">)</span> <span class="ot">(</span>+-comm zero n<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb8-50" title="50">    succ <span class="ot">(</span>n + zero<span class="ot">)</span>         ≡⟨⟩</a>
-<a class="sourceLine" id="cb8-51" title="51">    succ n                  ∎</a>
-<a class="sourceLine" id="cb8-52" title="52"></a>
-<a class="sourceLine" id="cb8-53" title="53">  *-succ-r-r <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> x * succ y ≡ <span class="ot">(</span>x * y<span class="ot">)</span> + x</a>
-<a class="sourceLine" id="cb8-54" title="54">  *-succ-r-r zero m <span class="ot">=</span> refl</a>
-<a class="sourceLine" id="cb8-55" title="55">  *-succ-r-r <span class="ot">(</span>succ m<span class="ot">)</span> n <span class="ot">=</span> begin</a>
-<a class="sourceLine" id="cb8-56" title="56">    succ m * succ n             ≡⟨ *-succ-r <span class="ot">(</span>succ m<span class="ot">)</span> n ⟩</a>
-<a class="sourceLine" id="cb8-57" title="57">    succ m + succ m * n         ≡⟨ +-comm <span class="ot">(</span>succ m<span class="ot">)</span> <span class="ot">(</span>succ m * n<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb8-58" title="58">    succ m * n + succ m         ∎</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a>  *-succ-l <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> succ x * y ≡ y + <span class="ot">(</span>x * y<span class="ot">)</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>  *-succ-l m zero <span class="ot">=</span> refl</span>
+<span id="cb8-3"><a href="#cb8-3"></a>  *-succ-l m <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> refl</span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a>  *-succ-r <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> x * succ y ≡ x + <span class="ot">(</span>x * y<span class="ot">)</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a>  *-succ-r zero m <span class="ot">=</span> refl</span>
+<span id="cb8-7"><a href="#cb8-7"></a>  *-succ-r <span class="ot">(</span>succ m<span class="ot">)</span> n <span class="ot">=</span> begin</span>
+<span id="cb8-8"><a href="#cb8-8"></a>    succ m * succ n             ≡⟨⟩</span>
+<span id="cb8-9"><a href="#cb8-9"></a>    succ n + m * succ n         ≡⟨ cong <span class="ot">(_</span>+<span class="ot">_</span> <span class="ot">(</span>succ n<span class="ot">))</span> <span class="ot">(</span>*-succ-r m n<span class="ot">)</span> ⟩</span>
+<span id="cb8-10"><a href="#cb8-10"></a>    succ n + <span class="ot">(</span>m + m * n<span class="ot">)</span>        ≡⟨ +-succ-r n <span class="ot">(</span>m + <span class="ot">(</span>m * n<span class="ot">))</span> ⟩</span>
+<span id="cb8-11"><a href="#cb8-11"></a>    succ <span class="ot">(</span>n + <span class="ot">(</span>m + m * n<span class="ot">))</span>      ≡⟨⟩</span>
+<span id="cb8-12"><a href="#cb8-12"></a>    succ <span class="ot">(</span>n + <span class="ot">(</span>m + <span class="ot">(</span>m * n<span class="ot">)))</span>    ≡⟨ cong succ <span class="ot">(</span>+-assoc-r n m <span class="ot">(</span>m * n<span class="ot">))</span> ⟩</span>
+<span id="cb8-13"><a href="#cb8-13"></a>    succ <span class="ot">(</span>n + m + m * n<span class="ot">)</span>        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> succ <span class="ot">(</span>x + m * n<span class="ot">))</span> <span class="ot">(</span>+-comm n m<span class="ot">)</span> ⟩</span>
+<span id="cb8-14"><a href="#cb8-14"></a>    succ <span class="ot">((</span>m + n<span class="ot">)</span> + m * n<span class="ot">)</span>      ≡⟨ cong succ <span class="ot">(</span>+-assoc-l m n <span class="ot">(</span>m * n<span class="ot">))</span> ⟩</span>
+<span id="cb8-15"><a href="#cb8-15"></a>    succ <span class="ot">(</span>m + <span class="ot">(</span>n + m * n<span class="ot">))</span>      ≡⟨ +-unsucc-r m <span class="ot">(</span>n + m * n<span class="ot">)</span> ⟩</span>
+<span id="cb8-16"><a href="#cb8-16"></a>    <span class="ot">(</span>succ m<span class="ot">)</span> + <span class="ot">(</span>n + m * n<span class="ot">)</span>      ≡⟨⟩</span>
+<span id="cb8-17"><a href="#cb8-17"></a>    succ m + succ m * n         ∎</span>
+<span id="cb8-18"><a href="#cb8-18"></a></span>
+<span id="cb8-19"><a href="#cb8-19"></a>  *-zero-r <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> x * zero ≡ zero</span>
+<span id="cb8-20"><a href="#cb8-20"></a>  *-zero-r zero <span class="ot">=</span> refl</span>
+<span id="cb8-21"><a href="#cb8-21"></a>  *-zero-r <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> begin</span>
+<span id="cb8-22"><a href="#cb8-22"></a>    <span class="ot">(</span>succ n<span class="ot">)</span> * zero       ≡⟨⟩</span>
+<span id="cb8-23"><a href="#cb8-23"></a>    zero + n * zero       ≡⟨ +-identity-r <span class="ot">(</span>n * zero<span class="ot">)</span> ⟩</span>
+<span id="cb8-24"><a href="#cb8-24"></a>    n * zero              ≡⟨ *-zero-r n ⟩</span>
+<span id="cb8-25"><a href="#cb8-25"></a>    zero                  ∎</span>
+<span id="cb8-26"><a href="#cb8-26"></a></span>
+<span id="cb8-27"><a href="#cb8-27"></a>  *-zero-l <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> zero * x ≡ zero</span>
+<span id="cb8-28"><a href="#cb8-28"></a>  *-zero-l zero <span class="ot">=</span> refl</span>
+<span id="cb8-29"><a href="#cb8-29"></a>  *-zero-l <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> refl</span>
+<span id="cb8-30"><a href="#cb8-30"></a></span>
+<span id="cb8-31"><a href="#cb8-31"></a>  *-identity-l <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> one * x ≡ x</span>
+<span id="cb8-32"><a href="#cb8-32"></a>  *-identity-l zero <span class="ot">=</span> refl</span>
+<span id="cb8-33"><a href="#cb8-33"></a>  *-identity-l <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> refl</span>
+<span id="cb8-34"><a href="#cb8-34"></a></span>
+<span id="cb8-35"><a href="#cb8-35"></a>  *-comm <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> x * y ≡ y * x</span>
+<span id="cb8-36"><a href="#cb8-36"></a>  *-comm m zero <span class="ot">=</span> *-zero-r m</span>
+<span id="cb8-37"><a href="#cb8-37"></a>  *-comm m <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> begin</span>
+<span id="cb8-38"><a href="#cb8-38"></a>    m * <span class="ot">(</span>succ n<span class="ot">)</span>        ≡⟨ *-succ-r m n ⟩</span>
+<span id="cb8-39"><a href="#cb8-39"></a>    m + m * n           ≡⟨ cong <span class="ot">(</span>m +<span class="ot">_)</span> <span class="ot">(</span>*-comm m n<span class="ot">)</span> ⟩</span>
+<span id="cb8-40"><a href="#cb8-40"></a>    m + n * m           ≡⟨ sym <span class="ot">(</span>*-succ-l n m<span class="ot">)</span> ⟩</span>
+<span id="cb8-41"><a href="#cb8-41"></a>    <span class="ot">(</span>succ n<span class="ot">)</span> * m        ∎</span>
+<span id="cb8-42"><a href="#cb8-42"></a></span>
+<span id="cb8-43"><a href="#cb8-43"></a>  *-identity-r <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> x * one ≡ x</span>
+<span id="cb8-44"><a href="#cb8-44"></a>  *-identity-r zero <span class="ot">=</span> refl</span>
+<span id="cb8-45"><a href="#cb8-45"></a>  *-identity-r <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> begin</span>
+<span id="cb8-46"><a href="#cb8-46"></a>    <span class="ot">(</span>succ n<span class="ot">)</span> * one          ≡⟨⟩</span>
+<span id="cb8-47"><a href="#cb8-47"></a>    one + n * one           ≡⟨ cong <span class="ot">(_</span>+<span class="ot">_</span> one<span class="ot">)</span> <span class="ot">(</span>*-identity-r n<span class="ot">)</span> ⟩</span>
+<span id="cb8-48"><a href="#cb8-48"></a>    <span class="ot">(</span>succ zero<span class="ot">)</span> + n         ≡⟨ +-succ-r zero n ⟩</span>
+<span id="cb8-49"><a href="#cb8-49"></a>    succ <span class="ot">(</span>zero + n<span class="ot">)</span>         ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> succ x<span class="ot">)</span> <span class="ot">(</span>+-comm zero n<span class="ot">)</span> ⟩</span>
+<span id="cb8-50"><a href="#cb8-50"></a>    succ <span class="ot">(</span>n + zero<span class="ot">)</span>         ≡⟨⟩</span>
+<span id="cb8-51"><a href="#cb8-51"></a>    succ n                  ∎</span>
+<span id="cb8-52"><a href="#cb8-52"></a></span>
+<span id="cb8-53"><a href="#cb8-53"></a>  *-succ-r-r <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> x * succ y ≡ <span class="ot">(</span>x * y<span class="ot">)</span> + x</span>
+<span id="cb8-54"><a href="#cb8-54"></a>  *-succ-r-r zero m <span class="ot">=</span> refl</span>
+<span id="cb8-55"><a href="#cb8-55"></a>  *-succ-r-r <span class="ot">(</span>succ m<span class="ot">)</span> n <span class="ot">=</span> begin</span>
+<span id="cb8-56"><a href="#cb8-56"></a>    succ m * succ n             ≡⟨ *-succ-r <span class="ot">(</span>succ m<span class="ot">)</span> n ⟩</span>
+<span id="cb8-57"><a href="#cb8-57"></a>    succ m + succ m * n         ≡⟨ +-comm <span class="ot">(</span>succ m<span class="ot">)</span> <span class="ot">(</span>succ m * n<span class="ot">)</span> ⟩</span>
+<span id="cb8-58"><a href="#cb8-58"></a>    succ m * n + succ m         ∎</span></code></pre></div>
 <p>Here we see a noteworthy pattern,</p>
 <p>To prove for example <code>a + (b * c) + d ≡ a + (c * b) + d</code>, we have to apply commutativity only to <code>(b * c)</code> only while keeping the rest as it is. This is often achieved by using congruence over lambda pattern matching expressions in agda like <code>cong (λ x a + x + d) (*-comm b c)</code>. Or in other words,</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb9-1" title="1">a <span class="op">+</span> (b <span class="op">*</span> c) <span class="op">+</span> d     ≡⟨ cong (λ x a <span class="op">+</span> x <span class="op">+</span> d) (<span class="op">*-</span>comm b c) ⟩</a>
-<a class="sourceLine" id="cb9-2" title="2">a <span class="op">+</span> (c <span class="op">*</span> b) <span class="op">+</span> d     ∎</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1"></a>a <span class="op">+</span> (b <span class="op">*</span> c) <span class="op">+</span> d     ≡⟨ cong (λ x a <span class="op">+</span> x <span class="op">+</span> d) (<span class="op">*-</span>comm b c) ⟩</span>
+<span id="cb9-2"><a href="#cb9-2"></a>a <span class="op">+</span> (c <span class="op">*</span> b) <span class="op">+</span> d     ∎</span></code></pre></div>
 <p>Note that the above proofs might not be the best way to prove these propositions.</p>
 <p>We now prove the distributive property of <code>*</code> over <code>+</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb10-1" title="1">  +-distrib-*-r <span class="ot">:</span> <span class="ot">∀</span> x y z <span class="ot">→</span> x * <span class="ot">(</span>y + z<span class="ot">)</span> ≡ <span class="ot">(</span>x * y<span class="ot">)</span> + <span class="ot">(</span>x * z<span class="ot">)</span></a>
-<a class="sourceLine" id="cb10-2" title="2">  +-distrib-*-r l m zero <span class="ot">=</span> begin</a>
-<a class="sourceLine" id="cb10-3" title="3">    l * <span class="ot">(</span>m + zero<span class="ot">)</span>            ≡⟨⟩</a>
-<a class="sourceLine" id="cb10-4" title="4">    l * m                     ≡⟨⟩</a>
-<a class="sourceLine" id="cb10-5" title="5">    <span class="ot">(</span>l * m<span class="ot">)</span> + zero            ≡⟨ cong <span class="ot">((</span>l * m<span class="ot">)</span> +<span class="ot">_)</span> <span class="ot">(</span>sym <span class="ot">(</span>*-zero-r l<span class="ot">))</span> ⟩</a>
-<a class="sourceLine" id="cb10-6" title="6">    <span class="ot">(</span>l * m<span class="ot">)</span> + <span class="ot">(</span>l * zero<span class="ot">)</span>      ∎</a>
-<a class="sourceLine" id="cb10-7" title="7">  +-distrib-*-r l m <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> begin</a>
-<a class="sourceLine" id="cb10-8" title="8">    l * <span class="ot">(</span>m + <span class="ot">(</span>succ n<span class="ot">))</span>        ≡⟨⟩</a>
-<a class="sourceLine" id="cb10-9" title="9">    l * succ <span class="ot">(</span>m + n<span class="ot">)</span>          ≡⟨ *-succ-r l <span class="ot">(</span>m + n<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb10-10" title="10">    l + l * <span class="ot">(</span>m + n<span class="ot">)</span>           ≡⟨ +-comm l <span class="ot">(</span>l * <span class="ot">(</span>m + n<span class="ot">))</span> ⟩</a>
-<a class="sourceLine" id="cb10-11" title="11">    l * <span class="ot">(</span>m + n<span class="ot">)</span> + l           ≡⟨ cong <span class="ot">(λ</span> z <span class="ot">→</span> z + l<span class="ot">)</span> <span class="ot">(</span>+-distrib-*-r l m n<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb10-12" title="12">    <span class="ot">((</span>l * m<span class="ot">)</span> + <span class="ot">(</span>l * n<span class="ot">))</span> + l   ≡⟨ +-assoc-l <span class="ot">(</span>l * m<span class="ot">)</span> <span class="ot">(</span>l * n<span class="ot">)</span> l ⟩</a>
-<a class="sourceLine" id="cb10-13" title="13">    <span class="ot">(</span>l * m<span class="ot">)</span> + <span class="ot">((</span>l * n<span class="ot">)</span> + l<span class="ot">)</span>   ≡⟨ cong <span class="ot">((</span>l * m<span class="ot">)</span> +<span class="ot">_)</span> <span class="ot">(</span>sym <span class="ot">(</span>*-succ-r-r l n<span class="ot">))</span> ⟩</a>
-<a class="sourceLine" id="cb10-14" title="14">    <span class="ot">(</span>l * m<span class="ot">)</span> + l * <span class="ot">(</span>succ n<span class="ot">)</span>    ∎</a>
-<a class="sourceLine" id="cb10-15" title="15"></a>
-<a class="sourceLine" id="cb10-16" title="16">  +-distrib-*-l <span class="ot">:</span> <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">(</span>x + y<span class="ot">)</span> * z ≡ <span class="ot">(</span>x * z<span class="ot">)</span> + <span class="ot">(</span>y * z<span class="ot">)</span></a>
-<a class="sourceLine" id="cb10-17" title="17">  +-distrib-*-l zero m n <span class="ot">=</span> begin</a>
-<a class="sourceLine" id="cb10-18" title="18">    <span class="ot">(</span>zero + m<span class="ot">)</span> * n            ≡⟨ *-comm <span class="ot">(</span>zero + m<span class="ot">)</span> n ⟩</a>
-<a class="sourceLine" id="cb10-19" title="19">    n * <span class="ot">(</span>zero + m<span class="ot">)</span>            ≡⟨ +-distrib-*-r n zero m ⟩</a>
-<a class="sourceLine" id="cb10-20" title="20">    <span class="ot">(</span>n * zero<span class="ot">)</span> + <span class="ot">(</span>n * m<span class="ot">)</span>      ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> x + <span class="ot">(</span>n * m<span class="ot">))</span> <span class="ot">(</span>*-comm n zero<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb10-21" title="21">    <span class="ot">(</span>zero * n<span class="ot">)</span> + <span class="ot">(</span>n * m<span class="ot">)</span>      ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> <span class="ot">(</span>zero * n<span class="ot">)</span> + x<span class="ot">)</span> <span class="ot">(</span>*-comm n m<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb10-22" title="22">    <span class="ot">(</span>zero * n<span class="ot">)</span> + <span class="ot">(</span>m * n<span class="ot">)</span>      ∎</a>
-<a class="sourceLine" id="cb10-23" title="23">  +-distrib-*-l <span class="ot">(</span>succ l<span class="ot">)</span> m n <span class="ot">=</span> begin</a>
-<a class="sourceLine" id="cb10-24" title="24">    <span class="ot">((</span>succ l<span class="ot">)</span> + m<span class="ot">)</span> * n        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> x * n<span class="ot">)</span> <span class="ot">(</span>+-succ-r l m<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb10-25" title="25">    succ <span class="ot">(</span>l + m<span class="ot">)</span> * n          ≡⟨⟩</a>
-<a class="sourceLine" id="cb10-26" title="26">    n + <span class="ot">((</span>l + m<span class="ot">)</span> * n<span class="ot">)</span>         ≡⟨ cong <span class="ot">(_</span>+<span class="ot">_</span> n<span class="ot">)</span> <span class="ot">(</span>+-distrib-*-l l m n<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb10-27" title="27">    n + <span class="ot">(</span>l * n + m * n<span class="ot">)</span>       ≡⟨ +-assoc-r n <span class="ot">(</span>l * n<span class="ot">)</span> <span class="ot">(</span>m * n<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb10-28" title="28">    <span class="ot">(</span>n + l * n<span class="ot">)</span> + <span class="ot">(</span>m * n<span class="ot">)</span>     ≡⟨⟩</a>
-<a class="sourceLine" id="cb10-29" title="29">    <span class="ot">(</span>succ l<span class="ot">)</span> * n + m * n      ∎</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1"></a>  +-distrib-*-r <span class="ot">:</span> <span class="ot">∀</span> x y z <span class="ot">→</span> x * <span class="ot">(</span>y + z<span class="ot">)</span> ≡ <span class="ot">(</span>x * y<span class="ot">)</span> + <span class="ot">(</span>x * z<span class="ot">)</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>  +-distrib-*-r l m zero <span class="ot">=</span> begin</span>
+<span id="cb10-3"><a href="#cb10-3"></a>    l * <span class="ot">(</span>m + zero<span class="ot">)</span>            ≡⟨⟩</span>
+<span id="cb10-4"><a href="#cb10-4"></a>    l * m                     ≡⟨⟩</span>
+<span id="cb10-5"><a href="#cb10-5"></a>    <span class="ot">(</span>l * m<span class="ot">)</span> + zero            ≡⟨ cong <span class="ot">((</span>l * m<span class="ot">)</span> +<span class="ot">_)</span> <span class="ot">(</span>sym <span class="ot">(</span>*-zero-r l<span class="ot">))</span> ⟩</span>
+<span id="cb10-6"><a href="#cb10-6"></a>    <span class="ot">(</span>l * m<span class="ot">)</span> + <span class="ot">(</span>l * zero<span class="ot">)</span>      ∎</span>
+<span id="cb10-7"><a href="#cb10-7"></a>  +-distrib-*-r l m <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> begin</span>
+<span id="cb10-8"><a href="#cb10-8"></a>    l * <span class="ot">(</span>m + <span class="ot">(</span>succ n<span class="ot">))</span>        ≡⟨⟩</span>
+<span id="cb10-9"><a href="#cb10-9"></a>    l * succ <span class="ot">(</span>m + n<span class="ot">)</span>          ≡⟨ *-succ-r l <span class="ot">(</span>m + n<span class="ot">)</span> ⟩</span>
+<span id="cb10-10"><a href="#cb10-10"></a>    l + l * <span class="ot">(</span>m + n<span class="ot">)</span>           ≡⟨ +-comm l <span class="ot">(</span>l * <span class="ot">(</span>m + n<span class="ot">))</span> ⟩</span>
+<span id="cb10-11"><a href="#cb10-11"></a>    l * <span class="ot">(</span>m + n<span class="ot">)</span> + l           ≡⟨ cong <span class="ot">(λ</span> z <span class="ot">→</span> z + l<span class="ot">)</span> <span class="ot">(</span>+-distrib-*-r l m n<span class="ot">)</span> ⟩</span>
+<span id="cb10-12"><a href="#cb10-12"></a>    <span class="ot">((</span>l * m<span class="ot">)</span> + <span class="ot">(</span>l * n<span class="ot">))</span> + l   ≡⟨ +-assoc-l <span class="ot">(</span>l * m<span class="ot">)</span> <span class="ot">(</span>l * n<span class="ot">)</span> l ⟩</span>
+<span id="cb10-13"><a href="#cb10-13"></a>    <span class="ot">(</span>l * m<span class="ot">)</span> + <span class="ot">((</span>l * n<span class="ot">)</span> + l<span class="ot">)</span>   ≡⟨ cong <span class="ot">((</span>l * m<span class="ot">)</span> +<span class="ot">_)</span> <span class="ot">(</span>sym <span class="ot">(</span>*-succ-r-r l n<span class="ot">))</span> ⟩</span>
+<span id="cb10-14"><a href="#cb10-14"></a>    <span class="ot">(</span>l * m<span class="ot">)</span> + l * <span class="ot">(</span>succ n<span class="ot">)</span>    ∎</span>
+<span id="cb10-15"><a href="#cb10-15"></a></span>
+<span id="cb10-16"><a href="#cb10-16"></a>  +-distrib-*-l <span class="ot">:</span> <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">(</span>x + y<span class="ot">)</span> * z ≡ <span class="ot">(</span>x * z<span class="ot">)</span> + <span class="ot">(</span>y * z<span class="ot">)</span></span>
+<span id="cb10-17"><a href="#cb10-17"></a>  +-distrib-*-l zero m n <span class="ot">=</span> begin</span>
+<span id="cb10-18"><a href="#cb10-18"></a>    <span class="ot">(</span>zero + m<span class="ot">)</span> * n            ≡⟨ *-comm <span class="ot">(</span>zero + m<span class="ot">)</span> n ⟩</span>
+<span id="cb10-19"><a href="#cb10-19"></a>    n * <span class="ot">(</span>zero + m<span class="ot">)</span>            ≡⟨ +-distrib-*-r n zero m ⟩</span>
+<span id="cb10-20"><a href="#cb10-20"></a>    <span class="ot">(</span>n * zero<span class="ot">)</span> + <span class="ot">(</span>n * m<span class="ot">)</span>      ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> x + <span class="ot">(</span>n * m<span class="ot">))</span> <span class="ot">(</span>*-comm n zero<span class="ot">)</span> ⟩</span>
+<span id="cb10-21"><a href="#cb10-21"></a>    <span class="ot">(</span>zero * n<span class="ot">)</span> + <span class="ot">(</span>n * m<span class="ot">)</span>      ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> <span class="ot">(</span>zero * n<span class="ot">)</span> + x<span class="ot">)</span> <span class="ot">(</span>*-comm n m<span class="ot">)</span> ⟩</span>
+<span id="cb10-22"><a href="#cb10-22"></a>    <span class="ot">(</span>zero * n<span class="ot">)</span> + <span class="ot">(</span>m * n<span class="ot">)</span>      ∎</span>
+<span id="cb10-23"><a href="#cb10-23"></a>  +-distrib-*-l <span class="ot">(</span>succ l<span class="ot">)</span> m n <span class="ot">=</span> begin</span>
+<span id="cb10-24"><a href="#cb10-24"></a>    <span class="ot">((</span>succ l<span class="ot">)</span> + m<span class="ot">)</span> * n        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> x * n<span class="ot">)</span> <span class="ot">(</span>+-succ-r l m<span class="ot">)</span> ⟩</span>
+<span id="cb10-25"><a href="#cb10-25"></a>    succ <span class="ot">(</span>l + m<span class="ot">)</span> * n          ≡⟨⟩</span>
+<span id="cb10-26"><a href="#cb10-26"></a>    n + <span class="ot">((</span>l + m<span class="ot">)</span> * n<span class="ot">)</span>         ≡⟨ cong <span class="ot">(_</span>+<span class="ot">_</span> n<span class="ot">)</span> <span class="ot">(</span>+-distrib-*-l l m n<span class="ot">)</span> ⟩</span>
+<span id="cb10-27"><a href="#cb10-27"></a>    n + <span class="ot">(</span>l * n + m * n<span class="ot">)</span>       ≡⟨ +-assoc-r n <span class="ot">(</span>l * n<span class="ot">)</span> <span class="ot">(</span>m * n<span class="ot">)</span> ⟩</span>
+<span id="cb10-28"><a href="#cb10-28"></a>    <span class="ot">(</span>n + l * n<span class="ot">)</span> + <span class="ot">(</span>m * n<span class="ot">)</span>     ≡⟨⟩</span>
+<span id="cb10-29"><a href="#cb10-29"></a>    <span class="ot">(</span>succ l<span class="ot">)</span> * n + m * n      ∎</span></code></pre></div>
 <p>And now, finally the proof of our original proposition:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb11-1" title="1">  proof <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x + y<span class="ot">)</span> ² ≡ <span class="ot">(</span>x ² + two * <span class="ot">(</span>x * y<span class="ot">)</span> + y ²<span class="ot">)</span></a>
-<a class="sourceLine" id="cb11-2" title="2">  proof zero n <span class="ot">=</span> begin</a>
-<a class="sourceLine" id="cb11-3" title="3">    <span class="ot">(</span>zero + n<span class="ot">)</span> * <span class="ot">(</span>zero + n<span class="ot">)</span></a>
-<a class="sourceLine" id="cb11-4" title="4">        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> <span class="ot">(</span>zero + n<span class="ot">)</span> * x<span class="ot">)</span> <span class="ot">(</span>+-identity-r n<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb11-5" title="5">    <span class="ot">(</span>zero + n<span class="ot">)</span> * n</a>
-<a class="sourceLine" id="cb11-6" title="6">        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> x * n<span class="ot">)</span> <span class="ot">(</span>+-identity-r n<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb11-7" title="7">    n * n</a>
-<a class="sourceLine" id="cb11-8" title="8">        ≡⟨⟩</a>
-<a class="sourceLine" id="cb11-9" title="9">    n ²</a>
-<a class="sourceLine" id="cb11-10" title="10">        ≡⟨⟩</a>
-<a class="sourceLine" id="cb11-11" title="11">    n ² + zero</a>
-<a class="sourceLine" id="cb11-12" title="12">        ≡⟨ cong <span class="ot">((</span>n ²<span class="ot">)</span> +<span class="ot">_)</span> <span class="ot">(</span>sym <span class="ot">(</span>*-zero-r zero<span class="ot">))</span> ⟩</a>
-<a class="sourceLine" id="cb11-13" title="13">    n ² + <span class="ot">(</span>zero * zero<span class="ot">)</span></a>
-<a class="sourceLine" id="cb11-14" title="14">        ≡⟨⟩</a>
-<a class="sourceLine" id="cb11-15" title="15">    n ² + zero ²</a>
-<a class="sourceLine" id="cb11-16" title="16">        ≡⟨ +-comm <span class="ot">(</span>n ²<span class="ot">)</span> <span class="ot">(</span>zero ²<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb11-17" title="17">    <span class="ot">(</span>zero ² + n ²<span class="ot">)</span></a>
-<a class="sourceLine" id="cb11-18" title="18">        ≡⟨⟩</a>
-<a class="sourceLine" id="cb11-19" title="19">    <span class="ot">(</span>zero ² + n ²<span class="ot">)</span> + zero</a>
-<a class="sourceLine" id="cb11-20" title="20">        ≡⟨ cong <span class="ot">((</span>zero ² + n ²<span class="ot">)</span> +<span class="ot">_)</span> <span class="ot">(</span>sym <span class="ot">(</span>*-zero-r <span class="ot">(</span>two<span class="ot">)))</span> ⟩</a>
-<a class="sourceLine" id="cb11-21" title="21">    <span class="ot">(</span>zero ² + n ²<span class="ot">)</span> + <span class="ot">(</span>two * zero<span class="ot">)</span></a>
-<a class="sourceLine" id="cb11-22" title="22">        ≡⟨⟩</a>
-<a class="sourceLine" id="cb11-23" title="23">    <span class="ot">(</span>zero ² + n ²<span class="ot">)</span> + <span class="ot">(</span>two * zero * n<span class="ot">)</span></a>
-<a class="sourceLine" id="cb11-24" title="24">        ≡⟨ +-assoc-l <span class="ot">(</span>zero ²<span class="ot">)</span> <span class="ot">(</span>n ²<span class="ot">)</span> <span class="ot">(</span>two * zero * n<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb11-25" title="25">    zero ² + <span class="ot">(</span>n ² + <span class="ot">(</span>two * zero * n<span class="ot">))</span></a>
-<a class="sourceLine" id="cb11-26" title="26">        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> zero ² + x<span class="ot">)</span> <span class="ot">(</span>+-comm <span class="ot">(</span>n ²<span class="ot">)</span> <span class="ot">(</span>two * zero * n<span class="ot">))</span> ⟩</a>
-<a class="sourceLine" id="cb11-27" title="27">    zero ² + <span class="ot">((</span>two * zero * n<span class="ot">)</span> + n ²<span class="ot">)</span></a>
-<a class="sourceLine" id="cb11-28" title="28">        ≡⟨ +-assoc-r <span class="ot">(</span>zero ²<span class="ot">)</span> <span class="ot">(</span>two * zero * n<span class="ot">)</span> <span class="ot">(</span>n ²<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb11-29" title="29">    zero ² + two * zero * n + n ²</a>
-<a class="sourceLine" id="cb11-30" title="30">        ∎</a>
-<a class="sourceLine" id="cb11-31" title="31">  proof <span class="ot">(</span>succ m<span class="ot">)</span> n <span class="ot">=</span> begin</a>
-<a class="sourceLine" id="cb11-32" title="32">    <span class="ot">((</span>succ m<span class="ot">)</span> + n<span class="ot">)</span> * <span class="ot">((</span>succ m<span class="ot">)</span> + n<span class="ot">)</span></a>
-<a class="sourceLine" id="cb11-33" title="33">        ≡⟨ +-distrib-*-l <span class="ot">(</span>succ m<span class="ot">)</span> n <span class="ot">(</span>succ m + n<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb11-34" title="34">    <span class="ot">(</span>succ m<span class="ot">)</span> * <span class="ot">(</span>succ m + n<span class="ot">)</span> + n * <span class="ot">(</span>succ m + n<span class="ot">)</span></a>
-<a class="sourceLine" id="cb11-35" title="35">        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> x + n * <span class="ot">(</span>succ m + n<span class="ot">))</span> <span class="ot">(</span>+-distrib-*-r <span class="ot">(</span>succ m<span class="ot">)</span> <span class="ot">(</span>succ m<span class="ot">)</span> n<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb11-36" title="36">    <span class="ot">(</span>succ m<span class="ot">)</span> * <span class="ot">(</span>succ m<span class="ot">)</span> + <span class="ot">(</span>succ m<span class="ot">)</span> * n + n * <span class="ot">(</span>succ m + n<span class="ot">)</span></a>
-<a class="sourceLine" id="cb11-37" title="37">        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> * <span class="ot">(</span>succ m<span class="ot">)</span> + <span class="ot">(</span>succ m<span class="ot">)</span> * n + x<span class="ot">)</span> <span class="ot">(</span>+-distrib-*-r n <span class="ot">(</span>succ m<span class="ot">)</span> n<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb11-38" title="38">    <span class="ot">(</span>succ m<span class="ot">)</span> * <span class="ot">(</span>succ m<span class="ot">)</span> + <span class="ot">(</span>succ m<span class="ot">)</span> * n + <span class="ot">(</span>n * <span class="ot">(</span>succ m<span class="ot">)</span> + n * n<span class="ot">)</span></a>
-<a class="sourceLine" id="cb11-39" title="39">        ≡⟨ +-assoc-r <span class="ot">((</span>succ m<span class="ot">)</span> * <span class="ot">(</span>succ m<span class="ot">)</span> + <span class="ot">(</span>succ m<span class="ot">)</span> * n<span class="ot">)</span> <span class="ot">(</span>n * <span class="ot">(</span>succ m<span class="ot">))</span> <span class="ot">(</span>n * n<span class="ot">)</span>  ⟩</a>
-<a class="sourceLine" id="cb11-40" title="40">    <span class="ot">(</span>succ m<span class="ot">)</span> * <span class="ot">(</span>succ m<span class="ot">)</span> + <span class="ot">(</span>succ m<span class="ot">)</span> * n + n * <span class="ot">(</span>succ m<span class="ot">)</span> + n * n</a>
-<a class="sourceLine" id="cb11-41" title="41">        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> * <span class="ot">(</span>succ m<span class="ot">)</span> + <span class="ot">(</span>succ m<span class="ot">)</span> * n + x + n * n<span class="ot">)</span> <span class="ot">(</span>*-comm n <span class="ot">(</span>succ m<span class="ot">))</span> ⟩</a>
-<a class="sourceLine" id="cb11-42" title="42">    <span class="ot">(</span>succ m<span class="ot">)</span> * <span class="ot">(</span>succ m<span class="ot">)</span> + <span class="ot">(</span>succ m<span class="ot">)</span> * n + <span class="ot">(</span>succ m<span class="ot">)</span> * n + n * n</a>
-<a class="sourceLine" id="cb11-43" title="43">        ≡⟨⟩</a>
-<a class="sourceLine" id="cb11-44" title="44">    <span class="ot">(</span>succ m<span class="ot">)</span> ² + <span class="ot">(</span>succ m<span class="ot">)</span> * n + <span class="ot">(</span>succ m<span class="ot">)</span> * n + n * n</a>
-<a class="sourceLine" id="cb11-45" title="45">        ≡⟨⟩</a>
-<a class="sourceLine" id="cb11-46" title="46">    <span class="ot">((</span>succ m<span class="ot">)</span> ² + <span class="ot">(</span>succ m<span class="ot">)</span> * n<span class="ot">)</span> + <span class="ot">(</span>succ m<span class="ot">)</span> * n + n ²</a>
-<a class="sourceLine" id="cb11-47" title="47">        ≡⟨ cong <span class="ot">(_</span>+ n ²<span class="ot">)</span> <span class="ot">(</span>+-assoc-l <span class="ot">((</span>succ m<span class="ot">)</span> ²<span class="ot">)</span> <span class="ot">((</span>succ m<span class="ot">)</span> * n<span class="ot">)</span> <span class="ot">((</span>succ m<span class="ot">)</span> * n<span class="ot">))</span> ⟩</a>
-<a class="sourceLine" id="cb11-48" title="48">    <span class="ot">(</span>succ m<span class="ot">)</span> ² + <span class="ot">(</span>succ m * n + succ m * n<span class="ot">)</span> + n ²</a>
-<a class="sourceLine" id="cb11-49" title="49">        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> ² + x + n ²<span class="ot">)</span> <span class="ot">(</span>sym <span class="ot">(</span>*-identity-r <span class="ot">((</span>succ m<span class="ot">)</span> * n + <span class="ot">(</span>succ m<span class="ot">)</span> * n<span class="ot">)))</span> ⟩</a>
-<a class="sourceLine" id="cb11-50" title="50">    <span class="ot">(</span>succ m<span class="ot">)</span> ² + <span class="ot">(</span> <span class="ot">(</span>succ m * n<span class="ot">)</span> + <span class="ot">(</span>succ m * n<span class="ot">)</span> <span class="ot">)</span> * one + n ²</a>
-<a class="sourceLine" id="cb11-51" title="51">        ≡⟨ refl ⟩</a>
-<a class="sourceLine" id="cb11-52" title="52">    <span class="ot">(</span>succ m<span class="ot">)</span> ² + <span class="ot">((</span>succ m * n<span class="ot">)</span> + <span class="ot">(</span>succ m * n<span class="ot">))</span> * one + n ²</a>
-<a class="sourceLine" id="cb11-53" title="53">        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> ² + x + n ²<span class="ot">)</span> <span class="ot">(</span>+-distrib-*-l <span class="ot">(</span>succ m * n<span class="ot">)</span> <span class="ot">(</span>succ m * n<span class="ot">)</span> one<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb11-54" title="54">    <span class="ot">(</span>succ m<span class="ot">)</span> ² + <span class="ot">((</span>succ m * n<span class="ot">)</span> * one + <span class="ot">(</span>succ m * n<span class="ot">)</span> * one<span class="ot">)</span> + n ²</a>
-<a class="sourceLine" id="cb11-55" title="55">        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> ² + x + n ²<span class="ot">)</span> <span class="ot">(</span>sym <span class="ot">(</span>+-distrib-*-r <span class="ot">(</span>succ m * n<span class="ot">)</span> one one<span class="ot">))</span> ⟩</a>
-<a class="sourceLine" id="cb11-56" title="56">    <span class="ot">(</span>succ m<span class="ot">)</span> ² + <span class="ot">((</span>succ m * n<span class="ot">)</span> * <span class="ot">(</span>one + one<span class="ot">))</span> + n ²</a>
-<a class="sourceLine" id="cb11-57" title="57">        ≡⟨⟩</a>
-<a class="sourceLine" id="cb11-58" title="58">    <span class="ot">(</span>succ m<span class="ot">)</span> ² + <span class="ot">((</span>succ m * n<span class="ot">)</span> * two<span class="ot">)</span> + n ²</a>
-<a class="sourceLine" id="cb11-59" title="59">        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> ² + x + n ²<span class="ot">)</span> <span class="ot">(</span>*-comm <span class="ot">(</span>succ m * n<span class="ot">)</span> two<span class="ot">)</span> ⟩</a>
-<a class="sourceLine" id="cb11-60" title="60">    <span class="ot">(</span>succ m<span class="ot">)</span> ² + two * <span class="ot">((</span>succ m<span class="ot">)</span> * n<span class="ot">)</span> + n ²</a>
-<a class="sourceLine" id="cb11-61" title="61">        ∎</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1"></a>  proof <span class="ot">:</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x + y<span class="ot">)</span> ² ≡ <span class="ot">(</span>x ² + two * <span class="ot">(</span>x * y<span class="ot">)</span> + y ²<span class="ot">)</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>  proof zero n <span class="ot">=</span> begin</span>
+<span id="cb11-3"><a href="#cb11-3"></a>    <span class="ot">(</span>zero + n<span class="ot">)</span> * <span class="ot">(</span>zero + n<span class="ot">)</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> <span class="ot">(</span>zero + n<span class="ot">)</span> * x<span class="ot">)</span> <span class="ot">(</span>+-identity-r n<span class="ot">)</span> ⟩</span>
+<span id="cb11-5"><a href="#cb11-5"></a>    <span class="ot">(</span>zero + n<span class="ot">)</span> * n</span>
+<span id="cb11-6"><a href="#cb11-6"></a>        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> x * n<span class="ot">)</span> <span class="ot">(</span>+-identity-r n<span class="ot">)</span> ⟩</span>
+<span id="cb11-7"><a href="#cb11-7"></a>    n * n</span>
+<span id="cb11-8"><a href="#cb11-8"></a>        ≡⟨⟩</span>
+<span id="cb11-9"><a href="#cb11-9"></a>    n ²</span>
+<span id="cb11-10"><a href="#cb11-10"></a>        ≡⟨⟩</span>
+<span id="cb11-11"><a href="#cb11-11"></a>    n ² + zero</span>
+<span id="cb11-12"><a href="#cb11-12"></a>        ≡⟨ cong <span class="ot">((</span>n ²<span class="ot">)</span> +<span class="ot">_)</span> <span class="ot">(</span>sym <span class="ot">(</span>*-zero-r zero<span class="ot">))</span> ⟩</span>
+<span id="cb11-13"><a href="#cb11-13"></a>    n ² + <span class="ot">(</span>zero * zero<span class="ot">)</span></span>
+<span id="cb11-14"><a href="#cb11-14"></a>        ≡⟨⟩</span>
+<span id="cb11-15"><a href="#cb11-15"></a>    n ² + zero ²</span>
+<span id="cb11-16"><a href="#cb11-16"></a>        ≡⟨ +-comm <span class="ot">(</span>n ²<span class="ot">)</span> <span class="ot">(</span>zero ²<span class="ot">)</span> ⟩</span>
+<span id="cb11-17"><a href="#cb11-17"></a>    <span class="ot">(</span>zero ² + n ²<span class="ot">)</span></span>
+<span id="cb11-18"><a href="#cb11-18"></a>        ≡⟨⟩</span>
+<span id="cb11-19"><a href="#cb11-19"></a>    <span class="ot">(</span>zero ² + n ²<span class="ot">)</span> + zero</span>
+<span id="cb11-20"><a href="#cb11-20"></a>        ≡⟨ cong <span class="ot">((</span>zero ² + n ²<span class="ot">)</span> +<span class="ot">_)</span> <span class="ot">(</span>sym <span class="ot">(</span>*-zero-r <span class="ot">(</span>two<span class="ot">)))</span> ⟩</span>
+<span id="cb11-21"><a href="#cb11-21"></a>    <span class="ot">(</span>zero ² + n ²<span class="ot">)</span> + <span class="ot">(</span>two * zero<span class="ot">)</span></span>
+<span id="cb11-22"><a href="#cb11-22"></a>        ≡⟨⟩</span>
+<span id="cb11-23"><a href="#cb11-23"></a>    <span class="ot">(</span>zero ² + n ²<span class="ot">)</span> + <span class="ot">(</span>two * zero * n<span class="ot">)</span></span>
+<span id="cb11-24"><a href="#cb11-24"></a>        ≡⟨ +-assoc-l <span class="ot">(</span>zero ²<span class="ot">)</span> <span class="ot">(</span>n ²<span class="ot">)</span> <span class="ot">(</span>two * zero * n<span class="ot">)</span> ⟩</span>
+<span id="cb11-25"><a href="#cb11-25"></a>    zero ² + <span class="ot">(</span>n ² + <span class="ot">(</span>two * zero * n<span class="ot">))</span></span>
+<span id="cb11-26"><a href="#cb11-26"></a>        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> zero ² + x<span class="ot">)</span> <span class="ot">(</span>+-comm <span class="ot">(</span>n ²<span class="ot">)</span> <span class="ot">(</span>two * zero * n<span class="ot">))</span> ⟩</span>
+<span id="cb11-27"><a href="#cb11-27"></a>    zero ² + <span class="ot">((</span>two * zero * n<span class="ot">)</span> + n ²<span class="ot">)</span></span>
+<span id="cb11-28"><a href="#cb11-28"></a>        ≡⟨ +-assoc-r <span class="ot">(</span>zero ²<span class="ot">)</span> <span class="ot">(</span>two * zero * n<span class="ot">)</span> <span class="ot">(</span>n ²<span class="ot">)</span> ⟩</span>
+<span id="cb11-29"><a href="#cb11-29"></a>    zero ² + two * zero * n + n ²</span>
+<span id="cb11-30"><a href="#cb11-30"></a>        ∎</span>
+<span id="cb11-31"><a href="#cb11-31"></a>  proof <span class="ot">(</span>succ m<span class="ot">)</span> n <span class="ot">=</span> begin</span>
+<span id="cb11-32"><a href="#cb11-32"></a>    <span class="ot">((</span>succ m<span class="ot">)</span> + n<span class="ot">)</span> * <span class="ot">((</span>succ m<span class="ot">)</span> + n<span class="ot">)</span></span>
+<span id="cb11-33"><a href="#cb11-33"></a>        ≡⟨ +-distrib-*-l <span class="ot">(</span>succ m<span class="ot">)</span> n <span class="ot">(</span>succ m + n<span class="ot">)</span> ⟩</span>
+<span id="cb11-34"><a href="#cb11-34"></a>    <span class="ot">(</span>succ m<span class="ot">)</span> * <span class="ot">(</span>succ m + n<span class="ot">)</span> + n * <span class="ot">(</span>succ m + n<span class="ot">)</span></span>
+<span id="cb11-35"><a href="#cb11-35"></a>        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> x + n * <span class="ot">(</span>succ m + n<span class="ot">))</span> <span class="ot">(</span>+-distrib-*-r <span class="ot">(</span>succ m<span class="ot">)</span> <span class="ot">(</span>succ m<span class="ot">)</span> n<span class="ot">)</span> ⟩</span>
+<span id="cb11-36"><a href="#cb11-36"></a>    <span class="ot">(</span>succ m<span class="ot">)</span> * <span class="ot">(</span>succ m<span class="ot">)</span> + <span class="ot">(</span>succ m<span class="ot">)</span> * n + n * <span class="ot">(</span>succ m + n<span class="ot">)</span></span>
+<span id="cb11-37"><a href="#cb11-37"></a>        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> * <span class="ot">(</span>succ m<span class="ot">)</span> + <span class="ot">(</span>succ m<span class="ot">)</span> * n + x<span class="ot">)</span> <span class="ot">(</span>+-distrib-*-r n <span class="ot">(</span>succ m<span class="ot">)</span> n<span class="ot">)</span> ⟩</span>
+<span id="cb11-38"><a href="#cb11-38"></a>    <span class="ot">(</span>succ m<span class="ot">)</span> * <span class="ot">(</span>succ m<span class="ot">)</span> + <span class="ot">(</span>succ m<span class="ot">)</span> * n + <span class="ot">(</span>n * <span class="ot">(</span>succ m<span class="ot">)</span> + n * n<span class="ot">)</span></span>
+<span id="cb11-39"><a href="#cb11-39"></a>        ≡⟨ +-assoc-r <span class="ot">((</span>succ m<span class="ot">)</span> * <span class="ot">(</span>succ m<span class="ot">)</span> + <span class="ot">(</span>succ m<span class="ot">)</span> * n<span class="ot">)</span> <span class="ot">(</span>n * <span class="ot">(</span>succ m<span class="ot">))</span> <span class="ot">(</span>n * n<span class="ot">)</span>  ⟩</span>
+<span id="cb11-40"><a href="#cb11-40"></a>    <span class="ot">(</span>succ m<span class="ot">)</span> * <span class="ot">(</span>succ m<span class="ot">)</span> + <span class="ot">(</span>succ m<span class="ot">)</span> * n + n * <span class="ot">(</span>succ m<span class="ot">)</span> + n * n</span>
+<span id="cb11-41"><a href="#cb11-41"></a>        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> * <span class="ot">(</span>succ m<span class="ot">)</span> + <span class="ot">(</span>succ m<span class="ot">)</span> * n + x + n * n<span class="ot">)</span> <span class="ot">(</span>*-comm n <span class="ot">(</span>succ m<span class="ot">))</span> ⟩</span>
+<span id="cb11-42"><a href="#cb11-42"></a>    <span class="ot">(</span>succ m<span class="ot">)</span> * <span class="ot">(</span>succ m<span class="ot">)</span> + <span class="ot">(</span>succ m<span class="ot">)</span> * n + <span class="ot">(</span>succ m<span class="ot">)</span> * n + n * n</span>
+<span id="cb11-43"><a href="#cb11-43"></a>        ≡⟨⟩</span>
+<span id="cb11-44"><a href="#cb11-44"></a>    <span class="ot">(</span>succ m<span class="ot">)</span> ² + <span class="ot">(</span>succ m<span class="ot">)</span> * n + <span class="ot">(</span>succ m<span class="ot">)</span> * n + n * n</span>
+<span id="cb11-45"><a href="#cb11-45"></a>        ≡⟨⟩</span>
+<span id="cb11-46"><a href="#cb11-46"></a>    <span class="ot">((</span>succ m<span class="ot">)</span> ² + <span class="ot">(</span>succ m<span class="ot">)</span> * n<span class="ot">)</span> + <span class="ot">(</span>succ m<span class="ot">)</span> * n + n ²</span>
+<span id="cb11-47"><a href="#cb11-47"></a>        ≡⟨ cong <span class="ot">(_</span>+ n ²<span class="ot">)</span> <span class="ot">(</span>+-assoc-l <span class="ot">((</span>succ m<span class="ot">)</span> ²<span class="ot">)</span> <span class="ot">((</span>succ m<span class="ot">)</span> * n<span class="ot">)</span> <span class="ot">((</span>succ m<span class="ot">)</span> * n<span class="ot">))</span> ⟩</span>
+<span id="cb11-48"><a href="#cb11-48"></a>    <span class="ot">(</span>succ m<span class="ot">)</span> ² + <span class="ot">(</span>succ m * n + succ m * n<span class="ot">)</span> + n ²</span>
+<span id="cb11-49"><a href="#cb11-49"></a>        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> ² + x + n ²<span class="ot">)</span> <span class="ot">(</span>sym <span class="ot">(</span>*-identity-r <span class="ot">((</span>succ m<span class="ot">)</span> * n + <span class="ot">(</span>succ m<span class="ot">)</span> * n<span class="ot">)))</span> ⟩</span>
+<span id="cb11-50"><a href="#cb11-50"></a>    <span class="ot">(</span>succ m<span class="ot">)</span> ² + <span class="ot">(</span> <span class="ot">(</span>succ m * n<span class="ot">)</span> + <span class="ot">(</span>succ m * n<span class="ot">)</span> <span class="ot">)</span> * one + n ²</span>
+<span id="cb11-51"><a href="#cb11-51"></a>        ≡⟨ refl ⟩</span>
+<span id="cb11-52"><a href="#cb11-52"></a>    <span class="ot">(</span>succ m<span class="ot">)</span> ² + <span class="ot">((</span>succ m * n<span class="ot">)</span> + <span class="ot">(</span>succ m * n<span class="ot">))</span> * one + n ²</span>
+<span id="cb11-53"><a href="#cb11-53"></a>        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> ² + x + n ²<span class="ot">)</span> <span class="ot">(</span>+-distrib-*-l <span class="ot">(</span>succ m * n<span class="ot">)</span> <span class="ot">(</span>succ m * n<span class="ot">)</span> one<span class="ot">)</span> ⟩</span>
+<span id="cb11-54"><a href="#cb11-54"></a>    <span class="ot">(</span>succ m<span class="ot">)</span> ² + <span class="ot">((</span>succ m * n<span class="ot">)</span> * one + <span class="ot">(</span>succ m * n<span class="ot">)</span> * one<span class="ot">)</span> + n ²</span>
+<span id="cb11-55"><a href="#cb11-55"></a>        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> ² + x + n ²<span class="ot">)</span> <span class="ot">(</span>sym <span class="ot">(</span>+-distrib-*-r <span class="ot">(</span>succ m * n<span class="ot">)</span> one one<span class="ot">))</span> ⟩</span>
+<span id="cb11-56"><a href="#cb11-56"></a>    <span class="ot">(</span>succ m<span class="ot">)</span> ² + <span class="ot">((</span>succ m * n<span class="ot">)</span> * <span class="ot">(</span>one + one<span class="ot">))</span> + n ²</span>
+<span id="cb11-57"><a href="#cb11-57"></a>        ≡⟨⟩</span>
+<span id="cb11-58"><a href="#cb11-58"></a>    <span class="ot">(</span>succ m<span class="ot">)</span> ² + <span class="ot">((</span>succ m * n<span class="ot">)</span> * two<span class="ot">)</span> + n ²</span>
+<span id="cb11-59"><a href="#cb11-59"></a>        ≡⟨ cong <span class="ot">(λ</span> x <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> ² + x + n ²<span class="ot">)</span> <span class="ot">(</span>*-comm <span class="ot">(</span>succ m * n<span class="ot">)</span> two<span class="ot">)</span> ⟩</span>
+<span id="cb11-60"><a href="#cb11-60"></a>    <span class="ot">(</span>succ m<span class="ot">)</span> ² + two * <span class="ot">((</span>succ m<span class="ot">)</span> * n<span class="ot">)</span> + n ²</span>
+<span id="cb11-61"><a href="#cb11-61"></a>        ∎</span></code></pre></div>
 <hr />
 <p><a href="./Types.equational2.html">Equational Reasoning 2</a></p>
 </body>

@@ -16,7 +16,7 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ```agda
-{-# OPTIONS --without-K #-}
+
 
 module Types.universe where
 

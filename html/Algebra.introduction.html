@@ -12,26 +12,27 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style>
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -40,9 +41,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -91,7 +92,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="algebraic-structures">Algebraic structures</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">module</span> Algebra<span class="ot">.</span>introduction <span class="kw">where</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Algebra<span class="ot">.</span>introduction <span class="kw">where</span></span></code></pre></div>
 <p>Algebra is essentially any system dealing with</p>
 <ul>
 <li>Abstract symbols as objects</li>
@@ -100,7 +101,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Each algebra behaves more like a <a href="https://en.wikipedia.org/wiki/Domain-specific_language">DSL</a>, consisting of a structure and a bunch of operations packaged together. Now, elementary set theory tends to treat objects and operations separately. However, objects when considered together with some operations give rise to complex structures and allow a bunch of laws and other machinery to be built on top of them. Consider natural numbers and the operation of additon for example, for any two natural numbers <code>x</code> and <code>y</code> and the addition operation <code>+</code>, <span class="math inline">\(x + y\)</span> is always a natural number, <span class="math inline">\(x + y = y + x\)</span>, <span class="math inline">\((x + y) + z = x + (y + z)\)</span> and so on. Thus we can refer to all natural numbers and addition together as something called a “group”. It turns out such structures have rich APIs and can be used to model and represent wide range of real world phenomenon. Groups can be easily encountered in undergraduate and above level physics which makes extensive use of the concepts of symmetry. We vary some basic properties of these operations and call the resulting objects with various esoteric names like “Monoid”, “Semigroupoid” etc. Though one could argue that knowing concepts behind such esoteric names entitles one to use them to intrigue an unsuspecting audience.</p>
 <p>The most basic operation that can be done to an object or to a collection (set) of objects is to compare them, e.g, using equivalences (≡). Thus equivalanences can be used as a law for creating albegras of <code>Setoid</code>s - sets with equivalences. The operation of sorting using some definition of an order (≥, ≤) is another such basic law used to construct higher objects and their algebras such as <code>Poset</code>s and <code>PreOrder</code>s. In this way we construct higher algerbaic objects on top of simpler ones.</p>
 <figure>
-<img src="./magma.png" alt="Fig 1: Magma" /><figcaption>Fig 1: Magma</figcaption>
+<img src="./magma.png" alt="" /><figcaption>Fig 1: Magma</figcaption>
 </figure>
 <p>Generally, more complex structures can be created using operations that support the laws of associativity, commutativitiy and inverse. An example of this would be natural numbers, which support operations such as addition, subtraction, multiplication and division (except with 0), all of which are associative and commutative, forming the peano arithmetic. Another example is what we have already seen in the case of boolean algebra where <code>∧</code> and <code>∨</code> follow the <a href="./Logic.laws.html">laws of boolean algebra</a>. There are more complex objects that follow essentially the same principles of construction.</p>
 <p>General classification of abstract algebras include</p>

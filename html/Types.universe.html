@@ -12,26 +12,27 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style>
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -40,9 +41,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -98,20 +99,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb1-1" title="1"><span class="pp">{-# OPTIONS --without-K #-}</span></a>
-<a class="sourceLine" id="cb1-2" title="2"></a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">module</span> Types<span class="ot">.</span>universe <span class="kw">where</span></a>
-<a class="sourceLine" id="cb1-4" title="4"></a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span></a>
-<a class="sourceLine" id="cb1-6" title="6">  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span></a>
-<a class="sourceLine" id="cb1-7" title="7">  ⊥<span class="ot">;</span> ⊤<span class="ot">;</span> ℕ<span class="ot">;</span> List<span class="ot">;</span></a>
-<a class="sourceLine" id="cb1-8" title="8">  zero<span class="ot">;</span> one<span class="ot">)</span></a>
-<a class="sourceLine" id="cb1-9" title="9"></a>
-<a class="sourceLine" id="cb1-10" title="10"><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">renaming</span> <span class="ot">(</span></a>
-<a class="sourceLine" id="cb1-11" title="11">  Level <span class="kw">to</span> AgdaLevel<span class="ot">;</span> </a>
-<a class="sourceLine" id="cb1-12" title="12">  lzero <span class="kw">to</span> alzero<span class="ot">;</span> </a>
-<a class="sourceLine" id="cb1-13" title="13">  lsuc <span class="kw">to</span> alsuc<span class="ot">;</span> </a>
-<a class="sourceLine" id="cb1-14" title="14">  <span class="ot">_</span>⊔<span class="ot">_</span> <span class="kw">to</span> <span class="ot">_</span>⊔⊔<span class="ot">_)</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">module</span> Types<span class="ot">.</span>universe <span class="kw">where</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a>  ⊥<span class="ot">;</span> ⊤<span class="ot">;</span> ℕ<span class="ot">;</span> List<span class="ot">;</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>  zero<span class="ot">;</span> one<span class="ot">)</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">renaming</span> <span class="ot">(</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a>  Level <span class="kw">to</span> AgdaLevel<span class="ot">;</span> </span>
+<span id="cb1-12"><a href="#cb1-12"></a>  lzero <span class="kw">to</span> alzero<span class="ot">;</span> </span>
+<span id="cb1-13"><a href="#cb1-13"></a>  lsuc <span class="kw">to</span> alsuc<span class="ot">;</span> </span>
+<span id="cb1-14"><a href="#cb1-14"></a>  <span class="ot">_</span>⊔<span class="ot">_</span> <span class="kw">to</span> <span class="ot">_</span>⊔⊔<span class="ot">_)</span></span></code></pre></div>
 <h1 id="universes-and-families">Universes and families</h1>
 <p>A universe can be thought of as a container for all of mathematics. There is no mathematics that is possible outside of universe. Now obviously this differs from our physical universe in a way that mathematics also describes purely conceptual stuff that need not have a physical manifestation, rather, in many ways our univrerse is a subset of the mathematical universe as it can be described by mathematical models.</p>
 <p>For set theory, the universe can be thought as the set of all sets. For type theory, universes contain all types - hence essentially everything including objects, laws, theorems etc. The structure of the universe used in type theory are <a href="http://www.cs.rhul.ac.uk/home/zhaohui/universes.pdf">Russel-style and Taski-style universes</a> though we use the former as it is easier and sufficient for our purposes. There are other kinds of universes in mathematics, for example the <a href="https://ncatlab.org/nlab/show/Grothendieck+universe">Grothendieck universe</a>, <a href="https://en.wikipedia.org/wiki/Von_Neumann_universe">Von Neumann universe</a>.</p>
@@ -120,30 +121,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 U_{0} \in U_{1} \in U\_{2} \in ... \in U_{i} \in U_{i+1}  \in ... \in U_{\infty}
 \]</span></p>
 <p>Let us define the above index <code>i</code> of universe <code>Uᵢ</code>, called <code>Level</code> in agda’s standard library:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">infixl</span> <span class="dv">6</span> <span class="ot">_</span>⊔<span class="ot">_</span></a>
-<a class="sourceLine" id="cb2-2" title="2"></a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="kw">postulate</span></a>
-<a class="sourceLine" id="cb2-4" title="4">  Level <span class="ot">:</span> <span class="dt">Set</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">infixl</span> <span class="dv">6</span> <span class="ot">_</span>⊔<span class="ot">_</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">postulate</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>  Level <span class="ot">:</span> <span class="dt">Set</span></span></code></pre></div>
 <p>We define it as a postulate so we dont have to provide an implementation yet. We continue to define some operations on it, i.e.:</p>
 <ul>
 <li><code>lzero</code>, the trivial level 0</li>
 <li><code>lsuc</code> : successive iterator</li>
 <li><code>_⊔_</code> : least upper bound, an operator that composes</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">postulate</span></a>
-<a class="sourceLine" id="cb3-2" title="2">  lzero <span class="ot">:</span> Level</a>
-<a class="sourceLine" id="cb3-3" title="3">  lsuc  <span class="ot">:</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> Level</a>
-<a class="sourceLine" id="cb3-4" title="4">  <span class="ot">_</span>⊔<span class="ot">_</span>   <span class="ot">:</span> <span class="ot">(</span>ℓ₁ ℓ₂ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> Level</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">postulate</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>  lzero <span class="ot">:</span> Level</span>
+<span id="cb3-3"><a href="#cb3-3"></a>  lsuc  <span class="ot">:</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> Level</span>
+<span id="cb3-4"><a href="#cb3-4"></a>  <span class="ot">_</span>⊔<span class="ot">_</span>   <span class="ot">:</span> <span class="ot">(</span>ℓ₁ ℓ₂ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> Level</span></code></pre></div>
 <p>And finally, we define universe as:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" title="1">record <span class="dt">Universe</span> u e <span class="op">:</span> <span class="dt">Set</span> (lsuc (u ⊔ e)) <span class="kw">where</span></a>
-<a class="sourceLine" id="cb4-2" title="2">  field</a>
-<a class="sourceLine" id="cb4-3" title="3">    <span class="co">-- Codes.</span></a>
-<a class="sourceLine" id="cb4-4" title="4">    <span class="dt">U</span> <span class="op">:</span> <span class="dt">Set</span> u</a>
-<a class="sourceLine" id="cb4-5" title="5"></a>
-<a class="sourceLine" id="cb4-6" title="6">    <span class="co">-- Decoding function.</span></a>
-<a class="sourceLine" id="cb4-7" title="7">    <span class="dt">El</span> <span class="op">:</span> <span class="dt">U</span> <span class="ot">→</span> <span class="dt">Set</span> e</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1"></a>record <span class="dt">Universe</span> u e <span class="op">:</span> <span class="dt">Set</span> (lsuc (u ⊔ e)) <span class="kw">where</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>  field</span>
+<span id="cb4-3"><a href="#cb4-3"></a>    <span class="co">-- Codes.</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>    <span class="dt">U</span> <span class="op">:</span> <span class="dt">Set</span> u</span>
+<span id="cb4-5"><a href="#cb4-5"></a></span>
+<span id="cb4-6"><a href="#cb4-6"></a>    <span class="co">-- Decoding function.</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a>    <span class="dt">El</span> <span class="op">:</span> <span class="dt">U</span> <span class="ot">→</span> <span class="dt">Set</span> e</span></code></pre></div>
 <figure>
-<img src="universes.png" alt="Figure 1: Universes" /><figcaption>Figure 1: Universes</figcaption>
+<img src="universes.png" alt="" /><figcaption>Figure 1: Universes</figcaption>
 </figure>
 <p>A “family” of types varying over a given type are called, well “families of types”. An example of this would be the finite set, <a href="./dataStructures.html#finite-sequences">Fin</a> where every finite set has <code>n</code> elements where <code>n ∈ ℕ</code> and hence <code>Fin</code>, the creator of finite sets, is dependent on ℕ.</p>
 <h1 id="sets">Sets</h1>
@@ -154,44 +155,44 @@ U_{0} \in U_{1} \in U\_{2} \in ... \in U_{i} \in U_{i+1}  \in ... \in U_{\infty}
 </ul>
 <p>In fact, These <code>Setᵢ</code>s are nothing but universes in Agda. Note that <code>Set₁</code> forms the large set, i.e. the set containing all sets.</p>
 <p>In some implementations, universes are represented using a different keyword <code>Type</code> instead of <code>Set</code> in order to avoid confusing with them:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb5-1" title="1">Type <span class="ot">:</span> <span class="ot">(</span>i <span class="ot">:</span> AgdaLevel<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>alsuc i<span class="ot">)</span></a>
-<a class="sourceLine" id="cb5-2" title="2">Type i <span class="ot">=</span> <span class="dt">Set</span> i</a>
-<a class="sourceLine" id="cb5-3" title="3"></a>
-<a class="sourceLine" id="cb5-4" title="4">Type₀ <span class="ot">=</span> Type alzero</a>
-<a class="sourceLine" id="cb5-5" title="5">Type0 <span class="ot">=</span> Type alzero</a>
-<a class="sourceLine" id="cb5-6" title="6"></a>
-<a class="sourceLine" id="cb5-7" title="7">Type₁ <span class="ot">=</span> Type <span class="ot">(</span>alsuc alzero<span class="ot">)</span></a>
-<a class="sourceLine" id="cb5-8" title="8">Type1 <span class="ot">=</span> Type <span class="ot">(</span>alsuc alzero<span class="ot">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a>Type <span class="ot">:</span> <span class="ot">(</span>i <span class="ot">:</span> AgdaLevel<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>alsuc i<span class="ot">)</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>Type i <span class="ot">=</span> <span class="dt">Set</span> i</span>
+<span id="cb5-3"><a href="#cb5-3"></a></span>
+<span id="cb5-4"><a href="#cb5-4"></a>Type₀ <span class="ot">=</span> Type alzero</span>
+<span id="cb5-5"><a href="#cb5-5"></a>Type0 <span class="ot">=</span> Type alzero</span>
+<span id="cb5-6"><a href="#cb5-6"></a></span>
+<span id="cb5-7"><a href="#cb5-7"></a>Type₁ <span class="ot">=</span> Type <span class="ot">(</span>alsuc alzero<span class="ot">)</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a>Type1 <span class="ot">=</span> Type <span class="ot">(</span>alsuc alzero<span class="ot">)</span></span></code></pre></div>
 <h1 id="universe-polymorphism">Universe Polymorphism</h1>
 <p>Now, given that we have infinite heirarchical universes, we would have to define the same functions, data types and machinery for each universe level, which would be pretty tedious to say the least. However, we observe how our universes are defined and note that the level-based indexing system, that connects each successive universe, provides us with the mechanics to define objects for all universe levels <code>ℓ</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb6-1" title="1">id <span class="ot">:</span> <span class="ot">{</span>ℓ <span class="ot">:</span> AgdaLevel<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> ℓ<span class="ot">}</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> A</a>
-<a class="sourceLine" id="cb6-2" title="2">id x <span class="ot">=</span> x</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a>id <span class="ot">:</span> <span class="ot">{</span>ℓ <span class="ot">:</span> AgdaLevel<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> ℓ<span class="ot">}</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> A</span>
+<span id="cb6-2"><a href="#cb6-2"></a>id x <span class="ot">=</span> x</span></code></pre></div>
 <p>Here <code>id</code> represents a family of identity functions given a type <code>A</code> and its level <code>ℓ</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">infixr</span> <span class="dv">5</span> <span class="ot">_</span>::<span class="ot">_</span></a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="kw">data</span> List₁ <span class="ot">{</span>ℓ <span class="ot">:</span> AgdaLevel<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> ℓ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>alsuc ℓ<span class="ot">)</span> <span class="kw">where</span></a>
-<a class="sourceLine" id="cb7-3" title="3">  [] <span class="ot">:</span> List₁ A</a>
-<a class="sourceLine" id="cb7-4" title="4">  <span class="ot">_</span>::<span class="ot">_</span> <span class="ot">:</span> A <span class="ot">→</span> List₁ A <span class="ot">→</span> List₁ A</a>
-<a class="sourceLine" id="cb7-5" title="5"></a>
-<a class="sourceLine" id="cb7-6" title="6">someList <span class="ot">:</span> List₁ ℕ</a>
-<a class="sourceLine" id="cb7-7" title="7">someList <span class="ot">=</span> <span class="ot">(</span>one :: zero :: []<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-8" title="8"></a>
-<a class="sourceLine" id="cb7-9" title="9">sameList <span class="ot">:</span> List₁ ℕ</a>
-<a class="sourceLine" id="cb7-10" title="10">sameList <span class="ot">=</span> id someList</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">infixr</span> <span class="dv">5</span> <span class="ot">_</span>::<span class="ot">_</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="kw">data</span> List₁ <span class="ot">{</span>ℓ <span class="ot">:</span> AgdaLevel<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> ℓ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>alsuc ℓ<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>  [] <span class="ot">:</span> List₁ A</span>
+<span id="cb7-4"><a href="#cb7-4"></a>  <span class="ot">_</span>::<span class="ot">_</span> <span class="ot">:</span> A <span class="ot">→</span> List₁ A <span class="ot">→</span> List₁ A</span>
+<span id="cb7-5"><a href="#cb7-5"></a></span>
+<span id="cb7-6"><a href="#cb7-6"></a>someList <span class="ot">:</span> List₁ ℕ</span>
+<span id="cb7-7"><a href="#cb7-7"></a>someList <span class="ot">=</span> <span class="ot">(</span>one :: zero :: []<span class="ot">)</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9"></a>sameList <span class="ot">:</span> List₁ ℕ</span>
+<span id="cb7-10"><a href="#cb7-10"></a>sameList <span class="ot">=</span> id someList</span></code></pre></div>
 <h1 id="machinery-on-types">Machinery on Types</h1>
 <h2 id="type-of">Type of</h2>
 <p>We obviously need a means to check types:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb8-1" title="1">typeof <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> Type i<span class="ot">)</span> <span class="ot">(</span>u <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> A</a>
-<a class="sourceLine" id="cb8-2" title="2">typeof A u <span class="ot">=</span> u</a>
-<a class="sourceLine" id="cb8-3" title="3"></a>
-<a class="sourceLine" id="cb8-4" title="4"><span class="kw">infix</span> <span class="dv">40</span> typeof</a>
-<a class="sourceLine" id="cb8-5" title="5"><span class="kw">syntax</span> typeof A u <span class="ot">=</span>  u :&gt; A</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a>typeof <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> Type i<span class="ot">)</span> <span class="ot">(</span>u <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> A</span>
+<span id="cb8-2"><a href="#cb8-2"></a>typeof A u <span class="ot">=</span> u</span>
+<span id="cb8-3"><a href="#cb8-3"></a></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="kw">infix</span> <span class="dv">40</span> typeof</span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="kw">syntax</span> typeof A u <span class="ot">=</span>  u :&gt; A</span></code></pre></div>
 <h2 id="equality-of-types">Equality of types</h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">infix</span> <span class="dv">30</span> <span class="ot">_</span>==<span class="ot">_</span></a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="kw">data</span> <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">{</span>i<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> Type i<span class="ot">}</span> <span class="ot">(</span>a <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> A <span class="ot">→</span> Type i <span class="kw">where</span></a>
-<a class="sourceLine" id="cb9-3" title="3">  idp <span class="ot">:</span> a == a</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">infix</span> <span class="dv">30</span> <span class="ot">_</span>==<span class="ot">_</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="kw">data</span> <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">{</span>i<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> Type i<span class="ot">}</span> <span class="ot">(</span>a <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> A <span class="ot">→</span> Type i <span class="kw">where</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a>  idp <span class="ot">:</span> a == a</span></code></pre></div>
 <h2 id="identity-type">Identity type</h2>
 <p>The equality of types is itself a type - the identity type:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb10-1" title="1">Path <span class="ot">=</span> <span class="ot">_</span>==<span class="ot">_</span></a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1"></a>Path <span class="ot">=</span> <span class="ot">_</span>==<span class="ot">_</span></span></code></pre></div>
 <hr />
 <p><a href="./Types.relations.html">Relations</a></p>
 </body>

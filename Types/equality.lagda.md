@@ -29,8 +29,6 @@
 # Equalities
 
 ```agda
-{-# OPTIONS --with-K #-}
-
 module Types.equality where
 
 open import Lang.dataStructures using (
@@ -86,7 +84,7 @@ In type theory, all proofs can be represented as a type. Propositional equality 
 
 ![Figure 1: Equality](./equality.png)
 
-```agda
+```lagda
 infix 4 _∼_
 
 data _∼_ {A : Set}(a : A) : {B : Set} → B → Set where
@@ -99,7 +97,7 @@ Reflexivity is defined with the definition of `∼` by the keyword `same`, the o
 
 Symmetry is the property where binary a relation's behavior does not depend upon its argument's position (left or right):
 
-```agda
+```lagda
 symmetry : ∀ {A B}{a : A}{b : B}
   → a ∼ b
   → b ∼ a
@@ -110,7 +108,7 @@ symmetry same = same
 
 Transitivity is when a binary relation `_∼_` and $x ∼ y and y ∼ z ⟹ x ∼ z$
 
-```agda
+```lagda
 transitivity : ∀ {A B C}{a : A}{b : B}{c : C}
   → a ∼ b
   → b ∼ c
@@ -122,7 +120,7 @@ transitivity same p = p
 
 Functions that when applied to objects of a type, do not alter the operation of equality can be defined as:
 
-```agda
+```lagda
 congruence : ∀ {A B : Set} (f : A → B) {x y : A}
   → x ∼ y
   → f x ∼ f y
@@ -133,7 +131,7 @@ congruence f same = same
 
 If `a = b` and if `predicate a = true` ⟹ `predicate b = true`
 
-```agda
+```lagda
 substitution : ∀ {A : Set} {x y : A} (Predicate : A → Set)
   → x ∼ y
   → Predicate x

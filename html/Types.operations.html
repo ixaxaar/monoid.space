@@ -12,26 +12,27 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style>
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -40,9 +41,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -107,51 +108,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="operations">Operations</h1>
 <p>We start by defining operations and laws these operations obey.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product</a>
-<a class="sourceLine" id="cb1-4" title="4"></a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></a>
-<a class="sourceLine" id="cb1-6" title="6"></a>
-<a class="sourceLine" id="cb1-7" title="7"><span class="kw">module</span> Types<span class="ot">.</span>operations <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(_</span>==<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="kw">where</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">module</span> Types<span class="ot">.</span>operations <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(_</span>==<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="kw">where</span></span></code></pre></div>
 <p>A binary operation <span class="math inline">\(★\)</span> on a set A is a function (function type!) that takes two elements of type A and returns an element of A:</p>
 <pre class="math"><code>★ : A × A → A</code></pre>
 <p>More often the operation is applied to the two objects <code>x, y ∈ A</code> as <span class="math inline">\(x ★ y\)</span>.</p>
 <p>A unary operation on the other hand operates on only one element of A to return an element of A:</p>
 <pre class="math"><code>♠ : A → A</code></pre>
 <p>In agda, a homogenous binary operation <code>★ A</code> can be defined as:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb4-1" title="1">  ★<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> a</a>
-<a class="sourceLine" id="cb4-2" title="2">  ★ A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> A</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1"></a>  ★<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> a</span>
+<span id="cb4-2"><a href="#cb4-2"></a>  ★ A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> A</span></code></pre></div>
 <p>and a unary operation as:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb5-1" title="1">  ♠<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> a</a>
-<a class="sourceLine" id="cb5-2" title="2">  ♠ A <span class="ot">=</span> A <span class="ot">→</span> A</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a>  ♠<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> a</span>
+<span id="cb5-2"><a href="#cb5-2"></a>  ♠ A <span class="ot">=</span> A <span class="ot">→</span> A</span></code></pre></div>
 <h2 id="operator-laws">Operator laws</h2>
 <p>We now write a few laws that operators could follow. Essentially, structures built on top of these operators would end up following the same laws as the underlying operator. We have already seen some of these laws in <a href="./Logic.laws.html">laws of boolean algebra</a>, these are universe polymorphism-accounted general versions of those laws.</p>
 <h3 id="associativity">Associativity</h3>
 <figure>
-<img src="associative.png" alt="Figure 1: Associative" /><figcaption>Figure 1: Associative</figcaption>
+<img src="associative.png" alt="" /><figcaption>Figure 1: Associative</figcaption>
 </figure>
 <p>Mathematically, given an operation <code>★</code>, it is called associative if:</p>
 <pre class="math"><code>∀ x, y, z ∈ A,
 operation ★ is associative if:
 
 x ★ (y ★ z) ≡ (x ★ y) ★ z</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb7-1" title="1">  Associative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb7-2" title="2">  Associative <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">((</span>x ∙ y<span class="ot">)</span> ∙ z<span class="ot">)</span> == <span class="ot">(</span>x ∙ <span class="ot">(</span>y ∙ z<span class="ot">))</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a>  Associative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>  Associative <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">((</span>x ∙ y<span class="ot">)</span> ∙ z<span class="ot">)</span> == <span class="ot">(</span>x ∙ <span class="ot">(</span>y ∙ z<span class="ot">))</span></span></code></pre></div>
 <h3 id="commutativity">Commutativity</h3>
 <figure>
-<img src="commutative.png" alt="Figure 2: Commutative" /><figcaption>Figure 2: Commutative</figcaption>
+<img src="commutative.png" alt="" /><figcaption>Figure 2: Commutative</figcaption>
 </figure>
 <p>Commutativity is defined as:</p>
 <pre class="math"><code>∀ x, y ∈ A,
 operation ★ is commutative if:
 
 x ★ y ≡ y ★ x</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb9-1" title="1">  Commutative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb9-2" title="2">  Commutative <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x ∙ y<span class="ot">)</span> == <span class="ot">(</span>y ∙ x<span class="ot">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1"></a>  Commutative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>  Commutative <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x ∙ y<span class="ot">)</span> == <span class="ot">(</span>y ∙ x<span class="ot">)</span></span></code></pre></div>
 <h3 id="identity">Identity</h3>
 <figure>
-<img src="identity.png" alt="Figure 3: Identity" /><figcaption>Figure 3: Identity</figcaption>
+<img src="identity.png" alt="" /><figcaption>Figure 3: Identity</figcaption>
 </figure>
 <pre class="math"><code>∀ x ∈ A,
 if id is the identity object of A,
@@ -159,34 +160,34 @@ if id is the identity object of A,
 x ★ id ≡ x
 id ★ x ≡ x</code></pre>
 <p>We treat identity as a pair of right and left identities. This helps in working with non-commutative types as well.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb11-1" title="1">  LeftIdentity <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb11-2" title="2">  LeftIdentity e <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>e ∙ x<span class="ot">)</span> == x</a>
-<a class="sourceLine" id="cb11-3" title="3"></a>
-<a class="sourceLine" id="cb11-4" title="4">  RightIdentity <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb11-5" title="5">  RightIdentity e <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>x ∙ e<span class="ot">)</span> == x</a>
-<a class="sourceLine" id="cb11-6" title="6"></a>
-<a class="sourceLine" id="cb11-7" title="7">  Identity <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb11-8" title="8">  Identity e ∙ <span class="ot">=</span> LeftIdentity e ∙ × RightIdentity e ∙</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1"></a>  LeftIdentity <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>  LeftIdentity e <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>e ∙ x<span class="ot">)</span> == x</span>
+<span id="cb11-3"><a href="#cb11-3"></a></span>
+<span id="cb11-4"><a href="#cb11-4"></a>  RightIdentity <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>  RightIdentity e <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>x ∙ e<span class="ot">)</span> == x</span>
+<span id="cb11-6"><a href="#cb11-6"></a></span>
+<span id="cb11-7"><a href="#cb11-7"></a>  Identity <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a>  Identity e ∙ <span class="ot">=</span> LeftIdentity e ∙ × RightIdentity e ∙</span></code></pre></div>
 <h3 id="elimination">Elimination</h3>
 <figure>
-<img src="elimination.png" alt="Figure 4: Elimination" /><figcaption>Figure 4: Elimination</figcaption>
+<img src="elimination.png" alt="" /><figcaption>Figure 4: Elimination</figcaption>
 </figure>
 <pre class="math"><code>∀ x ∈ A,
 
 x ★ 0 ≡ 0
 0 ★ x ≡ 0</code></pre>
 <p>How does our object interact with <code>0</code>? We define that here.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb13-1" title="1">  LeftZero <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb13-2" title="2">  LeftZero z <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>z ∙ x<span class="ot">)</span> == z</a>
-<a class="sourceLine" id="cb13-3" title="3"></a>
-<a class="sourceLine" id="cb13-4" title="4">  RightZero <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb13-5" title="5">  RightZero z <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>x ∙ z<span class="ot">)</span> == z</a>
-<a class="sourceLine" id="cb13-6" title="6"></a>
-<a class="sourceLine" id="cb13-7" title="7">  Zero <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb13-8" title="8">  Zero z ∙ <span class="ot">=</span> LeftZero z ∙ × RightZero z ∙</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb13-1"><a href="#cb13-1"></a>  LeftZero <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>  LeftZero z <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>z ∙ x<span class="ot">)</span> == z</span>
+<span id="cb13-3"><a href="#cb13-3"></a></span>
+<span id="cb13-4"><a href="#cb13-4"></a>  RightZero <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a>  RightZero z <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>x ∙ z<span class="ot">)</span> == z</span>
+<span id="cb13-6"><a href="#cb13-6"></a></span>
+<span id="cb13-7"><a href="#cb13-7"></a>  Zero <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a>  Zero z ∙ <span class="ot">=</span> LeftZero z ∙ × RightZero z ∙</span></code></pre></div>
 <h3 id="inverse">Inverse</h3>
 <figure>
-<img src="inverse.png" alt="Figure 5: Inverse" /><figcaption>Figure 5: Inverse</figcaption>
+<img src="inverse.png" alt="" /><figcaption>Figure 5: Inverse</figcaption>
 </figure>
 <pre class="math"><code>∀ x ∈ A, ∃ x⁻¹ ∈ A such that
 
@@ -194,35 +195,35 @@ x ★ x⁻¹ ≡ id
 
 x⁻¹ ★ x ≡ id</code></pre>
 <p>Given any unary function <code>_⁻¹</code>, we define what it takes for the function to qualify as an inverse.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb15-1" title="1">  LeftInverse <span class="ot">:</span> A <span class="ot">→</span> ♠ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb15-2" title="2">  LeftInverse e <span class="ot">_</span>⁻¹ <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">((</span>x ⁻¹<span class="ot">)</span> ∙ x<span class="ot">)</span> == e</a>
-<a class="sourceLine" id="cb15-3" title="3"></a>
-<a class="sourceLine" id="cb15-4" title="4">  RightInverse <span class="ot">:</span> A <span class="ot">→</span> ♠ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb15-5" title="5">  RightInverse e <span class="ot">_</span>⁻¹ <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>x ∙ <span class="ot">(</span>x ⁻¹<span class="ot">))</span> == e</a>
-<a class="sourceLine" id="cb15-6" title="6"></a>
-<a class="sourceLine" id="cb15-7" title="7">  Inverse <span class="ot">:</span> A <span class="ot">→</span> ♠ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb15-8" title="8">  Inverse e ⁻¹ ∙ <span class="ot">=</span> LeftInverse e ⁻¹ ∙ × RightInverse e ⁻¹ ∙</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb15-1"><a href="#cb15-1"></a>  LeftInverse <span class="ot">:</span> A <span class="ot">→</span> ♠ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a>  LeftInverse e <span class="ot">_</span>⁻¹ <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">((</span>x ⁻¹<span class="ot">)</span> ∙ x<span class="ot">)</span> == e</span>
+<span id="cb15-3"><a href="#cb15-3"></a></span>
+<span id="cb15-4"><a href="#cb15-4"></a>  RightInverse <span class="ot">:</span> A <span class="ot">→</span> ♠ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a>  RightInverse e <span class="ot">_</span>⁻¹ <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>x ∙ <span class="ot">(</span>x ⁻¹<span class="ot">))</span> == e</span>
+<span id="cb15-6"><a href="#cb15-6"></a></span>
+<span id="cb15-7"><a href="#cb15-7"></a>  Inverse <span class="ot">:</span> A <span class="ot">→</span> ♠ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb15-8"><a href="#cb15-8"></a>  Inverse e ⁻¹ ∙ <span class="ot">=</span> LeftInverse e ⁻¹ ∙ × RightInverse e ⁻¹ ∙</span></code></pre></div>
 <h3 id="distributive">Distributive</h3>
 <figure>
-<img src="distributive.png" alt="Figure 6: Distributive" /><figcaption>Figure 6: Distributive</figcaption>
+<img src="distributive.png" alt="" /><figcaption>Figure 6: Distributive</figcaption>
 </figure>
 <pre class="math"><code>∀ x, y, z ∈ A,
 operation ★ is distributive if:
 
 ( x ★ y ) ★ z ≡ x ★ y × y ★ z</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb17-1" title="1">  <span class="ot">_</span>DistributesOverˡ<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb17-2" title="2">  <span class="ot">_</span>*<span class="ot">_</span> DistributesOverˡ <span class="ot">_</span>+<span class="ot">_</span> <span class="ot">=</span></a>
-<a class="sourceLine" id="cb17-3" title="3">    <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">(</span>x * <span class="ot">(</span>y + z<span class="ot">))</span> == <span class="ot">((</span>x * y<span class="ot">)</span> + <span class="ot">(</span>x * z<span class="ot">))</span></a>
-<a class="sourceLine" id="cb17-4" title="4"></a>
-<a class="sourceLine" id="cb17-5" title="5">  <span class="ot">_</span>DistributesOverʳ<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb17-6" title="6">  <span class="ot">_</span>*<span class="ot">_</span> DistributesOverʳ <span class="ot">_</span>+<span class="ot">_</span> <span class="ot">=</span></a>
-<a class="sourceLine" id="cb17-7" title="7">    <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">((</span>y + z<span class="ot">)</span> * x<span class="ot">)</span> == <span class="ot">((</span>y * x<span class="ot">)</span> + <span class="ot">(</span>z * x<span class="ot">))</span></a>
-<a class="sourceLine" id="cb17-8" title="8"></a>
-<a class="sourceLine" id="cb17-9" title="9">  <span class="ot">_</span>DistributesOver<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb17-10" title="10">  * DistributesOver + <span class="ot">=</span> <span class="ot">(</span>* DistributesOverˡ +<span class="ot">)</span> × <span class="ot">(</span>* DistributesOverʳ +<span class="ot">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb17-1"><a href="#cb17-1"></a>  <span class="ot">_</span>DistributesOverˡ<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a>  <span class="ot">_</span>*<span class="ot">_</span> DistributesOverˡ <span class="ot">_</span>+<span class="ot">_</span> <span class="ot">=</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a>    <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">(</span>x * <span class="ot">(</span>y + z<span class="ot">))</span> == <span class="ot">((</span>x * y<span class="ot">)</span> + <span class="ot">(</span>x * z<span class="ot">))</span></span>
+<span id="cb17-4"><a href="#cb17-4"></a></span>
+<span id="cb17-5"><a href="#cb17-5"></a>  <span class="ot">_</span>DistributesOverʳ<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb17-6"><a href="#cb17-6"></a>  <span class="ot">_</span>*<span class="ot">_</span> DistributesOverʳ <span class="ot">_</span>+<span class="ot">_</span> <span class="ot">=</span></span>
+<span id="cb17-7"><a href="#cb17-7"></a>    <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">((</span>y + z<span class="ot">)</span> * x<span class="ot">)</span> == <span class="ot">((</span>y * x<span class="ot">)</span> + <span class="ot">(</span>z * x<span class="ot">))</span></span>
+<span id="cb17-8"><a href="#cb17-8"></a></span>
+<span id="cb17-9"><a href="#cb17-9"></a>  <span class="ot">_</span>DistributesOver<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb17-10"><a href="#cb17-10"></a>  * DistributesOver + <span class="ot">=</span> <span class="ot">(</span>* DistributesOverˡ +<span class="ot">)</span> × <span class="ot">(</span>* DistributesOverʳ +<span class="ot">)</span></span></code></pre></div>
 <h3 id="absorptive">Absorptive</h3>
 <figure>
-<img src="absorption.png" alt="Figure 7: Absorption" /><figcaption>Figure 7: Absorption</figcaption>
+<img src="absorption.png" alt="" /><figcaption>Figure 7: Absorption</figcaption>
 </figure>
 <pre class="math"><code>∀ x ∈ A and two operations
  ∙ : A → A → A
@@ -236,30 +237,30 @@ and ∘ absorbs ∙ if:
 x ∘ (x ∙ y) ≡ x
 
 and if both are satisfied collectively ∙ and ∘ are absorptive.</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb19-1" title="1">  <span class="ot">_</span>Absorbs<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb19-2" title="2">  <span class="ot">_</span>∙<span class="ot">_</span> Absorbs <span class="ot">_</span>∘<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x ∙ <span class="ot">(</span>x ∘ y<span class="ot">))</span> == x</a>
-<a class="sourceLine" id="cb19-3" title="3"></a>
-<a class="sourceLine" id="cb19-4" title="4">  Absorptive <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb19-5" title="5">  Absorptive ∙ ∘ <span class="ot">=</span> <span class="ot">(</span>∙ Absorbs ∘<span class="ot">)</span> × <span class="ot">(</span>∘ Absorbs ∙<span class="ot">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb19-1"><a href="#cb19-1"></a>  <span class="ot">_</span>Absorbs<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a>  <span class="ot">_</span>∙<span class="ot">_</span> Absorbs <span class="ot">_</span>∘<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x ∙ <span class="ot">(</span>x ∘ y<span class="ot">))</span> == x</span>
+<span id="cb19-3"><a href="#cb19-3"></a></span>
+<span id="cb19-4"><a href="#cb19-4"></a>  Absorptive <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb19-5"><a href="#cb19-5"></a>  Absorptive ∙ ∘ <span class="ot">=</span> <span class="ot">(</span>∙ Absorbs ∘<span class="ot">)</span> × <span class="ot">(</span>∘ Absorbs ∙<span class="ot">)</span></span></code></pre></div>
 <h3 id="cancellative">Cancellative</h3>
 <figure>
-<img src="cancellation.png" alt="Figure 8: Cancellation" /><figcaption>Figure 8: Cancellation</figcaption>
+<img src="cancellation.png" alt="" /><figcaption>Figure 8: Cancellation</figcaption>
 </figure>
 <pre class="math"><code>∀ x, y ∈ A
 and a function • : A → A → A,
 
 (x • y) == (x • z) ⟹ y == z</code></pre>
-<div class="sourceCode" id="cb21"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb21-1" title="1">  LeftCancellative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb21-2" title="2">  LeftCancellative <span class="ot">_</span>•<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">{</span>y z<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>x • y<span class="ot">)</span> == <span class="ot">(</span>x • z<span class="ot">)</span> <span class="ot">→</span> y == z</a>
-<a class="sourceLine" id="cb21-3" title="3"></a>
-<a class="sourceLine" id="cb21-4" title="4">  RightCancellative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb21-5" title="5">  RightCancellative <span class="ot">_</span>•<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> y z <span class="ot">→</span> <span class="ot">(</span>y • x<span class="ot">)</span> == <span class="ot">(</span>z • x<span class="ot">)</span> <span class="ot">→</span> y == z</a>
-<a class="sourceLine" id="cb21-6" title="6"></a>
-<a class="sourceLine" id="cb21-7" title="7">  Cancellative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb21-8" title="8">  Cancellative <span class="ot">_</span>•<span class="ot">_</span> <span class="ot">=</span> LeftCancellative <span class="ot">_</span>•<span class="ot">_</span> × RightCancellative <span class="ot">_</span>•<span class="ot">_</span></a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb21-1"><a href="#cb21-1"></a>  LeftCancellative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a>  LeftCancellative <span class="ot">_</span>•<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">{</span>y z<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>x • y<span class="ot">)</span> == <span class="ot">(</span>x • z<span class="ot">)</span> <span class="ot">→</span> y == z</span>
+<span id="cb21-3"><a href="#cb21-3"></a></span>
+<span id="cb21-4"><a href="#cb21-4"></a>  RightCancellative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb21-5"><a href="#cb21-5"></a>  RightCancellative <span class="ot">_</span>•<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> y z <span class="ot">→</span> <span class="ot">(</span>y • x<span class="ot">)</span> == <span class="ot">(</span>z • x<span class="ot">)</span> <span class="ot">→</span> y == z</span>
+<span id="cb21-6"><a href="#cb21-6"></a></span>
+<span id="cb21-7"><a href="#cb21-7"></a>  Cancellative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb21-8"><a href="#cb21-8"></a>  Cancellative <span class="ot">_</span>•<span class="ot">_</span> <span class="ot">=</span> LeftCancellative <span class="ot">_</span>•<span class="ot">_</span> × RightCancellative <span class="ot">_</span>•<span class="ot">_</span></span></code></pre></div>
 <h3 id="congruence">Congruence</h3>
 <figure>
-<img src="congruence.png" alt="Figure 9: Congruence" /><figcaption>Figure 9: Congruence</figcaption>
+<img src="congruence.png" alt="" /><figcaption>Figure 9: Congruence</figcaption>
 </figure>
 <pre class="math"><code>Given
   a₁, a₂ ∈ A
@@ -275,46 +276,46 @@ then b₁ ≡ b₂</code></pre>
 <li>for binary relation <code>♣</code>, if <span class="math inline">\((x₁, y₁) == (x₂, y₂)\)</span> then <span class="math inline">\((x₁ ♣ y₁) == (x₂ ♣ y₂)\)</span>.</li>
 <li>for unary relation <code>♡</code>, if <span class="math inline">\(x == y\)</span> then <span class="math inline">\(♡ x == ♡ y\)</span>.</li>
 </ul>
-<div class="sourceCode" id="cb23"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb23-1" title="1">  Congruent₁ <span class="ot">:</span> ♠ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb23-2" title="2">  Congruent₁ f <span class="ot">=</span> f Preserves <span class="ot">_</span>==<span class="ot">_</span> ⟶ <span class="ot">_</span>==<span class="ot">_</span></a>
-<a class="sourceLine" id="cb23-3" title="3"></a>
-<a class="sourceLine" id="cb23-4" title="4">  Congruent₂ <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb23-5" title="5">  Congruent₂ ∙ <span class="ot">=</span> ∙ Preserves₂ <span class="ot">_</span>==<span class="ot">_</span> ⟶ <span class="ot">_</span>==<span class="ot">_</span> ⟶ <span class="ot">_</span>==<span class="ot">_</span></a>
-<a class="sourceLine" id="cb23-6" title="6"></a>
-<a class="sourceLine" id="cb23-7" title="7">  LeftCongruent <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb23-8" title="8">  LeftCongruent <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(_</span>∙ x<span class="ot">)</span> Preserves <span class="ot">_</span>==<span class="ot">_</span> ⟶ <span class="ot">_</span>==<span class="ot">_</span></a>
-<a class="sourceLine" id="cb23-9" title="9"></a>
-<a class="sourceLine" id="cb23-10" title="10">  RightCongruent <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb23-11" title="11">  RightCongruent <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>x ∙<span class="ot">_)</span> Preserves <span class="ot">_</span>==<span class="ot">_</span> ⟶ <span class="ot">_</span>==<span class="ot">_</span></a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb23-1"><a href="#cb23-1"></a>  Congruent₁ <span class="ot">:</span> ♠ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a>  Congruent₁ f <span class="ot">=</span> f Preserves <span class="ot">_</span>==<span class="ot">_</span> ⟶ <span class="ot">_</span>==<span class="ot">_</span></span>
+<span id="cb23-3"><a href="#cb23-3"></a></span>
+<span id="cb23-4"><a href="#cb23-4"></a>  Congruent₂ <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb23-5"><a href="#cb23-5"></a>  Congruent₂ ∙ <span class="ot">=</span> ∙ Preserves₂ <span class="ot">_</span>==<span class="ot">_</span> ⟶ <span class="ot">_</span>==<span class="ot">_</span> ⟶ <span class="ot">_</span>==<span class="ot">_</span></span>
+<span id="cb23-6"><a href="#cb23-6"></a></span>
+<span id="cb23-7"><a href="#cb23-7"></a>  LeftCongruent <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb23-8"><a href="#cb23-8"></a>  LeftCongruent <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(_</span>∙ x<span class="ot">)</span> Preserves <span class="ot">_</span>==<span class="ot">_</span> ⟶ <span class="ot">_</span>==<span class="ot">_</span></span>
+<span id="cb23-9"><a href="#cb23-9"></a></span>
+<span id="cb23-10"><a href="#cb23-10"></a>  RightCongruent <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb23-11"><a href="#cb23-11"></a>  RightCongruent <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>x ∙<span class="ot">_)</span> Preserves <span class="ot">_</span>==<span class="ot">_</span> ⟶ <span class="ot">_</span>==<span class="ot">_</span></span></code></pre></div>
 <h2 id="respecting-an-relation">Respecting an relation</h2>
 <p>We finally define what we mean by a functions “respects” an operation or is invariant of it. For a function <span class="math inline">\(f\)</span> and an operation <span class="math inline">\(∘\)</span>, if <span class="math inline">\(x ∘ y ⟹ f(x) ∘ f(y)\)</span>, we say the function <span class="math inline">\(f\)</span> respects the operation <span class="math inline">\(∘\)</span>. We define two versions of this utility here</p>
 <ul>
 <li><code>_Respects_</code> for already commutative laws</li>
 <li><code>_Respects₂_</code> which combines left <code>_Respectsˡ_</code> and right <code>_Respectsʳ_</code> laws</li>
 </ul>
-<div class="sourceCode" id="cb24"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb24-1" title="1">  <span class="ot">_</span>Respects<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></a>
-<a class="sourceLine" id="cb24-2" title="2">          <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> <span class="dt">Set</span> ℓ₁<span class="ot">)</span></a>
-<a class="sourceLine" id="cb24-3" title="3">          <span class="ot">→</span> Rel A ℓ₂</a>
-<a class="sourceLine" id="cb24-4" title="4">          <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb24-5" title="5">  P Respects <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x y<span class="ot">}</span> <span class="ot">→</span> x ∼ y <span class="ot">→</span> P x <span class="ot">→</span> P y</a>
-<a class="sourceLine" id="cb24-6" title="6"></a>
-<a class="sourceLine" id="cb24-7" title="7">  <span class="ot">_</span>Respectsʳ<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></a>
-<a class="sourceLine" id="cb24-8" title="8">          <span class="ot">→</span> Rel A ℓ₁</a>
-<a class="sourceLine" id="cb24-9" title="9">          <span class="ot">→</span> Rel A ℓ₂</a>
-<a class="sourceLine" id="cb24-10" title="10">          <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb24-11" title="11">  P Respectsʳ <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>P x<span class="ot">)</span> Respects <span class="ot">_</span>∼<span class="ot">_</span></a>
-<a class="sourceLine" id="cb24-12" title="12"></a>
-<a class="sourceLine" id="cb24-13" title="13">  <span class="ot">_</span>Respectsˡ<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></a>
-<a class="sourceLine" id="cb24-14" title="14">          <span class="ot">→</span> Rel A ℓ₁</a>
-<a class="sourceLine" id="cb24-15" title="15">          <span class="ot">→</span> Rel A ℓ₂</a>
-<a class="sourceLine" id="cb24-16" title="16">          <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb24-17" title="17">  P Respectsˡ <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>y<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>flip P y<span class="ot">)</span> Respects <span class="ot">_</span>∼<span class="ot">_</span></a>
-<a class="sourceLine" id="cb24-18" title="18"></a>
-<a class="sourceLine" id="cb24-19" title="19">  <span class="ot">_</span>Respects₂<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></a>
-<a class="sourceLine" id="cb24-20" title="20">          <span class="ot">→</span> Rel A ℓ₁</a>
-<a class="sourceLine" id="cb24-21" title="21">          <span class="ot">→</span> Rel A ℓ₂</a>
-<a class="sourceLine" id="cb24-22" title="22">          <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></a>
-<a class="sourceLine" id="cb24-23" title="23">  P Respects₂ <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>P Respectsʳ <span class="ot">_</span>∼<span class="ot">_)</span> × <span class="ot">(</span>P Respectsˡ <span class="ot">_</span>∼<span class="ot">_)</span></a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb24-1"><a href="#cb24-1"></a>  <span class="ot">_</span>Respects<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a>          <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> <span class="dt">Set</span> ℓ₁<span class="ot">)</span></span>
+<span id="cb24-3"><a href="#cb24-3"></a>          <span class="ot">→</span> Rel A ℓ₂</span>
+<span id="cb24-4"><a href="#cb24-4"></a>          <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb24-5"><a href="#cb24-5"></a>  P Respects <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x y<span class="ot">}</span> <span class="ot">→</span> x ∼ y <span class="ot">→</span> P x <span class="ot">→</span> P y</span>
+<span id="cb24-6"><a href="#cb24-6"></a></span>
+<span id="cb24-7"><a href="#cb24-7"></a>  <span class="ot">_</span>Respectsʳ<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></span>
+<span id="cb24-8"><a href="#cb24-8"></a>          <span class="ot">→</span> Rel A ℓ₁</span>
+<span id="cb24-9"><a href="#cb24-9"></a>          <span class="ot">→</span> Rel A ℓ₂</span>
+<span id="cb24-10"><a href="#cb24-10"></a>          <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb24-11"><a href="#cb24-11"></a>  P Respectsʳ <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>P x<span class="ot">)</span> Respects <span class="ot">_</span>∼<span class="ot">_</span></span>
+<span id="cb24-12"><a href="#cb24-12"></a></span>
+<span id="cb24-13"><a href="#cb24-13"></a>  <span class="ot">_</span>Respectsˡ<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></span>
+<span id="cb24-14"><a href="#cb24-14"></a>          <span class="ot">→</span> Rel A ℓ₁</span>
+<span id="cb24-15"><a href="#cb24-15"></a>          <span class="ot">→</span> Rel A ℓ₂</span>
+<span id="cb24-16"><a href="#cb24-16"></a>          <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb24-17"><a href="#cb24-17"></a>  P Respectsˡ <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>y<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>flip P y<span class="ot">)</span> Respects <span class="ot">_</span>∼<span class="ot">_</span></span>
+<span id="cb24-18"><a href="#cb24-18"></a></span>
+<span id="cb24-19"><a href="#cb24-19"></a>  <span class="ot">_</span>Respects₂<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></span>
+<span id="cb24-20"><a href="#cb24-20"></a>          <span class="ot">→</span> Rel A ℓ₁</span>
+<span id="cb24-21"><a href="#cb24-21"></a>          <span class="ot">→</span> Rel A ℓ₂</span>
+<span id="cb24-22"><a href="#cb24-22"></a>          <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb24-23"><a href="#cb24-23"></a>  P Respects₂ <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>P Respectsʳ <span class="ot">_</span>∼<span class="ot">_)</span> × <span class="ot">(</span>P Respectsˡ <span class="ot">_</span>∼<span class="ot">_)</span></span></code></pre></div>
 <hr />
 <p><a href="./Algebra.equational.html">Equational Reasoning</a></p>
 </body>

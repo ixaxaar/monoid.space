@@ -52,12 +52,11 @@ Stack is one of haskell's package manager. Install stack first, if not done alre
 curl -sSL https://get.haskellstack.org/ | sh
 ```
 
-Proceed to use stack to install agda
+Clone [https://github.com/ixaxaar/monoid.space](https://github.com/ixaxaar/monoid.space) and `cd` into it. Proceed to use stack to install agda:
 
 ```bash
-stack install cabal-install
-stack install happy
-stack --resolver lts-12.0 --install-ghc install Agda
+stack setup
+stack build
 ```
 
 ## Via package managers

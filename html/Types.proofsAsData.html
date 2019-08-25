@@ -12,26 +12,27 @@
       div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style>
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -40,9 +41,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -101,9 +102,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In type theory, mathematical proofs take a different course than the ones we’re generally familiar with. Since in type theory everything, including proofs themselves, are types, the correctness of a proof translates to the ability to create an object of that proof’s type. In simpler terms, if one claims a proposition, one has to show the proposition (which is a type) is valid. A type can be shown to be valid if one can construct an object of that type. Thus, in order to prove something, we need to create an object having the type of the proposition.</p>
 <p>Propositions can be defined in a recursive way such that termination of computation proves the correctness of the proof. We recursively dismantle the input until the trivial case is left which completes the recursion process and our proof is done. This also implies that in cases where termination is not reached, one can say that the proof does not apply to, or, is invalid for such inputs.</p>
 <p>Usually, a proof consists of: - trivial cases, serving as termination markers - recursive pattern matchers, for (de) constructing the proof from (to) the trivial cases</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">module</span> Types<span class="ot">.</span>proofsAsData <span class="kw">where</span></a>
-<a class="sourceLine" id="cb1-2" title="2"></a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Types<span class="ot">.</span>proofsAsData <span class="kw">where</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures</span></code></pre></div>
 <h2 id="order">Order</h2>
 <p>For example, the <code>&lt;=</code> operator can be defined as consisting of two constructors:</p>
 <ul>
@@ -111,61 +112,61 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>a successive pattern matcher <code>lz</code> which tries to reduce comparison of <code>x &lt;= y</code>, to <code>x-1 &lt;= y-1</code>:</li>
 </ul>
 <p>After applying <code>lz</code> sufficient number of times, if we end up at <code>0 &lt;= x</code> where <code>ltz</code> is invoked, computation terminates and our theorem is proved.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">data</span> <span class="ot">_</span>&lt;=<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></a>
-<a class="sourceLine" id="cb2-2" title="2">  ltz <span class="ot">:</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> zero &lt;= n</a>
-<a class="sourceLine" id="cb2-3" title="3">  lt <span class="ot">:</span> <span class="ot">{</span>m <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> m &lt;= n <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> &lt;= <span class="ot">(</span>succ n<span class="ot">)</span></a>
-<a class="sourceLine" id="cb2-4" title="4"></a>
-<a class="sourceLine" id="cb2-5" title="5"><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>&lt;=<span class="ot">_</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">data</span> <span class="ot">_</span>&lt;=<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>  ltz <span class="ot">:</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> zero &lt;= n</span>
+<span id="cb2-3"><a href="#cb2-3"></a>  lt <span class="ot">:</span> <span class="ot">{</span>m <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> m &lt;= n <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> &lt;= <span class="ot">(</span>succ n<span class="ot">)</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>&lt;=<span class="ot">_</span></span></code></pre></div>
 <p>Some examples:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb3-1" title="1">idLess₁ <span class="ot">:</span> one &lt;= ten</a>
-<a class="sourceLine" id="cb3-2" title="2">idLess₁ <span class="ot">=</span> lt ltz</a>
-<a class="sourceLine" id="cb3-3" title="3"></a>
-<a class="sourceLine" id="cb3-4" title="4">idLess₂ <span class="ot">:</span> two &lt;= seven</a>
-<a class="sourceLine" id="cb3-5" title="5">idLess₂ <span class="ot">=</span> lt <span class="ot">(</span>lt ltz<span class="ot">)</span></a>
-<a class="sourceLine" id="cb3-6" title="6"></a>
-<a class="sourceLine" id="cb3-7" title="7">idLess₃ <span class="ot">:</span> three &lt;= nine</a>
-<a class="sourceLine" id="cb3-8" title="8">idLess₃ <span class="ot">=</span> lt <span class="ot">(</span>lt <span class="ot">(</span>lt ltz<span class="ot">))</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a>idLess₁ <span class="ot">:</span> one &lt;= ten</span>
+<span id="cb3-2"><a href="#cb3-2"></a>idLess₁ <span class="ot">=</span> lt ltz</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a>idLess₂ <span class="ot">:</span> two &lt;= seven</span>
+<span id="cb3-5"><a href="#cb3-5"></a>idLess₂ <span class="ot">=</span> lt <span class="ot">(</span>lt ltz<span class="ot">)</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7"></a>idLess₃ <span class="ot">:</span> three &lt;= nine</span>
+<span id="cb3-8"><a href="#cb3-8"></a>idLess₃ <span class="ot">=</span> lt <span class="ot">(</span>lt <span class="ot">(</span>lt ltz<span class="ot">))</span></span></code></pre></div>
 <p>If we try to compile something that is not true, the compiler will throw an error:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" title="1">idLess&#39; <span class="op">:</span> ten <span class="op">&lt;=</span> three</a>
-<a class="sourceLine" id="cb4-2" title="2">idLess&#39; <span class="ot">=</span> lt lt lt lt lt lt lt lt lt ltz</a></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" title="1">proofsAsData.lagda.md:<span class="dv">68</span>,<span class="dv">14-16</span></a>
-<a class="sourceLine" id="cb5-2" title="2">(_m_30 <span class="op">&lt;=</span> _n_31 → succ _m_30 <span class="op">&lt;=</span> succ _n_31) <span class="op">!=&lt;</span> (nine <span class="op">&lt;=</span> two) of</a>
-<a class="sourceLine" id="cb5-3" title="3"><span class="bu">type</span> Set</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1"></a>idLess&#39; <span class="op">:</span> ten <span class="op">&lt;=</span> three</span>
+<span id="cb4-2"><a href="#cb4-2"></a>idLess&#39; <span class="ot">=</span> lt lt lt lt lt lt lt lt lt ltz</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>proofsAsData.lagda.md:<span class="dv">68</span>,<span class="dv">14-16</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>(_m_30 <span class="op">&lt;=</span> _n_31 → succ _m_30 <span class="op">&lt;=</span> succ _n_31) <span class="op">!=&lt;</span> (nine <span class="op">&lt;=</span> two) of</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="bu">type</span> Set</span></code></pre></div>
 <h2 id="odd-or-even">Odd or Even</h2>
 <p>The odd or even proofs can be defined as in the previous proof. Here we successively decrement <code>n</code> till we:</p>
 <ul>
 <li>reach <code>even₀</code> to prove <code>n</code> is even</li>
 <li>reach <code>odd₀</code> to prove <code>n</code> is odd</li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">data</span> Even <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span></a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="kw">data</span> Odd <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span></a>
-<a class="sourceLine" id="cb6-3" title="3"></a>
-<a class="sourceLine" id="cb6-4" title="4"><span class="kw">data</span> Even <span class="kw">where</span></a>
-<a class="sourceLine" id="cb6-5" title="5">  zeroIsEven <span class="ot">:</span> Even zero</a>
-<a class="sourceLine" id="cb6-6" title="6">  succ <span class="ot">:</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> Even n <span class="ot">→</span> Even <span class="ot">(</span>succ <span class="ot">(</span>succ n<span class="ot">))</span></a>
-<a class="sourceLine" id="cb6-7" title="7"></a>
-<a class="sourceLine" id="cb6-8" title="8"><span class="kw">data</span> Odd <span class="kw">where</span></a>
-<a class="sourceLine" id="cb6-9" title="9">  oneIsOdd <span class="ot">:</span> Odd one</a>
-<a class="sourceLine" id="cb6-10" title="10">  succ <span class="ot">:</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> Odd n <span class="ot">→</span> Odd <span class="ot">(</span>succ <span class="ot">(</span>succ n<span class="ot">))</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">data</span> Even <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">data</span> Odd <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="kw">data</span> Even <span class="kw">where</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>  zeroIsEven <span class="ot">:</span> Even zero</span>
+<span id="cb6-6"><a href="#cb6-6"></a>  succ <span class="ot">:</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> Even n <span class="ot">→</span> Even <span class="ot">(</span>succ <span class="ot">(</span>succ n<span class="ot">))</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="kw">data</span> Odd <span class="kw">where</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a>  oneIsOdd <span class="ot">:</span> Odd one</span>
+<span id="cb6-10"><a href="#cb6-10"></a>  succ <span class="ot">:</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> Odd n <span class="ot">→</span> Odd <span class="ot">(</span>succ <span class="ot">(</span>succ n<span class="ot">))</span></span></code></pre></div>
 <p>by which we could prove:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb7-1" title="1">twoisEven <span class="ot">:</span> Even two</a>
-<a class="sourceLine" id="cb7-2" title="2">twoisEven <span class="ot">=</span> succ zeroIsEven</a>
-<a class="sourceLine" id="cb7-3" title="3"></a>
-<a class="sourceLine" id="cb7-4" title="4">isFourEven <span class="ot">:</span> Even four</a>
-<a class="sourceLine" id="cb7-5" title="5">isFourEven <span class="ot">=</span> succ <span class="ot">(</span>succ zeroIsEven<span class="ot">)</span></a>
-<a class="sourceLine" id="cb7-6" title="6"></a>
-<a class="sourceLine" id="cb7-7" title="7">isSevenOdd <span class="ot">:</span> Odd seven</a>
-<a class="sourceLine" id="cb7-8" title="8">isSevenOdd <span class="ot">=</span> succ <span class="ot">(</span>succ <span class="ot">(</span>succ oneIsOdd<span class="ot">))</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a>twoisEven <span class="ot">:</span> Even two</span>
+<span id="cb7-2"><a href="#cb7-2"></a>twoisEven <span class="ot">=</span> succ zeroIsEven</span>
+<span id="cb7-3"><a href="#cb7-3"></a></span>
+<span id="cb7-4"><a href="#cb7-4"></a>isFourEven <span class="ot">:</span> Even four</span>
+<span id="cb7-5"><a href="#cb7-5"></a>isFourEven <span class="ot">=</span> succ <span class="ot">(</span>succ zeroIsEven<span class="ot">)</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a></span>
+<span id="cb7-7"><a href="#cb7-7"></a>isSevenOdd <span class="ot">:</span> Odd seven</span>
+<span id="cb7-8"><a href="#cb7-8"></a>isSevenOdd <span class="ot">=</span> succ <span class="ot">(</span>succ <span class="ot">(</span>succ oneIsOdd<span class="ot">))</span></span></code></pre></div>
 <h2 id="equality-of-natural-numbers">Equality of natural numbers</h2>
 <p>Equality of natural numbers can be proven by successively comparing decrements of them, till we reach <code>0 = 0</code>. Else the computation never terminates:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></a>
-<a class="sourceLine" id="cb8-2" title="2">  eq₀ <span class="ot">:</span> zero ≡ zero</a>
-<a class="sourceLine" id="cb8-3" title="3">  eq <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>n m<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>succ n<span class="ot">)</span> ≡ <span class="ot">(</span>succ m<span class="ot">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>  eq₀ <span class="ot">:</span> zero ≡ zero</span>
+<span id="cb8-3"><a href="#cb8-3"></a>  eq <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>n m<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>succ n<span class="ot">)</span> ≡ <span class="ot">(</span>succ m<span class="ot">)</span></span></code></pre></div>
 <p>Similar for not equals:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">data</span> <span class="ot">_</span>≠<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></a>
-<a class="sourceLine" id="cb9-2" title="2">  neq₀ <span class="ot">:</span> <span class="ot">∀</span> n <span class="ot">→</span> n ≠ zero</a>
-<a class="sourceLine" id="cb9-3" title="3">  neq₁ <span class="ot">:</span> <span class="ot">∀</span> m <span class="ot">→</span> zero ≠ m</a>
-<a class="sourceLine" id="cb9-4" title="4">  neq <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span> n m <span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>succ n<span class="ot">)</span> ≠ <span class="ot">(</span>succ m<span class="ot">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">data</span> <span class="ot">_</span>≠<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>  neq₀ <span class="ot">:</span> <span class="ot">∀</span> n <span class="ot">→</span> n ≠ zero</span>
+<span id="cb9-3"><a href="#cb9-3"></a>  neq₁ <span class="ot">:</span> <span class="ot">∀</span> m <span class="ot">→</span> zero ≠ m</span>
+<span id="cb9-4"><a href="#cb9-4"></a>  neq <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span> n m <span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>succ n<span class="ot">)</span> ≠ <span class="ot">(</span>succ m<span class="ot">)</span></span></code></pre></div>
 <h2 id="belongs-to">Belongs to</h2>
 <p>To prove that a particular element of type <code>A</code> belongs to a list <code>List'</code> of type <code>A</code>, we require:</p>
 <ul>
@@ -177,17 +178,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul>
 <p>where <code>list₁</code> is <code>list</code> without <code>y</code>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">data</span> <span class="ot">_</span>∈<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> List A <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></a>
-<a class="sourceLine" id="cb10-2" title="2">  refl <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>xs<span class="ot">}</span> <span class="ot">→</span> x ∈ <span class="ot">(</span>x :: xs<span class="ot">)</span></a>
-<a class="sourceLine" id="cb10-3" title="3">  succ∈ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>y xs<span class="ot">}</span> <span class="ot">→</span> x ∈ xs <span class="ot">→</span> x ∈ <span class="ot">(</span>y :: xs<span class="ot">)</span></a>
-<a class="sourceLine" id="cb10-4" title="4"></a>
-<a class="sourceLine" id="cb10-5" title="5"><span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>∈<span class="ot">_</span></a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">data</span> <span class="ot">_</span>∈<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> List A <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>  refl <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>xs<span class="ot">}</span> <span class="ot">→</span> x ∈ <span class="ot">(</span>x :: xs<span class="ot">)</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a>  succ∈ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>y xs<span class="ot">}</span> <span class="ot">→</span> x ∈ xs <span class="ot">→</span> x ∈ <span class="ot">(</span>y :: xs<span class="ot">)</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>∈<span class="ot">_</span></span></code></pre></div>
 <p>Example:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><a class="sourceLine" id="cb11-1" title="1">theList <span class="ot">:</span> List ℕ</a>
-<a class="sourceLine" id="cb11-2" title="2">theList <span class="ot">=</span> one :: two :: four :: seven :: three :: []</a>
-<a class="sourceLine" id="cb11-3" title="3"></a>
-<a class="sourceLine" id="cb11-4" title="4">threeIsInList <span class="ot">:</span> three ∈ theList</a>
-<a class="sourceLine" id="cb11-5" title="5">threeIsInList <span class="ot">=</span> succ∈ <span class="ot">(</span>succ∈ <span class="ot">(</span>succ∈ <span class="ot">(</span>succ∈ refl<span class="ot">)))</span></a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1"></a>theList <span class="ot">:</span> List ℕ</span>
+<span id="cb11-2"><a href="#cb11-2"></a>theList <span class="ot">=</span> one :: two :: four :: seven :: three :: []</span>
+<span id="cb11-3"><a href="#cb11-3"></a></span>
+<span id="cb11-4"><a href="#cb11-4"></a>threeIsInList <span class="ot">:</span> three ∈ theList</span>
+<span id="cb11-5"><a href="#cb11-5"></a>threeIsInList <span class="ot">=</span> succ∈ <span class="ot">(</span>succ∈ <span class="ot">(</span>succ∈ <span class="ot">(</span>succ∈ refl<span class="ot">)))</span></span></code></pre></div>
 <h1 id="curry-howard-isomorphism">Curry-Howard Isomorphism</h1>
 <p>The relationship we saw earlier between <a href="./Types.proofsAsData.html">formal proofs and computer programs</a> is called the <strong>Curry-Howard isomorphism</strong>, also known as the <strong>Curry-Howard correspondence</strong>. This states that a proof is a program and the formula it proves is the type of the program. Broadly, they discovered that logical operations have analogues in types as can be seen below:</p>
 <table>
