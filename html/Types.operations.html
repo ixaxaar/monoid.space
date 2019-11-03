@@ -76,7 +76,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../css/agda.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -115,9 +114,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-5"><a href="#cb1-5"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
 <span id="cb1-6"><a href="#cb1-6"></a></span>
 <span id="cb1-7"><a href="#cb1-7"></a><span class="kw">module</span> Types<span class="ot">.</span>operations <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(_</span>==<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="kw">where</span></span></code></pre></div>
-<p>A binary operation <span class="math inline">\(★\)</span> on a set A is a function (function type!) that takes two elements of type A and returns an element of A:</p>
+<p>A binary operation $ ★ $ on a set A is a function (function type!) that takes two elements of type A and returns an element of A:</p>
 <pre class="math"><code>★ : A × A → A</code></pre>
-<p>More often the operation is applied to the two objects <code>x, y ∈ A</code> as <span class="math inline">\(x ★ y\)</span>.</p>
+<p>More often the operation is applied to the two objects <code>x, y ∈ A</code> as $ x ★ y $.</p>
 <p>A unary operation on the other hand operates on only one element of A to return an element of A:</p>
 <pre class="math"><code>♠ : A → A</code></pre>
 <p>In agda, a homogenous binary operation <code>★ A</code> can be defined as:</p>
@@ -273,8 +272,8 @@ if a₁ ≡ a₂,
 then b₁ ≡ b₂</code></pre>
 <p>A congruent relation preserves equivalences:</p>
 <ul>
-<li>for binary relation <code>♣</code>, if <span class="math inline">\((x₁, y₁) == (x₂, y₂)\)</span> then <span class="math inline">\((x₁ ♣ y₁) == (x₂ ♣ y₂)\)</span>.</li>
-<li>for unary relation <code>♡</code>, if <span class="math inline">\(x == y\)</span> then <span class="math inline">\(♡ x == ♡ y\)</span>.</li>
+<li>for binary relation <code>♣</code>, if $ (x₁, y₁) == (x₂, y₂) $ then $ (x₁ ♣ y₁) == (x₂ ♣ y₂) $.</li>
+<li>for unary relation <code>♡</code>, if $ x == y $ then $ ♡ x == ♡ y $.</li>
 </ul>
 <div class="sourceCode" id="cb23"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb23-1"><a href="#cb23-1"></a>  Congruent₁ <span class="ot">:</span> ♠ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb23-2"><a href="#cb23-2"></a>  Congruent₁ f <span class="ot">=</span> f Preserves <span class="ot">_</span>==<span class="ot">_</span> ⟶ <span class="ot">_</span>==<span class="ot">_</span></span>
@@ -288,7 +287,7 @@ then b₁ ≡ b₂</code></pre>
 <span id="cb23-10"><a href="#cb23-10"></a>  RightCongruent <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb23-11"><a href="#cb23-11"></a>  RightCongruent <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>x ∙<span class="ot">_)</span> Preserves <span class="ot">_</span>==<span class="ot">_</span> ⟶ <span class="ot">_</span>==<span class="ot">_</span></span></code></pre></div>
 <h2 id="respecting-an-relation">Respecting an relation</h2>
-<p>We finally define what we mean by a functions “respects” an operation or is invariant of it. For a function <span class="math inline">\(f\)</span> and an operation <span class="math inline">\(∘\)</span>, if <span class="math inline">\(x ∘ y ⟹ f(x) ∘ f(y)\)</span>, we say the function <span class="math inline">\(f\)</span> respects the operation <span class="math inline">\(∘\)</span>. We define two versions of this utility here</p>
+<p>We finally define what we mean by a functions “respects” an operation or is invariant of it. For a function $ f $ and an operation $ ∘ $, if $ x ∘ y ⟹ f(x) ∘ f(y) $, we say the function $ f $ respects the operation $ ∘ $. We define two versions of this utility here</p>
 <ul>
 <li><code>_Respects_</code> for already commutative laws</li>
 <li><code>_Respects₂_</code> which combines left <code>_Respectsˡ_</code> and right <code>_Respectsʳ_</code> laws</li>

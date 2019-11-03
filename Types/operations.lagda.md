@@ -37,13 +37,13 @@ open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 module Types.operations {a ℓ} {A : Set a} (_==_ : Rel A ℓ) where
 ```
 
-A binary operation $★$ on a set A is a function (function type!) that takes two elements of type A and returns an element of A:
+A binary operation $ ★ $ on a set A is a function (function type!) that takes two elements of type A and returns an element of A:
 
 ```math
 ★ : A × A → A
 ```
 
-More often the operation is applied to the two objects `x, y ∈ A` as $x ★ y$.
+More often the operation is applied to the two objects `x, y ∈ A` as $ x ★ y $.
 
 A unary operation on the other hand operates on only one element of A to return an element of A:
 
@@ -270,8 +270,8 @@ then b₁ ≡ b₂
 
 A congruent relation preserves equivalences:
 
-- for binary relation `♣`, if $(x₁, y₁) == (x₂, y₂)$ then $(x₁ ♣ y₁) == (x₂ ♣ y₂)$.
-- for unary relation `♡`, if $x == y$ then $♡ x == ♡ y$.
+- for binary relation `♣`, if $ (x₁, y₁) == (x₂, y₂) $ then $ (x₁ ♣ y₁) == (x₂ ♣ y₂) $.
+- for unary relation `♡`, if $ x == y $ then $ ♡ x == ♡ y $.
 
 ```agda
   Congruent₁ : ♠ A → Set _
@@ -289,7 +289,7 @@ A congruent relation preserves equivalences:
 
 ## Respecting an relation
 
-We finally define what we mean by a functions "respects" an operation or is invariant of it. For a function $f$ and an operation $∘$, if  $x ∘ y ⟹ f(x) ∘ f(y)$, we say the function $f$ respects the operation $∘$. We define two versions of this utility here
+We finally define what we mean by a functions "respects" an operation or is invariant of it. For a function $ f $ and an operation $ ∘ $, if  $ x ∘ y ⟹ f(x) ∘ f(y) $, we say the function $ f $ respects the operation $ ∘ $. We define two versions of this utility here
 
 - `_Respects_` for already commutative laws
 - `_Respects₂_` which combines left `_Respectsˡ_` and right `_Respectsʳ_` laws

@@ -8,7 +8,8 @@
 ****
 
 - [Fields and Real Numbers](#fields-and-real-numbers)
-- [Fields](#fields)
+  - [Fields](#fields)
+  - [Ordered Fields](#ordered-fields)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -28,7 +29,7 @@ module Algebra.real {a ℓ} {A : Set a} (_==_ : Rel A ℓ) where
 
 Real numbers are harder to construct as compared to natural numbers. The constructive definition of a real number is based on the algebraic object called "Field". We first define fields, followed by fields with ordering, also called "Ordered Fields". We then use the definitions of fields to construct real numbers. As a byproduct, we also show how to construct complex and rational numbers.
 
-# Fields
+## Fields
 
 In abstract algebra, a field has a very specific definition, which is different from the physics conception of a "thing spread across space". A field is, like real numbers, a bunch of objects (a set) for which addition, subtraction, multiplication and division operations are defined. Rational numbers, complex numbers as well as the set of binary values - 0 & 1, like real numbers, fall into this category. Another way to define fields is to define addition, multiplication and their inverses, i.e. subtraction and division, except at "0" - the identity element for multiplication. The formal definition of fields tries to capture all aspects of these operations.
 
@@ -110,7 +111,70 @@ We can construct a field
       }
 ```
 
+## Ordered Fields
 
+Ordered fields impose an additional restriction on fields: there has to be an order `≤` between members of 𝔽. This order is required to be a total order.
+
+```agda
+  record IsOrderedField (+ * : ★ A) (-_ ÷_ : ♠ A) (_≤_ : Rel A ℓ) (0# 1# : A) : Set (a ⊔ ℓ) where
+    field
+      +-isAbelianGroup : IsAbelianGroup + 0# -_
+      *-isAbelianGroup : IsAbelianGroup * 1# ÷_
+      distrib          : * DistributesOver +
+      zero             : Zero 0# *
+```
+
+
+    open IsAbelianGroup +-isAbelianGroup public
+      renaming
+      ( assoc               to +-assoc
+      ; ∙-cong              to +-cong
+      ; ∙-congˡ             to +-congˡ
+      ; ∙-congʳ             to +-congʳ
+      ; identity            to +-identity
+      ; identityˡ           to +-identityˡ
+      ; identityʳ           to +-identityʳ
+      ; inverse             to -‿inverse
+      ; inverseˡ            to -‿inverseˡ
+      ; inverseʳ            to -‿inverseʳ
+      ; ⁻¹-cong             to -‿cong
+      ; comm                to +-comm
+      ; isMagma             to +-isMagma
+      ; isSemigroup         to +-isSemigroup
+      ; isMonoid            to +-isMonoid
+      ; isCommutativeMonoid to +-isCommutativeMonoid
+      ; isGroup             to +-isGroup
+      )
+
+    open IsAbelianGroup *-isAbelianGroup public
+      using ()
+      renaming
+      ( assoc               to *-assoc
+      ; ∙-cong              to *-cong
+      ; ∙-congˡ             to *-congˡ
+      ; ∙-congʳ             to *-congʳ
+      ; identity            to *-identity
+      ; identityˡ           to *-identityˡ
+      ; identityʳ           to *-identityʳ
+      ; inverse             to ÷‿inverse
+      ; inverseˡ            to ÷‿inverseˡ
+      ; inverseʳ            to ÷‿inverseʳ
+      ; ⁻¹-cong             to ÷‿cong
+      ; comm                to *-comm
+      ; isMagma             to *-isMagma
+      ; isSemigroup         to *-isSemigroup
+      ; isMonoid            to *-isMonoid
+      ; isCommutativeMonoid to *-isCommutativeMonoid
+      ; isGroup             to *-isGroup
+      )
+
+    isRing : IsRing + * -_ 0# 1#
+    isRing = record
+      { +-isAbelianGroup = +-isAbelianGroup
+      ; *-isMonoid       = *-isMonoid
+      ; distrib          = distrib
+      ; zero             = zero
+      }
 
 ****
 [HoTT Introduction](./HoTT.introduction.html)

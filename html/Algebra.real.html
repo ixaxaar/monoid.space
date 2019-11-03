@@ -87,8 +87,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
 <ul>
-<li><a href="#fields-and-real-numbers">Fields and Real Numbers</a></li>
+<li><a href="#fields-and-real-numbers">Fields and Real Numbers</a>
+<ul>
 <li><a href="#fields">Fields</a></li>
+<li><a href="#ordered-fields">Ordered Fields</a></li>
+</ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="fields-and-real-numbers">Fields and Real Numbers</h1>
@@ -102,7 +105,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-8"><a href="#cb1-8"></a>  <span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups <span class="ot">(_</span>==<span class="ot">_)</span></span>
 <span id="cb1-9"><a href="#cb1-9"></a>  <span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>rings <span class="ot">(_</span>==<span class="ot">_)</span></span></code></pre></div>
 <p>Real numbers are harder to construct as compared to natural numbers. The constructive definition of a real number is based on the algebraic object called “Field”. We first define fields, followed by fields with ordering, also called “Ordered Fields”. We then use the definitions of fields to construct real numbers. As a byproduct, we also show how to construct complex and rational numbers.</p>
-<h1 id="fields">Fields</h1>
+<h2 id="fields">Fields</h2>
 <p>In abstract algebra, a field has a very specific definition, which is different from the physics conception of a “thing spread across space”. A field is, like real numbers, a bunch of objects (a set) for which addition, subtraction, multiplication and division operations are defined. Rational numbers, complex numbers as well as the set of binary values - 0 &amp; 1, like real numbers, fall into this category. Another way to define fields is to define addition, multiplication and their inverses, i.e. subtraction and division, except at “0” - the identity element for multiplication. The formal definition of fields tries to capture all aspects of these operations.</p>
 <p>A field is defined as a set with two operations - addition and multiplication. Thus, an operation on a field would be a function type with the signature <code>F : 𝔽 → 𝔽 → 𝔽</code> where <code>𝔽</code> is the set of objects in the field. The operations are required to have the following structure:</p>
 <ul>
@@ -173,6 +176,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-55"><a href="#cb2-55"></a>      <span class="ot">;</span> distrib          <span class="ot">=</span> distrib</span>
 <span id="cb2-56"><a href="#cb2-56"></a>      <span class="ot">;</span> zero             <span class="ot">=</span> zero</span>
 <span id="cb2-57"><a href="#cb2-57"></a>      <span class="ot">}</span></span></code></pre></div>
+<h2 id="ordered-fields">Ordered Fields</h2>
+<p>Ordered fields impose an additional restriction on fields: there has to be an order <code>≤</code> between members of 𝔽. This order is required to be a total order.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a>  <span class="kw">record</span> IsOrderedField <span class="ot">(</span>+ * <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>-<span class="ot">_</span> ÷<span class="ot">_</span> <span class="ot">:</span> ♠ A<span class="ot">)</span> <span class="ot">(_</span>≤<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="ot">(</span>0# 1# <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>    <span class="kw">field</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>      +-isAbelianGroup <span class="ot">:</span> IsAbelianGroup + 0# -<span class="ot">_</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>      *-isAbelianGroup <span class="ot">:</span> IsAbelianGroup * 1# ÷<span class="ot">_</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>      distrib          <span class="ot">:</span> * DistributesOver +</span>
+<span id="cb3-6"><a href="#cb3-6"></a>      zero             <span class="ot">:</span> Zero 0# *</span></code></pre></div>
+<pre><code>open IsAbelianGroup +-isAbelianGroup public
+  renaming
+  ( assoc               to +-assoc
+  ; ∙-cong              to +-cong
+  ; ∙-congˡ             to +-congˡ
+  ; ∙-congʳ             to +-congʳ
+  ; identity            to +-identity
+  ; identityˡ           to +-identityˡ
+  ; identityʳ           to +-identityʳ
+  ; inverse             to -‿inverse
+  ; inverseˡ            to -‿inverseˡ
+  ; inverseʳ            to -‿inverseʳ
+  ; ⁻¹-cong             to -‿cong
+  ; comm                to +-comm
+  ; isMagma             to +-isMagma
+  ; isSemigroup         to +-isSemigroup
+  ; isMonoid            to +-isMonoid
+  ; isCommutativeMonoid to +-isCommutativeMonoid
+  ; isGroup             to +-isGroup
+  )
+
+open IsAbelianGroup *-isAbelianGroup public
+  using ()
+  renaming
+  ( assoc               to *-assoc
+  ; ∙-cong              to *-cong
+  ; ∙-congˡ             to *-congˡ
+  ; ∙-congʳ             to *-congʳ
+  ; identity            to *-identity
+  ; identityˡ           to *-identityˡ
+  ; identityʳ           to *-identityʳ
+  ; inverse             to ÷‿inverse
+  ; inverseˡ            to ÷‿inverseˡ
+  ; inverseʳ            to ÷‿inverseʳ
+  ; ⁻¹-cong             to ÷‿cong
+  ; comm                to *-comm
+  ; isMagma             to *-isMagma
+  ; isSemigroup         to *-isSemigroup
+  ; isMonoid            to *-isMonoid
+  ; isCommutativeMonoid to *-isCommutativeMonoid
+  ; isGroup             to *-isGroup
+  )
+
+isRing : IsRing + * -_ 0# 1#
+isRing = record
+  { +-isAbelianGroup = +-isAbelianGroup
+  ; *-isMonoid       = *-isMonoid
+  ; distrib          = distrib
+  ; zero             = zero
+  }</code></pre>
 <hr />
 <p><a href="./HoTT.introduction.html">HoTT Introduction</a></p>
 </body>
