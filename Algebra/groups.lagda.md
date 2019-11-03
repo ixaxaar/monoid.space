@@ -266,6 +266,14 @@ An Abelian group, named after Niels Henrik Abel, is a group and requires its ope
       comm    : Commutative ∙
 
     open IsGroup isGroup public
+
+    isCommutativeMonoid : IsCommutativeMonoid ∙ x
+    isCommutativeMonoid = record
+      { isSemigroup = isSemigroup
+      ; identityˡ   = identityˡ
+      ; identityʳ   = identityʳ
+      ; comm        = comm
+      }
 ```
 
 

@@ -390,7 +390,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb10-3"><a href="#cb10-3"></a>      isGroup <span class="ot">:</span> IsGroup ∙ x ⁻¹</span>
 <span id="cb10-4"><a href="#cb10-4"></a>      comm    <span class="ot">:</span> Commutative ∙</span>
 <span id="cb10-5"><a href="#cb10-5"></a></span>
-<span id="cb10-6"><a href="#cb10-6"></a>    <span class="kw">open</span> IsGroup isGroup <span class="kw">public</span></span></code></pre></div>
+<span id="cb10-6"><a href="#cb10-6"></a>    <span class="kw">open</span> IsGroup isGroup <span class="kw">public</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a></span>
+<span id="cb10-8"><a href="#cb10-8"></a>    isCommutativeMonoid <span class="ot">:</span> IsCommutativeMonoid ∙ x</span>
+<span id="cb10-9"><a href="#cb10-9"></a>    isCommutativeMonoid <span class="ot">=</span> <span class="kw">record</span></span>
+<span id="cb10-10"><a href="#cb10-10"></a>      <span class="ot">{</span> isSemigroup <span class="ot">=</span> isSemigroup</span>
+<span id="cb10-11"><a href="#cb10-11"></a>      <span class="ot">;</span> identityˡ   <span class="ot">=</span> identityˡ</span>
+<span id="cb10-12"><a href="#cb10-12"></a>      <span class="ot">;</span> identityʳ   <span class="ot">=</span> identityʳ</span>
+<span id="cb10-13"><a href="#cb10-13"></a>      <span class="ot">;</span> comm        <span class="ot">=</span> comm</span>
+<span id="cb10-14"><a href="#cb10-14"></a>      <span class="ot">}</span></span></code></pre></div>
 <hr />
 <p><a href="./Algebra.groups2.html">Groups and family 2</a></p>
 </body>
