@@ -77,8 +77,9 @@
   - [Groups and family](./Algebra.groups.html)
   - [Groups and family 2](./Algebra.groups2.html)
   - [Properties of Group-like objects *todo*](./Algebra.groupProperties.html)
-  <!-- - [Rings and family](./Algebra.rings.html) -->
+  - [Rings and family](./Algebra.rings.html)
   <!-- - [Properties of Ring-like objects](./Algebra.ringProperties.html) -->
+  - [Real Numbers](./Algebra.real.html)
 
 ## 7. Homotopy Type Theory
 
@@ -144,6 +145,8 @@ import Algebra.order
 import Algebra.groups
 import Algebra.groups2
 import Algebra.groupProperties
+import Algebra.rings
+import Algebra.real
 ```
 
 ****

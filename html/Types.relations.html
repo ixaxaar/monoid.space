@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>relations.lagda</title>
+  <title>Types/relations</title>
   <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -121,7 +121,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="properties-of-relations">Properties of relations</h2>
 <p>Relations can conform to certain properties, which later come in handy for classifying relations and building a lot of mathematical structure.</p>
 <h3 id="reflexive">Reflexive</h3>
-<p>A reflexive relation is one where <span class="math inline">\(x \bullet y = y \bullet x\)</span>:</p>
+<p>A reflexive relation is one where $ x ∙ y = y ∙ x $:</p>
 <figure>
 <img src="refl.png" alt="" /><figcaption>Figure 1: Refl</figcaption>
 </figure>
@@ -130,7 +130,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-3"><a href="#cb4-3"></a>  <span class="ot">→</span> <span class="dt">Set</span></span>
 <span id="cb4-4"><a href="#cb4-4"></a>reflexive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ★ x</span></code></pre></div>
 <h3 id="symmetric">Symmetric</h3>
-<p>A symmetric relation is one where <span class="math inline">\(x \bullet y \implies y \bullet x\)</span>:</p>
+<p>A symmetric relation is one where $ x ∙ y ⟹ y ∙ x $:</p>
 <figure>
 <img src="symmetric.png" alt="" /><figcaption>Figure 2: Symmetric</figcaption>
 </figure>
@@ -139,7 +139,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-3"><a href="#cb5-3"></a>  <span class="ot">→</span> x ★ y</span>
 <span id="cb5-4"><a href="#cb5-4"></a>  <span class="ot">→</span> y ★ x</span></code></pre></div>
 <h3 id="transitive">Transitive</h3>
-<p>A transitive relation is one where <span class="math inline">\(x \bullet y, y \bullet z ~then~ z \bullet x\)</span>:</p>
+<p>A transitive relation is one where $ x ∙ y, y ∙ z <sub>then</sub> z ∙ x $:</p>
 <figure>
 <img src="transitive.png" alt="" /><figcaption>Figure 3: Transitive</figcaption>
 </figure>
@@ -149,13 +149,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-4"><a href="#cb6-4"></a>  <span class="ot">→</span> y ★ z</span>
 <span id="cb6-5"><a href="#cb6-5"></a>  <span class="ot">→</span> x ★ z</span></code></pre></div>
 <h3 id="congruent">Congruent</h3>
-<p>A congruent relation is one where a function <span class="math inline">\(x \bullet y \implies f(x) \bullet f(y)\)</span> or the function <code>f</code> preserves the relation :</p>
+<p>A congruent relation is one where a function <span class="math display">\[ x ∙ y ⟹ f(x) ∙ f(y) \]</span> or the function <code>f</code> preserves the relation :</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a>congruent <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a>congruent <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> A<span class="ot">)(</span>x y <span class="ot">:</span> A<span class="ot">)</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a>  <span class="ot">→</span> x ★ y</span>
 <span id="cb7-4"><a href="#cb7-4"></a>  <span class="ot">→</span> f x ★ f y</span></code></pre></div>
 <h3 id="substitutive">Substitutive</h3>
-<p>A substitutive relation is one where <span class="math inline">\(x \bullet y ~and~ (predicate~ y) = ⊤ \implies (predicate~ x) = ⊤\)</span> :</p>
+<p>A substitutive relation is one where <span class="math display">\[ x ∙ y ~and~ (predicate~ y) = ⊤ ⟹ (predicate~ x) = ⊤ \]</span> :</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a>substitutive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set1</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a>substitutive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>P <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)(</span>x y <span class="ot">:</span> A<span class="ot">)</span></span>
 <span id="cb8-3"><a href="#cb8-3"></a>  <span class="ot">→</span> x ★ y</span>
@@ -164,9 +164,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1 id="equivalence-relation">Equivalence relation</h1>
 <p>An equivalence relation is a relation which is:</p>
 <ul>
-<li>reflexive <span class="math inline">\(a = a\)</span></li>
-<li>symmetric <span class="math inline">\(if~ a = b ~then~ b = a\)</span></li>
-<li>transitive <span class="math inline">\(if~ a = b ~and~ b = c ~then~ a = c\)</span></li>
+<li>reflexive: a = a</li>
+<li>symmetric: if a = b then b = a</li>
+<li>transitive: if a = b and b = c then a = c</li>
 </ul>
 <p>All forms of what we know as “equality” are equivalence relations. They help in identifying similar objects and can be “weak” or “strong” depending upon how much similarity they capture of the objects they compare. For e.g. all “tables” fall under one equivalence class wherein when we refer to a generic “table” we mean as in all tables as equal. Whereas, if we were comparing tables amongst themselves, we’d use other finer criteria in our equivalence relations, classifying some tables as coffee tables and so on.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">record</span> Equivalence <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set1</span> <span class="kw">where</span></span>

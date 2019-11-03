@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Logic/introduction</title>
+  <title>Algebra/real</title>
   <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -87,14 +87,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
 <ul>
-<li><a href="#introduction">Introduction</a></li>
+<li><a href="#real-numbers">Real Numbers</a></li>
+<li><a href="#fields">Fields</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<h1 id="introduction">Introduction</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Logic<span class="ot">.</span>introduction <span class="kw">where</span></span></code></pre></div>
-<p>Boolean algebra is a branch of mathematics dealing with formalized logic, and is closest to the programmer’s daily toolbox than any other branch of mathematics, except, say, arithmetic. Our computing infrastructure is built around binary values, and hence, computing systems are essentially compound machines consisting of simpler uints that perform logical operations, think digital gates and circuits. In fact, the invention of logic gates that essentially ushered this new era of computing that we assume the reader to be familiar with.</p>
-<p>We try to formally state the system of Logic and its mathematical machinery, consisting of various relations, transformations and laws using the language of Type Theory represented by Agda. We begin with the basics of logic - its objects and operations on those objects, then move on to constructively proving the laws of Boolean algebra. In doing this, we also intend to provide a basic intoduction on how a branch of mathematics can be formalized in Agda.</p>
+<h1 id="real-numbers">Real Numbers</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>operations</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">module</span> Algebra<span class="ot">.</span>real <span class="kw">where</span></span></code></pre></div>
+<p>Real numbers are harder to construct as compared to natural numbers. The constructive definition of a real number is based on the algebraic object called “Field”. We first define fields, followed by fields with ordering, also called “Ordered Fields”. We then use the definitions of fields to construct real numbers. As a byproduct, we also show how to construct complex and rational numbers.</p>
+<h1 id="fields">Fields</h1>
+<p>In abstract algebra, a field has a very specific definition, which is different from the physics conception of a “thing spread across space”. A field is, like real numbers, a bunch of objects (a set) for which addition, subtraction, multiplication and division operations are defined. Rational numbers, complex numbers as well as the set of binary values - 0 &amp; 1, like real numbers, fall into this category. Another way to define fields is to define addition, multiplication and their inverses, i.e. subtraction and division, except at “0” - the identity element for multiplication. The formal definition of fields tries to capture all aspects of these operations.</p>
+<p>A field is defined as a set with two operations - addition and multiplication. Thus, an operation on a field would be a function type with the signature <code>F : 𝜟 → 𝜟 → 𝜟</code> where <code>𝜟</code> is the set of objects in the field. The operations are required to have the following structure:</p>
+<ul>
+<li><strong>Associativity</strong>: both operations must be associative, i.e. <code>a + (b + c) = (a + b) + c</code> and <code>a · (b · c) = (a · b) · c</code>.</li>
+<li><strong>Commutativity</strong>: both operations must commute - <code>a + b = b + a</code> and <code>a · b = b · a</code>.</li>
+<li><strong>Identities</strong>: both operations must have identities and these identities must be different. <code>a + ι = a</code> and <code>a ⋅ ℑ = ℑ</code>.</li>
+<li><strong>Inverses</strong>: both operations must have inverse operations, i.e. subtraction and division must exist.</li>
+<li><strong>Distributivity</strong>: both operations must be distributive, i.e. <code>a · (b + c) = (a · b) + (a · c)</code>.</li>
+</ul>
+<p>where <code>a, b, c ∈ 𝜟</code>.</p>
+<pre class="ladagda"><code>record Field {ℓ} {A : Set ℓ}()</code></pre>
 <hr />
-<p><a href="./Logic.logicBasics.html">Boolean Algebra</a></p>
+<p><a href="./Algrbra.system_f.html">System F</a></p>
 </body>
 </html>

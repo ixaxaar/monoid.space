@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>groups2.lagda</title>
+  <title>Algebra/groups2</title>
   <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -93,10 +93,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="#semigroupoid">Semigroupoid</a></li>
 <li><a href="#small-category">Small category</a></li>
 <li><a href="#semigroup">Semigroup</a></li>
-<li><a href="#groupoid">Groupoid</a>
-<ul>
+<li><a href="#groupoid">Groupoid</a></li>
 <li><a href="#monoid">Monoid</a></li>
-</ul></li>
 <li><a href="#commutative-monoid">Commutative Monoid</a></li>
 <li><a href="#group">Group</a></li>
 <li><a href="#abelian-group">Abelian Group</a></li>
@@ -104,7 +102,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="groups-and-family-2">Groups and family 2</h1>
-<p>Here we define the objects based on the conditions defined in the previous section.</p>
+<p>Here we define the objects based on the conditions defined in the previous section. It might be helpful here to think of <code>Data</code> fields as datatypes as used in computer sciences, and the objects as the structure defined on operations of that datatype. For e.g. if a datatype’s equivalence (or equality evaluator) happens to be congruent, then the datatype and its equivalence relation form a “magma”. Thus the object itself encodes the relationship of a datatype with an operation.</p>
+<p>Such structures can often be applied in computer science in curious ways, such as using the monoidal functions (μ: T → T → T) for reduce operations (part of “map-reduce” in big data), progressively “reducing” a large quantity of <code>T</code>s into one final value of type <code>T</code>, e.g. addition of an enormous list of numbers. Monoids, Groups and Semigroups form the basis for an arguably large number of patterns especially in functional programming.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Algebra<span class="ot">.</span>groups2 <span class="kw">where</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">using</span> <span class="ot">(</span>Rel<span class="ot">)</span></span>
@@ -156,6 +155,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-13"><a href="#cb5-13"></a>  semigroupoid <span class="ot">:</span> Semigroupoid c ℓ</span>
 <span id="cb5-14"><a href="#cb5-14"></a>  semigroupoid <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSemigroupoid <span class="ot">=</span> isSemigroupoid <span class="ot">}</span></span></code></pre></div>
 <h2 id="semigroup">Semigroup</h2>
+<p>Semigroups can be used in functional programming to abstract over associative operations for non-trivial datatypes, such as “adding” two dictionatries or “multiplying” a character (repeating it n times), etc.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">record</span> Semigroup c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a>  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a>  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span></span>
@@ -188,7 +188,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-16"><a href="#cb7-16"></a></span>
 <span id="cb7-17"><a href="#cb7-17"></a>  semigroupoid <span class="ot">:</span> Semigroupoid c ℓ</span>
 <span id="cb7-18"><a href="#cb7-18"></a>  semigroupoid <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> isSemigroupoid <span class="ot">=</span> isSemigroupoid <span class="ot">}</span></span></code></pre></div>
-<h3 id="monoid">Monoid</h3>
+<h2 id="monoid">Monoid</h2>
 <div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">record</span> Monoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a>  <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>∙<span class="ot">_</span></span>
 <span id="cb8-3"><a href="#cb8-3"></a>  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>==<span class="ot">_</span></span>

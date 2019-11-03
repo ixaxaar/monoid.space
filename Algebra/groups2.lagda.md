@@ -11,7 +11,7 @@
   - [Small category](#small-category)
   - [Semigroup](#semigroup)
   - [Groupoid](#groupoid)
-    - [Monoid](#monoid)
+  - [Monoid](#monoid)
   - [Commutative Monoid](#commutative-monoid)
   - [Group](#group)
   - [Abelian Group](#abelian-group)
@@ -21,7 +21,9 @@
 
 # Groups and family 2
 
-Here we define the objects based on the conditions defined in the previous section.
+Here we define the objects based on the conditions defined in the previous section. It might be helpful here to think of `Data` fields as datatypes as used in computer sciences, and the objects as the structure defined on operations of that datatype. For e.g. if a datatype's equivalence (or equality evaluator) happens to be congruent, then the datatype and its equivalence relation form a "magma". Thus the object itself encodes the relationship of a datatype with an operation.
+
+Such structures can often be applied in computer science in curious ways, such as using the monoidal functions (μ: T → T → T) for reduce operations (part of "map-reduce" in big data), progressively "reducing" a large quantity of `T`s into one final value of type `T`, e.g. addition of an enormous list of numbers. Monoids, Groups and Semigroups form the basis for an arguably large number of patterns especially in functional programming.
 
 ```agda
 module Algebra.groups2 where
@@ -94,6 +96,8 @@ record SmallCategory c ℓ : Set (lsuc (c ⊔ ℓ)) where
 
 ## Semigroup
 
+Semigroups can be used in functional programming to abstract over associative operations for non-trivial datatypes, such as "adding" two dictionatries or "multiplying" a character (repeating it n times), etc.
+
 ```agda
 record Semigroup c ℓ : Set (lsuc (c ⊔ ℓ)) where
   infixl 7 _∙_
@@ -133,7 +137,7 @@ record Groupoid c ℓ : Set (lsuc (c ⊔ ℓ)) where
   semigroupoid = record { isSemigroupoid = isSemigroupoid }
 ```
 
-### Monoid
+## Monoid
 
 ```agda
 record Monoid c ℓ : Set (lsuc (c ⊔ ℓ)) where

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>equational.lagda</title>
+  <title>Types/equational</title>
   <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -82,6 +82,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <![endif]-->
 </head>
 <body>
+<hr />
+<p><a href="contents.html">Contents</a></p>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
@@ -89,8 +91,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="#equational-reasoning">Equational Reasoning</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<hr />
-<p><a href="contents.html">Contents</a></p>
 <h1 id="equational-reasoning">Equational Reasoning</h1>
 <div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Types<span class="ot">.</span>equational <span class="kw">where</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
@@ -110,7 +110,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         1. The fact that a × a ≡ a²
         2. Commutativity of multiplication: a × b ≡ b × a
         3. Reflexivity of ≡ for a × b and b × a to add to 2 times
-= a² + 2 * a * b + b² 
+= a² + 2 * a * b + b²
 Q.E.D.</code></pre>
 <p>Each step of such a solution essentially follows through the rule of transitivity of equality. Hence setp₂ = step₁ + actions₁ and so on. We can write an apparatus to let us do exactly that in Agda. That apparatus is “equational reasoning”. Here, we define the framework on top of equivalence relations:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">module</span> ≡-Reasoning <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="kw">where</span></span>

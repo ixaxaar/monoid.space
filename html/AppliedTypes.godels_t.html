@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>godels_t.lagda</title>
+  <title>AppliedTypes/godels_t</title>
   <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -81,36 +81,112 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <![endif]-->
 </head>
 <body>
+<hr />
+<p><a href="contents.html">Contents</a></p>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
 <ul>
-<li><a href="#g%C3%B6dels-t">Gödel’s T</a></li>
+<li><a href="#g%C3%B6dels-t">Gödel’s T</a>
+<ul>
+<li><a href="#binary-operations">Binary operations</a></li>
+<li><a href="#prime-numbers">Prime numbers</a></li>
+<li><a href="#definability">Definability</a></li>
+</ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<hr />
-<p><a href="contents.html">Contents</a></p>
 <h1 id="gödels-t">Gödel’s T</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">module</span> AppliedTypes<span class="ot">.</span>godels<span class="ot">_</span>t <span class="kw">where</span></span></code></pre></div>
-<p>“Gödel’s T”, also known as “System T”, named after the mathematician <a href="https://en.wikipedia.org/wiki/Kurt_G%C3%B6del">Kurt Gödel</a>, is a system designed by Gödel to provide a consistency proof of arithmetic.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">renaming</span> <span class="ot">(</span>¬ <span class="kw">to</span> ¬-eq<span class="ot">)</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">open</span> <span class="kw">import</span> Level <span class="kw">using</span> <span class="ot">(</span>0ℓ<span class="ot">)</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(_</span>∪<span class="ot">_)</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">module</span> AppliedTypes<span class="ot">.</span>godels<span class="ot">_</span>t <span class="kw">where</span></span></code></pre></div>
+<p>“Gödel’s T”, also known as “System T”, named after the mathematician <a href="https://en.wikipedia.org/wiki/Kurt_G%C3%B6del">Kurt Gödel</a>, is a formal system designed by Gödel to provide a consistency proof of arithmetic. This system includes a type system based on booleans and natural numbers and allows primitive recursion.</p>
 <p>System T basically consists of natural numbers:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">data</span> ℕ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>  zero <span class="ot">:</span> ℕ</span>
 <span id="cb2-3"><a href="#cb2-3"></a>  succ <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ</span></code></pre></div>
-<p>binary operations on natural numbers:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">-- ⫼_ : ℕ → ℕ → ℕ</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co">-- ⫼ A = A → A → A</span></span></code></pre></div>
-<p>and functional application:</p>
-<pre class="snagda"><code>_$_ : {A : ℕ} {B : A → ℕ}
-        → ((x : A) → B x)
-        → ((x : A) → B x)
-f $ x = f x</code></pre>
-<p>Apart from the ability to only deal with functions on natural numbers, we also need recursion, lambda abstraction, all of which are part of agda itself.</p>
-<pre class="aesdknagda"><code>succ-nat : ∀ x → x → (succ x)
-succ-nat x = (succ x)</code></pre>
+<p>booleans:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">data</span> Bool <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>  true  <span class="ot">:</span> Bool</span>
+<span id="cb3-3"><a href="#cb3-3"></a>  false <span class="ot">:</span> Bool</span></code></pre></div>
+<p>if-then-else:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1"></a>if<span class="ot">_</span>then<span class="ot">_</span>else<span class="ot">_</span> <span class="ot">:</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Bool <span class="ot">→</span> C <span class="ot">→</span> C <span class="ot">→</span> C</span>
+<span id="cb4-2"><a href="#cb4-2"></a>if true  then x else y <span class="ot">=</span> x</span>
+<span id="cb4-3"><a href="#cb4-3"></a>if false then x else y <span class="ot">=</span> y</span></code></pre></div>
+<p>and recursion on natural numbers:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a>recₙ <span class="ot">:</span> <span class="ot">{</span>x <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> x <span class="ot">→</span> <span class="ot">(</span>ℕ <span class="ot">→</span> x <span class="ot">→</span> x<span class="ot">)</span> <span class="ot">→</span> ℕ <span class="ot">→</span> x</span>
+<span id="cb5-2"><a href="#cb5-2"></a>recₙ p h  zero    <span class="ot">=</span> p</span>
+<span id="cb5-3"><a href="#cb5-3"></a>recₙ p h <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> h n <span class="ot">(</span>recₙ p h n<span class="ot">)</span></span></code></pre></div>
+<h2 id="binary-operations">Binary operations</h2>
+<p>Addition and multiplication on natural numbers can be defined via recursion:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a><span class="ot">_</span>+<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> ℕ</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="ot">_</span>+<span class="ot">_</span> n m <span class="ot">=</span> recₙ m <span class="ot">(λ</span> x y <span class="ot">→</span> succ y<span class="ot">)</span> n</span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="ot">_</span>*<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> ℕ</span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="ot">_</span>*<span class="ot">_</span> n m <span class="ot">=</span> recₙ zero <span class="ot">(λ</span> x y <span class="ot">→</span> y + m<span class="ot">)</span> n</span>
+<span id="cb6-6"><a href="#cb6-6"></a></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="co">-- opposite direction of succ</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a>prev <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ</span>
+<span id="cb6-9"><a href="#cb6-9"></a>prev n <span class="ot">=</span> recₙ n <span class="ot">(λ</span> x y <span class="ot">→</span> x<span class="ot">)</span> n</span>
+<span id="cb6-10"><a href="#cb6-10"></a></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="ot">_</span>−<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> ℕ</span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="ot">_</span>−<span class="ot">_</span> n m <span class="ot">=</span> recₙ n <span class="ot">(λ</span> x y <span class="ot">→</span> <span class="ot">(</span>prev y<span class="ot">))</span> m</span>
+<span id="cb6-13"><a href="#cb6-13"></a></span>
+<span id="cb6-14"><a href="#cb6-14"></a><span class="kw">data</span> <span class="ot">_</span>≤<span class="ot">_</span> <span class="ot">:</span> Rel ℕ 0ℓ <span class="kw">where</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a>  z≤n <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>n<span class="ot">}</span>                 <span class="ot">→</span> zero  ≤ n</span>
+<span id="cb6-16"><a href="#cb6-16"></a>  s≤s <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>m n<span class="ot">}</span> <span class="ot">(</span>m≤n <span class="ot">:</span> m ≤ n<span class="ot">)</span> <span class="ot">→</span> succ m ≤ succ n</span>
+<span id="cb6-17"><a href="#cb6-17"></a></span>
+<span id="cb6-18"><a href="#cb6-18"></a><span class="ot">_</span>&lt;<span class="ot">_</span> <span class="ot">:</span> Rel ℕ 0ℓ</span>
+<span id="cb6-19"><a href="#cb6-19"></a>m &lt; n <span class="ot">=</span> succ m ≤ n</span>
+<span id="cb6-20"><a href="#cb6-20"></a></span>
+<span id="cb6-21"><a href="#cb6-21"></a><span class="ot">_</span>&gt;<span class="ot">_</span> <span class="ot">:</span> Rel ℕ 0ℓ</span>
+<span id="cb6-22"><a href="#cb6-22"></a>m &gt; n <span class="ot">=</span> n &lt; m</span></code></pre></div>
+<p>Boolean operators can be built on top of if-then-else:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a>¬ <span class="ot">:</span> Bool <span class="ot">→</span> Bool</span>
+<span id="cb7-2"><a href="#cb7-2"></a>¬ b <span class="ot">=</span> if b then false else true</span>
+<span id="cb7-3"><a href="#cb7-3"></a></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="ot">_</span>∧<span class="ot">_</span> <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool</span>
+<span id="cb7-5"><a href="#cb7-5"></a>a ∧ b <span class="ot">=</span> if a then b else false</span>
+<span id="cb7-6"><a href="#cb7-6"></a></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="ot">_</span>∨<span class="ot">_</span> <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool</span>
+<span id="cb7-8"><a href="#cb7-8"></a>a ∨ b <span class="ot">=</span> if a then true else b</span>
+<span id="cb7-9"><a href="#cb7-9"></a></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="ot">_</span>⊕<span class="ot">_</span> <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool</span>
+<span id="cb7-11"><a href="#cb7-11"></a>a ⊕ b <span class="ot">=</span> if a then <span class="ot">(</span>¬ b<span class="ot">)</span> else b</span></code></pre></div>
+<h2 id="prime-numbers">Prime numbers</h2>
+<p>A prime number is defined as a natural number with only two divisors - <code>1</code> and itself.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">-- divisibility</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>∣<span class="ot">_</span> <span class="ot">_</span>∤<span class="ot">_</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="kw">record</span> <span class="ot">_</span>∣<span class="ot">_</span> <span class="ot">(</span>m n <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a>  <span class="kw">constructor</span> divides</span>
+<span id="cb8-6"><a href="#cb8-6"></a>  <span class="kw">field</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a>    quotient <span class="ot">:</span> ℕ</span>
+<span id="cb8-8"><a href="#cb8-8"></a>    equality <span class="ot">:</span> n ≡ quotient * m</span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="kw">open</span> <span class="ot">_</span>∣<span class="ot">_</span> <span class="kw">using</span> <span class="ot">(</span>quotient<span class="ot">)</span> <span class="kw">public</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a></span>
+<span id="cb8-11"><a href="#cb8-11"></a><span class="ot">_</span>∤<span class="ot">_</span> <span class="ot">:</span> Rel ℕ 0ℓ</span>
+<span id="cb8-12"><a href="#cb8-12"></a>m ∤ n <span class="ot">=</span> ¬-eq <span class="ot">(</span>m ∣ n<span class="ot">)</span></span></code></pre></div>
+<p>Prime number definition:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">record</span> Prime <span class="ot">(</span>p <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>  <span class="kw">constructor</span> prime</span>
+<span id="cb9-3"><a href="#cb9-3"></a>  <span class="kw">field</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a>    <span class="co">-- primes &gt; 2</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a>    p&gt;1 <span class="ot">:</span> p &gt; <span class="ot">(</span>succ zero<span class="ot">)</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a>    <span class="co">-- only 2 divisors - 1 and p</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>    isPrime  <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>d<span class="ot">}</span> <span class="ot">→</span> d ∣ p <span class="ot">→</span> <span class="ot">(</span>d ≡ <span class="ot">(</span>succ zero<span class="ot">))</span> ∪ <span class="ot">(</span>d ≡ p<span class="ot">)</span></span></code></pre></div>
+<h2 id="definability">Definability</h2>
+<p>A function $ f : ℕ → ℕ $ is definable if one can find an expression <code>e</code> of <code>f</code> such that:</p>
+<pre class="math"><code>∀ x ∈ ℕ, f(x) ≡ e(x)</code></pre>
+<p>or in other words, if one can implement the function in system T using only if-then-else and primitive recursion.</p>
+<p>If we were to assign a natural number to each such implementation of every function possible, we can treat each expression as data:</p>
+<pre class="sakdeagda"><code>count = zero
+one = succ zero
+
+assign : (ℕ → ℕ) → ℕ
+assign f = count + one</code></pre>
 <hr />
-<p><a href="./AppliedTypes.system_f.html">System F</a></p>
+<p><a href="./AppliedTypes.real.html">System F</a></p>
 </body>
 </html>

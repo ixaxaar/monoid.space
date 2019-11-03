@@ -30,7 +30,7 @@
 
 /* Standard attributes. */
 a { text-decoration: none }
-a[href]:hover { background-color: rgba(0,0,0,0.2) }
+a[href]:hover { text-decoration: underline; }
 
 
 
@@ -38,7 +38,7 @@ a[href]:hover { background-color: rgba(0,0,0,0.2) }
 
 body {
   margin: auto;
-  padding: 1em 1em 1em 1em;
+  padding: none;
   max-width: 50%;
   /*line-height: 130%;*/
   background-color: transparent;
@@ -149,13 +149,19 @@ h3 {
 }
 
 h2 {
-  color: rgba(255, 80, 120);
+  color: fff;
+  text-decoration: underline;
+  font-style: italic;
+  text-transform: capitalize;
 }
 
 h1 {
   margin-top: 20px;
   padding-bottom: 15px;
   border-bottom: 50px solid rgba(120, 60, 60);
+  text-transform: capitalize;
+  border-left: 20px;
+  border-left-color: red;
 }
 
 h1.title, h2.author, h3.date, input, textarea, hr {
@@ -205,7 +211,10 @@ textarea        { background-color: #ffffba; }
 
 div.string span { background-color: yellow; }
 
-a               { color: #ff4444; }
+a {
+  color: #fff;
+}
+
 h1 a, h2 a, h3 a { color: white; }
 /*code            { color: rgb(150, 150, 150) !important; }*/
 .type           { color: #0080ff; }
@@ -301,16 +310,17 @@ pre.sourceCode span.re { }
 pre.sourceCode span.er { color: rgb(255, 190, 190) !important; /* font-weight: bold; */ }
 
 div.sourceCode {
-  background-color: #202030;
+  background-color: #302545;
   border-radius:    10px;
   margin:           20px;
-  padding:          10px;
+  padding:          20px;
+  box-shadow: inset 0px 0px 30px rgba(0,0,0,0.2);
 }
 
 ul {
   background-color: transparent;
   /*border-radius:    10px;*/
-  padding:          20px;
+  padding:          5px;
   padding-left:     50px;
 }
 
@@ -321,11 +331,12 @@ ul:first-of-type {
 }
 
 ul:first-of-type a {
-  color: #aaffaa;
+  color: #fff;
 }
 
 html {
-  background-color: #303040
+  background-color: #403550;
+  opacity=0.4;
 }
 
 body {
@@ -372,54 +383,57 @@ figcaption {
 }
 
 hr:first-of-type {
-  background-color:  rgb(75, 80, 60);
   height:            200px;
   padding:           20px;
-  background-image:  url("/space.png");
-  background-repeat: repeat;
+  background-image:  url("/header.png");
+  background-repeat: no-repeat;
   background-size: contain;
+  margin-block-end: 2em;
 }
 
 p:first-of-type {
-  background-image:  url("/space.png");
-  border-radius: 10px;
+  margin-block-start: 0em;
+  text-align: center;
+  position: fixed;
+  right: 0px;
+  bottom: 100px;
 }
 
 p:first-of-type a {
-  background: rgba(48, 85, 80, 0.8);
-  border-radius: 10px;
+  background: rgba(48, 85, 112, 0.1);
   height: 100%;
+  padding-left: 100px;
+  padding-right: 100px;
   display: block;
-  padding: 20px;
+  padding: 30px;
+  padding-top: 50px;
+  padding-bottom: 50px;
   color: white;
   font-weight: bold;
+  left: 0px;
 }
 
 p:first-of-type a:hover {
-  background: rgba(48, 85, 112, 0.8);
-  border-radius: 10px;
+  background: rgba(48, 85, 112, 0.6);
 }
 
 
 p:last-of-type {
-  background-image:  url("/space.png");
-  border-radius: 10px;
+  text-align: center;
 }
 
 p:last-of-type a {
-  background: rgba(48, 85, 80, 0.8);
-  border-radius: 10px;
+  background: rgba(48, 85, 112, 0.1);
 }
 
 p:last-of-type a:hover {
-  background: rgba(48, 85, 112, 0.8);
-  border-radius: 10px;
+  background: rgba(48, 85, 112, 0.6);
 }
 
 p:last-of-type a {
   height: 100%;
   display: block;
-  padding: 20px;
+  padding: 10px;
   color: white;
   font-weight: bold;
 }

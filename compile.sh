@@ -45,6 +45,8 @@ declare -a files=(
   "Algebra/groups"
   "Algebra/groups2"
   "Algebra/groupProperties"
+  "Algebra/rings"
+  "Algebra/real"
 )
 
 stack build
@@ -56,21 +58,14 @@ mkdir html
 
 for i in "${files[@]}"
 do
-   echo "Reformatting" "${i}.ladga.md"
-
    # generate TOC
-   doctoc --github --title '****' "${i}.lagda.md"
+   doctoc --github --title '****' "${i}.lagda.md" &> /dev/null
 
    # remove doctoc's text
    sed -i "s/\*generated with \[DocToc\](https:\/\/github.com\/thlorenz\/doctoc)\*//g" "${i}.lagda.md"
 
-   # Push ref to start
-   # echo """
-   # [Contents](./contents.html)
-   # """ >> "${i}.ladga.md"
-
    echo "Generating HTML for " "${i}.lagda.md"
-   pandoc -s --mathjax --css=../css/agda.css --from=markdown+smart --to=html --columns=120 -o ./html/"${i/\//\.}.html" "${i}.lagda.md"
+   pandoc -s --mathjax --css=../css/agda.css --from=markdown+smart --to=html --metadata pagetitle="${i}" --columns=120 -o ./html/${${i/\.\//}/\//\.}.html "${i}.lagda.md"
 
 done
 

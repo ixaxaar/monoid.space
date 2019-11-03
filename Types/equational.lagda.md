@@ -1,3 +1,6 @@
+****
+[Contents](contents.html)
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ****
@@ -5,9 +8,6 @@
 - [Equational Reasoning](#equational-reasoning)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-****
-[Contents](contents.html)
 
 # Equational Reasoning
 
@@ -35,7 +35,7 @@ For example, consider the problem of proving a well known identity for natural n
         1. The fact that a × a ≡ a²
         2. Commutativity of multiplication: a × b ≡ b × a
         3. Reflexivity of ≡ for a × b and b × a to add to 2 times
-= a² + 2 * a * b + b² 
+= a² + 2 * a * b + b²
 Q.E.D.
 ```
 
@@ -226,7 +226,7 @@ We now proceed to prove some propositions for multiplication:
     succ m * n + succ m         ∎
 ```
 
-Here we see a noteworthy pattern, 
+Here we see a noteworthy pattern,
 
 To prove for example `a + (b * c) + d ≡ a + (c * b) + d`, we have to apply commutativity only to `(b * c)` only while keeping the rest as it is. This is often achieved by using congruence over lambda pattern matching expressions in agda like `cong (λ x a + x + d) (*-comm b c)`. Or in other words,
 
