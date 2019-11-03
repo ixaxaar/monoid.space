@@ -82,26 +82,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </head>
 <body>
 <hr />
-<p><a href="contents.html">Contents</a> <a href="Algebra.ringProperties.html">Previous</a> <a href="Algebra.real.html">Next</a></p>
+<p><a href="contents.html">Contents</a> <a href="Algebra.ringProperties.html">Previous</a> <a href="HoTT.introduction.html">Next</a></p>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
 <ul>
-<li><a href="#real-numbers">Real Numbers</a></li>
+<li><a href="#fields-and-real-numbers">Fields and Real Numbers</a></li>
 <li><a href="#fields">Fields</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<h1 id="real-numbers">Real Numbers</h1>
+<h1 id="fields-and-real-numbers">Fields and Real Numbers</h1>
 <div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>operations</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</span>
 <span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">module</span> Algebra<span class="ot">.</span>real <span class="kw">where</span></span></code></pre></div>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">module</span> Algebra<span class="ot">.</span>real <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(_</span>==<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a>  <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>operations <span class="ot">(_</span>==<span class="ot">_)</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>  <span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups <span class="ot">(_</span>==<span class="ot">_)</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>  <span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>rings <span class="ot">(_</span>==<span class="ot">_)</span></span></code></pre></div>
 <p>Real numbers are harder to construct as compared to natural numbers. The constructive definition of a real number is based on the algebraic object called “Field”. We first define fields, followed by fields with ordering, also called “Ordered Fields”. We then use the definitions of fields to construct real numbers. As a byproduct, we also show how to construct complex and rational numbers.</p>
 <h1 id="fields">Fields</h1>
 <p>In abstract algebra, a field has a very specific definition, which is different from the physics conception of a “thing spread across space”. A field is, like real numbers, a bunch of objects (a set) for which addition, subtraction, multiplication and division operations are defined. Rational numbers, complex numbers as well as the set of binary values - 0 &amp; 1, like real numbers, fall into this category. Another way to define fields is to define addition, multiplication and their inverses, i.e. subtraction and division, except at “0” - the identity element for multiplication. The formal definition of fields tries to capture all aspects of these operations.</p>
-<p>A field is defined as a set with two operations - addition and multiplication. Thus, an operation on a field would be a function type with the signature <code>F : 𝜟 → 𝜟 → 𝜟</code> where <code>𝜟</code> is the set of objects in the field. The operations are required to have the following structure:</p>
+<p>A field is defined as a set with two operations - addition and multiplication. Thus, an operation on a field would be a function type with the signature <code>F : 𝔽 → 𝔽 → 𝔽</code> where <code>𝔽</code> is the set of objects in the field. The operations are required to have the following structure:</p>
 <ul>
 <li><strong>Associativity</strong>: both operations must be associative, i.e. <code>a + (b + c) = (a + b) + c</code> and <code>a · (b · c) = (a · b) · c</code>.</li>
 <li><strong>Commutativity</strong>: both operations must commute - <code>a + b = b + a</code> and <code>a · b = b · a</code>.</li>
@@ -109,9 +112,68 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>Inverses</strong>: both operations must have inverse operations, i.e. subtraction and division must exist.</li>
 <li><strong>Distributivity</strong>: both operations must be distributive, i.e. <code>a · (b + c) = (a · b) + (a · c)</code>.</li>
 </ul>
-<p>where <code>a, b, c ∈ 𝜟</code>.</p>
-<pre class="ladagda"><code>record Field {ℓ} {A : Set ℓ}()</code></pre>
+<p>where <code>a, b, c ∈ 𝔽</code>.</p>
+<p>In other words, a field <code>𝔽</code> is: - an abelian group under addition - an abelian group under multiplication</p>
+<p>A field is thus a more restricted version of a Ring, where there are additional requirements of commutativity and inverse of multiplication.</p>
+<p>We can construct a field</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a>  <span class="kw">record</span> IsField <span class="ot">(</span>+ * <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>-<span class="ot">_</span> ÷<span class="ot">_</span> <span class="ot">:</span> ♠ A<span class="ot">)</span> <span class="ot">(</span>0# 1# <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>    <span class="kw">field</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>      +-isAbelianGroup <span class="ot">:</span> IsAbelianGroup + 0# -<span class="ot">_</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>      *-isAbelianGroup <span class="ot">:</span> IsAbelianGroup * 1# ÷<span class="ot">_</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>      distrib          <span class="ot">:</span> * DistributesOver +</span>
+<span id="cb2-6"><a href="#cb2-6"></a>      zero             <span class="ot">:</span> Zero 0# *</span>
+<span id="cb2-7"><a href="#cb2-7"></a></span>
+<span id="cb2-8"><a href="#cb2-8"></a>    <span class="kw">open</span> IsAbelianGroup +-isAbelianGroup <span class="kw">public</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a>      <span class="kw">renaming</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a>      <span class="ot">(</span> assoc               <span class="kw">to</span> +-assoc</span>
+<span id="cb2-11"><a href="#cb2-11"></a>      <span class="ot">;</span> ∙-cong              <span class="kw">to</span> +-cong</span>
+<span id="cb2-12"><a href="#cb2-12"></a>      <span class="ot">;</span> ∙-congˡ             <span class="kw">to</span> +-congˡ</span>
+<span id="cb2-13"><a href="#cb2-13"></a>      <span class="ot">;</span> ∙-congʳ             <span class="kw">to</span> +-congʳ</span>
+<span id="cb2-14"><a href="#cb2-14"></a>      <span class="ot">;</span> identity            <span class="kw">to</span> +-identity</span>
+<span id="cb2-15"><a href="#cb2-15"></a>      <span class="ot">;</span> identityˡ           <span class="kw">to</span> +-identityˡ</span>
+<span id="cb2-16"><a href="#cb2-16"></a>      <span class="ot">;</span> identityʳ           <span class="kw">to</span> +-identityʳ</span>
+<span id="cb2-17"><a href="#cb2-17"></a>      <span class="ot">;</span> inverse             <span class="kw">to</span> -‿inverse</span>
+<span id="cb2-18"><a href="#cb2-18"></a>      <span class="ot">;</span> inverseˡ            <span class="kw">to</span> -‿inverseˡ</span>
+<span id="cb2-19"><a href="#cb2-19"></a>      <span class="ot">;</span> inverseʳ            <span class="kw">to</span> -‿inverseʳ</span>
+<span id="cb2-20"><a href="#cb2-20"></a>      <span class="ot">;</span> ⁻¹-cong             <span class="kw">to</span> -‿cong</span>
+<span id="cb2-21"><a href="#cb2-21"></a>      <span class="ot">;</span> comm                <span class="kw">to</span> +-comm</span>
+<span id="cb2-22"><a href="#cb2-22"></a>      <span class="ot">;</span> isMagma             <span class="kw">to</span> +-isMagma</span>
+<span id="cb2-23"><a href="#cb2-23"></a>      <span class="ot">;</span> isSemigroup         <span class="kw">to</span> +-isSemigroup</span>
+<span id="cb2-24"><a href="#cb2-24"></a>      <span class="ot">;</span> isMonoid            <span class="kw">to</span> +-isMonoid</span>
+<span id="cb2-25"><a href="#cb2-25"></a>      <span class="ot">;</span> isCommutativeMonoid <span class="kw">to</span> +-isCommutativeMonoid</span>
+<span id="cb2-26"><a href="#cb2-26"></a>      <span class="ot">;</span> isGroup             <span class="kw">to</span> +-isGroup</span>
+<span id="cb2-27"><a href="#cb2-27"></a>      <span class="ot">)</span></span>
+<span id="cb2-28"><a href="#cb2-28"></a></span>
+<span id="cb2-29"><a href="#cb2-29"></a>    <span class="kw">open</span> IsAbelianGroup *-isAbelianGroup <span class="kw">public</span></span>
+<span id="cb2-30"><a href="#cb2-30"></a>      <span class="kw">using</span> <span class="ot">()</span></span>
+<span id="cb2-31"><a href="#cb2-31"></a>      <span class="kw">renaming</span></span>
+<span id="cb2-32"><a href="#cb2-32"></a>      <span class="ot">(</span> assoc               <span class="kw">to</span> *-assoc</span>
+<span id="cb2-33"><a href="#cb2-33"></a>      <span class="ot">;</span> ∙-cong              <span class="kw">to</span> *-cong</span>
+<span id="cb2-34"><a href="#cb2-34"></a>      <span class="ot">;</span> ∙-congˡ             <span class="kw">to</span> *-congˡ</span>
+<span id="cb2-35"><a href="#cb2-35"></a>      <span class="ot">;</span> ∙-congʳ             <span class="kw">to</span> *-congʳ</span>
+<span id="cb2-36"><a href="#cb2-36"></a>      <span class="ot">;</span> identity            <span class="kw">to</span> *-identity</span>
+<span id="cb2-37"><a href="#cb2-37"></a>      <span class="ot">;</span> identityˡ           <span class="kw">to</span> *-identityˡ</span>
+<span id="cb2-38"><a href="#cb2-38"></a>      <span class="ot">;</span> identityʳ           <span class="kw">to</span> *-identityʳ</span>
+<span id="cb2-39"><a href="#cb2-39"></a>      <span class="ot">;</span> inverse             <span class="kw">to</span> ÷‿inverse</span>
+<span id="cb2-40"><a href="#cb2-40"></a>      <span class="ot">;</span> inverseˡ            <span class="kw">to</span> ÷‿inverseˡ</span>
+<span id="cb2-41"><a href="#cb2-41"></a>      <span class="ot">;</span> inverseʳ            <span class="kw">to</span> ÷‿inverseʳ</span>
+<span id="cb2-42"><a href="#cb2-42"></a>      <span class="ot">;</span> ⁻¹-cong             <span class="kw">to</span> ÷‿cong</span>
+<span id="cb2-43"><a href="#cb2-43"></a>      <span class="ot">;</span> comm                <span class="kw">to</span> *-comm</span>
+<span id="cb2-44"><a href="#cb2-44"></a>      <span class="ot">;</span> isMagma             <span class="kw">to</span> *-isMagma</span>
+<span id="cb2-45"><a href="#cb2-45"></a>      <span class="ot">;</span> isSemigroup         <span class="kw">to</span> *-isSemigroup</span>
+<span id="cb2-46"><a href="#cb2-46"></a>      <span class="ot">;</span> isMonoid            <span class="kw">to</span> *-isMonoid</span>
+<span id="cb2-47"><a href="#cb2-47"></a>      <span class="ot">;</span> isCommutativeMonoid <span class="kw">to</span> *-isCommutativeMonoid</span>
+<span id="cb2-48"><a href="#cb2-48"></a>      <span class="ot">;</span> isGroup             <span class="kw">to</span> *-isGroup</span>
+<span id="cb2-49"><a href="#cb2-49"></a>      <span class="ot">)</span></span>
+<span id="cb2-50"><a href="#cb2-50"></a></span>
+<span id="cb2-51"><a href="#cb2-51"></a>    isRing <span class="ot">:</span> IsRing + * -<span class="ot">_</span> 0# 1#</span>
+<span id="cb2-52"><a href="#cb2-52"></a>    isRing <span class="ot">=</span> <span class="kw">record</span></span>
+<span id="cb2-53"><a href="#cb2-53"></a>      <span class="ot">{</span> +-isAbelianGroup <span class="ot">=</span> +-isAbelianGroup</span>
+<span id="cb2-54"><a href="#cb2-54"></a>      <span class="ot">;</span> *-isMonoid       <span class="ot">=</span> *-isMonoid</span>
+<span id="cb2-55"><a href="#cb2-55"></a>      <span class="ot">;</span> distrib          <span class="ot">=</span> distrib</span>
+<span id="cb2-56"><a href="#cb2-56"></a>      <span class="ot">;</span> zero             <span class="ot">=</span> zero</span>
+<span id="cb2-57"><a href="#cb2-57"></a>      <span class="ot">}</span></span></code></pre></div>
 <hr />
-<p><a href="./Algrbra.system_f.html">System F</a></p>
+<p><a href="./HoTT.introduction.html">HoTT Introduction</a></p>
 </body>
 </html>

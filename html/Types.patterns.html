@@ -76,7 +76,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../css/agda.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -150,7 +149,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-10"><a href="#cb6-10"></a>        <span class="ot">→</span> <span class="ot">(</span>n <span class="ot">:</span> Nat<span class="ot">)</span></span>
 <span id="cb6-11"><a href="#cb6-11"></a>        <span class="ot">→</span> P <span class="ot">(</span>succ n<span class="ot">)</span></span>
 <span id="cb6-12"><a href="#cb6-12"></a>Nat-comp P p proof n <span class="ot">=</span> Nat-elim P p proof <span class="ot">(</span>succ n<span class="ot">)</span></span></code></pre></div>
-<p>For function types, <span class="math inline">\((λx.Φ)(a) ≡ substitute(a, x.Φ)\)</span>, i.e. the function is equal to substituting <code>a</code> for every occurrence of <code>x</code>. For products, the computation rule boils down to <span class="math inline">\(f : A × B → C ≡ A → B → C\)</span>, also called <a href="./Types.functions.html#currying">currying</a>.</p>
+<p>For function types, $ (λx.Φ)(a) ≡ substitute(a, x.Φ) $, i.e. the function is equal to substituting <code>a</code> for every occurrence of <code>x</code>. For products, the computation rule boils down to $ f : A × B → C ≡ A → B → C $, also called <a href="./Types.functions.html#currying">currying</a>.</p>
 <h2 id="uniqueness-principle">Uniqueness principle</h2>
 <p>Finally the uniqueness principle describes how functions to and from the new type are unique. For some types the uniqueness principle behaves as the dual of the computation rule by describing how constructors act on eliminators. For other types the uniqueness principle implies conditions under which functions from the new type are unique.</p>
 <hr />

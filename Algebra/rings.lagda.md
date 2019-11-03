@@ -323,7 +323,7 @@ We now define a ring in Agda:
       +-isAbelianGroup : IsAbelianGroup + 0# -_
       *-isMonoid       : IsMonoid * 1#
       distrib          : * DistributesOver +
-      zero                  : Zero 0# *
+      zero             : Zero 0# *
 
     open IsAbelianGroup +-isAbelianGroup public
       renaming
@@ -383,7 +383,6 @@ We now define a ring in Agda:
 
     open IsSemiring isSemiring public
       using (distrib; isNearSemiring; isSemiringWithoutOne)
-
 ```
 
 and finally, the commutative ring:

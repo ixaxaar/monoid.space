@@ -101,7 +101,7 @@ Nat-comp : (P : Nat → Set)
 Nat-comp P p proof n = Nat-elim P p proof (succ n)
 ```
 
-For function types, $(λx.Φ)(a) ≡ substitute(a, x.Φ)$, i.e. the function is equal to substituting `a` for every occurrence of `x`. For products, the computation rule boils down to $f : A × B → C ≡ A → B → C$, also called [currying](./Types.functions.html#currying).
+For function types, $ (λx.Φ)(a) ≡ substitute(a, x.Φ) $, i.e. the function is equal to substituting `a` for every occurrence of `x`. For products, the computation rule boils down to $ f : A × B → C ≡ A → B → C $, also called [currying](./Types.functions.html#currying).
 
 ## Uniqueness principle
 

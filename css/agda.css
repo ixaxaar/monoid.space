@@ -1,3 +1,5 @@
+@import url('fonts.googleapis.com/css?family=Source+Code+Pro');
+
 /* Aspects. */
 .Comment       { color: #B22222 }
 .Keyword       { color: #CD6600 }
@@ -47,7 +49,7 @@ body {
 
 p {
   font-size: 20px !important;
-  font-family: Verdana, Geneva, sans-serif;
+  font-family: 'Source Code Pro', sans-serif;
   line-height: 32px;
 }
 
@@ -186,12 +188,12 @@ h1, h2, h3 {
 }
 
 pre code, textarea, div.string {
-  font-family: monospace;
-  font-size: 120%;
+  font-family: 'Source Code Pro';
+  font-size: 1.3em;
 }
 
 pre.normal, pre.normal code, code, .error, input {
-  font-family: sans-serif;
+  font-family: 'Source Code Pro';
   font-size: 100%;
 }
 
@@ -227,19 +229,14 @@ h1 a, h2 a, h3 a { color: white; }
 }
 
 code {
-  background-color: #404060;
-  border-radius: 5px;
 }
 
 .math {
-  padding-left: 7px;
-  padding-right: 7px;
-  padding-top: 9px;
-  padding-bottom: 9px;
-  margin-left: 0px !important;
-  background-color: #404060;
-  border-radius: 5px;
+  background-color: #402545;
+  margin:           20px;
+  padding:          20px;
   color: white;
+  box-shadow: inset 0px 0px 30px rgba(0,0,0,0.2);
 }
 
 .display {
@@ -255,7 +252,7 @@ code {
   padding-bottom: 10px !important;
 }
 
-.sourceCode code {
+. code {
   background-color: transparent;
 }
 
@@ -311,7 +308,6 @@ pre.sourceCode span.er { color: rgb(255, 190, 190) !important; /* font-weight: b
 
 div.sourceCode {
   background-color: #302545;
-  border-radius:    10px;
   margin:           20px;
   padding:          20px;
   box-shadow: inset 0px 0px 30px rgba(0,0,0,0.2);
@@ -319,7 +315,6 @@ div.sourceCode {
 
 ul {
   background-color: transparent;
-  /*border-radius:    10px;*/
   padding:          5px;
   padding-left:     50px;
 }
@@ -335,7 +330,7 @@ ul:first-of-type a {
 }
 
 html {
-  background-color: #403550;
+  background-color: #151025;
   opacity=0.4;
 }
 
@@ -345,7 +340,7 @@ body {
 
 li {
   font-size: 20px !important;
-  font-family: Verdana, Geneva, sans-serif;
+  font-family: 'Source Code Pro', sans-serif;
   line-height: 32px;
 }
 
