@@ -1,5 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+****
+
+- [Applied Type Theory](#applied-type-theory)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ****
 [Contents](contents.html)
+[Previous](Types.equational2.html)
+[Next](AppliedTypes.godels_t.html)
+
+# Applied Type Theory
 
 ```agda
 module AppliedTypes.introduction where

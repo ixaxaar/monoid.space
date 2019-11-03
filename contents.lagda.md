@@ -1,9 +1,4 @@
 ****
-[Contents](contents.html)
-
-------
-⨺⨺⨺ UNDER CONSTRUCTION ⨺⨺⨺
-------
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -85,9 +80,9 @@
 
   - [Introduction](./HoTT.introduction.html)
   - [Identity Types and Paths](./HoTT.identity.html)
-  - [Connected spaces *todo*](./HoTT/paths.html)
-  - [The Univalence Principle *todo*](./HoTT/univalance.html)
-  - [The Fundamental Group and Groupoid *todo*](./HoTT/fundamentalGroup.html)
+  - [Connected spaces *todo*](./HoTT.paths.html)
+  - [The Univalence Principle *todo*](./HoTT.univalance.html)
+  - [The Fundamental Group and Groupoid *todo*](./HoTT.fundamentalGroup.html)
 
 <!-- - [The Seifert van-Kampen Theorem *todo*](./HoTT/vanKampen.html) -->
 
@@ -100,7 +95,10 @@
   - [Adjunctions]
   - [Kan Extensions]
 
-Code: [Github](https://github.com/ixaxaar/monoid.space), [Gitlab](https://gitlab.com/ixaxaar/monoid.space), Contributions welcome!.
+[Go up](contents.html)
+[Gitlab](https://gitlab.com/ixaxaar/monoid.space)
+[Github](https://github.com/ixaxaar/monoid.space)
+
 
 ```agda
 import Lang.setup

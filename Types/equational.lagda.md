@@ -1,5 +1,7 @@
 ****
 [Contents](contents.html)
+[Previous](Types.patterns.html)
+[Next](Types.equational2.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->

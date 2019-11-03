@@ -1,5 +1,7 @@
 ****
 [Contents](contents.html)
+[Previous](Types.introduction.html)
+[Next](Types.relations.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -26,9 +28,9 @@ open import Lang.dataStructures using (
   zero; one)
 
 open import Agda.Primitive renaming (
-  Level to AgdaLevel; 
-  lzero to alzero; 
-  lsuc to alsuc; 
+  Level to AgdaLevel;
+  lzero to alzero;
+  lsuc to alsuc;
   _⊔_ to _⊔⊔_)
 ```
 

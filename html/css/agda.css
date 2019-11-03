@@ -396,7 +396,9 @@ p:first-of-type {
   text-align: center;
   position: fixed;
   right: 0px;
-  bottom: 100px;
+  bottom: 10px;
+  width: 200px;
+  box-shadow: 0px 0px 30px rgba(0,0,0,0.2);
 }
 
 p:first-of-type a {
@@ -405,9 +407,7 @@ p:first-of-type a {
   padding-left: 100px;
   padding-right: 100px;
   display: block;
-  padding: 30px;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding: 20px;
   color: white;
   font-weight: bold;
   left: 0px;
@@ -415,6 +415,7 @@ p:first-of-type a {
 
 p:first-of-type a:hover {
   background: rgba(48, 85, 112, 0.6);
+  text-decoration: none !important;
 }
 
 

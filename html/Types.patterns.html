@@ -83,7 +83,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </head>
 <body>
 <hr />
-<p><a href="contents.html">Contents</a></p>
+<p><a href="contents.html">Contents</a> <a href="Types.variations.html">Previous</a> <a href="Types.equational.html">Next</a></p>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
@@ -115,7 +115,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>For example we introduce natural numbers like:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">data</span> Nat <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>  zero <span class="ot">:</span> Nat</span>
-<span id="cb2-3"><a href="#cb2-3"></a>  succ <span class="ot">:</span> Nat <span class="ot">→</span> Nat    </span></code></pre></div>
+<span id="cb2-3"><a href="#cb2-3"></a>  succ <span class="ot">:</span> Nat <span class="ot">→</span> Nat</span></code></pre></div>
 <p>Functions’ from <code>A → B</code> have formation rules of the types <code>A</code> and <code>B</code> to exist. Similarly, products <code>(A × B)</code> depend upon the existence of types <code>A</code> and <code>B</code> and so do co-product types <code>A ∪ B</code>.</p>
 <h2 id="constructor-introduction">Constructor / Introduction</h2>
 <p>We then proceed to define how an element of the new type could be constructed. For natural numbers, <code>zero</code> and <code>succ</code> are the constructors:</p>

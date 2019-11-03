@@ -1,5 +1,7 @@
 ****
 [Contents](contents.html)
+[Previous](Types.variations.html)
+[Next](Types.equational.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -38,7 +40,7 @@ For example we introduce natural numbers like:
 ```agda
 data Nat : Set where
   zero : Nat
-  succ : Nat → Nat    
+  succ : Nat → Nat
 ```
 
 Functions' from `A → B` have formation rules of the types `A` and `B` to exist.

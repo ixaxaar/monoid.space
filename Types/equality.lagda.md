@@ -1,5 +1,7 @@
 ****
 [Contents](contents.html)
+[Previous](Types.relations.html)
+[Next](Types.operations.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->

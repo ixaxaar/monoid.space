@@ -1,5 +1,7 @@
 ****
 [Contents](contents.html)
+[Previous](Types.proofsAsData.html)
+[Next](Types.patterns.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -33,10 +35,10 @@ The identity type for any two objects $x, y ∈ A$ if of the form $x =_A y$ repr
 
 ```agda
 J : {A : Set} →
-        (P : (x y : A) → x ≡ y → Set) 
-        → ((x : A) → P x x refl) 
-        → (x y : A) 
-        → (x≡y : x ≡ y) 
+        (P : (x y : A) → x ≡ y → Set)
+        → ((x : A) → P x x refl)
+        → (x y : A)
+        → (x≡y : x ≡ y)
         → P x y x≡y
 J P p x .x refl = p x
 ```
@@ -50,10 +52,10 @@ where `P` is a predicate that it holds for any two objects `x, y` of type A whic
 Axiom K is an identity eliminator which when defined can be used as an elimination rule to prove all identities as equal. It is also called **principle of uniqueness of identity proofs**.
 
 ```haskell
-K : {A : Set} {x : A} 
-        (P : x ≡ x → Set) 
-        → P refl 
-        → (x≡x : x ≡ x) 
+K : {A : Set} {x : A}
+        (P : x ≡ x → Set)
+        → P refl
+        → (x≡x : x ≡ x)
         → P x≡x
 K P p refl = p
 ```

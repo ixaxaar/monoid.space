@@ -81,8 +81,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <![endif]-->
 </head>
 <body>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
-<p><a href="contents.html">Contents</a></p>
+<ul>
+<li><a href="#applied-type-theory">Applied Type Theory</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<hr />
+<p><a href="contents.html">Contents</a> <a href="Types.equational2.html">Previous</a> <a href="AppliedTypes.godels_t.html">Next</a></p>
+<h1 id="applied-type-theory">Applied Type Theory</h1>
 <div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> AppliedTypes<span class="ot">.</span>introduction <span class="kw">where</span></span></code></pre></div>
 <p>Type Theory can be a tool for formally modeling various systems and writing proofs about them. These systems can technically be any system, though practically, real-world usage is minuscule and for niche use-cases, partly driven by the need for extreme caution or where adherence to formal specifications is paramount. For example, it’s safer to write programs in such a way that their functionalities are formally proven instead of relying on tests that try to cover or test as much code and cases as possible. Use-cases include verifying protocols (e.g. in cryptography, cryptographic applications like cryptocurrencies), combinational circuits, digital circuits with internal memory, software systems in finance, embedded systems etc. Formal verification is especially big in the electronics hardware space as errors cost much more, and hence such an audience tends to have their own languages and tools for formal verification, such as Cadence’s <a href="https://www.cadence.com/content/cadence-www/global/en_US/home/tools/digital-design-and-signoff/logic-equivalence-checking/conformal-equivalence-checker.html">Conformal equivalence checker</a>, Mentor Graphics’ <a href="https://www.mentor.com/products/fv/formalpro/">FormalPro</a>, Synopsys’ <a href="https://www.synopsys.com/implementation-and-signoff/signoff/formality.html">formality</a> etc. According to Wikipedia, examples of mathematical objects often used to model systems are: finite state machines, labeled transition systems, Petri nets, vector addition systems, timed automata, hybrid automata, process algebra, formal semantics of programming languages such as operational semantics, denotational semantics, axiomatic semantics and Hoare logic.</p>
 <p>Similar to how type checking in compiled languages grant a guarantee against runtime failures due to type errors, formal proofs offer stronger guarantees of equivalence, termination and spec-adherence. Here, we will implement a few formal systems and model some interesting technologies as applications of type theory and as a demonstration of what can be done in Agda. Finally, we will see how to use our formally checked code in the outside world.</p>
