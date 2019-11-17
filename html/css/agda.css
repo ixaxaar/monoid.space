@@ -1,4 +1,5 @@
 @import url('fonts.googleapis.com/css?family=Source+Code+Pro');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js');
 
 /* Aspects. */
 .Comment       { color: #B22222 }
@@ -241,6 +242,21 @@ code {
   padding-bottom: 20px;
   color: white;
   box-shadow: inset 0px 0px 30px rgba(0,0,0,0.2);
+}
+
+.math.inline {
+  background-color: #402545;
+  margin:           20px;
+  text-align: center;
+  max-width: 800px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: white;
+  box-shadow: inset 0px 0px 30px rgba(0,0,0,0.2);
+}
+
+span.MathJax {
+  padding: 5px !important;
 }
 
 .display {

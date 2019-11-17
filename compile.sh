@@ -46,15 +46,16 @@ declare -a files=(
   "Algebra/groups2"
   "Algebra/groupProperties"
   "Algebra/rings"
-  "Algebra/real"
+  "Algebra/fields"
+  "Algebra/numbers"
 )
 
 stack build
 rm -rf build html tmp
 mkdir html
 
- # compile
- agda -i . --compile --without-K --no-main --compile-dir=./build contents.lagda.md
+# compile
+agda -i . --compile --without-K --no-main --compile-dir=./build contents.lagda.md
 
 for i in "${files[@]}"
 do

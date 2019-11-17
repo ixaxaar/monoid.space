@@ -1,7 +1,7 @@
 ****
 [Contents](contents.html)
 [Previous](Algebra.groupProperties.html)
-[Next](Algebra.real.html)
+[Next](Algebra.fields.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -29,7 +29,6 @@ where the structure defined on the operations are:
     - is commutative
     - has an inverse (−)
     - has an identity
-
 2. $ 𝕊 $ is a monoid under multiplication, which implies the operation ★:
     - is associative
     - has an identity

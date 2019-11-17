@@ -12,7 +12,6 @@
   - [5. Logic](#5-logic)
   - [6. Abstract Algebras](#6-abstract-algebras)
   - [7. Homotopy Type Theory](#7-homotopy-type-theory)
-  - [8. Category Theory](#8-category-theory)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -73,7 +72,8 @@
   - [Groups and family 2](./Algebra.groups2.html)
   - [Properties of Group-like objects *todo*](./Algebra.groupProperties.html)
   - [Rings and family](./Algebra.rings.html)
-  - [Fields and Real Numbers](./Algebra.real.html)
+  - [Fields and family](./Algebra.fields.html)
+  - [Numbers](./Algebra.numbers.html)
 
 ## 7. Homotopy Type Theory
 
@@ -84,15 +84,6 @@
   - [The Fundamental Group and Groupoid *todo*](./HoTT.fundamentalGroup.html)
 
 <!-- - [The Seifert van-Kampen Theorem *todo*](./HoTT/vanKampen.html) -->
-
-## 8. Category Theory
-
-  - [Natural Transformations]
-  - [Hom-Sets and constructions]
-  - [The Yoneda Lemma]
-  - [Limits and Co-Limits]
-  - [Adjunctions]
-  - [Kan Extensions]
 
 [Go up](contents.html)
 [Gitlab](https://gitlab.com/ixaxaar/monoid.space)
@@ -143,7 +134,8 @@ import Algebra.groups
 import Algebra.groups2
 import Algebra.groupProperties
 import Algebra.rings
-import Algebra.real
+import Algebra.fields
+import Algebra.numbers
 ```
 
 ****

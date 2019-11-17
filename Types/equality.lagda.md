@@ -86,7 +86,7 @@ In type theory, all proofs can be represented as a type. Propositional equality 
 
 ![Figure 1: Equality](./equality.png)
 
-```lagda
+```haskell
 infix 4 _∼_
 
 data _∼_ {A : Set}(a : A) : {B : Set} → B → Set where
@@ -99,7 +99,7 @@ Reflexivity is defined with the definition of `∼` by the keyword `same`, the o
 
 Symmetry is the property where binary a relation's behavior does not depend upon its argument's position (left or right):
 
-```lagda
+```haskell
 symmetry : ∀ {A B}{a : A}{b : B}
   → a ∼ b
   → b ∼ a
@@ -110,7 +110,7 @@ symmetry same = same
 
 Transitivity is when a binary relation `_∼_` and $x ∼ y and y ∼ z ⟹ x ∼ z$
 
-```lagda
+```haskell
 transitivity : ∀ {A B C}{a : A}{b : B}{c : C}
   → a ∼ b
   → b ∼ c
@@ -122,7 +122,7 @@ transitivity same p = p
 
 Functions that when applied to objects of a type, do not alter the operation of equality can be defined as:
 
-```lagda
+```haskell
 congruence : ∀ {A B : Set} (f : A → B) {x y : A}
   → x ∼ y
   → f x ∼ f y
@@ -133,7 +133,7 @@ congruence f same = same
 
 If `a = b` and if `predicate a = true` ⟹ `predicate b = true`
 
-```lagda
+```haskell
 substitution : ∀ {A : Set} {x y : A} (Predicate : A → Set)
   → x ∼ y
   → Predicate x
@@ -216,7 +216,7 @@ Rel A ℓ = REL A A ℓ
 
 ### Properties of binary relations
 
-In type theory, an implication $A ⟹ B$ is just a function type $f: A → B$, and if `f` exists, the implication does too. We define implication between two relations in agda as:
+In type theory, an implication $ A ⟹ B $ is just a function type $ f: A → B $, and if `f` exists, the implication does too. We define implication between two relations in agda as:
 
 ```agda
 _⇒_ : ∀ {a b ℓ₁ ℓ₂} {A : Set a} {B : Set b}
@@ -226,11 +226,14 @@ _⇒_ : ∀ {a b ℓ₁ ℓ₂} {A : Set a} {B : Set b}
 P ⇒ Q = ∀ {i j} → P i j → Q i j
 ```
 
-A function `f : A → B` is invariant to two homogenous relations `Rel A ℓ₁` and `Rel B ℓ₂` if $∀ x, y ∈ A ~and~ f(x), f(y) ∈ B, (Rel x y) ⟹ (Rel f(x) f(y))$:
+A function `f : A → B` is invariant to two homogenous relations `Rel A ℓ₁` and `Rel B ℓ₂` if $ ∀ x, y ∈ A ~and~ f(x), f(y) ∈ B, f(Rel x y) ⟹ (Rel f(x) f(y)) $:
 
 ```agda
-_=[_]⇒_ : ∀ {a b ℓ₁ ℓ₂} {A : Set a} {B : Set b} →
-          Rel A ℓ₁ → (A → B) → Rel B ℓ₂ → Set _
+_=[_]⇒_ : ∀ {a b ℓ₁ ℓ₂} {A : Set a} {B : Set b}
+          → Rel A ℓ₁
+          → (A → B)
+          → Rel B ℓ₂
+          → Set _
 P =[ f ]⇒ Q = P ⇒ (Q on f)
 ```
 
