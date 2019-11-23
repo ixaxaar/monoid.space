@@ -7,22 +7,25 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ****
 
-- [Group Properties](#group-properties)
-  - [Morphism](#morphism)
+- [Morphisms](#morphisms)
   - [Homomorphisms](#homomorphisms)
     - [Magma homomorphism](#magma-homomorphism)
     - [Semigroup homomorphism](#semigroup-homomorphism)
-  - [Subgroups](#subgroups)
-  - [Cosets](#cosets)
-  - [Quotient groups](#quotient-groups)
+    - [Monoid Homomorphism](#monoid-homomorphism)
+    - [Group Homomorphism](#group-homomorphism)
+  - [Endomorphism](#endomorphism)
+    - [Monoid endomorphism](#monoid-endomorphism)
+    - [Group endomorphism](#group-endomorphism)
+  - [Isomorphism](#isomorphism)
+  - [Automorphism](#automorphism)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
-# Group Properties
+# Morphisms
 
 ```agda
-module Algebra.groupProperties where
+module Algebra.morphisms where
 
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 open import Types.equality using (Rel; _Preserves_⟶_)
@@ -30,8 +33,6 @@ open import Types.equality using (Rel; _Preserves_⟶_)
 open import Algebra.groups
 open import Algebra.groups2
 ```
-
-## Morphism
 
 A morphism is a more general concept that applies not only to groups but also to pretty much all algebraic objects. It can be defined as a structure-preserving map. In the context of group-like objects, a morphism between any two objects `X` and `Y` embeds `X` in `Y` while ensuring the structure of `X` is preserved.
 
@@ -98,7 +99,7 @@ module _ {f t ℓ₁ ℓ₂} (From : Magma f ℓ₁) (To : Magma t ℓ₂) where
 
   open Homomorphism F.Data T.Data T._==_
 
-  record IsMagmaHomomorphism ( 𝕄⟦_⟧ : Morphism) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+  record IsMagmaHomomorphism (𝕄⟦_⟧ : Morphism) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
     field
       preserves-congruence    : 𝕄⟦_⟧ Preserves F._==_ ⟶ T._==_
       preserves-composition   : compose-binary 𝕄⟦_⟧ F._∙_ T._∙_
@@ -114,7 +115,7 @@ module _ {f t ℓ₁ ℓ₂} (From : Semigroup f ℓ₁) (To : Semigroup t ℓ�
 
   open Homomorphism F.Data T.Data T._==_
 
-  record IsSemigroupHomomorphism ( 𝕄⟦_⟧ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+  record IsSemigroupHomomorphism (𝕄⟦_⟧ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
     field
       is-magma-homomorphism  : IsMagmaHomomorphism F.magma T.magma 𝕄⟦_⟧
 
@@ -131,7 +132,7 @@ module _ {f t ℓ₁ ℓ₂} (From : Monoid f ℓ₁) (To : Monoid t ℓ₂) whe
 
   open Homomorphism F.Data T.Data T._==_
 
-  record IsMonoidHomomorphism ( 𝕄⟦_⟧ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+  record IsMonoidHomomorphism (𝕄⟦_⟧ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
     field
       is-semigroup-homomorphism  : IsSemigroupHomomorphism F.semigroup T.semigroup 𝕄⟦_⟧
       preserves-identity         : identity-preservation 𝕄⟦_⟧ F.ε T.ε
@@ -149,7 +150,7 @@ module _ {f t ℓ₁ ℓ₂} (From : Group f ℓ₁) (To : Group t ℓ₂) where
 
   open Homomorphism F.Data T.Data T._==_
 
-  record IsGroupHomomorphism ( 𝕄⟦_⟧ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+  record IsGroupHomomorphism (𝕄⟦_⟧ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
     field
       is-monoid-homomorphism  : IsMonoidHomomorphism F.monoid T.monoid 𝕄⟦_⟧
       preserves-inverse       : compose-unary 𝕄⟦_⟧ F._⁻¹ T._⁻¹
@@ -170,7 +171,7 @@ module _ {f ℓ} (Self : Monoid f ℓ) where
 
   open Homomorphism S.Data S.Data S._==_
 
-  record IsMonoidAutomorphism ( 𝕄⟦_⟧ : Morphism) : Set (f ⊔ ℓ) where
+  record IsMonoidAutomorphism (𝕄⟦_⟧ : Morphism) : Set (f ⊔ ℓ) where
     field
       is-homomorphism : IsMonoidHomomorphism Self Self 𝕄⟦_⟧
 ```
@@ -184,7 +185,7 @@ module _ {f ℓ} (Self : Group f ℓ) where
 
   open Homomorphism S.Data S.Data S._==_
 
-  record IsGroupAutomorphism ( 𝕄⟦_⟧ : Morphism) : Set (f ⊔ ℓ) where
+  record IsGroupAutomorphism (𝕄⟦_⟧ : Morphism) : Set (f ⊔ ℓ) where
     field
       is-homomorphism : IsGroupHomomorphism Self Self 𝕄⟦_⟧
 ```
@@ -195,17 +196,9 @@ An group isomorphism is a homomorphism with an additional property - bijection (
 
 ![Injection vs Surjection vs Bijection](functions.png)
 
+## Automorphism
 
+An automorphism is a endomorphism which is also an isomorphism.
 
-## Subgroups
-
-
-
-## Cosets
-
-
-
-## Quotient groups
-
-
-
+****
+[Rings and family](./Algebra.rings.html)

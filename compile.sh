@@ -17,6 +17,7 @@ declare -a files=(
   "Types/equality"
   "Types/operations"
   "Types/functions"
+  "Types/functions2"
   "Types/product"
 
   "Types/proofsAsData"
@@ -44,7 +45,7 @@ declare -a files=(
   "Algebra/order"
   "Algebra/groups"
   "Algebra/groups2"
-  "Algebra/groupProperties"
+  "Algebra/morphisms"
   "Algebra/rings"
   "Algebra/fields"
   "Algebra/numbers"

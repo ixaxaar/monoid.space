@@ -1,7 +1,7 @@
 ****
 [Contents](contents.html)
 [Previous](Types.product.html)
-[Next](Types.proofsAsData.html)
+[Next](Types.functions2.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -16,11 +16,11 @@
   - [Application](#application)
   - [Currying](#currying)
   - [Infix application](#infix-application)
-  - [Other useful API](#other-useful-api)
-    - [Flip](#flip)
-    - [On](#on)
-    - [Type extractor](#type-extractor)
-    - [Case statements](#case-statements)
+- [Other useful API](#other-useful-api)
+  - [Flip](#flip)
+  - [On](#on)
+  - [Type extractor](#type-extractor)
+  - [Case statements](#case-statements)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -58,7 +58,7 @@ Fun₂ A = A → A → A
 ```
 In Type Theory, a function is also a type, called a **function type** represented as the type `Input₁ → Input₂ → ... → Inputₙ → Output`, where `Inputᵢ` are the input types and `Output` is the output type. A function type `f : A → B` can also be considered to be an exponential `f : Bᴬ` and can be thought of as belonging to the set of all `b ∈ B` that can be obtained from any `a ∈ A`, hence `Bᴬ` such elements.
 
-The concept of **currying** can be explained using this representation as $ C^{A × B} = (C^A)^B $  hence a function taking multiple arguments `f : (A, B) → C` is the same as `f : A → B → C`. **Partial functions** can then be trivally described as functions that return functions with lesser number of arguments, or **arity**: `∀ a ∈ A, g = f(a) : B → C`.
+The concept of **currying** can be explained using this representation as $C^{A × B} = (C^A)^B$  hence a function taking multiple arguments `f : (A, B) → C` is the same as `f : A → B → C`. **Partial functions** can then be trivally described as functions that return functions with lesser number of arguments, or **arity**: `∀ a ∈ A, g = f(a) : B → C`.
 
 # Dependent Function Types or Π-types
 
@@ -72,7 +72,7 @@ $$
 λx. (λx.y).ϕ
 $$
 
-Another notation is to use $ \Pi_{x : A} B(x) $, mostly used in type theory to denote Π-types. Functions of higher arity then take the form $ \Pi_{x : A}\Pi_{y : B(x)} D(y) $ and so on.
+Another notation is to use $\Pi_{x : A} B(x)$, mostly used in type theory to denote Π-types. Functions of higher arity then take the form $\Pi_{x : A}\Pi_{y : B(x)} D(y)$ and so on.
 
 ![Figure 1: Dependent Function](dependent_function.png)
 
@@ -191,24 +191,6 @@ _⟨_⟩_ : ∀ {a b c} {A : Set a} {B : Set b} {C : Set c}
         → C
 x ⟨ f ⟩ y = f x y
 ```
-
-# Classifications of functions
-
-Functions can be broadly classified as:
-
-1. Injective (one-to-one)
-2. Surjective (onto)
-3. Bijective (one-to-one and onto)
-
-![Injection vs Surjection vs Bijection](functions.png)
-
-Note that a function, by definition, can never produce multiple outputs given the same input.
-
-## Injection
-
-## Surjection
-
-## Bijection
 
 # Other useful API
 

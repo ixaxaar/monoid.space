@@ -38,6 +38,7 @@
   - [Operations](./Types.operations.html)
   - [Product Types and Σ-types](./Types.product.html)
   - [Function Types and Π-types](./Types.functions.html)
+  - [More about Function Types](./Types.functions2.html)
 
 ## 3. Type Theory 2
 
@@ -70,9 +71,13 @@
   - [Ordered objects](./Algebra.order.html)
   - [Groups and family](./Algebra.groups.html)
   - [Groups and family 2](./Algebra.groups2.html)
-  - [Properties of Group-like objects](./Algebra.groupProperties.html)
+  - [Group Morphisms](./Algebra.morphisms.html)
   - [Rings and family](./Algebra.rings.html)
+  - [Rings and family 2](./Algebra.rings2.html)
+  - [Ring Morphisms](./Algebra.ring_morphisms.html)
   - [Fields and family](./Algebra.fields.html)
+  - [Fields and family 2](./Algebra.fields2.html)
+  - [Field Morphisms](./Algebra.field_morphisms.html)
   - [Numbers](./Algebra.numbers.html)
 
 ## 7. Homotopy Type Theory
@@ -106,6 +111,7 @@ import Types.equality
 import Types.operations
 import Types.product
 import Types.functions
+import Types.functions2
 
 import Types.proofsAsData
 import Types.variations
@@ -132,7 +138,7 @@ import Algebra.introduction
 import Algebra.order
 import Algebra.groups
 import Algebra.groups2
-import Algebra.groupProperties
+import Algebra.morphisms
 import Algebra.rings
 import Algebra.fields
 import Algebra.numbers

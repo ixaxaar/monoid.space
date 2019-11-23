@@ -83,7 +83,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </head>
 <body>
 <hr />
-<p><a href="contents.html">Contents</a> <a href="Types.product.html">Previous</a> <a href="Types.proofsAsData.html">Next</a></p>
+<p><a href="contents.html">Contents</a> <a href="Types.product.html">Previous</a> <a href="Types.functions2.html">Next</a></p>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
@@ -100,13 +100,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="#application">Application</a></li>
 <li><a href="#currying">Currying</a></li>
 <li><a href="#infix-application">Infix application</a></li>
+</ul></li>
 <li><a href="#other-useful-api">Other useful API</a>
 <ul>
 <li><a href="#flip">Flip</a></li>
 <li><a href="#on">On</a></li>
 <li><a href="#type-extractor">Type extractor</a></li>
 <li><a href="#case-statements">Case statements</a></li>
-</ul></li>
 </ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -131,7 +131,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a>Fun₂ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> i <span class="ot">→</span> <span class="dt">Set</span> i</span>
 <span id="cb3-2"><a href="#cb3-2"></a>Fun₂ A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> A</span></code></pre></div>
 <p>In Type Theory, a function is also a type, called a <strong>function type</strong> represented as the type <code>Input₁ → Input₂ → ... → Inputₙ → Output</code>, where <code>Inputᵢ</code> are the input types and <code>Output</code> is the output type. A function type <code>f : A → B</code> can also be considered to be an exponential <code>f : Bᴬ</code> and can be thought of as belonging to the set of all <code>b ∈ B</code> that can be obtained from any <code>a ∈ A</code>, hence <code>Bᴬ</code> such elements.</p>
-<p>The concept of <strong>currying</strong> can be explained using this representation as $ C^{A × B} = (C<sup>A)</sup>B $ hence a function taking multiple arguments <code>f : (A, B) → C</code> is the same as <code>f : A → B → C</code>. <strong>Partial functions</strong> can then be trivally described as functions that return functions with lesser number of arguments, or <strong>arity</strong>: <code>∀ a ∈ A, g = f(a) : B → C</code>.</p>
+<p>The concept of <strong>currying</strong> can be explained using this representation as <span class="math inline">\(C^{A × B} = (C^A)^B\)</span> hence a function taking multiple arguments <code>f : (A, B) → C</code> is the same as <code>f : A → B → C</code>. <strong>Partial functions</strong> can then be trivally described as functions that return functions with lesser number of arguments, or <strong>arity</strong>: <code>∀ a ∈ A, g = f(a) : B → C</code>.</p>
 <h1 id="dependent-function-types-or-π-types">Dependent Function Types or Π-types</h1>
 <p>Dependent function types or Π-types are functions whose type of second argument depends upon the type of first.</p>
 <p>i.e. function <code>f : A → (g A) → Set</code> where <code>g : A → B</code>.</p>
@@ -139,7 +139,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><span class="math display">\[
 λx. (λx.y).ϕ
 \]</span></p>
-<p>Another notation is to use $ <em>{x : A} B(x) $, mostly used in type theory to denote Π-types. Functions of higher arity then take the form $ </em>{x : A}_{y : B(x)} D(y) $ and so on.</p>
+<p>Another notation is to use <span class="math inline">\(\Pi_{x : A} B(x)\)</span>, mostly used in type theory to denote Π-types. Functions of higher arity then take the form <span class="math inline">\(\Pi_{x : A}\Pi_{y : B(x)} D(y)\)</span> and so on.</p>
 <figure>
 <img src="dependent_function.png" alt="" /><figcaption>Figure 1: Dependent Function</figcaption>
 </figure>
@@ -216,22 +216,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-4"><a href="#cb12-4"></a>        <span class="ot">→</span> B</span>
 <span id="cb12-5"><a href="#cb12-5"></a>        <span class="ot">→</span> C</span>
 <span id="cb12-6"><a href="#cb12-6"></a>x ⟨ f ⟩ y <span class="ot">=</span> f x y</span></code></pre></div>
-<h2 id="other-useful-api">Other useful API</h2>
-<h3 id="flip">Flip</h3>
+<h1 id="other-useful-api">Other useful API</h1>
+<h2 id="flip">Flip</h2>
 <div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb13-1"><a href="#cb13-1"></a>flip <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> A <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> c<span class="ot">}</span></span>
 <span id="cb13-2"><a href="#cb13-2"></a>        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(</span>y <span class="ot">:</span> B<span class="ot">)</span> <span class="ot">→</span> C x y<span class="ot">)</span></span>
 <span id="cb13-3"><a href="#cb13-3"></a>        <span class="ot">→</span> <span class="ot">((</span>y <span class="ot">:</span> B<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> C x y<span class="ot">)</span></span>
 <span id="cb13-4"><a href="#cb13-4"></a>flip f <span class="ot">=</span> <span class="ot">λ</span> y x <span class="ot">→</span> f x y</span></code></pre></div>
-<h3 id="on">On</h3>
+<h2 id="on">On</h2>
 <div class="sourceCode" id="cb14"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb14-1"><a href="#cb14-1"></a><span class="ot">_</span>on<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span></span>
 <span id="cb14-2"><a href="#cb14-2"></a>        <span class="ot">→</span> <span class="ot">(</span>B <span class="ot">→</span> B <span class="ot">→</span> C<span class="ot">)</span></span>
 <span id="cb14-3"><a href="#cb14-3"></a>        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span></span>
 <span id="cb14-4"><a href="#cb14-4"></a>        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> A <span class="ot">→</span> C<span class="ot">)</span></span>
 <span id="cb14-5"><a href="#cb14-5"></a><span class="ot">_</span>*<span class="ot">_</span> on f <span class="ot">=</span> <span class="ot">λ</span> x y <span class="ot">→</span> f x * f y</span></code></pre></div>
-<h3 id="type-extractor">Type extractor</h3>
+<h2 id="type-extractor">Type extractor</h2>
 <div class="sourceCode" id="cb15"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb15-1"><a href="#cb15-1"></a>typeOf <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span> a</span>
 <span id="cb15-2"><a href="#cb15-2"></a>typeOf <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span> <span class="ot">_</span> <span class="ot">=</span> A</span></code></pre></div>
-<h3 id="case-statements">Case statements</h3>
+<h2 id="case-statements">Case statements</h2>
 <div class="sourceCode" id="cb16"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">infix</span> <span class="dv">0</span> case<span class="ot">_</span>return<span class="ot">_</span>of<span class="ot">_</span> case<span class="ot">_</span>of<span class="ot">_</span></span>
 <span id="cb16-2"><a href="#cb16-2"></a></span>
 <span id="cb16-3"><a href="#cb16-3"></a>case<span class="ot">_</span>return<span class="ot">_</span>of<span class="ot">_</span> <span class="ot">:</span></span>

@@ -245,12 +245,9 @@ code {
 }
 
 .math.inline {
-  background-color: #402545;
-  margin:           20px;
+  background-color: transparent;
   text-align: center;
   max-width: 800px;
-  padding-top: 20px;
-  padding-bottom: 20px;
   color: white;
   box-shadow: inset 0px 0px 30px rgba(0,0,0,0.2);
 }

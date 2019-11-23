@@ -1,7 +1,7 @@
 ****
 [Contents](contents.html)
 [Previous](Algebra.groups.html)
-[Next](Algebra.groupProperties.html)
+[Next](Algebra.morphisms.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -246,4 +246,4 @@ record AbelianGroup c ℓ : Set (lsuc (c ⊔ ℓ)) where
 ```
 
 ****
-[Properties of Group-like objects](./Algebra.groupProperties.html)
+[Group Morphisms](./Algebra.morphisms.html)
