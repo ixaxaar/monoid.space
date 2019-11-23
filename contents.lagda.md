@@ -70,7 +70,7 @@
   - [Ordered objects](./Algebra.order.html)
   - [Groups and family](./Algebra.groups.html)
   - [Groups and family 2](./Algebra.groups2.html)
-  - [Properties of Group-like objects *todo*](./Algebra.groupProperties.html)
+  - [Properties of Group-like objects](./Algebra.groupProperties.html)
   - [Rings and family](./Algebra.rings.html)
   - [Fields and family](./Algebra.fields.html)
   - [Numbers](./Algebra.numbers.html)

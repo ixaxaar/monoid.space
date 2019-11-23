@@ -76,6 +76,7 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../css/agda.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -87,15 +88,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
 <ul>
-<li><a href="#properties-and-apis-of-groups">Properties and APIs of groups</a>
+<li><a href="#group-properties">Group Properties</a>
 <ul>
+<li><a href="#morphism">Morphism</a></li>
 <li><a href="#homomorphisms">Homomorphisms</a>
 <ul>
 <li><a href="#magma-homomorphism">Magma homomorphism</a></li>
-<li><a href="#semigroupoid-homomorphism">Semigroupoid homomorphism</a></li>
-<li><a href="#small-category-homomorphism">Small category homomorphism</a></li>
 <li><a href="#semigroup-homomorphism">Semigroup homomorphism</a></li>
-<li><a href="#groupoid-homomorphism">Groupoid homomorphism</a></li>
 </ul></li>
 <li><a href="#subgroups">Subgroups</a></li>
 <li><a href="#cosets">Cosets</a></li>
@@ -103,7 +102,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<h1 id="properties-and-apis-of-groups">Properties and APIs of groups</h1>
+<h1 id="group-properties">Group Properties</h1>
 <div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Algebra<span class="ot">.</span>groupProperties <span class="kw">where</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
@@ -111,26 +110,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-5"><a href="#cb1-5"></a></span>
 <span id="cb1-6"><a href="#cb1-6"></a><span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups</span>
 <span id="cb1-7"><a href="#cb1-7"></a><span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups2</span></code></pre></div>
-<h2 id="homomorphisms">Homomorphisms</h2>
-<p>A function <code>f</code> is a homomorphism if given input <code>x ∈ X</code>, where X is a group-like structure, its output <code>y ∈ Y</code> where Y is also a group-like structure, such that <code>f</code> preserves the group-like structure of <code>X</code> in <code>Y</code>, i.e. it ensures that all relations what were valid in <code>X</code> remain valid in <code>Y</code>.</p>
+<h2 id="morphism">Morphism</h2>
+<p>A morphism is a more general concept that applies not only to groups but also to pretty much all algebraic objects. It can be defined as a structure-preserving map. In the context of group-like objects, a morphism between any two objects <code>X</code> and <code>Y</code> embeds <code>X</code> in <code>Y</code> while ensuring the structure of <code>X</code> is preserved.</p>
 <p>Let us first define a morphism:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">module</span> AbstractHomomorphism <span class="ot">{</span>f t ℓ<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> <span class="dt">Set</span> f<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> <span class="dt">Set</span> t<span class="ot">)</span> <span class="ot">(_</span>==<span class="ot">_</span> <span class="ot">:</span> Rel To ℓ<span class="ot">)</span> <span class="kw">where</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>  Morphism <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a>  Morphism <span class="ot">=</span> From <span class="ot">→</span> To</span></code></pre></div>
+<p>In the family of groups, these are the main kinds of morphisms:</p>
+<ol type="1">
+<li>Homomorphism</li>
+<li>Endomorphism</li>
+<li>Isomorphism</li>
+<li>Automorphism</li>
+</ol>
+<h2 id="homomorphisms">Homomorphisms</h2>
+<p>A map (function) <code>𝔽</code> is a homomorphism if given input <code>x ∈ (X, •)</code>, where X is a group-like structure, its output <code>y ∈ (Y, ∘)</code> where Y is also a group-like structure, such that <code>𝔽</code> preserves the group-like structure of <code>X</code> in <code>Y</code>, i.e. it ensures that all relations what were valid in <code>X</code> remain valid in <code>Y</code>. More formally,</p>
+<p>Given two groups, <code>(X, •)</code> and <code>(Y, ∘)</code>, <code>𝔽 : X → Y</code> is a homomorphism if:</p>
+<p><span class="math display">\[
+∀ x₁, x₂ ∈ X, 𝔽⟦ x₁ • x₂ ⟧ = 𝔽⟦ x₁ ⟧ ∘ 𝔽⟦ x₂ ⟧
+\]</span></p>
+<figure>
+<img src="homomorphism.png" alt="" /><figcaption>homomorphism</figcaption>
+</figure>
 <p>The basic rules for any morphism to be a homomorphism are if it:</p>
 <ol type="1">
 <li>Preserves identity</li>
 </ol>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a>  H-identity <span class="ot">:</span> Morphism <span class="ot">→</span> From <span class="ot">→</span> To <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>  H-identity ⨭<span class="ot">_</span>⨮ from <span class="kw">to</span> <span class="ot">=</span> ⨭ from ⨮ == <span class="kw">to</span></span></code></pre></div>
+<p>An identity homomorphism when applied to a structure produces the same structure.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a>  identity-preservation <span class="ot">:</span> Morphism <span class="ot">→</span> From <span class="ot">→</span> To <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>  identity-preservation 𝕄⟦<span class="ot">_</span>⟧ from <span class="kw">to</span> <span class="ot">=</span> 𝕄⟦ from ⟧ == <span class="kw">to</span></span></code></pre></div>
 <ol start="2" type="1">
 <li>Composes with operations</li>
 </ol>
-<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1"></a>  H-unary-compose <span class="ot">:</span> Morphism <span class="ot">→</span> ♠ From <span class="ot">→</span> ♠ To <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>  H-unary-compose ⨭<span class="ot">_</span>⨮ ∙<span class="ot">_</span> ∘<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> ⨭ ∙ x ⨮ == <span class="ot">(</span> ∘ ⨭ x ⨮ <span class="ot">)</span></span>
+<p>If <code>𝔽</code> is a homomorphism from <code>X → Y</code>, and <code>⋅</code> and <code>∘</code> are both unary or both binary operations operating on <code>X</code> and <code>Y</code> respectively, then <code>𝔽</code> composes with the two operations in the following ways:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1"></a>  compose-unary <span class="ot">:</span> Morphism <span class="ot">→</span> ♠ From <span class="ot">→</span> ♠ To <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>  compose-unary 𝕄⟦<span class="ot">_</span>⟧ ∙<span class="ot">_</span> ∘<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> 𝕄⟦ ∙ x ⟧ == <span class="ot">(</span> ∘ 𝕄⟦ x ⟧ <span class="ot">)</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a></span>
-<span id="cb4-4"><a href="#cb4-4"></a>  H-binary-compose <span class="ot">:</span> Morphism <span class="ot">→</span> ★ From <span class="ot">→</span> ★ To <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a>  H-binary-compose ⨭<span class="ot">_</span>⨮ <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">_</span>∘<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> ⨭ x ∙ y ⨮ == <span class="ot">(</span> ⨭ x ⨮ ∘ ⨭ y ⨮ <span class="ot">)</span></span></code></pre></div>
+<span id="cb4-4"><a href="#cb4-4"></a>  compose-binary <span class="ot">:</span> Morphism <span class="ot">→</span> ★ From <span class="ot">→</span> ★ To <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a>  compose-binary 𝕄⟦<span class="ot">_</span>⟧ <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">_</span>∘<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> 𝕄⟦ x ∙ y ⟧ == <span class="ot">(</span> 𝕄⟦ x ⟧ ∘ 𝕄⟦ y ⟧ <span class="ot">)</span></span></code></pre></div>
 <p>Now, we define homomorphisms for various group-like structures we have discussed earlier.</p>
 <h3 id="magma-homomorphism">Magma homomorphism</h3>
 <div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">module</span> <span class="ot">_</span> <span class="ot">{</span>f t ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> Magma f ℓ₁<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> Magma t ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
@@ -140,76 +157,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-5"><a href="#cb5-5"></a></span>
 <span id="cb5-6"><a href="#cb5-6"></a>  <span class="kw">open</span> AbstractHomomorphism F<span class="ot">.</span>Data T<span class="ot">.</span>Data T<span class="ot">._</span>==<span class="ot">_</span></span>
 <span id="cb5-7"><a href="#cb5-7"></a></span>
-<span id="cb5-8"><a href="#cb5-8"></a>  <span class="kw">record</span> IsMagmaHomomorphism <span class="ot">(</span> ⨭<span class="ot">_</span>⨮ <span class="ot">:</span> Morphism<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a>  <span class="kw">record</span> IsMagmaHomomorphism <span class="ot">(</span> 𝕄⟦<span class="ot">_</span>⟧ <span class="ot">:</span> Morphism<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
 <span id="cb5-9"><a href="#cb5-9"></a>    <span class="kw">field</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a>      preserves-congruence    <span class="ot">:</span> ⨭<span class="ot">_</span>⨮ Preserves F<span class="ot">._</span>==<span class="ot">_</span> ⟶ T<span class="ot">._</span>==<span class="ot">_</span></span>
-<span id="cb5-11"><a href="#cb5-11"></a>      is-abstract-homomorphic <span class="ot">:</span> H-binary-compose ⨭<span class="ot">_</span>⨮ F<span class="ot">._</span>∙<span class="ot">_</span> T<span class="ot">._</span>∙<span class="ot">_</span></span></code></pre></div>
-<h3 id="semigroupoid-homomorphism">Semigroupoid homomorphism</h3>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">module</span> <span class="ot">_</span> <span class="ot">{</span>f t ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> Semigroupoid f ℓ₁<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> Semigroupoid t ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a>      preserves-congruence    <span class="ot">:</span> 𝕄⟦<span class="ot">_</span>⟧ Preserves F<span class="ot">._</span>==<span class="ot">_</span> ⟶ T<span class="ot">._</span>==<span class="ot">_</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a>      preserves-composition   <span class="ot">:</span> compose-binary 𝕄⟦<span class="ot">_</span>⟧ F<span class="ot">._</span>∙<span class="ot">_</span> T<span class="ot">._</span>∙<span class="ot">_</span></span></code></pre></div>
+<h3 id="semigroup-homomorphism">Semigroup homomorphism</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">module</span> <span class="ot">_</span> <span class="ot">{</span>f t ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> Semigroup f ℓ₁<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> Semigroup t ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a>  <span class="kw">private</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a>    <span class="kw">module</span> F <span class="ot">=</span> Semigroupoid From</span>
-<span id="cb6-4"><a href="#cb6-4"></a>    <span class="kw">module</span> T <span class="ot">=</span> Semigroupoid To</span>
+<span id="cb6-3"><a href="#cb6-3"></a>    <span class="kw">module</span> F <span class="ot">=</span> Semigroup From</span>
+<span id="cb6-4"><a href="#cb6-4"></a>    <span class="kw">module</span> T <span class="ot">=</span> Semigroup To</span>
 <span id="cb6-5"><a href="#cb6-5"></a></span>
 <span id="cb6-6"><a href="#cb6-6"></a>  <span class="kw">open</span> AbstractHomomorphism F<span class="ot">.</span>Data T<span class="ot">.</span>Data T<span class="ot">._</span>==<span class="ot">_</span></span>
 <span id="cb6-7"><a href="#cb6-7"></a></span>
-<span id="cb6-8"><a href="#cb6-8"></a>  <span class="kw">record</span> IsSemigroupoidHomomorphism <span class="ot">(</span> ⨭<span class="ot">_</span>⨮ <span class="ot">:</span> Morphism<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a>  <span class="kw">record</span> IsSemigroupHomomorphism <span class="ot">(</span> 𝕄⟦<span class="ot">_</span>⟧ <span class="ot">:</span> Morphism <span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
 <span id="cb6-9"><a href="#cb6-9"></a>    <span class="kw">field</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a>      preserves-congruence    <span class="ot">:</span> ⨭<span class="ot">_</span>⨮ Preserves F<span class="ot">._</span>==<span class="ot">_</span> ⟶ T<span class="ot">._</span>==<span class="ot">_</span></span>
-<span id="cb6-11"><a href="#cb6-11"></a>      is-abstract-homomorphic <span class="ot">:</span> H-binary-compose ⨭<span class="ot">_</span>⨮ F<span class="ot">._</span>∙<span class="ot">_</span> T<span class="ot">._</span>∙<span class="ot">_</span></span></code></pre></div>
-<h3 id="small-category-homomorphism">Small category homomorphism</h3>
-<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">module</span> <span class="ot">_</span> <span class="ot">{</span>f t ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> SmallCategory f ℓ₁<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> SmallCategory t ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>  <span class="kw">private</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a>    <span class="kw">module</span> F <span class="ot">=</span> SmallCategory From</span>
-<span id="cb7-4"><a href="#cb7-4"></a>    <span class="kw">module</span> T <span class="ot">=</span> SmallCategory To</span>
-<span id="cb7-5"><a href="#cb7-5"></a></span>
-<span id="cb7-6"><a href="#cb7-6"></a>  <span class="kw">open</span> AbstractHomomorphism F<span class="ot">.</span>Data T<span class="ot">.</span>Data T<span class="ot">._</span>==<span class="ot">_</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a></span>
-<span id="cb7-8"><a href="#cb7-8"></a>  <span class="kw">record</span> IsSmallCategoryHomomorphism <span class="ot">(</span> ⨭<span class="ot">_</span>⨮ <span class="ot">:</span> Morphism<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a>    <span class="kw">field</span></span>
-<span id="cb7-10"><a href="#cb7-10"></a>      is-semigroupoid-homomorphic    <span class="ot">:</span> IsSemigroupoidHomomorphism F<span class="ot">.</span>semigroupoid T<span class="ot">.</span>semigroupoid ⨭<span class="ot">_</span>⨮</span>
-<span id="cb7-11"><a href="#cb7-11"></a>      preserves-identity             <span class="ot">:</span> H-identity ⨭<span class="ot">_</span>⨮ F<span class="ot">.</span>ε T<span class="ot">.</span>ε</span>
-<span id="cb7-12"><a href="#cb7-12"></a></span>
-<span id="cb7-13"><a href="#cb7-13"></a>    <span class="kw">open</span> IsSemigroupoidHomomorphism is-semigroupoid-homomorphic <span class="kw">public</span></span></code></pre></div>
-<h3 id="semigroup-homomorphism">Semigroup homomorphism</h3>
-<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">module</span> <span class="ot">_</span> <span class="ot">{</span>f t ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> Semigroup f ℓ₁<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> Semigroup t ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>  <span class="kw">private</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a>    <span class="kw">module</span> F <span class="ot">=</span> Semigroup From</span>
-<span id="cb8-4"><a href="#cb8-4"></a>    <span class="kw">module</span> T <span class="ot">=</span> Semigroup To</span>
-<span id="cb8-5"><a href="#cb8-5"></a></span>
-<span id="cb8-6"><a href="#cb8-6"></a>  <span class="kw">open</span> AbstractHomomorphism F<span class="ot">.</span>Data T<span class="ot">.</span>Data T<span class="ot">._</span>==<span class="ot">_</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a></span>
-<span id="cb8-8"><a href="#cb8-8"></a>  <span class="kw">record</span> IsSemigroupHomomorphism <span class="ot">(</span> ⨭<span class="ot">_</span>⨮ <span class="ot">:</span> Morphism <span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a>    <span class="kw">field</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a>      is-magma-homomorphism  <span class="ot">:</span> IsMagmaHomomorphism F<span class="ot">.</span>magma T<span class="ot">.</span>magma ⨭<span class="ot">_</span>⨮</span>
-<span id="cb8-11"><a href="#cb8-11"></a></span>
-<span id="cb8-12"><a href="#cb8-12"></a>    <span class="kw">open</span> IsMagmaHomomorphism is-magma-homomorphism <span class="kw">public</span></span></code></pre></div>
-<h3 id="groupoid-homomorphism">Groupoid homomorphism</h3>
-<pre class="lauda"><code>open import Types.functions using (_$_)
-
-module _ {f t ℓ₁ ℓ₂} (From : Groupoid f ℓ₁) (To : Groupoid t ℓ₂) where
-  private
-    module F = Groupoid From
-    module T = Groupoid To
-
-  open AbstractHomomorphism F.Data T.Data T._==_
-
-  record IsGroupoidHomomorphism ( ⨭_⨮ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
-    field
-      is-smallcategory-homomorphic    : IsSmallCategoryHomomorphism F.smallcategory T.smallcategory ⨭_⨮
-
-    open IsSmallCategoryHomomorphism is-smallcategory-homomorphic public
-
-    open import Algebra.equational
-    -- open ★-reasoning T._==_ T.rfl T.trans public
-
-    preserves-inverse : H-binary-compose ⨭_⨮ F._⁻¹ T._⁻¹
-    preserves-inverse x = let
-        open ★-reasoning T._==_ T.rfl T.trans
-      in T.uniqueˡ-⁻¹ ⨭ x F.⁻¹ ⨮ ⨭ x ⨮ $ begin
-      ⨭ x F.⁻¹ ⨮ T.∙ ⨭ x ⨮  ∼⟨ T.sym (is-abstract-homomorphic (x F.⁻¹) x) ⟩
-      ⨭ x F.⁻¹ F.∙ x ⨮      ∼⟨ preserves-congruence (F.inverseˡ x) ⟩
-      ⨭ F.ε ⨮               ∼⟨ preserves-identity ⟩
-      T.ε ∎</code></pre>
+<span id="cb6-10"><a href="#cb6-10"></a>      is-magma-homomorphism  <span class="ot">:</span> IsMagmaHomomorphism F<span class="ot">.</span>magma T<span class="ot">.</span>magma 𝕄⟦<span class="ot">_</span>⟧</span>
+<span id="cb6-11"><a href="#cb6-11"></a></span>
+<span id="cb6-12"><a href="#cb6-12"></a>    <span class="kw">open</span> IsMagmaHomomorphism is-magma-homomorphism <span class="kw">public</span></span></code></pre></div>
 <h2 id="subgroups">Subgroups</h2>
 <h2 id="cosets">Cosets</h2>
 <h2 id="quotient-groups">Quotient groups</h2>

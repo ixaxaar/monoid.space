@@ -192,9 +192,27 @@ _⟨_⟩_ : ∀ {a b c} {A : Set a} {B : Set b} {C : Set c}
 x ⟨ f ⟩ y = f x y
 ```
 
-## Other useful API
+# Classifications of functions
 
-### Flip
+Functions can be broadly classified as:
+
+1. Injective (one-to-one)
+2. Surjective (onto)
+3. Bijective (one-to-one and onto)
+
+![Injection vs Surjection vs Bijection](functions.png)
+
+Note that a function, by definition, can never produce multiple outputs given the same input.
+
+## Injection
+
+## Surjection
+
+## Bijection
+
+# Other useful API
+
+## Flip
 
 ```agda
 flip : ∀ {a b c} {A : Set a} {B : Set b} {C : A → B → Set c}
@@ -203,7 +221,7 @@ flip : ∀ {a b c} {A : Set a} {B : Set b} {C : A → B → Set c}
 flip f = λ y x → f x y
 ```
 
-### On
+## On
 
 ```agda
 _on_ : ∀ {a b c} {A : Set a} {B : Set b} {C : Set c}
@@ -213,14 +231,14 @@ _on_ : ∀ {a b c} {A : Set a} {B : Set b} {C : Set c}
 _*_ on f = λ x y → f x * f y
 ```
 
-### Type extractor
+## Type extractor
 
 ```agda
 typeOf : ∀ {a} {A : Set a} → A → Set a
 typeOf {A = A} _ = A
 ```
 
-### Case statements
+## Case statements
 
 ```agda
 infix 0 case_return_of_ case_of_

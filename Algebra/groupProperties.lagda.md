@@ -7,13 +7,11 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ****
 
-- [Properties and APIs of groups](#properties-and-apis-of-groups)
+- [Group Properties](#group-properties)
+  - [Morphism](#morphism)
   - [Homomorphisms](#homomorphisms)
     - [Magma homomorphism](#magma-homomorphism)
-    - [Semigroupoid homomorphism](#semigroupoid-homomorphism)
-    - [Small category homomorphism](#small-category-homomorphism)
     - [Semigroup homomorphism](#semigroup-homomorphism)
-    - [Groupoid homomorphism](#groupoid-homomorphism)
   - [Subgroups](#subgroups)
   - [Cosets](#cosets)
   - [Quotient groups](#quotient-groups)
@@ -21,7 +19,7 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
-# Properties and APIs of groups
+# Group Properties
 
 ```agda
 module Algebra.groupProperties where
@@ -33,36 +31,60 @@ open import Algebra.groups
 open import Algebra.groups2
 ```
 
-## Homomorphisms
+## Morphism
 
-A function `f` is a homomorphism if given input `x ∈ X`, where X is a group-like structure, its output `y ∈ Y` where Y is also a group-like structure, such that `f` preserves the group-like structure of `X` in `Y`, i.e. it ensures that all relations what were valid in `X` remain valid in `Y`.
+A morphism is a more general concept that applies not only to groups but also to pretty much all algebraic objects. It can be defined as a structure-preserving map. In the context of group-like objects, a morphism between any two objects `X` and `Y` embeds `X` in `Y` while ensuring the structure of `X` is preserved.
 
 Let us first define a morphism:
 
 ```agda
-module AbstractHomomorphism {f t ℓ} (From : Set f) (To : Set t) (_==_ : Rel To ℓ) where
+module Homomorphism {f t ℓ} (From : Set f) (To : Set t) (_==_ : Rel To ℓ) where
   Morphism : Set _
   Morphism = From → To
 ```
+
+In the family of groups, these are the main kinds of morphisms:
+
+1. Homomorphism
+2. Endomorphism
+3. Isomorphism
+4. Automorphism
+
+## Homomorphisms
+
+A map (function) `𝔽` is a homomorphism if given input `x ∈ (X, •)`, where X is a group-like structure, its output `y ∈ (Y, ∘)` where Y is also a group-like structure, such that `𝔽` preserves the group-like structure of `X` in `Y`, i.e. it ensures that all relations what were valid in `X` remain valid in `Y`. More formally,
+
+Given two groups, `(X, •)` and `(Y, ∘)`, `𝔽 : X → Y` is a homomorphism if:
+
+$$
+∀ x₁, x₂ ∈ X, 𝔽⟦ x₁ • x₂ ⟧ = 𝔽⟦ x₁ ⟧ ∘ 𝔽⟦ x₂ ⟧
+$$
+
+![Group Homomorphism](homomorphism.png)
 
 The basic rules for any morphism to be a homomorphism are if it:
 
 1. Preserves identity
 
+An identity homomorphism when applied to a structure produces the same structure.
+
 ```agda
-  H-identity : Morphism → From → To → Set _
-  H-identity ⨭_⨮ from to = ⨭ from ⨮ == to
+  identity-preservation : Morphism → From → To → Set _
+  identity-preservation 𝕄⟦_⟧ from to = 𝕄⟦ from ⟧ == to
 ```
 
 2. Composes with operations
 
-```agda
-  H-unary-compose : Morphism → ♠ From → ♠ To → Set _
-  H-unary-compose ⨭_⨮ ∙_ ∘_ = ∀ x → ⨭ ∙ x ⨮ == ( ∘ ⨭ x ⨮ )
+If `𝔽` is a homomorphism from `X → Y`, and `⋅` and `∘` are both unary or both binary operations operating on `X` and `Y` respectively, then `𝔽` composes with the two operations in the following ways:
 
-  H-binary-compose : Morphism → ★ From → ★ To → Set _
-  H-binary-compose ⨭_⨮ _∙_ _∘_ = ∀ x y → ⨭ x ∙ y ⨮ == ( ⨭ x ⨮ ∘ ⨭ y ⨮ )
+```agda
+  compose-unary : Morphism → ♠ From → ♠ To → Set _
+  compose-unary 𝕄⟦_⟧ ∙_ ∘_ = ∀ x → 𝕄⟦ ∙ x ⟧ == ( ∘ 𝕄⟦ x ⟧ )
+
+  compose-binary : Morphism → ★ From → ★ To → Set _
+  compose-binary 𝕄⟦_⟧ _∙_ _∘_ = ∀ x y → 𝕄⟦ x ∙ y ⟧ == ( 𝕄⟦ x ⟧ ∘ 𝕄⟦ y ⟧ )
 ```
+
 
 Now, we define homomorphisms for various group-like structures we have discussed earlier.
 
@@ -74,46 +96,12 @@ module _ {f t ℓ₁ ℓ₂} (From : Magma f ℓ₁) (To : Magma t ℓ₂) where
     module F = Magma From
     module T = Magma To
 
-  open AbstractHomomorphism F.Data T.Data T._==_
+  open Homomorphism F.Data T.Data T._==_
 
-  record IsMagmaHomomorphism ( ⨭_⨮ : Morphism) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+  record IsMagmaHomomorphism ( 𝕄⟦_⟧ : Morphism) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
     field
-      preserves-congruence    : ⨭_⨮ Preserves F._==_ ⟶ T._==_
-      is-abstract-homomorphic : H-binary-compose ⨭_⨮ F._∙_ T._∙_
-```
-
-### Semigroupoid homomorphism
-
-```agda
-module _ {f t ℓ₁ ℓ₂} (From : Semigroupoid f ℓ₁) (To : Semigroupoid t ℓ₂) where
-  private
-    module F = Semigroupoid From
-    module T = Semigroupoid To
-
-  open AbstractHomomorphism F.Data T.Data T._==_
-
-  record IsSemigroupoidHomomorphism ( ⨭_⨮ : Morphism) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
-    field
-      preserves-congruence    : ⨭_⨮ Preserves F._==_ ⟶ T._==_
-      is-abstract-homomorphic : H-binary-compose ⨭_⨮ F._∙_ T._∙_
-```
-
-### Small category homomorphism
-
-```agda
-module _ {f t ℓ₁ ℓ₂} (From : SmallCategory f ℓ₁) (To : SmallCategory t ℓ₂) where
-  private
-    module F = SmallCategory From
-    module T = SmallCategory To
-
-  open AbstractHomomorphism F.Data T.Data T._==_
-
-  record IsSmallCategoryHomomorphism ( ⨭_⨮ : Morphism) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
-    field
-      is-semigroupoid-homomorphic    : IsSemigroupoidHomomorphism F.semigroupoid T.semigroupoid ⨭_⨮
-      preserves-identity             : H-identity ⨭_⨮ F.ε T.ε
-
-    open IsSemigroupoidHomomorphism is-semigroupoid-homomorphic public
+      preserves-congruence    : 𝕄⟦_⟧ Preserves F._==_ ⟶ T._==_
+      preserves-composition   : compose-binary 𝕄⟦_⟧ F._∙_ T._∙_
 ```
 
 ### Semigroup homomorphism
@@ -124,45 +112,90 @@ module _ {f t ℓ₁ ℓ₂} (From : Semigroup f ℓ₁) (To : Semigroup t ℓ�
     module F = Semigroup From
     module T = Semigroup To
 
-  open AbstractHomomorphism F.Data T.Data T._==_
+  open Homomorphism F.Data T.Data T._==_
 
-  record IsSemigroupHomomorphism ( ⨭_⨮ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+  record IsSemigroupHomomorphism ( 𝕄⟦_⟧ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
     field
-      is-magma-homomorphism  : IsMagmaHomomorphism F.magma T.magma ⨭_⨮
+      is-magma-homomorphism  : IsMagmaHomomorphism F.magma T.magma 𝕄⟦_⟧
 
     open IsMagmaHomomorphism is-magma-homomorphism public
 ```
 
-### Groupoid homomorphism
+### Monoid Homomorphism
 
-```lauda
-open import Types.functions using (_$_)
-
-module _ {f t ℓ₁ ℓ₂} (From : Groupoid f ℓ₁) (To : Groupoid t ℓ₂) where
+```agda
+module _ {f t ℓ₁ ℓ₂} (From : Monoid f ℓ₁) (To : Monoid t ℓ₂) where
   private
-    module F = Groupoid From
-    module T = Groupoid To
+    module F = Monoid From
+    module T = Monoid To
 
-  open AbstractHomomorphism F.Data T.Data T._==_
+  open Homomorphism F.Data T.Data T._==_
 
-  record IsGroupoidHomomorphism ( ⨭_⨮ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+  record IsMonoidHomomorphism ( 𝕄⟦_⟧ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
     field
-      is-smallcategory-homomorphic    : IsSmallCategoryHomomorphism F.smallcategory T.smallcategory ⨭_⨮
+      is-semigroup-homomorphism  : IsSemigroupHomomorphism F.semigroup T.semigroup 𝕄⟦_⟧
+      preserves-identity         : identity-preservation 𝕄⟦_⟧ F.ε T.ε
 
-    open IsSmallCategoryHomomorphism is-smallcategory-homomorphic public
-
-    open import Algebra.equational
-    -- open ★-reasoning T._==_ T.rfl T.trans public
-
-    preserves-inverse : H-binary-compose ⨭_⨮ F._⁻¹ T._⁻¹
-    preserves-inverse x = let
-        open ★-reasoning T._==_ T.rfl T.trans
-      in T.uniqueˡ-⁻¹ ⨭ x F.⁻¹ ⨮ ⨭ x ⨮ $ begin
-      ⨭ x F.⁻¹ ⨮ T.∙ ⨭ x ⨮  ∼⟨ T.sym (is-abstract-homomorphic (x F.⁻¹) x) ⟩
-      ⨭ x F.⁻¹ F.∙ x ⨮      ∼⟨ preserves-congruence (F.inverseˡ x) ⟩
-      ⨭ F.ε ⨮               ∼⟨ preserves-identity ⟩
-      T.ε ∎
+    open IsSemigroupHomomorphism is-semigroup-homomorphism public
 ```
+
+### Group Homomorphism
+
+```agda
+module _ {f t ℓ₁ ℓ₂} (From : Group f ℓ₁) (To : Group t ℓ₂) where
+  private
+    module F = Group From
+    module T = Group To
+
+  open Homomorphism F.Data T.Data T._==_
+
+  record IsGroupHomomorphism ( 𝕄⟦_⟧ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+    field
+      is-monoid-homomorphism  : IsMonoidHomomorphism F.monoid T.monoid 𝕄⟦_⟧
+      preserves-inverse       : compose-unary 𝕄⟦_⟧ F._⁻¹ T._⁻¹
+
+    open IsMonoidHomomorphism is-monoid-homomorphism public
+```
+
+## Endomorphism
+
+An Endomorphism is a homomorphism where `From` and `To` are the same objects.
+
+### Monoid endomorphism
+
+```agda
+module _ {f ℓ} (Self : Monoid f ℓ) where
+  private
+    module S = Monoid Self
+
+  open Homomorphism S.Data S.Data S._==_
+
+  record IsMonoidAutomorphism ( 𝕄⟦_⟧ : Morphism) : Set (f ⊔ ℓ) where
+    field
+      is-homomorphism : IsMonoidHomomorphism Self Self 𝕄⟦_⟧
+```
+
+### Group endomorphism
+
+```agda
+module _ {f ℓ} (Self : Group f ℓ) where
+  private
+    module S = Group Self
+
+  open Homomorphism S.Data S.Data S._==_
+
+  record IsGroupAutomorphism ( 𝕄⟦_⟧ : Morphism) : Set (f ⊔ ℓ) where
+    field
+      is-homomorphism : IsGroupHomomorphism Self Self 𝕄⟦_⟧
+```
+
+## Isomorphism
+
+An group isomorphism is a homomorphism with an additional property - bijection (one-to-one + onto). Bijection implies an isomorphism is a homomorphism such that the inverse of the homomorphism is also a homomorphism. Practically, an isomorphism is an equivalence relation. Often in mathematics one encounters the phrase "equal upto isomorphism" meaning isomorphism serves as equality for all practical purposes.
+
+![Injection vs Surjection vs Bijection](functions.png)
+
+
 
 ## Subgroups
 
