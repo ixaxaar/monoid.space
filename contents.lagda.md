@@ -11,6 +11,10 @@
   - [4. Applied Type Theory](#4-applied-type-theory)
   - [5. Logic](#5-logic)
   - [6. Abstract Algebras](#6-abstract-algebras)
+    - [6.1 Orders](#61-orders)
+    - [6.2 Groups](#62-groups)
+    - [6.3 Rings](#63-rings)
+    - [6.4 Fields](#64-fields)
   - [7. Homotopy Type Theory](#7-homotopy-type-theory)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -68,13 +72,25 @@
 ## 6. Abstract Algebras
 
   - [Introduction](./Algebra.introduction.html)
+
+### 6.1 Orders
+
   - [Ordered objects](./Algebra.order.html)
+
+### 6.2 Groups
+
   - [Groups and family](./Algebra.groups.html)
   - [Groups and family 2](./Algebra.groups2.html)
   - [Group Morphisms](./Algebra.morphisms.html)
+
+### 6.3 Rings
+
   - [Rings and family](./Algebra.rings.html)
   - [Rings and family 2](./Algebra.rings2.html)
   - [Ring Morphisms](./Algebra.ring_morphisms.html)
+
+### 6.4 Fields
+
   - [Fields and family](./Algebra.fields.html)
   - [Fields and family 2](./Algebra.fields2.html)
   - [Field Morphisms](./Algebra.field_morphisms.html)
