@@ -383,7 +383,9 @@ img {
   /*margin-left: 50px;*/
   max-width: 600px;
   max-height: 800px;
-  border-radius:    10px;
+  border-radius: 20px;
+  padding: 20px;
+  background-color: rgb(250, 250, 250);
 }
 
 figcaption {

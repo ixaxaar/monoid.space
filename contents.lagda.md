@@ -1,26 +1,5 @@
 ****
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-****
-
-- [Contents](#contents)
-  - [1. Agda](#1-agda)
-  - [2. Type Theory](#2-type-theory)
-  - [3. Type Theory 2](#3-type-theory-2)
-  - [4. Applied Type Theory](#4-applied-type-theory)
-  - [5. Logic](#5-logic)
-  - [6. Abstract Algebras](#6-abstract-algebras)
-    - [6.1 Orders](#61-orders)
-    - [6.2 Groups](#62-groups)
-    - [6.3 Rings](#63-rings)
-    - [6.4 Fields](#64-fields)
-  - [7. Homotopy Type Theory](#7-homotopy-type-theory)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-![Fig 0: The Snake Lemma](./cover.png)
-
 # Contents
 
 ## 1. Agda

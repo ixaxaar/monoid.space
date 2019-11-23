@@ -60,14 +60,16 @@ agda -i . --compile --without-K --no-main --compile-dir=./build contents.lagda.m
 
 for i in "${files[@]}"
 do
-   # generate TOC
-   doctoc --github --title '****' "${i}.lagda.md" &> /dev/null
+  if [[ $i != "contents" ]]; then
+    # generate TOC
+    doctoc --github --title '****' "${i}.lagda.md" &> /dev/null
+  fi
 
-   # remove doctoc's text
-   sed -i "s/\*generated with \[DocToc\](https:\/\/github.com\/thlorenz\/doctoc)\*//g" "${i}.lagda.md"
+  # remove doctoc's text
+  sed -i "s/\*generated with \[DocToc\](https:\/\/github.com\/thlorenz\/doctoc)\*//g" "${i}.lagda.md"
 
-   echo "Generating HTML for " "${i}.lagda.md"
-   pandoc -s --mathjax --css=../css/agda.css --from=markdown+smart --to=html --metadata pagetitle="${i}" --columns=120 -o ./html/${${i/\.\//}/\//\.}.html "${i}.lagda.md"
+  echo "Generating HTML for " "${i}.lagda.md"
+  pandoc -s --mathjax --css=../css/agda.css --from=markdown+smart --to=html --metadata pagetitle="${i}" --columns=120 -o ./html/${${i/\.\//}/\//\.}.html "${i}.lagda.md"
 
 done
 
