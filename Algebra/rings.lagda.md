@@ -1,7 +1,7 @@
 ****
 [Contents](contents.html)
 [Previous](Algebra.groupProperties.html)
-[Next](Algebra.fields.html)
+[Next](Algebra.rings2.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -416,4 +416,4 @@ and finally, the commutative ring:
 ```
 
 ****
-[Fields and Real Numbers](./Algebra.real.html)
+[Rings and family 2](./Algebra.rings2.html)

@@ -47,6 +47,7 @@ declare -a files=(
   "Algebra/groups2"
   "Algebra/morphisms"
   "Algebra/rings"
+  "Algebra/rings2"
   "Algebra/fields"
   "Algebra/numbers"
 )

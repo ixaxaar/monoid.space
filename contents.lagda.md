@@ -52,23 +52,23 @@
 
   - [Introduction](./Algebra.introduction.html)
 
-### 6.1 Orders
+#### 6.1 __Orders__
 
   - [Ordered objects](./Algebra.order.html)
 
-### 6.2 Groups
+#### 6.2 __Groups__
 
   - [Groups and family](./Algebra.groups.html)
   - [Groups and family 2](./Algebra.groups2.html)
   - [Group Morphisms](./Algebra.morphisms.html)
 
-### 6.3 Rings
+#### 6.3 __Rings__
 
   - [Rings and family](./Algebra.rings.html)
   - [Rings and family 2](./Algebra.rings2.html)
   - [Ring Morphisms](./Algebra.ring_morphisms.html)
 
-### 6.4 Fields
+#### 6.4 __Fields__
 
   - [Fields and family](./Algebra.fields.html)
   - [Fields and family 2](./Algebra.fields2.html)
@@ -135,6 +135,7 @@ import Algebra.groups
 import Algebra.groups2
 import Algebra.morphisms
 import Algebra.rings
+import Algebra.rings2
 import Algebra.fields
 import Algebra.numbers
 ```

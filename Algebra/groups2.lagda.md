@@ -30,10 +30,9 @@ Such structures can often be applied in computer science in curious ways, such a
 ```agda
 module Algebra.groups2 where
 
-open import Types.equality using (Rel)
-
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 
+open import Types.equality using (Rel)
 open import Algebra.groups
 ```
 
