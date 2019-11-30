@@ -35,10 +35,10 @@
 
   - [Introduction](./AppliedTypes.introduction.html)
   - [Gödel's T](./AppliedTypes.godels_t.html)
-  - [System F](./AppliedTypes.system_f.html)
-  - [Bitcoin](./AppliedTypes.bitcoin.html)
-  - [Verified Programming](./AppliedTypes.verified_programming.html)
-  - [Binding with the outside world](./AppliedTypes.bindings.html)
+  - [~~System F~~](./AppliedTypes.system_f.html)
+  - [~~Bitcoin~~](./AppliedTypes.bitcoin.html)
+  - [~~Verified Programming~~](./AppliedTypes.verified_programming.html)
+  - [~~Binding with the outside world~~](./AppliedTypes.bindings.html)
 
 ## 5. Logic
 
@@ -46,7 +46,7 @@
   - [Boolean Algebra](./Logic.logicBasics.html)
   - [Equality](./Logic.equality.html)
   - [Laws of Logic](./Logic.laws.html)
-  - [Decidability *todo*](./Logic.decidability.html)
+  - [~~Decidability~~](./Logic.decidability.html)
 
 ## 6. Abstract Algebras
 
@@ -66,24 +66,22 @@
 
   - [Rings and family](./Algebra.rings.html)
   - [Rings and family 2](./Algebra.rings2.html)
-  - [Ring Morphisms](./Algebra.ring_morphisms.html)
+  - [~~Ring Morphisms~~](./Algebra.ring_morphisms.html)
 
 #### 6.4 __Fields__
 
   - [Fields and family](./Algebra.fields.html)
   - [Fields and family 2](./Algebra.fields2.html)
-  - [Field Morphisms](./Algebra.field_morphisms.html)
+  - [~~Field Morphisms~~](./Algebra.field_morphisms.html)
   - [Numbers](./Algebra.numbers.html)
 
 ## 7. Homotopy Type Theory
 
   - [Introduction](./HoTT.introduction.html)
   - [Identity Types and Paths](./HoTT.identity.html)
-  - [Connected spaces *todo*](./HoTT.paths.html)
-  - [The Univalence Principle *todo*](./HoTT.univalance.html)
-  - [The Fundamental Group and Groupoid *todo*](./HoTT.fundamentalGroup.html)
-
-<!-- - [The Seifert van-Kampen Theorem *todo*](./HoTT/vanKampen.html) -->
+  - [~~Connected spaces~~](./HoTT.paths.html)
+  - [~~The Univalence Principle~~](./HoTT.univalance.html)
+  - [~~The Fundamental Group and Groupoid~~](./HoTT.fundamentalGroup.html)
 
 [Go up](contents.html)
 [Gitlab](https://gitlab.com/ixaxaar/monoid.space)
