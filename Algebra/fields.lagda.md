@@ -1,7 +1,7 @@
 ****
 [Contents](contents.html)
 [Previous](Algebra.rings.html)
-[Next](./Algebra.numbers.html)
+[Next](./Algebra.fields2.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -184,4 +184,4 @@ Ordered fields impose an additional restriction on fields: there has to be an or
 
 
 ****
-[Numbers](./Algebra.numbers.html)
+[Fields and family 2](./Algebra.fields2.html)

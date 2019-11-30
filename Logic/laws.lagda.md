@@ -30,15 +30,11 @@ We describe here some fundamental laws of boolean algebra, called "monotone laws
 ```agda
 module Logic.laws where
 
-open import Logic.logicBasics using (¬; not; xor; ⟂; ⊤; singleton)
-
-open import Logic.equality using (Equiv; _≡_)
-
-open import Types.relations using (Rel; Equivalence)
-
 open import Lang.dataStructures using (Bool; true; false)
-
 open import Types.product using (_×_; _,_)
+open import Types.relations using (Rel; Equivalence)
+open import Logic.logicBasics using (¬; not; xor; ⟂; ⊤; singleton)
+open import Logic.equality using (Equiv; _≡_)
 ```
 
 ## Monotone Laws
@@ -212,49 +208,50 @@ $$
 
 The logical `AND` and `OR` operators satisfy the above laws:
 
-```lauda
-open import Logic.logicBasics
-
-∨-assoc : associativity _∨_
-∨-assoc true  y z = refl
-∨-assoc false y z = refl
-
-∨-comm : Commutative _∨_
-∨-comm true  true  = refl
-∨-comm true  false = refl
-∨-comm false true  = refl
-∨-comm false false = refl
-
-∨-identityˡ : LeftIdentity false _∨_
-∨-identityˡ _ = refl
-
-∨-identityʳ : RightIdentity false _∨_
-∨-identityʳ false = refl
-∨-identityʳ true  = refl
-
-∨-identity : Identity false _∨_
-∨-identity = ∨-identityˡ , ∨-identityʳ
-
-∨-zeroˡ : LeftZero true _∨_
-∨-zeroˡ _ = refl
-
-∨-zeroʳ : RightZero true _∨_
-∨-zeroʳ false = refl
-∨-zeroʳ true  = refl
-
-∨-zero : Zero true _∨_
-∨-zero = ∨-zeroˡ , ∨-zeroʳ
-
-∨-inverseˡ : LeftInverse true not _∨_
-∨-inverseˡ false = refl
-∨-inverseˡ true  = refl
-
-∨-inverseʳ : RightInverse true not _∨_
-∨-inverseʳ x = ∨-comm x (not x) ⟨ trans ⟩ ∨-inverseˡ x
-
-∨-inverse : Inverse true not _∨_
-∨-inverse = ∨-inverseˡ , ∨-inverseʳ
+```agda
+  open import Logic.logicBasics
+  open import Types.operations _==_
 ```
+
+  ∨-assoc : associativity _∨_
+  ∨-assoc true  y z = refl
+  ∨-assoc false y z = refl
+
+  ∨-comm : Commutative _∨_
+  ∨-comm true  true  = refl
+  ∨-comm true  false = refl
+  ∨-comm false true  = refl
+  ∨-comm false false = refl
+
+  ∨-identityˡ : LeftIdentity false _∨_
+  ∨-identityˡ _ = refl
+
+  ∨-identityʳ : RightIdentity false _∨_
+  ∨-identityʳ false = refl
+  ∨-identityʳ true  = refl
+
+  ∨-identity : Identity false _∨_
+  ∨-identity = ∨-identityˡ , ∨-identityʳ
+
+  ∨-zeroˡ : LeftZero true _∨_
+  ∨-zeroˡ _ = refl
+
+  ∨-zeroʳ : RightZero true _∨_
+  ∨-zeroʳ false = refl
+  ∨-zeroʳ true  = refl
+
+  ∨-zero : Zero true _∨_
+  ∨-zero = ∨-zeroˡ , ∨-zeroʳ
+
+  ∨-inverseˡ : LeftInverse true not _∨_
+  ∨-inverseˡ false = refl
+  ∨-inverseˡ true  = refl
+
+  ∨-inverseʳ : RightInverse true not _∨_
+  ∨-inverseʳ x = ∨-comm x (not x) ⟨ trans ⟩ ∨-inverseˡ x
+
+  ∨-inverse : Inverse true not _∨_
+  ∨-inverse = ∨-inverseˡ , ∨-inverseʳ
 
 ****
 [Decidability](./Logic.decidability.html)

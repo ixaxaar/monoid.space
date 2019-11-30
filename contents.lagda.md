@@ -137,6 +137,7 @@ import Algebra.morphisms
 import Algebra.rings
 import Algebra.rings2
 import Algebra.fields
+import Algebra.fields2
 import Algebra.numbers
 ```
 

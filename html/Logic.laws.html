@@ -112,15 +112,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We describe here some fundamental laws of boolean algebra, called “monotone laws”. We then tackle some laws specific to Boolean algebra.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Logic<span class="ot">.</span>laws <span class="kw">where</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Logic<span class="ot">.</span>logicBasics <span class="kw">using</span> <span class="ot">(</span>¬<span class="ot">;</span> not<span class="ot">;</span> xor<span class="ot">;</span> ⟂<span class="ot">;</span> ⊤<span class="ot">;</span> singleton<span class="ot">)</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">open</span> <span class="kw">import</span> Logic<span class="ot">.</span>equality <span class="kw">using</span> <span class="ot">(</span>Equiv<span class="ot">;</span> <span class="ot">_</span>≡<span class="ot">_)</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations <span class="kw">using</span> <span class="ot">(</span>Rel<span class="ot">;</span> Equivalence<span class="ot">)</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">)</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(_</span>×<span class="ot">_;</span> <span class="ot">_</span>,<span class="ot">_)</span></span></code></pre></div>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">)</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(_</span>×<span class="ot">_;</span> <span class="ot">_</span>,<span class="ot">_)</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations <span class="kw">using</span> <span class="ot">(</span>Rel<span class="ot">;</span> Equivalence<span class="ot">)</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">open</span> <span class="kw">import</span> Logic<span class="ot">.</span>logicBasics <span class="kw">using</span> <span class="ot">(</span>¬<span class="ot">;</span> not<span class="ot">;</span> xor<span class="ot">;</span> ⟂<span class="ot">;</span> ⊤<span class="ot">;</span> singleton<span class="ot">)</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">open</span> <span class="kw">import</span> Logic<span class="ot">.</span>equality <span class="kw">using</span> <span class="ot">(</span>Equiv<span class="ot">;</span> <span class="ot">_</span>≡<span class="ot">_)</span></span></code></pre></div>
 <h2 id="monotone-laws">Monotone Laws</h2>
 <p>Monotone laws are ones in which the inputs and outputs change monotonically, or the output either remains unchanged on changing inputs or changes in the same way as the input.</p>
 <h3 id="operations">Operations</h3>
@@ -238,47 +234,19 @@ x ∨ (x ∧ y) ≡ x
 <span id="cb11-5"><a href="#cb11-5"></a>  absorptive ∙ ◌ <span class="ot">=</span> <span class="ot">(</span>∙ absorbs ◌<span class="ot">)</span> × <span class="ot">(</span>◌ absorbs ∙<span class="ot">)</span></span></code></pre></div>
 <h2 id="and">∧ and ∨</h2>
 <p>The logical <code>AND</code> and <code>OR</code> operators satisfy the above laws:</p>
-<pre class="lauda"><code>open import Logic.logicBasics
-
-∨-assoc : associativity _∨_
-∨-assoc true  y z = refl
-∨-assoc false y z = refl
-
-∨-comm : Commutative _∨_
-∨-comm true  true  = refl
-∨-comm true  false = refl
-∨-comm false true  = refl
-∨-comm false false = refl
-
-∨-identityˡ : LeftIdentity false _∨_
-∨-identityˡ _ = refl
-
-∨-identityʳ : RightIdentity false _∨_
-∨-identityʳ false = refl
-∨-identityʳ true  = refl
-
-∨-identity : Identity false _∨_
-∨-identity = ∨-identityˡ , ∨-identityʳ
-
-∨-zeroˡ : LeftZero true _∨_
-∨-zeroˡ _ = refl
-
-∨-zeroʳ : RightZero true _∨_
-∨-zeroʳ false = refl
-∨-zeroʳ true  = refl
-
-∨-zero : Zero true _∨_
-∨-zero = ∨-zeroˡ , ∨-zeroʳ
-
-∨-inverseˡ : LeftInverse true not _∨_
-∨-inverseˡ false = refl
-∨-inverseˡ true  = refl
-
-∨-inverseʳ : RightInverse true not _∨_
-∨-inverseʳ x = ∨-comm x (not x) ⟨ trans ⟩ ∨-inverseˡ x
-
-∨-inverse : Inverse true not _∨_
-∨-inverse = ∨-inverseˡ , ∨-inverseʳ</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb12-1"><a href="#cb12-1"></a>  <span class="kw">open</span> <span class="kw">import</span> Logic<span class="ot">.</span>logicBasics</span>
+<span id="cb12-2"><a href="#cb12-2"></a>  <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>operations <span class="ot">_</span>==<span class="ot">_</span></span></code></pre></div>
+<p>∨-assoc : associativity <em>∨</em> ∨-assoc true y z = refl ∨-assoc false y z = refl</p>
+<p>∨-comm : Commutative <em>∨</em> ∨-comm true true = refl ∨-comm true false = refl ∨-comm false true = refl ∨-comm false false = refl</p>
+<p>∨-identityˡ : LeftIdentity false <em>∨</em> ∨-identityˡ _ = refl</p>
+<p>∨-identityʳ : RightIdentity false <em>∨</em> ∨-identityʳ false = refl ∨-identityʳ true = refl</p>
+<p>∨-identity : Identity false <em>∨</em> ∨-identity = ∨-identityˡ , ∨-identityʳ</p>
+<p>∨-zeroˡ : LeftZero true <em>∨</em> ∨-zeroˡ _ = refl</p>
+<p>∨-zeroʳ : RightZero true <em>∨</em> ∨-zeroʳ false = refl ∨-zeroʳ true = refl</p>
+<p>∨-zero : Zero true <em>∨</em> ∨-zero = ∨-zeroˡ , ∨-zeroʳ</p>
+<p>∨-inverseˡ : LeftInverse true not <em>∨</em> ∨-inverseˡ false = refl ∨-inverseˡ true = refl</p>
+<p>∨-inverseʳ : RightInverse true not <em>∨</em> ∨-inverseʳ x = ∨-comm x (not x) ⟨ trans ⟩ ∨-inverseˡ x</p>
+<p>∨-inverse : Inverse true not <em>∨</em> ∨-inverse = ∨-inverseˡ , ∨-inverseʳ</p>
 <hr />
 <p><a href="./Logic.decidability.html">Decidability</a></p>
 </body>
