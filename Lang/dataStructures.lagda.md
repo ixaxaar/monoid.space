@@ -17,7 +17,7 @@
   - [Binary Trees](#binary-trees)
   - [Graph](#graph)
   - [List](#list)
-  - [Finite sequences](#finite-sequences)
+  - [Finite set](#finite-set)
   - [Indexed sequences or Vectors](#indexed-sequences-or-vectors)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -31,13 +31,29 @@ Here we look at how to define data structures in Agda.
 module Lang.dataStructures where
 ```
 
-Agda is an implementation of type theory, a branch of mathematics where everything is a *type*. Unlike programming languages where there is a clear distinction betwen (data)type and data, where `1` is data of type `int`. In Agda, `1` is a type itself and is of type say `ℕ` (natural numbers). There do remain quite a few similarities, for example, like some programming languages allow functions to be passed around as objects of type `A => B`, similarly, all functions are also types in type theory. This simplicity could get confusing at first and takes some time to get used to given the reader has been a programmer for a while.
+Agda is an implementation of type theory, a branch of mathematics. A type presents a notion of an object belonging to a certain characteristic, it assigns some extra information to an object.
 
-Just remember: in type theory, **EVERYTHING is a type**.
+To declare `A` as a type:
+
+$$
+A : Type
+$$
+
+or in Agda:
+
+```agda
+module _ {A : Set} where
+```
+
+We say the object `x` is of type `A` like:
+
+$$
+x : A
+$$
 
 # `Data` keyword
 
-As we probably know already, programming languages come bundled with some primitive data types like `int`, `float`, `string` etc and some that combine these primitive types into more complex structures, e.g. `map` can be used to construct say `map<string, array<string>>`.
+Programming languages often come bundled with some primitive data types like `int`, `float`, `string` etc and some that combine these primitive types into more complex structures, e.g. `map` can be used to construct say `map<string, array<string>>` or the `Either` datatype in haskell, the `Option` datatype in scala and so on.
 
 Some languages also provide the mechanism to define new data types, sometimes by alias-ing a data type with a name like in scala:
 
@@ -47,7 +63,7 @@ type newData = Map[String, List[Float]]
 
 This is called *type aliasing*.
 
-Some languages provide the facility to define new data types, like haskell does with the `data` keyword:
+Others provide the facility to define new data types, like haskell does with the `data` keyword:
 
 ```haskell
 -- this states that the type `Bool` can have two values False and True
@@ -84,7 +100,7 @@ module _ {SomeType1 SomeType2 : Set} where
 
 ### Empty
 
-An empty object cannot be created cause it has no constructor. This is the most barebones of a `data` definition.
+An empty type cannot be created cause it has no constructor. This is the most barebones of a `data` definition.
 
 ```agda
 data ⊥ : Set where
@@ -92,14 +108,14 @@ data ⊥ : Set where
 
 ### Singleton
 
-A singleton is just a type containing only one object. Note that this is different from the singleton patterns prevalent in various languages like java.
+A singleton is just a type containing only one object:
 
 ```agda
 data ⊤ : Set where
   singleton : ⊤
 ```
 
-A singleton constructor `singleton` creates a single object of type `T`.
+The singleton constructor `singleton` creates a single object of type `T`.
 
 ## Boolean type
 
@@ -125,6 +141,8 @@ data ℕ : Set where
   zero : ℕ
   succ : ℕ → ℕ
 ```
+
+The operations for natual numbers, addition, subtraction, multiplication and powers can be defined as functions in Agda:
 
 ```agda
 _+_ : ℕ → ℕ → ℕ
@@ -163,11 +181,11 @@ nine  = succ eight
 ten   = succ nine
 ```
 
-and so on recursively.
+and so on. Here, each member of the integer family can be derived from a smaller member by successively applying `succ` to it. Such a type is called an [**Inductive** type](https://en.wikipedia.org/wiki/Agda_(programming_language)#Inductive_types).
 
 ## Binary Trees
 
-We define a generic complete binary tree using the following definition. Note that this merely creates an empty structure of a tree, the nodes or leaves contain no information in them:
+We define a binary tree using the following definition. Note that this merely creates an empty structure of a tree, the nodes or leaves contain no information in them, except for their position in the tree:
 
 ![Figure 1: Bintree](./bintree.png)
 
@@ -184,6 +202,7 @@ data ℕBinTree : Set where
   leaf : ℕ → ℕBinTree
   node : ℕBinTree → ℕBinTree → ℕBinTree
 ```
+
 Binary trees with each node and leaf containing a natural number:
 
 ```agda
@@ -206,46 +225,49 @@ data ℕMixedBinTree : Set where
 
 We define a graph with:
 
-- edges containing a natural number
-- represented as an edge-list, i.e. a list of triples
+- Vertices containing a natural number
+- Edges as triples containing `to` and `from` vertices
 
 ```agda
 data Vertex : Set
-data EdgeTriple : Set
-data Graph : Set
+data Edge   : Set
+data Graph  : Set
 
 data Vertex where
   vertex : ℕ → Vertex
 
-data EdgeTriple where
-  triple : Vertex → Vertex → EdgeTriple
+data Edge where
+  edge : Vertex → Vertex → Edge
 
 data Graph where
-  idGraph : EdgeTriple → Graph
-  _+|+_ : Graph → EdgeTriple → Graph
+  idGraph : Edge → Graph
+  _+|+_ : Graph → Edge → Graph
 
 infixl 3 _+|+_
 ```
-The `infixl` sets the precedence of the infix operator `+|+`. To indicate an operator operates in an infix way, the operator `op` is represented as `_op_`. Similarly, for an operator `x + y = z`, we represent them as `_+_=_`.
+
+Agda supports ["mixfix"](https://agda.readthedocs.io/en/v2.5.2/language/mixfix-operators.html) operators which combine infix, prefix and postfix operator semantics. Operator arguments are indicated with underscores `_`. An example would be the infix addition operator `_+_` which when applied with two parameters can be written as `a + b`. Similarly, a prefix operator would be represented as `♠_`, a postfix one as `♠_`. It is also possible to define more complex operators like `if_then_else_`.
+
+The `infixl` operator above sets the precedence of the operator `+|+`.
 
 We can use the above definition to create a graph in the following way:
 
 ```agda
 graph : Graph
-graph = idGraph (triple (vertex zero)   (vertex seven))     +|+
-                triple  (vertex one)    (vertex three)      +|+
-                triple  (vertex seven)  (vertex four)       +|+
-                triple  (vertex nine)   (vertex (succ six))
+graph = idGraph (edge (vertex zero)   (vertex seven))     +|+
+                edge  (vertex one)    (vertex three)      +|+
+                edge  (vertex seven)  (vertex four)       +|+
+                edge  (vertex nine)   (vertex (succ six))
 ```
 
 ## List
 
 ![Figure 3: List](./list.png)
 
-A list containing objects of type `A` can be defined as an object which has:
+A list containing objects of type `A` can be defined inductively as having:
 
-- an identity element, i.e. an empty list `[]`
-- a concat operator which successively creates bigger lists `::`
+- An identity element, i.e. an empty list `[]`
+- A concat operator which successively creates bigger lists `::`
 
 ```agda
 data List (A : Set) : Set where
@@ -272,12 +294,9 @@ nat : TypeOf ℕ
 nat = typeOf ( one :: two :: ten :: [] )
 ```
 
-## Finite sequences
+## Finite set
 
-The type class of a finite set, or merely an index, consists of:
-
-- an identity element: create a finite set of size `n`
-- a recursive creator: create finite sets successively
+A finite set can be considered as a finite bunch of numbered objects, such that each object can be uniquely identified by an integer. Formally, a finite set `Fin` is a set for which there exists a bijection (one-to-one and onto correspondence) $f : Fin → [n]$ where $n ∈ ℕ$ and `[n]` is the set of all natural numbers from `0` to `n`.
 
 ```agda
 data Fin : ℕ → Set where
@@ -285,12 +304,14 @@ data Fin : ℕ → Set where
   succ : (n : ℕ) → Fin n → Fin (succ n)
 ```
 
-Creating a finite set of four elements:
+`Fin n` represents the set of first n natural numbers, i.e., the set of all numbers smaller than n. We create a finite set of four elements:
 
 ```agda
 fourFin : Fin four
 fourFin = succ three (succ two (succ one (id zero)))
 ```
+
+For a more in-depth treatment of finite sets, refer [Dependently Typed Programming with Finite Sets](http://firsov.ee/finset/finset.pdf).
 
 ## Indexed sequences or Vectors
 
@@ -299,7 +320,7 @@ fourFin = succ three (succ two (succ one (id zero)))
 We now define a finite sized indexed list, also called a vector `Vec`. The constructor consists of:
 
 - An identity constructor, `[]` which constructs an empty vector
-- A successive constructor `cons` which appends successively builds a vector
+- A successive constructor `cons` which inductively builds a vector
 
 ```agda
 data Vec (A : Set) : ℕ → Set where
@@ -322,14 +343,14 @@ vec3 = cons two true vec2
 
 Note that each vector has its size encoded into it's type. This is not to be confused with set theory based lists, where any two list of different number of elements have the same type.
 
-For example in scala:
+For example:
 
 ```scala
 val x : List[Int] = List(1,2,3,4,5)
 val y : List[Int] = List(1,2,3,4,5,6,7,8,9,0)
 ```
 
-both have the same type. However, in pure type theory they are considered different types as type theory considers the size of the list as type information.
+both have the same type `List[Int]`.
 
 Example, a bool-indexed vector such that only one type can be stored at the same time:
 
