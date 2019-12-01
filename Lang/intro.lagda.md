@@ -25,7 +25,7 @@ A namespace in Agda, called a module, appears at the beginning of every file:
 module Lang.intro where
 ```
 
-Filenames and module headers are required to match. The supported filenames that can contain the module `intro` being:
+Filenames and module headers are required to match according the the following pattern: the supported filenames that can contain the module named `intro` are:
 
 - [x] intro.agda
 - [x] intro.lagda
