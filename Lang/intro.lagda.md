@@ -44,7 +44,11 @@ The "time off" ended upon discovering this new "foundations of mathematics" thin
 
 - [x] Homotopy Type Theory ~ Univalent Foundations of Mathematics ([link](https://homotopytypetheory.org/book/))
 
-As things started getting more cutting-edge, it has mostly been a paper and articles reading affair since then. Major of them being:
+As things started getting more cutting-edge, it has mostly been a paper and articles reading affair since then. Major ones being:
+
+- [x] nLab ([link](https://ncatlab.org/nlab/show/HomePage))
+- [x] Infinite Paper Napkin ([likn](https://web.evanchen.cc/napkin.html))
+- [x] The Stacks Project ([link](https://stacks.math.columbia.edu/browse))
 
 Of late, I stumbled upon this work on mathematical physics:
 
