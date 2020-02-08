@@ -1,51 +1,75 @@
 ****
 [Contents](contents.html)
-[Previous](Lang.setup.html)
-[Next](Lang.dataStructures.html)
+[Previous](contents.html)
+[Next](Lang.setup.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ****
 
-- [Naming conventions](#naming-conventions)
-  - [Files and modules](#files-and-modules)
-  - [Literate programming](#literate-programming)
-  - [Other material](#other-material)
+- [A Personal Journey](#a-personal-journey)
+- [Who is this for](#who-is-this-for)
+- [Agda](#agda)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-
-# Naming conventions
-
-## Files and modules
-
-A namespace in Agda, called a module, appears at the beginning of every file:
 
 ```agda
 module Lang.intro where
 ```
 
-Filenames and module headers are required to match according the the following pattern: the supported filenames that can contain the module named `intro` are:
+# A Personal Journey
 
-- [x] intro.agda
-- [x] intro.lagda
-- [x] intro.lagda.md
-- [x] intro.ladga.rst
-- [x] intro.ladga.tex
+This work primarily stems from a personal journey of peering deeper into pure mathematics. The journey started as a curiosity into the functional programming paradigm, initially involving learning scala and basic PL theory such as [generics](https://en.wikipedia.org/wiki/Generic_programming), [parametric polymorphism](https://en.wikipedia.org/wiki/Parametric_polymorphism) and the likes. Being a data engineer at that time, twitter's work on designing metrics as monoids culminating in [Algebird](https://www.michael-noll.com/blog/2013/12/02/twitter-algebird-monoid-monad-for-large-scala-data-analytics/) was something that had a lasting impression on my own work. This led me to explore libraries implementing bits of category theory such as [shapeless](https://github.com/milessabin/shapeless) [cats](https://typelevel.org/cats/), [Algebird's hyperloglog monoid](https://twitter.github.io/algebird/datatypes/approx/hyperloglog.html), [scalaz](https://github.com/scalaz/scalaz) followed by several "for programmer" tutorials into category theory, notably the ones by [Bartosz Milewski](https://www.youtube.com/user/DrBartosz/playlists).Soon I had to learn haskell − it being more "pure" and having a stronger ecosystem of libraries with a more formal programming-language-theory flavor so as to have more things in this space to explore.
 
-This file is written in markdown and hence we use the name `intro.lagda.md`.
+In tandem, I picked up a few books on the subjects of abstract algebra and category theory to get a theoretical understanding of the "whole thing":
 
-## Literate programming
+- [x] Category Theory for Programmers ~ Milewski ([repo](https://github.com/hmemcpy/milewski-ctfp-pdf))
+- [x] Abstract Algebra ~ Dummit & Foote ([link](https://www.goodreads.com/book/show/264543.Abstract_Algebra))
+- [x] Topoi - The Categorical Analysis of Logic ~ Goldblatt ([link](https://projecteuclid.org/euclid.bia/1403013939))
+- [x] Categories for the Working Mathematician ~ Mac Lane ([link](https://en.wikipedia.org/wiki/Categories_for_the_Working_Mathematician))
+- [x] Algebra ~ Lang ([link](https://www.springer.com/gp/book/9780387953854))
 
-The last three file extensions above are part of what's called "literate programming" wherein one can write markdown or latex documents with agda code surrounded in code blocks marked agda, similar to how this page itself is written!
+After that I turned toward some PL-theory:
 
-![codeblock](./codeblock.png)
+- [x] Practical Foundations for Programming Languages ~ Harper ([link](https://www.cs.cmu.edu/~rwh/pfpl/))
+- [x] An Introduction to Functional Programming Through Lambda Calculus - Michaelson ([pdf](http://www.macs.hw.ac.uk/~greg/books/gjm.lambook88.ps))
 
-The Agda compiler can then validate the agda code inside the `agda` code blocks, thus guaranteeing the correctness of the math in the documents.
+Followed by some "time off" into other areas of math:
 
-## Other material
+- [x] An Introduction to Manifolds ~ Tu ([link](https://www.springer.com/gp/book/9781441973993))
+- [x] A Comprehensive Introduction to Differential Geometry Volume I ~ Spivak ([link](https://www.goodreads.com/book/show/211192.A_Comprehensive_Introduction_to_Differential_Geometry_Vol_1))
+- [x] A Concise Course in Algebraic Topology ~ May ([pdf](https://www.math.uchicago.edu/~may/CONCISE/ConciseRevised.pdf))
 
-There are a host of other high quality material on the web, though all of them might not be beginner friendly. They are listed in [Agda's official documentation](https://my-agda.readthedocs.io/en/latest/getting-started/tutorial-list.html). We flick some stuff from many of them and water them down for novices here.
+The "time off" ended upon discovering this new "foundations of mathematics" thing seen of twitter, materialized into 2 copies ordered from different sources, one of them never got delivered:
+
+- [x] Homotopy Type Theory ~ Univalent Foundations of Mathematics ([link](https://homotopytypetheory.org/book/))
+
+As things started getting more cutting-edge, it has mostly been a paper and articles reading affair since then. Major of them being:
+
+Of late, I stumbled upon this work on mathematical physics:
+
+- [x] Gauge fields, knots, and gravity ~ Baez ([link](https://www.worldscientific.com/worldscibooks/10.1142/2324))
+
+opening the path to these shiny new thingys that await:
+
+- [x] geometry of physics ([link](https://ncatlab.org/nlab/show/geometry+of+physics))
+- [ ] Differential cohomology in a cohesive ∞-topos ~ Schreiber ([link](https://arxiv.org/pdf/1310.7930.pdf))
+- [ ] Quantum Gauge Field Theory in Cohesive Homotopy Type Theory ~ Schreiber ([pdf](https://arxiv.org/pdf/1408.0054.pdf))
+
+It has been almost 4 years now, and the "whole thing" does not seem to have an end!
+
+# Who is this for
+
+This work is intended to be a resource for anyone (like me) making a foray into pure mathematics. The "like me" here implies someone who:
+
+- [x] knows programming.
+- [x] has worked with functional programming in some capacity.
+- [x] has at least a sketchy idea of what "pure mathematics" means.
+- [x] has boundless motivation to explore.
+
+# Agda
+
+Agda is a dependently-typed functional programming language that can be used as a "proof assistant" of the "propositions-as-types" flavor, i.e. it is a language used to write mathematical proofs, using a typesystem, which its compiler then verifies to check if the proofs really do what they claim. This is done by using Type theory as the language for writing proofs in Agda. Traditionally, the act of checking the validity of a proof has been a manual and painstaking process, however, the proofs when represented in this `code ⇆ compiler` paradigm, does away with the need for manual checking, thus making things considerably easier to implement, test and distribute. There are other alternative theorem provers, each with their own feature-sets, strengths and weaknesses, [documented here](https://en.wikipedia.org/wiki/Proof_assistant#Comparison_of_systems).
 
 ****
-[Data Structures](./Lang.dataStructures.html)
+[Setup](./Lang.setup.html)
