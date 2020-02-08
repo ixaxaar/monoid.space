@@ -87,11 +87,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
 <ul>
+<li><a href="#agda">Agda</a></li>
 <li><a href="#setup-and-installation">Setup and installation</a>
 <ul>
-<li><a href="#using-docker">Using Docker</a></li>
-<li><a href="#stack">Stack</a></li>
-<li><a href="#via-package-managers">Via package managers</a>
+<li><a href="#1-using-docker">1. Using Docker</a>
+<ul>
+<li><a href="#run">Run</a></li>
+</ul></li>
+<li><a href="#2-using-stack">2. Using Stack</a></li>
+<li><a href="#3-via-package-managers">3. Via package managers</a>
 <ul>
 <li><a href="#apt-debian-ubuntu-mint-elementary-mx-linux-etc">apt (Debian, Ubuntu, Mint, Elementary, MX Linux etc)</a></li>
 <li><a href="#yum-fedora-opensuse-rhel">yum (Fedora, openSUSE, RHEL)</a></li>
@@ -99,48 +103,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="#brew-osx">brew (OSX)</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#run">Run</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h1 id="agda">Agda</h1>
+<p>Agda is a dependently-typed functional programming language that functions as a “proof assistant”, i.e. it is a language used to write mathematical proofs which its compiler then performs formal verification on to check if the proofs really do what they claim. This is done by using Type theory as the language for writing proofs in Agda. Traditionally, the act of checking the validity of a proof has been an extremely manual and painstaking process, however, the proofs when represented in this <code>code ⇆ compiler</code> paradigm, erases the need for manual intervention. There are more alternatives available to Agda, <a href="https://en.wikipedia.org/wiki/Proof_assistant#Comparison_of_systems">documented here</a>.</p>
 <p>We begin with setting up our Agda environment.</p>
 <h1 id="setup-and-installation">Setup and installation</h1>
 <div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Lang<span class="ot">.</span>setup <span class="kw">where</span></span></code></pre></div>
 <figure>
 <img src="./install.png" alt="" /><figcaption>Figure 1: Install</figcaption>
 </figure>
-<h2 id="using-docker">Using Docker</h2>
-<p>We’ve done most of the heavy-lifting, and packaged everything into a docker container. This is a platform-independent solution and can be run inside any major operating system. Though it is recommended to run all of the subsequent code in a <a href="https://www.wikihow.com/Use-Linux">Linux-based OS</a> as the author disregards “windouz™” enough to not even consider googling for installation instructions to put them here.</p>
+<h2 id="using-docker">1. Using Docker</h2>
+<p>We’ve done most of the heavy-lifting, and packaged everything into a docker container. This is a platform-independent solution and can be run inside any major operating system. Though it is recommended to run all of the subsequent code.</p>
 <p>Install docker</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="ex">curl</span> -fsSL https://get.docker.com -o get-docker.sh</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="fu">sh</span> get-docker.sh</span></code></pre></div>
+<p>OR download and install docker binaries for your operating system <a href="https://github.com/docker/engine/releases">here</a>.</p>
 <p>Pull the pre-configured docker image</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="ex">docker</span> pull ixaxaar/agda:latest</span></code></pre></div>
-<h2 id="stack">Stack</h2>
-<p>Stack is one of haskell’s package manager. Install stack first, if not done already</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="ex">curl</span> -sSL https://get.haskellstack.org/ <span class="kw">|</span> <span class="fu">sh</span></span></code></pre></div>
-<p>Clone <a href="https://github.com/ixaxaar/monoid.space">https://github.com/ixaxaar/monoid.space</a> and <code>cd</code> into it. Proceed to use stack to install agda:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="ex">stack</span> setup</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="ex">stack</span> build</span></code></pre></div>
-<h2 id="via-package-managers">Via package managers</h2>
-<p>Note: none of these are guaranteed to work as distro maintainers always seem to disagree with haskell subsystem’s practices and rituals.</p>
-<h3 id="apt-debian-ubuntu-mint-elementary-mx-linux-etc">apt (Debian, Ubuntu, Mint, Elementary, MX Linux etc)</h3>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">sudo</span> apt-get install agda-mode agda-stdlib</span></code></pre></div>
-<h3 id="yum-fedora-opensuse-rhel">yum (Fedora, openSUSE, RHEL)</h3>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">sudo</span> yum install Agda</span></code></pre></div>
-<h3 id="pacman-arch-manjaro-antergos">pacman (Arch, Manjaro, Antergos)</h3>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">sudo</span> pacman -S agda agda-stdlib</span></code></pre></div>
-<h3 id="brew-osx">brew (OSX)</h3>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a><span class="ex">brew</span> install agda</span></code></pre></div>
-<h1 id="run">Run</h1>
-<p>To run the agda compiler:</p>
+<h3 id="run">Run</h3>
+<p>To run the agda compiler with docker:</p>
 <ul>
-<li>Launch the docker container’s bash:</li>
+<li>Launch the docker container while mounting the local source directory:</li>
 </ul>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a><span class="ex">docker</span> run -it -v /local/source/directory:/local/source/directory ixaxaar/agda bash</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="ex">docker</span> run -it -v /local/source/directory:/local/source/directory ixaxaar/agda bash</span></code></pre></div>
 <ul>
 <li>Compile <code>whatever.agda</code></li>
 </ul>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a><span class="ex">agda</span> ./whatever.agda</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="ex">agda</span> ./whatever.agda</span></code></pre></div>
+<h2 id="using-stack">2. Using Stack</h2>
+<p>Stack is one of haskell’s package manager. Install stack first, if not done already</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="ex">curl</span> -sSL https://get.haskellstack.org/ <span class="kw">|</span> <span class="fu">sh</span></span></code></pre></div>
+<p>Clone <a href="https://github.com/ixaxaar/monoid.space">https://github.com/ixaxaar/monoid.space</a> and <code>cd</code> into it. Proceed to use stack to install agda:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="ex">stack</span> setup</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="ex">stack</span> build</span></code></pre></div>
+<h2 id="via-package-managers">3. Via package managers</h2>
+<p>Note: none of these are guaranteed to work as distro maintainers always seem to disagree with haskell subsystem’s practices and rituals.</p>
+<h3 id="apt-debian-ubuntu-mint-elementary-mx-linux-etc">apt (Debian, Ubuntu, Mint, Elementary, MX Linux etc)</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">sudo</span> apt-get install agda-mode agda-stdlib</span></code></pre></div>
+<h3 id="yum-fedora-opensuse-rhel">yum (Fedora, openSUSE, RHEL)</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">sudo</span> yum install Agda</span></code></pre></div>
+<h3 id="pacman-arch-manjaro-antergos">pacman (Arch, Manjaro, Antergos)</h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">sudo</span> pacman -S agda agda-stdlib</span></code></pre></div>
+<h3 id="brew-osx">brew (OSX)</h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a><span class="ex">brew</span> install agda</span></code></pre></div>
+<p>Other ways to install Agda are documented <a href="https://agda.readthedocs.io/en/v2.5.4/getting-started/installation.html">in the official documentation</a>.</p>
 <p>That’s pretty much it. Now we go ahead and learn some basics of the language.</p>
 <hr />
 <p><a href="./Lang.languageIntro.html">Introduction</a></p>
