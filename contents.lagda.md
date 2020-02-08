@@ -1,13 +1,12 @@
 ****
 
-# UNDER CONSTRUCTION, REVIEWS, COMMENTS, CRITICISM NEEDED!
-
 # Contents
 
 ## 1. Agda
 
-  - [Setup](./Lang.setup.html)
   - [Introduction](./Lang.intro.html)
+  - [Setup](./Lang.setup.html)
+  - [Naming Conventions](./Lang.naming.html)
   - [Data Structures](./Lang.dataStructures.html)
   - [Functions](./Lang.functions.html)
   - [Modules, Records and Postulates](./Lang.other.html)
