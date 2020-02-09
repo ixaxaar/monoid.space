@@ -8,8 +8,10 @@
 ****
 
 - [Data Structures](#data-structures)
-- [`Data` keyword](#data-keyword)
-  - [Trivial types](#trivial-types)
+  - [Types](#types)
+  - [`Data` keyword](#data-keyword)
+  - [Functions](#functions)
+  - [Trivial Types](#trivial-types)
     - [Empty](#empty)
     - [Singleton](#singleton)
   - [Boolean type](#boolean-type)
@@ -22,38 +24,62 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+Learning a new programming language usually consists of learning two basic things first:
+1. Data structures and their APIs
+2. Control logic (if/else, loops - for, while, do-while etc)
+
+In a similar fashion, we take a look at how to construct familiar data structures first.
 
 # Data Structures
 
-Here we look at how to define data structures in Agda.
-
 ```agda
 module Lang.dataStructures where
+
+open import Agda.Builtin.Nat public using (Nat)
 ```
 
-Agda is an implementation of type theory, a branch of mathematics. A type presents a notion of an object belonging to a certain characteristic, it assigns some extra information to an object.
+## Types
 
-To declare `A` as a type:
+Agda is an implementation of type theory, a branch of mathematics which deals with `Type` as an object and various theorems (APIs) for working with `Type`s. A `Type` presents a notion of an object of a certain kind, i.e. it assigns some extra information to an object.
+
+Programmers might already be well familiar with the notion of `Type` as it's use is widespread in programming.
+
+In Type theory, we declare `A` as a type:
 
 $$
 A : Type
 $$
 
-or in Agda:
-
-```agda
-module _ {A : Set} where
-```
-
-We say the object `x` is of type `A` like:
+and say the object `x` is of type `A` like:
 
 $$
 x : A
 $$
 
-# `Data` keyword
+This, in say scala is done like:
 
-Programming languages often come bundled with some primitive data types like `int`, `float`, `string` etc and some that combine these primitive types into more complex structures, e.g. `map` can be used to construct say `map<string, array<string>>` or the `Either` datatype in haskell, the `Option` datatype in scala and so on.
+```scala
+val x:Int = 0
+```
+
+or in C:
+
+```c
+int x;
+```
+
+in Agda:
+
+```agda
+variable
+  x : Nat
+```
+
+The `Set` type is the root of all types, somewhat akin to java's `Object` or scala's `Any`. Every other Type is a `Set`, whereas `Set` itself if of type `Set : Set₁`. We will look deeper into this at a later stage.
+
+## `Data` keyword
+
+Programming languages often come bundled with some primitive data types like `int`, `float`, `string` etc and some that combine these primitive types into more complex structures, e.g. `map` or `dict` (python) can be used to construct say `map<string, array<string>>` or the `Either` datatype in haskell, the `Option` datatype in scala, `tuple` in python and so on.
 
 Some languages also provide the mechanism to define new data types, sometimes by alias-ing a data type with a name like in scala:
 
@@ -61,16 +87,16 @@ Some languages also provide the mechanism to define new data types, sometimes by
 type newData = Map[String, List[Float]]
 ```
 
-This is called *type aliasing*.
+This is called `type aliasing`.
 
-Others provide the facility to define new data types, like haskell does with the `data` keyword:
+Others provide the facility to define completely new data types, like haskell does with the `data` keyword:
 
 ```haskell
 -- this states that the type `Bool` can have two values False and True
 data Bool = False | True
 ```
 
-A haskell datatype can also have constructors. For e.g. if we were to define a shape type which can either be a circle or a rectange:
+A haskell datatype can also have constructors. For e.g. if we were to define a shape type which can either be a circle or a rectangle:
 
 ```haskell
 data Shape = Circle Float Float Float | Rectangle Float Float Float Float
@@ -78,9 +104,11 @@ data Shape = Circle Float Float Float | Rectangle Float Float Float Float
 -- uses the Circle constructor to create an object of type Shape
 Circle 1.2 12.1 123.1
 
--- uses the Rectange constructor to create an object of type Shape
-Rectange 1.2 12.1 123.1 1234.5
+-- uses the Rectangle constructor to create an object of type Shape
+Rectangle 1.2 12.1 123.1 1234.5
 ```
+
+It is important to appreciate that `Shape` is a new `Type`, one that did not previously exist before in the language.
 
 The `data` keyword works in a similar manner in Agda:
 
@@ -96,7 +124,29 @@ module _ {SomeType1 SomeType2 : Set} where
     etc : SomeType1 → SomeType2 → AgdaData
 ```
 
-## Trivial types
+## Functions
+
+In Type theory, a function `f` that operates on values of type `𝔸`, also called domain of the function and produces values of type `𝔹` is represented as:
+
+$$
+f : 𝔸 → 𝔹
+$$
+
+A function in Agda consists of two main parts:
+1. Types that the function operates on including:
+   1. Domain `Type`.
+   2. Co-domain `Type`.
+2. Clauses − each clause applies to a pattern of argument.
+
+```haskell
+not : Bool → Bool
+not true  = false
+not false = true
+```
+
+This is something to be aware of at this time, though we will look at much more complex examples of functions as we go on. As Agda is implemented in haskell, this is very similar to haskell syntax.
+
+## Trivial Types
 
 ### Empty
 
@@ -129,10 +179,10 @@ data Bool : Set where
 
 ## Natural numbers
 
-All natural numbers can be created from `zero` and n successive numbers after `zero`. All we need to know are
+Natural numbers are the integral numbers used for counting, e.g. 0,1,2,3... Natural numbers support an operation called `succ` for succession, which can be used to create new natural numbers from known ones, e.g. `3 = 2 + 1 = 1 + 1 + 1`. Thus, all natural numbers can be created from `zero` and n successive numbers after `zero`. All we need to know are:
 
 - zero
-- how to increment a number
+- how to increment a given number
 
 and then, increment zero to infinity!
 
@@ -183,11 +233,30 @@ ten   = succ nine
 
 and so on. Here, each member of the integer family can be derived from a smaller member by successively applying `succ` to it. Such a type is called an [**Inductive** type](https://en.wikipedia.org/wiki/Agda_(programming_language)#Inductive_types).
 
+Also note that in the function `_+_`, we used a new kind of clause:
+
+```haskell
+x + (succ y) = succ (x + y)
+```
+
+Here, we mean that for all inputs of the type `x + (succ y)` where `succ y` corresponds to a natural number that has been constructed using a `succ` i.e. it is `(succ y) > 0`, return `succ (x + y)`. This pattern is called "pattern matching". Pattern matching is heavily used all over the functional programming world, e.g. in scala:
+
+```scala
+(1 to 100).map{
+  // pattern match against all values of type integer
+  case(y:Int) if y > 5 =>
+    y+1
+  // if above pattern does not match
+  case _ =>
+    0
+}
+```
+
 ## Binary Trees
 
 We define a binary tree using the following definition. Note that this merely creates an empty structure of a tree, the nodes or leaves contain no information in them, except for their position in the tree:
 
-![Figure 1: Bintree](./bintree.png)
+![Figure 1: Bintree](../artwork/bintree.png)
 
 ```agda
 data BinTree : Set where
@@ -221,7 +290,7 @@ data ℕMixedBinTree : Set where
 
 ## Graph
 
-![Figure 2: Graph](./graph.png)
+![Figure 2: Graph](../artwork/graph.png)
 
 We define a graph with:
 
@@ -262,7 +331,7 @@ graph = idGraph (edge (vertex zero)   (vertex seven))     +|+
 
 ## List
 
-![Figure 3: List](./list.png)
+![Figure 3: List](../artwork/list.png)
 
 A list containing objects of type `A` can be defined inductively as having:
 
@@ -296,7 +365,7 @@ nat = typeOf ( one :: two :: ten :: [] )
 
 ## Finite set
 
-A finite set can be considered as a finite bunch of numbered objects, such that each object can be uniquely identified by an integer. Formally, a finite set `Fin` is a set for which there exists a bijection (one-to-one and onto correspondence) $f : Fin → [n]$ where $n ∈ ℕ$ and `[n]` is the set of all natural numbers from `0` to `n`.
+A finite set can be considered as a finite bunch of numbered objects, such that each object can be uniquely identified by an integer, thus making the set countable. This count is called the `Cardinality` of the set. Formally, a finite set `Fin` is a set for which there exists a bijection (one-to-one and onto correspondence) $f : Fin → [n]$ where $n ∈ ℕ$ and `[n]` is the set of all natural numbers from `0` to `n`.
 
 ```agda
 data Fin : ℕ → Set where
@@ -315,7 +384,7 @@ For a more in-depth treatment of finite sets, refer [Dependently Typed Programmi
 
 ## Indexed sequences or Vectors
 
-![Figure 4: Vectors](./vector.png)
+![Figure 4: Vectors](../artwork/vector.png)
 
 We now define a finite sized indexed list, also called a vector `Vec`. The constructor consists of:
 
