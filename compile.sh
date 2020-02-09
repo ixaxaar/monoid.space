@@ -5,6 +5,7 @@ declare -a files=(
 
   "Lang/setup"
   "Lang/intro"
+  "Lang/naming"
   "Lang/dataStructures"
   "Lang/functions"
   "Lang/syntaxQuirks"
