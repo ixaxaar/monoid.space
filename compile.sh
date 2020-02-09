@@ -76,7 +76,7 @@ do
 done
 
 # copy resources
-cp -pr ./artwork/*.png ./html/
+cp -pr ./artwork ./html/
 
 find -name "*.agdai" | xargs rm -rf
 
