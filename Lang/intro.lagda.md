@@ -33,6 +33,10 @@ After that I turned toward some PL-theory:
 
 - [x] Practical Foundations for Programming Languages ~ Harper ([link](https://www.cs.cmu.edu/~rwh/pfpl/))
 - [x] An Introduction to Functional Programming Through Lambda Calculus - Michaelson ([pdf](http://www.macs.hw.ac.uk/~greg/books/gjm.lambook88.ps))
+- [x] Robert Harper's lectures on:
+  - [x] [Type Theory](https://www.youtube.com/watch?v=ev7AYsLljxk&list=PLLHd8G9sGDBP5z0Vk_MpaccuOWGUgZknd)
+  - [x] [Proof Theory](https://www.youtube.com/watch?v=YRu7Xi-mNK8&list=PLLHd8G9sGDBOe7mzE_uKvS5-il8ZAVBVr)
+  - [x] [Category Theory](https://www.youtube.com/playlist?list=PLLHd8G9sGDBPF4-f2tmY_p5qWzZ1Vl1TA)
 
 Followed by some "time off" into other areas of math:
 
@@ -53,6 +57,9 @@ As things started getting more cutting-edge, it has mostly been a paper and arti
 Of late, I stumbled upon this work on mathematical physics:
 
 - [x] Gauge fields, knots, and gravity ~ Baez ([link](https://www.worldscientific.com/worldscibooks/10.1142/2324))
+- [x] Susskind's lectures on:
+  - [x] [Quantum Mechanics](https://www.youtube.com/playlist?list=PL701CD168D02FF56F)
+  - [x] [String Theory & M Theory](https://www.youtube.com/playlist?list=PL202191442DB1B300)
 
 opening the path to these shiny new thingys that await:
 
@@ -73,7 +80,11 @@ This work is intended to be a resource for anyone (like me) making a foray into 
 
 # Agda
 
+![Agda's Logo](../artwork/logo.svg)
+
 Agda is a dependently-typed functional programming language that can be used as a "proof assistant" of the "propositions-as-types" flavor, i.e. it is a language used to write mathematical proofs, using a typesystem, which its compiler then verifies to check if the proofs really do what they claim. This is done by using Type theory as the language for writing proofs in Agda. Traditionally, the act of checking the validity of a proof has been a manual and painstaking process, however, the proofs when represented in this `code ⇆ compiler` paradigm, does away with the need for manual checking, thus making things considerably easier to implement, test and distribute. There are other alternative theorem provers, each with their own feature-sets, strengths and weaknesses, [documented here](https://en.wikipedia.org/wiki/Proof_assistant#Comparison_of_systems).
+
+Agda was originally developed by Ulf Norell at Chalmers University of Technology with implementation described in his [PhD thesis](http://www.cse.chalmers.se/~ulfn/papers/thesis.pdf). The current version is a full rewrite, and should be considered a new language that shares a name and tradition.
 
 ****
 [Setup](./Lang.setup.html)

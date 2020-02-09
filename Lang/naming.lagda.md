@@ -19,7 +19,7 @@
 
 ## Files and modules
 
-A namespace in Agda, called a module, appears at the beginning of every file:
+The namespace or package equivalent in Agda, called a module, appears at the beginning of every file:
 
 ```agda
 module Lang.naming where
@@ -39,7 +39,7 @@ This file is written in markdown and hence we use the name `intro.lagda.md`.
 
 The last three file extensions above are part of what's called "literate programming" wherein one can write markdown or latex documents with agda code surrounded in code blocks marked agda, similar to how this page itself is written!
 
-![codeblock](./codeblock.png)
+![codeblock](../artwork/codeblock.png)
 
 The Agda compiler can then validate the agda code inside the `agda` code blocks, thus guaranteeing the correctness of the math in the documents.
 

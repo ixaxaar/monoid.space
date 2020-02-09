@@ -1,13 +1,12 @@
 ****
 [Contents](contents.html)
-[Previous](contents.html)
-[Next](Lang.intro.html)
+[Previous](Lang.intro.html)
+[Next](Lang.naming.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ****
 
-- [Agda](#agda)
 - [Setup and installation](#setup-and-installation)
   - [1. Using Docker](#1-using-docker)
     - [Run](#run)
@@ -20,12 +19,6 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Agda
-
-Agda is a dependently-typed functional programming language that functions as a "proof assistant", i.e. it is a language used to write mathematical proofs which its compiler then performs formal verification on to check if the proofs really do what they claim. This is done by using Type theory as the language for writing proofs in Agda. Traditionally, the act of checking the validity of a proof has been an extremely manual and painstaking process, however, the proofs when represented in this `code ⇆ compiler` paradigm, erases the need for manual intervention. There are more alternatives available to Agda, [documented here](https://en.wikipedia.org/wiki/Proof_assistant#Comparison_of_systems).
-
-We begin with setting up our Agda environment.
-
 # Setup and installation
 
 ```agda
@@ -36,9 +29,9 @@ module Lang.setup where
 
 ## 1. Using Docker
 
-We've done most of the heavy-lifting, and packaged everything into a docker container. This is a platform-independent solution and can be run inside any major operating system. Though it is recommended to run all of the subsequent code.
+We've done most of the heavy-lifting, and packaged everything into a docker container. This is a platform-independent solution and can be run inside any major operating system. But first we would need to:
 
-Install docker
+1. Install docker
 
 ```bash
 curl -fsSL https://get.docker.com -o get-docker.sh
@@ -47,7 +40,7 @@ sh get-docker.sh
 
 OR download and install docker binaries for your operating system [here](https://github.com/docker/engine/releases).
 
-Pull the pre-configured docker image
+2. Pull the pre-configured docker image
 
 ```bash
 docker pull ixaxaar/agda:latest
@@ -60,25 +53,26 @@ To run the agda compiler with docker:
 - Launch the docker container while mounting the local source directory:
 
 ```bash
-docker run -it -v /local/source/directory:/local/source/directory ixaxaar/agda bash
+docker run -it -v /local/source/directory:/directory/inside/container ixaxaar/agda bash
 ```
 
 - Compile `whatever.agda`
 
 ```bash
-agda ./whatever.agda
+agda /directory/inside/container/whatever.agda
 ```
-
 
 ## 2. Using Stack
 
-Stack is one of haskell's package manager. Install stack first, if not done already
+[Stack](https://www.haskellstack.org/) is one of haskell's package managers, apart from [Cabal](https://www.haskell.org/cabal/). Stack uses cabal internally and is easier to practically deal with. In order to do a stack-based install:
+
+1. Install Stack:
 
 ```bash
 curl -sSL https://get.haskellstack.org/ | sh
 ```
 
-Clone [https://github.com/ixaxaar/monoid.space](https://github.com/ixaxaar/monoid.space) and `cd` into it. Proceed to use stack to install agda:
+2. Clone [https://github.com/ixaxaar/monoid.space](https://github.com/ixaxaar/monoid.space) and `cd` into it. Proceed to use stack to install agda:
 
 ```bash
 stack setup
@@ -87,7 +81,7 @@ stack build
 
 ## 3. Via package managers
 
-Note: none of these are guaranteed to work as distro maintainers always seem to disagree with haskell subsystem's practices and rituals.
+Note: none of these are guaranteed to work. This way of installation might just work, or might require one to pull significant amounts of one's own hair.
 
 ### apt (Debian, Ubuntu, Mint, Elementary, MX Linux etc)
 
@@ -118,4 +112,4 @@ Other ways to install Agda are documented [in the official documentation](https:
 That's pretty much it. Now we go ahead and learn some basics of the language.
 
 ****
-[Introduction](./Lang.languageIntro.html)
+[Naming Conventions](./Lang.naming.html)
