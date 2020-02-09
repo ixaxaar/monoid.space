@@ -14,7 +14,7 @@
     - [The logical OR](#the-logical-or)
   - [Recursive functions](#recursive-functions)
     - [Addition of natural numbers](#addition-of-natural-numbers)
-- [List functions](#list-functions)
+- [Examples](#examples)
   - [List concatenation](#list-concatenation)
   - [Length](#length)
   - [Map](#map)
@@ -24,13 +24,15 @@
 
 # Functions
 
-Functions, also being technically types, can sometimes have practically simpler syntax than data while serving the same purpose.
+A function `𝕗` which takes a value of type `𝔸` and returns a value of type `𝔹`, is said to be of type `𝔸 → 𝔹` and is written as `𝕗 : 𝔸 → 𝔹`. The type `𝔸` is called the function `𝕗`'s "domain" and `𝔹` is the "co-domain". Functions are allowed to be recursive, in fact, in Agda we make heavy use of recursion and pattern matching while defining functions.
 
 ```agda
 module Lang.functions where
 
 open import Lang.dataStructures renaming (_+_ to _⨦_)
 ```
+
+Following are a few examples of functions:
 
 ## Pattern matching functions
 
@@ -109,21 +111,23 @@ twelve = eleven + one
 thirteen = twelve + one
 ```
 
-# List functions
+# Examples
 
 ## List concatenation
 
+Functions in Agda can take types as parameters such that the function can work on all higher types of that type parameter. This function takes a type as a parameter `A`, and hence can work on `List`s of any type `A`.
+
 ```agda
 _++_ : {A : Set} → List A → List A → List A
-[]       ++ ys = ys
+[]        ++ ys = ys
 (x :: xs) ++ ys = x :: (xs ++ ys)
 
 infixr 5 _++_
 ```
 
-This function takes a type as a parameter `A`, and hence can work on `List`s of any type `A`. This feature of functions is called "parametric polymorphism". These functions tend to work on higher levels of abstraction, and work for all list types.
+This feature of functions is called "parametric polymorphism". This function works on higher levels of abstraction, i.e. on all list types.
 
-Note that the curly braces `{}` are called "implicit arguments" in Agda. Values of implicit arguments are derived from other arguments' values and types by solving type equations. You don’t have to apply them or pattern match on them explicitly (though they can be explicitly stated like `{A = A}`). Practically, they help in defining the scope of types.
+Note that the curly braces `{}` are called "implicit arguments" in Agda. Values of implicit arguments are derived from other arguments' values and types by solving type equations. You don’t have to apply them or pattern match on them explicitly (though they can be explicitly stated like `{A = A}`).
 
 ## Length
 
@@ -142,7 +146,7 @@ A map function for a `List` is a function that applies a lambda (un-named) funct
 
 If `f` were a lambda function, map-ing `f` over `List(a, b, c, d)` would produce `List(f(a), f(b), f(c), f(d))`
 
-![Figure 1: Map](./map.png)
+![Figure 1: Map](../artwork/map.png)
 
 ```agda
 map : {A B : Set} → List A → (A → B) → List B

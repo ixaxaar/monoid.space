@@ -27,7 +27,9 @@ open import Lang.functions using (_+_)
 
 ## Modules
 
-Modules are essentially a "bunch" of definitions. They behave as closures with the indentation the indicator of the extent, similar to python. A Module object `object` can be accessed with `ModuleName.object`.
+Modules are used to scope variable and function namespaces such as "packages" in languages like java or python. They behave as closures with the indentation as the indicator of the extent of the closure. Each Agda source file may contain one module at the top level. Modules can be imported as can be seen from the blocks of imports above.
+
+Modules support nesting:
 
 ```agda
 module nested where
@@ -40,7 +42,7 @@ module nested where
   sum = X.x₁ + Y.x₂
 ```
 
-Modules can be "opened" or imported, like so:
+Importing modules:
 
 ```agda
 open nested.X
@@ -50,7 +52,7 @@ open nested.Y renaming (x₂ to x₃)
 x₂ = x₃ + one
 ```
 
-Modules can have parameters and be used to defined closures:
+Modules can have parameters valid inside their closures:
 
 ```agda
 module Sort (A : Set)(_≤_ : A → A → Bool) where
@@ -64,8 +66,6 @@ module Sort (A : Set)(_≤_ : A → A → Bool) where
   sort []       = []
   sort (x :: xs) = insert x (sort xs)
 ```
-
-Thus, modules primarily help in structuring code. Modules also provide additional functionalities like private and public components, we tackle them as and when we need to.
 
 ## Records
 
@@ -96,7 +96,7 @@ p23 : Pair ℕ ℕ
 p23 = record { fst = two; snd = three }
 ```
 
-The `constructor` keyword can be specified to construct the pairs:
+The `constructor` keyword can be specified to construct records:
 
 ```agda
 record Pair' (A B : Set) : Set where
@@ -119,7 +119,6 @@ left (x , y) = x
 A record can be parameterized:
 
 ```agda
-
 record List' (A : Set) : Set where
   constructor L
   field
@@ -130,7 +129,7 @@ list₂ : List' Bool
 list₂ = L three vec3
 ```
 
-All `Data` definitions have an equivalent `Record` definiton, however `Record`s are preferred whenever possible as a convention. Records have the obvious advantage of providing `getters` and `setters` for free.
+All `Data` definitions have an equivalent `Record` definition, however `Record`s are preferred whenever possible as a convention. Records have the obvious advantage of providing `getters` and `setters` for free.
 
 ## Postulates
 
@@ -144,8 +143,6 @@ postulate
   _=AB=_ : A → B → Set
   a==b   : a =AB= b
 ```
-
-or
 
 ```agda
 data False : Set where

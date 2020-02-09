@@ -97,7 +97,6 @@
 </ul></li>
 <li><a href="#text-editor-support">Text editor support</a></li>
 <li><a href="#useful-agda-mode-commands">Useful Agda-mode commands</a></li>
-<li><a href="#refl">refl</a></li>
 </ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -107,7 +106,7 @@
 <span id="cb1-3"><a href="#cb1-3"></a><span class="kw">module</span> Lang<span class="ot">.</span>debugging <span class="kw">where</span></span>
 <span id="cb1-4"><a href="#cb1-4"></a></span>
 <span id="cb1-5"><a href="#cb1-5"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Builtin<span class="ot">.</span>Nat</span></code></pre></div>
-<p>Debugging and tooling are arguably the most vital parts of the development process and a language ecosystem. Tools tend to help developers figure out issues and assit them in the entire process. Agda has a small set of indisposable tools for such purposes. We look at how to use some of them to make our lives easier.</p>
+<p>Debugging and tooling are arguably the most vital parts of the development process and a language ecosystem. Tools tend to help developers figure out issues and assist them in the entire process. Agda has a small set of indispensable tools for such purposes. We look at how to use some of them to make our lives easier.</p>
 <h2 id="holes">Holes</h2>
 <p>The agda compiler supports type checking and providing hints while writing code. Unknown types can be represented with a placeholder <code>?</code> and the compiler can help deduce the type.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">data</span> <span class="ot">_</span>even <span class="ot">:</span> Nat <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
@@ -259,7 +258,7 @@
 <h2 id="text-editor-support">Text editor support</h2>
 <p>The interaction commands mentioned above can be tied to text editors and IDEs to provide additional assistance for programmers. Such integrations exist for the following text editors:</p>
 <ul>
-<li>Emacs - developed first, has tighest integration <a href="https://agda.readthedocs.io/en/v2.5.2/tools/emacs-mode.html">Emacs mode</a></li>
+<li>Emacs - developed first, has tightest integration <a href="https://agda.readthedocs.io/en/v2.5.2/tools/emacs-mode.html">Emacs mode</a></li>
 <li>Atom - <a href="https://atom.io/packages/agda-mode">agda-mode</a></li>
 <li>VSCode - <a href="https://github.com/freebroccolo/vscode-agda">vscode-agda</a></li>
 <li>vim - <a href="https://github.com/derekelkins/agda-vim">agda-vim</a></li>
@@ -283,7 +282,6 @@
 <p>This entire project can be loaded into emacs like:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="ex">emacs</span> ./contents.lagda.md</span></code></pre></div>
 <p>followed by loading <code>agda-mode</code> by typing <code>space</code> <code>space</code> <code>agda-mode</code>. Using <a href="http://spacemacs.org/">spacemacs</a> is recommended.</p>
-<h2 id="refl">refl</h2>
 <hr />
 <p><a href="./Types.introduction.html">Type Theory - Introduction</a></p>
 </body>

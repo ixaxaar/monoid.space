@@ -9,8 +9,8 @@
 
 - [Syntactic quirks](#syntactic-quirks)
 - [Syntactic sugars](#syntactic-sugars)
-  - [Abstracting common parameters](#abstracting-common-parameters)
-  - [Abstracting parameters from constructors to types](#abstracting-parameters-from-constructors-to-types)
+  - [Common parameters](#common-parameters)
+  - [Different ways of defining `data`](#different-ways-of-defining-data)
   - [Implicit arguments](#implicit-arguments)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -18,55 +18,56 @@
 
 # Syntactic quirks
 
-Agda, being a pretty obscure language, inspite of having no dearth of documentation, still tends to lack some where it gets most confusing. We capture some of them here though we also acknowledge that this remains incomplete.
+We capture here some of the caveats and syntactic sugars here.
 
 ```agda
 module Lang.syntaxQuirks where
 
 open import Lang.dataStructures
+open import Agda.Builtin.Equality
 ```
 
 # Syntactic sugars
 
 Mostly short-forms of various stuff used more often.
 
-## Abstracting common parameters
+## Common parameters
 
 The implicit parameter `{m : ℕ}` common to all constructors can be abstracted out into the data definition:
 
-```haskell
+```agda
 data _≤′_ : ℕ → ℕ → Set where
   ≤′-refl : {m : ℕ} →                       m ≤′ m
   ≤′-step : {m : ℕ} → {n : ℕ} →  m ≤′ n  →  m ≤′ succ n
 ```
 
-is similar to
+is same as
 
-```haskell
+```agda
 data _≤′₁_ (m : ℕ) : ℕ → Set where
   ≤′₁-refl :                       m ≤′₁ m
   ≤′₁-step : {n : ℕ} →  m ≤′₁ n  →  m ≤′₁ succ n
 ```
 
-## Abstracting parameters from constructors to types
+## Different ways of defining `data`
 
 The previous technique also works for concrete parameters:
 
-```haskell
+```agda
 data _≤″_ : ℕ → ℕ → Set where
-  ≤+ : ∀ {m n k} → m + n ≡ k → m ≤″ k
+  ≤″ : ∀ {m n k} → m + n ≡ k → m ≤″ k
 ```
 
-is similar to
+is same as
 
-```haskell
+```agda
 data _≤″₁_ (m : ℕ) : ℕ → Set where
   ≤+ : ∀ {n k} → m + n ≡ k → m ≤″₁ k
 ```
 
-which is similar to
+which is same as
 
-```haskell
+```agda
 data _≤″₂_ (m : ℕ) (k : ℕ) : Set where
   ≤+ : ∀ {n} → m + n ≡ k → m ≤″₂ k
 ```
@@ -93,7 +94,7 @@ length'' A zero [] = zero
 length'' _ len _   = len
 ```
 
-Though these are generally ill-advised as they may cause significant confusion when used unwisely.
+Though these are generally ill-advised as they may cause confusion when used unwisely.
 
 ****
 [Modules, Records and Postulates](./Lang.other.html)

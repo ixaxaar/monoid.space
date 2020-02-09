@@ -108,7 +108,7 @@
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="functions">Functions</h1>
-<p>A function <code>𝕗</code> which takes a value of type <code>𝔸</code> and returns a value of type <code>𝔹</code>, is said to be of type <code>𝔸 → 𝔹</code> and is written as <code>𝕗 : 𝔸 → 𝔹</code>. The type <code>𝔸</code> is called the function <code>𝕗</code>’s “domain” and <code>𝔹</code> is the “co-domain”. Functions are allowed to be recursive. In Agda, functions can sometimes have practically simpler syntax than data while serving the same purpose.</p>
+<p>A function <code>𝕗</code> which takes a value of type <code>𝔸</code> and returns a value of type <code>𝔹</code>, is said to be of type <code>𝔸 → 𝔹</code> and is written as <code>𝕗 : 𝔸 → 𝔹</code>. The type <code>𝔸</code> is called the function <code>𝕗</code>’s “domain” and <code>𝔹</code> is the “co-domain”. Functions are allowed to be recursive, in fact, in Agda we make heavy use of recursion and pattern matching while defining functions.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Lang<span class="ot">.</span>functions <span class="kw">where</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">renaming</span> <span class="ot">(_</span>+<span class="ot">_</span> <span class="kw">to</span> <span class="ot">_</span>⨦<span class="ot">_)</span></span></code></pre></div>
@@ -164,7 +164,7 @@
 <h2 id="list-concatenation">List concatenation</h2>
 <p>Functions in Agda can take types as parameters such that the function can work on all higher types of that type parameter. This function takes a type as a parameter <code>A</code>, and hence can work on <code>List</code>s of any type <code>A</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1"></a><span class="ot">_</span>++<span class="ot">_</span> <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> List A <span class="ot">→</span> List A <span class="ot">→</span> List A</span>
-<span id="cb9-2"><a href="#cb9-2"></a>[]       ++ ys <span class="ot">=</span> ys</span>
+<span id="cb9-2"><a href="#cb9-2"></a>[]        ++ ys <span class="ot">=</span> ys</span>
 <span id="cb9-3"><a href="#cb9-3"></a><span class="ot">(</span>x :: xs<span class="ot">)</span> ++ ys <span class="ot">=</span> x :: <span class="ot">(</span>xs ++ ys<span class="ot">)</span></span>
 <span id="cb9-4"><a href="#cb9-4"></a></span>
 <span id="cb9-5"><a href="#cb9-5"></a><span class="kw">infixr</span> <span class="dv">5</span> <span class="ot">_</span>++<span class="ot">_</span></span></code></pre></div>
@@ -179,7 +179,7 @@
 <p>We implement the <code>map</code> function, of “map-reduce” fame, for <code>List</code>s: A map function for a <code>List</code> is a function that applies a lambda (un-named) function to all elements of a <code>List</code>.</p>
 <p>If <code>f</code> were a lambda function, map-ing <code>f</code> over <code>List(a, b, c, d)</code> would produce <code>List(f(a), f(b), f(c), f(d))</code></p>
 <figure>
-<img src="./map.png" alt="" /><figcaption>Figure 1: Map</figcaption>
+<img src="../artwork/map.png" alt="" /><figcaption>Figure 1: Map</figcaption>
 </figure>
 <div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1"></a>map <span class="ot">:</span> <span class="ot">{</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> List A <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> List B</span>
 <span id="cb11-2"><a href="#cb11-2"></a>map [] f <span class="ot">=</span> []</span>

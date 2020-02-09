@@ -15,7 +15,6 @@
     - [Commands working in the context of a specific goal](#commands-working-in-the-context-of-a-specific-goal)
   - [Text editor support](#text-editor-support)
   - [Useful Agda-mode commands](#useful-agda-mode-commands)
-  - [refl](#refl)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -30,7 +29,7 @@ module Lang.debugging where
 open import Agda.Builtin.Nat
 ```
 
-Debugging and tooling are arguably the most vital parts of the development process and a language ecosystem. Tools tend to help developers figure out issues and assit them in the entire process. Agda has a small set of indisposable tools for such purposes. We look at how to use some of them to make our lives easier.
+Debugging and tooling are arguably the most vital parts of the development process and a language ecosystem. Tools tend to help developers figure out issues and assist them in the entire process. Agda has a small set of indispensable tools for such purposes. We look at how to use some of them to make our lives easier.
 
 ## Holes
 
@@ -92,7 +91,7 @@ Agda supports the following commands:
 
 The interaction commands mentioned above can be tied to text editors and IDEs to provide additional assistance for programmers. Such integrations exist for the following text editors:
 
-- Emacs - developed first, has tighest integration [Emacs mode](https://agda.readthedocs.io/en/v2.5.2/tools/emacs-mode.html)
+- Emacs - developed first, has tightest integration [Emacs mode](https://agda.readthedocs.io/en/v2.5.2/tools/emacs-mode.html)
 - Atom - [agda-mode](https://atom.io/packages/agda-mode)
 - VSCode - [vscode-agda](https://github.com/freebroccolo/vscode-agda)
 - vim - [agda-vim](https://github.com/derekelkins/agda-vim)
@@ -132,9 +131,6 @@ emacs ./contents.lagda.md
 ```
 
 followed by loading `agda-mode` by typing `space` `space` `agda-mode`. Using [spacemacs](http://spacemacs.org/) is recommended.
-
-## refl
-
 
 ****
 [Type Theory - Introduction](./Types.introduction.html)

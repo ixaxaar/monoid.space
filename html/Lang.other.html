@@ -101,7 +101,7 @@
 <span id="cb1-4"><a href="#cb1-4"></a></span>
 <span id="cb1-5"><a href="#cb1-5"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>functions <span class="kw">using</span> <span class="ot">(_</span>+<span class="ot">_)</span></span></code></pre></div>
 <h2 id="modules">Modules</h2>
-<p>Modules are used to scope variable and function namespaces such as “packages” in languages like java or python. They behave as closures with the indentation the indicator of the extent. Modules can be imported as can be seen from the blocks of imports above.</p>
+<p>Modules are used to scope variable and function namespaces such as “packages” in languages like java or python. They behave as closures with the indentation as the indicator of the extent of the closure. Each Agda source file may contain one module at the top level. Modules can be imported as can be seen from the blocks of imports above.</p>
 <p>Modules support nesting:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">module</span> nested <span class="kw">where</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>  <span class="kw">module</span> X <span class="kw">where</span></span>
@@ -117,7 +117,7 @@
 <span id="cb3-3"><a href="#cb3-3"></a></span>
 <span id="cb3-4"><a href="#cb3-4"></a><span class="kw">open</span> nested<span class="ot">.</span>Y <span class="kw">renaming</span> <span class="ot">(</span>x₂ <span class="kw">to</span> x₃<span class="ot">)</span></span>
 <span id="cb3-5"><a href="#cb3-5"></a>x₂ <span class="ot">=</span> x₃ + one</span></code></pre></div>
-<p>Modules can have parameters and be used to define closures:</p>
+<p>Modules can have parameters valid inside their closures:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">module</span> Sort <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)(_</span>≤<span class="ot">_</span> <span class="ot">:</span> A <span class="ot">→</span> A <span class="ot">→</span> Bool<span class="ot">)</span> <span class="kw">where</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a>  insert <span class="ot">:</span> A <span class="ot">→</span> List A <span class="ot">→</span> List A</span>
 <span id="cb4-3"><a href="#cb4-3"></a>  insert x [] <span class="ot">=</span> x :: []</span>
@@ -143,7 +143,7 @@
 <p>An object of <code>Pair</code> can be constructed as:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a>p23 <span class="ot">:</span> Pair ℕ ℕ</span>
 <span id="cb7-2"><a href="#cb7-2"></a>p23 <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> fst <span class="ot">=</span> two<span class="ot">;</span> snd <span class="ot">=</span> three <span class="ot">}</span></span></code></pre></div>
-<p>The <code>constructor</code> keyword can be specified to construct the pairs:</p>
+<p>The <code>constructor</code> keyword can be specified to construct records:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">record</span> Pair&#39; <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a>  <span class="kw">constructor</span> <span class="ot">_</span>,<span class="ot">_</span></span>
 <span id="cb8-3"><a href="#cb8-3"></a>  <span class="kw">field</span></span>
@@ -156,16 +156,15 @@
 <div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1"></a>left <span class="ot">:</span> Pair&#39; ℕ ℕ <span class="ot">→</span> ℕ</span>
 <span id="cb9-2"><a href="#cb9-2"></a>left <span class="ot">(</span>x , y<span class="ot">)</span> <span class="ot">=</span> x</span></code></pre></div>
 <p>A record can be parameterized:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1"></a></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="kw">record</span> List&#39; <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a>  <span class="kw">constructor</span> L</span>
-<span id="cb10-4"><a href="#cb10-4"></a>  <span class="kw">field</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a>    length <span class="ot">:</span> ℕ</span>
-<span id="cb10-6"><a href="#cb10-6"></a>    vector <span class="ot">:</span> Vec A length</span>
-<span id="cb10-7"><a href="#cb10-7"></a></span>
-<span id="cb10-8"><a href="#cb10-8"></a>list₂ <span class="ot">:</span> List&#39; Bool</span>
-<span id="cb10-9"><a href="#cb10-9"></a>list₂ <span class="ot">=</span> L three vec3</span></code></pre></div>
-<p>All <code>Data</code> definitions have an equivalent <code>Record</code> definiton, however <code>Record</code>s are preferred whenever possible as a convention. Records have the obvious advantage of providing <code>getters</code> and <code>setters</code> for free.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">record</span> List&#39; <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>  <span class="kw">constructor</span> L</span>
+<span id="cb10-3"><a href="#cb10-3"></a>  <span class="kw">field</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a>    length <span class="ot">:</span> ℕ</span>
+<span id="cb10-5"><a href="#cb10-5"></a>    vector <span class="ot">:</span> Vec A length</span>
+<span id="cb10-6"><a href="#cb10-6"></a></span>
+<span id="cb10-7"><a href="#cb10-7"></a>list₂ <span class="ot">:</span> List&#39; Bool</span>
+<span id="cb10-8"><a href="#cb10-8"></a>list₂ <span class="ot">=</span> L three vec3</span></code></pre></div>
+<p>All <code>Data</code> definitions have an equivalent <code>Record</code> definition, however <code>Record</code>s are preferred whenever possible as a convention. Records have the obvious advantage of providing <code>getters</code> and <code>setters</code> for free.</p>
 <h2 id="postulates">Postulates</h2>
 <p><code>postulate</code>s are another Agda language construct. These facilitate defining some type without the actual implementation.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">postulate</span></span>
@@ -174,7 +173,6 @@
 <span id="cb11-4"><a href="#cb11-4"></a>  b      <span class="ot">:</span> B</span>
 <span id="cb11-5"><a href="#cb11-5"></a>  <span class="ot">_</span>=AB=<span class="ot">_</span> <span class="ot">:</span> A <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span></span>
 <span id="cb11-6"><a href="#cb11-6"></a>  a==b   <span class="ot">:</span> a =AB= b</span></code></pre></div>
-<p>or</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">data</span> False <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
 <span id="cb12-2"><a href="#cb12-2"></a></span>
 <span id="cb12-3"><a href="#cb12-3"></a><span class="kw">postulate</span> bottom <span class="ot">:</span> False</span></code></pre></div>
