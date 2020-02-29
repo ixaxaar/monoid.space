@@ -19,13 +19,17 @@
 
 # Proofs as data
 
-In type theory, mathematical proofs take a different course than the ones we're generally familiar with. Since in type theory everything, including proofs themselves, are types, the correctness of a proof translates to the ability to create an object of that proof's type. In simpler terms, if one claims a proposition, one has to show the proposition (which is a type) is valid. A type can be shown to be valid if one can construct an object of that type. Thus, in order to prove something, we need to create an object having the type of the proposition.
+We've mentioned that Agda is a proof assistant, i.e. a system in which one can write proofs that can be checked for validity much like one writes code whose validity is checked by a compiler. A proof as we know it is a sequence of formulas, each one could either be an axiom or follow from a bunch of previous formulas by applying some rule of inference.
 
-Propositions can be defined in a recursive way such that termination of computation proves the correctness of the proof. We recursively dismantle the input until the trivial case is left which completes the recursion process and our proof is done. This also implies that in cases where termination is not reached, one can say that the proof does not apply to, or, is invalid for such inputs.
+In Agda and other systems based on the Curry-Howard correspondence there is another notion of proof, where proofs are programs, formulas are types, and a proof is a correct proof of a certain theorem provided the corresponding program has the type of the corresponding formula. In simpler terms, if one claims a proposition, one has to show the proposition (which is a type) is valid. A type can be shown to be valid if one can either construct an object of that type or provide a means (function) to do so.
 
-Usually, a proof consists of:
-- trivial cases, serving as termination markers
-- recursive pattern matchers, for (de) constructing the proof from (to) the trivial cases
+Thinking from the computer science perspective, a proof of a theorem can be modeled with a tree, where the root is the theorem, the leaves are the axioms, and the inner nodes follow from their parents by a rule of inference.
+
+![Figure 1. A tree representation of a proof](../artwork/proof.png)
+
+While proving a proposition that involves an equality, one may use one side of the equality (say, the right hand side RHS) to prove the other side. We shall see this method, called "equational reasoning", in detail later.
+
+![Figure 2. Proof by equation reasoning](../artwork/equational.png)
 
 ```agda
 module Types.proofsAsData where
@@ -33,9 +37,11 @@ module Types.proofsAsData where
 open import Lang.dataStructures
 ```
 
+Here we present some examples of how to write simple proofs in Agda.
+
 ## Order
 
-For example, the `<=` operator can be defined as consisting of two constructors:
+For example, the `<=` operator can be defined using induction as consisting of two constructors:
 
 - an identity constructor `ltz` which compares any natural number with `zero`
 - a successive pattern matcher `lz` which tries to reduce comparison of  `x <= y`, to `x-1 <= y-1`:
@@ -50,11 +56,23 @@ data _<=_ : ℕ → ℕ → Set where
 infix 4 _<=_
 ```
 
-Some examples:
+Now, we can use the operator to prove a bunch of propositions:
 
 ```agda
 idLess₁ : one <= ten
 idLess₁ = lt ltz
+
+-- (lt ltz)(one <= ten)
+-- ltz (zero <= nine)
+-- true
+
+idLess₁₊ : two <= ten
+idLess₁₊ = lt (lt ltz)
+
+-- (lt (lt ltz))(two <= ten)
+-- (lt ltz)(one <= nine)
+-- ltz (zero <= eight)
+-- true
 
 idLess₂ : two <= seven
 idLess₂ = lt (lt ltz)
@@ -176,7 +194,7 @@ The relationship we saw earlier between [formal proofs and computer programs](./
 | $p : x =_A y$ | proof of equality |
 | $\Sigma_{x,y:A} x =_A y$ | equality relation |
 
-Thus, type theory can be considered a proof writing system in a standard programming language as an alternative to formal logic. This essentially open up a new medium of doing mathematics as well will be seeing in subsequent sections.
+Thus, type theory can be considered a proof writing system.
 
 ****
 [Kinds of Type Theories](./Types.variations.html)
