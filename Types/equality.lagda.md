@@ -15,7 +15,7 @@
     - [Transitivity](#transitivity)
     - [Congruence: functions that preserve equality](#congruence-functions-that-preserve-equality)
     - [Substitution](#substitution)
-- [Relations, a deeper look](#relations-a-deeper-look)
+- [Relations, with universe polymorphism](#relations-with-universe-polymorphism)
     - [Equality](#equality)
     - [Types of relations](#types-of-relations)
     - [Nullary relations](#nullary-relations)
@@ -44,15 +44,15 @@ open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 open import Types.functions using (_on_; flip)
 ```
 
-Equality is perhaps one of the most richest but most naively understood concepts. Here we try to provide some structural analysis as to what equality really means in various contexts of mathematics. Equality is treated as a relation in type theory and can be classified broadly as three types:
+Equality is perhaps one of the most richest but most naively understood concepts. Here we try to provide some structural analysis as to what equality really means in various contexts of mathematics. Equality is treated as a relation in type theory and can be classified broadly as of three kinds:
 
 - Propositional equality
 - Computational equality
-- Definitonal equality
+- Definitional equality
 
 # Definitional Equality
 
-Definitonal equality is the most basic notion of equality which appeals to our notion of equality being the sameness of meaning (by definition). Definitonal equality relates to the Agda compiler's own integrity check through which a statement is deemed true or correctly compiled. Hence every statemtent has its own notion of judgemental equality. This is in some way more fundamental than propositional equality as in it forms the very core of type theory's "judgement" of a `type(obj) == T`. The notion of definitonal equality also encompasses types that are isomorphic to each other e.g. `9 ≡ 3²` or `two ≡ succ (succ zero)`.
+Definitional equality is the most basic notion of equality which appeals to our notion of equality being the sameness of meaning (by definition). For example, `9` and `3 + 3` represent the same thing and hence are definitionally equal `9 ≡ 3²`. Similarly `two ≡ succ (succ zero)`.
 
 ```agda
 defEqual₁ : ℕ
@@ -62,29 +62,17 @@ defEqual₂ : ℕ
 defEqual₂ = succ (succ five)
 ```
 
-Here, `defEqual₁` and `defEqual₂` both are of type `ℕ` and hence definitionally equal is known to the compiler.
+Here, `defEqual₁` and `defEqual₂` both are equal, with equality of the kind "definitional equality".
 
 # Computational Equality
 
-This kind of equality describes the sameness of types that are not directly equal but can be reduced to be equal. An example of this is `two + two ≡ four`. For our purposes, we club together definitional and computational equality and call them together "definitional equality" as they serve the same purpose anyway.
-
-```agda
-compEqual₁ : ℕ
-compEqual₁ = six + three
-
-compEqual₂ : ℕ
-compEqual₂ = nine
-```
-
-Here, `compEqual₁` and `compEqual₂` both are of type `ℕ` and hence computationally equal is known to the compiler.
+This kind of equality describes the sameness of types that are not directly equal but can be reduced to be equal. "Reduction" here implies mathematical reduction, referring to rewriting expressions into simpler forms. An example of such an equality is applying a function $$(λ x.x+x)(2) ≡ 2 + 2$$ Expansions of recursors also falls under this kind of equality: $$2 + 2 ≡ succ (succ zero) + succ (succ zero) ≡ succ (succ (succ (succ zero)))$$ Practically, computational equality is included into definitional equality and is also known as "Judgemental equality".
 
 # Propositional Equality
 
-Definitonal and computational equalities describe something intrinsic - a property that does not depend upon a proof. However, other notions of equalities can be defined that do require proofs. Consider for example natural language - when we say "all flowers are beautiful" the "all flowers" part of the sentence implies all flowers are equal in some way. Or, consider natural numbers `a + b = b + a ∀ a, b ∈ ℕ`. Here we would need to prove the symmetry of the `+` operator in order to prove the equality. Such equalities that require to be specified come under the umbrella of propositional equality.
+Definitional and computational equalities describe something intrinsic - a property that does not depend upon a proof. For example, `a + b ≡ b + a` cannot be proven to be definitionally equal unless the concrete values of `a` and `b` are known. However, if they're natural numbers `a, b ∈ ℕ`, then the statement `a + b ≡ b + a` requires a proof to claim its truthfulness. Given `a, b ∈ ℕ`, we can prove that `a + b ≡ b + a` or in other words that there exists an identity of type `Id : a + b ≡ b + a` where `Id` is a proposition − exhibiting a term belonging to such a type is exhibiting (i.e. proving) such a propositional equality.
 
-In type theory, all proofs can be represented as a type. Propositional equality can be thought of as encapsulating the notion of "similarity", rather than strict equality. E.g. "roses" or "roads" hint at all roses or roads as being of the same kind but not exactly same, thus we define propositional equality over roses or roads which is different from hard equality. Propositional equality is a kind of equality which requires a proof, and hence the equality itself is also a type `∼`:
-
-![Figure 1: Equality](./equality.png)
+ However, other notions of equalities can be defined that do require proofs. Consider for example natural language - when we say "all flowers are beautiful" the "all flowers" part of the sentence implies all flowers are equal in some way. Or, consider natural numbers `a + b = b + a ∀ a, b ∈ ℕ`. Here we would need to prove the symmetry of the `+` operator in order to prove the equality. Such equalities that require to be specified come under the umbrella of propositional equality. Propositional equality is a kind of equality which requires a proof, and hence the equality itself is also a type `∼`:
 
 ```haskell
 infix 4 _∼_
@@ -143,7 +131,7 @@ substitution Predicate same p = p
 
 Any relation which satisfies the above properties of `reflexivity`, `transitivity` and `symmetry` can be considered an equivalence relation and hence can judge a propositional equality.
 
-# Relations, a deeper look
+# Relations, with universe polymorphism
 
 We now present a more formal machinery for relations. We use [universe polymorphism](Types.universe.html#universe-polymorphism) throughout to develop this machinery.
 
@@ -355,8 +343,6 @@ record Setoid c ℓ : Set (lsuc (c ⊔ ℓ)) where
 
   open IsEquivalence isEquivalence public
 ```
-
-Setoids are extensively used throughout agda's standard library, and they encapsulate well the baic underlying equality. However, we chose to avoid them here to be more explicit.
 
 ****
 [Product Types / Σ-types](./Types.product.html)

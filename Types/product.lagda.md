@@ -10,14 +10,14 @@
 - [Product types](#product-types)
   - [Construction](#construction)
   - [Dependent Pair Types or Σ-types](#dependent-pair-types-or-%CF%83-types)
-  - [API](#api)
-    - [Cross product](#cross-product)
+  - [Utils](#utils)
+    - [Product constructor](#product-constructor)
     - [Application of a product](#application-of-a-product)
     - [Map](#map)
     - [Swap](#swap)
 - [Co-product types](#co-product-types)
   - [Maybe](#maybe)
-  - [API](#api-1)
+  - [API](#api)
     - [Eliminator](#eliminator)
     - [Map](#map-1)
     - [Zip](#zip)
@@ -48,7 +48,7 @@ data _××_ (A B : Set) : Set where
 infixr 4 _××_
 ```
 
-and cartesian products constructed as
+Cartesian products can be constructed as:
 
 ```agda
 oneTwo = one ,, two
@@ -58,12 +58,12 @@ oneTwoThree = one ,, (two ,, three)
 
 ## Construction
 
-While being intuitively familiar with what a cartesian product is, it's algebraic definition captures the most abstract aspect of a product:
+While the above definition of cartesian products is intuitive, it's algebraic definition captures the most abstract aspect of a product:
 
-A cartesian product, in set theory, for two sets `A` and `B` is defined as:
+A cartesian product, in set theoretic language, for two sets `A` and `B` is defined as:
 
 ```math
-A x B = { (a , b) | a ∈ A and b ∈ B }
+A × B = { (a , b) | a ∈ A ~and~ b ∈ B }
 ```
 
 In  type theory, we look at another way of defining product types, just by looking at them as objects in themselves:
@@ -72,11 +72,11 @@ For an object `X`, we call `X` a product type if:
 1. There exists two functions, lets call them `proj₁` and `proj₂` such that they can be used to "extract" the contents of the product `X`:
 
 ```haskell
-proj₁ : {A B : Set} → (A × B) → A
-(a × b) = a
+proj₁ : {L R : Set} → (L × R) → L
+(l × r) = l
 
-proj₂ : {A B : Set} → (A × B) → B
-(a × b) = b
+proj₂ : {L R : Set} → (L × R) → R
+(l × r) = r
 ```
 
 2. If there is any another object `A`, such that the functions `proj₁ₐ` and `proj₂ₐ` satisfied the above condition for `A`, then there exists a function, `fₐ₀` such that:
@@ -87,14 +87,13 @@ fₐ₀ : A → X
 
 Note: The above is pseudo-code, the proof is below.
 
-The second condition is the unique-ness condition, .i.e. for all objects having projections to `A` and `B`, there is one through which all projections go through. We call this one object the "Product" This is better visualized in this diagram:
+The second condition is the condition for the unique-ness of the product, i.e. for all objects having projections to `left` and `right`, there is one through which all projections go through. This object through which we can route all other similar objects is called the "product". We call this one object the "Product" This is better visualized in this diagram:
 
-![Figure 1: Product](./product.png)
-
+![Figure 1: Product](../artwork/product.png)
 
 ## Dependent Pair Types or Σ-types
 
-Dependent types are products where the 2nd type is dependent on the first one. They are of the form `(x : A, B(x))`. The notation in type theory looks like this for binary dependent pairs:
+A Dependent type is a type whose definition depends on a value. A dependent pair type is a product type whose second type depends on the first. They are of the form `(x : A, B(x))`. The notation in type theory looks like this for binary dependent pairs:
 
 $$
 \sum_{x : A} B(x)
@@ -108,7 +107,7 @@ $$
 
 and so on.
 
-Agda's `record` types provides encapsulation for this definition and some syntactic sugars like constructors:
+The `record` type is a special syntax for representing dependent or Σ (sigma) types. They provide some syntactic sugars like constructors:
 
 ```agda
 record Σ {a b} (A : Set a) (B : A → Set b) : Set (a ⊔ b) where
@@ -122,9 +121,13 @@ open Σ public
 infixr 4 _,_
 ```
 
-While constructing complex mathematical structures, a fairly general pattern is that a bunch of properties can be bundled together to form objects, and then structures are built on top of them. Since all of those properties are types, a record containing a bunch of properties would by construction ensure the objects of such a record belong to the type represented. A lot of implementation of mathematical structures can be done in this form of `record`s of bundled properties.
+For constructing and studying algebraic structures, a pattern generally followed is:
+1. Choose a number of sets of objects.
+2. Choose a number of binary operations.
+3. Select a bunch properties of the binary operations that they have to adhere to.
+4. Combine objects, operations and their properties to form higher mathematical objects.
 
-Hence if, say `Prop₁` and `Prop₂` are two properties, an object that satisfies both is a record with both properties as fields:
+A combination of a bunch of objects, operations and their properties can be represented as a product type, and is where `record`s are extensively used. Example: if, say `Prop₁` and `Prop₂` are two properties, an object that satisfies both is a record with both properties as fields:
 
 ```
 data prop1 : Set where
@@ -135,15 +138,11 @@ record Satisfies (x : prop1)(y : prop2) : Set where
     p1 : prop1
     p2 : prop2
 ```
+We extensively use `record`s where we use this pattern.
 
-The `record` type is a special syntax for representing dependent or Σ (sigma) types in Agda, though they can very well also be represented in other ways such as using the `data` keyword.
+## Utils
 
-![Figure 2: Product (math)](product_full.png)
-
-
-## API
-
-### Cross product
+### Product constructor
 
 ```agda
 _×_ : ∀ {a b} (A : Set a) (B : Set b) → Set (a ⊔ b)
@@ -151,6 +150,8 @@ A × B = Σ A (λ x → B)
 ```
 
 ### Application of a product
+
+Apply a pair of functions to a pair of objects.
 
 ```agda
 <_,_> : ∀ {a b c} {A : Set a} {B : A → Set b} {C : ∀ {x} → B x → Set c}
@@ -182,11 +183,11 @@ swap (x , y) = (y , x)
 
 # Co-product types
 
-Co-products, also called as "sum" types can be thought of as a disjoint uinon of two objects.
+A "disjoint union" `𝕌` of `X` and `Y` has the property that every element of `𝕌` either maps to an element of `X` or `Y` but not both. Co-products, also called as "sum" types can be thought of as a disjoint union of two objects.
 
 Mathematically, an object `X ⋃ Y` is a co-product of objects `X` and `Y` if,
 
-1. There exists two functions `inj_₁` and `inj₂` such that:
+1. There exists two functions `inj₁` and `inj₂` such that:
 ```haskell
 inj₁ : {A B : Set} → A → (A ∪ B)
 a = (a ∪ b)
@@ -207,13 +208,13 @@ data _∪_ {a b} (A : Set a) (B : Set b) : Set (a ⊔ b) where
   inj₂ : (y : B) → A ∪ B
 ```
 
-Co-product types are similar to product types, except with reversed arrows:
+Co-product types are similar to product types, except with reversed arrows (they are "dual" to products):
 
-![Figure 3: Coproducts](coproduct.png)
+![Figure 3: Coproducts](../artwork/coproduct.png)
 
 ## Maybe
 
-Just like the cartesian product is the representative type of a product, the `Maybe` type fills that role for the co-product. This happens to be a very popular datatype in functional programming languages like haskell `Maybe`, scala `Option` etc and is widely used to error handling.
+Just like the cartesian product is the representative type of a product, the `Maybe` type fills that role for the co-product. This happens to be a very popular datatype in functional programming languages like haskell `Maybe`, scala `Option` etc and is part of a widely used pattern for error handling. The `Maybe` type is a disjoint union of something (a type) or nothing (or an error type). These types can be used to encapsulate behavior of functions that either return a value or an error.
 
 ```agda
 data Maybe {a} (A : Set a) : Set a where

@@ -25,7 +25,14 @@
 
 # Operations
 
-We start by defining operations and laws these operations obey.
+An operation can be thought of as a map between types with an arity. Operations can also be though of as functions that may take 0 or more operands and return an output value. Some examples are addition, subtraction, multiplication and division of natural, real and complex numbers. Based on arity, operations can be:
+
+- Nullary: takes no argument (e.g. a function that returns a constant).
+- Unary: takes one argument.
+- Binary: takes two arguments.
+- Ternary: takes three arguments.
+
+Operations of higher arity can be decomposed into ones of lower arity, with currying. We now start by defining operations and laws these operations obey.
 
 ```agda
 open import Types.equality
@@ -37,13 +44,13 @@ open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 module Types.operations {a ℓ} {A : Set a} (_==_ : Rel A ℓ) where
 ```
 
-A binary operation $ ★ $ on a set A is a function (function type!) that takes two elements of type A and returns an element of A:
+A binary operation $ ★ $ on a set A is a function that takes two elements of type A and returns an element of A:
 
 ```math
 ★ : A × A → A
 ```
 
-More often the operation is applied to the two objects `x, y ∈ A` as $ x ★ y $.
+More often the operation is applied to the two objects `x, y ∈ A` in an infix fashion $x ★ y$.
 
 A unary operation on the other hand operates on only one element of A to return an element of A:
 
@@ -67,11 +74,9 @@ and a unary operation as:
 
 ## Operator laws
 
-We now write a few laws that operators could follow. Essentially, structures built on top of these operators would end up following the same laws as the underlying operator. We have already seen some of these laws in [laws of boolean algebra](./Logic.laws.html), these are universe polymorphism-accounted general versions of those laws.
+We now describe a few laws that operators could follow. This would enable us to study objects built on top of these operators that following the same laws as the underlying operator, as well as structure-preserving maps that preserve the underlying structure of such objects and so on.
 
 ### Associativity
-
-![Figure 1: Associative](associative.png)
 
 Mathematically, given an operation `★`, it is called associative if:
 
@@ -89,8 +94,6 @@ x ★ (y ★ z) ≡ (x ★ y) ★ z
 
 ### Commutativity
 
-![Figure 2: Commutative](commutative.png)
-
 Commutativity is defined as:
 
 ```math
@@ -106,8 +109,6 @@ x ★ y ≡ y ★ x
 ```
 
 ### Identity
-
-![Figure 3: Identity](identity.png)
 
 ```math
 ∀ x ∈ A,
@@ -132,8 +133,6 @@ We treat identity as a pair of right and left identities. This helps in working 
 
 ### Elimination
 
-![Figure 4: Elimination](elimination.png)
-
 ```math
 ∀ x ∈ A,
 
@@ -155,8 +154,6 @@ How does our object interact with `0`? We define that here.
 ```
 
 ### Inverse
-
-![Figure 5: Inverse](inverse.png)
 
 ```math
 ∀ x ∈ A, ∃ x⁻¹ ∈ A such that
@@ -181,8 +178,6 @@ Given any unary function `_⁻¹`, we define what it takes for the function to q
 
 ### Distributive
 
-![Figure 6: Distributive](distributive.png)
-
 ```math
 ∀ x, y, z ∈ A,
 operation ★ is distributive if:
@@ -204,8 +199,6 @@ operation ★ is distributive if:
 ```
 
 ### Absorptive
-
-![Figure 7: Absorption](absorption.png)
 
 ```math
 ∀ x ∈ A and two operations
@@ -232,8 +225,6 @@ and if both are satisfied collectively ∙ and ∘ are absorptive.
 
 ### Cancellative
 
-![Figure 8: Cancellation](cancellation.png)
-
 ```math
 ∀ x, y ∈ A
 and a function • : A → A → A,
@@ -253,8 +244,6 @@ and a function • : A → A → A,
 ```
 
 ### Congruence
-
-![Figure 9: Congruence](congruence.png)
 
 ```math
 Given
@@ -289,7 +278,7 @@ A congruent relation preserves equivalences:
 
 ## Respecting an relation
 
-We finally define what we mean by a functions "respects" an operation or is invariant of it. For a function $ f $ and an operation $ ∘ $, if  $ x ∘ y ⟹ f(x) ∘ f(y) $, we say the function $ f $ respects the operation $ ∘ $. We define two versions of this utility here
+Finally, we define what we mean by a functions "respects" an operation or is invariant of it. For a function $f$ and an operation $∘$, if  $x ∘ y ⟹ f(x) ∘ f(y)$, we say the function $f$ respects the operation $∘$. We define two versions of this utility here
 
 - `_Respects_` for already commutative laws
 - `_Respects₂_` which combines left `_Respectsˡ_` and right `_Respectsʳ_` laws
@@ -319,7 +308,6 @@ We finally define what we mean by a functions "respects" an operation or is inva
           → Set _
   P Respects₂ _∼_ = (P Respectsʳ _∼_) × (P Respectsˡ _∼_)
 ```
-
 
 ****
 [Equational Reasoning](./Algebra.equational.html)

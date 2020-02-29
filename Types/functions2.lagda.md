@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ****
 
-- [Functions, Continued...](#functions-continued)
+- [Functions, Continued](#functions-continued)
 - [Classifications of functions](#classifications-of-functions)
   - [Injection](#injection)
   - [Surjection](#surjection)
@@ -15,7 +15,7 @@
 [Previous](Types.functions.html)
 [Next](Types.proofsAsData.html)
 
-# Functions, Continued...
+# Functions, Continued
 
 ```agda
 module Types.functions2 where
@@ -29,49 +29,64 @@ open import Lang.dataStructures using (
 
 open import Agda.Primitive using (Level; _⊔_; lsuc)
 
-open import Types.equality using (IsEquivalence; Setoid; Rel)
+open import Types.equality using (IsEquivalence; _≡_; Rel)
 open import Types.product using (Σ; _,_; fst; snd)
 open import Types.functions
+open import Types.equational
 ```
 
 # Classifications of functions
 
-Functions can be broadly classified as:
+Functions can be classified into:
 
 1. Injective (one-to-one)
 2. Surjective (onto)
 3. Bijective (one-to-one and onto)
 
-![Injection vs Surjection vs Bijection](functions.png)
-
 Note that a function, by definition, can never produce multiple outputs given the same input.
 
 ## Injection
 
+![Figure 1: Injection](../artwork/injective.png)
+
 A function `f : X → Y` is injective if $∀ x ∈ X, y ∈ Y, f(x) == f(y) ⟹ x == y$. Or in other words, the map is one-to-one between all objects of X and some objects of Y.
 
 ```agda
-module _ {a b ℓ}
-        {A : Set a}
-        {B : A → Set b}
-        {_=₁_ : Rel A ℓ}
-        {_=₂_ : (x : A) → Rel (B x) ℓ}
-        (eq1 : IsEquivalence _=₁_)
-        (eq2 : (x : A) → IsEquivalence (_=₂_ x))
-        where
-```
+Injective : ∀ {a b} {A : Set a} {B : Set b} → (A → B) → Set (a ⊔ b)
+Injective f = ∀ {x y} → f x ≡ f y → x ≡ y
 
-  Injective : A → B → Set _
-  Injective f = ∀ {x y : A} → (f x) _=₁_ (f y) → x (_=₂_ x) y
+record Injection {f t} (From : Set f) (To : Set t) : Set (f ⊔ t) where
+  field
+    to        : From → To
+    injective : Injective to
+```
 
 ## Surjection
 
+![Figure 2: Surjection](../artwork/surjective.png)
+
 A function `f : X → Y` is surjective if $∀ y ∈ Y, ∃ x ∈ X s.t. f(x) == y$. This states that for every element of Y, there should be at least one element of X such that `f(x) == y`. So Y is an complete image of X.
+
+```agda
+record Surjection {f t} (From : Set f) (To : Set t) : Set (f ⊔ t) where
+  field
+    to   : From → To
+    from : To → From
+    right-inverse-of : ∀ x → to (from x) ≡ x
+```
 
 ## Bijection
 
-Bijection is the combination of injection and surjection.
+![Figure 3: Bijection](../artwork/bijection.png)
 
+Bijection is the combination of injection and surjection. A bijection implies one-to-one correspondence from the domain to the codomain − each element of one set is paired with exactly one element of the other set, and each element of the other set is paired with exactly one element of the first set. There are no unpaired elements.
+
+```agda
+record Bijection {f t} (From : Set f) (To : Set t) : Set (f ⊔ t) where
+  field
+    injection : Injection From To
+    surjection : Surjection From To
+```
 
 ****
 [Proofs as Data](./Types.proofsAsData.html)
