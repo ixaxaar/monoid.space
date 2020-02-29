@@ -75,6 +75,7 @@
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../css/agda.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -105,7 +106,14 @@
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="operations">Operations</h1>
-<p>We start by defining operations and laws these operations obey.</p>
+<p>An operation can be thought of as a map between types with an arity. Operations can also be though of as functions that may take 0 or more operands and return an output value. Some examples are addition, subtraction, multiplication and division of natural, real and complex numbers. Based on arity, operations can be:</p>
+<ul>
+<li>Nullary: takes no argument (e.g. a function that returns a constant).</li>
+<li>Unary: takes one argument.</li>
+<li>Binary: takes two arguments.</li>
+<li>Ternary: takes three arguments.</li>
+</ul>
+<p>Operations of higher arity can be decomposed into ones of lower arity, with currying. We now start by defining operations and laws these operations obey.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product</span>
@@ -113,9 +121,9 @@
 <span id="cb1-5"><a href="#cb1-5"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
 <span id="cb1-6"><a href="#cb1-6"></a></span>
 <span id="cb1-7"><a href="#cb1-7"></a><span class="kw">module</span> Types<span class="ot">.</span>operations <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(_</span>==<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="kw">where</span></span></code></pre></div>
-<p>A binary operation $ ★ $ on a set A is a function (function type!) that takes two elements of type A and returns an element of A:</p>
+<p>A binary operation $ ★ $ on a set A is a function that takes two elements of type A and returns an element of A:</p>
 <pre class="math"><code>★ : A × A → A</code></pre>
-<p>More often the operation is applied to the two objects <code>x, y ∈ A</code> as $ x ★ y $.</p>
+<p>More often the operation is applied to the two objects <code>x, y ∈ A</code> in an infix fashion <span class="math inline">\(x ★ y\)</span>.</p>
 <p>A unary operation on the other hand operates on only one element of A to return an element of A:</p>
 <pre class="math"><code>♠ : A → A</code></pre>
 <p>In agda, a homogenous binary operation <code>★ A</code> can be defined as:</p>
@@ -125,11 +133,8 @@
 <div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a>  ♠<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> a</span>
 <span id="cb5-2"><a href="#cb5-2"></a>  ♠ A <span class="ot">=</span> A <span class="ot">→</span> A</span></code></pre></div>
 <h2 id="operator-laws">Operator laws</h2>
-<p>We now write a few laws that operators could follow. Essentially, structures built on top of these operators would end up following the same laws as the underlying operator. We have already seen some of these laws in <a href="./Logic.laws.html">laws of boolean algebra</a>, these are universe polymorphism-accounted general versions of those laws.</p>
+<p>We now describe a few laws that operators could follow. This would enable us to study objects built on top of these operators that following the same laws as the underlying operator, as well as structure-preserving maps that preserve the underlying structure of such objects and so on.</p>
 <h3 id="associativity">Associativity</h3>
-<figure>
-<img src="associative.png" alt="" /><figcaption>Figure 1: Associative</figcaption>
-</figure>
 <p>Mathematically, given an operation <code>★</code>, it is called associative if:</p>
 <pre class="math"><code>∀ x, y, z ∈ A,
 operation ★ is associative if:
@@ -138,9 +143,6 @@ x ★ (y ★ z) ≡ (x ★ y) ★ z</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a>  Associative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a>  Associative <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">((</span>x ∙ y<span class="ot">)</span> ∙ z<span class="ot">)</span> == <span class="ot">(</span>x ∙ <span class="ot">(</span>y ∙ z<span class="ot">))</span></span></code></pre></div>
 <h3 id="commutativity">Commutativity</h3>
-<figure>
-<img src="commutative.png" alt="" /><figcaption>Figure 2: Commutative</figcaption>
-</figure>
 <p>Commutativity is defined as:</p>
 <pre class="math"><code>∀ x, y ∈ A,
 operation ★ is commutative if:
@@ -149,9 +151,6 @@ x ★ y ≡ y ★ x</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1"></a>  Commutative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb9-2"><a href="#cb9-2"></a>  Commutative <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x ∙ y<span class="ot">)</span> == <span class="ot">(</span>y ∙ x<span class="ot">)</span></span></code></pre></div>
 <h3 id="identity">Identity</h3>
-<figure>
-<img src="identity.png" alt="" /><figcaption>Figure 3: Identity</figcaption>
-</figure>
 <pre class="math"><code>∀ x ∈ A,
 if id is the identity object of A,
 
@@ -167,9 +166,6 @@ id ★ x ≡ x</code></pre>
 <span id="cb11-7"><a href="#cb11-7"></a>  Identity <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb11-8"><a href="#cb11-8"></a>  Identity e ∙ <span class="ot">=</span> LeftIdentity e ∙ × RightIdentity e ∙</span></code></pre></div>
 <h3 id="elimination">Elimination</h3>
-<figure>
-<img src="elimination.png" alt="" /><figcaption>Figure 4: Elimination</figcaption>
-</figure>
 <pre class="math"><code>∀ x ∈ A,
 
 x ★ 0 ≡ 0
@@ -184,9 +180,6 @@ x ★ 0 ≡ 0
 <span id="cb13-7"><a href="#cb13-7"></a>  Zero <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb13-8"><a href="#cb13-8"></a>  Zero z ∙ <span class="ot">=</span> LeftZero z ∙ × RightZero z ∙</span></code></pre></div>
 <h3 id="inverse">Inverse</h3>
-<figure>
-<img src="inverse.png" alt="" /><figcaption>Figure 5: Inverse</figcaption>
-</figure>
 <pre class="math"><code>∀ x ∈ A, ∃ x⁻¹ ∈ A such that
 
 x ★ x⁻¹ ≡ id
@@ -202,9 +195,6 @@ x⁻¹ ★ x ≡ id</code></pre>
 <span id="cb15-7"><a href="#cb15-7"></a>  Inverse <span class="ot">:</span> A <span class="ot">→</span> ♠ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb15-8"><a href="#cb15-8"></a>  Inverse e ⁻¹ ∙ <span class="ot">=</span> LeftInverse e ⁻¹ ∙ × RightInverse e ⁻¹ ∙</span></code></pre></div>
 <h3 id="distributive">Distributive</h3>
-<figure>
-<img src="distributive.png" alt="" /><figcaption>Figure 6: Distributive</figcaption>
-</figure>
 <pre class="math"><code>∀ x, y, z ∈ A,
 operation ★ is distributive if:
 
@@ -220,9 +210,6 @@ operation ★ is distributive if:
 <span id="cb17-9"><a href="#cb17-9"></a>  <span class="ot">_</span>DistributesOver<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb17-10"><a href="#cb17-10"></a>  * DistributesOver + <span class="ot">=</span> <span class="ot">(</span>* DistributesOverˡ +<span class="ot">)</span> × <span class="ot">(</span>* DistributesOverʳ +<span class="ot">)</span></span></code></pre></div>
 <h3 id="absorptive">Absorptive</h3>
-<figure>
-<img src="absorption.png" alt="" /><figcaption>Figure 7: Absorption</figcaption>
-</figure>
 <pre class="math"><code>∀ x ∈ A and two operations
  ∙ : A → A → A
  ∘ : A → A → A
@@ -241,9 +228,6 @@ and if both are satisfied collectively ∙ and ∘ are absorptive.</code></pre>
 <span id="cb19-4"><a href="#cb19-4"></a>  Absorptive <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb19-5"><a href="#cb19-5"></a>  Absorptive ∙ ∘ <span class="ot">=</span> <span class="ot">(</span>∙ Absorbs ∘<span class="ot">)</span> × <span class="ot">(</span>∘ Absorbs ∙<span class="ot">)</span></span></code></pre></div>
 <h3 id="cancellative">Cancellative</h3>
-<figure>
-<img src="cancellation.png" alt="" /><figcaption>Figure 8: Cancellation</figcaption>
-</figure>
 <pre class="math"><code>∀ x, y ∈ A
 and a function • : A → A → A,
 
@@ -257,9 +241,6 @@ and a function • : A → A → A,
 <span id="cb21-7"><a href="#cb21-7"></a>  Cancellative <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb21-8"><a href="#cb21-8"></a>  Cancellative <span class="ot">_</span>•<span class="ot">_</span> <span class="ot">=</span> LeftCancellative <span class="ot">_</span>•<span class="ot">_</span> × RightCancellative <span class="ot">_</span>•<span class="ot">_</span></span></code></pre></div>
 <h3 id="congruence">Congruence</h3>
-<figure>
-<img src="congruence.png" alt="" /><figcaption>Figure 9: Congruence</figcaption>
-</figure>
 <pre class="math"><code>Given
   a₁, a₂ ∈ A
   b₁ b₂ ∈ B
@@ -286,7 +267,7 @@ then b₁ ≡ b₂</code></pre>
 <span id="cb23-10"><a href="#cb23-10"></a>  RightCongruent <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb23-11"><a href="#cb23-11"></a>  RightCongruent <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>x ∙<span class="ot">_)</span> Preserves <span class="ot">_</span>==<span class="ot">_</span> ⟶ <span class="ot">_</span>==<span class="ot">_</span></span></code></pre></div>
 <h2 id="respecting-an-relation">Respecting an relation</h2>
-<p>We finally define what we mean by a functions “respects” an operation or is invariant of it. For a function $ f $ and an operation $ ∘ $, if $ x ∘ y ⟹ f(x) ∘ f(y) $, we say the function $ f $ respects the operation $ ∘ $. We define two versions of this utility here</p>
+<p>Finally, we define what we mean by a functions “respects” an operation or is invariant of it. For a function <span class="math inline">\(f\)</span> and an operation <span class="math inline">\(∘\)</span>, if <span class="math inline">\(x ∘ y ⟹ f(x) ∘ f(y)\)</span>, we say the function <span class="math inline">\(f\)</span> respects the operation <span class="math inline">\(∘\)</span>. We define two versions of this utility here</p>
 <ul>
 <li><code>_Respects_</code> for already commutative laws</li>
 <li><code>_Respects₂_</code> which combines left <code>_Respectsˡ_</code> and right <code>_Respectsʳ_</code> laws</li>

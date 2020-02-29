@@ -102,59 +102,52 @@
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="relations">Relations</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Types<span class="ot">.</span>relations <span class="kw">where</span></span></code></pre></div>
-<p>Relations can be defined as properties that assign truth values to finite tuples of elements. A binary relation would output a truth value given two objects, similarly a unary relation would apply on a single object to output a truth value. This can be generalized to k-ary relations. In type theory, however, since relations are also types and “truth values” of a proposition is replaced by existence or belonging to the universe of all types, one can think of relations as functions that take n-tuples as input and return some object of type <code>Set1</code> - the set of all <code>Set</code>s. A binary relation <code>∙</code> between two objects <code>a</code> and <code>b</code> is a function type:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Types<span class="ot">.</span>relations <span class="kw">where</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">)</span></span></code></pre></div>
+<p>Relations can be defined as properties that assign truth values to finite tuples of elements. In other words, a relation is a function that accepts a finite set of arguments to produce a truth value. A binary relation would output a truth value given two objects, similarly a unary relation would apply on a single object to output a truth value. This can be generalized to k-ary relations.</p>
+<p>In type theory, since relations are also types and “truth values” of a proposition is replaced by existence or belonging to the universe of all types, one can think of relations as functions that take n-tuples as input and return some object of type <code>Set1</code> - the set of all <code>Set</code>s.</p>
+<p>A binary relation <code>∙</code> between two objects <code>a</code> and <code>b</code> is a function type:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a>Rel <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">→</span> <span class="dt">Set1</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>Rel A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span></span></code></pre></div>
 <p>A relation with universe polymorphism could also be defined as:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">)</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="co">-- heterogenous relation</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>REL <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> b <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b ⊔ lsuc ℓ<span class="ot">)</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a>REL A B ℓ <span class="ot">=</span> A <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> ℓ</span>
-<span id="cb3-6"><a href="#cb3-6"></a></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="co">-- homogenous relation</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a>R <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ lsuc ℓ<span class="ot">)</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a>R A ℓ <span class="ot">=</span> REL A A ℓ</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">-- heterogenous relation</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>REL <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> b <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b ⊔ lsuc ℓ<span class="ot">)</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>REL A B ℓ <span class="ot">=</span> A <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> ℓ</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">-- homogenous relation</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>R <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="ot">(</span>ℓ <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ lsuc ℓ<span class="ot">)</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a>R A ℓ <span class="ot">=</span> REL A A ℓ</span></code></pre></div>
 <p>The first definition being easier for our purposes here, we proceed with that.</p>
 <h2 id="properties-of-relations">Properties of relations</h2>
 <p>Relations can conform to certain properties, which later come in handy for classifying relations and building a lot of mathematical structure.</p>
 <h3 id="reflexive">Reflexive</h3>
-<p>A reflexive relation is one where <span class="math display">\[ x ∙ y = y ∙ x \]</span>:</p>
-<figure>
-<img src="refl.png" alt="" /><figcaption>Figure 1: Refl</figcaption>
-</figure>
+<p>A reflexive relation is one where <span class="math display">\[ x ∙ y = y ∙ x \]</span></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1"></a>reflexive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a>  <span class="ot">→</span> Rel A</span>
 <span id="cb4-3"><a href="#cb4-3"></a>  <span class="ot">→</span> <span class="dt">Set</span></span>
 <span id="cb4-4"><a href="#cb4-4"></a>reflexive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ★ x</span></code></pre></div>
 <h3 id="symmetric">Symmetric</h3>
-<p>A symmetric relation is one where <span class="math display">\[ x ∙ y ⟹ y ∙ x \]</span>:</p>
-<figure>
-<img src="symmetric.png" alt="" /><figcaption>Figure 2: Symmetric</figcaption>
-</figure>
+<p>A symmetric relation is one where <span class="math display">\[ x ∙ y ⟹ y ∙ x \]</span></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a>symmetric <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a>symmetric <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span>  <span class="ot">=</span> <span class="ot">(</span>x y <span class="ot">:</span> A<span class="ot">)</span></span>
 <span id="cb5-3"><a href="#cb5-3"></a>  <span class="ot">→</span> x ★ y</span>
 <span id="cb5-4"><a href="#cb5-4"></a>  <span class="ot">→</span> y ★ x</span></code></pre></div>
 <h3 id="transitive">Transitive</h3>
-<p>A transitive relation is one where <span class="math display">\[ x ∙ y, y ∙ z ~then~ z ∙ x \]</span>:</p>
-<figure>
-<img src="transitive.png" alt="" /><figcaption>Figure 3: Transitive</figcaption>
-</figure>
+<p>A transitive relation is one where <span class="math display">\[ x ∙ y, y ∙ z ~then~ z ∙ x \]</span></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a>transitive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a>transitive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x y z <span class="ot">:</span> A<span class="ot">)</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a>  <span class="ot">→</span> x ★ y</span>
 <span id="cb6-4"><a href="#cb6-4"></a>  <span class="ot">→</span> y ★ z</span>
 <span id="cb6-5"><a href="#cb6-5"></a>  <span class="ot">→</span> x ★ z</span></code></pre></div>
 <h3 id="congruent">Congruent</h3>
-<p>A congruent relation is one where a function <span class="math display">\[ x ∙ y ⟹ f(x) ∙ f(y) \]</span> or the function <code>f</code> preserves the relation :</p>
+<p>A congruent relation is one where a function <span class="math display">\[ x ∙ y ⟹ f(x) ∙ f(y) \]</span> or the function <code>f</code> preserves the relation.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a>congruent <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a>congruent <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> A<span class="ot">)(</span>x y <span class="ot">:</span> A<span class="ot">)</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a>  <span class="ot">→</span> x ★ y</span>
 <span id="cb7-4"><a href="#cb7-4"></a>  <span class="ot">→</span> f x ★ f y</span></code></pre></div>
 <h3 id="substitutive">Substitutive</h3>
-<p>A substitutive relation is one where <span class="math display">\[ x ∙ y ~and~ (predicate~ y) = ⊤ ⟹ (predicate~ x) = ⊤ \]</span> :</p>
+<p>A substitutive relation is one where <span class="math display">\[ x ∙ y ~and~ (predicate~ y) = ⊤ ⟹ (predicate~ x) = ⊤ \]</span></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a>substitutive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set1</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a>substitutive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>P <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)(</span>x y <span class="ot">:</span> A<span class="ot">)</span></span>
 <span id="cb8-3"><a href="#cb8-3"></a>  <span class="ot">→</span> x ★ y</span>
@@ -163,17 +156,18 @@
 <h1 id="equivalence-relation">Equivalence relation</h1>
 <p>An equivalence relation is a relation which is:</p>
 <ul>
-<li>reflexive: a = a</li>
-<li>symmetric: if a = b then b = a</li>
-<li>transitive: if a = b and b = c then a = c</li>
+<li>reflexive: <code>a = a</code></li>
+<li>symmetric: if <code>a = b</code> then <code>b = a</code></li>
+<li>transitive: if <code>a = b</code> and <code>b = c</code> then <code>a = c</code></li>
 </ul>
-<p>All forms of what we know as “equality” are equivalence relations. They help in identifying similar objects and can be “weak” or “strong” depending upon how much similarity they capture of the objects they compare. For e.g. all “tables” fall under one equivalence class wherein when we refer to a generic “table” we mean as in all tables as equal. Whereas, if we were comparing tables amongst themselves, we’d use other finer criteria in our equivalence relations, classifying some tables as coffee tables and so on.</p>
+<p>All forms of what we naively know as “equality” are equivalence relations. They help in identifying similar objects and can be “weak” or “strong” depending upon how much similarity they capture of the objects they compare. For e.g. all “tables” fall under one equivalence class − when we refer to a generic “table” we mean as in all tables as equal. Whereas, if we were comparing tables amongst themselves, we’d use other finer criteria in our equivalence relations, classifying some tables as coffee tables and so on until we reach a stage where all tables are different, except then they look identical.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">record</span> Equivalence <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set1</span> <span class="kw">where</span></span>
 <span id="cb9-2"><a href="#cb9-2"></a>  <span class="kw">field</span></span>
 <span id="cb9-3"><a href="#cb9-3"></a>    <span class="ot">_</span>==<span class="ot">_</span>  <span class="ot">:</span> Rel A</span>
 <span id="cb9-4"><a href="#cb9-4"></a>    refl  <span class="ot">:</span> reflexive <span class="ot">_</span>==<span class="ot">_</span></span>
 <span id="cb9-5"><a href="#cb9-5"></a>    sym   <span class="ot">:</span> symmetric <span class="ot">_</span>==<span class="ot">_</span></span>
 <span id="cb9-6"><a href="#cb9-6"></a>    trans <span class="ot">:</span> transitive <span class="ot">_</span>==<span class="ot">_</span></span></code></pre></div>
+<p>Note that this derivation is chosen here for simplicity, later we will go ahead and derive a version with universe polymorphism.</p>
 <hr />
 <p><a href="./Types.equality.html">Equality</a></p>
 </body>

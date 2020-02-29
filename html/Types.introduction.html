@@ -75,6 +75,7 @@
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../css/agda.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -86,10 +87,25 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
 <ul>
-<li><a href="#introduction">Introduction</a>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#set-theory">Set Theory</a>
 <ul>
-<li><a href="#the-scala-type-system">The scala type system</a></li>
-<li><a href="#judgements-and-propositions">Judgements and Propositions</a></li>
+<li><a href="#basics-of-set-theory">Basics of Set Theory</a>
+<ul>
+<li><a href="#relations">Relations</a></li>
+<li><a href="#operations">Operations</a></li>
+<li><a href="#properties-of-operations">Properties of Operations</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#type-theory">Type Theory</a>
+<ul>
+<li><a href="#implications-of-type-theory">Implications of Type Theory</a>
+<ul>
+<li><a href="#foundations-of-mathematics">Foundations of Mathematics</a></li>
+<li><a href="#programming-language">Programming Language</a></li>
+<li><a href="#calculus-for-category-theory">Calculus for Category Theory</a></li>
+</ul></li>
+<li><a href="#coming-up">Coming up</a></li>
 </ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -97,31 +113,88 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Types<span class="ot">.</span>introduction <span class="kw">where</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>List<span class="ot">;</span> []<span class="ot">;</span> <span class="ot">_</span>::<span class="ot">_;</span> ℕ<span class="ot">;</span> one<span class="ot">;</span> three<span class="ot">;</span> seven<span class="ot">;</span> nine<span class="ot">)</span></span></code></pre></div>
-<p>Set theory is a formal system of mathematics which serves as a language for constructing and studying collections of objects called “sets”. A set, in plain language, is a collection of zero or more objects. These objects can be literally anything.</p>
+<p>We being with exploration of Type Theory, our “programming language” using which we “implement” math. Instead of the more familiar method of writing esoteric symbols on a piece of paper, we represent those esoteric symbols as code, which a compiler can then parse and type-check, thus guaranteeing the code’s (and hence the represented math’s) correctness. Though to programmers this might seem very natural, it is an extremely powerful method for doing math as the burden of verification becomes automated − thus significantly reducing testing time.</p>
+<p>Most of mathematics, as we know it, is based on the foundations of Set Theory. In order to realize our goal of implementing math in Type Theory, the foundations need to be shaken up a bit, and reformulated from the ground-up.</p>
+<h1 id="set-theory">Set Theory</h1>
+<p>Set Theory is a mathematical theory which studies collections of objects, called <code>set</code>s. These objects, called <code>member</code>s or <code>element</code>s of the set, can literally be anything. The other main component of Set Theory is first-order logic, which is used to construct and reason around sets. The language of Set Theory can be used to define almost all of mathematical objects.</p>
 <figure>
-<img src="./set.png" alt="" /><figcaption>Figure 1: Set</figcaption>
+<img src="../artwork/set.png" alt="" /><figcaption>Figure 1: Set</figcaption>
 </figure>
-<p>Set theory is about sets as objects of study. There happen to be several flavors, or versions if you will, of set theory starting from naive set theory, to axiomatic Zermelo-Fraenkel set theory (ZFC) which is currently the most well known, accepted and popular flavor. Much of mathematics and computer science fundamentals has been built upon the foundations of set theory. In its infancy, naive set theory faced certain technical challenges, called paradoxes or inconsistencies, which were progressively removed, the rules or “axioms” refined and the very meaning of “object” redefined, resulting what is called ZFC. Other variations have also surfaced to accomodate higher abstract math, and which may even include the equality operator to be a part of sets. However, most of foundational mathematics is rather based on Type theory, whose genesis can be credit to Bertrand Russell.</p>
-<p>Type theory is an area of mathematics of direct consequence to programming. Type theory is a formal system of symbolic logic where everything is a “type”. Bertrand Russell was the first to propose this theory in order to fix Russell’s Paradox which plauged naive set theory, though Per Martin-Löf was the one to come up with a more useful version of it, called “intuitionistic type theory”. This is what we will go through here.</p>
-<p>A type system in programming languages typically specifies data and appears like a tree of objects, where each successive level tries to represent data more specifically. E.g., A <code>Float</code> is a subtype of <code>Number</code> and is a more specialized case of a numbers. Type systems are designed using type theory and languages tend to have varying levels of tightness of integration with type theory broadly resulting in staticaly and dynaically typed languages. However, in type theory, a “type” can essentially mean anything - from as general as the type of all types, to super specific, like the number <code>3</code>. Hence everything, individual objects, sets or collections of objects, types in programming languages, entire programming langauge type systems, every logical statement, theorems, proofs, functions, any other mathematical object, even equality itself, are all “types”.</p>
-<h2 id="the-scala-type-system">The scala type system</h2>
-<figure>
-<img src="./scala-type-system.png" alt="" /><figcaption>Figure 2: Scala Type System</figcaption>
-</figure>
-<h2 id="judgements-and-propositions">Judgements and Propositions</h2>
-<p>The basic constructs of type theory as opposed to set theory is based on the concept of “judgement”s versus “proposition”s.</p>
+<p>Set Theory, having existed for centuries, has underdone several alterations, revisions (rewrites) as well as paradox removal (bug fixes, if you will). In fact, theories in mathematics follow similar lifecycles as seen in the programming world (or vice versa to be exact) leading to various flavors / versions / “forks” of the theory. The best-known amongst them is Zermelo-Fraenkel set theory (ZFC).</p>
+<h2 id="basics-of-set-theory">Basics of Set Theory</h2>
 <p>Zermelo-Frenkel Set theory (ZFC) consists of:</p>
-<ul>
-<li><code>Set</code>s which are a collection of objects</li>
-<li>a propositional first order logic system to create and manipulate them</li>
-<li>maps or functions amongst sets</li>
-</ul>
-<p>which is in fact pretty much the basic components of any programming language, with data types as collections or sets of objects, first order logic to construct such objects and functions to manipulate them.</p>
-<p>However, the problem here is with <code>propositions</code> as in there can exist propositions which turn out to be false. However, types as objects serve as judgements. An object with type defined, say, <code>List[Int]</code> fully specifies it, and can be type-checked by a first-order logic system for validity. In type theory, propositions are just another kind of types, and hence the judgement of a proposition being true relies on the fact that the proposition can be fully specified. Thus type theory eliminates the possibility of specifying something that can be disproven. Hence, whereas a proposition <code>prop</code> in set theory would require a proof to be proven later, and can turn out to be false, a proposition <code>prop : P</code> fully specified as type <code>P</code> requires the proof as part of its specification otherwise it will not compile!. Though this distinction is very subtle, it is so crucial that it ended up replacing set theory as the foundation on which to build mathematics.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a>fullySpecified <span class="ot">:</span> List ℕ</span>
-<span id="cb2-2"><a href="#cb2-2"></a>fullySpecified <span class="ot">=</span> one :: three :: seven :: nine :: []</span></code></pre></div>
-<p>Thus, <code>fullySpecified</code> once specified, has already been proven and requires no proving. Hence it is a judgement, whereas something like <code>x ∈ ℕ</code> is a proposition, which needs a proof for every given a of “∈ to ℕ”.</p>
-<p>In type theory, we cannot introduce a variable without specifying its type. Hence, everything becomes a judgement by default if it compiles, and by piling up these judgements we can prove theories, simply by constructing and composing them as objects. This fundamental difference is what makes type theory more consistent and easier to use to construct higher mathematical structures on and moreso do it using better tools such as a programming language. Agda is a faithful implementation of type theory and hence serves as an effective tool to do mathematics constructively.</p>
+<ol type="1">
+<li><code>Set</code>s which are a collection of objects.</li>
+<li>a propositional first order logic system to create and manipulate them.</li>
+<li>relations, maps and functions amongst sets.</li>
+<li>properties of 3.</li>
+</ol>
+<h3 id="relations">Relations</h3>
+<ol type="1">
+<li>Belongs</li>
+</ol>
+<p>The basic relation of set theory is that of membership: <code>∈</code>, i.e. a statement such as <code>a ∈ Set A</code> which implies <code>a</code> is an element of the set <code>A</code>.</p>
+<ol start="2" type="1">
+<li>Equality</li>
+</ol>
+<p>Two sets <code>A</code> and <code>B</code> are equal if <code>∀ x, x ∈ A iff x ∈ B</code>, read as: for all <code>x</code>, <code>x</code> is an element of <code>A</code> if and only if <code>x</code> is also an element of <code>B</code>.</p>
+<ol start="3" type="1">
+<li>Subsets</li>
+</ol>
+<p><code>A</code> is a subset of <code>B</code> if every element of <code>A</code> is an element of <code>B</code>, denoted as <code>A ⊆ B</code>.</p>
+<h3 id="operations">Operations</h3>
+<p>Given sets <code>A</code> and <code>B</code>, one can perform some basic operations with them yielding the following sets:</p>
+<ol type="1">
+<li><p>The set <code>A∪B</code>, called the union of <code>A</code> and <code>B</code>, whose elements are the elements of <code>A</code> and the elements of <code>B</code>.</p></li>
+<li><p>The set <code>A∩B</code>, called the intersection of <code>A</code> and <code>B</code>, whose elements are the elements common to <code>A</code> and <code>B</code>.</p></li>
+<li><p>The set <code>A−B</code>, called the difference of <code>A</code> and <code>B</code>, whose elements are those elements of <code>A</code> that are not members of <code>B</code>.</p></li>
+</ol>
+<h3 id="properties-of-operations">Properties of Operations</h3>
+<ol type="1">
+<li>Associativity</li>
+</ol>
+<pre class="math"><code>A∪(B∪C)=(A∪B)∪C</code></pre>
+<pre class="math"><code>A∩(B∩C)=(A∩B)∩C</code></pre>
+<ol start="2" type="1">
+<li>Commutativity</li>
+</ol>
+<pre class="math"><code>A∪B=B∪A</code></pre>
+<pre class="math"><code>A∩B=B∩A</code></pre>
+<ol start="3" type="1">
+<li>Distributivity</li>
+</ol>
+<pre class="math"><code>A∪(B∩C)=(A∪B)∩(A∪C)</code></pre>
+<pre class="math"><code>A∩(B∪C)=(A∩B)∪(A∩C)</code></pre>
+<ol start="4" type="1">
+<li>Idempotency</li>
+</ol>
+<pre class="math"><code>A∪A=A</code></pre>
+<pre class="math"><code>A∩A=A</code></pre>
+<pre class="math"><code>A∪∅=A</code></pre>
+<pre class="math"><code>A∩∅=∅</code></pre>
+<pre class="math"><code>A−A=∅</code></pre>
+<p>ZFC comprises of a bunch of axioms, which we are not going to peer into here. The interested reader may explore them on <a href="https://en.wikipedia.org/wiki/Zermelo%E2%80%93Fraenkel_set_theory">Zermelo–Fraenkel set theory: Wikipedia</a> or <a href="https://ncatlab.org/nlab/show/ZFC#axioms">nlab</a>.</p>
+<h1 id="type-theory">Type Theory</h1>
+<p>Type theory is a formal system of symbolic logic where every term has a “type”. “Term” here refers to mathematical terms such as variable <code>x</code>, function <code>f</code>, operation <code>★</code> and so on. Bertrand Russell was the first to propose this theory in order to fix Russell’s Paradox which plagued naive set theory, though Per Martin-Löf was the one to come up with a more practically useful version of it, called “Intuitionistic Type Theory”. The Type Systems seen in programming languages are almost the same thing (though as one’s pedanticalness increases while studying math, one would beg to differ).</p>
+<figure>
+<img src="../artwork/typehierarchy.png" alt="" /><figcaption>Figure 2: Haskell Type System</figcaption>
+</figure>
+<p>A type system in programming languages typically specifies data and appears like a tree of objects, where each successive level tries to represent data more specifically. E.g., A <code>Float</code> is a subtype of <code>Number</code> and is a more specialized case of a <code>Number</code>.</p>
+<figure>
+<img src="../artwork/scala-type-system.png" alt="" /><figcaption>Figure 3: Scala Type System</figcaption>
+</figure>
+<p>In a system of type theory, each term has a type. For example, <code>4</code>, <code>2+2</code> and <code>2 * 2</code> are all separate terms with the type <code>ℕ</code> for natural numbers. This is indicated as <span class="math inline">\(2 : ℕ\)</span> or 2 is of type natural number.</p>
+<p>Type theories have explicit computation and it is encoded in rules for rewriting terms. These are called “conversion rules” or, if the rule only works in one direction, a “reduction rule”. For example, <code>2+2</code> and <code>4</code> are syntactically different terms, but the former reduces to the latter. This reduction is written <code>2+2 ↠ 4</code>.</p>
+<p>Functions in type theory have a special reduction rule: the argument to the function is substituted for every instance of the parameter in the function definition. Let’s say the function <code>double</code> is defined as <code>double(x) = x + x</code> or mathematically <span class="math inline">\(double: x ↦ x + x\)</span>. Then, the function call <code>double 2</code> would be reduced by substituting <code>2</code> for every <code>x</code> in the function definition. Thus, <code>double 2 ↠ 2+2</code>.</p>
+<h2 id="implications-of-type-theory">Implications of Type Theory</h2>
+<h3 id="foundations-of-mathematics">Foundations of Mathematics</h3>
+<p>Logic itself is subsumed in the plain idea of operations on terms of types, by observing that any type X may be thought of as the type of terms satisfying some proposition. Under this “propositions are types”-paradigm a proof of the proposition is nothing but a term of the corresponding type. This identification leads to a very fruitful identification of operations on types with logical operations. We discuss about this in <a href="./Types.proofsAsData.html">Proofs as Data</a>.</p>
+<h3 id="programming-language">Programming Language</h3>
+<p>Since such a proof is constructive, the term witnessing it being a concrete implementation, and since type theory strictly works by rewriting rules, one may identify the construction of a term in type theory as a program whose output is a certain type. Under this “proofs as programs”-paradigm, type theory is a mathematical formalization of a programming language.</p>
+<h3 id="calculus-for-category-theory">Calculus for Category Theory</h3>
+<p>On the other hand, if one regards, as is natural, any term <code>t:X</code> to exist in a context <code>Γ</code> of other terms <code>x:Γ</code>, then <code>t</code> is naturally identified with a “map” <code>t:Γ→X</code>, hence: with a morphism. Viewed this way the types and terms of type theory are identified, respectively, with the objects and morphisms of category theory. From this perspective, type theory provides a formal language for speaking about categories.</p>
+<h2 id="coming-up">Coming up</h2>
+<p>We begin with the basics of types - their universes, followed by relations between types and their properties. We then study the most basic relation - equality. Next we study operations between types and their relations. We then move on to look at more complex types − the product, sum and function types.</p>
 <hr />
 <p><a href="./Types.universe.html">Universes and families</a></p>
 </body>

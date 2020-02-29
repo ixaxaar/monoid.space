@@ -91,9 +91,9 @@
 <ul>
 <li><a href="#construction">Construction</a></li>
 <li><a href="#dependent-pair-types-or-%CF%83-types">Dependent Pair Types or Σ-types</a></li>
-<li><a href="#api">API</a>
+<li><a href="#utils">Utils</a>
 <ul>
-<li><a href="#cross-product">Cross product</a></li>
+<li><a href="#product-constructor">Product constructor</a></li>
 <li><a href="#application-of-a-product">Application of a product</a></li>
 <li><a href="#map">Map</a></li>
 <li><a href="#swap">Swap</a></li>
@@ -102,7 +102,7 @@
 <li><a href="#co-product-types">Co-product types</a>
 <ul>
 <li><a href="#maybe">Maybe</a></li>
-<li><a href="#api-1">API</a>
+<li><a href="#api">API</a>
 <ul>
 <li><a href="#eliminator">Eliminator</a></li>
 <li><a href="#map-1">Map</a></li>
@@ -126,34 +126,34 @@
 <span id="cb2-2"><a href="#cb2-2"></a>  <span class="ot">_</span>,,<span class="ot">_</span>  <span class="ot">:</span> A <span class="ot">→</span> B <span class="ot">→</span> A ×× B</span>
 <span id="cb2-3"><a href="#cb2-3"></a></span>
 <span id="cb2-4"><a href="#cb2-4"></a><span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>××<span class="ot">_</span></span></code></pre></div>
-<p>and cartesian products constructed as</p>
+<p>Cartesian products can be constructed as:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a>oneTwo <span class="ot">=</span> one ,, two</span>
 <span id="cb3-2"><a href="#cb3-2"></a></span>
 <span id="cb3-3"><a href="#cb3-3"></a>oneTwoThree <span class="ot">=</span> one ,, <span class="ot">(</span>two ,, three<span class="ot">)</span></span></code></pre></div>
 <h2 id="construction">Construction</h2>
-<p>While being intuitively familiar with what a cartesian product is, it’s algebraic definition captures the most abstract aspect of a product:</p>
-<p>A cartesian product, in set theory, for two sets <code>A</code> and <code>B</code> is defined as:</p>
-<pre class="math"><code>A x B = { (a , b) | a ∈ A and b ∈ B }</code></pre>
+<p>While the above definition of cartesian products is intuitive, it’s algebraic definition captures the most abstract aspect of a product:</p>
+<p>A cartesian product, in set theoretic language, for two sets <code>A</code> and <code>B</code> is defined as:</p>
+<pre class="math"><code>A × B = { (a , b) | a ∈ A ~and~ b ∈ B }</code></pre>
 <p>In type theory, we look at another way of defining product types, just by looking at them as objects in themselves: For an object <code>X</code>, we call <code>X</code> a product type if:</p>
 <ol type="1">
 <li>There exists two functions, lets call them <code>proj₁</code> and <code>proj₂</code> such that they can be used to “extract” the contents of the product <code>X</code>:</li>
 </ol>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1"></a>proj₁ <span class="op">:</span> {<span class="dt">A</span> <span class="dt">B</span> <span class="op">:</span> <span class="dt">Set</span>} <span class="ot">→</span> (<span class="dt">A</span> × <span class="dt">B</span>) <span class="ot">→</span> <span class="dt">A</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>(a × b) <span class="ot">=</span> a</span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1"></a>proj₁ <span class="op">:</span> {<span class="dt">L</span> <span class="dt">R</span> <span class="op">:</span> <span class="dt">Set</span>} <span class="ot">→</span> (<span class="dt">L</span> × <span class="dt">R</span>) <span class="ot">→</span> <span class="dt">L</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>(l × r) <span class="ot">=</span> l</span>
 <span id="cb5-3"><a href="#cb5-3"></a></span>
-<span id="cb5-4"><a href="#cb5-4"></a>proj₂ <span class="op">:</span> {<span class="dt">A</span> <span class="dt">B</span> <span class="op">:</span> <span class="dt">Set</span>} <span class="ot">→</span> (<span class="dt">A</span> × <span class="dt">B</span>) <span class="ot">→</span> <span class="dt">B</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>(a × b) <span class="ot">=</span> b</span></code></pre></div>
+<span id="cb5-4"><a href="#cb5-4"></a>proj₂ <span class="op">:</span> {<span class="dt">L</span> <span class="dt">R</span> <span class="op">:</span> <span class="dt">Set</span>} <span class="ot">→</span> (<span class="dt">L</span> × <span class="dt">R</span>) <span class="ot">→</span> <span class="dt">R</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a>(l × r) <span class="ot">=</span> r</span></code></pre></div>
 <ol start="2" type="1">
 <li>If there is any another object <code>A</code>, such that the functions <code>proj₁ₐ</code> and <code>proj₂ₐ</code> satisfied the above condition for <code>A</code>, then there exists a function, <code>fₐ₀</code> such that:</li>
 </ol>
 <div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1"></a>fₐ₀ <span class="op">:</span> <span class="dt">A</span> <span class="ot">→</span> <span class="dt">X</span></span></code></pre></div>
 <p>Note: The above is pseudo-code, the proof is below.</p>
-<p>The second condition is the unique-ness condition, .i.e. for all objects having projections to <code>A</code> and <code>B</code>, there is one through which all projections go through. We call this one object the “Product” This is better visualized in this diagram:</p>
+<p>The second condition is the condition for the unique-ness of the product, i.e. for all objects having projections to <code>left</code> and <code>right</code>, there is one through which all projections go through. This object through which we can route all other similar objects is called the “product”. We call this one object the “Product” This is better visualized in this diagram:</p>
 <figure>
-<img src="./product.png" alt="" /><figcaption>Figure 1: Product</figcaption>
+<img src="../artwork/product.png" alt="" /><figcaption>Figure 1: Product</figcaption>
 </figure>
 <h2 id="dependent-pair-types-or-σ-types">Dependent Pair Types or Σ-types</h2>
-<p>Dependent types are products where the 2nd type is dependent on the first one. They are of the form <code>(x : A, B(x))</code>. The notation in type theory looks like this for binary dependent pairs:</p>
+<p>A Dependent type is a type whose definition depends on a value. A dependent pair type is a product type whose second type depends on the first. They are of the form <code>(x : A, B(x))</code>. The notation in type theory looks like this for binary dependent pairs:</p>
 <p><span class="math display">\[
 \sum_{x : A} B(x)
 \]</span></p>
@@ -162,7 +162,7 @@
 \sum_{x : A} \sum_{y : B(x)} C(y)
 \]</span></p>
 <p>and so on.</p>
-<p>Agda’s <code>record</code> types provides encapsulation for this definition and some syntactic sugars like constructors:</p>
+<p>The <code>record</code> type is a special syntax for representing dependent or Σ (sigma) types. They provide some syntactic sugars like constructors:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">record</span> Σ <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">(</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span> <span class="kw">where</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a>  <span class="kw">constructor</span> <span class="ot">_</span>,<span class="ot">_</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a>  <span class="kw">field</span></span>
@@ -172,8 +172,8 @@
 <span id="cb7-7"><a href="#cb7-7"></a><span class="kw">open</span> Σ <span class="kw">public</span></span>
 <span id="cb7-8"><a href="#cb7-8"></a></span>
 <span id="cb7-9"><a href="#cb7-9"></a><span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>,<span class="ot">_</span></span></code></pre></div>
-<p>While constructing complex mathematical structures, a fairly general pattern is that a bunch of properties can be bundled together to form objects, and then structures are built on top of them. Since all of those properties are types, a record containing a bunch of properties would by construction ensure the objects of such a record belong to the type represented. A lot of implementation of mathematical structures can be done in this form of <code>record</code>s of bundled properties.</p>
-<p>Hence if, say <code>Prop₁</code> and <code>Prop₂</code> are two properties, an object that satisfies both is a record with both properties as fields:</p>
+<p>For constructing and studying algebraic structures, a pattern generally followed is: 1. Choose a number of sets of objects. 2. Choose a number of binary operations. 3. Select a bunch properties of the binary operations that they have to adhere to. 4. Combine objects, operations and their properties to form higher mathematical objects.</p>
+<p>A combination of a bunch of objects, operations and their properties can be represented as a product type, and is where <code>record</code>s are extensively used. Example: if, say <code>Prop₁</code> and <code>Prop₂</code> are two properties, an object that satisfies both is a record with both properties as fields:</p>
 <pre><code>data prop1 : Set where
 data prop2 : Set where
 
@@ -181,15 +181,13 @@ record Satisfies (x : prop1)(y : prop2) : Set where
   field
     p1 : prop1
     p2 : prop2</code></pre>
-<p>The <code>record</code> type is a special syntax for representing dependent or Σ (sigma) types in Agda, though they can very well also be represented in other ways such as using the <code>data</code> keyword.</p>
-<figure>
-<img src="product_full.png" alt="" /><figcaption>Figure 2: Product (math)</figcaption>
-</figure>
-<h2 id="api">API</h2>
-<h3 id="cross-product">Cross product</h3>
+<p>We extensively use <code>record</code>s where we use this pattern.</p>
+<h2 id="utils">Utils</h2>
+<h3 id="product-constructor">Product constructor</h3>
 <div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1"></a><span class="ot">_</span>×<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">(</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span></span>
 <span id="cb9-2"><a href="#cb9-2"></a>A × B <span class="ot">=</span> Σ A <span class="ot">(λ</span> x <span class="ot">→</span> B<span class="ot">)</span></span></code></pre></div>
 <h3 id="application-of-a-product">Application of a product</h3>
+<p>Apply a pair of functions to a pair of objects.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1"></a>&lt;<span class="ot">_</span>,<span class="ot">_</span>&gt; <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>x<span class="ot">}</span> <span class="ot">→</span> B x <span class="ot">→</span> <span class="dt">Set</span> c<span class="ot">}</span></span>
 <span id="cb10-2"><a href="#cb10-2"></a>        <span class="ot">(</span>f <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x<span class="ot">)</span></span>
 <span id="cb10-3"><a href="#cb10-3"></a>        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> C <span class="ot">(</span>f x<span class="ot">))</span></span>
@@ -207,10 +205,10 @@ record Satisfies (x : prop1)(y : prop2) : Set where
 <div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb12-1"><a href="#cb12-1"></a>swap <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span> A × B <span class="ot">→</span> B × A</span>
 <span id="cb12-2"><a href="#cb12-2"></a>swap <span class="ot">(</span>x , y<span class="ot">)</span> <span class="ot">=</span> <span class="ot">(</span>y , x<span class="ot">)</span></span></code></pre></div>
 <h1 id="co-product-types">Co-product types</h1>
-<p>Co-products, also called as “sum” types can be thought of as a disjoint uinon of two objects.</p>
+<p>A “disjoint union” <code>𝕌</code> of <code>X</code> and <code>Y</code> has the property that every element of <code>𝕌</code> either maps to an element of <code>X</code> or <code>Y</code> but not both. Co-products, also called as “sum” types can be thought of as a disjoint union of two objects.</p>
 <p>Mathematically, an object <code>X ⋃ Y</code> is a co-product of objects <code>X</code> and <code>Y</code> if,</p>
 <ol type="1">
-<li>There exists two functions <code>inj_₁</code> and <code>inj₂</code> such that:</li>
+<li>There exists two functions <code>inj₁</code> and <code>inj₂</code> such that:</li>
 </ol>
 <div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1"></a>inj₁ <span class="op">:</span> {<span class="dt">A</span> <span class="dt">B</span> <span class="op">:</span> <span class="dt">Set</span>} <span class="ot">→</span> <span class="dt">A</span> <span class="ot">→</span> (<span class="dt">A</span> ∪ <span class="dt">B</span>)</span>
 <span id="cb13-2"><a href="#cb13-2"></a>a <span class="ot">=</span> (a ∪ b)</span>
@@ -224,16 +222,16 @@ record Satisfies (x : prop1)(y : prop2) : Set where
 <div class="sourceCode" id="cb15"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">data</span> <span class="ot">_</span>∪<span class="ot">_</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">(</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span> <span class="kw">where</span></span>
 <span id="cb15-2"><a href="#cb15-2"></a>  inj₁ <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> A ∪ B</span>
 <span id="cb15-3"><a href="#cb15-3"></a>  inj₂ <span class="ot">:</span> <span class="ot">(</span>y <span class="ot">:</span> B<span class="ot">)</span> <span class="ot">→</span> A ∪ B</span></code></pre></div>
-<p>Co-product types are similar to product types, except with reversed arrows:</p>
+<p>Co-product types are similar to product types, except with reversed arrows (they are “dual” to products):</p>
 <figure>
-<img src="coproduct.png" alt="" /><figcaption>Figure 3: Coproducts</figcaption>
+<img src="../artwork/coproduct.png" alt="" /><figcaption>Figure 3: Coproducts</figcaption>
 </figure>
 <h2 id="maybe">Maybe</h2>
-<p>Just like the cartesian product is the representative type of a product, the <code>Maybe</code> type fills that role for the co-product. This happens to be a very popular datatype in functional programming languages like haskell <code>Maybe</code>, scala <code>Option</code> etc and is widely used to error handling.</p>
+<p>Just like the cartesian product is the representative type of a product, the <code>Maybe</code> type fills that role for the co-product. This happens to be a very popular datatype in functional programming languages like haskell <code>Maybe</code>, scala <code>Option</code> etc and is part of a widely used pattern for error handling. The <code>Maybe</code> type is a disjoint union of something (a type) or nothing (or an error type). These types can be used to encapsulate behavior of functions that either return a value or an error.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">data</span> Maybe <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> a <span class="kw">where</span></span>
 <span id="cb16-2"><a href="#cb16-2"></a>  just    <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> Maybe A</span>
 <span id="cb16-3"><a href="#cb16-3"></a>  nothing <span class="ot">:</span> Maybe A</span></code></pre></div>
-<h2 id="api-1">API</h2>
+<h2 id="api">API</h2>
 <h3 id="eliminator">Eliminator</h3>
 <div class="sourceCode" id="cb17"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb17-1"><a href="#cb17-1"></a>maybe <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> Maybe A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">}</span></span>
 <span id="cb17-2"><a href="#cb17-2"></a>        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B <span class="ot">(</span>just x<span class="ot">))</span></span>

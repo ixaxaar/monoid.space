@@ -88,7 +88,7 @@
 <hr />
 <ul>
 <li><a href="#universes-and-families">Universes and families</a></li>
-<li><a href="#sets">Sets</a></li>
+<li><a href="#universes-in-agda">Universes in Agda</a></li>
 <li><a href="#universe-polymorphism">Universe Polymorphism</a></li>
 <li><a href="#machinery-on-types">Machinery on Types</a>
 <ul>
@@ -113,18 +113,19 @@
 <span id="cb1-13"><a href="#cb1-13"></a>  lsuc <span class="kw">to</span> alsuc<span class="ot">;</span></span>
 <span id="cb1-14"><a href="#cb1-14"></a>  <span class="ot">_</span>⊔<span class="ot">_</span> <span class="kw">to</span> <span class="ot">_</span>⊔⊔<span class="ot">_)</span></span></code></pre></div>
 <h1 id="universes-and-families">Universes and families</h1>
-<p>A universe can be thought of as a container for all of mathematics. There is no mathematics that is possible outside of universe. Now obviously this differs from our physical universe in a way that mathematics also describes purely conceptual stuff that need not have a physical manifestation, rather, in many ways our univrerse is a subset of the mathematical universe as it can be described by mathematical models.</p>
-<p>For set theory, the universe can be thought as the set of all sets. For type theory, universes contain all types - hence essentially everything including objects, laws, theorems etc. The structure of the universe used in type theory are <a href="http://www.cs.rhul.ac.uk/home/zhaohui/universes.pdf">Russel-style and Taski-style universes</a> though we use the former as it is easier and sufficient for our purposes. There are other kinds of universes in mathematics, for example the <a href="https://ncatlab.org/nlab/show/Grothendieck+universe">Grothendieck universe</a>, <a href="https://en.wikipedia.org/wiki/Von_Neumann_universe">Von Neumann universe</a>.</p>
-<p>The type of all types is called <code>Set</code> in agda. Now, in constructing this type of all types naively we encounter a bunch of paradoxes, namely <a href="https://ncatlab.org/nlab/show/Russell%27s+paradox">Russel’s Paradox</a>, <a href="https://ncatlab.org/nlab/show/Cantor%27s+paradox">Cantor’s Paradox</a>, <a href="https://ncatlab.org/nlab/show/Burali-Forti%27s+paradox">Girard’s Paradox</a> etc. These can be avoided by constructing the type of all types as “universes” in a heirarchically cumulative way. When we consider our universe to be the set of all types, we say that our universe is constructed heirarchically, with an index <code>i</code> such that universe <code>Uᵢ</code> ∈ Uᵢ₊₁ and so on.</p>
+<p>A <code>universe</code> can be thought of as a container for all of mathematics. There is no mathematics that is possible outside of its universe. Thus, one can think of universes of types to contain all types, a universe of sets contains all sets and so on. One could also think of universes as a collection of entities that one needs to work with − for e.g. for proving a theorem on sets, one could work in a universe of sets.</p>
+<p>Formally, the structure of the universe used in type theory are <a href="http://www.cs.rhul.ac.uk/home/zhaohui/universes.pdf">Russel-style and Tarski-style universes</a> though we use the former as it is easier and sufficient for our purposes. There are other kinds of universes in mathematics, for example the <a href="https://ncatlab.org/nlab/show/Grothendieck+universe">Grothendieck universe</a>, <a href="https://en.wikipedia.org/wiki/Von_Neumann_universe">Von Neumann universe</a>.</p>
+<p>The type of all types is called <code>Set</code> in agda. Now, in constructing this type of all types naively we encounter a bunch of paradoxes, namely <a href="https://ncatlab.org/nlab/show/Russell%27s+paradox">Russel’s Paradox</a>, <a href="https://ncatlab.org/nlab/show/Cantor%27s+paradox">Cantor’s Paradox</a>, <a href="https://ncatlab.org/nlab/show/Burali-Forti%27s+paradox">Girard’s Paradox</a> etc. These can be avoided by constructing the type of all types as “universes” in a hierarchically cumulative way. When we consider our universe to be the set of all types, we say that our universe is constructed hierarchically, with an index <code>i</code> such that universe <code>Uᵢ</code> ∈ Uᵢ₊₁ and so on.</p>
 <p><span class="math display">\[
-U_{0} \in U_{1} \in U\_{2} \in ... \in U_{i} \in U_{i+1}  \in ... \in U_{\infty}
+U_{0} \in U_{1} \in U_{2} \in ... \in U_{i} \in U_{i+1}  \in ... \in U_{\infty}
 \]</span></p>
-<p>Let us define the above index <code>i</code> of universe <code>Uᵢ</code>, called <code>Level</code> in agda’s standard library:</p>
+<p>This avoids the problem of Russel’s paradox, which implies that the set of all sets itself is not a set. Namely, if there were such a set <code>U</code>, then one could form the subset <code>A ⊆ U</code> of all sets that do not contain themselves. Then we would have <code>A ∈ A</code> if and only if <code>A ∉ A</code>, a contradiction.</p>
+<p>Let us define the above index <code>i</code> of universe <code>Uᵢ</code>, called <code>Level</code> in Agda’s standard library:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">infixl</span> <span class="dv">6</span> <span class="ot">_</span>⊔<span class="ot">_</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="kw">postulate</span></span>
 <span id="cb2-4"><a href="#cb2-4"></a>  Level <span class="ot">:</span> <span class="dt">Set</span></span></code></pre></div>
-<p>We define it as a postulate so we dont have to provide an implementation yet. We continue to define some operations on it, i.e.:</p>
+<p>We define it as a postulate so we don’t have to provide an implementation yet. We continue to define some operations on it, i.e.:</p>
 <ul>
 <li><code>lzero</code>, the trivial level 0</li>
 <li><code>lsuc</code> : successive iterator</li>
@@ -143,17 +144,16 @@ U_{0} \in U_{1} \in U\_{2} \in ... \in U_{i} \in U_{i+1}  \in ... \in U_{\infty}
 <span id="cb4-6"><a href="#cb4-6"></a>    <span class="co">-- Decoding function.</span></span>
 <span id="cb4-7"><a href="#cb4-7"></a>    <span class="dt">El</span> <span class="op">:</span> <span class="dt">U</span> <span class="ot">→</span> <span class="dt">Set</span> e</span></code></pre></div>
 <figure>
-<img src="universes.png" alt="" /><figcaption>Figure 1: Universes</figcaption>
+<img src="../artwork/universes.png" alt="" /><figcaption>Figure 1: Universes</figcaption>
 </figure>
 <p>A “family” of types varying over a given type are called, well “families of types”. An example of this would be the finite set, <a href="./dataStructures.html#finite-sequences">Fin</a> where every finite set has <code>n</code> elements where <code>n ∈ ℕ</code> and hence <code>Fin</code>, the creator of finite sets, is dependent on ℕ.</p>
-<h1 id="sets">Sets</h1>
-<p>Mathematical sets cannot be directly represented in Agda as they are subject to Russel’s Paradox. However, sets are defined in a way similar to universes.</p>
+<h1 id="universes-in-agda">Universes in Agda</h1>
 <ul>
-<li>Generally a set is represented by <code>Set₁</code>.</li>
-<li>There exist infinite other <code>Setᵢ</code> such that <code>Set₁ : Set₂ : Set₃ : ...</code></li>
+<li>Every Agda type is of type <code>Set</code>, i.e. <code>Set : Set₁</code>.</li>
+<li>Each universe level is an element of the next universe level: <code>Setᵢ ∈ Setᵢ₊₁</code>.</li>
+<li>There exist infinite universe levels in Agda: <code>Set₁ : Set₂ : Set₃ : ...</code>.</li>
 </ul>
-<p>In fact, These <code>Setᵢ</code>s are nothing but universes in Agda. Note that <code>Set₁</code> forms the large set, i.e. the set containing all sets.</p>
-<p>In some implementations, universes are represented using a different keyword <code>Type</code> instead of <code>Set</code> in order to avoid confusing with them:</p>
+<p>In some implementations, universes are represented using a different keyword <code>Type</code> instead of <code>Set</code> in order to avoid confusion:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a>Type <span class="ot">:</span> <span class="ot">(</span>i <span class="ot">:</span> AgdaLevel<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>alsuc i<span class="ot">)</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a>Type i <span class="ot">=</span> <span class="dt">Set</span> i</span>
 <span id="cb5-3"><a href="#cb5-3"></a></span>
@@ -163,10 +163,10 @@ U_{0} \in U_{1} \in U\_{2} \in ... \in U_{i} \in U_{i+1}  \in ... \in U_{\infty}
 <span id="cb5-7"><a href="#cb5-7"></a>Type₁ <span class="ot">=</span> Type <span class="ot">(</span>alsuc alzero<span class="ot">)</span></span>
 <span id="cb5-8"><a href="#cb5-8"></a>Type1 <span class="ot">=</span> Type <span class="ot">(</span>alsuc alzero<span class="ot">)</span></span></code></pre></div>
 <h1 id="universe-polymorphism">Universe Polymorphism</h1>
-<p>Now, given that we have infinite heirarchical universes, we would have to define the same functions, data types and machinery for each universe level, which would be pretty tedious to say the least. However, we observe how our universes are defined and note that the level-based indexing system, that connects each successive universe, provides us with the mechanics to define objects for all universe levels <code>ℓ</code>:</p>
+<p>Now, given that we have infinite hierarchial universes, we would have to define the same functions, data types, proofs and other machinery for each universe level, which would be pretty tedious to say the least. However, we observe how our universes are defined and note that the level-based indexing system, that connects each successive universe, provides us with the mechanics to define math for all universe levels <code>ℓ</code>. Programmers would find this is nothing but the widely used pattern called <a href="https://en.wikipedia.org/wiki/Polymorphism_(computer_science)">Polymorphism</a>:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a>id <span class="ot">:</span> <span class="ot">{</span>ℓ <span class="ot">:</span> AgdaLevel<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> ℓ<span class="ot">}</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> A</span>
 <span id="cb6-2"><a href="#cb6-2"></a>id x <span class="ot">=</span> x</span></code></pre></div>
-<p>Here <code>id</code> represents a family of identity functions given a type <code>A</code> and its level <code>ℓ</code>.</p>
+<p>Here <code>id</code> represents a family of identity functions given a type <code>A</code> and its level <code>ℓ</code> and works for all universe levels.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">infixr</span> <span class="dv">5</span> <span class="ot">_</span>::<span class="ot">_</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="kw">data</span> List₁ <span class="ot">{</span>ℓ <span class="ot">:</span> AgdaLevel<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> ℓ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>alsuc ℓ<span class="ot">)</span> <span class="kw">where</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a>  [] <span class="ot">:</span> List₁ A</span>
@@ -178,6 +178,7 @@ U_{0} \in U_{1} \in U\_{2} \in ... \in U_{i} \in U_{i+1}  \in ... \in U_{\infty}
 <span id="cb7-9"><a href="#cb7-9"></a>sameList <span class="ot">:</span> List₁ ℕ</span>
 <span id="cb7-10"><a href="#cb7-10"></a>sameList <span class="ot">=</span> id someList</span></code></pre></div>
 <h1 id="machinery-on-types">Machinery on Types</h1>
+<p>We now define some utility machinery for operating on types.</p>
 <h2 id="type-of">Type of</h2>
 <p>We obviously need a means to check types:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a>typeof <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> Type i<span class="ot">)</span> <span class="ot">(</span>u <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> A</span>
@@ -192,6 +193,7 @@ U_{0} \in U_{1} \in U\_{2} \in ... \in U_{i} \in U_{i+1}  \in ... \in U_{\infty}
 <h2 id="identity-type">Identity type</h2>
 <p>The equality of types is itself a type - the identity type:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1"></a>Path <span class="ot">=</span> <span class="ot">_</span>==<span class="ot">_</span></span></code></pre></div>
+<p>The reason for calling this a <code>Path</code> has a huge backstory, which we will explore in <a href="./HoTT.introduction.html">Homotopy Type Theory</a>.</p>
 <hr />
 <p><a href="./Types.relations.html">Relations</a></p>
 </body>
