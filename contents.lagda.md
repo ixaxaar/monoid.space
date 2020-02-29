@@ -27,21 +27,12 @@
 ## 3. Type Theory 2
 
   - [Proofs as Data](./Types.proofsAsData.html)
-  - [Identity Types](./Types.variations.html)
-  - [Patterns of Construction](./Types.patterns.html)
+  - [Rules of Type Theory](./Types.patterns.html)
   - [Equational Reasoning](./Types.equational.html)
   - [Equational Reasoning 2](./Types.equational2.html)
+  - [In-depth into Equality](./Types.variations.html)
 
-## 4. Applied Type Theory
-
-  - [Introduction](./AppliedTypes.introduction.html)
-  - [Gödel's T](./AppliedTypes.godels_t.html)
-  - [~~System F~~](./AppliedTypes.system_f.html)
-  - [~~Bitcoin~~](./AppliedTypes.bitcoin.html)
-  - [~~Verified Programming~~](./AppliedTypes.verified_programming.html)
-  - [~~Binding with the outside world~~](./AppliedTypes.bindings.html)
-
-## 5. Logic
+## 4. Logic
 
   - [Introduction](./Logic.introduction.html)
   - [Boolean Algebra](./Logic.logicBasics.html)
@@ -49,40 +40,51 @@
   - [Laws of Logic](./Logic.laws.html)
   - [~~Decidability~~](./Logic.decidability.html)
 
-## 6. Abstract Algebras
+## 5. Abstract Algebras
 
   - [Introduction](./Algebra.introduction.html)
 
-#### 6.1 __Orders__
+#### 5.1 __Orders__
 
   - [Ordered objects](./Algebra.order.html)
 
-#### 6.2 __Groups__
+#### 5.2 __Groups__
 
   - [Groups and family](./Algebra.groups.html)
   - [Groups and family 2](./Algebra.groups2.html)
   - [Group Morphisms](./Algebra.morphisms.html)
 
-#### 6.3 __Rings__
+#### 5.3 __Rings__
 
   - [Rings and family](./Algebra.rings.html)
   - [Rings and family 2](./Algebra.rings2.html)
   - [~~Ring Morphisms~~](./Algebra.ring_morphisms.html)
 
-#### 6.4 __Fields__
+#### 5.4 __Fields__
 
   - [Fields and family](./Algebra.fields.html)
   - [Fields and family 2](./Algebra.fields2.html)
   - [~~Field Morphisms~~](./Algebra.field_morphisms.html)
   - [Numbers](./Algebra.numbers.html)
 
-## 7. Homotopy Type Theory
+## 6. Homotopy Type Theory
 
   - [Introduction](./HoTT.introduction.html)
   - [Identity Types and Paths](./HoTT.identity.html)
   - [~~Connected spaces~~](./HoTT.paths.html)
   - [~~The Univalence Principle~~](./HoTT.univalance.html)
   - [~~The Fundamental Group and Groupoid~~](./HoTT.fundamentalGroup.html)
+
+# Extras
+
+## α. Applied Type Theory
+
+  - [Introduction](./AppliedTypes.introduction.html)
+  - [Gödel's T](./AppliedTypes.godels_t.html)
+  - [~~System F~~](./AppliedTypes.system_f.html)
+  - [~~Bitcoin~~](./AppliedTypes.bitcoin.html)
+  - [~~Verified Programming~~](./AppliedTypes.verified_programming.html)
+  - [~~Binding with the outside world~~](./AppliedTypes.bindings.html)
 
 [Go up](contents.html)
 [Gitlab](https://gitlab.com/ixaxaar/monoid.space)

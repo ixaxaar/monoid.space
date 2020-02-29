@@ -1,7 +1,7 @@
 ****
 [Contents](contents.html)
 [Previous](Types.functions.html)
-[Next](Types.variations.html)
+[Next](Types.patterns.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -56,7 +56,7 @@ data _<=_ : ℕ → ℕ → Set where
 infix 4 _<=_
 ```
 
-Now, we can use the operator to prove a bunch of propositions:
+Now, we can use that to prove a bunch of propositions:
 
 ```agda
 idLess₁ : one <= ten
@@ -177,7 +177,7 @@ threeIsInList = succ∈ (succ∈ (succ∈ (succ∈ refl)))
 
 # Curry-Howard Isomorphism
 
-The relationship we saw earlier between [formal proofs and computer programs](./Types.proofsAsData.html) is called the **Curry-Howard isomorphism**, also known as the **Curry-Howard correspondence**. This states that a proof is a program and the formula it proves is the type of the program. Broadly, they discovered that logical operations have analogues in types as can be seen below:
+The relationship we saw earlier between formal proofs and computer programs is called the **Curry-Howard isomorphism**, also known as the **Curry-Howard correspondence**. This states that a proof is a program and the formula it proves is the type of the program. Broadly, they discovered that logical operations have analogues in types as can be seen below:
 
 | Type Theory | Logic |
 | --- | --- |
@@ -194,7 +194,5 @@ The relationship we saw earlier between [formal proofs and computer programs](./
 | $p : x =_A y$ | proof of equality |
 | $\Sigma_{x,y:A} x =_A y$ | equality relation |
 
-Thus, type theory can be considered a proof writing system.
-
 ****
-[Kinds of Type Theories](./Types.variations.html)
+[Kinds of Type Theories](./Types.patterns.html)

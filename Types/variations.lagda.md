@@ -1,7 +1,7 @@
 ****
 [Contents](contents.html)
 [Previous](Types.proofsAsData.html)
-[Next](Types.patterns.html)
+[Next](Logic.introduction.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
