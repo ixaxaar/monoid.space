@@ -13,6 +13,7 @@
   - [Elimination](#elimination)
   - [Computation](#computation)
   - [Uniqueness principle](#uniqueness-principle)
+    - [TODO](#todo)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -25,11 +26,13 @@ open import Lang.dataStructures using (List; _::_; [])
 open import Types.product using (Σ; _,_; fst; snd; _∪_; inj₁; inj₂)
 ```
 
+There is a general pattern for introduction of a new kind of type in type theory. To specify a type, we specify:
+
 - **Formation**: how to construct new types of this kind
 - **Constructor / Introduction**: how to construct new objects of this type
 - **Elimination**: how to use elements of this type
 - **Computation**: how eliminator acts on the constructor
-- **Uniquness principle**: how are maps related to the type unique
+- **Uniqueness principle**: how are maps related to the type unique
 
 ## Formation
 
@@ -80,7 +83,9 @@ Nat-elim P p proof zero = p
 Nat-elim P p proof (succ n) = proof n (Nat-elim P p proof n)
 ```
 
-For function types, function application are the elimination rules. For products the elimination rules are the rules for extracting each element from a product, in other words, [fst](Types.product.html#dependent-pair-types-or-%CF%83-types) and [snd](Types.product.html#dependent-pair-types-or-%CF%83-types). For coproducts, the eliminator is also an extractor where one has to explain what to do in either case `A` or `B` pops out using [maybe](Types.product.html#eliminator).
+For function types, function application are the elimination rules.
+
+For products the elimination rules are the rules for extracting each element from a product, in other words, [fst](Types.product.html#dependent-pair-types-or-%CF%83-types) and [snd](Types.product.html#dependent-pair-types-or-%CF%83-types). For coproducts, the eliminator is also an extractor where one has to explain what to do in either case `A` or `B` pops out using [maybe](Types.product.html#eliminator).
 
 ## Computation
 
@@ -106,6 +111,8 @@ For function types, $ (λx.Φ)(a) ≡ substitute(a, x.Φ) $, i.e. the function i
 ## Uniqueness principle
 
 Finally the uniqueness principle describes how functions to and from the new type are unique. For some types the uniqueness principle behaves as the dual of the computation rule by describing how constructors act on eliminators. For other types the uniqueness principle implies conditions under which functions from the new type are unique.
+
+### TODO
 
 ****
 [Equational Reasoning](./Types.equational.html)
