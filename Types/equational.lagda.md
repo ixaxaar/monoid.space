@@ -21,7 +21,7 @@ open import Types.equality renaming (cong-≡ to cong)
 open import Types.product using (Σ; _,_; _×_)
 ```
 
-Though we looked at the type theory way of constructively proving propositions, there is another way which we tend to be more familiar with: the way we solve equations on paper. We call that method "equational reasoning".
+Though we looked at the type theory way of constructively proving propositions, there is another way which we tend to be more familiar with: the way we solve equations on paper.
 
 For example, consider the problem of proving a well known identity for natural numbers from linear algebra:
 
@@ -56,11 +56,11 @@ module ≡-Reasoning {a} {A : Set a} where
   begin_ : ∀ {x y : A} → x ≡ y → x ≡ y
   begin_ x≡y = x≡y
 
-  -- Apply reflexivity, no axioms or theorems applied within the ⟨⟩
+  -- Apply reflexivity, arguments required within the ⟨⟩
   _≡⟨⟩_ : ∀ (x {y} : A) → x ≡ y → x ≡ y
   _ ≡⟨⟩ x≡y = x≡y
 
-  -- Transitivity with axioms and theorems applied within the ⟨⟩
+  -- Transitivity with arguments applied within the ⟨⟩
   _≡⟨_⟩_ : ∀ (x {y z} : A) → x ≡ y → y ≡ z → x ≡ z
   _ ≡⟨ x≡y ⟩ y≡z = trans x≡y y≡z
 
@@ -154,6 +154,7 @@ We now prove properties of addition, upto commutativity:
   +-identity : ∀ x → (x + zero ≡ x) × (zero + x ≡ x)
   +-identity n = (+-identity-l n) , (+-identity-r n)
 
+  -- we finally use equational reasoning to prove this bit
   +-comm : ∀ x y → (x + y) ≡ (y + x)
   +-comm zero n = +-identity-r n
   +-comm (succ m) n = begin
@@ -163,7 +164,7 @@ We now prove properties of addition, upto commutativity:
     n + succ m   ∎
 ```
 
-As we saw, we had to prove quite a few laws in their right and left handed versions. These will come in handy later, in fact some of them have been written while trying to prove later propositions. This highlights a central way of solving mathematics - proofs are broken up into pieces and each piece is solved separately. Mostly such smaller proofs tend to be inductively proved and used to prove more complex proofs using equational reasoning.
+As we saw, we had to prove quite a few propositions in their right and left handed versions. These will come in handy later, in fact some of them have been written while trying to prove later propositions. This highlights a central way of solving mathematics - proofs are broken up into pieces and each piece is solved separately. Mostly such smaller proofs tend to be inductively proved and used to prove more complex proofs using equational reasoning.
 
 We now proceed to prove some propositions for multiplication:
 
@@ -248,6 +249,7 @@ We now prove the distributive property of `*` over `+`:
     l * m                     ≡⟨⟩
     (l * m) + zero            ≡⟨ cong ((l * m) +_) (sym (*-zero-r l)) ⟩
     (l * m) + (l * zero)      ∎
+  --------------------------------------------------------
   +-distrib-*-r l m (succ n) = begin
     l * (m + (succ n))        ≡⟨⟩
     l * succ (m + n)          ≡⟨ *-succ-r l (m + n) ⟩
@@ -264,6 +266,7 @@ We now prove the distributive property of `*` over `+`:
     (n * zero) + (n * m)      ≡⟨ cong (λ x → x + (n * m)) (*-comm n zero) ⟩
     (zero * n) + (n * m)      ≡⟨ cong (λ x → (zero * n) + x) (*-comm n m) ⟩
     (zero * n) + (m * n)      ∎
+  --------------------------------------------------------
   +-distrib-*-l (succ l) m n = begin
     ((succ l) + m) * n        ≡⟨ cong (λ x → x * n) (+-succ-r l m) ⟩
     succ (l + m) * n          ≡⟨⟩
@@ -277,6 +280,7 @@ And now, finally the proof of our original proposition:
 
 ```agda
   proof : ∀ x y → (x + y) ² ≡ (x ² + two * (x * y) + y ²)
+  --------------------------------------------------------
   proof zero n = begin
     (zero + n) * (zero + n)
         ≡⟨ cong (λ x → (zero + n) * x) (+-identity-r n) ⟩
@@ -306,6 +310,7 @@ And now, finally the proof of our original proposition:
         ≡⟨ +-assoc-r (zero ²) (two * zero * n) (n ²) ⟩
     zero ² + two * zero * n + n ²
         ∎
+  --------------------------------------------------------
   proof (succ m) n = begin
     ((succ m) + n) * ((succ m) + n)
         ≡⟨ +-distrib-*-l (succ m) n (succ m + n) ⟩

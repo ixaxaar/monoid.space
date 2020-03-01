@@ -7,8 +7,14 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ****
 
-- [Equational Reasoning over equivalence relations](#equational-reasoning-over-equivalence-relations)
-- [Some Proofs using equational reasoning](#some-proofs-using-equational-reasoning)
+  - [Equational Reasoning over equivalence relations](#equational-reasoning-over-equivalence-relations)
+  - [Some Proofs using equational reasoning](#some-proofs-using-equational-reasoning)
+    - [Commutativity and left inverse yields right inverse](#commutativity-and-left-inverse-yields-right-inverse)
+    - [Commutativity and right inverse yields left inverse](#commutativity-and-right-inverse-yields-left-inverse)
+    - [Uniqueness of left inverse](#uniqueness-of-left-inverse)
+    - [Uniqueness of right inverse](#uniqueness-of-right-inverse)
+- [Relations other than equality](#relations-other-than-equality)
+- [Equational reasoning for any operator](#equational-reasoning-for-any-operator)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -20,7 +26,7 @@ open import Types.equality
 open import Types.product using (Σ; _,_)
 ```
 
-We now define a more complex version where there is symmetry in equivalence preservation, unlike the previous naive version where it is only covariant, capturing the commutativity of the equivalence relation.
+We now define a more complex version of equational reasoning on top of an equivalence relation `_~_` rather than on equality.
 
 ## Equational Reasoning over equivalence relations
 
@@ -39,14 +45,14 @@ module ★-reasoning
   infix  1 begin_
 ```
 
-We start with a vague notion of being related to:
+This seemingly unnecessary type is used to make it possible to infer arguments even if the underlying equality evaluates.
 
 ```agda
   data _IsRelatedTo_ (x y : A) : Set (a ⊔ ℓ) where
     relTo : (x∼y : x ∼ y) → x IsRelatedTo y
 ```
 
-we concretize the fact of being related to into a `begin` statement, this forms the basis or starting point of any reasoning sequence.
+Use this to indicate beginning of reasoning:
 
 ```agda
   begin_ : ∀ {x y} → x IsRelatedTo y → x ∼ y
@@ -90,7 +96,7 @@ and we end chains of reasoning with a QED:
 
 ## Some Proofs using equational reasoning
 
-A lot of assymetric laws can be derived with one half of the symmetry and mixing it with commutativity. E.g. left inverse coiuld be derived using right inverse and commutativity, similarly, right inverse can be derived using left inverse and commutativity.
+A lot of asymmetric laws can be derived with one half of the symmetry and mixing it with commutativity. E.g. left inverse could be derived using right inverse and commutativity, similarly, right inverse can be derived using left inverse and commutativity.
 
 
 ```agda
@@ -110,6 +116,8 @@ module withCommutativity {a ℓ}
     open ★-reasoning _∼_ reflexive trans public
 ```
 
+### Commutativity and left inverse yields right inverse
+
 ```agda
     comm+invˡ⇒invʳ :
         LeftInverse _∼_ ϵ _⁻¹ _•_
@@ -119,6 +127,8 @@ module withCommutativity {a ℓ}
       (x ⁻¹) • x ∼⟨ invˡ x ⟩
       ϵ          ∎
 ```
+
+### Commutativity and right inverse yields left inverse
 
 ```agda
     comm+invʳ⇒invˡ : RightInverse _∼_ ϵ _⁻¹ _•_ → LeftInverse _∼_ ϵ _⁻¹ _•_
@@ -144,6 +154,10 @@ module withCongruence {a ℓ}
     open ★-reasoning _∼_ reflexive trans public
 ```
 
+### Uniqueness of left inverse
+
+Given an operation is associative, has an identity, every given right inverse has a unique left inverse.
+
 ```agda
     assoc+id+invʳ⇒invˡ-unique :
         Associative _∼_ _•_
@@ -161,6 +175,10 @@ module withCongruence {a ℓ}
       y ⁻¹             ∎
 ```
 
+### Uniqueness of right inverse
+
+Given an operation is associative, has an identity, every given left inverse has a unique right inverse.
+
 ```agda
     assoc+id+invˡ⇒invʳ-unique :
         Associative _∼_ _•_
@@ -176,6 +194,71 @@ module withCongruence {a ℓ}
       (x ⁻¹) • (x • y) ∼⟨ cong reflexive eq ⟩
       (x ⁻¹) • ϵ       ∼⟨ idʳ (x ⁻¹) ⟩
       x ⁻¹             ∎
+```
+
+# Relations other than equality
+
+Equational reasoning can also be done on other relations except equality and equivalence ones. For example, here we derive the framework for the order operator `_<=_`:
+
+```agda
+open import Types.proofsAsData using (_<=_; ltz; lt)
+open import Lang.dataStructures
+open import Types.relations hiding (Rel)
+
+≤-trans : Transitive {A = ℕ} _<=_
+≤-trans ltz j≤k = ltz
+≤-trans (lt x) (lt y) = lt (≤-trans x y)
+
+module ≤-Reasoning where
+  infix  3 _■
+  infixr 2 _≤⧏⧐_ _≤⧏_⧐_
+  infix  1 begin_
+
+  begin_ : ∀ {x y : ℕ} → x <= y → x <= y
+  begin_ x≤y = x≤y
+
+  -- Apply reflexivity, arguments required within the ⧏⧐
+  _≤⧏⧐_ : ∀ (x {y} : ℕ) → x <= y → x <= y
+  _ ≤⧏⧐ x≤y = x≤y
+
+  -- Transitivity with arguments applied within the ⧏⧐
+  _≤⧏_⧐_ : ∀ (x {y z} : ℕ) → x <= y → y <= z → x <= z
+  _ ≤⧏ x≤y ⧐ y≤z = ≤-trans x≤y y≤z
+
+  _■ : ∀ (x : ℕ) → x <= x
+  _■ zero = ltz
+  _■ (succ x) = lt (_■ x)
+```
+
+# Equational reasoning for any operator
+
+As we see the pattern above, given the proof for transitivity of an operator, we can generate the constructs for doing equational with the operator.
+
+```agda
+module λ-Reasoning {a ℓ}
+  {A : Set a}
+  {_⌬_ : Rel A ℓ}
+  {⌬-trans : Transitive _⌬_}
+  {⌬-refl : Reflexive _⌬_}
+  where
+
+  infix  3 _▐
+  infixr 2 _⌬◀▶_ _⌬◀_▶_
+  infix  1 begin_
+
+  begin_ : ∀ {x y : A} → x ⌬ y → x ⌬ y
+  begin_ x⌬y = x⌬y
+
+  -- Apply reflexivity, arguments required within the ◀▶
+  _⌬◀▶_ : ∀ (x {y} : A) → x ⌬ y → x ⌬ y
+  _ ⌬◀▶ x⌬y = x⌬y
+
+  -- Transitivity with arguments applied within the ◀▶
+  _⌬◀_▶_ : ∀ (x {y z} : A) → x ⌬ y → y ⌬ z → x ⌬ z
+  _ ⌬◀ x⌬y ▶ y⌬z = ⌬-trans x⌬y y⌬z
+
+  _▐ : ∀ (x : A) → x ⌬ x
+  _▐ _ = ⌬-refl
 ```
 
 ****
