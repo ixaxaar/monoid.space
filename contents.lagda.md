@@ -27,10 +27,10 @@
 ## 3. Type Theory 2
 
   - [Proofs as Data](./Types.proofsAsData.html)
-  - [Rules of Type Theory](./Types.patterns.html)
+  - [Introduction of New Types](./Types.patterns.html)
   - [Equational Reasoning](./Types.equational.html)
   - [Equational Reasoning 2](./Types.equational2.html)
-  - [In-depth into Equality](./Types.variations.html)
+  - [Equality 2](./Types.variations.html)
 
 ## 4. Logic
 
