@@ -115,27 +115,28 @@
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="constructing-boolean-algebra-using-type-theory">Constructing Boolean algebra using type theory</h1>
-<p>Here we look at constructing logic using type theory. Now, mostly all branches of mathematics involve two kinds of entities: objects and propositions about those objects. This very much corresponds to basic composition of programming languages - objects and their APIs.</p>
+<p>Here we look at constructing logic using type theory.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Logic<span class="ot">.</span>logicBasics <span class="kw">where</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span></code></pre></div>
 <h2 id="objects-of-logic">Objects of Logic</h2>
 <h3 id="empty-false">Empty / False</h3>
-<p>Type with no object - cannot ever create an object of this type. This makes it possible to define absurd functions, which map <code>⟂</code> to anything, as given nothing, one can create anything, or assuming any <code>False</code> statement can serve as a proof for anything, which is absurd.</p>
+<p>Type with no object - cannot ever create an object of this type. This makes it possible to define absurd functions, which map <code>⟂</code> to anything, as given nothing, one can create anything. Looking at it from a different angle, assuming any <code>False</code> statement can serve as a proof for anything, which is absurd.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">data</span> ⟂ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span></code></pre></div>
 <p>Absurd can imply anything, be it true or not. Thus, any statement can be proven using absurdity.</p>
-<p>However, it is, we argue, impossible to create an object of absurd type (as <code>⟂</code> has no constructor) and hence these functions make no sense in the “real world”, as in they can never be invoked. This is called the “absurd pattern”.</p>
+<p>However, it is impossible to create an object of absurd type (as <code>⟂</code> has no constructor) and hence these functions make no sense in the “real world”, as in they can never be invoked.</p>
 <h3 id="singleton-true">Singleton / True</h3>
 <p>Set with only one object: <code>True</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">data</span> ⊤ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>  singleton <span class="ot">:</span> ⊤</span></code></pre></div>
-<p>We also have a more standard representation of boolean objects, <a href="./Types.dataStructures.html#boolean-type">Bool</a>.</p>
+<p>We also have another representation of boolean objects, <a href="./Types.dataStructures.html#boolean-type">Bool</a>.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">)</span></span></code></pre></div>
 <h2 id="operations-on-these-objects">Operations on these objects</h2>
 <h3 id="negation-or-the-logical-not">Negation or the logical <code>NOT</code></h3>
-<p>We use the fact that a negation of a proposition <code>P</code> (to exist and hence be true) implies <code>¬ P</code> has to be false, <code>⟂</code>.</p>
+<p>We use the fact that a negation of a proposition <code>P</code> (to exist and be true) implies <code>¬ P</code> has to be false, <code>⟂</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a>¬ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> a</span>
 <span id="cb5-2"><a href="#cb5-2"></a>¬ P <span class="ot">=</span> P <span class="ot">→</span> ⟂</span></code></pre></div>
+<p>for our other representation:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a>not <span class="ot">:</span> Bool <span class="ot">→</span> Bool</span>
 <span id="cb6-2"><a href="#cb6-2"></a>not true <span class="ot">=</span> false</span>
 <span id="cb6-3"><a href="#cb6-3"></a>not false <span class="ot">=</span> true</span></code></pre></div>
@@ -145,6 +146,7 @@
 <span id="cb7-2"><a href="#cb7-2"></a>  AND <span class="ot">:</span> A <span class="ot">→</span> B <span class="ot">→</span> A ∧ B</span>
 <span id="cb7-3"><a href="#cb7-3"></a></span>
 <span id="cb7-4"><a href="#cb7-4"></a><span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>∧<span class="ot">_</span></span></code></pre></div>
+<p>similarly:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a><span class="ot">_</span>&amp;&amp;<span class="ot">_</span> <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool</span>
 <span id="cb8-2"><a href="#cb8-2"></a>true &amp;&amp; x <span class="ot">=</span> x</span>
 <span id="cb8-3"><a href="#cb8-3"></a>false &amp;&amp; x <span class="ot">=</span> false</span>
@@ -200,7 +202,12 @@ a ⟹ b = ¬ a ∨ b
 <p>We can obviously go ahead now and implement the <code>if-then-else</code> semantic:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb18-1"><a href="#cb18-1"></a>if<span class="ot">_</span>then<span class="ot">_</span>else<span class="ot">_</span> <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">-&gt;</span> Bool <span class="ot">-&gt;</span> A <span class="ot">-&gt;</span> A <span class="ot">-&gt;</span> A</span>
 <span id="cb18-2"><a href="#cb18-2"></a>if true  then x else y <span class="ot">=</span> x</span>
-<span id="cb18-3"><a href="#cb18-3"></a>if false then x else y <span class="ot">=</span> y</span></code></pre></div>
+<span id="cb18-3"><a href="#cb18-3"></a>if false then x else y <span class="ot">=</span> y</span>
+<span id="cb18-4"><a href="#cb18-4"></a></span>
+<span id="cb18-5"><a href="#cb18-5"></a><span class="co">-- a more pythonic style `P ? if_true : if_false` (with universe polymorphism)</span></span>
+<span id="cb18-6"><a href="#cb18-6"></a><span class="ot">_</span>then<span class="ot">_</span>else<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">-&gt;</span> Bool <span class="ot">-&gt;</span> A <span class="ot">-&gt;</span> A <span class="ot">-&gt;</span> A</span>
+<span id="cb18-7"><a href="#cb18-7"></a>true then x else y <span class="ot">=</span> x</span>
+<span id="cb18-8"><a href="#cb18-8"></a>false then x else y <span class="ot">=</span> y</span></code></pre></div>
 <p>Note again that since this is a computational semantic, we provide implementation for only the concrete type <code>Bool</code>.</p>
 <h3 id="existential-quantification">Existential Quantification</h3>
 <p>Existential Quantification, or better known as “there exists” or <code>∃</code>, essential indicates if a proposition can exist:</p>

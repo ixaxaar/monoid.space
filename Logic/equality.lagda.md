@@ -18,15 +18,11 @@
 module Logic.equality where
 
 open import Types.relations using (Rel; Equivalence)
-
 open import Logic.logicBasics using (¬; not; xor; ⟂; ⊤; singleton)
-
 open import Lang.dataStructures using (Bool; true; false)
 ```
 
-Equality, or an equivalence, is the most basic comparison that can be performed between two objects. Let us first see how equality (and inequality) looks like for logical objects:
-
-![Fig 1: Equality](equality.png)
+Equality, or an equivalence, is the most basic comparison that can be performed between two objects. Let us first see how equality (and inequality) looks like for logic:
 
 ```agda
 data _≡_ {A : Set}(x : A) : A → Set where
@@ -46,8 +42,6 @@ $$
 equal? : Bool → Bool → Bool
 equal? a b = not (xor a b)
 ```
-
-TODO: write the type version as well.
 
 The laws of equality are same as what we saw earlier in [equality](Types.equality.html):
 

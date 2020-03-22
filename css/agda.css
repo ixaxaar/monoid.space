@@ -399,7 +399,7 @@ figcaption {
 hr:first-of-type {
   height:            200px;
   padding:           20px;
-  background-image:  url("/header.png");
+  background-image:  url("artwork/header.png");
   background-repeat: no-repeat;
   background-size: contain;
   margin-block-end: 2em;

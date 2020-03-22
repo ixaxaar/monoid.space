@@ -30,7 +30,7 @@
 
 # Constructing Boolean algebra using type theory
 
-Here we look at constructing logic using type theory. Now, mostly all branches of mathematics involve two kinds of entities: objects and propositions about those objects. This very much corresponds to basic composition of programming languages - objects and their APIs.
+Here we look at constructing logic using type theory.
 
 ```agda
 module Logic.logicBasics where
@@ -42,7 +42,7 @@ open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 
 ### Empty / False
 
-Type with no object - cannot ever create an object of this type. This makes it possible to define absurd functions, which map `⟂` to anything, as given nothing, one can create anything, or assuming any `False` statement can serve as a proof for anything, which is absurd.
+Type with no object - cannot ever create an object of this type. This makes it possible to define absurd functions, which map `⟂` to anything, as given nothing, one can create anything. Looking at it from a different angle, assuming any `False` statement can serve as a proof for anything, which is absurd.
 
 ```agda
 data ⟂ : Set where
@@ -50,7 +50,7 @@ data ⟂ : Set where
 
 Absurd can imply anything, be it true or not. Thus, any statement can be proven using absurdity.
 
-However, it is, we argue, impossible to create an object of absurd type (as `⟂` has no constructor) and hence these functions make no sense in the "real world", as in they can never be invoked. This is called the "absurd pattern".
+However, it is impossible to create an object of absurd type (as `⟂` has no constructor) and hence these functions make no sense in the "real world", as in they can never be invoked.
 
 
 ### Singleton / True
@@ -62,7 +62,7 @@ data ⊤ : Set where
   singleton : ⊤
 ```
 
-We also have a more standard representation of boolean objects, [Bool](./Types.dataStructures.html#boolean-type).
+We also have another representation of boolean objects, [Bool](./Types.dataStructures.html#boolean-type).
 
 ```agda
 open import Lang.dataStructures using (Bool; true; false)
@@ -72,12 +72,14 @@ open import Lang.dataStructures using (Bool; true; false)
 
 ### Negation or the logical `NOT`
 
-We use the fact that a negation of a proposition `P` (to exist and hence be true) implies `¬ P` has to be false, `⟂`.
+We use the fact that a negation of a proposition `P` (to exist and be true) implies `¬ P` has to be false, `⟂`.
 
 ```agda
 ¬ : ∀ {a} → Set a → Set a
 ¬ P = P → ⟂
 ```
+
+for our other representation:
 
 ```agda
 not : Bool → Bool
@@ -95,6 +97,8 @@ data _∧_ (A B : Set) : Set where
 
 infixr 4 _∧_
 ```
+
+similarly:
 
 ```agda
 _&&_ : Bool → Bool → Bool
@@ -199,6 +203,11 @@ We can obviously go ahead now and implement the `if-then-else` semantic:
 if_then_else_ : {A : Set} -> Bool -> A -> A -> A
 if true  then x else y = x
 if false then x else y = y
+
+-- a more pythonic style `P ? if_true : if_false` (with universe polymorphism)
+_then_else_ : ∀ {a} {A : Set a} -> Bool -> A -> A -> A
+true then x else y = x
+false then x else y = y
 ```
 
 Note again that since this is a computational semantic, we provide implementation for only the concrete type `Bool`.

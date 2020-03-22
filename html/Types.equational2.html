@@ -94,7 +94,7 @@
 <li><a href="#uniqueness-of-left-inverse">Uniqueness of left inverse</a></li>
 <li><a href="#uniqueness-of-right-inverse">Uniqueness of right inverse</a></li>
 </ul></li>
-<li><a href="#other-forms">Other forms</a></li>
+<li><a href="#relations-other-than-equality">Relations other than equality</a></li>
 <li><a href="#equational-reasoning-for-any-operator">Equational reasoning for any operator</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -213,35 +213,35 @@
 <span id="cb15-12"><a href="#cb15-12"></a>      <span class="ot">(</span>x ⁻¹<span class="ot">)</span> • <span class="ot">(</span>x • y<span class="ot">)</span> ∼⟨ cong reflexive eq ⟩</span>
 <span id="cb15-13"><a href="#cb15-13"></a>      <span class="ot">(</span>x ⁻¹<span class="ot">)</span> • ϵ       ∼⟨ idʳ <span class="ot">(</span>x ⁻¹<span class="ot">)</span> ⟩</span>
 <span id="cb15-14"><a href="#cb15-14"></a>      x ⁻¹             ∎</span></code></pre></div>
-<h1 id="other-forms">Other forms</h1>
+<h1 id="relations-other-than-equality">Relations other than equality</h1>
 <p>Equational reasoning can also be done on other relations except equality and equivalence ones. For example, here we derive the framework for the order operator <code>_&lt;=_</code>:</p>
-<pre class="lagda"><code>open import Types.proofsAsData using (_&lt;=_; ltz; lt)
-open import Lang.dataStructures
-open import Types.relations hiding (Rel)
-
-≤-trans : Transitive {A = ℕ} _&lt;=_
-≤-trans ltz j≤k = ltz
-≤-trans (lt x) (lt y) = lt (≤-trans x y)
-
-module ≤-Reasoning where
-  infix  3 _■
-  infixr 2 _≤⧏⧐_ _≤⧏_⧐_
-  infix  1 begin_
-
-  begin_ : ∀ {x y : ℕ} → x &lt;= y → x &lt;= y
-  begin_ x≤y = x≤y
-
-  -- Apply reflexivity, arguments required within the ⧏⧐
-  _≤⧏⧐_ : ∀ (x {y} : ℕ) → x &lt;= y → x &lt;= y
-  _ ≤⧏⧐ x≤y = x≤y
-
-  -- Transitivity with arguments applied within the ⧏⧐
-  _≤⧏_⧐_ : ∀ (x {y z} : ℕ) → x &lt;= y → y &lt;= z → x &lt;= z
-  _ ≤⧏ x≤y ⧐ y≤z = ≤-trans x≤y y≤z
-
-  _■ : ∀ (x : ℕ) → x &lt;= x
-  _■ zero = ltz
-  _■ (succ x) = lt (_■ x)</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>proofsAsData <span class="kw">using</span> <span class="ot">(_</span>&lt;=<span class="ot">_;</span> ltz<span class="ot">;</span> lt<span class="ot">)</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures</span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations <span class="kw">hiding</span> <span class="ot">(</span>Rel<span class="ot">)</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a></span>
+<span id="cb16-5"><a href="#cb16-5"></a>≤-trans <span class="ot">:</span> Transitive <span class="ot">{</span>A <span class="ot">=</span> ℕ<span class="ot">}</span> <span class="ot">_</span>&lt;=<span class="ot">_</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a>≤-trans ltz j≤k <span class="ot">=</span> ltz</span>
+<span id="cb16-7"><a href="#cb16-7"></a>≤-trans <span class="ot">(</span>lt x<span class="ot">)</span> <span class="ot">(</span>lt y<span class="ot">)</span> <span class="ot">=</span> lt <span class="ot">(</span>≤-trans x y<span class="ot">)</span></span>
+<span id="cb16-8"><a href="#cb16-8"></a></span>
+<span id="cb16-9"><a href="#cb16-9"></a><span class="kw">module</span> ≤-Reasoning <span class="kw">where</span></span>
+<span id="cb16-10"><a href="#cb16-10"></a>  <span class="kw">infix</span>  <span class="dv">3</span> <span class="ot">_</span>■</span>
+<span id="cb16-11"><a href="#cb16-11"></a>  <span class="kw">infixr</span> <span class="dv">2</span> <span class="ot">_</span>≤⧏⧐<span class="ot">_</span> <span class="ot">_</span>≤⧏<span class="ot">_</span>⧐<span class="ot">_</span></span>
+<span id="cb16-12"><a href="#cb16-12"></a>  <span class="kw">infix</span>  <span class="dv">1</span> begin<span class="ot">_</span></span>
+<span id="cb16-13"><a href="#cb16-13"></a></span>
+<span id="cb16-14"><a href="#cb16-14"></a>  begin<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>x y <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> x &lt;= y <span class="ot">→</span> x &lt;= y</span>
+<span id="cb16-15"><a href="#cb16-15"></a>  begin<span class="ot">_</span> x≤y <span class="ot">=</span> x≤y</span>
+<span id="cb16-16"><a href="#cb16-16"></a></span>
+<span id="cb16-17"><a href="#cb16-17"></a>  <span class="co">-- Apply reflexivity, arguments required within the ⧏⧐</span></span>
+<span id="cb16-18"><a href="#cb16-18"></a>  <span class="ot">_</span>≤⧏⧐<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">(</span>x <span class="ot">{</span>y<span class="ot">}</span> <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> x &lt;= y <span class="ot">→</span> x &lt;= y</span>
+<span id="cb16-19"><a href="#cb16-19"></a>  <span class="ot">_</span> ≤⧏⧐ x≤y <span class="ot">=</span> x≤y</span>
+<span id="cb16-20"><a href="#cb16-20"></a></span>
+<span id="cb16-21"><a href="#cb16-21"></a>  <span class="co">-- Transitivity with arguments applied within the ⧏⧐</span></span>
+<span id="cb16-22"><a href="#cb16-22"></a>  <span class="ot">_</span>≤⧏<span class="ot">_</span>⧐<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">(</span>x <span class="ot">{</span>y z<span class="ot">}</span> <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> x &lt;= y <span class="ot">→</span> y &lt;= z <span class="ot">→</span> x &lt;= z</span>
+<span id="cb16-23"><a href="#cb16-23"></a>  <span class="ot">_</span> ≤⧏ x≤y ⧐ y≤z <span class="ot">=</span> ≤-trans x≤y y≤z</span>
+<span id="cb16-24"><a href="#cb16-24"></a></span>
+<span id="cb16-25"><a href="#cb16-25"></a>  <span class="ot">_</span>■ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">(</span>x <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> x &lt;= x</span>
+<span id="cb16-26"><a href="#cb16-26"></a>  <span class="ot">_</span>■ zero <span class="ot">=</span> ltz</span>
+<span id="cb16-27"><a href="#cb16-27"></a>  <span class="ot">_</span>■ <span class="ot">(</span>succ x<span class="ot">)</span> <span class="ot">=</span> lt <span class="ot">(_</span>■ x<span class="ot">)</span></span></code></pre></div>
 <h1 id="equational-reasoning-for-any-operator">Equational reasoning for any operator</h1>
 <p>As we see the pattern above, given the proof for transitivity of an operator, we can generate the constructs for doing equational with the operator.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">module</span> λ-Reasoning <span class="ot">{</span>a ℓ<span class="ot">}</span></span>
