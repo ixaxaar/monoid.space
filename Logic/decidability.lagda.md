@@ -36,7 +36,7 @@ open import Types.equality using (_≡_; Rel; REL)
 module Logic.decidability where
 ```
 
-Relations can de defined either as an inductive data type − the existence of the type implies that the relation exists. We say that the data type provides a **witness** that the relation is valid. The other way is to  define relations as functions that compute whether the relation holds.
+Relations can de defined either as an inductive data type − the existence of the type implies that the relation exists. We say that the data type provides a **witness** that the relation is valid. The other way is to define relations as functions that compute whether the relation holds.
 
 Consider the relation `_<=_`. If we have to prove that `2 <= 4`, we can do that in two ways:
 

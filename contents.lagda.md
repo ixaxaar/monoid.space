@@ -38,7 +38,7 @@
   - [Boolean Algebra](./Logic.logicBasics.html)
   - [Equality](./Logic.equality.html)
   - [Laws of Logic](./Logic.laws.html)
-  - [~~Decidability~~](./Logic.decidability.html)
+  - [Decidability](./Logic.decidability.html)
 
 ## 5. Abstract Algebras
 
