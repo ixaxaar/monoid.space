@@ -259,8 +259,8 @@ then b₁ ≡ b₂
 
 A congruent relation preserves equivalences:
 
-- for binary relation `♣`, if $ (x₁, y₁) == (x₂, y₂) $ then $ (x₁ ♣ y₁) == (x₂ ♣ y₂) $.
-- for unary relation `♡`, if $ x == y $ then $ ♡ x == ♡ y $.
+- for binary relation `♣`, if $(x₁, y₁) == (x₂, y₂)$ then $(x₁ ♣ y₁) == (x₂ ♣ y₂)$.
+- for unary relation `♡`, if $x == y$ then $♡ x == ♡ y$.
 
 ```agda
   Congruent₁ : ♠ A → Set _

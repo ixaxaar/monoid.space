@@ -194,7 +194,7 @@ module _ {f ℓ} (Self : Group f ℓ) where
 
 An group isomorphism is a homomorphism with an additional property - bijection (one-to-one + onto). Bijection implies an isomorphism is a homomorphism such that the inverse of the homomorphism is also a homomorphism. Practically, an isomorphism is an equivalence relation. Often in mathematics one encounters the phrase "equal upto isomorphism" meaning isomorphism serves as equality for all practical purposes.
 
-![Injection vs Surjection vs Bijection](functions.png)
+![Injection vs Surjection vs Bijection](../artwork/functions.png)
 
 ## Automorphism
 

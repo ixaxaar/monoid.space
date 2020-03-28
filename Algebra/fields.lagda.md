@@ -40,7 +40,7 @@ A field is a structure containing:
 - A set $ 𝔽 $
 - Two binary operations: + and −
 
-where the structure defined on the operations are:
+where:
 
 1. $ 𝔽 $ is an abelian group under addition, which implies the operation +:
     - is associative

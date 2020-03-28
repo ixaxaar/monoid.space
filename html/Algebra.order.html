@@ -11,6 +11,7 @@
     span.underline{text-decoration: underline;}
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -75,6 +76,7 @@
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../css/agda.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -88,7 +90,7 @@
 <ul>
 <li><a href="#introduction">Introduction</a>
 <ul>
-<li><a href="#pre-order">Pre-order</a></li>
+<li><a href="#preorder">Preorder</a></li>
 <li><a href="#partial-order-or-poset">Partial Order or Poset</a></li>
 <li><a href="#total-order">Total Order</a></li>
 </ul></li>
@@ -100,57 +102,84 @@
 <span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">using</span> <span class="ot">(</span>IsEquivalence<span class="ot">;</span> Reflexive<span class="ot">;</span> Symmetric<span class="ot">;</span> Transitive<span class="ot">;</span> Rel<span class="ot">;</span> <span class="ot">_</span>⇒<span class="ot">_)</span></span>
 <span id="cb1-4"><a href="#cb1-4"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_;</span> <span class="ot">_</span>∪<span class="ot">_)</span></span>
 <span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">module</span> Algebra<span class="ot">.</span>order <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(_</span>==<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a>  <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>operations <span class="ot">(_</span>==<span class="ot">_)</span></span></code></pre></div>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">module</span> Algebra<span class="ot">.</span>order <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(_</span>==<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="kw">where</span></span></code></pre></div>
 <p>The equivalence relation remains the most basic relation to be built on objects of all kinds. Higher relations which tend to impose further structural constraints on objects thus creating richer objects and their APIs capable of modeling more complex phenomenon (not much unlike how a programming language’s <a href="https://en.wikipedia.org/wiki/Expressive_power_(computer_science)">expressiveness</a> enables one to build more complex programs).</p>
-<p>Order is one such higher relation and is fundamental in building a class of structures. There are different kinds of ordered objects each with progressively stricter laws.</p>
-<h2 id="pre-order">Pre-order</h2>
-<p>Preorders are relations which are reflexive and transitive. The property of symmetry is left out, and in such a way, preorders are even more general (less strict) than equivalences. We define a pre-order set of objects with an underlying notion of equality <code>_==_</code>.</p>
+<p>Order is one such higher relation and is fundamental in building a class of structures. There are different kinds of ordered relations each with progressively stricter laws.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Relation</th>
+<th>Reflexivity</th>
+<th>Transitivity</th>
+<th>Antisymmetry</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pre-order</td>
+<td>:heavy_check_mark:</td>
+<td>:heavy_check_mark:</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Partial-order</td>
+<td>:heavy_check_mark:</td>
+<td>:heavy_check_mark:</td>
+<td>:heavy_check_mark:</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Total order</td>
+<td>:heavy_check_mark:</td>
+<td>:heavy_check_mark:</td>
+<td>:heavy_check_mark:</td>
+<td>:heavy_check_mark:</td>
+</tr>
+</tbody>
+</table>
+<h2 id="preorder">Preorder</h2>
+<p>Preorders are binary relations (<code>~ : A → A</code>) on a set where:</p>
+<ol type="1">
+<li><code>~</code> is reflexive, i.e. <code>x ∼ x</code></li>
+<li><code>~</code> is transitive, i.e. <code>x ∼ y and y ∼ z ⇒ x ∼ z</code></li>
+</ol>
+<p>Preorders are relations which are reflexive and transitive.</p>
 <p>We first define an object that encapsulates all the rules into one record:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a>  <span class="kw">record</span> IsPreorder <span class="ot">(_</span>∼<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>    <span class="kw">field</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>      isEquivalence <span class="ot">:</span> IsEquivalence <span class="ot">_</span>==<span class="ot">_</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>      <span class="co">-- Reflexivity is expressed in terms of an underlying equality,</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>      <span class="co">-- reflexivity of the underlying equality implies reflexivity of the relation:</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>      reflexive     <span class="ot">:</span> <span class="ot">_</span>==<span class="ot">_</span> ⇒ <span class="ot">_</span>∼<span class="ot">_</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a>      trans         <span class="ot">:</span> Transitive <span class="ot">_</span>∼<span class="ot">_</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a></span>
-<span id="cb2-9"><a href="#cb2-9"></a>    <span class="kw">module</span> Eq <span class="ot">=</span> IsEquivalence isEquivalence</span>
-<span id="cb2-10"><a href="#cb2-10"></a></span>
-<span id="cb2-11"><a href="#cb2-11"></a>    refl <span class="ot">:</span> Reflexive <span class="ot">_</span>∼<span class="ot">_</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a>    refl <span class="ot">=</span> reflexive Eq<span class="ot">.</span>rfl</span>
-<span id="cb2-13"><a href="#cb2-13"></a></span>
-<span id="cb2-14"><a href="#cb2-14"></a>    <span class="co">-- we ensure the relation _∼_ respects the underlying equality:</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a>    <span class="co">-- we cannot use commutativity, hence we use the _Respects₂_ version here.</span></span>
-<span id="cb2-16"><a href="#cb2-16"></a>    ∼-respˡ-== <span class="ot">:</span> <span class="ot">_</span>∼<span class="ot">_</span> Respectsˡ <span class="ot">_</span>==<span class="ot">_</span></span>
-<span id="cb2-17"><a href="#cb2-17"></a>    ∼-respˡ-== x==y x∼z <span class="ot">=</span> trans <span class="ot">(</span>reflexive <span class="ot">(</span>Eq<span class="ot">.</span>sym x==y<span class="ot">))</span> x∼z</span>
-<span id="cb2-18"><a href="#cb2-18"></a></span>
-<span id="cb2-19"><a href="#cb2-19"></a>    ∼-respʳ-== <span class="ot">:</span> <span class="ot">_</span>∼<span class="ot">_</span> Respectsʳ <span class="ot">_</span>==<span class="ot">_</span></span>
-<span id="cb2-20"><a href="#cb2-20"></a>    ∼-respʳ-== x==y z∼x <span class="ot">=</span> trans z∼x <span class="ot">(</span>reflexive x==y<span class="ot">)</span></span>
-<span id="cb2-21"><a href="#cb2-21"></a></span>
-<span id="cb2-22"><a href="#cb2-22"></a>    ∼-resp-== <span class="ot">:</span> <span class="ot">_</span>∼<span class="ot">_</span> Respects₂ <span class="ot">_</span>==<span class="ot">_</span></span>
-<span id="cb2-23"><a href="#cb2-23"></a>    ∼-resp-== <span class="ot">=</span> ∼-respʳ-== , ∼-respˡ-==</span></code></pre></div>
+<span id="cb2-3"><a href="#cb2-3"></a>      reflexive     <span class="ot">:</span> Reflexive <span class="ot">_</span>∼<span class="ot">_</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>      trans         <span class="ot">:</span> Transitive <span class="ot">_</span>∼<span class="ot">_</span></span></code></pre></div>
 <h2 id="partial-order-or-poset">Partial Order or Poset</h2>
-<p>A partial order, or partially ordered set or Poset, is an antisymmetric preorder. In plain words, we require the relation $ <em>≤</em> $ to be antisymmetric.</p>
-<p>A relation $ <em>≤</em> $ is anti-symmetric over the underlying equality $ <em>==</em> $, if for every $ x, y $,</p>
-<p>$ x ≤ y , y ≤ x ⟹ x == y $</p>
+<p>Partial orders are a subtype of pre-orders where <code>≤ : A → A</code>:</p>
+<ol type="1">
+<li><code>≤</code> is reflexive, i.e. <code>x ≤ x</code></li>
+<li><code>≤</code> is transitive, i.e. <code>x ≤ y and y ≤ z ⇒ x ≤ z</code></li>
+<li><code>≤</code> is antisymmetric, i.e. <code>x ≤ y and y ≤ x ⇒ x = y</code></li>
+</ol>
+<p>A partial order, or partially ordered set or Poset, is an antisymmetric preorder. In plain words, we require the relation <span class="math inline">\(_≤_\)</span> to be antisymmetric with respect to the underlying equality .</p>
+<p>A relation <span class="math inline">\(_≤_\)</span> is anti-symmetric over the underlying equality <span class="math inline">\(_==_\)</span>, if for every <span class="math inline">\(x, y\)</span>,</p>
+<p><span class="math display">\[
+x ≤ y , y ≤ x ⟹ x == y
+\]</span></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a>  Antisymmetric <span class="ot">:</span> Rel A ℓ <span class="ot">→</span> Rel A ℓ <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>  Antisymmetric <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>≤<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x y<span class="ot">}</span> <span class="ot">→</span> x ≤ y <span class="ot">→</span> y ≤ x <span class="ot">→</span> x == y</span></code></pre></div>
 <p>We can now define partially ordered sets:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1"></a>  <span class="kw">record</span> IsPartialOrder <span class="ot">(_</span>≤<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a>    <span class="kw">field</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a>      isPreorder <span class="ot">:</span> IsPreorder <span class="ot">_</span>≤<span class="ot">_</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>      antisym    <span class="ot">:</span> Antisymmetric <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>≤<span class="ot">_</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a></span>
-<span id="cb4-6"><a href="#cb4-6"></a>    <span class="kw">open</span> IsPreorder isPreorder <span class="kw">public</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a>      <span class="kw">renaming</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>      <span class="ot">(</span> ∼-respˡ-== <span class="kw">to</span> ≤-respˡ-==</span>
-<span id="cb4-9"><a href="#cb4-9"></a>      <span class="ot">;</span> ∼-respʳ-== <span class="kw">to</span> ≤-respʳ-==</span>
-<span id="cb4-10"><a href="#cb4-10"></a>      <span class="ot">;</span> ∼-resp-==  <span class="kw">to</span> ≤-resp-==</span>
-<span id="cb4-11"><a href="#cb4-11"></a>      <span class="ot">)</span></span></code></pre></div>
+<span id="cb4-4"><a href="#cb4-4"></a>      antisym    <span class="ot">:</span> Antisymmetric <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>≤<span class="ot">_</span></span></code></pre></div>
 <h2 id="total-order">Total Order</h2>
-<p>A total order is a total preorder, or the preorder’s relation $ <em>≤</em> $ to be a total function.</p>
-<p>A relation $ <em>≤</em> $ is total if $ x ≤ y or y ≤ x $. There is no third possibility.</p>
+<p>Total orders are binary relations <code>≤ : A → A</code> where:</p>
+<ol type="1">
+<li><code>≤</code> is reflexive, i.e. <code>x ≤ x</code></li>
+<li><code>≤</code> is transitive, i.e. <code>x ≤ y and y ≤ z ⇒ x ≤ z</code></li>
+<li><code>≤</code> is antisymmetric, i.e. <code>x ≤ y and y ≤ x ⇒ x = y</code></li>
+<li><code>≤</code> is a total relation, i.e. <code>∀ x and y : x ≤ y or y ≤ x</code></li>
+</ol>
+<p>Total orders are a further constrained subtype of posets. All pairs of elements contained in a poset need not be comparable. This is exactly what total orders represent. A total order is a total preorder, or the preorder’s relation <span class="math inline">\(_≤_\)</span> to be a total function.</p>
+<p>A relation <span class="math inline">\(_≤_\)</span> is total if <span class="math inline">\(x ≤ y\)</span> or <span class="math inline">\(y ≤ x\)</span>. This relation has to exist between any pair of elements of <code>A</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a>  Total <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> Rel A ℓ <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a>  Total <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x ∼ y<span class="ot">)</span> ∪ <span class="ot">(</span>y ∼ x<span class="ot">)</span></span></code></pre></div>
 <p>We can now define total orders:</p>

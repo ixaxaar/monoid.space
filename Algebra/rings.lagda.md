@@ -19,21 +19,21 @@
 
 A ring is a structure containing:
 
-- A set $ 𝕊 $
+- A set $𝕊$
 - Two binary operations: + and −
 
 where the structure defined on the operations are:
 
-1. $ 𝕊 $ is an abelian group under addition, which implies the operation +:
+1. $𝕊$ is an abelian group under addition, which implies the operation +:
     - is associative
     - is commutative
     - has an inverse (−)
     - has an identity
-2. $ 𝕊 $ is a monoid under multiplication, which implies the operation ★:
+2. $𝕊$ is a monoid under multiplication, which implies the operation ★:
     - is associative
     - has an identity
 3. Multiplication is distributive over addition
-4. There must be an annihilating element 𝕖 such that $ ∀ x : 𝕖 ★ x = 𝕖 $
+4. There must be an annihilating element 𝕖 such that $∀ x : 𝕖 ★ x = 𝕖$
 
 Examples of rings would be natural, real, complex and rational numbers. Any algebra over a ring is also a ring. Hence, any set of n × n matrices of real numbers also forms a ring. A set of real upper or lower triangular matrices would also form a ring. The family of rings starts from semirings and goes on with commutative semirings, rings and commutative rings.
 
@@ -48,35 +48,33 @@ module Algebra.rings {a ℓ} {A : Set a} (_==_ : Rel A ℓ) where
   open import Algebra.groups (_==_)
 ```
 
-In order to derive the family of Rings, we start with the idea of an indempotent function. An Idempotent function is one which, when applied multiple times on an initial input produces the same result. That is, if 𝔽 is a function $ 𝔽 : ϕ → ϕ $ then it's repeated application $ 𝔽(𝔽(𝔽(...𝔽(x)...))) == 𝔽(x) $.
+The family of rings consist of a set and two binary operations. Each binary operation behaves in a certain way with the set, taking upon roles from the group family, e.g. one operation can behave like a monoid with respect to the set while the other one can behave like a group.
 
-```agda
-  _IdempotentOn_ : ★ A → A → Set _
-  _∙_ IdempotentOn x = (x ∙ x) == x
+| Object ↓ Operation → |  `+` behaves as |  `*` behaves as |
+| --- | --- | --- |
+| Near-Semiring | Monoid | Semigroup |
+| Semiring | Commutative Monoid | Monoid |
+| Commutative Semiring | Commutative Monoid | Commutative Monoid |
+| Ring | Abelian Group | Monoid |
 
-  Idempotent : ★ A → Set _
-  Idempotent ∙ = ∀ x → ∙ IdempotentOn x
-
-  IdempotentFunction : ♠ A → Set _
-  IdempotentFunction f = ∀ x → f (f x) == f x
-```
+The `*` operation interacts with the `+` operation by folowing the law of distributivity.
 
 ## Near-Semiring
 
 We define a Near-Semiring as the most abstract structure in the family of rings. It is a structure containing:
 
-- A set $ 𝕊 $
-- Two binary operations: + and −
+- A set $𝕊$
+- Two binary operations: + and *
 
 where the structure defined on the operations are:
 
-1. $ 𝕊 $ is an monoid under addition, which implies the operation +:
+1. $𝕊$ is an monoid under addition, which implies the operation +:
     - is associative
     - has an identity
-2. $ 𝕊 $ is a semigroup under multiplication, which implies the operation *:
+2. $𝕊$ is a semigroup under multiplication, which implies the operation *:
     - is associative
 3. Multiplication is distributive over addition
-4. There must be an annihilating element 𝕖 such that $ ∀ x : 𝕖 * x = 𝕖 $
+4. There must be an annihilating element 𝕖 such that $∀ x : 𝕖 * x = 𝕖$
 
 ```agda
   record IsNearSemiring (+ * : ★ A) (0# : A) : Set (a ⊔ ℓ) where
@@ -114,20 +112,20 @@ where the structure defined on the operations are:
 
 A Semiring is a structure containing:
 
-- A set $ 𝕊 $
-- Two binary operations: + and −
+- A set $𝕊$
+- Two binary operations: + and *
 
 where the structure defined on the operations are:
 
-1. $ 𝕊 $ is an commutative monoid under addition, which implies the operation +:
+1. $𝕊$ is an commutative monoid under addition, which implies the operation +:
     - is associative
     - is commutative
     - has an identity
-2. $ 𝕊 $ is a monoid under multiplication, which implies the operation *:
+2. $𝕊$ is a monoid under multiplication, which implies the operation *:
     - is associative
     - has an identity
 3. Multiplication is distributive over addition
-4. There must be an annihilating element 𝕖 such that $ ∀ x : 𝕖 * x = 𝕖 $
+4. There must be an annihilating element 𝕖 such that $∀ x : 𝕖 * x = 𝕖$
 
 These laws are the same as that of a ring, except for the requirement of addition to have an inverse operation. It is easier to first describe the semiring with the annihilation element:
 
@@ -238,21 +236,21 @@ We can add commutativity of multiplication to the above structures to obtain the
 
 A Commutative Semiring is a structure containing:
 
-- A set $ 𝕊 $
-- Two binary operations: + and −
+- A set $𝕊$
+- Two binary operations: + and *
 
 where the structure defined on the operations are:
 
-1. $ 𝕊 $ is an commutative monoid under addition, which implies the operation +:
+1. $𝕊$ is an commutative monoid under addition, which implies the operation +:
     - is associative
     - is commutative
     - has an identity
-2. $ 𝕊 $ is a commutative monoid under multiplication, which implies the operation *:
+2. $𝕊$ is a commutative monoid under multiplication, which implies the operation *:
     - is associative
     - is commutative
     - has an identity
 3. Multiplication is distributive over addition
-4. There must be an annihilating element 𝕖 such that $ ∀ x : 𝕖 * x = 𝕖 $
+4. There must be an annihilating element 𝕖 such that $∀ x : 𝕖 * x = 𝕖$
 
 
 ```agda
@@ -314,7 +312,23 @@ where the structure defined on the operations are:
 
 ## Ring
 
-We now define a ring in Agda:
+A Ring is a structure containing:
+
+- A set $𝕊$
+- Two binary operations: + and *
+
+where the structure defined on the operations are:
+
+1. $𝕊$ is an abelian group under addition, which implies the operation +:
+    - is associative
+    - is commutative
+    - has an identity
+    - has an inverse (-)
+2. $𝕊$ is a monoid under multiplication, which implies the operation *:
+    - is associative
+    - has an identity
+3. Multiplication is distributive over addition
+4. There must be an annihilating element 𝕖 such that $∀ x : 𝕖 * x = 𝕖$
 
 ```agda
   record IsRing (+ * : ★ A) (-_ : ♠ A) (0# 1# : A) : Set (a ⊔ ℓ) where
@@ -397,9 +411,7 @@ and finally, the commutative ring:
 
     *-isCommutativeMonoid : IsCommutativeMonoid * 1#
     *-isCommutativeMonoid =  record
-      { isSemigroup = *-isSemigroup
-      ; identityˡ   = *-identityˡ
-      ; identityʳ   = *-identityʳ
+      { isMonoid    = *-isMonoid
       ; comm        = *-comm
       }
 

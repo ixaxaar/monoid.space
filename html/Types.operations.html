@@ -11,6 +11,7 @@
     span.underline{text-decoration: underline;}
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -252,8 +253,8 @@ if a₁ ≡ a₂,
 then b₁ ≡ b₂</code></pre>
 <p>A congruent relation preserves equivalences:</p>
 <ul>
-<li>for binary relation <code>♣</code>, if $ (x₁, y₁) == (x₂, y₂) $ then $ (x₁ ♣ y₁) == (x₂ ♣ y₂) $.</li>
-<li>for unary relation <code>♡</code>, if $ x == y $ then $ ♡ x == ♡ y $.</li>
+<li>for binary relation <code>♣</code>, if <span class="math inline">\((x₁, y₁) == (x₂, y₂)\)</span> then <span class="math inline">\((x₁ ♣ y₁) == (x₂ ♣ y₂)\)</span>.</li>
+<li>for unary relation <code>♡</code>, if <span class="math inline">\(x == y\)</span> then <span class="math inline">\(♡ x == ♡ y\)</span>.</li>
 </ul>
 <div class="sourceCode" id="cb23"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb23-1"><a href="#cb23-1"></a>  Congruent₁ <span class="ot">:</span> ♠ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb23-2"><a href="#cb23-2"></a>  Congruent₁ f <span class="ot">=</span> f Preserves <span class="ot">_</span>==<span class="ot">_</span> ⟶ <span class="ot">_</span>==<span class="ot">_</span></span>

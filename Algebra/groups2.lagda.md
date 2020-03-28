@@ -9,10 +9,7 @@
 
 - [Groups and family 2](#groups-and-family-2)
   - [Magma](#magma)
-  - [Semigroupoid](#semigroupoid)
-  - [Small category](#small-category)
   - [Semigroup](#semigroup)
-  - [Groupoid](#groupoid)
   - [Monoid](#monoid)
   - [Commutative Monoid](#commutative-monoid)
   - [Group](#group)
@@ -23,9 +20,9 @@
 
 # Groups and family 2
 
-Here we define the objects based on the conditions defined in the previous section. It might be helpful here to think of `Data` fields as datatypes as used in computer sciences, and the objects as the structure defined on operations of that datatype. For e.g. if a datatype's equivalence (or equality evaluator) happens to be congruent, then the datatype and its equivalence relation form a "magma". Thus the object itself encodes the relationship of a datatype with an operation.
+Here we define the objects based on the conditions defined in the previous section. It might be helpful here to think of `Data` fields as various common datatypes as used in computer sciences, and the objects as the structure defined on operations of that datatype.
 
-Such structures can often be applied in computer science in curious ways, such as using the monoidal functions (μ: T → T → T) for reduce operations (part of "map-reduce" in big data), progressively "reducing" a large quantity of `T`s into one final value of type `T`, e.g. addition of an enormous list of numbers. Monoids, Groups and Semigroups form the basis for an arguably large number of patterns especially in functional programming.
+We are bound to write this code in a new file as we are using a different module without the pre-supplied `_==_` and `A : Set a`.
 
 ```agda
 module Algebra.groups2 where
@@ -54,50 +51,14 @@ record Magma a ℓ : Set (lsuc (a ⊔ ℓ)) where
   infix  4 _==_
   field
     Data      : Set a
-    _==_       : Rel Data ℓ
+    _==_      : Rel Data ℓ
     _∙_       : ★ Data
     isMagma   : IsMagma _==_ _∙_
 
   open IsMagma isMagma public
 ```
 
-## Semigroupoid
-
-```agda
-record Semigroupoid c ℓ : Set (lsuc (c ⊔ ℓ)) where
-  infixl 7 _∙_
-  infix  4 _==_
-  field
-    Data            : Set c
-    _==_            : Rel Data ℓ
-    _∙_             : ★ Data
-    isSemigroupoid  : IsSemigroupoid _==_ _∙_
-
-  open IsSemigroupoid isSemigroupoid public
-```
-
-## Small category
-
-```agda
-record SmallCategory c ℓ : Set (lsuc (c ⊔ ℓ)) where
-  infixl 7 _∙_
-  infix  4 _==_
-  field
-    Data            : Set c
-    _==_            : Rel Data ℓ
-    _∙_             : ★ Data
-    ε               : Data
-    isSmallCategory : IsSmallCategory _==_ _∙_ ε
-
-  open IsSmallCategory isSmallCategory public
-
-  semigroupoid : Semigroupoid c ℓ
-  semigroupoid = record { isSemigroupoid = isSemigroupoid }
-```
-
 ## Semigroup
-
-Semigroups can be used in functional programming to abstract over associative operations for non-trivial datatypes, such as "adding" two dictionatries or "multiplying" a character (repeating it n times), etc.
 
 ```agda
 record Semigroup c ℓ : Set (lsuc (c ⊔ ℓ)) where
@@ -113,29 +74,6 @@ record Semigroup c ℓ : Set (lsuc (c ⊔ ℓ)) where
 
   magma : Magma c ℓ
   magma = record { isMagma = isMagma }
-```
-
-## Groupoid
-
-```agda
-record Groupoid c ℓ : Set (lsuc (c ⊔ ℓ)) where
-  infixl 7 _∙_
-  infix  4 _==_
-  field
-    Data            : Set c
-    _==_            : Rel Data ℓ
-    _∙_             : ★ Data
-    ε               : Data
-    _⁻¹             : ♠ Data
-    isGroupoid      : IsGroupoid _==_ _∙_ ε _⁻¹
-
-  open IsGroupoid isGroupoid public
-
-  smallcategory : SmallCategory c ℓ
-  smallcategory = record { isSmallCategory = isSmallCategory }
-
-  semigroupoid : Semigroupoid c ℓ
-  semigroupoid = record { isSemigroupoid = isSemigroupoid }
 ```
 
 ## Monoid

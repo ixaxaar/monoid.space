@@ -86,6 +86,22 @@
   - [~~Verified Programming~~](./AppliedTypes.verified_programming.html)
   - [~~Binding with the outside world~~](./AppliedTypes.bindings.html)
 
+## β. Category Theory
+
+- Categories and morphisms
+- Functors
+- Natural transformation
+- Yoneda Lemma
+- Limits and Co-Limits
+- Adjunctions
+- Ends and Co-Ends
+- Kan Extensions
+- The (∞,1)-category and Higher Category Theory
+
+## δ. Supergeometry
+
+- The ∞-stack
+
 [Go up](contents.html)
 [Gitlab](https://gitlab.com/ixaxaar/monoid.space)
 [Github](https://github.com/ixaxaar/monoid.space)
