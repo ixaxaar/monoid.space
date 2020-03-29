@@ -74,8 +74,6 @@ $$
 
 Another notation is to use $\Pi_{x : A} B(x)$, mostly used in type theory to denote Π-types. Functions of higher arity then take the form $\Pi_{x : A}\Pi_{y : B(x)} D(y)$ and so on.
 
-![Figure 1: Dependent Function](dependent_function.png)
-
 To show how to use this type, we construct an example:
 
 ```agda

@@ -32,9 +32,9 @@ Order is one such higher relation and is fundamental in building a class of stru
 
 | Relation | Reflexivity | Transitivity | Antisymmetry | Total |
 | --- | --- | --- | --- | --- |
-| Pre-order | :heavy_check_mark: | :heavy_check_mark: | | |
-| Partial-order | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
-| Total order | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Pre-order | ★ | ★ | | |
+| Partial-order | ★ | ★ | ★ | |
+| Total order | ★ | ★ | ★ | ★ |
 
 ## Preorder
 
@@ -62,9 +62,9 @@ Partial orders are a subtype of pre-orders where `≤ : A → A`:
 2. `≤` is transitive, i.e. `x ≤ y and y ≤ z ⇒ x ≤ z`
 3. `≤` is antisymmetric, i.e. `x ≤ y and y ≤ x ⇒ x = y`
 
-A partial order, or partially ordered set or Poset, is an antisymmetric preorder. In plain words, we require the relation $_≤_$ to be antisymmetric with respect to the underlying equality .
+A partial order, or partially ordered set or Poset, is an antisymmetric preorder. In plain words, we require the relation `_≤_` to be antisymmetric with respect to the underlying equality .
 
-A relation $_≤_$ is anti-symmetric over the underlying equality $_==_$, if for every $x, y$,
+A relation `_≤_` is anti-symmetric over the underlying equality `_==_`, if for every `x, y`,
 
 $$
 x ≤ y , y ≤ x ⟹ x == y
@@ -93,9 +93,9 @@ Total orders are binary relations `≤ : A → A` where:
 3. `≤` is antisymmetric, i.e. `x ≤ y and y ≤ x ⇒ x = y`
 4. `≤` is a total relation, i.e. `∀ x and y : x ≤ y or y ≤ x`
 
-Total orders are a further constrained subtype of posets. All pairs of elements contained in a poset need not be comparable. This is exactly what total orders represent. A total order is a total preorder, or the preorder's relation $_≤_$ to be a total function.
+Total orders are a further constrained subtype of posets. All pairs of elements contained in a poset need not be comparable. This is exactly what total orders represent. A total order is a total preorder, or the preorder's relation `_≤_` to be a total function.
 
-A relation $_≤_$ is total if $x ≤ y$ or $y ≤ x$. This relation has to exist between any pair of elements of `A`:
+A relation `_≤_` is total if `x ≤ y` or `y ≤ x`. This relation has to exist between any pair of elements of `A`:
 
 ```agda
   Total : {A : Set a} → Rel A ℓ → Set _

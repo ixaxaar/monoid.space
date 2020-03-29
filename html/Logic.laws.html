@@ -138,9 +138,6 @@
 <p><span class="math display">\[
 x ★ (y ★ z) ≡ (x ★ y) ★ z
 \]</span></p>
-<figure>
-<img src="associative.png" alt="" /><figcaption>Fig 1: Associative property</figcaption>
-</figure>
 <div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a>  associativity <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a>  associativity <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x y z <span class="ot">:</span> A<span class="ot">)</span></span>
 <span id="cb5-3"><a href="#cb5-3"></a>          <span class="ot">→</span> <span class="ot">(</span>x ★ <span class="ot">(</span>y ★ z<span class="ot">))</span></span>
@@ -149,9 +146,6 @@ x ★ (y ★ z) ≡ (x ★ y) ★ z
 <p><span class="math display">\[
 x ★ y ≡ y ★ x
 \]</span></p>
-<figure>
-<img src="commutative.png" alt="" /><figcaption>Fig 2: Commutative property</figcaption>
-</figure>
 <div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a>  commutativity <span class="ot">:</span> ★ A <span class="ot">→</span> <span class="dt">Set</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a>  commutativity <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x y <span class="ot">:</span> A<span class="ot">)</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a>          <span class="ot">→</span> <span class="ot">(</span>x ★ y<span class="ot">)</span></span>
@@ -160,9 +154,6 @@ x ★ y ≡ y ★ x
 <p><span class="math display">\[
 ( x ★ y ) ★ z ≡ x ★ y × y ★ z
 \]</span></p>
-<figure>
-<img src="distributive.png" alt="" /><figcaption>Fig 3: Distributive property</figcaption>
-</figure>
 <div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a>  <span class="ot">_</span>distributesOverˡ<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a>  <span class="ot">_</span>*<span class="ot">_</span> distributesOverˡ <span class="ot">_</span>+<span class="ot">_</span> <span class="ot">=</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a>    <span class="ot">∀</span> x y z <span class="ot">→</span> <span class="ot">(</span>x * <span class="ot">(</span>y + z<span class="ot">))</span> == <span class="ot">((</span>x * y<span class="ot">)</span> + <span class="ot">(</span>x * z<span class="ot">))</span></span>
@@ -177,9 +168,6 @@ x ★ y ≡ y ★ x
 <p><span class="math display">\[
 x ★ id_{★} ≡ x
 \]</span></p>
-<figure>
-<img src="identity.png" alt="" /><figcaption>Fig 4: Identity</figcaption>
-</figure>
 <p>These form the major laws of boolean algebra. There exists a bunch of others that we’ll also see here. Note that for non-commutative systems of algebra, identity can exist in two forms: right and left, similarly for directional operations like distributivity, inverses, etc.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a>  identityₗ <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a>  identityₗ x <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span>  <span class="ot">(</span>y <span class="ot">:</span> A<span class="ot">)</span></span>
@@ -197,9 +185,6 @@ x ★ id_{★} ≡ x
 <p><span class="math display">\[
 x ★ id ≡ x
 \]</span></p>
-<figure>
-<img src="elimination.png" alt="" /><figcaption>Fig 5: Elimination</figcaption>
-</figure>
 <div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1"></a>  leftZero <span class="ot">:</span> A <span class="ot">→</span> ★ A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb9-2"><a href="#cb9-2"></a>  leftZero z <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="ot">(</span>z ★ x<span class="ot">)</span> == z</span>
 <span id="cb9-3"><a href="#cb9-3"></a></span>
@@ -213,9 +198,6 @@ x ★ id ≡ x
 <p><span class="math display">\[
 x ∧ x ≡ x
 \]</span></p>
-<figure>
-<img src="idempotence.png" alt="" /><figcaption>Fig 6: Idempotence</figcaption>
-</figure>
 <div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1"></a>  <span class="ot">_</span>idempotentOn<span class="ot">_</span> <span class="ot">:</span> ★ A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb10-2"><a href="#cb10-2"></a>  <span class="ot">_</span>★<span class="ot">_</span> idempotentOn x <span class="ot">=</span> <span class="ot">(</span>x ★ x<span class="ot">)</span> == x</span>
 <span id="cb10-3"><a href="#cb10-3"></a></span>

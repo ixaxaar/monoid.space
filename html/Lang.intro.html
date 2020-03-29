@@ -93,10 +93,10 @@
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Lang<span class="ot">.</span>intro <span class="kw">where</span></span></code></pre></div>
-<p>The following work aims to be a primer and motivator for functional programmers to peer into the world of pure mathematics. This work specifically targets mature functional programmers who, while discovering and using libraries and constructs like <a href="https://typelevel.org/cats/">cats</a>, <a href="https://github.com/scalaz/scalaz">scalaz</a>, <a href="https://hackage.haskell.org/package/lens">lens</a>, <a href="https://wiki.haskell.org/All_About_Monads">monads</a> and various other functional constructs built into languages such as <a href="https://www.haskell.org/">haskell</a>, <a href="https://www.scala-lang.org/">scala</a>, <a href="https://clojure.org/">clojure</a>, <a href="https://www.rust-lang.org/">rust</a>, <a href="http://www.purescript.org/">purescript</a> and so on, have ended up with interest about the math behind them.</p>
+<p>The following work aims to be a primer and motivator for functional programmers to peer into the world of pure mathematics. This work is created by a functional programmer who, while discovering and using libraries and constructs like <a href="https://typelevel.org/cats/">cats</a>, <a href="https://github.com/scalaz/scalaz">scalaz</a>, <a href="https://hackage.haskell.org/package/lens">lens</a>, <a href="https://wiki.haskell.org/All_About_Monads">monads</a> and various other functional constructs built into languages such as <a href="https://www.haskell.org/">haskell</a>, <a href="https://www.scala-lang.org/">scala</a>, <a href="https://clojure.org/">clojure</a>, <a href="https://www.rust-lang.org/">rust</a>, <a href="http://www.purescript.org/">purescript</a> and so on, ended up with interest about the math behind them.</p>
 <h1 id="a-personal-journey">A Personal Journey</h1>
-<p>This work primarily stems from a personal journey of peering deeper into pure mathematics. The journey started as a curiosity into the functional programming paradigm, initially involving learning scala and basic PL theory such as <a href="https://en.wikipedia.org/wiki/Generic_programming">generics</a>, <a href="https://en.wikipedia.org/wiki/Parametric_polymorphism">parametric polymorphism</a> and the likes. Being a data engineer at that time, twitter’s work on designing metrics as monoids culminating in <a href="https://www.michael-noll.com/blog/2013/12/02/twitter-algebird-monoid-monad-for-large-scala-data-analytics/">Algebird</a> was something that had a lasting impression on my own work. This led me to explore libraries implementing bits of category theory such as <a href="https://github.com/milessabin/shapeless">shapeless</a> <a href="https://typelevel.org/cats/">cats</a>, <a href="https://twitter.github.io/algebird/datatypes/approx/hyperloglog.html">Algebird’s hyperloglog monoid</a>, <a href="https://github.com/scalaz/scalaz">scalaz</a> followed by several “for programmer” tutorials into category theory, notably the ones by <a href="https://www.youtube.com/user/DrBartosz/playlists">Bartosz Milewski</a>.Soon I had to learn haskell − it being more “pure” and having a stronger ecosystem of libraries with a more formal programming-language-theory flavor so as to have more things in this space to explore.</p>
-<p>In tandem, I picked up a few books on the subjects of abstract algebra and category theory to get a theoretical understanding of the “whole thing”:</p>
+<p>This work primarily stems from a personal journey of peering deeper into pure mathematics. The journey started in about 2014 partly as hatred toward the verbosity of java and as a curiosity into the functional programming paradigm made possible on the JVM through scala. Learning scala was soon followed by several PL treats such as <a href="https://en.wikipedia.org/wiki/Generic_programming">generics</a>, <a href="https://en.wikipedia.org/wiki/Parametric_polymorphism">parametric polymorphism</a> and the likes making my life easier. Being a data engineer at that time, twitter’s work on designing metrics as monoids and the <a href="https://www.michael-noll.com/blog/2013/12/02/twitter-algebird-monoid-monad-for-large-scala-data-analytics/">Algebird</a> project had a lasting impression on my own work. This led me to explore libraries implementing bits of category theory such as <a href="https://github.com/milessabin/shapeless">shapeless</a>, <a href="https://typelevel.org/cats/">cats</a>, <a href="https://twitter.github.io/algebird/datatypes/approx/hyperloglog.html">Algebird’s hyperloglog monoid</a>, <a href="https://github.com/scalaz/scalaz">scalaz</a> followed by several “for programmer” tutorials into category theory, notably the ones by <a href="https://www.youtube.com/user/DrBartosz/playlists">Bartosz Milewski</a>. Soon I had to learn haskell − it being more “pure” and having a stronger ecosystem of libraries with a more formal programming-language-theory flavor so as to have more things accessible to explore.</p>
+<p>In tandem, I started a parallel hobby-type thing where I picked up a few books on the subjects of abstract algebra and category theory to get a theoretical understanding of the “whole thing”:</p>
 <ul class="task-list">
 <li><input type="checkbox" disabled="" checked="" />
 Category Theory for Programmers ~ Milewski (<a href="https://github.com/hmemcpy/milewski-ctfp-pdf">repo</a>)</li>
@@ -109,7 +109,7 @@ Categories for the Working Mathematician ~ Mac Lane (<a href="https://en.wikiped
 <li><input type="checkbox" disabled="" checked="" />
 Algebra ~ Lang (<a href="https://www.springer.com/gp/book/9780387953854">link</a>)</li>
 </ul>
-<p>After that I turned toward some PL-theory:</p>
+<p>After trudging through some parts of the above books and getting a “feel” and practice of the mathematics in them, specifically category theory in various contexts, I turned toward some PL-theory:</p>
 <ul class="task-list">
 <li><input type="checkbox" disabled="" checked="" />
 Practical Foundations for Programming Languages ~ Harper (<a href="https://www.cs.cmu.edu/~rwh/pfpl/">link</a>)</li>
@@ -125,7 +125,13 @@ Robert Harper’s lectures on:<ul class="task-list">
 <a href="https://www.youtube.com/playlist?list=PLLHd8G9sGDBPF4-f2tmY_p5qWzZ1Vl1TA">Category Theory</a></li>
 </ul></li>
 </ul>
-<p>Followed by some “time off” into other areas of math:</p>
+<p>By 2018, I decided to converge some aspects of my programming job with the act of taking math notes. After I came to know of Agda’s capability to compile code in markdown docs (being a huge proponent of markdown for documentation), I decided to learn agda and concurrently document and code my exploration path into a series of notes, which ended up being this work.</p>
+<p>One fine day, I saw this new “foundations of mathematics” thing, which apparently “cool kids” were reading on twitter. On further searching followed by reading online, I ended up ordering 2 copies from different sources, one of them never got delivered:</p>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" checked="" />
+Homotopy Type Theory ~ Univalent Foundations of Mathematics (<a href="https://homotopytypetheory.org/book/">link</a>)</li>
+</ul>
+<p>It took me a few months to read and grasp what was going on in that book. After spending considerable amounts of time through various other notes, mathoverflow, nlab, arxiv, I ended up with the feeling that I knew nothing about geometry and in no way could grasp homotopy theory. I took some time off in 2019 as these notes grew in volume and it became increasingly difficult to code them. During that time off I decided to cover some ground in geometry:</p>
 <ul class="task-list">
 <li><input type="checkbox" disabled="" checked="" />
 An Introduction to Manifolds ~ Tu (<a href="https://www.springer.com/gp/book/9781441973993">link</a>)</li>
@@ -134,12 +140,7 @@ A Comprehensive Introduction to Differential Geometry Volume I ~ Spivak (<a href
 <li><input type="checkbox" disabled="" checked="" />
 A Concise Course in Algebraic Topology ~ May (<a href="https://www.math.uchicago.edu/~may/CONCISE/ConciseRevised.pdf">pdf</a>)</li>
 </ul>
-<p>The “time off” ended upon discovering this new “foundations of mathematics” thing seen of twitter, materialized into 2 copies ordered from different sources, one of them never got delivered:</p>
-<ul class="task-list">
-<li><input type="checkbox" disabled="" checked="" />
-Homotopy Type Theory ~ Univalent Foundations of Mathematics (<a href="https://homotopytypetheory.org/book/">link</a>)</li>
-</ul>
-<p>As things started getting more cutting-edge, it has mostly been a paper and articles reading affair since then. Major ones being:</p>
+<p>After going through these I finally was able to have at least a sketchy view of homotopy type theory, higher category theory and higher topos theory. As things started getting more cutting-edge, I’ve mostly ended up printing and reading through various parts of:</p>
 <ul class="task-list">
 <li><input type="checkbox" disabled="" checked="" />
 nLab (<a href="https://ncatlab.org/nlab/show/HomePage">link</a>)</li>
@@ -169,6 +170,7 @@ Differential cohomology in a cohesive ∞-topos ~ Schreiber (<a href="https://ar
 <li><input type="checkbox" disabled="" />
 Quantum Gauge Field Theory in Cohesive Homotopy Type Theory ~ Schreiber (<a href="https://arxiv.org/pdf/1408.0054.pdf">pdf</a>)</li>
 </ul>
+<p>Meanwhile I try to play catchup with this work and sometimes re-do some parts as my understanding gets clearer and sometimes implement new stuff as and when I have time (and patience). The direction I’ve been following here is if I could implement real numbers, followed by manifolds and such, I perhaps could attempt to implement gauge theories or Supermanifolds albeit it would take me a few years at least. I also need to finish a lot of TODOs. 😛</p>
 <p>It has been almost 4 years now, and the “whole thing” does not seem to have an end!</p>
 <h1 id="who-is-this-for">Who is this for</h1>
 <p>This work is intended to be a resource for anyone (like me) making a foray into pure mathematics. The “like me” here implies someone who:</p>

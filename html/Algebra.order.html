@@ -118,24 +118,24 @@
 <tbody>
 <tr class="odd">
 <td>Pre-order</td>
-<td>:heavy_check_mark:</td>
-<td>:heavy_check_mark:</td>
+<td>★</td>
+<td>★</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="even">
 <td>Partial-order</td>
-<td>:heavy_check_mark:</td>
-<td>:heavy_check_mark:</td>
-<td>:heavy_check_mark:</td>
+<td>★</td>
+<td>★</td>
+<td>★</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>Total order</td>
-<td>:heavy_check_mark:</td>
-<td>:heavy_check_mark:</td>
-<td>:heavy_check_mark:</td>
-<td>:heavy_check_mark:</td>
+<td>★</td>
+<td>★</td>
+<td>★</td>
+<td>★</td>
 </tr>
 </tbody>
 </table>
@@ -158,8 +158,8 @@
 <li><code>≤</code> is transitive, i.e. <code>x ≤ y and y ≤ z ⇒ x ≤ z</code></li>
 <li><code>≤</code> is antisymmetric, i.e. <code>x ≤ y and y ≤ x ⇒ x = y</code></li>
 </ol>
-<p>A partial order, or partially ordered set or Poset, is an antisymmetric preorder. In plain words, we require the relation <span class="math inline">\(_≤_\)</span> to be antisymmetric with respect to the underlying equality .</p>
-<p>A relation <span class="math inline">\(_≤_\)</span> is anti-symmetric over the underlying equality <span class="math inline">\(_==_\)</span>, if for every <span class="math inline">\(x, y\)</span>,</p>
+<p>A partial order, or partially ordered set or Poset, is an antisymmetric preorder. In plain words, we require the relation <code>_≤_</code> to be antisymmetric with respect to the underlying equality .</p>
+<p>A relation <code>_≤_</code> is anti-symmetric over the underlying equality <code>_==_</code>, if for every <code>x, y</code>,</p>
 <p><span class="math display">\[
 x ≤ y , y ≤ x ⟹ x == y
 \]</span></p>
@@ -178,8 +178,8 @@ x ≤ y , y ≤ x ⟹ x == y
 <li><code>≤</code> is antisymmetric, i.e. <code>x ≤ y and y ≤ x ⇒ x = y</code></li>
 <li><code>≤</code> is a total relation, i.e. <code>∀ x and y : x ≤ y or y ≤ x</code></li>
 </ol>
-<p>Total orders are a further constrained subtype of posets. All pairs of elements contained in a poset need not be comparable. This is exactly what total orders represent. A total order is a total preorder, or the preorder’s relation <span class="math inline">\(_≤_\)</span> to be a total function.</p>
-<p>A relation <span class="math inline">\(_≤_\)</span> is total if <span class="math inline">\(x ≤ y\)</span> or <span class="math inline">\(y ≤ x\)</span>. This relation has to exist between any pair of elements of <code>A</code>:</p>
+<p>Total orders are a further constrained subtype of posets. All pairs of elements contained in a poset need not be comparable. This is exactly what total orders represent. A total order is a total preorder, or the preorder’s relation <code>_≤_</code> to be a total function.</p>
+<p>A relation <code>_≤_</code> is total if <code>x ≤ y</code> or <code>y ≤ x</code>. This relation has to exist between any pair of elements of <code>A</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a>  Total <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> Rel A ℓ <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a>  Total <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x ∼ y<span class="ot">)</span> ∪ <span class="ot">(</span>y ∼ x<span class="ot">)</span></span></code></pre></div>
 <p>We can now define total orders:</p>

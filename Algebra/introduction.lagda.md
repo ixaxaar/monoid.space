@@ -50,4 +50,4 @@ We can always mix and match and create objects of higher complexity. There are a
 So far we have had a glimpse of boolean algebra. Here we start to dive into more complex structures. Most of these structures are constructed by picking and choosing certain underlying laws or properties of these objects' APIs. We first start with building such laws. Many of these laws are similar to the ones of logic that we derived in a [previous part](./Logic.laws.html/#operations).
 
 ****
-[Operations](./Algebra.operations.html)
+[Order](./Algebra.order.html)

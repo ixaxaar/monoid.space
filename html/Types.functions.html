@@ -140,9 +140,6 @@
 λx. (λx.y).ϕ
 \]</span></p>
 <p>Another notation is to use <span class="math inline">\(\Pi_{x : A} B(x)\)</span>, mostly used in type theory to denote Π-types. Functions of higher arity then take the form <span class="math inline">\(\Pi_{x : A}\Pi_{y : B(x)} D(y)\)</span> and so on.</p>
-<figure>
-<img src="dependent_function.png" alt="" /><figcaption>Figure 1: Dependent Function</figcaption>
-</figure>
 <p>To show how to use this type, we construct an example:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">-- divide by 2</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a>divBy2 <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ</span>

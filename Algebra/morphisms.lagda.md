@@ -61,8 +61,6 @@ $$
 ∀ x₁, x₂ ∈ X, 𝔽⟦ x₁ • x₂ ⟧ = 𝔽⟦ x₁ ⟧ ∘ 𝔽⟦ x₂ ⟧
 $$
 
-![Group Homomorphism](homomorphism.png)
-
 The basic rules for any morphism to be a homomorphism are if it:
 
 1. Preserves identity

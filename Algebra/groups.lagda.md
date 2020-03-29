@@ -275,7 +275,7 @@ where:
     isCommutativeMonoid : IsCommutativeMonoid ∙ x
     isCommutativeMonoid = record
       { isMonoid = isMonoid
-      ; comm        = comm
+      ; comm = comm
       }
 ```
 

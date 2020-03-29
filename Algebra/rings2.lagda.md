@@ -329,4 +329,4 @@ record CommutativeRing c ℓ : Set (lsuc (c ⊔ ℓ)) where
 ```
 
 ****
-[Fields and Real Numbers](./Algebra.real.html)
+[Fields](./Algebra.fields.html)
