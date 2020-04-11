@@ -71,9 +71,9 @@
   - [~~Field Morphisms~~](./Algebra.field_morphisms.html)
   - [Numbers](./Algebra.numbers.html)
 
-## 6. Algebraic Geometry
+## 6. Algebraic Topology
 
--
+- [Introduction](./AlgTopos/introduction.html)
 
 ## 7. Homotopy Type Theory
 
@@ -135,15 +135,6 @@ import Types.patterns
 import Types.equational
 import Types.equational2
 
-import AppliedTypes.introduction
-import AppliedTypes.godels_t
-import AppliedTypes.system_f
-import AppliedTypes.bitcoin
-import AppliedTypes.verified_programming
-
-import HoTT.introduction
-import HoTT.identity
-
 import Logic.introduction
 import Logic.logicBasics
 import Logic.equality
@@ -160,6 +151,17 @@ import Algebra.rings2
 import Algebra.fields
 import Algebra.fields2
 import Algebra.numbers
+
+import HoTT.introduction
+import HoTT.identity
+
+import AlgTopos.introduction
+
+import AppliedTypes.introduction
+import AppliedTypes.godels_t
+import AppliedTypes.system_f
+import AppliedTypes.bitcoin
+import AppliedTypes.verified_programming
 ```
 
 ****

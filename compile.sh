@@ -27,20 +27,11 @@ declare -a files=(
   "Types/equational"
   "Types/equational2"
 
-  "AppliedTypes/introduction"
-  "AppliedTypes/godels_t"
-  "AppliedTypes/system_f"
-  "AppliedTypes/bitcoin"
-  "AppliedTypes/verified_programming"
-
   "Logic/introduction"
   "Logic/logicBasics"
   "Logic/equality"
   "Logic/laws"
   "Logic/decidability"
-
-  "HoTT/introduction"
-  "HoTT/identity"
 
   "Algebra/introduction"
   "Algebra/order"
@@ -52,6 +43,17 @@ declare -a files=(
   "Algebra/fields"
   "Algebra/fields2"
   "Algebra/numbers"
+
+  "AlgTopos/introduction"
+
+  "HoTT/introduction"
+  "HoTT/identity"
+
+  "AppliedTypes/introduction"
+  "AppliedTypes/godels_t"
+  "AppliedTypes/system_f"
+  "AppliedTypes/bitcoin"
+  "AppliedTypes/verified_programming"
 )
 
 stack build

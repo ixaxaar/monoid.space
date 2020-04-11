@@ -88,17 +88,17 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
 <ul>
-<li><a href="#algebraic-structures">Algebraic structures</a></li>
+<li><a href="#abstract-algebra">Abstract Algebra</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<h1 id="algebraic-structures">Algebraic structures</h1>
+<h1 id="abstract-algebra">Abstract Algebra</h1>
 <div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Algebra<span class="ot">.</span>introduction <span class="kw">where</span></span></code></pre></div>
 <p>Algebra is essentially any system dealing with</p>
 <ul>
 <li>Abstract symbols as objects</li>
 <li>APIs - rules, laws, or in general, operations for manipulating such symbols</li>
 </ul>
-<p>Each algebra behaves more like a <a href="https://en.wikipedia.org/wiki/Domain-specific_language">DSL</a>, consisting of a structure (a type) and a bunch of operations packaged together. The algebra that we generally know of are linear, matrix, complex, vector and boolean algebras, all of which deal with real or natural numbers based objects (e.g. matrices or complex numbers) and build on top of their four operations (+,−,★,÷). The field of abstract algebra introduces a variety of more abstract, and arguably more simpler structures than real number systems.</p>
+<p>Each algebra behaves more like a <a href="https://en.wikipedia.org/wiki/Domain-specific_language">DSL</a>, consisting of a set of objects of a type and a bunch of operations packaged together. The algebra that we generally know of are linear, matrix, complex, vector and boolean algebras, all of which deal with real or natural numbers based objects (e.g. matrices or complex numbers) and build on top of their four operations (+,−,★,÷). The field of abstract algebra introduces a variety of more abstract, and arguably more simpler structures than real number systems.</p>
 <p>Objects when considered together with some operations give rise to complex structures and allow a bunch of laws and other machinery to be built on top of them.</p>
 <p>Consider natural numbers and the operation of addition for example, for any two natural numbers <code>x</code> and <code>y</code> and the addition operation <code>+</code>, <span class="math inline">\(x + y\)</span> is always a natural number. Also, the following laws are always followed: <span class="math display">\[
 x + y = y + x \\
