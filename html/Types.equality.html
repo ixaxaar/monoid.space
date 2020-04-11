@@ -180,7 +180,7 @@
 <p>We first re-define propositional equality within the framework of universe polymorphism:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≡<span class="ot">_</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> a <span class="kw">where</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a>  instance refl <span class="ot">:</span> x ≡ x</span></code></pre></div>
+<span id="cb8-3"><a href="#cb8-3"></a>  <span class="kw">instance</span> refl <span class="ot">:</span> x ≡ x</span></code></pre></div>
 <h3 id="types-of-relations">Types of relations</h3>
 <h3 id="nullary-relations">Nullary relations</h3>
 <p>Nullary relations are functions that can take any object and return an empty set <code>∅</code>:</p>

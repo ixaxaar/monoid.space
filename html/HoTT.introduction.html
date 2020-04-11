@@ -104,11 +104,10 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="homotopy-type-theory">Homotopy Type Theory</h1>
 <div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> HoTT<span class="ot">.</span>introduction <span class="kw">where</span></span></code></pre></div>
-<p>Homotopy type theory (HoTT) is a mathematical framework that treats types as spaces and one can apply the machinery of homotopy theory over those spaces. Homotopy theory is a part of algebraic geometry which deals with paths and functions between paths. HoTT essentially enables one to use the API of homotopy theory by letting us treat types as spaces. This allows us to implement homotopy theory using type theory in agda while connecting vast areas of mathematics. We see a glimpse of the entire structure here and then proceed to tackle each one individually in agda.</p>
+<p>Homotopy type theory (HoTT) is a mathematical framework and a flavor of Type Theory that treats types as spaces (“space” as in abstract geometry) and one can apply the machinery of homotopy theory over those spaces. Homotopy theory is a part of algebraic geometry which deals with functions between topological spaces. HoTT essentially enables one to use the API of homotopy theory by letting us treat types as spaces.</p>
 <h1 id="homotopy-theory">Homotopy Theory</h1>
 <h2 id="fields-spaces-points-paths">Fields, Spaces, Points, Paths</h2>
-<p>A field (more force-field than data field) is a set of objects that support or permit addition, subtraction, division and multiplication. Real numbers, rational numbers and complex numbers are some such “set of objects” which we use widely and which can form fields.</p>
-<p>An n-dimensional space can be thought as a collection of n numbers from a field and n directions or bases. Thus we can construct spaces from fields. For e.g. any point in 2-dimensional space of real numbers ℝ can be represented as <span class="math inline">\(a × x + b × y\)</span> where <span class="math inline">\(a, b ∈ ℝ\)</span>.</p>
+<p>An n-dimensional space can be thought as a collection of n numbers from a <a href="./Algebra.fields.html">field</a> and n directions or bases. Thus we can construct spaces from fields. For e.g. any point in 2-dimensional space of real numbers ℝ can be represented as <span class="math inline">\(a × x + b × y\)</span> where <span class="math inline">\(a, b ∈ ℝ\)</span>.</p>
 <p>A path is a line joining two points. This path can be of any shape, be it a straight line or an extremely squiggly one.</p>
 <figure>
 <img src="./pathType.png" alt="" /><figcaption>Figure 1: Path</figcaption>

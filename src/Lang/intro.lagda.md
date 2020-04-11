@@ -55,7 +55,7 @@ It took me a few months to read and grasp what was going on in that book. After 
 After going through these I finally was able to have at least a sketchy view of homotopy type theory, higher category theory and higher topos theory. As things started getting more cutting-edge, I've mostly ended up printing and reading through various parts of:
 
 - [x] nLab ([link](https://ncatlab.org/nlab/show/HomePage))
-- [x] Infinite Paper Napkin ([likn](https://web.evanchen.cc/napkin.html))
+- [x] Infinite Paper Napkin ([link](https://web.evanchen.cc/napkin.html))
 - [x] The Stacks Project ([link](https://stacks.math.columbia.edu/browse))
 
 Of late, I stumbled upon this work on mathematical physics:

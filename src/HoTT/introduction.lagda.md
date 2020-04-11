@@ -25,15 +25,13 @@
 module HoTT.introduction where
 ```
 
-Homotopy type theory (HoTT) is a mathematical framework that treats types as spaces and one can apply the machinery of homotopy theory over those spaces. Homotopy theory is a part of algebraic geometry which deals with paths and functions between paths. HoTT essentially enables one to use the API of homotopy theory by letting us treat types as spaces. This allows us to implement homotopy theory using type theory in agda while connecting vast areas of mathematics. We see a glimpse of the entire structure here and then proceed to tackle each one individually in agda.
+Homotopy type theory (HoTT) is a mathematical framework and a flavor of Type Theory that treats types as spaces ("space" as in abstract geometry) and one can apply the machinery of homotopy theory over those spaces. Homotopy theory is a part of algebraic geometry which deals with functions between topological spaces. HoTT essentially enables one to use the API of homotopy theory by letting us treat types as spaces.
 
 # Homotopy Theory
 
 ## Fields, Spaces, Points, Paths
 
-A field (more force-field than data field) is a set of objects that support or permit addition, subtraction, division and multiplication. Real numbers, rational numbers and complex numbers are some such "set of objects" which we use widely and which can form fields.
-
-An n-dimensional space can be thought as a collection of n numbers from a field and n directions or bases. Thus we can construct spaces from fields. For e.g. any point in 2-dimensional space of real numbers ℝ can be represented as $a × x + b × y$ where $a, b ∈ ℝ$.
+An n-dimensional space can be thought as a collection of n numbers from a [field](./Algebra.fields.html) and n directions or bases. Thus we can construct spaces from fields. For e.g. any point in 2-dimensional space of real numbers ℝ can be represented as $a × x + b × y$ where $a, b ∈ ℝ$.
 
 A path is a line joining two points. This path can be of any shape, be it a straight line or an extremely squiggly one.
 

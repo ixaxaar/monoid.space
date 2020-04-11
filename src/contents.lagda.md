@@ -1,3 +1,7 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+****
+
 ****
 
 # Contents
@@ -67,10 +71,14 @@
   - [~~Field Morphisms~~](./Algebra.field_morphisms.html)
   - [Numbers](./Algebra.numbers.html)
 
-## 6. Homotopy Type Theory
+## 6. Algebraic Geometry
 
-  - [Introduction](./HoTT.introduction.html)
-  - [Identity Types and Paths](./HoTT.identity.html)
+-
+
+## 7. Homotopy Type Theory
+
+  - [~~Introduction~~](./HoTT.introduction.html)
+  - [~~Identity Types and Paths~~](./HoTT.identity.html)
   - [~~Connected spaces~~](./HoTT.paths.html)
   - [~~The Univalence Principle~~](./HoTT.univalance.html)
   - [~~The Fundamental Group and Groupoid~~](./HoTT.fundamentalGroup.html)
@@ -88,19 +96,15 @@
 
 ## β. Category Theory
 
-- Categories and morphisms
-- Functors
-- Natural transformation
-- Yoneda Lemma
-- Limits and Co-Limits
-- Adjunctions
-- Ends and Co-Ends
-- Kan Extensions
-- The (∞,1)-category and Higher Category Theory
-
-## δ. Supergeometry
-
-- The ∞-stack
+  - [~~Categories and morphisms~~](./Cat.Categories.html)
+  - [~~Functors~~](./Cat.Functors.html)
+  - [~~Natural transformation~~](./Cat.Natural_Transformation.html)
+  - [~~Yoneda Lemma~~](./Cat.Yoneda_Lemma.html)
+  - [~~Limits and Co-Limits~~](./Cat.Limits.html)
+  - [~~Adjunctions~~](./Cat.Adjunctions.html)
+  - [~~Ends and Co-Ends~~](./Cat.Ends.html)
+  - [~~Kan Extensions~~](./Cat.Kan_Extensions.html)
+  - [~~The (∞,1)-category and Higher Category Theory~~](./Cat.Higher.html)
 
 [Go up](contents.html)
 [Gitlab](https://gitlab.com/ixaxaar/monoid.space)
