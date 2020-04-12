@@ -29,7 +29,7 @@ open import Lang.dataStructures using (
 
 open import Agda.Primitive using (Level; _⊔_; lsuc)
 
-open import Types.equality using (IsEquivalence; _≡_; Rel)
+open import Types.equality
 open import Types.product using (Σ; _,_; fst; snd)
 open import Types.functions
 open import Types.equational

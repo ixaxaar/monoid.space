@@ -100,15 +100,16 @@
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="groups-and-family">Groups and family</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">renaming</span> <span class="ot">(</span>refl <span class="kw">to</span> ≡-refl<span class="ot">)</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product</span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">module</span> Algebra<span class="ot">.</span>groups <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(_</span>==<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a></span>
-<span id="cb1-9"><a href="#cb1-9"></a>  <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>operations <span class="ot">(_</span>==<span class="ot">_)</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">renaming</span> <span class="ot">(</span>refl <span class="kw">to</span> ≡-refl<span class="ot">)</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="kw">module</span> Algebra<span class="ot">.</span>groups <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(_</span>==<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a>  <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>operations <span class="ot">(_</span>==<span class="ot">_)</span></span></code></pre></div>
 <p>Group-like objects form another family of objects probed in abstract algebra. They have a similar pattern of building like ordered objects but are more complex. This family contains of a set of type <code>A</code> and a binary operation <code>⋅</code> defined on that set which satisfy a bunch of properties. As there are a large number of properties to choose from, one can end up with a large number of families, however here we describe only a few that generally matter.</p>
 <table>
 <thead>

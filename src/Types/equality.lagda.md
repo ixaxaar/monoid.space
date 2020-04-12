@@ -15,13 +15,8 @@
     - [Transitivity](#transitivity)
     - [Congruence: functions that preserve equality](#congruence-functions-that-preserve-equality)
     - [Substitution](#substitution)
-- [Relations, with universe polymorphism](#relations-with-universe-polymorphism)
+- [Equivalence, with universe polymorphism](#equivalence-with-universe-polymorphism)
     - [Equality](#equality)
-    - [Types of relations](#types-of-relations)
-    - [Nullary relations](#nullary-relations)
-    - [Unary relations](#unary-relations)
-    - [Binary relations](#binary-relations)
-    - [Properties of binary relations](#properties-of-binary-relations)
     - [Properties of equality](#properties-of-equality)
 - [Setoids](#setoids)
 
@@ -38,10 +33,9 @@ open import Lang.dataStructures using (
   ⟂; ⊤; ℕ; List;
   one; two; three; four; five; six; seven; eight; nine; ten; zero; succ; _+_;
   _::_; [])
-
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
-
 open import Types.functions using (_on_; flip)
+open import Types.relations
 ```
 
 Equality is perhaps one of the most richest but most naively understood concepts. Here we try to provide some structural analysis as to what equality really means in various contexts of mathematics. Equality is treated as a relation in type theory and can be classified broadly as of three kinds:
@@ -131,7 +125,7 @@ substitution Predicate same p = p
 
 Any relation which satisfies the above properties of `reflexivity`, `transitivity` and `symmetry` can be considered an equivalence relation and hence can judge a propositional equality.
 
-# Relations, with universe polymorphism
+# Equivalence, with universe polymorphism
 
 We now present a more formal machinery for relations. We use [universe polymorphism](Types.universe.html#universe-polymorphism) throughout to develop this machinery.
 
@@ -145,146 +139,7 @@ data _≡_ {a} {A : Set a} (x : A) : A → Set a where
   instance refl : x ≡ x
 ```
 
-### Types of relations
-
-### Nullary relations
-
-Nullary relations are functions that can take any object and return an empty set `∅`:
-
-```agda
-¬  : ∀ {ℓ} → Set ℓ → Set ℓ
-¬ P = P → ⟂
-```
-
-### Unary relations
-
-In logic, a predicate can essentially be defined as a function that returns a binary value - whether the proposition that the predicate represents is true or false. In type theory, however, we define predicate in a different way. A predicate for us is a function that exists (and hence, is true):
-
-```agda
-Pred : ∀ {a} → Set a → (ℓ : Level) → Set (a ⊔ lsuc ℓ)
-Pred A ℓ = A → Set ℓ
-```
-
-The empty (or false) predicate becomes:
-
-```agda
-∅ : ∀ {a} {A : Set a} → Pred A lzero
-∅ = λ _ → ⟂
-```
-
-The singleton predicate (constructor):
-
-```agda
-is_sameAs : ∀ {a} {A : Set a}
-        → A
-        → Pred A a
-is x sameAs = x ≡_
-```
-
-```agda
-equal? : is six sameAs (succ five)
-equal? = refl
-```
-
-### Binary relations
-
-A heterogeneous binary relation is defined as:
-
-```agda
-REL : ∀ {a b} → Set a → Set b → (ℓ : Level) → Set (a ⊔ b ⊔ lsuc ℓ)
-REL A B ℓ = A → B → Set ℓ
-```
-
-and a homogenous one as:
-
-```agda
-Rel : ∀ {a} → Set a → (ℓ : Level) → Set (a ⊔ lsuc ℓ)
-Rel A ℓ = REL A A ℓ
-```
-
-### Properties of binary relations
-
-In type theory, an implication $ A ⟹ B $ is just a function type $ f: A → B $, and if `f` exists, the implication does too. We define implication between two relations in agda as:
-
-```agda
-_⇒_ : ∀ {a b ℓ₁ ℓ₂} {A : Set a} {B : Set b}
-        → REL A B ℓ₁
-        → REL A B ℓ₂
-        → Set _
-P ⇒ Q = ∀ {i j} → P i j → Q i j
-```
-
-A function `f : A → B` is invariant to two homogenous relations `Rel A ℓ₁` and `Rel B ℓ₂` if $ ∀ x, y ∈ A ~and~ f(x), f(y) ∈ B, f(Rel x y) ⟹ (Rel f(x) f(y)) $:
-
-```agda
-_=[_]⇒_ : ∀ {a b ℓ₁ ℓ₂} {A : Set a} {B : Set b}
-          → Rel A ℓ₁
-          → (A → B)
-          → Rel B ℓ₂
-          → Set _
-P =[ f ]⇒ Q = P ⇒ (Q on f)
-```
-
-A function `f` preserves an underlying relation while operating on a datatype if:
-
-```agda
-_Preserves_⟶_ : ∀ {a b ℓ₁ ℓ₂} {A : Set a} {B : Set b}
-        → (A → B)
-        → Rel A ℓ₁
-        → Rel B ℓ₂
-        → Set _
-f Preserves P ⟶ Q = P =[ f ]⇒ Q
-```
-
-Similarly, a binary operation `_+_` preserves the underlying relation if:
-
-```agda
-_Preserves₂_⟶_⟶_ : ∀ {a b c ℓ₁ ℓ₂ ℓ₃} {A : Set a} {B : Set b} {C : Set c}
-        → (A → B → C)
-        → Rel A ℓ₁
-        → Rel B ℓ₂
-        → Rel C ℓ₃
-        → Set _
-_+_ Preserves₂ P ⟶ Q ⟶ R = ∀ {x y u v} → P x y → Q u v → R (x + u) (y + v)
-```
-
-Properties of binary relations:
-
-```agda
-Reflexive : ∀ {a ℓ} {A : Set a}
-        → Rel A ℓ
-        → Set _
-Reflexive _∼_ = ∀ {x} → x ∼ x
-```
-
-```agda
-Sym : ∀ {a b ℓ₁ ℓ₂} {A : Set a} {B : Set b}
-        → REL A B ℓ₁
-        → REL B A ℓ₂
-        → Set _
-Sym P Q = P ⇒ flip Q
-
-Symmetric : ∀ {a ℓ} {A : Set a}
-        → Rel A ℓ
-        → Set _
-Symmetric _∼_ = Sym _∼_ _∼_
-```
-
-```agda
-Trans : ∀ {a b c ℓ₁ ℓ₂ ℓ₃} {A : Set a} {B : Set b} {C : Set c}
-        → REL A B ℓ₁
-        → REL B C ℓ₂
-        → REL A C ℓ₃
-        → Set _
-Trans P Q R = ∀ {i j k} → P i j → Q j k → R i k
-
-Transitive : ∀ {a ℓ} {A : Set a}
-        → Rel A ℓ
-        → Set _
-Transitive _∼_ = Trans _∼_ _∼_ _∼_
-```
-
-Finally, we define an equivalence relation for binary relations:
+And an equivalence relation for binary relations:
 
 ```agda
 record IsEquivalence {a ℓ} {A : Set a}

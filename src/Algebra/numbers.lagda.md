@@ -28,6 +28,7 @@ open import Logic.logicBasics using (if_then_else_)
 open import Lang.dataStructures using (Bool; true; false)
 
 open import Types.product
+open import Types.relations
 open import Types.equality
 
 module Algebra.numbers {a ℓ} {A : Set a} (_==_ : Rel A ℓ) where

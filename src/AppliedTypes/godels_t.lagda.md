@@ -17,7 +17,8 @@
 # Gödel's T
 
 ```agda
-open import Types.equality renaming (¬ to ¬-eq)
+open import Types.relations renaming (¬_ to ¬-eq_)
+open import Types.equality
 open import Level using (0ℓ)
 open import Types.product using (_∪_)
 

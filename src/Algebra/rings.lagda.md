@@ -41,6 +41,7 @@ Examples of rings would be natural, real, complex and rational numbers. Any alge
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 
 open import Types.product
+open import Types.relations
 open import Types.equality
 
 module Algebra.rings {a ℓ} {A : Set a} (_==_ : Rel A ℓ) where

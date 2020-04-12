@@ -109,9 +109,10 @@
 <span id="cb1-11"><a href="#cb1-11"></a>  not<span class="ot">;</span> contradiction<span class="ot">;</span> contrapos<span class="ot">;</span></span>
 <span id="cb1-12"><a href="#cb1-12"></a>  <span class="ot">_</span>then<span class="ot">_</span>else<span class="ot">_)</span></span>
 <span id="cb1-13"><a href="#cb1-13"></a></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">using</span> <span class="ot">(_</span>≡<span class="ot">_;</span> Rel<span class="ot">;</span> REL<span class="ot">)</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a></span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="kw">module</span> Logic<span class="ot">.</span>decidability <span class="kw">where</span></span></code></pre></div>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations <span class="kw">using</span> <span class="ot">(</span>Rel<span class="ot">;</span> REL<span class="ot">)</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">using</span> <span class="ot">(_</span>≡<span class="ot">_)</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="kw">module</span> Logic<span class="ot">.</span>decidability <span class="kw">where</span></span></code></pre></div>
 <p>Relations can de defined either as an inductive data type − the existence of the type implies that the relation exists. We say that the data type provides a <strong>witness</strong> that the relation is valid. The other way is to define relations as functions that compute whether the relation holds.</p>
 <p>Consider the relation <code>_&lt;=_</code>. If we have to prove that <code>2 &lt;= 4</code>, we can do that in two ways:</p>
 <h2 id="evidence-based">1. Evidence based</h2>

@@ -31,7 +31,8 @@ open import Logic.logicBasics using (
   not; contradiction; contrapos;
   _then_else_)
 
-open import Types.equality using (_≡_; Rel; REL)
+open import Types.relations using (Rel; REL)
+open import Types.equality using (_≡_)
 
 module Logic.decidability where
 ```

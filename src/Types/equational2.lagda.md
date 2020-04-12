@@ -22,6 +22,7 @@
 module Types.equational2 where
 
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
+open import Types.relations
 open import Types.equality
 open import Types.product using (Σ; _,_)
 ```

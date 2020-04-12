@@ -73,7 +73,7 @@
 
 ## 6. Algebraic Topology
 
-- [Introduction](./AlgTopos/introduction.html)
+- [Introduction](./AlgTopos.introduction.html)
 
 ## 7. Homotopy Type Theory
 

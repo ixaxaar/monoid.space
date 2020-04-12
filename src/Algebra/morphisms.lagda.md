@@ -28,7 +28,8 @@
 module Algebra.morphisms where
 
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
-open import Types.equality using (Rel; _Preserves_⟶_)
+open import Types.relations
+open import Types.equality
 
 open import Algebra.groups
 open import Algebra.groups2

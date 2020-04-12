@@ -20,7 +20,8 @@
 ```agda
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 
-open import Types.equality using (IsEquivalence; Reflexive; Symmetric; Transitive; Rel; _⇒_)
+open import Types.relations
+open import Types.equality
 open import Types.product using (Σ; _,_; _∪_)
 
 module Algebra.order {a ℓ} {A : Set a} (_==_ : Rel A ℓ) where

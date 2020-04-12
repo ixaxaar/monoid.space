@@ -19,6 +19,7 @@
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 
 open import Types.product
+open import Types.relations
 open import Types.equality
 
 module Algebra.fields {a ℓ} {A : Set a} (_==_ : Rel A ℓ) where

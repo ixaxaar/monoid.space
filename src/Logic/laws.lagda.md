@@ -32,9 +32,8 @@ module Logic.laws where
 
 open import Lang.dataStructures using (Bool; true; false)
 open import Types.product using (_×_; _,_)
-open import Types.relations using (Rel; Equivalence)
 open import Logic.logicBasics using (¬; not; xor; ⟂; ⊤; singleton)
-open import Logic.equality using (Equiv; _≡_)
+open import Logic.equality using (Equiv; _≡_; Rel; Equivalence)
 ```
 
 ## Monotone Laws

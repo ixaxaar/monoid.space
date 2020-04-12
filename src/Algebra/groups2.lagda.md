@@ -29,7 +29,8 @@ module Algebra.groups2 where
 
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 
-open import Types.equality using (Rel)
+open import Types.relations
+open import Types.equality
 open import Algebra.groups
 ```
 

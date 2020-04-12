@@ -21,6 +21,7 @@
 # Groups and family
 
 ```agda
+open import Types.relations
 open import Types.equality renaming (refl to ≡-refl)
 open import Types.functions
 open import Types.product

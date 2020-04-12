@@ -35,6 +35,7 @@ An operation can be thought of as a map between types with an arity. Operations 
 Operations of higher arity can be decomposed into ones of lower arity, with currying. We now start by defining operations and laws these operations obey.
 
 ```agda
+open import Types.relations
 open import Types.equality
 open import Types.functions
 open import Types.product

@@ -111,10 +111,11 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Algebra<span class="ot">.</span>morphisms <span class="kw">where</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">using</span> <span class="ot">(</span>Rel<span class="ot">;</span> <span class="ot">_</span>Preserves<span class="ot">_</span>⟶<span class="ot">_)</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups</span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups2</span></code></pre></div>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups</span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups2</span></code></pre></div>
 <p>A morphism is a more general concept that applies not only to groups but also to pretty much all algebraic objects. It can be defined as a structure-preserving map. In the context of group-like objects, a morphism between any two objects <code>X</code> and <code>Y</code> embeds <code>X</code> in <code>Y</code> while ensuring the structure of <code>X</code> is preserved.</p>
 <p>Let us first define a morphism:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">module</span> Homomorphism <span class="ot">{</span>f t ℓ<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> <span class="dt">Set</span> f<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> <span class="dt">Set</span> t<span class="ot">)</span> <span class="ot">(_</span>==<span class="ot">_</span> <span class="ot">:</span> Rel To ℓ<span class="ot">)</span> <span class="kw">where</span></span>

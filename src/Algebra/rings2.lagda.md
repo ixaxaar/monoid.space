@@ -24,6 +24,7 @@ We now define objects of the ring family, as we did for groups.
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 
 open import Types.product
+open import Types.relations
 open import Types.equality
 
 open import Algebra.groups
