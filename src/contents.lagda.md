@@ -73,7 +73,8 @@
 
 ## 6. Algebraic Topology
 
-- [Introduction](./AlgTopos.introduction.html)
+  - [Introduction](./AlgTopos.introduction.html)
+  - [Topology](./AlgTopos.topology.html)
 
 ## 7. Homotopy Type Theory
 
@@ -156,6 +157,7 @@ import HoTT.introduction
 import HoTT.identity
 
 import AlgTopos.introduction
+import AlgTopos.topology
 
 import AppliedTypes.introduction
 import AppliedTypes.godels_t
