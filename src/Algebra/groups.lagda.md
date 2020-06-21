@@ -35,23 +35,23 @@ module Algebra.groups {a ℓ} {A : Set a} (_==_ : Rel A ℓ) where
 
 Group-like objects form another family of objects probed in abstract algebra. They have a similar pattern of building like ordered objects but are more complex. This family contains of a set of type `A` and a binary operation `⋅` defined on that set which satisfy a bunch of properties.  As there are a large number of properties to choose from, one can end up with a large number of families, however here we describe only a few that generally matter.
 
-| Object ↓ Laws → |  Totality |  Associativity |  Identity |  Invertibility |  Commutativity |
-| --- | --- | --- | --- | --- | --- |
-| Magma |  ★ |   |   |   |   |
-| Semigroupoid |   |  ★ |   |   |   |
-| Small Category |   |  ★ |  ★ |   |   |
-| Quasigroup |  ★ |   |   |  ★ |   |
-| Loop |  ★ |   |  ★ |  ★ |   |
-| Semigroup |  ★ |  ★ |   |   |   |
-| Inverse Semigroup |  ★ |  ★ |   |  ★ |   |
-| Groupoid |   |  ★ |  ★ |  ★ |   |
-| Monoid |  ★ |  ★ |  ★ |   |   |
-| Group |  ★ |  ★ |  ★ |  ★ |   |
-| Abelian group |  ★ |  ★ |  ★ |  ★ |  ★ |
+| Object ↓ Laws →   | Totality | Associativity | Identity | Invertibility | Commutativity |
+| ----------------- | -------- | ------------- | -------- | ------------- | ------------- |
+| Magma             | ★        |               |          |               |               |
+| Semigroupoid      |          | ★             |          |               |               |
+| Small Category    |          | ★             | ★        |               |               |
+| Quasigroup        | ★        |               |          | ★             |               |
+| Loop              | ★        |               | ★        | ★             |               |
+| Semigroup         | ★        | ★             |          |               |               |
+| Inverse Semigroup | ★        | ★             |          | ★             |               |
+| Groupoid          |          | ★             | ★        | ★             |               |
+| Monoid            | ★        | ★             | ★        |               |               |
+| Group             | ★        | ★             | ★        | ★             |               |
+| Abelian group     | ★        | ★             | ★        | ★             | ★             |
 
 Note that we implement only the packaged version of laws here, the actual object types we define in the next section [Groups and family 2](./Algebra.groups2.html), this is precisely because we cannot have two high level modules per agda file.
 
-![Figure 1: Algebraic structures](../artwork/algebra_structure.png)
+![Figure 1: Algebraic structures](/artwork/algebra_structure.png)
 
 As we see above, semigroupoid is a generalization of the semigroup, group is a stricter form of a monoid or all groups are also monoids etc. Semigroupoids, Small Categories and Groupoids form what is called as partial abstract algebra such that they don't require the totality property which thus allows their operations to be partial functions.
 
@@ -124,19 +124,19 @@ A monoid is a semigroup, with a special element called the identity element. Mon
 
 Here are a few examples of monoids:
 
-| Object | Operation | Identity |
-| --- | --- | --- |
-| int | addition | 0 |
-| int | subtraction | 0 |
-| int | multiplication | 1 |
-| float | addition | 0.0 |
-| float | subtraction | 0.0 |
-| float | multiplication | 1.0 |
-| JSON | merge two JSONs | `{}` |
-| JSON | create / delete / modify a key-value pair | `{}` |
-| JSON | `λ : JSON<A, B>, JSON<A, B> → JSON<A, B>` | `{}` |
-| string | concatenation | `''` |
-| List / Array | concatenation | `[]` |
+| Object       | Operation                                 | Identity |
+| ------------ | ----------------------------------------- | -------- |
+| int          | addition                                  | 0        |
+| int          | subtraction                               | 0        |
+| int          | multiplication                            | 1        |
+| float        | addition                                  | 0.0      |
+| float        | subtraction                               | 0.0      |
+| float        | multiplication                            | 1.0      |
+| JSON         | merge two JSONs                           | `{}`     |
+| JSON         | create / delete / modify a key-value pair | `{}`     |
+| JSON         | `λ : JSON<A, B>, JSON<A, B> → JSON<A, B>` | `{}`     |
+| string       | concatenation                             | `''`     |
+| List / Array | concatenation                             | `[]`     |
 
 Monoidal operations (`∙ : A × A → A`) take two elements and "reduce" or "combine" them into one. In other words they can be used to model types that can be aggregated, as one could take successive pairs of objects from a monoid and combine them with the monoidal operation `∙ : A × A → A`. This is reflected in the fact that only "certain types" may be "reduced" using "certain type" of functions. The "reduce" here refers to a standard map-reduce operation.
 
@@ -196,15 +196,15 @@ where:
 
 A group is a monoid with the additional requirement of the binary operation to have an inverse operation for every pair of elements of the group. A group is another widely-used structure.
 
-| Field | Used to model |
-| --- | --- |
-| Physics | Symmetry in Noether's theorem |
-| Physics | Gauge theories (quantum electrodynamics, quantum field theory) |
-| Physics | Gauge formulation of general relativity |
-| Physics | M-brane theory (and other string theories) |
-| Chemistry | Classification of crystal structure |
-| Chemistry | Symmetries of molecules |
-| Cryptography | ECDSA (Elliptic Curve Digital Signature Algorithm) signatures |
+| Field        | Used to model                                                  |
+| ------------ | -------------------------------------------------------------- |
+| Physics      | Symmetry in Noether's theorem                                  |
+| Physics      | Gauge theories (quantum electrodynamics, quantum field theory) |
+| Physics      | Gauge formulation of general relativity                        |
+| Physics      | M-brane theory (and other string theories)                     |
+| Chemistry    | Classification of crystal structure                            |
+| Chemistry    | Symmetries of molecules                                        |
+| Cryptography | ECDSA (Elliptic Curve Digital Signature Algorithm) signatures  |
 
 A group is a structure containing:
 

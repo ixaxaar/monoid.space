@@ -1,90 +1,97 @@
-****
+---
+
 [Contents](contents.html)
 [Previous](Algebra.real.html)
 [Next](HoTT.identity.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-****
+
+---
 
 - [Homotopy Type Theory](#homotopy-type-theory)
-- [Homotopy Theory](#homotopy-theory)
-  - [Fields, Spaces, Points, Paths](#fields-spaces-points-paths)
-  - [Paths and their equalities](#paths-and-their-equalities)
-    - [Homotopy](#homotopy)
-    - [Fundamental group](#fundamental-group)
-    - [∞-groupoid](#%E2%88%9E-groupoid)
-  - [Induction principle](#induction-principle)
+- [Intensional and Extensional Type Theories](#intensional-and-extensional-type-theories)
+- [Univalence](#univalence)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 
 # Homotopy Type Theory
 
 ```agda
+open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
+
+open import Types.product
+open import Types.relations
+open import Types.equality
+
 module HoTT.introduction where
 ```
 
-Homotopy type theory (HoTT) is a mathematical framework and a flavor of Type Theory that treats types as spaces ("space" as in abstract geometry) and one can apply the machinery of homotopy theory over those spaces. Homotopy theory is a part of algebraic geometry which deals with functions between topological spaces. HoTT essentially enables one to use the API of homotopy theory by letting us treat types as spaces.
+Homotopy type theory is a part of a mathematician's quest to have a formal language in which to write mathematics in such that the correctness of the mathematics can be verified by a computer program. This mathematician, Vladimir Voevodsky, played a large part in formalizing homotopy type theory and lead the restructuring of mathematics based on this new foundation, called Univalent foundations, so that it is easier to implement and work with consistently in these formal languages.
 
-# Homotopy Theory
+We are working in one such language, Agda, though Voevodsky had used a different one - [Coq](https://coq.inria.fr/). There are a few more theorem provers, notably [Isabelle](https://isabelle.in.tum.de/), [Idris](https://www.idris-lang.org/), [Arend](https://arend-lang.github.io/) and [Lean](https://leanprover.github.io/).
 
-## Fields, Spaces, Points, Paths
+# Intensional and Extensional Type Theories
 
-An n-dimensional space can be thought as a collection of n numbers from a [field](./Algebra.fields.html) and n directions or bases. Thus we can construct spaces from fields. For e.g. any point in 2-dimensional space of real numbers ℝ can be represented as $a × x + b × y$ where $a, b ∈ ℝ$.
+Part of the technical problem that was faced, apart from the need for restructuring and refactoring all of mathematics, which needed HoTT as a solution, has to deal with how we define equivalences.
 
-A path is a line joining two points. This path can be of any shape, be it a straight line or an extremely squiggly one.
+In the current system, if say we were to define two types, both representing natural numbers:
 
-![Figure 1: Path](./pathType.png)
+```agda
+data ℕ₁ : Set where
+  zero₁ : ℕ₁
+  succ₁ : ℕ₁ → ℕ₁
 
-## Paths and their equalities
-
-Technically, a path p between two points `x` and `y` can be represented as a function `f` that takes a continuous value `t` and returns a point on the path `f(t)` such that the first point is `x` $f(0) = x$ and the last point is `y` $f(1) = y$ and $0 ≤ t ≤ 1$. It might need to be reminded that such a path might not actually exist as a continuous line through space but may help if imagined as such.
-
-Now, we could take any two paths between the same points and stretch / squeeze one path into another. This process can be used to capture relationships between two paths and is called *homotopy*. More formally,
-
-![Figure 2: Two Paths Homotopy](./two_paths_homotopy.png)
-
-### Homotopy
-
-A *homotopy* between two paths `p(t)` and `q(t)` is defined as a continuous function `H(t, h)` such that:
-
-- $H(t, 0) = p(t)$
-- $H(t, 1) = q(t)$
-- $H(0, h) = x$
-- $H(1, h) = y$
-
-There can exist multiple paths between two objects and hence multiple homotopies between them. Homotopies can be thought of as 2-dimensional paths or path-of-path if paths are 1-dimensional paths. Homotopies are built on equivalence relations and hence fit into its API, i.e. homotopy respects reflexivity, symmetry and transitivity,  and can be used to build equational reasoning chanins.
-
-![Figure 3: Homotopy](./homotopy.png)
-
-### Fundamental group
-
-Two homotopies `H1` and `H2` can themselves be called equal if $H(0, h) = H(1, h) = x₀$, i.e. if `x` and `y` are the same point. We can use this equivalence relation and the fact that homotopies have inverses, to build a group structure around these homotopies, called as the *fundamental group*.
-
-### ∞-groupoid
-
-We can have n-dimentional paths from n-equalitites or homotopies of homotopies of homotopies of homotopies and so on. Such a structure of infinite levels of homotopies with points followed by paths as base is called the *∞-groupoid*. Every space can be turned into its ∞-groupoid and then homotopy theory can be applied to it as well as every ∞-groupoid can yield a fundamental group. This fact connects algebraic topology (which uses the fundamental group) and category theory (which builds on the ∞-groupoid).
-
-In HoTT, each type can be represented as an ∞-groupoid. Each pair of objects `x` and `y` of a type can have an typelevel equality type $x ≡_A y$. For example in python:
-
-```python
-a = 3
-b = 4
-
-type(a) ≡ type(b)
+data ℕ₂  : Set where
+  zero₂ : ℕ₂
+  succ₂ : ℕ₂ → ℕ₂
 ```
 
-These equalities can have further equalities $(x_1 ≡_A y_1) ≡_{(x ≡_A y)} (x_2 ≡_A y_2)$. Note: higher levels cannot be done trivially in python.
+Now two objects, both representing `3`, will be considered different:
 
-## Induction principle
+```agda
+three₁ = succ₁ (succ₁ (succ₁ zero₁))
+three₂ = succ₂ (succ₂ (succ₂ zero₂))
+```
 
-The induction principle is central to deriving all basic constructions for HoTT. Stated simply, if for every pair of objects `x` and `y` of type `A`
-- the equality type $≡_A$ between `x` and `y` exists everytime `x` and `y` are equal
-- for every `x ∈ A`, the equalities $x ≡_A x$ are reflexive
-then for a proposition `C` which depends upon the equality $x ≡_A y$, it turns out that it is sufficient to prove `C` for all cases where $x ≡_A x$ alone and it becomes automatically applicable for cases for all $x ≡_A y$.
+```haskell
+eq : three₁ ≡ three₂
+eq = refl
+```
 
-![Figure 4: Induction](./induction.png)
+and the compiler throws the error:
 
-****
+```haskell
+ℕ₂ !=< ℕ₁
+when checking that the expression three₂ has type ℕ₁
+```
+
+In order to make these types equal, we have to define an equality type where we provide a proof that ℕ₁ and ℕ₂ are equal. This is the consequence of the flavor of type theory that we are using called "Intensional" type theory. In intensional type theory, one has to explicitly define all equivalences for all objects and some machinery for them to really work with these structures.
+
+In the above example, we could capture equivalence of integers without much code, however this problem compounds itself as one builds higher structures, say a group of integers or a real number field. These equivalences can be captured by `Setoid`s which are basically objects along with their definition of equivalences "packaged together" so that their implementations can be hidden. However, like many such foundational patches, the final implementations result in a mess where the base definitions need additional machinery and one needs to be aware of these implementations anyway when constructing higher structures. Some areas of mathematics are notably hard, like defining real numbers. However, for all its shortfalls, an intensional system guarantees that the type checking is decidable.
+
+In particular, intensional type theories lack:
+
+1. **Functional extensionality**: Two functions that are pointwise equal are equal.
+2. **Propositional extensionality**: Two propositions that are logically equivalent are equal.
+3. **Quotients**: We can quotient (subset) a type by an equivalence relation.
+
+The above can be technically handled by modeling Types using `Setoid`s instead of `Set`. However, if we need further extensionality by adding:
+
+4. **Set extensionality**: Two sets are equal if they are in a one-to-one correspondence.
+
+This creates a problem as two sets can be equal in many different ways. To account for this additional structure, we could model Types using `Groupoid`s (also known as a `Magma`) instead of `Setoid`s.
+
+Another flavor of type theory, "extensional" defines equivalences as - things that behave the same way are equal (regardless of their internal implementations). This, in a way, provides a better set of abstractions for working with mathematics as in order to build towers of abstractions, one needs to hide implementation details. Otherwise imagine one needing to know the intel instruction set to build a website. The shortfall in the extensional system is that it is possible to define types that are not decidable. In other words, there is no difference between definitional and propositional equalities allowing cases where type checking will never terminate. Another problem here is that Set extensionality cannot be modeled.
+
+As the extensional version has major drawbacks, there becomes a need for restructuring the modeling of equivalence in intensional type theory to build more extensionality along with cleaner and better abstracted implementations. This is where Homotopy Type Theory comes in.
+
+# Univalence
+
+Roughly speaking, the mathematical theory that models equality and equivalence of types using abstractions from homotopy theory is called Homotopy Type Theory (or HoTT in short). The "Univalence" axiom sits at the core of HoTT and hence, the resulting type theories that build on HoTT are called "univalent type theories" and the math implemented in such type theories "univalent mathematics".
+
+<!-- outline further plan -->
+
+---
+
 [Identity Types and Paths](./HoTT.identity.html)

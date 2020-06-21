@@ -71,18 +71,18 @@
   - [~~Field Morphisms~~](./Algebra.field_morphisms.html)
   - [Numbers](./Algebra.numbers.html)
 
-## 6. Algebraic Topology
-
-  - [Introduction](./AlgTopos.introduction.html)
-  - [Topology](./AlgTopos.topology.html)
-
 ## 7. Homotopy Type Theory
 
-  - [~~Introduction~~](./HoTT.introduction.html)
+  - [Introduction](./HoTT.introduction.html)
   - [~~Identity Types and Paths~~](./HoTT.identity.html)
   - [~~Connected spaces~~](./HoTT.paths.html)
   - [~~The Univalence Principle~~](./HoTT.univalance.html)
   - [~~The Fundamental Group and Groupoid~~](./HoTT.fundamentalGroup.html)
+
+## 6. Algebraic Topology
+
+  - [Introduction](./AlgTopos.introduction.html)
+  - [Topology](./AlgTopos.topology.html)
 
 # Extras
 

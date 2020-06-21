@@ -192,7 +192,7 @@ data ℕ : Set where
   succ : ℕ → ℕ
 ```
 
-The operations for natual numbers, addition, subtraction, multiplication and powers can be defined as functions in Agda:
+The operations for natural numbers, addition, subtraction, multiplication and powers can be defined as functions in Agda:
 
 ```agda
 _+_ : ℕ → ℕ → ℕ

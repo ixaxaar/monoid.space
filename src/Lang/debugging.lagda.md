@@ -122,7 +122,6 @@ Agda-mode for emacs can be installed using
 
 ```bash
 agda-mode setup
-```
 
 This entire project can be loaded into emacs like:
 
