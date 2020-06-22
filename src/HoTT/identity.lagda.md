@@ -8,11 +8,11 @@
 ****
 
 - [Homotopy Theory](#homotopy-theory)
-  - [Fields, Spaces, Points, Paths](#fields-spaces-points-paths)
-  - [Paths and their equalities](#paths-and-their-equalities)
-    - [Homotopy](#homotopy)
-    - [Fundamental group](#fundamental-group)
-    - [∞-groupoid](#-groupoid)
+  - [Overview](#overview)
+  - [Paths](#paths)
+  - [Homotopy](#homotopy)
+  - [Fundamental group](#fundamental-group)
+  - [∞-groupoid](#-groupoid)
   - [Induction principle](#induction-principle)
 - [The Identity Type or Path](#the-identity-type-or-path)
   - [Path Induction](#path-induction)
@@ -26,23 +26,25 @@
 
 # Homotopy Theory
 
-## Fields, Spaces, Points, Paths
+## Overview
 
-An n-dimensional space can be thought as a collection of n numbers from a [field](./Algebra.fields.html) and n directions or bases. Thus we can construct spaces from fields. For e.g. any point in 2-dimensional space of real numbers ℝ can be represented as $a × x + b × y$ where $a, b ∈ ℝ$.
+The notion of "space" generally invokes thought of a geometrical structure. The usual spaces one might have encountered are Euclidean spaces which fit this intuition. In Algebraic Geometry (of which Homotopy Theory is a part), however, the notion of a space is abstract, and as a consequence while the well known spaces fit into the definition, so do many other kinds of objects.
 
-A path is a line joining two points. This path can be of any shape, be it a straight line or an extremely squiggly one.
+1. Formally, a topological space is a set of points endowed with an additional structure called a "topology".
+2. A path is a line joining two points in a topological space. These are also called as continuous map.
+3. There can be multiple paths between any two points, hence there is a notion of an equivalence between paths, called "homotopy".
 
-![Figure 1: Path](./pathType.png)
+Homotopy Theory studies the characteristics of homotopies of paths.
 
-## Paths and their equalities
+## Paths
 
-Technically, a path p between two points `x` and `y` can be represented as a function `f` that takes a continuous value `t` and returns a point on the path `f(t)` such that the first point is `x` $f(0) = x$ and the last point is `y` $f(1) = y$ and $0 ≤ t ≤ 1$. It might need to be reminded that such a path might not actually exist as a continuous line through space but may help if imagined as such.
+Technically, in a topological space 𝕏, a path between two points `x` and `y` ∈ 𝕏 can be represented as a function `f` that takes a continuous value `t` and returns a point on the path `f(t)` such that the first point is `x` $f(0) = x$ and the last point is `y` $f(1) = y$ and $0 ≤ t ≤ 1$. Paths thus represented are continuous functions.
 
-Now, we could take any two paths between the same points and stretch / squeeze one path into another. This process can be used to capture relationships between two paths and is called _homotopy_. More formally,
+![Figure 1: Path](/artwork/pathType.png)
 
-![Figure 2: Two Paths Homotopy](./two_paths_homotopy.png)
+## Homotopy
 
-### Homotopy
+We could take any two paths between the same points and stretch / squeeze one path into another. This process can be used to capture relationships between two paths and is called _homotopy_. More formally,
 
 A _homotopy_ between two paths `p(t)` and `q(t)` is defined as a continuous function `H(t, h)` such that:
 
@@ -51,17 +53,35 @@ A _homotopy_ between two paths `p(t)` and `q(t)` is defined as a continuous func
 - $H(0, h) = x$
 - $H(1, h) = y$
 
-There can exist multiple paths between two objects and hence multiple homotopies between them. Homotopies can be thought of as 2-dimensional paths or path-of-path if paths are 1-dimensional paths. Homotopies are built on equivalence relations and hence fit into its API, i.e. homotopy respects reflexivity, symmetry and transitivity, and can be used to build equational reasoning chanins.
+There can exist multiple paths between two objects and hence multiple homotopies between them. Homotopies can be thought of as 2-dimensional paths or path-of-path if paths are 1-dimensional paths.
 
-![Figure 3: Homotopy](./homotopy.png)
+![Figure 2: Homotopy](/artwork/homotopy.png)
 
-### Fundamental group
+## Fundamental group
 
 Two homotopies `H1` and `H2` can themselves be called equal if $H(0, h) = H(1, h) = x₀$, i.e. if `x` and `y` are the same point. We can use this equivalence relation and the fact that homotopies have inverses, to build a group structure around these homotopies, called as the _fundamental group_.
 
-### ∞-groupoid
+Formally, for any point `x` in a topological space 𝕏, the fundamental group is the group over
+- Homotopy equivalence classes as objects at point `x₀` denoted $π₁(𝕏, x₀)$.
+- A product operation defined on these equivalence classes a such:
 
-We can have n-dimentional paths from n-equalitites or homotopies of homotopies of homotopies of homotopies and so on. Such a structure of infinite levels of homotopies with points followed by paths as base is called the _∞-groupoid_. Every space can be turned into its ∞-groupoid and then homotopy theory can be applied to it as well as every ∞-groupoid can yield a fundamental group. This fact connects algebraic topology (which uses the fundamental group) and category theory (which builds on the ∞-groupoid).
+Given two paths / loops (γ₁ and γ₂), their product is:
+
+```math
+γ₁ ♢ γ₂ : [1,0] → 𝕏
+γ₁ ♢ γ₂ = λ t → if (0 < t < 1÷2) γ₁ (2 * t) else  γ₂ (2 * t - 1)
+```
+
+Thus the loop `γ₁ ♢ γ₂` first follows the loop γ₁ with "twice the speed" and then follows γ₂ with "twice the speed". It is to be noted that we consider all equivalence classes of loops instead of considering all loops as loops belonging to one equivalence class can be treated as the same.
+
+![Figure 3: Fundamental Group](/artwork/fundamental_group.png)
+
+
+
+
+## ∞-groupoid
+
+We can have n-dimensional paths from n-equalities or homotopies of homotopies of homotopies of homotopies and so on. Such a structure of infinite levels of homotopies with points followed by paths as base is called the _∞-groupoid_. Every space can be turned into its ∞-groupoid and then homotopy theory can be applied to it as well as every ∞-groupoid can yield a fundamental group. This fact connects algebraic topology (which uses the fundamental group) and category theory (which builds on the ∞-groupoid).
 
 In HoTT, each type can be represented as an ∞-groupoid. Each pair of objects `x` and `y` of a type can have an typelevel equality type $x ≡_A y$. For example in python:
 
