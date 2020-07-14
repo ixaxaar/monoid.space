@@ -47,7 +47,7 @@ declare -a files=(
   "AlgTopos/introduction"
 
   "HoTT/introduction"
-  "HoTT/identity"
+  "HoTT/homotopy"
 
   "AppliedTypes/introduction"
   "AppliedTypes/godels_t"

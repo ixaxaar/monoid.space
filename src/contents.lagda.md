@@ -105,7 +105,7 @@
   - [~~Adjunctions~~](./Cat.Adjunctions.html)
   - [~~Ends and Co-Ends~~](./Cat.Ends.html)
   - [~~Kan Extensions~~](./Cat.Kan_Extensions.html)
-  - [~~The (∞,1)-category and Higher Category Theory~~](./Cat.Higher.html)
+  - [~~The (∞,n)-category and Higher Category Theory~~](./Cat.Higher.html)
 
 [Go up](contents.html)
 [Gitlab](https://gitlab.com/ixaxaar/monoid.space)
@@ -154,7 +154,7 @@ import Algebra.fields2
 import Algebra.numbers
 
 import HoTT.introduction
-import HoTT.identity
+import HoTT.homotopy
 
 import AlgTopos.introduction
 import AlgTopos.topology
