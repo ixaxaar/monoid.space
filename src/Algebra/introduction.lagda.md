@@ -24,7 +24,7 @@ Any algebraic system can be thought of a trichotomy of data-structure-properties
 - A certain structure to the data (operators or functions in case of algebra)
 - These structures satisfy certain preconditions (axioms)
 
-Each algebra behaves more like a [DSL](https://en.wikipedia.org/wiki/Domain-specific_language), consisting of a set of objects of a type and a bunch of operations packaged together. The algebra that we generally know of are linear, matrix, complex, vector and boolean algebras, all of which deal with real or natural numbers based objects (e.g. matrices or complex numbers) and build on top of their four operations (+,−,★,÷). The field of abstract algebra introduces a variety of more abstract, and arguably more simpler structures than real number systems.
+Each algebra behaves more like a [DSL](https://en.wikipedia.org/wiki/Domain-specific_language), consisting of a set of objects of a type and a bunch of operations and their properties packaged together. The algebra that we generally know of are linear, matrix, complex, vector and boolean algebras, all of which deal with real or natural numbers based objects (e.g. matrices or complex numbers) and build on top of their four operations (+,−,★,÷). The field of abstract algebra introduces a variety of more abstract, and arguably more simpler structures than real number systems.
 
 Objects when considered together with some operations give rise to complex structures and allow a bunch of laws and other machinery to be built on top of them.
 

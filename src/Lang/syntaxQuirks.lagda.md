@@ -97,4 +97,4 @@ length'' _ len _   = len
 Though these are generally ill-advised as they may cause confusion when used unwisely.
 
 ****
-[Modules, Records and Postulates](./Lang.other.html)
+[Debugging](./Lang.debugging.html)

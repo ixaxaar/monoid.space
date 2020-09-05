@@ -102,20 +102,20 @@
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="debugging-agda">Debugging Agda</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="pp">{-# OPTIONS --allow-unsolved-metas #-}</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">module</span> Lang<span class="ot">.</span>debugging <span class="kw">where</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Builtin<span class="ot">.</span>Nat</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="pp">{-# OPTIONS --allow-unsolved-metas #-}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">module</span> Lang<span class="ot">.</span>debugging <span class="kw">where</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Builtin<span class="ot">.</span>Nat</span></code></pre></div>
 <p>Debugging and tooling are arguably the most vital parts of the development process and a language ecosystem. Tools tend to help developers figure out issues and assist them in the entire process. Agda has a small set of indispensable tools for such purposes. We look at how to use some of them to make our lives easier.</p>
 <h2 id="holes">Holes</h2>
 <p>The agda compiler supports type checking and providing hints while writing code. Unknown types can be represented with a placeholder <code>?</code> and the compiler can help deduce the type.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">data</span> <span class="ot">_</span>even <span class="ot">:</span> Nat <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>  ZERO <span class="ot">:</span> zero even</span>
-<span id="cb2-3"><a href="#cb2-3"></a>  STEP <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> x even <span class="ot">→</span> suc <span class="ot">(</span>suc x<span class="ot">)</span> even</span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a>proof₁ <span class="ot">:</span> suc <span class="ot">(</span>suc <span class="ot">(</span>suc <span class="ot">(</span>suc zero<span class="ot">)))</span> even</span>
-<span id="cb2-6"><a href="#cb2-6"></a>proof₁ <span class="ot">=</span> ?</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">data</span> <span class="ot">_</span>even <span class="ot">:</span> Nat <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  ZERO <span class="ot">:</span> zero even</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>  STEP <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> x even <span class="ot">→</span> suc <span class="ot">(</span>suc x<span class="ot">)</span> even</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>proof₁ <span class="ot">:</span> suc <span class="ot">(</span>suc <span class="ot">(</span>suc <span class="ot">(</span>suc zero<span class="ot">)))</span> even</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>proof₁ <span class="ot">=</span> ?</span></code></pre></div>
 <p>The agda compiler hints the <code>?</code> should be <code>4 even</code>. This placeholder <code>?</code> is called a <strong>hole</strong>.</p>
 <h2 id="features">Features</h2>
 <p>Agda supports various <code>Interaction</code> commands to provide several features via the <code>agda --interaction</code> command. This implements a client-server protocol whereby a client can communicate with the agda compiler to do various tasks on the source files.</p>
@@ -266,22 +266,25 @@
 </ul>
 <p>There is discontinued support for <a href="https://github.com/banacorn/agda-mode-st3">sublime</a>, <a href="https://pdfs.semanticscholar.org/b7f9/32609298debd21398d54e13c864e26a03ac1.pdf">eclipse</a>.</p>
 <h2 id="useful-agda-mode-commands">Useful Agda-mode commands</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1"></a>C-c C-l   load (type checking)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>C-c C-f   forward (jump to next hole)</span>
-<span id="cb3-3"><a href="#cb3-3"></a>C-c C-b   backward (jump to previous hole)</span>
-<span id="cb3-4"><a href="#cb3-4"></a>C-c C-d   deduce (type of expression)</span>
-<span id="cb3-5"><a href="#cb3-5"></a>C-c C-n   normalize (evaluate expression)</span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1"></a>Commands inside a hole</span>
-<span id="cb4-2"><a href="#cb4-2"></a>C-c C-,   information about the hole</span>
-<span id="cb4-3"><a href="#cb4-3"></a>C-c C-d   deduce (type of contents of hole)</span>
-<span id="cb4-4"><a href="#cb4-4"></a>C-c C-Space   give (checks whether the term in the hole has the right type and if it has, replaces the hole with the term)</span>
-<span id="cb4-5"><a href="#cb4-5"></a>C-c C-c   case split (pattern match on variables)</span>
-<span id="cb4-6"><a href="#cb4-6"></a>C-c C-r   refine (one step further)</span>
-<span id="cb4-7"><a href="#cb4-7"></a>C-c C-a   auto (try to find a solution)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>C-c C-l   load (type checking)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>C-c C-f   forward (jump to next hole)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>C-c C-b   backward (jump to previous hole)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>C-c C-d   deduce (type of expression)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>C-c C-n   normalize (evaluate expression)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>Commands inside a hole</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>C-c C-,   information about the hole</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>C-c C-d   deduce (type of contents of hole)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>C-c C-Space   give (checks whether the term in the hole has the right type and if it has, replaces the hole with the term)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>C-c C-c   case split (pattern match on variables)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>C-c C-r   refine (one step further)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a>C-c C-a   auto (try to find a solution)</span></code></pre></div>
 <p>Agda-mode for emacs can be installed using</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="ex">agda-mode</span> setup</span></code></pre></div>
-<p>This entire project can be loaded into emacs like:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="ex">emacs</span> ./contents.lagda.md</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="ex">agda-mode</span> setup</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a><span class="ex">This</span> entire project can be loaded into emacs like:</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a><span class="kw">```</span><span class="fu">bash</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a><span class="ex">emacs</span> ./contents.lagda.md</span></code></pre></div>
 <p>followed by loading <code>agda-mode</code> by typing <code>space</code> <code>space</code> <code>agda-mode</code>. Using <a href="http://spacemacs.org/">spacemacs</a> is recommended.</p>
 <hr />
 <p><a href="./Types.introduction.html">Type Theory - Introduction</a></p>

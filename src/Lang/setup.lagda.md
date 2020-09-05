@@ -25,8 +25,6 @@
 module Lang.setup where
 ```
 
-![Figure 1: Install](./install.png)
-
 ## 1. Using Docker
 
 We've done most of the heavy-lifting, and packaged everything into a docker container. This is a platform-independent solution and can be run inside any major operating system. But first we would need to:

@@ -101,10 +101,10 @@
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="rules-of-introduction-of-types">Rules of introduction of types</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Types<span class="ot">.</span>patterns <span class="kw">where</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>List<span class="ot">;</span> <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_;</span> fst<span class="ot">;</span> snd<span class="ot">;</span> <span class="ot">_</span>∪<span class="ot">_;</span> inj₁<span class="ot">;</span> inj₂<span class="ot">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">module</span> Types<span class="ot">.</span>patterns <span class="kw">where</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>List<span class="ot">;</span> <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_;</span> fst<span class="ot">;</span> snd<span class="ot">;</span> <span class="ot">_</span>∪<span class="ot">_;</span> inj₁<span class="ot">;</span> inj₂<span class="ot">)</span></span></code></pre></div>
 <p>There is a general pattern for introduction of a new kind of type in type theory. To specify a type, we specify:</p>
 <ul>
 <li><strong>Formation</strong>: how to construct new types of this kind</li>
@@ -116,44 +116,44 @@
 <h2 id="formation">Formation</h2>
 <p>We start with describing what are the rules to follow when creating an instance of the type being introduced. It is a “type-constructor-level” law.</p>
 <p>For example we introduce natural numbers like:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">data</span> Nat <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>  zero <span class="ot">:</span> Nat</span>
-<span id="cb2-3"><a href="#cb2-3"></a>  succ <span class="ot">:</span> Nat <span class="ot">→</span> Nat</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">data</span> Nat <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  zero <span class="ot">:</span> Nat</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>  succ <span class="ot">:</span> Nat <span class="ot">→</span> Nat</span></code></pre></div>
 <p>Functions’ from <code>A → B</code> have formation rules of the types <code>A</code> and <code>B</code> to exist. Similarly, products <code>(A × B)</code> depend upon the existence of types <code>A</code> and <code>B</code> and so do co-product types <code>A ∪ B</code>.</p>
 <h2 id="constructor-introduction">Constructor / Introduction</h2>
 <p>We then proceed to define how an element of the new type could be constructed. For natural numbers, <code>zero</code> and <code>succ</code> are the constructors:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a>one <span class="ot">=</span> succ zero</span>
-<span id="cb3-2"><a href="#cb3-2"></a>two <span class="ot">=</span> succ one</span>
-<span id="cb3-3"><a href="#cb3-3"></a>three <span class="ot">=</span> succ two</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>one <span class="ot">=</span> succ zero</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>two <span class="ot">=</span> succ one</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>three <span class="ot">=</span> succ two</span></code></pre></div>
 <p>Function types can be described by their implementation using lambda abstraction:</p>
 <pre class="math"><code>f : A → B ≡ λ A . B</code></pre>
 <p>Products have the constructor <code>,</code> to create product types, so do coproducts have the <code>inj₁</code> and <code>inj₂</code> constructors.</p>
 <h2 id="elimination">Elimination</h2>
 <p>Next we describe how to consume or make use of elements of this type.</p>
 <p>Since <code>Nat</code> is an inductive type, its eliminator is inductive as well. In fact, for a natural number, an eliminator is any proposition <code>P</code> that can use a natural number. This is proved by assuming <code>P zero</code> and some proof of inductively deducing <code>P (succ k)</code> given <code>P (k)</code> and using them to prove <code>P n</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a>Nat-elim <span class="ot">:</span> <span class="ot">(</span>P <span class="ot">:</span> Nat <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>        <span class="ot">→</span> P zero</span>
-<span id="cb5-3"><a href="#cb5-3"></a>        <span class="ot">→</span> <span class="ot">((</span>k <span class="ot">:</span> Nat<span class="ot">)</span> <span class="ot">→</span> P k <span class="ot">→</span> P <span class="ot">(</span>succ k<span class="ot">))</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a>        <span class="ot">→</span> <span class="ot">(</span>n <span class="ot">:</span> Nat<span class="ot">)</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>        <span class="ot">→</span> P n</span>
-<span id="cb5-6"><a href="#cb5-6"></a>Nat-elim P p proof zero <span class="ot">=</span> p</span>
-<span id="cb5-7"><a href="#cb5-7"></a>Nat-elim P p proof <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> proof n <span class="ot">(</span>Nat-elim P p proof n<span class="ot">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>Nat-elim <span class="ot">:</span> <span class="ot">(</span>P <span class="ot">:</span> Nat <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>        <span class="ot">→</span> P zero</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>        <span class="ot">→</span> <span class="ot">((</span>k <span class="ot">:</span> Nat<span class="ot">)</span> <span class="ot">→</span> P k <span class="ot">→</span> P <span class="ot">(</span>succ k<span class="ot">))</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>        <span class="ot">→</span> <span class="ot">(</span>n <span class="ot">:</span> Nat<span class="ot">)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>        <span class="ot">→</span> P n</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>Nat-elim P p proof zero <span class="ot">=</span> p</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a>Nat-elim P p proof <span class="ot">(</span>succ n<span class="ot">)</span> <span class="ot">=</span> proof n <span class="ot">(</span>Nat-elim P p proof n<span class="ot">)</span></span></code></pre></div>
 <p>For function types, function application are the elimination rules.</p>
 <p>For products the elimination rules are the rules for extracting each element from a product, in other words, <a href="Types.product.html#dependent-pair-types-or-%CF%83-types">fst</a> and <a href="Types.product.html#dependent-pair-types-or-%CF%83-types">snd</a>. For coproducts, the eliminator is also an extractor where one has to explain what to do in either case <code>A</code> or <code>B</code> pops out using <a href="Types.product.html#eliminator">maybe</a>.</p>
 <h2 id="computation">Computation</h2>
 <p>Computation rules describe how an eliminator acts on a constructor. For natural numbers:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a>Nat-comp₀ <span class="ot">:</span> <span class="ot">(</span>P <span class="ot">:</span> Nat <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>        <span class="ot">→</span> P zero</span>
-<span id="cb6-3"><a href="#cb6-3"></a>        <span class="ot">→</span> <span class="ot">((</span>k <span class="ot">:</span> Nat<span class="ot">)</span> <span class="ot">→</span> P k <span class="ot">→</span> P <span class="ot">(</span>succ k<span class="ot">))</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a>        <span class="ot">→</span> P zero</span>
-<span id="cb6-5"><a href="#cb6-5"></a>Nat-comp₀ P p proof <span class="ot">=</span> Nat-elim P p proof zero</span>
-<span id="cb6-6"><a href="#cb6-6"></a></span>
-<span id="cb6-7"><a href="#cb6-7"></a>Nat-comp <span class="ot">:</span> <span class="ot">(</span>P <span class="ot">:</span> Nat <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a>        <span class="ot">→</span> P zero</span>
-<span id="cb6-9"><a href="#cb6-9"></a>        <span class="ot">→</span> <span class="ot">((</span>k <span class="ot">:</span> Nat<span class="ot">)</span> <span class="ot">→</span> P k <span class="ot">→</span> P <span class="ot">(</span>succ k<span class="ot">))</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a>        <span class="ot">→</span> <span class="ot">(</span>n <span class="ot">:</span> Nat<span class="ot">)</span></span>
-<span id="cb6-11"><a href="#cb6-11"></a>        <span class="ot">→</span> P <span class="ot">(</span>succ n<span class="ot">)</span></span>
-<span id="cb6-12"><a href="#cb6-12"></a>Nat-comp P p proof n <span class="ot">=</span> Nat-elim P p proof <span class="ot">(</span>succ n<span class="ot">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>Nat-comp₀ <span class="ot">:</span> <span class="ot">(</span>P <span class="ot">:</span> Nat <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>        <span class="ot">→</span> P zero</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>        <span class="ot">→</span> <span class="ot">((</span>k <span class="ot">:</span> Nat<span class="ot">)</span> <span class="ot">→</span> P k <span class="ot">→</span> P <span class="ot">(</span>succ k<span class="ot">))</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>        <span class="ot">→</span> P zero</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>Nat-comp₀ P p proof <span class="ot">=</span> Nat-elim P p proof zero</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>Nat-comp <span class="ot">:</span> <span class="ot">(</span>P <span class="ot">:</span> Nat <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a>        <span class="ot">→</span> P zero</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a>        <span class="ot">→</span> <span class="ot">((</span>k <span class="ot">:</span> Nat<span class="ot">)</span> <span class="ot">→</span> P k <span class="ot">→</span> P <span class="ot">(</span>succ k<span class="ot">))</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a>        <span class="ot">→</span> <span class="ot">(</span>n <span class="ot">:</span> Nat<span class="ot">)</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a>        <span class="ot">→</span> P <span class="ot">(</span>succ n<span class="ot">)</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true"></a>Nat-comp P p proof n <span class="ot">=</span> Nat-elim P p proof <span class="ot">(</span>succ n<span class="ot">)</span></span></code></pre></div>
 <p>For function types, $ (λx.Φ)(a) ≡ substitute(a, x.Φ) $, i.e. the function is equal to substituting <code>a</code> for every occurrence of <code>x</code>. For products, the computation rule boils down to $ f : A × B → C ≡ A → B → C $, also called <a href="./Types.functions.html#currying">currying</a>.</p>
 <h2 id="uniqueness-principle">Uniqueness principle</h2>
 <p>Finally the uniqueness principle describes how functions to and from the new type are unique. For some types the uniqueness principle behaves as the dual of the computation rule by describing how constructors act on eliminators. For other types the uniqueness principle implies conditions under which functions from the new type are unique.</p>

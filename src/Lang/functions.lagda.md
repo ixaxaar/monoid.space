@@ -16,9 +16,9 @@
   - [Examples - Recursive functions](#examples---recursive-functions)
     - [Addition of natural numbers](#addition-of-natural-numbers)
     - [Length of a List](#length-of-a-list)
-- [Dependent Function Types or Π-types](#dependent-function-types-or-%CF%80-types)
+- [Dependent Function Types or Π-types](#dependent-function-types-or-π-types)
   - [Lambda Functions](#lambda-functions)
-  - [Examples](#examples)
+  - [Examples of further patterns](#examples-of-further-patterns)
     - [Implicit Arguments: List concatenation](#implicit-arguments-list-concatenation)
     - [Dot patterns: Square](#dot-patterns-square)
     - [Map](#map)
@@ -148,6 +148,13 @@ length (x :: xs) = one + (length xs)
 
 # Dependent Function Types or Π-types
 
+Dependent pair types are a pair of two types such that the second type is a function of the first type:
+
+```
+data Σ (A : Set) (B : A → Set) : Set where
+  _,_ : (a : A) → (b : B a) → Σ A B
+```
+
 Similar to dependent pair types, a dependent function type is a function type whose result type depends upon its argument value. The notation in type theory looks like this for binary dependent function types:
 
 $$
@@ -172,7 +179,7 @@ example₁ = \ (A : Set)(x : A) → x
 
 and a more concise syntax:
 
-```lagda
+```agda
 example₂ = λ A x → x
 ```
 
@@ -180,7 +187,7 @@ Note that `\` and `λ` can be used interchangeably.
 
 Following are a few examples of functions:
 
-## Examples
+## Examples of further patterns
 
 ### Implicit Arguments: List concatenation
 
@@ -223,7 +230,7 @@ A map function for a `List` is a function that applies a lambda (un-named) funct
 
 If `f` were a lambda function, map-ing `f` over `List(a, b, c, d)` would produce `List(f(a), f(b), f(c), f(d))`
 
-![Figure 1: Map](../artwork/map.png)
+![Figure 1: Map](/artwork/map.png)
 
 ```agda
 map : {A B : Set} → List A → (A → B) → List B

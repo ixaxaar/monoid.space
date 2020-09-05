@@ -96,87 +96,87 @@
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="other-language-constructs">Other language constructs</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Lang<span class="ot">.</span>other <span class="kw">where</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">renaming</span> <span class="ot">(_</span>+<span class="ot">_</span> <span class="kw">to</span> <span class="ot">_</span>⨦<span class="ot">_)</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>functions <span class="kw">using</span> <span class="ot">(_</span>+<span class="ot">_)</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">module</span> Lang<span class="ot">.</span>other <span class="kw">where</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">renaming</span> <span class="ot">(_</span>+<span class="ot">_</span> <span class="kw">to</span> <span class="ot">_</span>⨦<span class="ot">_)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>functions <span class="kw">using</span> <span class="ot">(_</span>+<span class="ot">_)</span></span></code></pre></div>
 <h2 id="modules">Modules</h2>
 <p>Modules are used to scope variable and function namespaces such as “packages” in languages like java or python. They behave as closures with the indentation as the indicator of the extent of the closure. Each Agda source file may contain one module at the top level. Modules can be imported as can be seen from the blocks of imports above.</p>
 <p>Modules support nesting:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">module</span> nested <span class="kw">where</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>  <span class="kw">module</span> X <span class="kw">where</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>    x₁ <span class="ot">=</span> one</span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a>  <span class="kw">module</span> Y <span class="kw">where</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>    x₂ <span class="ot">=</span> two</span>
-<span id="cb2-7"><a href="#cb2-7"></a></span>
-<span id="cb2-8"><a href="#cb2-8"></a>  sum <span class="ot">=</span> X<span class="ot">.</span>x₁ + Y<span class="ot">.</span>x₂</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">module</span> nested <span class="kw">where</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  <span class="kw">module</span> X <span class="kw">where</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>    x₁ <span class="ot">=</span> one</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>  <span class="kw">module</span> Y <span class="kw">where</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>    x₂ <span class="ot">=</span> two</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>  sum <span class="ot">=</span> X<span class="ot">.</span>x₁ + Y<span class="ot">.</span>x₂</span></code></pre></div>
 <p>Importing modules:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">open</span> nested<span class="ot">.</span>X</span>
-<span id="cb3-2"><a href="#cb3-2"></a>x₁₁ <span class="ot">=</span> x₁ + one</span>
-<span id="cb3-3"><a href="#cb3-3"></a></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="kw">open</span> nested<span class="ot">.</span>Y <span class="kw">renaming</span> <span class="ot">(</span>x₂ <span class="kw">to</span> x₃<span class="ot">)</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a>x₂ <span class="ot">=</span> x₃ + one</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">open</span> nested<span class="ot">.</span>X</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>x₁₁ <span class="ot">=</span> x₁ + one</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a><span class="kw">open</span> nested<span class="ot">.</span>Y <span class="kw">renaming</span> <span class="ot">(</span>x₂ <span class="kw">to</span> x₃<span class="ot">)</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>x₂ <span class="ot">=</span> x₃ + one</span></code></pre></div>
 <p>Modules can have parameters valid inside their closures:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">module</span> Sort <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)(_</span>≤<span class="ot">_</span> <span class="ot">:</span> A <span class="ot">→</span> A <span class="ot">→</span> Bool<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>  insert <span class="ot">:</span> A <span class="ot">→</span> List A <span class="ot">→</span> List A</span>
-<span id="cb4-3"><a href="#cb4-3"></a>  insert x [] <span class="ot">=</span> x :: []</span>
-<span id="cb4-4"><a href="#cb4-4"></a>  insert x <span class="ot">(</span>y :: ys<span class="ot">)</span> <span class="kw">with</span> x ≤ y</span>
-<span id="cb4-5"><a href="#cb4-5"></a>  insert x <span class="ot">(</span>y :: ys<span class="ot">)</span>    <span class="ot">|</span> true  <span class="ot">=</span> x :: y :: ys</span>
-<span id="cb4-6"><a href="#cb4-6"></a>  insert x <span class="ot">(</span>y :: ys<span class="ot">)</span>    <span class="ot">|</span> false <span class="ot">=</span> y :: insert x ys</span>
-<span id="cb4-7"><a href="#cb4-7"></a></span>
-<span id="cb4-8"><a href="#cb4-8"></a>  sort <span class="ot">:</span> List A <span class="ot">→</span> List A</span>
-<span id="cb4-9"><a href="#cb4-9"></a>  sort []       <span class="ot">=</span> []</span>
-<span id="cb4-10"><a href="#cb4-10"></a>  sort <span class="ot">(</span>x :: xs<span class="ot">)</span> <span class="ot">=</span> insert x <span class="ot">(</span>sort xs<span class="ot">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">module</span> Sort <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)(_</span>≤<span class="ot">_</span> <span class="ot">:</span> A <span class="ot">→</span> A <span class="ot">→</span> Bool<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>  insert <span class="ot">:</span> A <span class="ot">→</span> List A <span class="ot">→</span> List A</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>  insert x [] <span class="ot">=</span> x :: []</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>  insert x <span class="ot">(</span>y :: ys<span class="ot">)</span> <span class="kw">with</span> x ≤ y</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>  insert x <span class="ot">(</span>y :: ys<span class="ot">)</span>    <span class="ot">|</span> true  <span class="ot">=</span> x :: y :: ys</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>  insert x <span class="ot">(</span>y :: ys<span class="ot">)</span>    <span class="ot">|</span> false <span class="ot">=</span> y :: insert x ys</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a>  sort <span class="ot">:</span> List A <span class="ot">→</span> List A</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a>  sort []       <span class="ot">=</span> []</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true"></a>  sort <span class="ot">(</span>x :: xs<span class="ot">)</span> <span class="ot">=</span> insert x <span class="ot">(</span>sort xs<span class="ot">)</span></span></code></pre></div>
 <h2 id="records">Records</h2>
 <p>Tuples are called as <code>Record</code>s in Agda. Some examples are:</p>
 <p>A tuple of <code>Bool</code> and <code>ℕ</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">record</span> R <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>  <span class="kw">field</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>    r₁ <span class="ot">:</span> Bool</span>
-<span id="cb5-4"><a href="#cb5-4"></a>    r₂ <span class="ot">:</span> ℕ</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="kw">record</span> R <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>  <span class="kw">field</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>    r₁ <span class="ot">:</span> Bool</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>    r₂ <span class="ot">:</span> ℕ</span></code></pre></div>
 <p>A generic tuple:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">record</span> Pair <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>  <span class="kw">field</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a>    fst <span class="ot">:</span> A</span>
-<span id="cb6-4"><a href="#cb6-4"></a>    snd <span class="ot">:</span> B</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">record</span> Pair <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>  <span class="kw">field</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>    fst <span class="ot">:</span> A</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>    snd <span class="ot">:</span> B</span></code></pre></div>
 <p>An object of <code>Pair</code> can be constructed as:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a>p23 <span class="ot">:</span> Pair ℕ ℕ</span>
-<span id="cb7-2"><a href="#cb7-2"></a>p23 <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> fst <span class="ot">=</span> two<span class="ot">;</span> snd <span class="ot">=</span> three <span class="ot">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>p23 <span class="ot">:</span> Pair ℕ ℕ</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>p23 <span class="ot">=</span> <span class="kw">record</span> <span class="ot">{</span> fst <span class="ot">=</span> two<span class="ot">;</span> snd <span class="ot">=</span> three <span class="ot">}</span></span></code></pre></div>
 <p>The <code>constructor</code> keyword can be specified to construct records:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">record</span> Pair&#39; <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>  <span class="kw">constructor</span> <span class="ot">_</span>,<span class="ot">_</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a>  <span class="kw">field</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a>    fst <span class="ot">:</span> A</span>
-<span id="cb8-5"><a href="#cb8-5"></a>    snd <span class="ot">:</span> B</span>
-<span id="cb8-6"><a href="#cb8-6"></a></span>
-<span id="cb8-7"><a href="#cb8-7"></a>p45 <span class="ot">:</span> Pair&#39; ℕ ℕ</span>
-<span id="cb8-8"><a href="#cb8-8"></a>p45 <span class="ot">=</span> four , five</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="kw">record</span> Pair&#39; <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>  <span class="kw">constructor</span> <span class="ot">_</span>,<span class="ot">_</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a>  <span class="kw">field</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a>    fst <span class="ot">:</span> A</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a>    snd <span class="ot">:</span> B</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true"></a>p45 <span class="ot">:</span> Pair&#39; ℕ ℕ</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true"></a>p45 <span class="ot">=</span> four , five</span></code></pre></div>
 <p>The values of a record can be pattern matched upon:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1"></a>left <span class="ot">:</span> Pair&#39; ℕ ℕ <span class="ot">→</span> ℕ</span>
-<span id="cb9-2"><a href="#cb9-2"></a>left <span class="ot">(</span>x , y<span class="ot">)</span> <span class="ot">=</span> x</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a>left <span class="ot">:</span> Pair&#39; ℕ ℕ <span class="ot">→</span> ℕ</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>left <span class="ot">(</span>x , y<span class="ot">)</span> <span class="ot">=</span> x</span></code></pre></div>
 <p>A record can be parameterized:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">record</span> List&#39; <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a>  <span class="kw">constructor</span> L</span>
-<span id="cb10-3"><a href="#cb10-3"></a>  <span class="kw">field</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a>    length <span class="ot">:</span> ℕ</span>
-<span id="cb10-5"><a href="#cb10-5"></a>    vector <span class="ot">:</span> Vec A length</span>
-<span id="cb10-6"><a href="#cb10-6"></a></span>
-<span id="cb10-7"><a href="#cb10-7"></a>list₂ <span class="ot">:</span> List&#39; Bool</span>
-<span id="cb10-8"><a href="#cb10-8"></a>list₂ <span class="ot">=</span> L three vec3</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="kw">record</span> List&#39; <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>  <span class="kw">constructor</span> L</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>  <span class="kw">field</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a>    length <span class="ot">:</span> ℕ</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a>    vector <span class="ot">:</span> Vec A length</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a>list₂ <span class="ot">:</span> List&#39; Bool</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a>list₂ <span class="ot">=</span> L three vec3</span></code></pre></div>
 <p>All <code>Data</code> definitions have an equivalent <code>Record</code> definition, however <code>Record</code>s are preferred whenever possible as a convention. Records have the obvious advantage of providing <code>getters</code> and <code>setters</code> for free.</p>
 <h2 id="postulates">Postulates</h2>
 <p><code>postulate</code>s are another Agda language construct. These facilitate defining some type without the actual implementation.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">postulate</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a>  A B    <span class="ot">:</span> <span class="dt">Set</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a>  a      <span class="ot">:</span> A</span>
-<span id="cb11-4"><a href="#cb11-4"></a>  b      <span class="ot">:</span> B</span>
-<span id="cb11-5"><a href="#cb11-5"></a>  <span class="ot">_</span>=AB=<span class="ot">_</span> <span class="ot">:</span> A <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span></span>
-<span id="cb11-6"><a href="#cb11-6"></a>  a==b   <span class="ot">:</span> a =AB= b</span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">data</span> False <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="kw">postulate</span> bottom <span class="ot">:</span> False</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="kw">postulate</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>  A B    <span class="ot">:</span> <span class="dt">Set</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a>  a      <span class="ot">:</span> A</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a>  b      <span class="ot">:</span> B</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a>  <span class="ot">_</span>=AB=<span class="ot">_</span> <span class="ot">:</span> A <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a>  a==b   <span class="ot">:</span> a =AB= b</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="kw">data</span> False <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a><span class="kw">postulate</span> bottom <span class="ot">:</span> False</span></code></pre></div>
 <hr />
 <p><a href="./Lang.syntaxQuirks.html">Quirks of Syntax</a></p>
 </body>

@@ -15,7 +15,7 @@
     - [Empty](#empty)
     - [Singleton](#singleton)
   - [Boolean type](#boolean-type)
-  - [Natural numbers](#natural-numbers)
+  - [`Natu`ral numbers](#natural-numbers)
   - [Binary Trees](#binary-trees)
   - [Graph](#graph)
   - [List](#list)
@@ -81,6 +81,26 @@ The `Set` type is the root of all types, somewhat akin to java's `Object` or sca
 
 Programming languages often come bundled with some primitive data types like `int`, `float`, `string` etc and some that combine these primitive types into more complex structures, e.g. `map` or `dict` (python) can be used to construct say `map<string, array<string>>` or the `Either` datatype in haskell, the `Option` datatype in scala, `tuple` in python and so on.
 
+Most languages allow creating new data types using either cartesian product or cartesian sum (disjoint union) on a bunch of pre-existing data types and enclosing them inside a container.
+
+Some examples of cartesian product of `String`, `Int` and another `String` would be:
+
+```scala
+val a : Tuple2[String, Tuple2[Int, String]] = ...
+
+val b : Tuple2[Tuple2[String, Int], String] = ...
+
+val c : Map[String, (Int, String)] = ...
+```
+
+and some example of sums are:
+
+```scala
+val a : Option[A] = ... // Either A or null
+
+val a : Either[A, B] = ... // Either type A or type B
+```
+
 Some languages also provide the mechanism to define new data types, sometimes by alias-ing a data type with a name like in scala:
 
 ```scala
@@ -113,26 +133,23 @@ It is important to appreciate that `Shape` is a new `Type`, one that did not pre
 The `data` keyword works in a similar manner in Agda:
 
 ```agda
--- lets assume SomeType1 and SomeType2 to be previously defined
-module _ {SomeType1 SomeType2 : Set} where
-
-  data AgdaData : Set where
-    -- constructors, all return AgdaData
-    constructor1 : SomeType1 → AgdaData
-    constructor2 : SomeType2 → AgdaData
-    trivialConstructor : AgdaData
-    etc : SomeType1 → SomeType2 → AgdaData
+-- lets assume the type ℝ, or real numbers is already defined
+module _ {ℝ : Set} where
+  data Shape : Set where
+    Circle : ℝ → ℝ → ℝ → Shape
+    Rectangle : ℝ → ℝ → ℝ → ℝ → Shape
 ```
 
 ## Functions
 
-In Type theory, a function `f` that operates on values of type `𝔸`, also called domain of the function and produces values of type `𝔹` is represented as:
+In Type theory, a function `f` that operates on values of type `𝔸`, also called domain of the function and produces values of type `𝔹`, also called co-domain of the function, is represented as:
 
 $$
 f : 𝔸 → 𝔹
 $$
 
 A function in Agda consists of two main parts:
+
 1. Types that the function operates on including:
    1. Domain `Type`.
    2. Co-domain `Type`.
@@ -144,7 +161,7 @@ not true  = false
 not false = true
 ```
 
-This is something to be aware of at this time, though we will look at much more complex examples of functions as we go on. As Agda is implemented in haskell, this is very similar to haskell syntax.
+This pattern matching way if typically found in functional programming language and the reader is cautioned that this will be used heavily throughout this work. As Agda is implemented in haskell and its syntax shares high degrees of similarity, it is encouraged to be a bit well versed with basic haskell.
 
 ## Trivial Types
 
@@ -177,7 +194,7 @@ data Bool : Set where
   false : Bool
 ```
 
-## Natural numbers
+## `Natu`ral numbers
 
 Natural numbers are the integral numbers used for counting, e.g. 0,1,2,3... Natural numbers support an operation called `succ` for succession, which can be used to create new natural numbers from known ones, e.g. `3 = 2 + 1 = 1 + 1 + 1`. Thus, all natural numbers can be created from `zero` and n successive numbers after `zero`. All we need to know are:
 
@@ -256,7 +273,7 @@ Here, we mean that for all inputs of the type `x + (succ y)` where `succ y` corr
 
 We define a binary tree using the following definition. Note that this merely creates an empty structure of a tree, the nodes or leaves contain no information in them, except for their position in the tree:
 
-![Figure 1: Bintree](../artwork/bintree.png)
+![Figure 1: Bintree](/artwork/bintree.png)
 
 ```agda
 data BinTree : Set where
@@ -280,7 +297,7 @@ data ℕNodeBinTree : Set where
   node : ℕ → ℕNodeBinTree → ℕNodeBinTree → ℕNodeBinTree
 ```
 
-Binary trees with each node containing a natural number and each leaf contaning a boolean:
+Binary trees with each node containing a natural number and each leaf containing a boolean:
 
 ```agda
 data ℕMixedBinTree : Set where
@@ -290,7 +307,7 @@ data ℕMixedBinTree : Set where
 
 ## Graph
 
-![Figure 2: Graph](../artwork/graph.png)
+![Figure 2: Graph](/artwork/graph.png)
 
 We define a graph with:
 
@@ -315,7 +332,7 @@ data Graph where
 infixl 3 _+|+_
 ```
 
-Agda supports ["mixfix"](https://agda.readthedocs.io/en/v2.5.2/language/mixfix-operators.html) operators which combine infix, prefix and postfix operator semantics. Operator arguments are indicated with underscores `_`. An example would be the infix addition operator `_+_` which when applied with two parameters can be written as `a + b`. Similarly, a prefix operator would be represented as `♠_`, a postfix one as `♠_`. It is also possible to define more complex operators like `if_then_else_`.
+> Agda supports ["mixfix"](https://agda.readthedocs.io/en/v2.5.2/language/mixfix-operators.html) operators which combine infix, prefix and postfix operator semantics. Operator arguments are indicated with underscores `_`. An example would be the infix addition operator `_+_` which when applied with two parameters can be written as `a + b`. Similarly, a prefix operator would be represented as `_♠`, a postfix one as `♠_`. It is also possible to define more complex operators like `if_then_else_`.
 
 The `infixl` operator above sets the precedence of the operator `+|+`.
 
@@ -331,7 +348,7 @@ graph = idGraph (edge (vertex zero)   (vertex seven))     +|+
 
 ## List
 
-![Figure 3: List](../artwork/list.png)
+![Figure 3: List](/artwork/list.png)
 
 A list containing objects of type `A` can be defined inductively as having:
 
@@ -353,19 +370,17 @@ bunch : List Bool
 bunch = false :: false :: true :: false :: true :: []
 ```
 
-```agda
-data TypeOf (A : Set) : Set where
-  typeOf : List A → TypeOf A
-```
-
-```agda
-nat : TypeOf ℕ
-nat = typeOf ( one :: two :: ten :: [] )
-```
-
 ## Finite set
 
-A finite set can be considered as a finite bunch of numbered objects, such that each object can be uniquely identified by an integer, thus making the set countable. This count is called the `Cardinality` of the set. Formally, a finite set `Fin` is a set for which there exists a bijection (one-to-one and onto correspondence) $f : Fin → [n]$ where $n ∈ ℕ$ and `[n]` is the set of all natural numbers from `0` to `n`.
+A finite set can be considered as a finite bunch of numbered objects, such that each object can be uniquely identified by an integer, thus making the set countable. This count is called the `Cardinality` of the set.
+
+Formally, a finite set `Fin` is a set for which there exists a bijection (one-to-one and onto correspondence)
+
+$$f : Fin → [n]$$
+
+where $n ∈ ℕ$ and `[n]` is the set of all natural numbers from `0` to `n`.
+
+This can be represented in Agda as:
 
 ```agda
 data Fin : ℕ → Set where
@@ -384,7 +399,7 @@ For a more in-depth treatment of finite sets, refer [Dependently Typed Programmi
 
 ## Indexed sequences or Vectors
 
-![Figure 4: Vectors](../artwork/vector.png)
+![Figure 4: Vectors](/artwork/vector.png)
 
 We now define a finite sized indexed list, also called a vector `Vec`. The constructor consists of:
 
@@ -421,7 +436,9 @@ val y : List[Int] = List(1,2,3,4,5,6,7,8,9,0)
 
 both have the same type `List[Int]`.
 
-Example, a bool-indexed vector such that only one type can be stored at the same time:
+Another example:
+
+A bool-indexed vector such that only one type can be stored at the same time:
 
 ```agda
 data ⟂ : Set where

@@ -103,15 +103,15 @@
 <p>In Agda and other systems based on the Curry-Howard correspondence there is another notion of proof, where proofs are programs, formulas are types, and a proof is a correct proof of a certain theorem provided the corresponding program has the type of the corresponding formula. In simpler terms, if one claims a proposition, one has to show the proposition (which is a type) is valid. A type can be shown to be valid if one can either construct an object of that type or provide a means (function) to do so.</p>
 <p>Thinking from the computer science perspective, a proof of a theorem can be modeled with a tree, where the root is the theorem, the leaves are the axioms, and the inner nodes follow from their parents by a rule of inference.</p>
 <figure>
-<img src="../artwork/proof.png" alt="" /><figcaption>Figure 1. A tree representation of a proof</figcaption>
+<img src="../artwork/proof.png" alt="Figure 1. A tree representation of a proof" /><figcaption aria-hidden="true">Figure 1. A tree representation of a proof</figcaption>
 </figure>
 <p>While proving a proposition that involves an equality, one may use one side of the equality (say, the right hand side RHS) to prove the other side. We shall see this method, called “equational reasoning”, in detail later.</p>
 <figure>
-<img src="../artwork/equational.png" alt="" /><figcaption>Figure 2. Proof by equation reasoning</figcaption>
+<img src="../artwork/equational.png" alt="Figure 2. Proof by equation reasoning" /><figcaption aria-hidden="true">Figure 2. Proof by equation reasoning</figcaption>
 </figure>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Types<span class="ot">.</span>proofsAsData <span class="kw">where</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">module</span> Types<span class="ot">.</span>proofsAsData <span class="kw">where</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures</span></code></pre></div>
 <p>Here we present some examples of how to write simple proofs in Agda.</p>
 <h2 id="order">Order</h2>
 <p>For example, the <code>&lt;=</code> operator can be defined using induction as consisting of two constructors:</p>
@@ -120,73 +120,73 @@
 <li>a successive pattern matcher <code>lz</code> which tries to reduce comparison of <code>x &lt;= y</code>, to <code>x-1 &lt;= y-1</code>:</li>
 </ul>
 <p>After applying <code>lz</code> sufficient number of times, if we end up at <code>0 &lt;= x</code> where <code>ltz</code> is invoked, computation terminates and our theorem is proved.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">data</span> <span class="ot">_</span>&lt;=<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>  ltz <span class="ot">:</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> zero &lt;= n</span>
-<span id="cb2-3"><a href="#cb2-3"></a>  lt <span class="ot">:</span> <span class="ot">{</span>m <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> m &lt;= n <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> &lt;= <span class="ot">(</span>succ n<span class="ot">)</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>&lt;=<span class="ot">_</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">data</span> <span class="ot">_</span>&lt;=<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  ltz <span class="ot">:</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> zero &lt;= n</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>  lt <span class="ot">:</span> <span class="ot">{</span>m <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> m &lt;= n <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> &lt;= <span class="ot">(</span>succ n<span class="ot">)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>&lt;=<span class="ot">_</span></span></code></pre></div>
 <p>Now, we can use that to prove a bunch of propositions:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a>idLess₁ <span class="ot">:</span> one &lt;= ten</span>
-<span id="cb3-2"><a href="#cb3-2"></a>idLess₁ <span class="ot">=</span> lt ltz</span>
-<span id="cb3-3"><a href="#cb3-3"></a></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co">-- (lt ltz)(one &lt;= ten)</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="co">-- ltz (zero &lt;= nine)</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="co">-- true</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a></span>
-<span id="cb3-8"><a href="#cb3-8"></a>idLess₁₊ <span class="ot">:</span> two &lt;= ten</span>
-<span id="cb3-9"><a href="#cb3-9"></a>idLess₁₊ <span class="ot">=</span> lt <span class="ot">(</span>lt ltz<span class="ot">)</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a></span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="co">-- (lt (lt ltz))(two &lt;= ten)</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a><span class="co">-- (lt ltz)(one &lt;= nine)</span></span>
-<span id="cb3-13"><a href="#cb3-13"></a><span class="co">-- ltz (zero &lt;= eight)</span></span>
-<span id="cb3-14"><a href="#cb3-14"></a><span class="co">-- true</span></span>
-<span id="cb3-15"><a href="#cb3-15"></a></span>
-<span id="cb3-16"><a href="#cb3-16"></a>idLess₂ <span class="ot">:</span> two &lt;= seven</span>
-<span id="cb3-17"><a href="#cb3-17"></a>idLess₂ <span class="ot">=</span> lt <span class="ot">(</span>lt ltz<span class="ot">)</span></span>
-<span id="cb3-18"><a href="#cb3-18"></a></span>
-<span id="cb3-19"><a href="#cb3-19"></a>idLess₃ <span class="ot">:</span> three &lt;= nine</span>
-<span id="cb3-20"><a href="#cb3-20"></a>idLess₃ <span class="ot">=</span> lt <span class="ot">(</span>lt <span class="ot">(</span>lt ltz<span class="ot">))</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>idLess₁ <span class="ot">:</span> one &lt;= ten</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>idLess₁ <span class="ot">=</span> lt ltz</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a><span class="co">-- (lt ltz)(one &lt;= ten)</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a><span class="co">-- ltz (zero &lt;= nine)</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a><span class="co">-- true</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>idLess₁₊ <span class="ot">:</span> two &lt;= ten</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a>idLess₁₊ <span class="ot">=</span> lt <span class="ot">(</span>lt ltz<span class="ot">)</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a><span class="co">-- (lt (lt ltz))(two &lt;= ten)</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a><span class="co">-- (lt ltz)(one &lt;= nine)</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a><span class="co">-- ltz (zero &lt;= eight)</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true"></a><span class="co">-- true</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true"></a>idLess₂ <span class="ot">:</span> two &lt;= seven</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true"></a>idLess₂ <span class="ot">=</span> lt <span class="ot">(</span>lt ltz<span class="ot">)</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true"></a>idLess₃ <span class="ot">:</span> three &lt;= nine</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true"></a>idLess₃ <span class="ot">=</span> lt <span class="ot">(</span>lt <span class="ot">(</span>lt ltz<span class="ot">))</span></span></code></pre></div>
 <p>If we try to compile something that is not true, the compiler will throw an error:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1"></a>idLess&#39; <span class="op">:</span> ten <span class="op">&lt;=</span> three</span>
-<span id="cb4-2"><a href="#cb4-2"></a>idLess&#39; <span class="ot">=</span> lt lt lt lt lt lt lt lt lt ltz</span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>proofsAsData.lagda.md:<span class="dv">68</span>,<span class="dv">14</span><span class="op">-</span><span class="dv">16</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>(_m_30 <span class="op">&lt;=</span> _n_31 → succ _m_30 <span class="op">&lt;=</span> succ _n_31) <span class="op">!=&lt;</span> (nine <span class="op">&lt;=</span> two) of</span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="bu">type</span> Set</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>idLess&#39; <span class="op">:</span> ten <span class="op">&lt;=</span> three</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>idLess&#39; <span class="ot">=</span> lt lt lt lt lt lt lt lt lt ltz</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>proofsAsData.lagda.md:<span class="dv">68</span>,<span class="dv">14</span><span class="op">-</span><span class="dv">16</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>(_m_30 <span class="op">&lt;=</span> _n_31 → succ _m_30 <span class="op">&lt;=</span> succ _n_31) <span class="op">!=&lt;</span> (nine <span class="op">&lt;=</span> two) of</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a><span class="bu">type</span> Set</span></code></pre></div>
 <h2 id="odd-or-even">Odd or Even</h2>
 <p>The odd or even proofs can be defined as in the previous proof. Here we successively decrement <code>n</code> till we:</p>
 <ul>
 <li>reach <code>even₀</code> to prove <code>n</code> is even</li>
 <li>reach <code>odd₀</code> to prove <code>n</code> is odd</li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">data</span> Even <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">data</span> Odd <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="kw">data</span> Even <span class="kw">where</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a>  zeroIsEven <span class="ot">:</span> Even zero</span>
-<span id="cb6-6"><a href="#cb6-6"></a>  succ <span class="ot">:</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> Even n <span class="ot">→</span> Even <span class="ot">(</span>succ <span class="ot">(</span>succ n<span class="ot">))</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a></span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="kw">data</span> Odd <span class="kw">where</span></span>
-<span id="cb6-9"><a href="#cb6-9"></a>  oneIsOdd <span class="ot">:</span> Odd one</span>
-<span id="cb6-10"><a href="#cb6-10"></a>  succ <span class="ot">:</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> Odd n <span class="ot">→</span> Odd <span class="ot">(</span>succ <span class="ot">(</span>succ n<span class="ot">))</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">data</span> Even <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="kw">data</span> Odd <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="kw">data</span> Even <span class="kw">where</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>  zeroIsEven <span class="ot">:</span> Even zero</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>  succ <span class="ot">:</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> Even n <span class="ot">→</span> Even <span class="ot">(</span>succ <span class="ot">(</span>succ n<span class="ot">))</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a><span class="kw">data</span> Odd <span class="kw">where</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a>  oneIsOdd <span class="ot">:</span> Odd one</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a>  succ <span class="ot">:</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> Odd n <span class="ot">→</span> Odd <span class="ot">(</span>succ <span class="ot">(</span>succ n<span class="ot">))</span></span></code></pre></div>
 <p>by which we could prove:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a>twoisEven <span class="ot">:</span> Even two</span>
-<span id="cb7-2"><a href="#cb7-2"></a>twoisEven <span class="ot">=</span> succ zeroIsEven</span>
-<span id="cb7-3"><a href="#cb7-3"></a></span>
-<span id="cb7-4"><a href="#cb7-4"></a>isFourEven <span class="ot">:</span> Even four</span>
-<span id="cb7-5"><a href="#cb7-5"></a>isFourEven <span class="ot">=</span> succ <span class="ot">(</span>succ zeroIsEven<span class="ot">)</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a></span>
-<span id="cb7-7"><a href="#cb7-7"></a>isSevenOdd <span class="ot">:</span> Odd seven</span>
-<span id="cb7-8"><a href="#cb7-8"></a>isSevenOdd <span class="ot">=</span> succ <span class="ot">(</span>succ <span class="ot">(</span>succ oneIsOdd<span class="ot">))</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>twoisEven <span class="ot">:</span> Even two</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>twoisEven <span class="ot">=</span> succ zeroIsEven</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>isFourEven <span class="ot">:</span> Even four</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>isFourEven <span class="ot">=</span> succ <span class="ot">(</span>succ zeroIsEven<span class="ot">)</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>isSevenOdd <span class="ot">:</span> Odd seven</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a>isSevenOdd <span class="ot">=</span> succ <span class="ot">(</span>succ <span class="ot">(</span>succ oneIsOdd<span class="ot">))</span></span></code></pre></div>
 <h2 id="equality-of-natural-numbers">Equality of natural numbers</h2>
 <p>Equality of natural numbers can be proven by successively comparing decrements of them, till we reach <code>0 = 0</code>. Else the computation never terminates:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>  eq₀ <span class="ot">:</span> zero ≡ zero</span>
-<span id="cb8-3"><a href="#cb8-3"></a>  eq <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>n m<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>succ n<span class="ot">)</span> ≡ <span class="ot">(</span>succ m<span class="ot">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>  eq₀ <span class="ot">:</span> zero ≡ zero</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a>  eq <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>n m<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>succ n<span class="ot">)</span> ≡ <span class="ot">(</span>succ m<span class="ot">)</span></span></code></pre></div>
 <p>Similar for not equals:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">data</span> <span class="ot">_</span>≠<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a>  neq₀ <span class="ot">:</span> <span class="ot">∀</span> n <span class="ot">→</span> n ≠ zero</span>
-<span id="cb9-3"><a href="#cb9-3"></a>  neq₁ <span class="ot">:</span> <span class="ot">∀</span> m <span class="ot">→</span> zero ≠ m</span>
-<span id="cb9-4"><a href="#cb9-4"></a>  neq <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span> n m <span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>succ n<span class="ot">)</span> ≠ <span class="ot">(</span>succ m<span class="ot">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="kw">data</span> <span class="ot">_</span>≠<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>  neq₀ <span class="ot">:</span> <span class="ot">∀</span> n <span class="ot">→</span> n ≠ zero</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>  neq₁ <span class="ot">:</span> <span class="ot">∀</span> m <span class="ot">→</span> zero ≠ m</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a>  neq <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span> n m <span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>succ n<span class="ot">)</span> ≠ <span class="ot">(</span>succ m<span class="ot">)</span></span></code></pre></div>
 <h2 id="belongs-to">Belongs to</h2>
 <p>To prove that a particular element of type <code>A</code> belongs to a list <code>List'</code> of type <code>A</code>, we require:</p>
 <ul>
@@ -198,17 +198,17 @@
 </ul></li>
 </ul>
 <p>where <code>list₁</code> is <code>list</code> without <code>y</code>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">data</span> <span class="ot">_</span>∈<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> List A <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a>  refl <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>xs<span class="ot">}</span> <span class="ot">→</span> x ∈ <span class="ot">(</span>x :: xs<span class="ot">)</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a>  succ∈ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>y xs<span class="ot">}</span> <span class="ot">→</span> x ∈ xs <span class="ot">→</span> x ∈ <span class="ot">(</span>y :: xs<span class="ot">)</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a></span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>∈<span class="ot">_</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="kw">data</span> <span class="ot">_</span>∈<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> List A <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>  refl <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>xs<span class="ot">}</span> <span class="ot">→</span> x ∈ <span class="ot">(</span>x :: xs<span class="ot">)</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>  succ∈ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>y xs<span class="ot">}</span> <span class="ot">→</span> x ∈ xs <span class="ot">→</span> x ∈ <span class="ot">(</span>y :: xs<span class="ot">)</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a><span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>∈<span class="ot">_</span></span></code></pre></div>
 <p>Example:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1"></a>theList <span class="ot">:</span> List ℕ</span>
-<span id="cb11-2"><a href="#cb11-2"></a>theList <span class="ot">=</span> one :: two :: four :: seven :: three :: []</span>
-<span id="cb11-3"><a href="#cb11-3"></a></span>
-<span id="cb11-4"><a href="#cb11-4"></a>threeIsInList <span class="ot">:</span> three ∈ theList</span>
-<span id="cb11-5"><a href="#cb11-5"></a>threeIsInList <span class="ot">=</span> succ∈ <span class="ot">(</span>succ∈ <span class="ot">(</span>succ∈ <span class="ot">(</span>succ∈ refl<span class="ot">)))</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a>theList <span class="ot">:</span> List ℕ</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>theList <span class="ot">=</span> one :: two :: four :: seven :: three :: []</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a>threeIsInList <span class="ot">:</span> three ∈ theList</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a>threeIsInList <span class="ot">=</span> succ∈ <span class="ot">(</span>succ∈ <span class="ot">(</span>succ∈ <span class="ot">(</span>succ∈ refl<span class="ot">)))</span></span></code></pre></div>
 <h1 id="curry-howard-isomorphism">Curry-Howard Isomorphism</h1>
 <p>The relationship we saw earlier between formal proofs and computer programs is called the <strong>Curry-Howard isomorphism</strong>, also known as the <strong>Curry-Howard correspondence</strong>. This states that a proof is a program and the formula it proves is the type of the program. Broadly, they discovered that logical operations have analogues in types as can be seen below:</p>
 <table>

@@ -103,10 +103,10 @@
 <li><a href="#length-of-a-list">Length of a List</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#dependent-function-types-or-%CF%80-types">Dependent Function Types or Π-types</a>
+<li><a href="#dependent-function-types-or-π-types">Dependent Function Types or Π-types</a>
 <ul>
 <li><a href="#lambda-functions">Lambda Functions</a></li>
-<li><a href="#examples">Examples</a>
+<li><a href="#examples-of-further-patterns">Examples of further patterns</a>
 <ul>
 <li><a href="#implicit-arguments-list-concatenation">Implicit Arguments: List concatenation</a></li>
 <li><a href="#dot-patterns-square">Dot patterns: Square</a></li>
@@ -118,56 +118,56 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="functions">Functions</h1>
 <p>A function <code>𝕗</code> which takes a value of type <code>𝔸</code> and returns a value of type <code>𝔹</code>, is said to be of type <code>𝔸 → 𝔹</code> and is written as <code>𝕗 : 𝔸 → 𝔹</code>. The type <code>𝔸</code> is called the function <code>𝕗</code>’s “domain” and <code>𝔹</code> is the “co-domain”.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="pp">{-# OPTIONS --allow-unsolved-metas #-}</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">module</span> Lang<span class="ot">.</span>functions <span class="kw">where</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">hiding</span> <span class="ot">(_</span>+<span class="ot">_)</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="pp">{-# OPTIONS --allow-unsolved-metas #-}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">module</span> Lang<span class="ot">.</span>functions <span class="kw">where</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">hiding</span> <span class="ot">(_</span>+<span class="ot">_)</span></span></code></pre></div>
 <h2 id="generic-syntax">Generic Syntax</h2>
 <p>Syntax for defining functions in Agda:</p>
 <ol type="1">
 <li>Define name and type of function</li>
 <li>Define clauses for each applicable pattern</li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">-- 1. Name (not), Type (Bool → Bool)</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">not</span> <span class="op">:</span> <span class="dt">Bool</span> <span class="ot">→</span> <span class="dt">Bool</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="co">-- 2. Clause 1: if the argument to `not` is `true`</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="fu">not</span> true <span class="ot">=</span> false</span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co">-- 2. Clause 2: if the argument to `not` is `false`</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="fu">not</span> false <span class="ot">=</span> true</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co">-- 1. Name (not), Type (Bool → Bool)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="fu">not</span> <span class="op">:</span> <span class="dt">Bool</span> <span class="ot">→</span> <span class="dt">Bool</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="co">-- 2. Clause 1: if the argument to `not` is `true`</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="fu">not</span> true <span class="ot">=</span> false</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a><span class="co">-- 2. Clause 2: if the argument to `not` is `false`</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a><span class="fu">not</span> false <span class="ot">=</span> true</span></code></pre></div>
 <h2 id="examples---pattern-matching-functions">Examples - Pattern matching functions</h2>
 <h3 id="the-logical-not">The Logical Not</h3>
 <p>The simplest of functions simply match patterns. For example the function for <code>not</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a>not <span class="ot">:</span> Bool <span class="ot">→</span> Bool</span>
-<span id="cb3-2"><a href="#cb3-2"></a>not true <span class="ot">=</span> false <span class="co">-- return false if we are given a true</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a>not false <span class="ot">=</span> true <span class="co">-- return a true if we are given a false</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>not <span class="ot">:</span> Bool <span class="ot">→</span> Bool</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>not true <span class="ot">=</span> false <span class="co">-- return false if we are given a true</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>not false <span class="ot">=</span> true <span class="co">-- return a true if we are given a false</span></span></code></pre></div>
 <p>we could also use a wildcard type (<code>_</code>) like this:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1"></a>not₁ <span class="ot">:</span> Bool <span class="ot">→</span> Bool</span>
-<span id="cb4-2"><a href="#cb4-2"></a>not₁ true <span class="ot">=</span> false <span class="co">-- return false if we are given a true</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>not₁ <span class="ot">_</span> <span class="ot">=</span> true <span class="co">-- return true in all other cases</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>not₁ <span class="ot">:</span> Bool <span class="ot">→</span> Bool</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>not₁ true <span class="ot">=</span> false <span class="co">-- return false if we are given a true</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>not₁ <span class="ot">_</span> <span class="ot">=</span> true <span class="co">-- return true in all other cases</span></span></code></pre></div>
 <h3 id="the-logical-and">The logical AND</h3>
 <p>In Agda, function names containing <code>_</code>s indicate those functions can behave as operators. Hence <code>_+_</code> indicates that instead of calling the functions <code>+(a, b)</code> one can call it as <code>a + b</code>, whereas <code>if_then_else_</code> can be called as <code>if condition then 2 else 3</code>.</p>
 <p>One has to also define whether the infix operator is left or right associative (<code>infixl</code>, <code>infixr</code>) and its precedence level. The default precedence level for a newly defined operator is 20.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a><span class="ot">_</span>∧<span class="ot">_</span> <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool</span>
-<span id="cb5-2"><a href="#cb5-2"></a>true ∧ whatever <span class="ot">=</span> whatever <span class="co">-- true AND whatever is whatever</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>false ∧ whatever <span class="ot">=</span> false <span class="co">-- false AND whatever is false</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="kw">infixr</span> <span class="dv">6</span> <span class="ot">_</span>∧<span class="ot">_</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="ot">_</span>∧<span class="ot">_</span> <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>true ∧ whatever <span class="ot">=</span> whatever <span class="co">-- true AND whatever is whatever</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>false ∧ whatever <span class="ot">=</span> false <span class="co">-- false AND whatever is false</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a><span class="kw">infixr</span> <span class="dv">6</span> <span class="ot">_</span>∧<span class="ot">_</span></span></code></pre></div>
 <h3 id="the-logical-or">The logical OR</h3>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a><span class="ot">_</span>∨<span class="ot">_</span> <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool</span>
-<span id="cb6-2"><a href="#cb6-2"></a>true ∨ whatever <span class="ot">=</span> true <span class="co">-- true or whatever is true</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a>false ∨ whatever <span class="ot">=</span> whatever <span class="co">-- false or whatever is whatever</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="kw">infixr</span> <span class="dv">6</span> <span class="ot">_</span>∨<span class="ot">_</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="ot">_</span>∨<span class="ot">_</span> <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>true ∨ whatever <span class="ot">=</span> true <span class="co">-- true or whatever is true</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>false ∨ whatever <span class="ot">=</span> whatever <span class="co">-- false or whatever is whatever</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a><span class="kw">infixr</span> <span class="dv">6</span> <span class="ot">_</span>∨<span class="ot">_</span></span></code></pre></div>
 <p>These functions can be applied as:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a>notTrue <span class="ot">:</span> Bool</span>
-<span id="cb7-2"><a href="#cb7-2"></a>notTrue <span class="ot">=</span> not true</span>
-<span id="cb7-3"><a href="#cb7-3"></a></span>
-<span id="cb7-4"><a href="#cb7-4"></a>false₁ <span class="ot">:</span> Bool</span>
-<span id="cb7-5"><a href="#cb7-5"></a>false₁ <span class="ot">=</span> true ∧ false</span>
-<span id="cb7-6"><a href="#cb7-6"></a></span>
-<span id="cb7-7"><a href="#cb7-7"></a>true₁ <span class="ot">:</span> Bool</span>
-<span id="cb7-8"><a href="#cb7-8"></a>true₁ <span class="ot">=</span> true ∨ false ∨ false₁</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>notTrue <span class="ot">:</span> Bool</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>notTrue <span class="ot">=</span> not true</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>false₁ <span class="ot">:</span> Bool</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>false₁ <span class="ot">=</span> true ∧ false</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>true₁ <span class="ot">:</span> Bool</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a>true₁ <span class="ot">=</span> true ∨ false ∨ false₁</span></code></pre></div>
 <h2 id="examples---recursive-functions">Examples - Recursive functions</h2>
 <h3 id="addition-of-natural-numbers">Addition of natural numbers</h3>
 <p>Here we follow a similar pattern as in <code>data</code>, we define:</p>
@@ -175,21 +175,24 @@
 <li>the identity condition, what happens on addition with zero in this case</li>
 <li>and how to successively build up the final value</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a><span class="ot">_</span>+<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> ℕ</span>
-<span id="cb8-2"><a href="#cb8-2"></a>zero + n <span class="ot">=</span> n</span>
-<span id="cb8-3"><a href="#cb8-3"></a>succ m + n <span class="ot">=</span> succ <span class="ot">(</span>m + n<span class="ot">)</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="kw">infixl</span> <span class="dv">6</span> <span class="ot">_</span>+<span class="ot">_</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="ot">_</span>+<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> ℕ</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>zero + n <span class="ot">=</span> n</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a>succ m + n <span class="ot">=</span> succ <span class="ot">(</span>m + n<span class="ot">)</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a><span class="kw">infixl</span> <span class="dv">6</span> <span class="ot">_</span>+<span class="ot">_</span></span></code></pre></div>
 <p>Thus, we can use them to get new numbers easily:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1"></a>eleven <span class="ot">=</span> ten + one</span>
-<span id="cb9-2"><a href="#cb9-2"></a>twelve <span class="ot">=</span> eleven + one</span>
-<span id="cb9-3"><a href="#cb9-3"></a>thirteen <span class="ot">=</span> twelve + one</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a>eleven <span class="ot">=</span> ten + one</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>twelve <span class="ot">=</span> eleven + one</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>thirteen <span class="ot">=</span> twelve + one</span></code></pre></div>
 <h3 id="length-of-a-list">Length of a List</h3>
 <p>The length of a list consists of traversing through the list and adding one for each element:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1"></a>length <span class="ot">:</span> List ⊤ <span class="ot">→</span> ℕ</span>
-<span id="cb10-2"><a href="#cb10-2"></a>length [] <span class="ot">=</span> zero</span>
-<span id="cb10-3"><a href="#cb10-3"></a>length <span class="ot">(</span>x :: xs<span class="ot">)</span> <span class="ot">=</span> one + <span class="ot">(</span>length xs<span class="ot">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>length <span class="ot">:</span> List ⊤ <span class="ot">→</span> ℕ</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>length [] <span class="ot">=</span> zero</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>length <span class="ot">(</span>x :: xs<span class="ot">)</span> <span class="ot">=</span> one + <span class="ot">(</span>length xs<span class="ot">)</span></span></code></pre></div>
 <h1 id="dependent-function-types-or-π-types">Dependent Function Types or Π-types</h1>
+<p>Dependent pair types are a pair of two types such that the second type is a function of the first type:</p>
+<pre><code>data Σ (A : Set) (B : A → Set) : Set where
+  _,_ : (a : A) → (b : B a) → Σ A B</code></pre>
 <p>Similar to dependent pair types, a dependent function type is a function type whose result type depends upon its argument value. The notation in type theory looks like this for binary dependent function types:</p>
 <p><span class="math display">\[
 \prod_{x : A} B(x)
@@ -201,52 +204,52 @@
 <p>and so on.</p>
 <h2 id="lambda-functions">Lambda Functions</h2>
 <p>Lambda or anonymous functions can be defined using the following syntax:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1"></a>example₁ <span class="ot">=</span> <span class="ot">\</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a>example₁ <span class="ot">=</span> <span class="ot">\</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x</span></code></pre></div>
 <p>and a more concise syntax:</p>
-<pre class="lagda"><code>example₂ = λ A x → x</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a>example₂ <span class="ot">=</span> <span class="ot">λ</span> A x <span class="ot">→</span> x</span></code></pre></div>
 <p>Note that <code>\</code> and <code>λ</code> can be used interchangeably.</p>
 <p>Following are a few examples of functions:</p>
-<h2 id="examples">Examples</h2>
+<h2 id="examples-of-further-patterns">Examples of further patterns</h2>
 <h3 id="implicit-arguments-list-concatenation">Implicit Arguments: List concatenation</h3>
 <p>Functions in Agda can work with implicit parameters. For example, instead of having the specify the type of <code>A</code>, the compiler can be expected to figure it out. Hence instead of defining <code>_++_ : (A : Set) → List A → List A → List A</code>, we define it like:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb13-1"><a href="#cb13-1"></a><span class="ot">_</span>++<span class="ot">_</span> <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> List A <span class="ot">→</span> List A <span class="ot">→</span> List A</span>
-<span id="cb13-2"><a href="#cb13-2"></a>[]        ++ ys <span class="ot">=</span> ys</span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="ot">(</span>x :: xs<span class="ot">)</span> ++ ys <span class="ot">=</span> x :: <span class="ot">(</span>xs ++ ys<span class="ot">)</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a></span>
-<span id="cb13-5"><a href="#cb13-5"></a><span class="kw">infixr</span> <span class="dv">5</span> <span class="ot">_</span>++<span class="ot">_</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="ot">_</span>++<span class="ot">_</span> <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> List A <span class="ot">→</span> List A <span class="ot">→</span> List A</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>[]        ++ ys <span class="ot">=</span> ys</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a><span class="ot">(</span>x :: xs<span class="ot">)</span> ++ ys <span class="ot">=</span> x :: <span class="ot">(</span>xs ++ ys<span class="ot">)</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a><span class="kw">infixr</span> <span class="dv">5</span> <span class="ot">_</span>++<span class="ot">_</span></span></code></pre></div>
 <p>Note that the curly braces <code>{}</code> are “implicit arguments” in Agda. Values of implicit arguments are derived from other arguments’ (in this case <code>List A</code>) values and types by solving type equations. You don’t have to apply them or pattern match on them explicitly (though they can be explicitly passed like <code>function_name{A = A}</code>).</p>
 <p>This function takes a type as a parameter <code>A</code>, and hence can work on <code>List</code>s of any type <code>A</code>. This feature of functions is called “parametric polymorphism”.</p>
 <h3 id="dot-patterns-square">Dot patterns: Square</h3>
 <p>A dot pattern (also called inaccessible pattern) can be used when the only type-correct value of the argument is determined by the patterns given for the other arguments. The syntax for a dot pattern is <code>.t</code>.</p>
 <p>As an example, consider the datatype <code>Square</code> defined as follows:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">data</span> Square <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a>  sq <span class="ot">:</span> <span class="ot">(</span>m <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> Square <span class="ot">(</span>m × m<span class="ot">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="kw">data</span> Square <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a>  sq <span class="ot">:</span> <span class="ot">(</span>m <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> Square <span class="ot">(</span>m × m<span class="ot">)</span></span></code></pre></div>
 <p>Suppose we want to define a function <code>root : (n : ℕ) → Square n → ℕ</code> that takes as its arguments a number <code>n</code> and a proof that it is a square, and returns the square root of that number. We can do so as follows:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb15-1"><a href="#cb15-1"></a>root <span class="ot">:</span> <span class="ot">(</span>n <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> Square n <span class="ot">→</span> ℕ</span>
-<span id="cb15-2"><a href="#cb15-2"></a>root <span class="ot">.(</span>m × m<span class="ot">)</span> <span class="ot">(</span>sq m<span class="ot">)</span> <span class="ot">=</span> m</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a>root <span class="ot">:</span> <span class="ot">(</span>n <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> Square n <span class="ot">→</span> ℕ</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a>root <span class="ot">.(</span>m × m<span class="ot">)</span> <span class="ot">(</span>sq m<span class="ot">)</span> <span class="ot">=</span> m</span></code></pre></div>
 <h3 id="map">Map</h3>
 <p>We implement the <code>map</code> function, of “map-reduce” fame, for <code>List</code>s: A map function for a <code>List</code> is a function that applies a lambda (un-named) function to all elements of a <code>List</code>.</p>
 <p>If <code>f</code> were a lambda function, map-ing <code>f</code> over <code>List(a, b, c, d)</code> would produce <code>List(f(a), f(b), f(c), f(d))</code></p>
 <figure>
-<img src="../artwork/map.png" alt="" /><figcaption>Figure 1: Map</figcaption>
+<img src="/artwork/map.png" alt="Figure 1: Map" /><figcaption aria-hidden="true">Figure 1: Map</figcaption>
 </figure>
-<div class="sourceCode" id="cb16"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb16-1"><a href="#cb16-1"></a>map <span class="ot">:</span> <span class="ot">{</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> List A <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> List B</span>
-<span id="cb16-2"><a href="#cb16-2"></a>map [] f <span class="ot">=</span> []</span>
-<span id="cb16-3"><a href="#cb16-3"></a>map <span class="ot">(</span>x :: xs<span class="ot">)</span> f <span class="ot">=</span> <span class="ot">(</span>f x<span class="ot">)</span> :: <span class="ot">(</span>map xs f<span class="ot">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a>map <span class="ot">:</span> <span class="ot">{</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> List A <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> List B</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true"></a>map [] f <span class="ot">=</span> []</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true"></a>map <span class="ot">(</span>x :: xs<span class="ot">)</span> f <span class="ot">=</span> <span class="ot">(</span>f x<span class="ot">)</span> :: <span class="ot">(</span>map xs f<span class="ot">)</span></span></code></pre></div>
 <p>Here, we apply the function <code>addOne</code> to a list, using <code>map</code>:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb17-1"><a href="#cb17-1"></a>addOne <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ</span>
-<span id="cb17-2"><a href="#cb17-2"></a>addOne x  <span class="ot">=</span> x + one</span>
-<span id="cb17-3"><a href="#cb17-3"></a></span>
-<span id="cb17-4"><a href="#cb17-4"></a>oneAdded <span class="ot">:</span> List ℕ</span>
-<span id="cb17-5"><a href="#cb17-5"></a>oneAdded <span class="ot">=</span> map <span class="ot">(</span>one :: two :: three :: four :: []<span class="ot">)</span> addOne</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a>addOne <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true"></a>addOne x  <span class="ot">=</span> x + one</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true"></a>oneAdded <span class="ot">:</span> List ℕ</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true"></a>oneAdded <span class="ot">=</span> map <span class="ot">(</span>one :: two :: three :: four :: []<span class="ot">)</span> addOne</span></code></pre></div>
 <h1 id="syntactical-sugar">Syntactical Sugar</h1>
-<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1"></a>prop₁ <span class="op">:</span> ((x <span class="op">:</span> <span class="dt">A</span>) (y <span class="op">:</span> <span class="dt">B</span>) <span class="ot">→</span> <span class="dt">C</span>) is<span class="op">-</span>the<span class="op">-</span>same<span class="op">-</span>as   ((x <span class="op">:</span> <span class="dt">A</span>) <span class="ot">→</span> (y <span class="op">:</span> <span class="dt">B</span>) <span class="ot">→</span> <span class="dt">C</span>)</span>
-<span id="cb18-2"><a href="#cb18-2"></a>prop₂ <span class="op">:</span> ((x y <span class="op">:</span> <span class="dt">A</span>) <span class="ot">→</span> <span class="dt">C</span>)       is<span class="op">-</span>the<span class="op">-</span>same<span class="op">-</span>as   ((x <span class="op">:</span> <span class="dt">A</span>)(y <span class="op">:</span> <span class="dt">A</span>) <span class="ot">→</span> <span class="dt">C</span>)</span>
-<span id="cb18-3"><a href="#cb18-3"></a>prop₃ <span class="op">:</span> (<span class="kw">forall</span> (x <span class="op">:</span> <span class="dt">A</span>) <span class="ot">→</span> <span class="dt">C</span>)  is<span class="op">-</span>the<span class="op">-</span>same<span class="op">-</span>as   ((x <span class="op">:</span> <span class="dt">A</span>) <span class="ot">→</span> <span class="dt">C</span>)</span>
-<span id="cb18-4"><a href="#cb18-4"></a>prop₄ <span class="op">:</span> (<span class="kw">forall</span> x <span class="ot">→</span> <span class="dt">C</span>)        is<span class="op">-</span>the<span class="op">-</span>same<span class="op">-</span>as   ((x <span class="op">:</span> _) <span class="ot">→</span> <span class="dt">C</span>)</span>
-<span id="cb18-5"><a href="#cb18-5"></a>prop₅ <span class="op">:</span> (<span class="kw">forall</span> x y <span class="ot">→</span> <span class="dt">C</span>)      is<span class="op">-</span>the<span class="op">-</span>same<span class="op">-</span>as   (<span class="kw">forall</span> x <span class="ot">→</span> <span class="kw">forall</span> y <span class="ot">→</span> <span class="dt">C</span>)</span>
-<span id="cb18-6"><a href="#cb18-6"></a>(\x y <span class="ot">→</span> e)                    is<span class="op">-</span>the<span class="op">-</span>same<span class="op">-</span>as   (\x <span class="ot">→</span> (\y <span class="ot">→</span> e))</span>
-<span id="cb18-7"><a href="#cb18-7"></a>(f a b)                       is<span class="op">-</span>the<span class="op">-</span>same<span class="op">-</span>as   ((f a) b)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true"></a>prop₁ <span class="op">:</span> ((x <span class="op">:</span> <span class="dt">A</span>) (y <span class="op">:</span> <span class="dt">B</span>) <span class="ot">→</span> <span class="dt">C</span>) is<span class="op">-</span>the<span class="op">-</span>same<span class="op">-</span>as   ((x <span class="op">:</span> <span class="dt">A</span>) <span class="ot">→</span> (y <span class="op">:</span> <span class="dt">B</span>) <span class="ot">→</span> <span class="dt">C</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true"></a>prop₂ <span class="op">:</span> ((x y <span class="op">:</span> <span class="dt">A</span>) <span class="ot">→</span> <span class="dt">C</span>)       is<span class="op">-</span>the<span class="op">-</span>same<span class="op">-</span>as   ((x <span class="op">:</span> <span class="dt">A</span>)(y <span class="op">:</span> <span class="dt">A</span>) <span class="ot">→</span> <span class="dt">C</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true"></a>prop₃ <span class="op">:</span> (<span class="kw">forall</span> (x <span class="op">:</span> <span class="dt">A</span>) <span class="ot">→</span> <span class="dt">C</span>)  is<span class="op">-</span>the<span class="op">-</span>same<span class="op">-</span>as   ((x <span class="op">:</span> <span class="dt">A</span>) <span class="ot">→</span> <span class="dt">C</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true"></a>prop₄ <span class="op">:</span> (<span class="kw">forall</span> x <span class="ot">→</span> <span class="dt">C</span>)        is<span class="op">-</span>the<span class="op">-</span>same<span class="op">-</span>as   ((x <span class="op">:</span> _) <span class="ot">→</span> <span class="dt">C</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true"></a>prop₅ <span class="op">:</span> (<span class="kw">forall</span> x y <span class="ot">→</span> <span class="dt">C</span>)      is<span class="op">-</span>the<span class="op">-</span>same<span class="op">-</span>as   (<span class="kw">forall</span> x <span class="ot">→</span> <span class="kw">forall</span> y <span class="ot">→</span> <span class="dt">C</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true"></a>(\x y <span class="ot">→</span> e)                    is<span class="op">-</span>the<span class="op">-</span>same<span class="op">-</span>as   (\x <span class="ot">→</span> (\y <span class="ot">→</span> e))</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true"></a>(f a b)                       is<span class="op">-</span>the<span class="op">-</span>same<span class="op">-</span>as   ((f a) b)</span></code></pre></div>
 <hr />
 <p><a href="./Lang.other.html">Modules, Records and Postulates</a></p>
 </body>

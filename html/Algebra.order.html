@@ -97,13 +97,13 @@
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="introduction">Introduction</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_;</span> <span class="ot">_</span>∪<span class="ot">_)</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">module</span> Algebra<span class="ot">.</span>order <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(_</span>==<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="kw">where</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_;</span> <span class="ot">_</span>∪<span class="ot">_)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a><span class="kw">module</span> Algebra<span class="ot">.</span>order <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(_</span>==<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="kw">where</span></span></code></pre></div>
 <p>The equivalence relation remains the most basic relation to be built on objects of all kinds. Higher relations which tend to impose further structural constraints on objects thus creating richer objects and their APIs capable of modeling more complex phenomenon (not much unlike how a programming language’s <a href="https://en.wikipedia.org/wiki/Expressive_power_(computer_science)">expressiveness</a> enables one to build more complex programs).</p>
 <p>Order is one such higher relation and is fundamental in building a class of structures. There are different kinds of ordered relations each with progressively stricter laws.</p>
 <table>
@@ -148,10 +148,10 @@
 </ol>
 <p>Preorders are relations which are reflexive and transitive.</p>
 <p>We first define an object that encapsulates all the rules into one record:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a>  <span class="kw">record</span> IsPreorder <span class="ot">(_</span>∼<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>    <span class="kw">field</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>      reflexive     <span class="ot">:</span> Reflexive <span class="ot">_</span>∼<span class="ot">_</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>      trans         <span class="ot">:</span> Transitive <span class="ot">_</span>∼<span class="ot">_</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>  <span class="kw">record</span> IsPreorder <span class="ot">(_</span>∼<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>    <span class="kw">field</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>      reflexive     <span class="ot">:</span> Reflexive <span class="ot">_</span>∼<span class="ot">_</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>      trans         <span class="ot">:</span> Transitive <span class="ot">_</span>∼<span class="ot">_</span></span></code></pre></div>
 <h2 id="partial-order-or-poset">Partial Order or Poset</h2>
 <p>Partial orders are a subtype of pre-orders where <code>≤ : A → A</code>:</p>
 <ol type="1">
@@ -164,13 +164,13 @@
 <p><span class="math display">\[
 x ≤ y , y ≤ x ⟹ x == y
 \]</span></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a>  Antisymmetric <span class="ot">:</span> Rel A ℓ <span class="ot">→</span> Rel A ℓ <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>  Antisymmetric <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>≤<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x y<span class="ot">}</span> <span class="ot">→</span> x ≤ y <span class="ot">→</span> y ≤ x <span class="ot">→</span> x == y</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>  Antisymmetric <span class="ot">:</span> Rel A ℓ <span class="ot">→</span> Rel A ℓ <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>  Antisymmetric <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>≤<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x y<span class="ot">}</span> <span class="ot">→</span> x ≤ y <span class="ot">→</span> y ≤ x <span class="ot">→</span> x == y</span></code></pre></div>
 <p>We can now define partially ordered sets:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1"></a>  <span class="kw">record</span> IsPartialOrder <span class="ot">(_</span>≤<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>    <span class="kw">field</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>      isPreorder <span class="ot">:</span> IsPreorder <span class="ot">_</span>≤<span class="ot">_</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>      antisym    <span class="ot">:</span> Antisymmetric <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>≤<span class="ot">_</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>  <span class="kw">record</span> IsPartialOrder <span class="ot">(_</span>≤<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>    <span class="kw">field</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>      isPreorder <span class="ot">:</span> IsPreorder <span class="ot">_</span>≤<span class="ot">_</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>      antisym    <span class="ot">:</span> Antisymmetric <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>≤<span class="ot">_</span></span></code></pre></div>
 <h2 id="total-order">Total Order</h2>
 <p>Total orders are binary relations <code>≤ : A → A</code> where:</p>
 <ol type="1">
@@ -181,15 +181,15 @@ x ≤ y , y ≤ x ⟹ x == y
 </ol>
 <p>Total orders are a further constrained subtype of posets. All pairs of elements contained in a poset need not be comparable. This is exactly what total orders represent. A total order is a total preorder, or the preorder’s relation <code>_≤_</code> to be a total function.</p>
 <p>A relation <code>_≤_</code> is total if <code>x ≤ y</code> or <code>y ≤ x</code>. This relation has to exist between any pair of elements of <code>A</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a>  Total <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> Rel A ℓ <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>  Total <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x ∼ y<span class="ot">)</span> ∪ <span class="ot">(</span>y ∼ x<span class="ot">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>  Total <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> Rel A ℓ <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>  Total <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> <span class="ot">(</span>x ∼ y<span class="ot">)</span> ∪ <span class="ot">(</span>y ∼ x<span class="ot">)</span></span></code></pre></div>
 <p>We can now define total orders:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a>  <span class="kw">record</span> IsTotalOrder <span class="ot">(_</span>≤<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>    <span class="kw">field</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a>      isPartialOrder <span class="ot">:</span> IsPartialOrder <span class="ot">_</span>≤<span class="ot">_</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a>      total          <span class="ot">:</span> Total <span class="ot">_</span>≤<span class="ot">_</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a></span>
-<span id="cb6-6"><a href="#cb6-6"></a>    <span class="kw">open</span> IsPartialOrder isPartialOrder <span class="kw">public</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>  <span class="kw">record</span> IsTotalOrder <span class="ot">(_</span>≤<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>    <span class="kw">field</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>      isPartialOrder <span class="ot">:</span> IsPartialOrder <span class="ot">_</span>≤<span class="ot">_</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>      total          <span class="ot">:</span> Total <span class="ot">_</span>≤<span class="ot">_</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>    <span class="kw">open</span> IsPartialOrder isPartialOrder <span class="kw">public</span></span></code></pre></div>
 <hr />
 <p><a href="./Algebra.groups.html">Groups and family</a></p>
 </body>

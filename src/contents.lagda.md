@@ -36,7 +36,7 @@
   - [Equational Reasoning 2](./Types.equational2.html)
   - [Equality 2](./Types.variations.html)
 
-## 4. Logic
+## 4. Boolean Algebra
 
   - [Introduction](./Logic.introduction.html)
   - [Boolean Algebra](./Logic.logicBasics.html)

@@ -98,21 +98,21 @@
 <hr />
 <p><a href="contents.html">Contents</a> <a href="Types.functions.html">Previous</a> <a href="Types.proofsAsData.html">Next</a></p>
 <h1 id="functions-continued">Functions, Continued</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Types<span class="ot">.</span>functions2 <span class="kw">where</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a>  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>  ℕ<span class="ot">;</span> List<span class="ot">;</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a>  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">;</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>  ⊤<span class="ot">;</span> singleton<span class="ot">;</span> ⟂<span class="ot">)</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">)</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_;</span> fst<span class="ot">;</span> snd<span class="ot">)</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions</span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equational</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">module</span> Types<span class="ot">.</span>functions2 <span class="kw">where</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>  ℕ<span class="ot">;</span> List<span class="ot">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>  ⊤<span class="ot">;</span> singleton<span class="ot">;</span> ⟂<span class="ot">)</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_;</span> fst<span class="ot">;</span> snd<span class="ot">)</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equational</span></code></pre></div>
 <h1 id="classifications-of-functions">Classifications of functions</h1>
 <p>Functions can be classified into:</p>
 <ol type="1">
@@ -123,35 +123,35 @@
 <p>Note that a function, by definition, can never produce multiple outputs given the same input.</p>
 <h2 id="injection">Injection</h2>
 <figure>
-<img src="../artwork/injective.png" alt="" /><figcaption>Figure 1: Injection</figcaption>
+<img src="../artwork/injective.png" alt="Figure 1: Injection" /><figcaption aria-hidden="true">Figure 1: Injection</figcaption>
 </figure>
 <p>A function <code>f : X → Y</code> is injective if <span class="math inline">\(∀ x ∈ X, y ∈ Y, f(x) == f(y) ⟹ x == y\)</span>. Or in other words, the map is one-to-one between all objects of X and some objects of Y.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a>Injective <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>Injective f <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x y<span class="ot">}</span> <span class="ot">→</span> f x ≡ f y <span class="ot">→</span> x ≡ y</span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">record</span> Injection <span class="ot">{</span>f t<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> <span class="dt">Set</span> f<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> <span class="dt">Set</span> t<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>  <span class="kw">field</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>    <span class="kw">to</span>        <span class="ot">:</span> From <span class="ot">→</span> To</span>
-<span id="cb2-7"><a href="#cb2-7"></a>    injective <span class="ot">:</span> Injective <span class="kw">to</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>Injective <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>Injective f <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x y<span class="ot">}</span> <span class="ot">→</span> f x ≡ f y <span class="ot">→</span> x ≡ y</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="kw">record</span> Injection <span class="ot">{</span>f t<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> <span class="dt">Set</span> f<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> <span class="dt">Set</span> t<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>  <span class="kw">field</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>    <span class="kw">to</span>        <span class="ot">:</span> From <span class="ot">→</span> To</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>    injective <span class="ot">:</span> Injective <span class="kw">to</span></span></code></pre></div>
 <h2 id="surjection">Surjection</h2>
 <figure>
-<img src="../artwork/surjective.png" alt="" /><figcaption>Figure 2: Surjection</figcaption>
+<img src="../artwork/surjective.png" alt="Figure 2: Surjection" /><figcaption aria-hidden="true">Figure 2: Surjection</figcaption>
 </figure>
 <p>A function <code>f : X → Y</code> is surjective if <span class="math inline">\(∀ y ∈ Y, ∃ x ∈ X s.t. f(x) == y\)</span>. This states that for every element of Y, there should be at least one element of X such that <code>f(x) == y</code>. So Y is an complete image of X.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">record</span> Surjection <span class="ot">{</span>f t<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> <span class="dt">Set</span> f<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> <span class="dt">Set</span> t<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>  <span class="kw">field</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a>    <span class="kw">to</span>   <span class="ot">:</span> From <span class="ot">→</span> To</span>
-<span id="cb3-4"><a href="#cb3-4"></a>    from <span class="ot">:</span> To <span class="ot">→</span> From</span>
-<span id="cb3-5"><a href="#cb3-5"></a>    right-inverse-of <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="kw">to</span> <span class="ot">(</span>from x<span class="ot">)</span> ≡ x</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">record</span> Surjection <span class="ot">{</span>f t<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> <span class="dt">Set</span> f<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> <span class="dt">Set</span> t<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>  <span class="kw">field</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>    <span class="kw">to</span>   <span class="ot">:</span> From <span class="ot">→</span> To</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>    from <span class="ot">:</span> To <span class="ot">→</span> From</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>    right-inverse-of <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="kw">to</span> <span class="ot">(</span>from x<span class="ot">)</span> ≡ x</span></code></pre></div>
 <h2 id="bijection">Bijection</h2>
 <figure>
-<img src="../artwork/bijection.png" alt="" /><figcaption>Figure 3: Bijection</figcaption>
+<img src="../artwork/bijection.png" alt="Figure 3: Bijection" /><figcaption aria-hidden="true">Figure 3: Bijection</figcaption>
 </figure>
 <p>Bijection is the combination of injection and surjection. A bijection implies one-to-one correspondence from the domain to the codomain − each element of one set is paired with exactly one element of the other set, and each element of the other set is paired with exactly one element of the first set. There are no unpaired elements.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">record</span> Bijection <span class="ot">{</span>f t<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> <span class="dt">Set</span> f<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> <span class="dt">Set</span> t<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>  <span class="kw">field</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>    injection <span class="ot">:</span> Injection From To</span>
-<span id="cb4-4"><a href="#cb4-4"></a>    surjection <span class="ot">:</span> Surjection From To</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">record</span> Bijection <span class="ot">{</span>f t<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> <span class="dt">Set</span> f<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> <span class="dt">Set</span> t<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>  <span class="kw">field</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>    injection <span class="ot">:</span> Injection From To</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>    surjection <span class="ot">:</span> Surjection From To</span></code></pre></div>
 <hr />
 <p><a href="./Types.proofsAsData.html">Proofs as Data</a></p>
 </body>

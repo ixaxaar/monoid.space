@@ -94,41 +94,41 @@
 <li><a href="#homotopy-type-theory">Homotopy Type Theory</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Types<span class="ot">.</span>variations <span class="kw">where</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">module</span> Types<span class="ot">.</span>variations <span class="kw">where</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</span></code></pre></div>
 <h1 id="equality">Equality</h1>
 <p>When two objects <code>a, b ∈ β</code> are equal, their equality itself is represented by a type <code>a =ᵦ b</code>. These types are identity types or equality types. These equality types form a family with one type per object in <code>β</code>, written as:</p>
 <pre class="math"><code>Idᵦ : β → β → Set</code></pre>
 <p>such that <code>Idᵦ(a, b)</code> where <code>a, b, ∈ β</code> is the propositional equality type for <code>a = b</code>.</p>
 <h1 id="identity-elimination">Identity Elimination</h1>
 <p>The identity type for any two objects <span class="math inline">\(x, y ∈ A\)</span> if of the form <span class="math inline">\(x =_A y\)</span> represents the type of the proof that x is equal to y. The proof is equivalent to demonstrating that the type is inhabited, i.e. an object of that type can be created. The elimination rule on identity types, called the <strong>J rule</strong> looks like:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a>J <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>        <span class="ot">(</span>P <span class="ot">:</span> <span class="ot">(</span>x y <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ≡ y <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a>        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> P x x refl<span class="ot">)</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>        <span class="ot">→</span> <span class="ot">(</span>x y <span class="ot">:</span> A<span class="ot">)</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a>        <span class="ot">→</span> <span class="ot">(</span>x≡y <span class="ot">:</span> x ≡ y<span class="ot">)</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a>        <span class="ot">→</span> P x y x≡y</span>
-<span id="cb3-7"><a href="#cb3-7"></a>J P p x <span class="ot">.</span>x refl <span class="ot">=</span> p x</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>J <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>        <span class="ot">(</span>P <span class="ot">:</span> <span class="ot">(</span>x y <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ≡ y <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> P x x refl<span class="ot">)</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>        <span class="ot">→</span> <span class="ot">(</span>x y <span class="ot">:</span> A<span class="ot">)</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>        <span class="ot">→</span> <span class="ot">(</span>x≡y <span class="ot">:</span> x ≡ y<span class="ot">)</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>        <span class="ot">→</span> P x y x≡y</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>J P p x <span class="ot">.</span>x refl <span class="ot">=</span> p x</span></code></pre></div>
 <p>where <code>P</code> is a predicate that it holds for any two objects <code>x, y</code> of type A which are propositionally equal. <code>p</code> is the a form that constructs <code>P</code> for the case when x and y are both the same object <code>x</code> and reflexivity <code>refl</code> of the propositional equality <code>≡</code>. The rule states that any identity <code>x≡y</code> can be proven using the reflexivity of the propositionlly equal objects <code>x</code> and <code>y</code>. Thus the J rule can be used with reflexivity <code>refl</code> or <code>x≡x</code> and <code>y≡y</code> to prove the equality of all identity types, including <code>x≡y</code>.</p>
 <h1 id="axiom-k">Axiom K</h1>
 <p>Axiom K is an identity eliminator which when defined can be used as an elimination rule to prove all identities as equal. It is also called <strong>principle of uniqueness of identity proofs</strong>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1"></a><span class="dt">K</span> <span class="op">:</span> {<span class="dt">A</span> <span class="op">:</span> <span class="dt">Set</span>} {x <span class="op">:</span> <span class="dt">A</span>}</span>
-<span id="cb4-2"><a href="#cb4-2"></a>        (<span class="dt">P</span> <span class="op">:</span> x ≡ x <span class="ot">→</span> <span class="dt">Set</span>)</span>
-<span id="cb4-3"><a href="#cb4-3"></a>        <span class="ot">→</span> <span class="dt">P</span> refl</span>
-<span id="cb4-4"><a href="#cb4-4"></a>        <span class="ot">→</span> (x≡x <span class="op">:</span> x ≡ x)</span>
-<span id="cb4-5"><a href="#cb4-5"></a>        <span class="ot">→</span> <span class="dt">P</span> x≡x</span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="dt">K</span> <span class="dt">P</span> p refl <span class="ot">=</span> p</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="dt">K</span> <span class="op">:</span> {<span class="dt">A</span> <span class="op">:</span> <span class="dt">Set</span>} {x <span class="op">:</span> <span class="dt">A</span>}</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>        (<span class="dt">P</span> <span class="op">:</span> x ≡ x <span class="ot">→</span> <span class="dt">Set</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>        <span class="ot">→</span> <span class="dt">P</span> refl</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>        <span class="ot">→</span> (x≡x <span class="op">:</span> x ≡ x)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>        <span class="ot">→</span> <span class="dt">P</span> x≡x</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a><span class="dt">K</span> <span class="dt">P</span> p refl <span class="ot">=</span> p</span></code></pre></div>
 <p>Note that without the <code>--with-K</code> command-line or the <code>{-# OPTIONS --with-K #-}</code> inline option, agda will not compile axiom K. This is because we cannot assume every <code>x ≡ x</code> to be equal to <code>refl</code>, or that all identity propositions can be proven by <code>refl</code>.</p>
 <pre class="math"><code>x≡x : x ≡ x =?= refl</code></pre>
 <p>The error message explains this rather clearly:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1"></a>I&#39;m not sure if there should be a case for the constructor refl,</span>
-<span id="cb6-2"><a href="#cb6-2"></a>because I get stuck when trying to solve the following unification</span>
-<span id="cb6-3"><a href="#cb6-3"></a>problems (inferred index ≟ expected index):</span>
-<span id="cb6-4"><a href="#cb6-4"></a>  x ≟ x</span>
-<span id="cb6-5"><a href="#cb6-5"></a>Possible reason why unification failed:</span>
-<span id="cb6-6"><a href="#cb6-6"></a>  Cannot eliminate reflexive equation x = x of type A because K has</span>
-<span id="cb6-7"><a href="#cb6-7"></a>  been disabled.</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>I&#39;m not sure if there should be a case for the constructor refl,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>because I get stuck when trying to solve the following unification</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>problems (inferred index ≟ expected index):</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>  x ≟ x</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>Possible reason why unification failed:</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>  Cannot eliminate reflexive equation x = x of type A because K has</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>  been disabled.</span></code></pre></div>
 <h1 id="homotopy-type-theory">Homotopy Type Theory</h1>
 <p>An alternative to axiom K and assuming the uniqueness of all identities is considering identities as paths, which are objects of Homotopy theory from Algebraic Geometry. We could then used homotopy theory to model all types as ∞-groupoids and work with some non-trivial interesting structures rather than the dead-end that is axiom K. We shall develop this theory later in this work.</p>
 <hr />

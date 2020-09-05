@@ -107,16 +107,16 @@
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="equalities">Equalities</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Types<span class="ot">.</span>equality <span class="kw">where</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a>  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>  ⟂<span class="ot">;</span> ⊤<span class="ot">;</span> ℕ<span class="ot">;</span> List<span class="ot">;</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span> <span class="ot">_</span>+<span class="ot">_;</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a>  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions <span class="kw">using</span> <span class="ot">(_</span>on<span class="ot">_;</span> flip<span class="ot">)</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">module</span> Types<span class="ot">.</span>equality <span class="kw">where</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>  ⟂<span class="ot">;</span> ⊤<span class="ot">;</span> ℕ<span class="ot">;</span> List<span class="ot">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span> <span class="ot">_</span>+<span class="ot">_;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions <span class="kw">using</span> <span class="ot">(_</span>on<span class="ot">_;</span> flip<span class="ot">)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations</span></code></pre></div>
 <p>Equality is perhaps one of the most richest but most naively understood concepts. Here we try to provide some structural analysis as to what equality really means in various contexts of mathematics. Equality is treated as a relation in type theory and can be classified broadly as of three kinds:</p>
 <ul>
 <li>Propositional equality</li>
@@ -125,102 +125,102 @@
 </ul>
 <h1 id="definitional-equality">Definitional Equality</h1>
 <p>Definitional equality is the most basic notion of equality which appeals to our notion of equality being the sameness of meaning (by definition). For example, <code>9</code> and <code>3 + 3</code> represent the same thing and hence are definitionally equal <code>9 ≡ 3²</code>. Similarly <code>two ≡ succ (succ zero)</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a>defEqual₁ <span class="ot">:</span> ℕ</span>
-<span id="cb2-2"><a href="#cb2-2"></a>defEqual₁ <span class="ot">=</span> seven</span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a>defEqual₂ <span class="ot">:</span> ℕ</span>
-<span id="cb2-5"><a href="#cb2-5"></a>defEqual₂ <span class="ot">=</span> succ <span class="ot">(</span>succ five<span class="ot">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>defEqual₁ <span class="ot">:</span> ℕ</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>defEqual₁ <span class="ot">=</span> seven</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>defEqual₂ <span class="ot">:</span> ℕ</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>defEqual₂ <span class="ot">=</span> succ <span class="ot">(</span>succ five<span class="ot">)</span></span></code></pre></div>
 <p>Here, <code>defEqual₁</code> and <code>defEqual₂</code> both are equal, with equality of the kind “definitional equality”.</p>
 <h1 id="computational-equality">Computational Equality</h1>
 <p>This kind of equality describes the sameness of types that are not directly equal but can be reduced to be equal. “Reduction” here implies mathematical reduction, referring to rewriting expressions into simpler forms. An example of such an equality is applying a function <span class="math display">\[(λ x.x+x)(2) ≡ 2 + 2\]</span> Expansions of recursors also falls under this kind of equality: <span class="math display">\[2 + 2 ≡ succ (succ zero) + succ (succ zero) ≡ succ (succ (succ (succ zero)))\]</span> Practically, computational equality is included into definitional equality and is also known as “Judgemental equality”.</p>
 <h1 id="propositional-equality">Propositional Equality</h1>
 <p>Definitional and computational equalities describe something intrinsic - a property that does not depend upon a proof. For example, <code>a + b ≡ b + a</code> cannot be proven to be definitionally equal unless the concrete values of <code>a</code> and <code>b</code> are known. However, if they’re natural numbers <code>a, b ∈ ℕ</code>, then the statement <code>a + b ≡ b + a</code> requires a proof to claim its truthfulness. Given <code>a, b ∈ ℕ</code>, we can prove that <code>a + b ≡ b + a</code> or in other words that there exists an identity of type <code>Id : a + b ≡ b + a</code> where <code>Id</code> is a proposition − exhibiting a term belonging to such a type is exhibiting (i.e. proving) such a propositional equality.</p>
 <p>However, other notions of equalities can be defined that do require proofs. Consider for example natural language - when we say “all flowers are beautiful” the “all flowers” part of the sentence implies all flowers are equal in some way. Or, consider natural numbers <code>a + b = b + a ∀ a, b ∈ ℕ</code>. Here we would need to prove the symmetry of the <code>+</code> operator in order to prove the equality. Such equalities that require to be specified come under the umbrella of propositional equality. Propositional equality is a kind of equality which requires a proof, and hence the equality itself is also a type <code>∼</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1"></a>infix <span class="dv">4</span> _∼_</span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">data</span> _∼_ {<span class="dt">A</span> <span class="op">:</span> <span class="dt">Set</span>}(a <span class="op">:</span> <span class="dt">A</span>) <span class="op">:</span> {<span class="dt">B</span> <span class="op">:</span> <span class="dt">Set</span>} <span class="ot">→</span> <span class="dt">B</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>  same <span class="op">:</span> a ∼ a</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>infix <span class="dv">4</span> _∼_</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a><span class="kw">data</span> _∼_ {<span class="dt">A</span> <span class="op">:</span> <span class="dt">Set</span>}(a <span class="op">:</span> <span class="dt">A</span>) <span class="op">:</span> {<span class="dt">B</span> <span class="op">:</span> <span class="dt">Set</span>} <span class="ot">→</span> <span class="dt">B</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>  same <span class="op">:</span> a ∼ a</span></code></pre></div>
 <p>Reflexivity is defined with the definition of <code>∼</code> by the keyword <code>same</code>, the others being:</p>
 <h3 id="symmetry">Symmetry</h3>
 <p>Symmetry is the property where binary a relation’s behavior does not depend upon its argument’s position (left or right):</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1"></a>symmetry <span class="op">:</span> <span class="ot">∀</span> {<span class="dt">A</span> <span class="dt">B</span>}{a <span class="op">:</span> <span class="dt">A</span>}{b <span class="op">:</span> <span class="dt">B</span>}</span>
-<span id="cb4-2"><a href="#cb4-2"></a>  <span class="ot">→</span> a ∼ b</span>
-<span id="cb4-3"><a href="#cb4-3"></a>  <span class="ot">→</span> b ∼ a</span>
-<span id="cb4-4"><a href="#cb4-4"></a>symmetry same <span class="ot">=</span> same</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>symmetry <span class="op">:</span> <span class="ot">∀</span> {<span class="dt">A</span> <span class="dt">B</span>}{a <span class="op">:</span> <span class="dt">A</span>}{b <span class="op">:</span> <span class="dt">B</span>}</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>  <span class="ot">→</span> a ∼ b</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>  <span class="ot">→</span> b ∼ a</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>symmetry same <span class="ot">=</span> same</span></code></pre></div>
 <h3 id="transitivity">Transitivity</h3>
 <p>Transitivity is when a binary relation <code>_∼_</code> and <span class="math inline">\(x ∼ y and y ∼ z ⟹ x ∼ z\)</span></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1"></a>transitivity <span class="op">:</span> <span class="ot">∀</span> {<span class="dt">A</span> <span class="dt">B</span> <span class="dt">C</span>}{a <span class="op">:</span> <span class="dt">A</span>}{b <span class="op">:</span> <span class="dt">B</span>}{c <span class="op">:</span> <span class="dt">C</span>}</span>
-<span id="cb5-2"><a href="#cb5-2"></a>  <span class="ot">→</span> a ∼ b</span>
-<span id="cb5-3"><a href="#cb5-3"></a>  <span class="ot">→</span> b ∼ c</span>
-<span id="cb5-4"><a href="#cb5-4"></a>  <span class="ot">→</span> a ∼ c</span>
-<span id="cb5-5"><a href="#cb5-5"></a>transitivity same p <span class="ot">=</span> p</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>transitivity <span class="op">:</span> <span class="ot">∀</span> {<span class="dt">A</span> <span class="dt">B</span> <span class="dt">C</span>}{a <span class="op">:</span> <span class="dt">A</span>}{b <span class="op">:</span> <span class="dt">B</span>}{c <span class="op">:</span> <span class="dt">C</span>}</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>  <span class="ot">→</span> a ∼ b</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>  <span class="ot">→</span> b ∼ c</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>  <span class="ot">→</span> a ∼ c</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>transitivity same p <span class="ot">=</span> p</span></code></pre></div>
 <h3 id="congruence-functions-that-preserve-equality">Congruence: functions that preserve equality</h3>
 <p>Functions that when applied to objects of a type, do not alter the operation of equality can be defined as:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1"></a>congruence <span class="op">:</span> <span class="ot">∀</span> {<span class="dt">A</span> <span class="dt">B</span> <span class="op">:</span> <span class="dt">Set</span>} (f <span class="op">:</span> <span class="dt">A</span> <span class="ot">→</span> <span class="dt">B</span>) {x y <span class="op">:</span> <span class="dt">A</span>}</span>
-<span id="cb6-2"><a href="#cb6-2"></a>  <span class="ot">→</span> x ∼ y</span>
-<span id="cb6-3"><a href="#cb6-3"></a>  <span class="ot">→</span> f x ∼ f y</span>
-<span id="cb6-4"><a href="#cb6-4"></a>congruence f same <span class="ot">=</span> same</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>congruence <span class="op">:</span> <span class="ot">∀</span> {<span class="dt">A</span> <span class="dt">B</span> <span class="op">:</span> <span class="dt">Set</span>} (f <span class="op">:</span> <span class="dt">A</span> <span class="ot">→</span> <span class="dt">B</span>) {x y <span class="op">:</span> <span class="dt">A</span>}</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>  <span class="ot">→</span> x ∼ y</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>  <span class="ot">→</span> f x ∼ f y</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>congruence f same <span class="ot">=</span> same</span></code></pre></div>
 <h3 id="substitution">Substitution</h3>
 <p>If <code>a = b</code> and if <code>predicate a = true</code> ⟹ <code>predicate b = true</code></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1"></a>substitution <span class="op">:</span> <span class="ot">∀</span> {<span class="dt">A</span> <span class="op">:</span> <span class="dt">Set</span>} {x y <span class="op">:</span> <span class="dt">A</span>} (<span class="dt">Predicate</span> <span class="op">:</span> <span class="dt">A</span> <span class="ot">→</span> <span class="dt">Set</span>)</span>
-<span id="cb7-2"><a href="#cb7-2"></a>  <span class="ot">→</span> x ∼ y</span>
-<span id="cb7-3"><a href="#cb7-3"></a>  <span class="ot">→</span> <span class="dt">Predicate</span> x</span>
-<span id="cb7-4"><a href="#cb7-4"></a>  <span class="ot">→</span> <span class="dt">Predicate</span> y</span>
-<span id="cb7-5"><a href="#cb7-5"></a>substitution <span class="dt">Predicate</span> same p <span class="ot">=</span> p</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>substitution <span class="op">:</span> <span class="ot">∀</span> {<span class="dt">A</span> <span class="op">:</span> <span class="dt">Set</span>} {x y <span class="op">:</span> <span class="dt">A</span>} (<span class="dt">Predicate</span> <span class="op">:</span> <span class="dt">A</span> <span class="ot">→</span> <span class="dt">Set</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>  <span class="ot">→</span> x ∼ y</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>  <span class="ot">→</span> <span class="dt">Predicate</span> x</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>  <span class="ot">→</span> <span class="dt">Predicate</span> y</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>substitution <span class="dt">Predicate</span> same p <span class="ot">=</span> p</span></code></pre></div>
 <p>Any relation which satisfies the above properties of <code>reflexivity</code>, <code>transitivity</code> and <code>symmetry</code> can be considered an equivalence relation and hence can judge a propositional equality.</p>
 <h1 id="equivalence-with-universe-polymorphism">Equivalence, with universe polymorphism</h1>
 <p>We now present a more formal machinery for relations. We use <a href="Types.universe.html#universe-polymorphism">universe polymorphism</a> throughout to develop this machinery.</p>
 <h3 id="equality">Equality</h3>
 <p>We first re-define propositional equality within the framework of universe polymorphism:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≡<span class="ot">_</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> a <span class="kw">where</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a>  <span class="kw">instance</span> refl <span class="ot">:</span> x ≡ x</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≡<span class="ot">_</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a><span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> a <span class="kw">where</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a>  <span class="kw">instance</span> refl <span class="ot">:</span> x ≡ x</span></code></pre></div>
 <p>And an equivalence relation for binary relations:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">record</span> IsEquivalence <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a>                     <span class="ot">(_</span>≈<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a>  <span class="kw">field</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a>    rfl   <span class="ot">:</span> Reflexive <span class="ot">_</span>≈<span class="ot">_</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a>    sym   <span class="ot">:</span> Symmetric <span class="ot">_</span>≈<span class="ot">_</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a>    trans <span class="ot">:</span> Transitive <span class="ot">_</span>≈<span class="ot">_</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a></span>
-<span id="cb9-8"><a href="#cb9-8"></a>  reflexive <span class="ot">:</span> <span class="ot">_</span>≡<span class="ot">_</span> ⇒ <span class="ot">_</span>≈<span class="ot">_</span></span>
-<span id="cb9-9"><a href="#cb9-9"></a>  reflexive refl <span class="ot">=</span> rfl</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="kw">record</span> IsEquivalence <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>                     <span class="ot">(_</span>≈<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>  <span class="kw">field</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a>    rfl   <span class="ot">:</span> Reflexive <span class="ot">_</span>≈<span class="ot">_</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true"></a>    sym   <span class="ot">:</span> Symmetric <span class="ot">_</span>≈<span class="ot">_</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true"></a>    trans <span class="ot">:</span> Transitive <span class="ot">_</span>≈<span class="ot">_</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true"></a>  reflexive <span class="ot">:</span> <span class="ot">_</span>≡<span class="ot">_</span> ⇒ <span class="ot">_</span>≈<span class="ot">_</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true"></a>  reflexive refl <span class="ot">=</span> rfl</span></code></pre></div>
 <h3 id="properties-of-equality">Properties of equality</h3>
 <p>We use the new structures to re-define the properties of propositional equality.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">module</span> ≡-properties <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="kw">where</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a>  sym-≡ <span class="ot">:</span> Symmetric <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span> <span class="ot">_</span>≡<span class="ot">_</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a>  sym-≡ refl <span class="ot">=</span> refl</span>
-<span id="cb10-4"><a href="#cb10-4"></a></span>
-<span id="cb10-5"><a href="#cb10-5"></a>  trans-≡ <span class="ot">:</span> Transitive <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span> <span class="ot">_</span>≡<span class="ot">_</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a>  trans-≡ refl p <span class="ot">=</span> p</span>
-<span id="cb10-7"><a href="#cb10-7"></a></span>
-<span id="cb10-8"><a href="#cb10-8"></a>  isEquivalence <span class="ot">:</span> IsEquivalence <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span> <span class="ot">_</span>≡<span class="ot">_</span></span>
-<span id="cb10-9"><a href="#cb10-9"></a>  isEquivalence <span class="ot">=</span> <span class="kw">record</span></span>
-<span id="cb10-10"><a href="#cb10-10"></a>    <span class="ot">{</span> rfl  <span class="ot">=</span> refl</span>
-<span id="cb10-11"><a href="#cb10-11"></a>    <span class="ot">;</span> sym   <span class="ot">=</span> sym-≡</span>
-<span id="cb10-12"><a href="#cb10-12"></a>    <span class="ot">;</span> trans <span class="ot">=</span> trans-≡</span>
-<span id="cb10-13"><a href="#cb10-13"></a>    <span class="ot">}</span></span>
-<span id="cb10-14"><a href="#cb10-14"></a></span>
-<span id="cb10-15"><a href="#cb10-15"></a>cong-≡ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span></span>
-<span id="cb10-16"><a href="#cb10-16"></a>  <span class="ot">→</span> x ≡ y</span>
-<span id="cb10-17"><a href="#cb10-17"></a>  <span class="ot">→</span> f x ≡ f y</span>
-<span id="cb10-18"><a href="#cb10-18"></a>cong-≡ f refl <span class="ot">=</span> refl</span>
-<span id="cb10-19"><a href="#cb10-19"></a></span>
-<span id="cb10-20"><a href="#cb10-20"></a>subs-≡ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}{</span>x y <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">(</span>Predicate <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span></span>
-<span id="cb10-21"><a href="#cb10-21"></a>  <span class="ot">→</span> x ≡ y</span>
-<span id="cb10-22"><a href="#cb10-22"></a>  <span class="ot">→</span> Predicate x</span>
-<span id="cb10-23"><a href="#cb10-23"></a>  <span class="ot">→</span> Predicate y</span>
-<span id="cb10-24"><a href="#cb10-24"></a>subs-≡ Predicate refl p <span class="ot">=</span> p</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="kw">module</span> ≡-properties <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="kw">where</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>  sym-≡ <span class="ot">:</span> Symmetric <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span> <span class="ot">_</span>≡<span class="ot">_</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>  sym-≡ refl <span class="ot">=</span> refl</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a>  trans-≡ <span class="ot">:</span> Transitive <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span> <span class="ot">_</span>≡<span class="ot">_</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a>  trans-≡ refl p <span class="ot">=</span> p</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a>  isEquivalence <span class="ot">:</span> IsEquivalence <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span> <span class="ot">_</span>≡<span class="ot">_</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true"></a>  isEquivalence <span class="ot">=</span> <span class="kw">record</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a>    <span class="ot">{</span> rfl  <span class="ot">=</span> refl</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true"></a>    <span class="ot">;</span> sym   <span class="ot">=</span> sym-≡</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true"></a>    <span class="ot">;</span> trans <span class="ot">=</span> trans-≡</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true"></a>    <span class="ot">}</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true"></a>cong-≡ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true"></a>  <span class="ot">→</span> x ≡ y</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true"></a>  <span class="ot">→</span> f x ≡ f y</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true"></a>cong-≡ f refl <span class="ot">=</span> refl</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true"></a>subs-≡ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}{</span>x y <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">(</span>Predicate <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true"></a>  <span class="ot">→</span> x ≡ y</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true"></a>  <span class="ot">→</span> Predicate x</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true"></a>  <span class="ot">→</span> Predicate y</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true"></a>subs-≡ Predicate refl p <span class="ot">=</span> p</span></code></pre></div>
 <h1 id="setoids">Setoids</h1>
 <p>Equality, or specifically, equivalence is at the heart of mathematics. In order to build more complex structures, we introduce a new datatype, which essentially encapsulates any datatype and it’s equivalence operation:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">record</span> Setoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a>  <span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a>  <span class="kw">field</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a>    Data          <span class="ot">:</span> <span class="dt">Set</span> c</span>
-<span id="cb11-5"><a href="#cb11-5"></a>    <span class="ot">_</span>≈<span class="ot">_</span>           <span class="ot">:</span> Rel Data ℓ</span>
-<span id="cb11-6"><a href="#cb11-6"></a>    isEquivalence <span class="ot">:</span> IsEquivalence <span class="ot">_</span>≈<span class="ot">_</span></span>
-<span id="cb11-7"><a href="#cb11-7"></a></span>
-<span id="cb11-8"><a href="#cb11-8"></a>  <span class="kw">open</span> IsEquivalence isEquivalence <span class="kw">public</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="kw">record</span> Setoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>  <span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a>  <span class="kw">field</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a>    Data          <span class="ot">:</span> <span class="dt">Set</span> c</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a>    <span class="ot">_</span>≈<span class="ot">_</span>           <span class="ot">:</span> Rel Data ℓ</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a>    isEquivalence <span class="ot">:</span> IsEquivalence <span class="ot">_</span>≈<span class="ot">_</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true"></a>  <span class="kw">open</span> IsEquivalence isEquivalence <span class="kw">public</span></span></code></pre></div>
 <hr />
 <p><a href="./Types.product.html">Product Types / Σ-types</a></p>
 </body>

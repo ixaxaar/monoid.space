@@ -106,27 +106,26 @@
 <li><a href="#programming-language">Programming Language</a></li>
 <li><a href="#calculus-for-category-theory">Calculus for Category Theory</a></li>
 </ul></li>
-<li><a href="#coming-up">Coming up</a></li>
 </ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="introduction">Introduction</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> Types<span class="ot">.</span>introduction <span class="kw">where</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>List<span class="ot">;</span> []<span class="ot">;</span> <span class="ot">_</span>::<span class="ot">_;</span> ℕ<span class="ot">;</span> one<span class="ot">;</span> three<span class="ot">;</span> seven<span class="ot">;</span> nine<span class="ot">)</span></span></code></pre></div>
-<p>We being with exploration of Type Theory, our “programming language” using which we “implement” math. Instead of the more familiar method of writing esoteric symbols on a piece of paper, we represent those esoteric symbols as code, which a compiler can then parse and type-check, thus guaranteeing the code’s (and hence the represented math’s) correctness. Though to programmers this might seem very natural, it is an extremely powerful method for doing math as the burden of verification becomes automated − thus significantly reducing testing time.</p>
-<p>Most of mathematics, as we know it, is based on the foundations of Set Theory. In order to realize our goal of implementing math in Type Theory, the foundations need to be shaken up a bit, and reformulated from the ground-up.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">module</span> Types<span class="ot">.</span>introduction <span class="kw">where</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>List<span class="ot">;</span> []<span class="ot">;</span> <span class="ot">_</span>::<span class="ot">_;</span> ℕ<span class="ot">;</span> one<span class="ot">;</span> three<span class="ot">;</span> seven<span class="ot">;</span> nine<span class="ot">)</span></span></code></pre></div>
+<p>Type Theory can be thought of as the programming language used to implement math. Instead of the more familiar method of writing symbols on a piece of paper, we represent those symbols as code, which a compiler can then parse and type-check, thus guaranteeing the code’s (and hence the represented math’s) correctness. Though to programmers this might seem very natural, it is an extremely powerful method for doing math as the burden of verification becomes automated − thus significantly reducing testing time.</p>
+<p>Most of mathematics, as we know it, is based on the foundations of Set Theory. In order to realize our goal of implementing math in Type Theory with some real convenience, the foundations need to be shaken up a bit, and reformulated from the ground-up.</p>
 <h1 id="set-theory">Set Theory</h1>
 <p>Set Theory is a mathematical theory which studies collections of objects, called <code>set</code>s. These objects, called <code>member</code>s or <code>element</code>s of the set, can literally be anything. The other main component of Set Theory is first-order logic, which is used to construct and reason around sets. The language of Set Theory can be used to define almost all of mathematical objects.</p>
 <figure>
-<img src="../artwork/set.png" alt="" /><figcaption>Figure 1: Set</figcaption>
+<img src="/artwork/set.png" alt="Figure 1: Set" /><figcaption aria-hidden="true">Figure 1: Set</figcaption>
 </figure>
-<p>Set Theory, having existed for centuries, has underdone several alterations, revisions (rewrites) as well as paradox removal (bug fixes, if you will). In fact, theories in mathematics follow similar lifecycles as seen in the programming world (or vice versa to be exact) leading to various flavors / versions / “forks” of the theory. The best-known amongst them is Zermelo-Fraenkel set theory (ZFC).</p>
+<p>Set Theory has existed for centuries, has underdone several alterations, revisions (rewrites) as well as paradox removal (bug fixes, if you will). In fact, theories in mathematics follow similar lifecycles as seen in the programming world (or vice versa to be exact) leading to various flavors / versions / “forks” of the theory. The best-known amongst them is Zermelo-Fraenkel set theory (ZFC).</p>
 <h2 id="basics-of-set-theory">Basics of Set Theory</h2>
-<p>Zermelo-Frenkel Set theory (ZFC) consists of:</p>
+<p>Zermelo-Fraenkel Set theory (ZFC) consists of:</p>
 <ol type="1">
 <li><code>Set</code>s which are a collection of objects.</li>
-<li>a propositional first order logic system to create and manipulate them.</li>
+<li>a propositional first order logic system to create and manipulate these sets.</li>
 <li>relations, maps and functions amongst sets.</li>
 <li>properties of 3.</li>
 </ol>
@@ -145,11 +144,11 @@
 <p><code>A</code> is a subset of <code>B</code> if every element of <code>A</code> is an element of <code>B</code>, denoted as <code>A ⊆ B</code>.</p>
 <h3 id="operations">Operations</h3>
 <p>Given sets <code>A</code> and <code>B</code>, one can perform some basic operations with them yielding the following sets:</p>
-<ol type="1">
+<ul>
 <li><p>The set <code>A∪B</code>, called the union of <code>A</code> and <code>B</code>, whose elements are the elements of <code>A</code> and the elements of <code>B</code>.</p></li>
 <li><p>The set <code>A∩B</code>, called the intersection of <code>A</code> and <code>B</code>, whose elements are the elements common to <code>A</code> and <code>B</code>.</p></li>
 <li><p>The set <code>A−B</code>, called the difference of <code>A</code> and <code>B</code>, whose elements are those elements of <code>A</code> that are not members of <code>B</code>.</p></li>
-</ol>
+</ul>
 <h3 id="properties-of-operations">Properties of Operations</h3>
 <ol type="1">
 <li>Associativity</li>
@@ -174,28 +173,26 @@
 <pre class="math"><code>A∪∅=A</code></pre>
 <pre class="math"><code>A∩∅=∅</code></pre>
 <pre class="math"><code>A−A=∅</code></pre>
-<p>ZFC comprises of a bunch of axioms, which we are not going to peer into here. The interested reader may explore them on <a href="https://en.wikipedia.org/wiki/Zermelo%E2%80%93Fraenkel_set_theory">Zermelo–Fraenkel set theory: Wikipedia</a> or <a href="https://ncatlab.org/nlab/show/ZFC#axioms">nlab</a>.</p>
+<p>ZFC comprises of a bunch of axioms, which we are not going to look into here. The interested reader may explore them on <a href="https://en.wikipedia.org/wiki/Zermelo%E2%80%93Fraenkel_set_theory">Zermelo–Fraenkel set theory: Wikipedia</a> or <a href="https://ncatlab.org/nlab/show/ZFC#axioms">nlab</a>.</p>
 <h1 id="type-theory">Type Theory</h1>
-<p>Type theory is a formal system of symbolic logic where every term has a “type”. “Term” here refers to mathematical terms such as variable <code>x</code>, function <code>f</code>, operation <code>★</code> and so on. Bertrand Russell was the first to propose this theory in order to fix Russell’s Paradox which plagued naive set theory, though Per Martin-Löf was the one to come up with a more practically useful version of it, called “Intuitionistic Type Theory”. The Type Systems seen in programming languages are almost the same thing (though as one’s pedanticalness increases while studying math, one would beg to differ).</p>
+<p>Type theory is a formal system of symbolic logic where every term has a “type”. “Term” here refers to mathematical terms such as variable <code>x</code>, function <code>f</code>, operation <code>★</code> and so on. Bertrand Russell was the first to propose this theory in order to fix Russell’s Paradox which plagued naive set theory, though Per Martin-Löf was the one to come up with a more practically useful version of it, called “Intuitionistic Type Theory”.</p>
 <figure>
-<img src="../artwork/typehierarchy.png" alt="" /><figcaption>Figure 2: Haskell Type System</figcaption>
+<img src="/artwork/typehierarchy.png" alt="Figure 2: Haskell Type System" /><figcaption aria-hidden="true">Figure 2: Haskell Type System</figcaption>
 </figure>
 <p>A type system in programming languages typically specifies data and appears like a tree of objects, where each successive level tries to represent data more specifically. E.g., A <code>Float</code> is a subtype of <code>Number</code> and is a more specialized case of a <code>Number</code>.</p>
 <figure>
-<img src="../artwork/scala-type-system.png" alt="" /><figcaption>Figure 3: Scala Type System</figcaption>
+<img src="/artwork/scala-type-system.png" alt="Figure 3: Scala Type System" /><figcaption aria-hidden="true">Figure 3: Scala Type System</figcaption>
 </figure>
 <p>In a system of type theory, each term has a type. For example, <code>4</code>, <code>2+2</code> and <code>2 * 2</code> are all separate terms with the type <code>ℕ</code> for natural numbers. This is indicated as <span class="math inline">\(2 : ℕ\)</span> or 2 is of type natural number.</p>
 <p>Type theories have explicit computation and it is encoded in rules for rewriting terms. These are called “conversion rules” or, if the rule only works in one direction, a “reduction rule”. For example, <code>2+2</code> and <code>4</code> are syntactically different terms, but the former reduces to the latter. This reduction is written <code>2+2 ↠ 4</code>.</p>
 <p>Functions in type theory have a special reduction rule: the argument to the function is substituted for every instance of the parameter in the function definition. Let’s say the function <code>double</code> is defined as <code>double(x) = x + x</code> or mathematically <span class="math inline">\(double: x ↦ x + x\)</span>. Then, the function call <code>double 2</code> would be reduced by substituting <code>2</code> for every <code>x</code> in the function definition. Thus, <code>double 2 ↠ 2+2</code>.</p>
 <h2 id="implications-of-type-theory">Implications of Type Theory</h2>
 <h3 id="foundations-of-mathematics">Foundations of Mathematics</h3>
-<p>Logic itself is subsumed in the plain idea of operations on terms of types, by observing that any type X may be thought of as the type of terms satisfying some proposition. Under this “propositions are types”-paradigm a proof of the proposition is nothing but a term of the corresponding type. This identification leads to a very fruitful identification of operations on types with logical operations. We discuss about this in <a href="./Types.proofsAsData.html">Proofs as Data</a>.</p>
+<p>Logic itself is subsumed in the plain idea of operations on terms of types, by observing that any type X may be thought of as the type of terms satisfying some proposition. In fact, propositions are types and thus finding a proof of the proposition is equivalent to constructing a term of the proposition type. We discuss about this in <a href="./Types.proofsAsData.html">Proofs as Data</a>.</p>
 <h3 id="programming-language">Programming Language</h3>
 <p>Since such a proof is constructive, the term witnessing it being a concrete implementation, and since type theory strictly works by rewriting rules, one may identify the construction of a term in type theory as a program whose output is a certain type. Under this “proofs as programs”-paradigm, type theory is a mathematical formalization of a programming language.</p>
 <h3 id="calculus-for-category-theory">Calculus for Category Theory</h3>
-<p>On the other hand, if one regards, as is natural, any term <code>t:X</code> to exist in a context <code>Γ</code> of other terms <code>x:Γ</code>, then <code>t</code> is naturally identified with a “map” <code>t:Γ→X</code>, hence: with a morphism. Viewed this way the types and terms of type theory are identified, respectively, with the objects and morphisms of category theory. From this perspective, type theory provides a formal language for speaking about categories.</p>
-<h2 id="coming-up">Coming up</h2>
-<p>We begin with the basics of types - their universes, followed by relations between types and their properties. We then study the most basic relation - equality. Next we study operations between types and their relations. We then move on to look at more complex types − the product, sum and function types.</p>
+<p>(Ignore if the reader is not familiar with category theory) If we consider any term <code>t:X</code> to exist in a context <code>Γ</code> of other terms <code>x:Γ</code>, then <code>t</code> is naturally identified with a “map” <code>t:Γ→X</code>, hence: with a morphism. Viewed this way the types and terms of type theory are identified, respectively, with the objects and morphisms of category theory. From this perspective, type theory provides a formal language for speaking about categories.</p>
 <hr />
 <p><a href="./Types.universe.html">Universes and families</a></p>
 </body>

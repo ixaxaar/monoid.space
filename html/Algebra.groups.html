@@ -100,16 +100,16 @@
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="groups-and-family">Groups and family</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">renaming</span> <span class="ot">(</span>refl <span class="kw">to</span> ≡-refl<span class="ot">)</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product</span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="kw">module</span> Algebra<span class="ot">.</span>groups <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(_</span>==<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a></span>
-<span id="cb1-10"><a href="#cb1-10"></a>  <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>operations <span class="ot">(_</span>==<span class="ot">_)</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">renaming</span> <span class="ot">(</span>refl <span class="kw">to</span> ≡-refl<span class="ot">)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a><span class="kw">module</span> Algebra<span class="ot">.</span>groups <span class="ot">{</span>a ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">(_</span>==<span class="ot">_</span> <span class="ot">:</span> Rel A ℓ<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>  <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>operations <span class="ot">(_</span>==<span class="ot">_)</span></span></code></pre></div>
 <p>Group-like objects form another family of objects probed in abstract algebra. They have a similar pattern of building like ordered objects but are more complex. This family contains of a set of type <code>A</code> and a binary operation <code>⋅</code> defined on that set which satisfy a bunch of properties. As there are a large number of properties to choose from, one can end up with a large number of families, however here we describe only a few that generally matter.</p>
 <table>
 <thead>
@@ -215,7 +215,7 @@
 </table>
 <p>Note that we implement only the packaged version of laws here, the actual object types we define in the next section <a href="./Algebra.groups2.html">Groups and family 2</a>, this is precisely because we cannot have two high level modules per agda file.</p>
 <figure>
-<img src="../artwork/algebra_structure.png" alt="" /><figcaption>Figure 1: Algebraic structures</figcaption>
+<img src="/artwork/algebra_structure.png" alt="Figure 1: Algebraic structures" /><figcaption aria-hidden="true">Figure 1: Algebraic structures</figcaption>
 </figure>
 <p>As we see above, semigroupoid is a generalization of the semigroup, group is a stricter form of a monoid or all groups are also monoids etc. Semigroupoids, Small Categories and Groupoids form what is called as partial abstract algebra such that they don’t require the totality property which thus allows their operations to be partial functions.</p>
 <h2 id="magma">Magma</h2>
@@ -229,26 +229,26 @@
 <ol type="1">
 <li><code>∙</code> is closed, i.e. <code>∀ x y ∈ 𝔽, (x ∙ y) ∈ 𝔽</code> or <code>∙ : 𝔽 × 𝔽 → 𝔽</code></li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1"></a>  <span class="kw">record</span> IsMagmaMinimal <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>  <span class="kw">record</span> IsMagmaMinimal <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span></code></pre></div>
 <p>However, we define a more constrained magma, where:</p>
 <ol type="1">
 <li>The set <code>𝔽</code> has an underlying equivalence relation <code>==</code> (can simply use setoids instead)</li>
 <li><code>∙</code> is congruent over the underlying equality <code>==</code></li>
 <li><code>∙</code> is closed, i.e. <code>∀ x y ∈ 𝔽, (x ∙ y) ∈ 𝔽</code> or <code>∙ : 𝔽 × 𝔽 → 𝔽</code></li>
 </ol>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1"></a>  <span class="kw">record</span> IsMagma <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>    <span class="kw">field</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a>      ∙-cong        <span class="ot">:</span> Congruent₂ ∙</span>
-<span id="cb3-4"><a href="#cb3-4"></a>      isEquivalence <span class="ot">:</span> IsEquivalence <span class="ot">_</span>==<span class="ot">_</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a></span>
-<span id="cb3-6"><a href="#cb3-6"></a>    <span class="kw">open</span> IsEquivalence isEquivalence <span class="kw">public</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a></span>
-<span id="cb3-8"><a href="#cb3-8"></a>    <span class="co">-- utils</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a>    ∙-congˡ <span class="ot">:</span> LeftCongruent ∙</span>
-<span id="cb3-10"><a href="#cb3-10"></a>    ∙-congˡ y==z <span class="ot">=</span> ∙-cong y==z rfl</span>
-<span id="cb3-11"><a href="#cb3-11"></a></span>
-<span id="cb3-12"><a href="#cb3-12"></a>    ∙-congʳ <span class="ot">:</span> RightCongruent ∙</span>
-<span id="cb3-13"><a href="#cb3-13"></a>    ∙-congʳ y==z <span class="ot">=</span> ∙-cong rfl y==z</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>  <span class="kw">record</span> IsMagma <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>    <span class="kw">field</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>      ∙-cong        <span class="ot">:</span> Congruent₂ ∙</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>      isEquivalence <span class="ot">:</span> IsEquivalence <span class="ot">_</span>==<span class="ot">_</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>    <span class="kw">open</span> IsEquivalence isEquivalence <span class="kw">public</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>    <span class="co">-- utils</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a>    ∙-congˡ <span class="ot">:</span> LeftCongruent ∙</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a>    ∙-congˡ y==z <span class="ot">=</span> ∙-cong y==z rfl</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a>    ∙-congʳ <span class="ot">:</span> RightCongruent ∙</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a>    ∙-congʳ y==z <span class="ot">=</span> ∙-cong rfl y==z</span></code></pre></div>
 <h2 id="semigroup">Semigroup</h2>
 <p>A semigroup is a structure where the operation is associative.</p>
 <p>A magma is a structure containing:</p>
@@ -261,12 +261,12 @@
 <li><code>∙</code> is closed, i.e. <code>∀ x y ∈ 𝔽, (x ∙ y) ∈ 𝔽</code> or <code>∙ : 𝔽 × 𝔽 → 𝔽</code></li>
 <li><code>∙</code> is associative, i.e. <code>x ∙ (y ∙ z) == (x ∙ y) ∙ z</code></li>
 </ol>
-<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1"></a>  <span class="kw">record</span> IsSemigroup <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>    <span class="kw">field</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>      isMagma <span class="ot">:</span> IsMagma ∙</span>
-<span id="cb4-4"><a href="#cb4-4"></a>      assoc   <span class="ot">:</span> Associative ∙</span>
-<span id="cb4-5"><a href="#cb4-5"></a></span>
-<span id="cb4-6"><a href="#cb4-6"></a>    <span class="kw">open</span> IsMagma isMagma <span class="kw">public</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>  <span class="kw">record</span> IsSemigroup <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>    <span class="kw">field</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>      isMagma <span class="ot">:</span> IsMagma ∙</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>      assoc   <span class="ot">:</span> Associative ∙</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>    <span class="kw">open</span> IsMagma isMagma <span class="kw">public</span></span></code></pre></div>
 <h2 id="monoid">Monoid</h2>
 <p>A monoid is a semigroup, with a special element called the identity element. Monoids and semigroups are perhaps of most significance to programmers as these are widely used to model various types and operations on them. For example, JSON objects and a <code>merge</code> operation on them form a monoid. Strings and string concatenation form monoids too.</p>
 <p>Here are a few examples of monoids:</p>
@@ -348,19 +348,19 @@
 <li><code>∙</code> is associative, i.e. <code>x ∙ (y ∙ z) == (x ∙ y) ∙ z</code></li>
 <li><code>∙</code> has an identity, i.e. <code>∃ i ∈ A, i ∙ i = i</code></li>
 </ol>
-<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1"></a>  <span class="kw">record</span> IsMonoid <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>    <span class="kw">field</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>      isSemigroup <span class="ot">:</span> IsSemigroup ∙</span>
-<span id="cb5-4"><a href="#cb5-4"></a>      identity    <span class="ot">:</span> Identity x ∙</span>
-<span id="cb5-5"><a href="#cb5-5"></a></span>
-<span id="cb5-6"><a href="#cb5-6"></a>    <span class="kw">open</span> IsSemigroup isSemigroup <span class="kw">public</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a></span>
-<span id="cb5-8"><a href="#cb5-8"></a>    <span class="co">-- utils</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a>    identityˡ <span class="ot">:</span> LeftIdentity x ∙</span>
-<span id="cb5-10"><a href="#cb5-10"></a>    identityˡ <span class="ot">=</span> fst identity</span>
-<span id="cb5-11"><a href="#cb5-11"></a></span>
-<span id="cb5-12"><a href="#cb5-12"></a>    identityʳ <span class="ot">:</span> RightIdentity x ∙</span>
-<span id="cb5-13"><a href="#cb5-13"></a>    identityʳ <span class="ot">=</span> snd identity</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>  <span class="kw">record</span> IsMonoid <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>    <span class="kw">field</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>      isSemigroup <span class="ot">:</span> IsSemigroup ∙</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>      identity    <span class="ot">:</span> Identity x ∙</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>    <span class="kw">open</span> IsSemigroup isSemigroup <span class="kw">public</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a>    <span class="co">-- utils</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a>    identityˡ <span class="ot">:</span> LeftIdentity x ∙</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true"></a>    identityˡ <span class="ot">=</span> fst identity</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true"></a>    identityʳ <span class="ot">:</span> RightIdentity x ∙</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true"></a>    identityʳ <span class="ot">=</span> snd identity</span></code></pre></div>
 <h2 id="commutative-monoid">Commutative Monoid</h2>
 <p>A commutative monoid is a monoid with its operation required to be commutative.</p>
 <p>A commutative monoid is a structure containing:</p>
@@ -375,12 +375,12 @@
 <li><code>∙</code> has an identity, i.e. <code>∃ i ∈ A, i ∙ i = i</code></li>
 <li><code>∙</code> is commutative, i.e. <code>x ∙ y = y ∙ x</code></li>
 </ol>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1"></a>  <span class="kw">record</span> IsCommutativeMonoid <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>    <span class="kw">field</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a>      isMonoid <span class="ot">:</span> IsMonoid ∙ x</span>
-<span id="cb6-4"><a href="#cb6-4"></a>      comm        <span class="ot">:</span> Commutative ∙</span>
-<span id="cb6-5"><a href="#cb6-5"></a></span>
-<span id="cb6-6"><a href="#cb6-6"></a>    <span class="kw">open</span> IsMonoid isMonoid <span class="kw">public</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>  <span class="kw">record</span> IsCommutativeMonoid <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>    <span class="kw">field</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>      isMonoid <span class="ot">:</span> IsMonoid ∙ x</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>      comm        <span class="ot">:</span> Commutative ∙</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>    <span class="kw">open</span> IsMonoid isMonoid <span class="kw">public</span></span></code></pre></div>
 <h2 id="group">Group</h2>
 <p>A group is a monoid with the additional requirement of the binary operation to have an inverse operation for every pair of elements of the group. A group is another widely-used structure.</p>
 <table>
@@ -433,33 +433,33 @@
 <li><code>∙</code> has an identity, i.e. <code>∃ i ∈ A, i ∙ i = i</code></li>
 <li>every object <code>x</code> has an inverse <code>x⁻¹</code>, such that <code>((x ⁻¹) ∙ x) == i</code></li>
 </ol>
-<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1"></a>  <span class="kw">record</span> IsGroup <span class="ot">(_</span>∙<span class="ot">_</span> <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(_</span>⁻¹ <span class="ot">:</span> ♠ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>    <span class="kw">field</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a>      isMonoid  <span class="ot">:</span> IsMonoid <span class="ot">_</span>∙<span class="ot">_</span> x</span>
-<span id="cb7-4"><a href="#cb7-4"></a>      inverse   <span class="ot">:</span> Inverse x <span class="ot">_</span>⁻¹ <span class="ot">_</span>∙<span class="ot">_</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a>      ⁻¹-cong   <span class="ot">:</span> Congruent₁ <span class="ot">_</span>⁻¹</span>
-<span id="cb7-6"><a href="#cb7-6"></a></span>
-<span id="cb7-7"><a href="#cb7-7"></a>    <span class="kw">open</span> IsMonoid isMonoid <span class="kw">public</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a></span>
-<span id="cb7-9"><a href="#cb7-9"></a>    <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>-<span class="ot">_</span></span>
-<span id="cb7-10"><a href="#cb7-10"></a>    <span class="ot">_</span>-<span class="ot">_</span> <span class="ot">:</span> ★ A</span>
-<span id="cb7-11"><a href="#cb7-11"></a>    x - y <span class="ot">=</span> x ∙ <span class="ot">(</span>y ⁻¹<span class="ot">)</span></span>
-<span id="cb7-12"><a href="#cb7-12"></a></span>
-<span id="cb7-13"><a href="#cb7-13"></a>    inverseˡ <span class="ot">:</span> LeftInverse x <span class="ot">_</span>⁻¹ <span class="ot">_</span>∙<span class="ot">_</span></span>
-<span id="cb7-14"><a href="#cb7-14"></a>    inverseˡ <span class="ot">=</span> fst inverse</span>
-<span id="cb7-15"><a href="#cb7-15"></a></span>
-<span id="cb7-16"><a href="#cb7-16"></a>    inverseʳ <span class="ot">:</span> RightInverse x <span class="ot">_</span>⁻¹ <span class="ot">_</span>∙<span class="ot">_</span></span>
-<span id="cb7-17"><a href="#cb7-17"></a>    inverseʳ <span class="ot">=</span> snd inverse</span>
-<span id="cb7-18"><a href="#cb7-18"></a></span>
-<span id="cb7-19"><a href="#cb7-19"></a>    <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equational2</span>
-<span id="cb7-20"><a href="#cb7-20"></a>    <span class="kw">open</span> withCongruence <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">_</span>⁻¹ rfl trans sym ∙-cong x <span class="kw">public</span></span>
-<span id="cb7-21"><a href="#cb7-21"></a></span>
-<span id="cb7-22"><a href="#cb7-22"></a>    <span class="co">-- uniqueness of the inverses</span></span>
-<span id="cb7-23"><a href="#cb7-23"></a>    uniqueˡ-⁻¹ <span class="ot">:</span> <span class="ot">∀</span> α β <span class="ot">→</span> <span class="ot">(</span>α ∙ β<span class="ot">)</span> == x <span class="ot">→</span> α == <span class="ot">(</span>β ⁻¹<span class="ot">)</span></span>
-<span id="cb7-24"><a href="#cb7-24"></a>    uniqueˡ-⁻¹ <span class="ot">=</span> assoc+id+invʳ⇒invˡ-unique assoc identity inverseʳ</span>
-<span id="cb7-25"><a href="#cb7-25"></a></span>
-<span id="cb7-26"><a href="#cb7-26"></a>    uniqueʳ-⁻¹ <span class="ot">:</span> <span class="ot">∀</span> α β <span class="ot">→</span> <span class="ot">(</span>α ∙ β<span class="ot">)</span> == x <span class="ot">→</span> β == <span class="ot">(</span>α ⁻¹<span class="ot">)</span></span>
-<span id="cb7-27"><a href="#cb7-27"></a>    uniqueʳ-⁻¹ <span class="ot">=</span> assoc+id+invˡ⇒invʳ-unique assoc identity inverseˡ</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>  <span class="kw">record</span> IsGroup <span class="ot">(_</span>∙<span class="ot">_</span> <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(_</span>⁻¹ <span class="ot">:</span> ♠ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>    <span class="kw">field</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>      isMonoid  <span class="ot">:</span> IsMonoid <span class="ot">_</span>∙<span class="ot">_</span> x</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>      inverse   <span class="ot">:</span> Inverse x <span class="ot">_</span>⁻¹ <span class="ot">_</span>∙<span class="ot">_</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>      ⁻¹-cong   <span class="ot">:</span> Congruent₁ <span class="ot">_</span>⁻¹</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>    <span class="kw">open</span> IsMonoid isMonoid <span class="kw">public</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a>    <span class="kw">infixl</span> <span class="dv">7</span> <span class="ot">_</span>-<span class="ot">_</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a>    <span class="ot">_</span>-<span class="ot">_</span> <span class="ot">:</span> ★ A</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a>    x - y <span class="ot">=</span> x ∙ <span class="ot">(</span>y ⁻¹<span class="ot">)</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a>    inverseˡ <span class="ot">:</span> LeftInverse x <span class="ot">_</span>⁻¹ <span class="ot">_</span>∙<span class="ot">_</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a>    inverseˡ <span class="ot">=</span> fst inverse</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true"></a>    inverseʳ <span class="ot">:</span> RightInverse x <span class="ot">_</span>⁻¹ <span class="ot">_</span>∙<span class="ot">_</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true"></a>    inverseʳ <span class="ot">=</span> snd inverse</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true"></a>    <span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equational2</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true"></a>    <span class="kw">open</span> withCongruence <span class="ot">_</span>==<span class="ot">_</span> <span class="ot">_</span>∙<span class="ot">_</span> <span class="ot">_</span>⁻¹ rfl trans sym ∙-cong x <span class="kw">public</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true"></a>    <span class="co">-- uniqueness of the inverses</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true"></a>    uniqueˡ-⁻¹ <span class="ot">:</span> <span class="ot">∀</span> α β <span class="ot">→</span> <span class="ot">(</span>α ∙ β<span class="ot">)</span> == x <span class="ot">→</span> α == <span class="ot">(</span>β ⁻¹<span class="ot">)</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true"></a>    uniqueˡ-⁻¹ <span class="ot">=</span> assoc+id+invʳ⇒invˡ-unique assoc identity inverseʳ</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true"></a>    uniqueʳ-⁻¹ <span class="ot">:</span> <span class="ot">∀</span> α β <span class="ot">→</span> <span class="ot">(</span>α ∙ β<span class="ot">)</span> == x <span class="ot">→</span> β == <span class="ot">(</span>α ⁻¹<span class="ot">)</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true"></a>    uniqueʳ-⁻¹ <span class="ot">=</span> assoc+id+invˡ⇒invʳ-unique assoc identity inverseˡ</span></code></pre></div>
 <h2 id="abelian-group">Abelian Group</h2>
 <p>An Abelian group, named after Niels Henrik Abel, is a group and requires its operation to also be commutative.</p>
 <p>An abelian group is a structure containing:</p>
@@ -475,18 +475,18 @@
 <li><code>∙</code> is commutative, i.e. <code>x ∙ y = y ∙ x</code></li>
 <li>every object <code>x</code> has an inverse <code>x⁻¹</code>, such that <code>((x ⁻¹) ∙ x) == i</code></li>
 </ol>
-<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1"></a>  <span class="kw">record</span> IsAbelianGroup <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(</span>⁻¹ <span class="ot">:</span> ♠ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>    <span class="kw">field</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a>      isGroup <span class="ot">:</span> IsGroup ∙ x ⁻¹</span>
-<span id="cb8-4"><a href="#cb8-4"></a>      comm    <span class="ot">:</span> Commutative ∙</span>
-<span id="cb8-5"><a href="#cb8-5"></a></span>
-<span id="cb8-6"><a href="#cb8-6"></a>    <span class="kw">open</span> IsGroup isGroup <span class="kw">public</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a></span>
-<span id="cb8-8"><a href="#cb8-8"></a>    isCommutativeMonoid <span class="ot">:</span> IsCommutativeMonoid ∙ x</span>
-<span id="cb8-9"><a href="#cb8-9"></a>    isCommutativeMonoid <span class="ot">=</span> <span class="kw">record</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a>      <span class="ot">{</span> isMonoid <span class="ot">=</span> isMonoid</span>
-<span id="cb8-11"><a href="#cb8-11"></a>      <span class="ot">;</span> comm <span class="ot">=</span> comm</span>
-<span id="cb8-12"><a href="#cb8-12"></a>      <span class="ot">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>  <span class="kw">record</span> IsAbelianGroup <span class="ot">(</span>∙ <span class="ot">:</span> ★ A<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(</span>⁻¹ <span class="ot">:</span> ♠ A<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>    <span class="kw">field</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a>      isGroup <span class="ot">:</span> IsGroup ∙ x ⁻¹</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a>      comm    <span class="ot">:</span> Commutative ∙</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true"></a>    <span class="kw">open</span> IsGroup isGroup <span class="kw">public</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true"></a>    isCommutativeMonoid <span class="ot">:</span> IsCommutativeMonoid ∙ x</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true"></a>    isCommutativeMonoid <span class="ot">=</span> <span class="kw">record</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true"></a>      <span class="ot">{</span> isMonoid <span class="ot">=</span> isMonoid</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true"></a>      <span class="ot">;</span> comm <span class="ot">=</span> comm</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true"></a>      <span class="ot">}</span></span></code></pre></div>
 <hr />
 <p><a href="./Algebra.groups2.html">Groups and family 2</a></p>
 </body>

@@ -76,7 +76,6 @@
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../css/agda.css" />
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -89,62 +88,56 @@
 <hr />
 <ul>
 <li><a href="#homotopy-type-theory">Homotopy Type Theory</a></li>
-<li><a href="#homotopy-theory">Homotopy Theory</a>
-<ul>
-<li><a href="#fields-spaces-points-paths">Fields, Spaces, Points, Paths</a></li>
-<li><a href="#paths-and-their-equalities">Paths and their equalities</a>
-<ul>
-<li><a href="#homotopy">Homotopy</a></li>
-<li><a href="#fundamental-group">Fundamental group</a></li>
-<li><a href="#%E2%88%9E-groupoid">∞-groupoid</a></li>
-</ul></li>
-<li><a href="#induction-principle">Induction principle</a></li>
-</ul></li>
+<li><a href="#intensional-and-extensional-type-theories">Intensional and Extensional Type Theories</a></li>
+<li><a href="#univalence">Univalence</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="homotopy-type-theory">Homotopy Type Theory</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">module</span> HoTT<span class="ot">.</span>introduction <span class="kw">where</span></span></code></pre></div>
-<p>Homotopy type theory (HoTT) is a mathematical framework and a flavor of Type Theory that treats types as spaces (“space” as in abstract geometry) and one can apply the machinery of homotopy theory over those spaces. Homotopy theory is a part of algebraic geometry which deals with functions between topological spaces. HoTT essentially enables one to use the API of homotopy theory by letting us treat types as spaces.</p>
-<h1 id="homotopy-theory">Homotopy Theory</h1>
-<h2 id="fields-spaces-points-paths">Fields, Spaces, Points, Paths</h2>
-<p>An n-dimensional space can be thought as a collection of n numbers from a <a href="./Algebra.fields.html">field</a> and n directions or bases. Thus we can construct spaces from fields. For e.g. any point in 2-dimensional space of real numbers ℝ can be represented as <span class="math inline">\(a × x + b × y\)</span> where <span class="math inline">\(a, b ∈ ℝ\)</span>.</p>
-<p>A path is a line joining two points. This path can be of any shape, be it a straight line or an extremely squiggly one.</p>
-<figure>
-<img src="./pathType.png" alt="" /><figcaption>Figure 1: Path</figcaption>
-</figure>
-<h2 id="paths-and-their-equalities">Paths and their equalities</h2>
-<p>Technically, a path p between two points <code>x</code> and <code>y</code> can be represented as a function <code>f</code> that takes a continuous value <code>t</code> and returns a point on the path <code>f(t)</code> such that the first point is <code>x</code> <span class="math inline">\(f(0) = x\)</span> and the last point is <code>y</code> <span class="math inline">\(f(1) = y\)</span> and <span class="math inline">\(0 ≤ t ≤ 1\)</span>. It might need to be reminded that such a path might not actually exist as a continuous line through space but may help if imagined as such.</p>
-<p>Now, we could take any two paths between the same points and stretch / squeeze one path into another. This process can be used to capture relationships between two paths and is called <em>homotopy</em>. More formally,</p>
-<figure>
-<img src="./two_paths_homotopy.png" alt="" /><figcaption>Figure 2: Two Paths Homotopy</figcaption>
-</figure>
-<h3 id="homotopy">Homotopy</h3>
-<p>A <em>homotopy</em> between two paths <code>p(t)</code> and <code>q(t)</code> is defined as a continuous function <code>H(t, h)</code> such that:</p>
-<ul>
-<li><span class="math inline">\(H(t, 0) = p(t)\)</span></li>
-<li><span class="math inline">\(H(t, 1) = q(t)\)</span></li>
-<li><span class="math inline">\(H(0, h) = x\)</span></li>
-<li><span class="math inline">\(H(1, h) = y\)</span></li>
-</ul>
-<p>There can exist multiple paths between two objects and hence multiple homotopies between them. Homotopies can be thought of as 2-dimensional paths or path-of-path if paths are 1-dimensional paths. Homotopies are built on equivalence relations and hence fit into its API, i.e. homotopy respects reflexivity, symmetry and transitivity, and can be used to build equational reasoning chanins.</p>
-<figure>
-<img src="./homotopy.png" alt="" /><figcaption>Figure 3: Homotopy</figcaption>
-</figure>
-<h3 id="fundamental-group">Fundamental group</h3>
-<p>Two homotopies <code>H1</code> and <code>H2</code> can themselves be called equal if <span class="math inline">\(H(0, h) = H(1, h) = x₀\)</span>, i.e. if <code>x</code> and <code>y</code> are the same point. We can use this equivalence relation and the fact that homotopies have inverses, to build a group structure around these homotopies, called as the <em>fundamental group</em>.</p>
-<h3 id="groupoid">∞-groupoid</h3>
-<p>We can have n-dimentional paths from n-equalitites or homotopies of homotopies of homotopies of homotopies and so on. Such a structure of infinite levels of homotopies with points followed by paths as base is called the <em>∞-groupoid</em>. Every space can be turned into its ∞-groupoid and then homotopy theory can be applied to it as well as every ∞-groupoid can yield a fundamental group. This fact connects algebraic topology (which uses the fundamental group) and category theory (which builds on the ∞-groupoid).</p>
-<p>In HoTT, each type can be represented as an ∞-groupoid. Each pair of objects <code>x</code> and <code>y</code> of a type can have an typelevel equality type <span class="math inline">\(x ≡_A y\)</span>. For example in python:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>a <span class="op">=</span> <span class="dv">3</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>b <span class="op">=</span> <span class="dv">4</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="bu">type</span>(a) ≡ <span class="bu">type</span>(b)</span></code></pre></div>
-<p>These equalities can have further equalities <span class="math inline">\((x_1 ≡_A y_1) ≡_{(x ≡_A y)} (x_2 ≡_A y_2)\)</span>. Note: higher levels cannot be done trivially in python.</p>
-<h2 id="induction-principle">Induction principle</h2>
-<p>The induction principle is central to deriving all basic constructions for HoTT. Stated simply, if for every pair of objects <code>x</code> and <code>y</code> of type <code>A</code> - the equality type <span class="math inline">\(≡_A\)</span> between <code>x</code> and <code>y</code> exists everytime <code>x</code> and <code>y</code> are equal - for every <code>x ∈ A</code>, the equalities <span class="math inline">\(x ≡_A x\)</span> are reflexive then for a proposition <code>C</code> which depends upon the equality <span class="math inline">\(x ≡_A y\)</span>, it turns out that it is sufficient to prove <code>C</code> for all cases where <span class="math inline">\(x ≡_A x\)</span> alone and it becomes automatically applicable for cases for all <span class="math inline">\(x ≡_A y\)</span>.</p>
-<figure>
-<img src="./induction.png" alt="" /><figcaption>Figure 4: Induction</figcaption>
-</figure>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a><span class="kw">module</span> HoTT<span class="ot">.</span>introduction <span class="kw">where</span></span></code></pre></div>
+<p>Homotopy type theory is a part of a mathematician’s quest to have a formal language in which to write mathematics in such that the correctness of the mathematics can be verified by a computer program. This mathematician, Vladimir Voevodsky, played a large part in formalizing homotopy type theory and lead the restructuring of mathematics based on this new foundation, called Univalent foundations, so that it is easier to implement and work with consistently in these formal languages.</p>
+<p>We are working in one such language, Agda, though Voevodsky had used a different one - <a href="https://coq.inria.fr/">Coq</a>. There are a few more theorem provers, notably <a href="https://isabelle.in.tum.de/">Isabelle</a>, <a href="https://www.idris-lang.org/">Idris</a>, <a href="https://arend-lang.github.io/">Arend</a> and <a href="https://leanprover.github.io/">Lean</a>.</p>
+<h1 id="intensional-and-extensional-type-theories">Intensional and Extensional Type Theories</h1>
+<p>Part of the technical problem that was faced, apart from the need for restructuring and refactoring all of mathematics, which needed HoTT as a solution, has to deal with how we define equivalences.</p>
+<p>In the current system, if say we were to define two types, both representing natural numbers:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">data</span> ℕ₁ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  zero₁ <span class="ot">:</span> ℕ₁</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>  succ₁ <span class="ot">:</span> ℕ₁ <span class="ot">→</span> ℕ₁</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a><span class="kw">data</span> ℕ₂  <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>  zero₂ <span class="ot">:</span> ℕ₂</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>  succ₂ <span class="ot">:</span> ℕ₂ <span class="ot">→</span> ℕ₂</span></code></pre></div>
+<p>Now two objects, both representing <code>3</code>, will be considered different:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>three₁ <span class="ot">=</span> succ₁ <span class="ot">(</span>succ₁ <span class="ot">(</span>succ₁ zero₁<span class="ot">))</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>three₂ <span class="ot">=</span> succ₂ <span class="ot">(</span>succ₂ <span class="ot">(</span>succ₂ zero₂<span class="ot">))</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>eq <span class="op">:</span> three₁ ≡ three₂</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>eq <span class="ot">=</span> refl</span></code></pre></div>
+<p>and the compiler throws the error:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>ℕ₂ <span class="op">!=&lt;</span> ℕ₁</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>when checking that the expression three₂ has <span class="kw">type</span> ℕ₁</span></code></pre></div>
+<p>In order to make these types equal, we have to define an equality type where we provide a proof that ℕ₁ and ℕ₂ are equal. This is the consequence of the flavor of type theory that we are using called “Intensional” type theory. In intensional type theory, one has to explicitly define all equivalences for all objects and some machinery for them to really work with these structures.</p>
+<p>In the above example, we could capture equivalence of integers without much code, however this problem compounds itself as one builds higher structures, say a group of integers or a real number field. These equivalences can be captured by <code>Setoid</code>s which are basically objects along with their definition of equivalences “packaged together” so that their implementations can be hidden. However, like many such foundational patches, the final implementations result in a mess where the base definitions need additional machinery and one needs to be aware of these implementations anyway when constructing higher structures. Some areas of mathematics are notably hard, like defining real numbers. However, for all its shortfalls, an intensional system guarantees that the type checking is decidable.</p>
+<p>In particular, intensional type theories lack:</p>
+<ol type="1">
+<li><strong>Functional extensionality</strong>: Two functions that are pointwise equal are equal.</li>
+<li><strong>Propositional extensionality</strong>: Two propositions that are logically equivalent are equal.</li>
+<li><strong>Quotients</strong>: We can quotient (subset) a type by an equivalence relation.</li>
+</ol>
+<p>The above can be technically handled by modeling Types using <code>Setoid</code>s instead of <code>Set</code>. However, if we need further extensionality by adding:</p>
+<ol start="4" type="1">
+<li><strong>Set extensionality</strong>: Two sets are equal if they are in a one-to-one correspondence.</li>
+</ol>
+<p>This creates a problem as two sets can be equal in many different ways. To account for this additional structure, we could model Types using <code>Groupoid</code>s (also known as a <code>Magma</code>) instead of <code>Setoid</code>s.</p>
+<p>Another flavor of type theory, “extensional” defines equivalences as - things that behave the same way are equal (regardless of their internal implementations). This, in a way, provides a better set of abstractions for working with mathematics as in order to build towers of abstractions, one needs to hide implementation details. Otherwise imagine one needing to know the intel instruction set to build a website. The shortfall in the extensional system is that it is possible to define types that are not decidable. In other words, there is no difference between definitional and propositional equalities allowing cases where type checking will never terminate. Another problem here is that Set extensionality cannot be modeled.</p>
+<p>As the extensional version has major drawbacks, there becomes a need for restructuring the modeling of equivalence in intensional type theory to build more extensionality along with cleaner and better abstracted implementations. This is where Homotopy Type Theory comes in.</p>
+<h1 id="univalence">Univalence</h1>
+<p>Roughly speaking, the mathematical theory that models equality and equivalence of types using abstractions from homotopy theory is called Homotopy Type Theory (or HoTT in short). The “Univalence” axiom sits at the core of HoTT and hence, the resulting type theories that build on HoTT are called “univalent type theories” and the math implemented in such type theories “univalent mathematics”.</p>
+<!-- outline further plan -->
 <hr />
 <p><a href="./HoTT.identity.html">Identity Types and Paths</a></p>
 </body>
