@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Algebra/morphisms</title>
+  <title>Algebra/groupMorphisms</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -97,25 +97,39 @@
 <li><a href="#monoid-homomorphism">Monoid Homomorphism</a></li>
 <li><a href="#group-homomorphism">Group Homomorphism</a></li>
 </ul></li>
-<li><a href="#endomorphism">Endomorphism</a>
+<li><a href="#automorphism">Automorphism</a>
 <ul>
-<li><a href="#monoid-endomorphism">Monoid endomorphism</a></li>
-<li><a href="#group-endomorphism">Group endomorphism</a></li>
+<li><a href="#monoid-automorphism">Monoid automorphism</a></li>
+<li><a href="#group-automorphism">Group automorphism</a></li>
 </ul></li>
-<li><a href="#isomorphism">Isomorphism</a></li>
-<li><a href="#automorphism">Automorphism</a></li>
+<li><a href="#toward-isomorphism">Toward Isomorphism</a></li>
+<li><a href="#monomorphisms">Monomorphisms</a>
+<ul>
+<li><a href="#magma-monomorphism">Magma Monomorphism</a></li>
+<li><a href="#semigroup-monomorphism">Semigroup Monomorphism</a></li>
+<li><a href="#monoid-monomorphism">Monoid Monomorphism</a></li>
+<li><a href="#group-monomorphism">Group Monomorphism</a></li>
+</ul></li>
+<li><a href="#isomorphism">Isomorphism</a>
+<ul>
+<li><a href="#magma-isomorphism">Magma isomorphism</a></li>
+<li><a href="#semigroup-isomorphism">Semigroup isomorphism</a></li>
+<li><a href="#monoid-isomorphism">Monoid Isomorphism</a></li>
+<li><a href="#group-isomorphism">Group Isomorphism</a></li>
+</ul></li>
 </ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="morphisms">Morphisms</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">module</span> Algebra<span class="ot">.</span>morphisms <span class="kw">where</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">module</span> Algebra<span class="ot">.</span>groupMorphisms <span class="kw">where</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups2</span></code></pre></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>functions2</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Algebra<span class="ot">.</span>groups2</span></code></pre></div>
 <p>A morphism is a more general concept that applies not only to groups but also to pretty much all algebraic objects. It can be defined as a structure-preserving map. In the context of group-like objects, a morphism between any two objects <code>X</code> and <code>Y</code> embeds <code>X</code> in <code>Y</code> while ensuring the structure of <code>X</code> is preserved.</p>
 <p>Let us first define a morphism:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">module</span> Homomorphism <span class="ot">{</span>f t ℓ<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> <span class="dt">Set</span> f<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> <span class="dt">Set</span> t<span class="ot">)</span> <span class="ot">(_</span>==<span class="ot">_</span> <span class="ot">:</span> Rel To ℓ<span class="ot">)</span> <span class="kw">where</span></span>
@@ -204,9 +218,9 @@
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true"></a>      preserves-inverse       <span class="ot">:</span> compose-unary 𝕄⟦<span class="ot">_</span>⟧ F<span class="ot">._</span>⁻¹ T<span class="ot">._</span>⁻¹</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true"></a></span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true"></a>    <span class="kw">open</span> IsMonoidHomomorphism is-monoid-homomorphism <span class="kw">public</span></span></code></pre></div>
-<h2 id="endomorphism">Endomorphism</h2>
-<p>An Endomorphism is a homomorphism where <code>From</code> and <code>To</code> are the same objects.</p>
-<h3 id="monoid-endomorphism">Monoid endomorphism</h3>
+<h2 id="automorphism">Automorphism</h2>
+<p>An Automorphism is a homomorphism between the object to itself.</p>
+<h3 id="monoid-automorphism">Monoid automorphism</h3>
 <div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="kw">module</span> <span class="ot">_</span> <span class="ot">{</span>f ℓ<span class="ot">}</span> <span class="ot">(</span>Self <span class="ot">:</span> Monoid f ℓ<span class="ot">)</span> <span class="kw">where</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>  <span class="kw">private</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>    <span class="kw">module</span> S <span class="ot">=</span> Monoid Self</span>
@@ -216,7 +230,7 @@
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true"></a>  <span class="kw">record</span> IsMonoidAutomorphism <span class="ot">(</span>𝕄⟦<span class="ot">_</span>⟧ <span class="ot">:</span> Morphism<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true"></a>    <span class="kw">field</span></span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true"></a>      is-homomorphism <span class="ot">:</span> IsMonoidHomomorphism Self Self 𝕄⟦<span class="ot">_</span>⟧</span></code></pre></div>
-<h3 id="group-endomorphism">Group endomorphism</h3>
+<h3 id="group-automorphism">Group automorphism</h3>
 <div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="kw">module</span> <span class="ot">_</span> <span class="ot">{</span>f ℓ<span class="ot">}</span> <span class="ot">(</span>Self <span class="ot">:</span> Group f ℓ<span class="ot">)</span> <span class="kw">where</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>  <span class="kw">private</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>    <span class="kw">module</span> S <span class="ot">=</span> Group Self</span>
@@ -226,13 +240,122 @@
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a>  <span class="kw">record</span> IsGroupAutomorphism <span class="ot">(</span>𝕄⟦<span class="ot">_</span>⟧ <span class="ot">:</span> Morphism<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a>    <span class="kw">field</span></span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true"></a>      is-homomorphism <span class="ot">:</span> IsGroupHomomorphism Self Self 𝕄⟦<span class="ot">_</span>⟧</span></code></pre></div>
-<h2 id="isomorphism">Isomorphism</h2>
+<h2 id="toward-isomorphism">Toward Isomorphism</h2>
 <p>An group isomorphism is a homomorphism with an additional property - bijection (one-to-one + onto). Bijection implies an isomorphism is a homomorphism such that the inverse of the homomorphism is also a homomorphism. Practically, an isomorphism is an equivalence relation. Often in mathematics one encounters the phrase “equal upto isomorphism” meaning isomorphism serves as equality for all practical purposes.</p>
 <figure>
-<img src="../artwork/functions.png" alt="Injection vs Surjection vs Bijection" /><figcaption aria-hidden="true">Injection vs Surjection vs Bijection</figcaption>
+<img src="/artwork/functions.png" alt="Injection vs Surjection vs Bijection" /><figcaption aria-hidden="true">Injection vs Surjection vs Bijection</figcaption>
 </figure>
-<h2 id="automorphism">Automorphism</h2>
-<p>An automorphism is a endomorphism which is also an isomorphism.</p>
+<p>An injective morphism is a Monomorphism. A surjective morphism is an Epimorphism. An isomorphism is both injective and surjective.</p>
+<h2 id="monomorphisms">Monomorphisms</h2>
+<p>We first define Monomorphisms:</p>
+<h3 id="magma-monomorphism">Magma Monomorphism</h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="kw">module</span> <span class="ot">_</span> <span class="ot">{</span>f t ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> Magma f ℓ₁<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> Magma t ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>  <span class="kw">private</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a>    <span class="kw">module</span> F <span class="ot">=</span> Magma From</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a>    <span class="kw">module</span> T <span class="ot">=</span> Magma To</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a>  <span class="kw">open</span> Homomorphism F<span class="ot">.</span>Data T<span class="ot">.</span>Data T<span class="ot">._</span>==<span class="ot">_</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true"></a>  <span class="kw">record</span> IsMagmaMonomorphism <span class="ot">(</span>𝕄⟦<span class="ot">_</span>⟧ <span class="ot">:</span> Morphism<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true"></a>    <span class="kw">field</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true"></a>      is-magma-homomorphism   <span class="ot">:</span> IsMagmaHomomorphism From To 𝕄⟦<span class="ot">_</span>⟧</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true"></a>      is-morphism-injective   <span class="ot">:</span> Injective 𝕄⟦<span class="ot">_</span>⟧</span></code></pre></div>
+<h3 id="semigroup-monomorphism">Semigroup Monomorphism</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="kw">module</span> <span class="ot">_</span> <span class="ot">{</span>f t ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> Semigroup f ℓ₁<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> Semigroup t ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>  <span class="kw">private</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>    <span class="kw">module</span> F <span class="ot">=</span> Semigroup From</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a>    <span class="kw">module</span> T <span class="ot">=</span> Semigroup To</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a>  <span class="kw">open</span> Homomorphism F<span class="ot">.</span>Data T<span class="ot">.</span>Data T<span class="ot">._</span>==<span class="ot">_</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true"></a>  <span class="kw">record</span> IsSemigroupMonomorphism <span class="ot">(</span>𝕄⟦<span class="ot">_</span>⟧ <span class="ot">:</span> Morphism <span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true"></a>    <span class="kw">field</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true"></a>      is-magma-monomorphism  <span class="ot">:</span> IsMagmaMonomorphism F<span class="ot">.</span>magma T<span class="ot">.</span>magma 𝕄⟦<span class="ot">_</span>⟧</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true"></a>    <span class="kw">open</span> IsMagmaMonomorphism is-magma-monomorphism <span class="kw">public</span></span></code></pre></div>
+<h3 id="monoid-monomorphism">Monoid Monomorphism</h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="kw">module</span> <span class="ot">_</span> <span class="ot">{</span>f t ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> Monoid f ℓ₁<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> Monoid t ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a>  <span class="kw">private</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a>    <span class="kw">module</span> F <span class="ot">=</span> Monoid From</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a>    <span class="kw">module</span> T <span class="ot">=</span> Monoid To</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true"></a>  <span class="kw">open</span> Homomorphism F<span class="ot">.</span>Data T<span class="ot">.</span>Data T<span class="ot">._</span>==<span class="ot">_</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true"></a>  <span class="kw">record</span> IsMonoidMonomorphism <span class="ot">(</span>𝕄⟦<span class="ot">_</span>⟧ <span class="ot">:</span> Morphism <span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true"></a>    <span class="kw">field</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true"></a>      is-semigroup-monomorphism  <span class="ot">:</span> IsSemigroupMonomorphism F<span class="ot">.</span>semigroup T<span class="ot">.</span>semigroup 𝕄⟦<span class="ot">_</span>⟧</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true"></a>      preserves-identity         <span class="ot">:</span> identity-preservation 𝕄⟦<span class="ot">_</span>⟧ F<span class="ot">.</span>ε T<span class="ot">.</span>ε</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true"></a>    <span class="kw">open</span> IsSemigroupMonomorphism is-semigroup-monomorphism <span class="kw">public</span></span></code></pre></div>
+<h3 id="group-monomorphism">Group Monomorphism</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="kw">module</span> <span class="ot">_</span> <span class="ot">{</span>f t ℓ₁ ℓ₂<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> Group f ℓ₁<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> Group t ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>  <span class="kw">private</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a>    <span class="kw">module</span> F <span class="ot">=</span> Group From</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a>    <span class="kw">module</span> T <span class="ot">=</span> Group To</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true"></a>  <span class="kw">open</span> Homomorphism F<span class="ot">.</span>Data T<span class="ot">.</span>Data T<span class="ot">._</span>==<span class="ot">_</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true"></a>  <span class="kw">record</span> IsGroupMonomorphism <span class="ot">(</span>𝕄⟦<span class="ot">_</span>⟧ <span class="ot">:</span> Morphism <span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true"></a>    <span class="kw">field</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true"></a>      is-monoid-monomorphism  <span class="ot">:</span> IsMonoidMonomorphism F<span class="ot">.</span>monoid T<span class="ot">.</span>monoid 𝕄⟦<span class="ot">_</span>⟧</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true"></a>      preserves-inverse       <span class="ot">:</span> compose-unary 𝕄⟦<span class="ot">_</span>⟧ F<span class="ot">._</span>⁻¹ T<span class="ot">._</span>⁻¹</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true"></a>    <span class="kw">open</span> IsMonoidMonomorphism is-monoid-monomorphism <span class="kw">public</span></span></code></pre></div>
+<h2 id="isomorphism">Isomorphism</h2>
+<p>Now adding the condition of Surjectivity, we get isomorphisms:</p>
+<h3 id="magma-isomorphism">Magma isomorphism</h3>
+<pre class="lagda"><code>module _ {f t ℓ₁ ℓ₂} (From : Magma f ℓ₁) (To : Magma t ℓ₂) where
+  private
+    module F = Magma From
+    module T = Magma To
+
+  open Homomorphism F.Data T.Data T._==_
+
+  record IsMagmaIsomorphism (𝕄⟦_⟧ : Morphism) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+    field
+      is-magma-monomorphism   : IsMagmaMonomorphism From To 𝕄⟦_⟧
+      is-morphism-surjective  : Surjective 𝕄⟦_⟧</code></pre>
+<h3 id="semigroup-isomorphism">Semigroup isomorphism</h3>
+<pre class="lagda"><code>module _ {f t ℓ₁ ℓ₂} (From : Semigroup f ℓ₁) (To : Semigroup t ℓ₂) where
+  private
+    module F = Semigroup From
+    module T = Semigroup To
+
+  open Homomorphism F.Data T.Data T._==_
+
+  record IsSemigroupIsomorphism (𝕄⟦_⟧ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+    field
+      is-magma-isomorphism  : IsMagmaIsomorphism F.magma T.magma 𝕄⟦_⟧
+
+    open IsMagmaIsomorphism is-magma-isomorphism public</code></pre>
+<h3 id="monoid-isomorphism">Monoid Isomorphism</h3>
+<pre class="lagda"><code>module _ {f t ℓ₁ ℓ₂} (From : Monoid f ℓ₁) (To : Monoid t ℓ₂) where
+  private
+    module F = Monoid From
+    module T = Monoid To
+
+  open Homomorphism F.Data T.Data T._==_
+
+  record IsMonoidIsomorphism (𝕄⟦_⟧ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+    field
+      is-semigroup-isomorphism  : IsSemigroupIsomorphism F.semigroup T.semigroup 𝕄⟦_⟧
+      preserves-identity         : identity-preservation 𝕄⟦_⟧ F.ε T.ε
+
+    open IsSemigroupIsomorphism is-semigroup-isomorphism public</code></pre>
+<h3 id="group-isomorphism">Group Isomorphism</h3>
+<pre class="lagda"><code>module _ {f t ℓ₁ ℓ₂} (From : Group f ℓ₁) (To : Group t ℓ₂) where
+  private
+    module F = Group From
+    module T = Group To
+
+  open Homomorphism F.Data T.Data T._==_
+
+  record IsGroupIsomorphism (𝕄⟦_⟧ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+    field
+      is-monoid-isomorphism  : IsMonoidIsomorphism F.monoid T.monoid 𝕄⟦_⟧
+      preserves-inverse       : compose-unary 𝕄⟦_⟧ F._⁻¹ T._⁻¹
+
+    open IsMonoidIsomorphism is-monoid-isomorphism public</code></pre>
 <hr />
 <p><a href="./Algebra.rings.html">Rings and family</a></p>
 </body>

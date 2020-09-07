@@ -138,11 +138,14 @@
 <img src="../artwork/surjective.png" alt="Figure 2: Surjection" /><figcaption aria-hidden="true">Figure 2: Surjection</figcaption>
 </figure>
 <p>A function <code>f : X → Y</code> is surjective if <span class="math inline">\(∀ y ∈ Y, ∃ x ∈ X s.t. f(x) == y\)</span>. This states that for every element of Y, there should be at least one element of X such that <code>f(x) == y</code>. So Y is an complete image of X.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">record</span> Surjection <span class="ot">{</span>f t<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> <span class="dt">Set</span> f<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> <span class="dt">Set</span> t<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>  <span class="kw">field</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>    <span class="kw">to</span>   <span class="ot">:</span> From <span class="ot">→</span> To</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>    from <span class="ot">:</span> To <span class="ot">→</span> From</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>    right-inverse-of <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="kw">to</span> <span class="ot">(</span>from x<span class="ot">)</span> ≡ x</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="co">-- Surjective : ∀ {a b} {A : Set a} {B : Set b} → (A → B) → Set (a ⊔ b)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="co">-- Surjective f = ∀ y → ∃ λ x → f x ≡ y</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a><span class="kw">record</span> Surjection <span class="ot">{</span>f t<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> <span class="dt">Set</span> f<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> <span class="dt">Set</span> t<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>  <span class="kw">field</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>    <span class="kw">to</span>   <span class="ot">:</span> From <span class="ot">→</span> To</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>    from <span class="ot">:</span> To <span class="ot">→</span> From</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>    right-inverse-of <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="kw">to</span> <span class="ot">(</span>from x<span class="ot">)</span> ≡ x</span></code></pre></div>
 <h2 id="bijection">Bijection</h2>
 <figure>
 <img src="../artwork/bijection.png" alt="Figure 3: Bijection" /><figcaption aria-hidden="true">Figure 3: Bijection</figcaption>

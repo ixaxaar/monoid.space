@@ -47,6 +47,7 @@
 ## 5. Abstract Algebras
 
   - [Introduction](./Algebra.introduction.html)
+  - [Sets in Type Theory](./Algebra.sets.html)
 
 #### 5.1 __Orders__
 
@@ -56,13 +57,13 @@
 
   - [Groups and family](./Algebra.groups.html)
   - [Groups and family 2](./Algebra.groups2.html)
-  - [Group Morphisms](./Algebra.morphisms.html)
+  - [Group Morphisms](./Algebra.groupMorphisms.html)
 
 #### 5.3 __Rings__
 
   - [Rings and family](./Algebra.rings.html)
   - [Rings and family 2](./Algebra.rings2.html)
-  - [~~Ring Morphisms~~](./Algebra.ring_morphisms.html)
+  - [Ring Morphisms](./Algebra.ringMorphisms.html)
 
 #### 5.4 __Fields__
 
@@ -143,12 +144,14 @@ import Logic.laws
 import Logic.decidability
 
 import Algebra.introduction
+import Algebra.sets
 import Algebra.order
 import Algebra.groups
 import Algebra.groups2
-import Algebra.morphisms
+import Algebra.groupMorphisms
 import Algebra.rings
 import Algebra.rings2
+import Algebra.ringMorphisms
 import Algebra.fields
 import Algebra.fields2
 import Algebra.numbers

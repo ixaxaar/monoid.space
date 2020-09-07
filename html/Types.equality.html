@@ -103,7 +103,6 @@
 <li><a href="#equality">Equality</a></li>
 <li><a href="#properties-of-equality">Properties of equality</a></li>
 </ul></li>
-<li><a href="#setoids">Setoids</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="equalities">Equalities</h1>
@@ -211,16 +210,6 @@
 <span id="cb10-22"><a href="#cb10-22" aria-hidden="true"></a>  <span class="ot">→</span> Predicate x</span>
 <span id="cb10-23"><a href="#cb10-23" aria-hidden="true"></a>  <span class="ot">→</span> Predicate y</span>
 <span id="cb10-24"><a href="#cb10-24" aria-hidden="true"></a>subs-≡ Predicate refl p <span class="ot">=</span> p</span></code></pre></div>
-<h1 id="setoids">Setoids</h1>
-<p>Equality, or specifically, equivalence is at the heart of mathematics. In order to build more complex structures, we introduce a new datatype, which essentially encapsulates any datatype and it’s equivalence operation:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="kw">record</span> Setoid c ℓ <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>lsuc <span class="ot">(</span>c ⊔ ℓ<span class="ot">))</span> <span class="kw">where</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>  <span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a>  <span class="kw">field</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a>    Data          <span class="ot">:</span> <span class="dt">Set</span> c</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a>    <span class="ot">_</span>≈<span class="ot">_</span>           <span class="ot">:</span> Rel Data ℓ</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a>    isEquivalence <span class="ot">:</span> IsEquivalence <span class="ot">_</span>≈<span class="ot">_</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true"></a></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true"></a>  <span class="kw">open</span> IsEquivalence isEquivalence <span class="kw">public</span></span></code></pre></div>
 <hr />
 <p><a href="./Types.product.html">Product Types / Σ-types</a></p>
 </body>

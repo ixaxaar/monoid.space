@@ -25,6 +25,7 @@ open import Types.relations
 open import Types.equality renaming (refl to ≡-refl)
 open import Types.functions
 open import Types.product
+open import Algebra.sets
 
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 
@@ -49,7 +50,7 @@ Group-like objects form another family of objects probed in abstract algebra. Th
 | Group             | ★        | ★             | ★        | ★             |               |
 | Abelian group     | ★        | ★             | ★        | ★             | ★             |
 
-Note that we implement only the packaged version of laws here, the actual object types we define in the next section [Groups and family 2](./Algebra.groups2.html), this is precisely because we cannot have two high level modules per agda file.
+Note that we implement only the packaged version of laws here, the actual object types we define in the next section [Groups and family 2](./Algebra.groups2.html), this is because we cannot have two high level modules per agda file.
 
 ![Figure 1: Algebraic structures](/artwork/algebra_structure.png)
 
@@ -61,23 +62,12 @@ A magma is a set of objects with a closed binary operation defined on them. It i
 
 A magma is a structure containing:
 
-- A set $𝔽$
+- A set $𝔽$, represented by a setoid
 - A binary operation: `∙`
 
 where:
 
 1. `∙` is closed, i.e. `∀ x y ∈ 𝔽, (x ∙ y) ∈ 𝔽` or `∙ : 𝔽 × 𝔽 → 𝔽`
-
-
-```agda
-  record IsMagmaMinimal (∙ : ★ A) : Set (a ⊔ ℓ) where
-```
-
-However, we define a more constrained magma, where:
-
-1. The set `𝔽` has an underlying equivalence relation `==` (can simply use setoids instead)
-2. `∙` is congruent over the underlying equality `==`
-3. `∙` is closed, i.e. `∀ x y ∈ 𝔽, (x ∙ y) ∈ 𝔽` or `∙ : 𝔽 × 𝔽 → 𝔽`
 
 ```agda
   record IsMagma (∙ : ★ A) : Set (a ⊔ ℓ) where
@@ -87,7 +77,10 @@ However, we define a more constrained magma, where:
 
     open IsEquivalence isEquivalence public
 
-    -- utils
+    setoid : Setoid a ℓ
+    setoid = record { isEquivalence = isEquivalence }
+
+    -- satisfies congruence with underlying equivalence
     ∙-congˡ : LeftCongruent ∙
     ∙-congˡ y==z = ∙-cong y==z rfl
 
@@ -95,11 +88,13 @@ However, we define a more constrained magma, where:
     ∙-congʳ y==z = ∙-cong rfl y==z
 ```
 
+Magmas are a nice start but are yet too general to be useful. Lets add more structure.
+
 ## Semigroup
 
 A semigroup is a structure where the operation is associative.
 
-A magma is a structure containing:
+A semigroup is a structure containing:
 
 - A set $𝔽$
 - A binary operation: `∙`
@@ -117,6 +112,8 @@ where:
 
     open IsMagma isMagma public
 ```
+
+Semigroups are any data structure which support an addition operation but does not have a unit element.
 
 ## Monoid
 
@@ -138,7 +135,7 @@ Here are a few examples of monoids:
 | string       | concatenation                             | `''`     |
 | List / Array | concatenation                             | `[]`     |
 
-Monoidal operations (`∙ : A × A → A`) take two elements and "reduce" or "combine" them into one. In other words they can be used to model types that can be aggregated, as one could take successive pairs of objects from a monoid and combine them with the monoidal operation `∙ : A × A → A`. This is reflected in the fact that only "certain types" may be "reduced" using "certain type" of functions. The "reduce" here refers to a standard map-reduce operation.
+Monoidal operations (`∙ : A × A → A`) take two elements and "reduce" or "combine" them into one. In other words they can be used to model types that can be aggregated arbitrarily, as one could take pairs of objects from a monoid and combine them with the monoidal operation `∙ : A × A → A`. This combination is independent of whether it is done in synchronous, concuirrent or in parallel on a computer.
 
 A monoid is a structure containing:
 

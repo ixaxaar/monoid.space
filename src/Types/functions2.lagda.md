@@ -68,6 +68,9 @@ record Injection {f t} (From : Set f) (To : Set t) : Set (f ⊔ t) where
 A function `f : X → Y` is surjective if $∀ y ∈ Y, ∃ x ∈ X s.t. f(x) == y$. This states that for every element of Y, there should be at least one element of X such that `f(x) == y`. So Y is an complete image of X.
 
 ```agda
+-- Surjective : ∀ {a b} {A : Set a} {B : Set b} → (A → B) → Set (a ⊔ b)
+-- Surjective f = ∀ y → ∃ λ x → f x ≡ y
+
 record Surjection {f t} (From : Set f) (To : Set t) : Set (f ⊔ t) where
   field
     to   : From → To

@@ -13,11 +13,20 @@
     - [Semigroup homomorphism](#semigroup-homomorphism)
     - [Monoid Homomorphism](#monoid-homomorphism)
     - [Group Homomorphism](#group-homomorphism)
-  - [Endomorphism](#endomorphism)
-    - [Monoid endomorphism](#monoid-endomorphism)
-    - [Group endomorphism](#group-endomorphism)
-  - [Isomorphism](#isomorphism)
   - [Automorphism](#automorphism)
+    - [Monoid automorphism](#monoid-automorphism)
+    - [Group automorphism](#group-automorphism)
+  - [Toward Isomorphism](#toward-isomorphism)
+  - [Monomorphisms](#monomorphisms)
+    - [Magma Monomorphism](#magma-monomorphism)
+    - [Semigroup Monomorphism](#semigroup-monomorphism)
+    - [Monoid Monomorphism](#monoid-monomorphism)
+    - [Group Monomorphism](#group-monomorphism)
+  - [Isomorphism](#isomorphism)
+    - [Magma isomorphism](#magma-isomorphism)
+    - [Semigroup isomorphism](#semigroup-isomorphism)
+    - [Monoid Isomorphism](#monoid-isomorphism)
+    - [Group Isomorphism](#group-isomorphism)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -25,11 +34,12 @@
 # Morphisms
 
 ```agda
-module Algebra.morphisms where
+module Algebra.groupMorphisms where
 
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
 open import Types.relations
 open import Types.equality
+open import Types.functions2
 
 open import Algebra.groups
 open import Algebra.groups2
@@ -157,11 +167,11 @@ module _ {f t ℓ₁ ℓ₂} (From : Group f ℓ₁) (To : Group t ℓ₂) where
     open IsMonoidHomomorphism is-monoid-homomorphism public
 ```
 
-## Endomorphism
+## Automorphism
 
-An Endomorphism is a homomorphism where `From` and `To` are the same objects.
+An Automorphism is a homomorphism between the object to itself.
 
-### Monoid endomorphism
+### Monoid automorphism
 
 ```agda
 module _ {f ℓ} (Self : Monoid f ℓ) where
@@ -175,7 +185,7 @@ module _ {f ℓ} (Self : Monoid f ℓ) where
       is-homomorphism : IsMonoidHomomorphism Self Self 𝕄⟦_⟧
 ```
 
-### Group endomorphism
+### Group automorphism
 
 ```agda
 module _ {f ℓ} (Self : Group f ℓ) where
@@ -189,15 +199,161 @@ module _ {f ℓ} (Self : Group f ℓ) where
       is-homomorphism : IsGroupHomomorphism Self Self 𝕄⟦_⟧
 ```
 
-## Isomorphism
+## Toward Isomorphism
 
 An group isomorphism is a homomorphism with an additional property - bijection (one-to-one + onto). Bijection implies an isomorphism is a homomorphism such that the inverse of the homomorphism is also a homomorphism. Practically, an isomorphism is an equivalence relation. Often in mathematics one encounters the phrase "equal upto isomorphism" meaning isomorphism serves as equality for all practical purposes.
 
-![Injection vs Surjection vs Bijection](../artwork/functions.png)
+![Injection vs Surjection vs Bijection](/artwork/functions.png)
 
-## Automorphism
+An injective morphism is a Monomorphism.
+A surjective morphism is an Epimorphism.
+An isomorphism is both injective and surjective.
 
-An automorphism is a endomorphism which is also an isomorphism.
+## Monomorphisms
+
+We first define Monomorphisms:
+
+### Magma Monomorphism
+
+```agda
+module _ {f t ℓ₁ ℓ₂} (From : Magma f ℓ₁) (To : Magma t ℓ₂) where
+  private
+    module F = Magma From
+    module T = Magma To
+
+  open Homomorphism F.Data T.Data T._==_
+
+  record IsMagmaMonomorphism (𝕄⟦_⟧ : Morphism) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+    field
+      is-magma-homomorphism   : IsMagmaHomomorphism From To 𝕄⟦_⟧
+      is-morphism-injective   : Injective 𝕄⟦_⟧
+```
+
+### Semigroup Monomorphism
+
+```agda
+module _ {f t ℓ₁ ℓ₂} (From : Semigroup f ℓ₁) (To : Semigroup t ℓ₂) where
+  private
+    module F = Semigroup From
+    module T = Semigroup To
+
+  open Homomorphism F.Data T.Data T._==_
+
+  record IsSemigroupMonomorphism (𝕄⟦_⟧ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+    field
+      is-magma-monomorphism  : IsMagmaMonomorphism F.magma T.magma 𝕄⟦_⟧
+
+    open IsMagmaMonomorphism is-magma-monomorphism public
+```
+
+### Monoid Monomorphism
+
+```agda
+module _ {f t ℓ₁ ℓ₂} (From : Monoid f ℓ₁) (To : Monoid t ℓ₂) where
+  private
+    module F = Monoid From
+    module T = Monoid To
+
+  open Homomorphism F.Data T.Data T._==_
+
+  record IsMonoidMonomorphism (𝕄⟦_⟧ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+    field
+      is-semigroup-monomorphism  : IsSemigroupMonomorphism F.semigroup T.semigroup 𝕄⟦_⟧
+      preserves-identity         : identity-preservation 𝕄⟦_⟧ F.ε T.ε
+
+    open IsSemigroupMonomorphism is-semigroup-monomorphism public
+```
+
+### Group Monomorphism
+
+```agda
+module _ {f t ℓ₁ ℓ₂} (From : Group f ℓ₁) (To : Group t ℓ₂) where
+  private
+    module F = Group From
+    module T = Group To
+
+  open Homomorphism F.Data T.Data T._==_
+
+  record IsGroupMonomorphism (𝕄⟦_⟧ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+    field
+      is-monoid-monomorphism  : IsMonoidMonomorphism F.monoid T.monoid 𝕄⟦_⟧
+      preserves-inverse       : compose-unary 𝕄⟦_⟧ F._⁻¹ T._⁻¹
+
+    open IsMonoidMonomorphism is-monoid-monomorphism public
+```
+
+## Isomorphism
+
+Now adding the condition of Surjectivity, we get isomorphisms:
+
+### Magma isomorphism
+
+```lagda
+module _ {f t ℓ₁ ℓ₂} (From : Magma f ℓ₁) (To : Magma t ℓ₂) where
+  private
+    module F = Magma From
+    module T = Magma To
+
+  open Homomorphism F.Data T.Data T._==_
+
+  record IsMagmaIsomorphism (𝕄⟦_⟧ : Morphism) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+    field
+      is-magma-monomorphism   : IsMagmaMonomorphism From To 𝕄⟦_⟧
+      is-morphism-surjective  : Surjective 𝕄⟦_⟧
+```
+
+### Semigroup isomorphism
+
+```lagda
+module _ {f t ℓ₁ ℓ₂} (From : Semigroup f ℓ₁) (To : Semigroup t ℓ₂) where
+  private
+    module F = Semigroup From
+    module T = Semigroup To
+
+  open Homomorphism F.Data T.Data T._==_
+
+  record IsSemigroupIsomorphism (𝕄⟦_⟧ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+    field
+      is-magma-isomorphism  : IsMagmaIsomorphism F.magma T.magma 𝕄⟦_⟧
+
+    open IsMagmaIsomorphism is-magma-isomorphism public
+```
+
+### Monoid Isomorphism
+
+```lagda
+module _ {f t ℓ₁ ℓ₂} (From : Monoid f ℓ₁) (To : Monoid t ℓ₂) where
+  private
+    module F = Monoid From
+    module T = Monoid To
+
+  open Homomorphism F.Data T.Data T._==_
+
+  record IsMonoidIsomorphism (𝕄⟦_⟧ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+    field
+      is-semigroup-isomorphism  : IsSemigroupIsomorphism F.semigroup T.semigroup 𝕄⟦_⟧
+      preserves-identity         : identity-preservation 𝕄⟦_⟧ F.ε T.ε
+
+    open IsSemigroupIsomorphism is-semigroup-isomorphism public
+```
+
+### Group Isomorphism
+
+```lagda
+module _ {f t ℓ₁ ℓ₂} (From : Group f ℓ₁) (To : Group t ℓ₂) where
+  private
+    module F = Group From
+    module T = Group To
+
+  open Homomorphism F.Data T.Data T._==_
+
+  record IsGroupIsomorphism (𝕄⟦_⟧ : Morphism ) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+    field
+      is-monoid-isomorphism  : IsMonoidIsomorphism F.monoid T.monoid 𝕄⟦_⟧
+      preserves-inverse       : compose-unary 𝕄⟦_⟧ F._⁻¹ T._⁻¹
+
+    open IsMonoidIsomorphism is-monoid-isomorphism public
+```
 
 ****
 [Rings and family](./Algebra.rings.html)

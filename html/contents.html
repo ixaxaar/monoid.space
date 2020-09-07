@@ -127,6 +127,7 @@
 <h2 id="abstract-algebras">5. Abstract Algebras</h2>
 <ul>
 <li><a href="./Algebra.introduction.html">Introduction</a></li>
+<li><a href="./Algebra.sets.html">Sets in Type Theory</a></li>
 </ul>
 <h4 id="orders">5.1 <strong>Orders</strong></h4>
 <ul>
@@ -136,13 +137,13 @@
 <ul>
 <li><a href="./Algebra.groups.html">Groups and family</a></li>
 <li><a href="./Algebra.groups2.html">Groups and family 2</a></li>
-<li><a href="./Algebra.morphisms.html">Group Morphisms</a></li>
+<li><a href="./Algebra.groupMorphisms.html">Group Morphisms</a></li>
 </ul>
 <h4 id="rings">5.3 <strong>Rings</strong></h4>
 <ul>
 <li><a href="./Algebra.rings.html">Rings and family</a></li>
 <li><a href="./Algebra.rings2.html">Rings and family 2</a></li>
-<li><a href="./Algebra.ring_morphisms.html"><del>Ring Morphisms</del></a></li>
+<li><a href="./Algebra.ringMorphisms.html">Ring Morphisms</a></li>
 </ul>
 <h4 id="fields">5.4 <strong>Fields</strong></h4>
 <ul>
@@ -217,27 +218,29 @@
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true"></a><span class="kw">import</span> Logic<span class="ot">.</span>decidability</span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true"></a></span>
 <span id="cb1-30"><a href="#cb1-30" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>introduction</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>order</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>groups</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>groups2</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>morphisms</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>rings</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>rings2</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>fields</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>fields2</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>numbers</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true"></a></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true"></a><span class="kw">import</span> HoTT<span class="ot">.</span>introduction</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true"></a><span class="kw">import</span> HoTT<span class="ot">.</span>homotopy</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true"></a><span class="kw">import</span> AlgTopos<span class="ot">.</span>introduction</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true"></a><span class="kw">import</span> AlgTopos<span class="ot">.</span>topology</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true"></a></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true"></a><span class="kw">import</span> AppliedTypes<span class="ot">.</span>introduction</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true"></a><span class="kw">import</span> AppliedTypes<span class="ot">.</span>godels<span class="ot">_</span>t</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true"></a><span class="kw">import</span> AppliedTypes<span class="ot">.</span>system<span class="ot">_</span>f</span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true"></a><span class="kw">import</span> AppliedTypes<span class="ot">.</span>bitcoin</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true"></a><span class="kw">import</span> AppliedTypes<span class="ot">.</span>verified<span class="ot">_</span>programming</span></code></pre></div>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>sets</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>order</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>groups</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>groups2</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>groupMorphisms</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>rings</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>rings2</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>ringMorphisms</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>fields</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>fields2</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true"></a><span class="kw">import</span> Algebra<span class="ot">.</span>numbers</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true"></a><span class="kw">import</span> HoTT<span class="ot">.</span>introduction</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true"></a><span class="kw">import</span> HoTT<span class="ot">.</span>homotopy</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true"></a><span class="kw">import</span> AlgTopos<span class="ot">.</span>introduction</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true"></a><span class="kw">import</span> AlgTopos<span class="ot">.</span>topology</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true"></a></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true"></a><span class="kw">import</span> AppliedTypes<span class="ot">.</span>introduction</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true"></a><span class="kw">import</span> AppliedTypes<span class="ot">.</span>godels<span class="ot">_</span>t</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true"></a><span class="kw">import</span> AppliedTypes<span class="ot">.</span>system<span class="ot">_</span>f</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true"></a><span class="kw">import</span> AppliedTypes<span class="ot">.</span>bitcoin</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true"></a><span class="kw">import</span> AppliedTypes<span class="ot">.</span>verified<span class="ot">_</span>programming</span></code></pre></div>
 <hr />
 <p><a href="contents.html">Up</a></p>
 </body>

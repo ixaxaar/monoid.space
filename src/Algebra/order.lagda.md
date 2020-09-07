@@ -39,7 +39,7 @@ Order is one such higher relation and is fundamental in building a class of stru
 
 ## Preorder
 
-Preorders are binary relations (`~ : A → A`) on a set where:
+Preorders are binary relations (`~ : A → A`) on a type `A` where:
 
 1. `~` is reflexive, i.e. `x ∼ x`
 2. `~` is transitive, i.e. `x ∼ y and y ∼ z ⇒ x ∼ z`
@@ -55,6 +55,8 @@ We first define an object that encapsulates all the rules into one record:
       trans         : Transitive _∼_
 ```
 
+These are rather quite abstract to be actually useful and we need more structure to get things interesting.
+
 ## Partial Order or Poset
 
 Partial orders are a subtype of pre-orders where `≤ : A → A`:
@@ -63,7 +65,7 @@ Partial orders are a subtype of pre-orders where `≤ : A → A`:
 2. `≤` is transitive, i.e. `x ≤ y and y ≤ z ⇒ x ≤ z`
 3. `≤` is antisymmetric, i.e. `x ≤ y and y ≤ x ⇒ x = y`
 
-A partial order, or partially ordered set or Poset, is an antisymmetric preorder. In plain words, we require the relation `_≤_` to be antisymmetric with respect to the underlying equality .
+A partial order, or partially ordered set or Poset, is an antisymmetric preorder. In plain words, we require the relation `_≤_` to have the property of antisymmety with respect to the underlying equality. Antisymmetry makes posets very useful as they have unique maximum (called "supremum" or least upper bound) and minimum (called "infimum" or greatest lower bound). This property makes posets satisfy the properties of being a lattice which support a boolean algebra-like mechanics, which we shall see later. Posets also play an important role in algebraic geometry.
 
 A relation `_≤_` is anti-symmetric over the underlying equality `_==_`, if for every `x, y`,
 
@@ -84,6 +86,15 @@ We can now define partially ordered sets:
       isPreorder : IsPreorder _≤_
       antisym    : Antisymmetric _==_ _≤_
 ```
+
+A "Power set" of a set of objects `S` is the set of all subsets of S, including the empty set and S itself, denoted by `ℙ(S)`. Every power set is a poset.
+
+![Hasse Diagram of a Power set of 3 elements](/artwork/Hasse_diagram_of_powerset_of_3.png)
+
+The following are more examples:
+The real numbers ordered by the standard less-than-or-equal relation `≤`.
+The set of natural numbers equipped with the relation of divisibility.
+The vertex set of a directed acyclic graph ordered by reachability.
 
 ## Total Order
 

@@ -18,7 +18,6 @@
 - [Equivalence, with universe polymorphism](#equivalence-with-universe-polymorphism)
     - [Equality](#equality)
     - [Properties of equality](#properties-of-equality)
-- [Setoids](#setoids)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -182,21 +181,6 @@ subs-≡ : ∀ {a} {A : Set a}{x y : A} (Predicate : A → Set)
   → Predicate x
   → Predicate y
 subs-≡ Predicate refl p = p
-```
-
-# Setoids
-
-Equality, or specifically, equivalence is at the heart of mathematics. In order to build more complex structures, we introduce a new datatype, which essentially encapsulates any datatype and it's equivalence operation:
-
-```agda
-record Setoid c ℓ : Set (lsuc (c ⊔ ℓ)) where
-  infix 4 _≈_
-  field
-    Data          : Set c
-    _≈_           : Rel Data ℓ
-    isEquivalence : IsEquivalence _≈_
-
-  open IsEquivalence isEquivalence public
 ```
 
 ****
