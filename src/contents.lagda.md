@@ -69,8 +69,20 @@
 
   - [Fields and family](./Algebra.fields.html)
   - [Fields and family 2](./Algebra.fields2.html)
-  - [~~Field Morphisms~~](./Algebra.field_morphisms.html)
+  - [Field Morphisms](./Algebra.fieldMorphisms.html)
   - [Numbers](./Algebra.numbers.html)
+
+## 6. Category Theory
+
+  - [Introduction](./Category.introduction.html)
+  - [Categories and morphisms](./Category.category.html)
+  - [~~Functors~~](./Category.Functors.html)
+  - [~~Natural transformation~~](./Category.Natural_Transformation.html)
+  - [~~Yoneda Lemma~~](./Category.Yoneda_Lemma.html)
+  - [~~Limits and Co-Limits~~](./Category.Limits.html)
+  - [~~Adjunctions~~](./Category.Adjunctions.html)
+  - [~~Ends and Co-Ends~~](./Category.Ends.html)
+  - [~~Kan Extensions~~](./Category.Kan_Extensions.html)
 
 ## 7. Homotopy Type Theory
 
@@ -79,8 +91,9 @@
   - [~~Connected spaces~~](./HoTT.paths.html)
   - [~~The Univalence Principle~~](./HoTT.univalance.html)
   - [~~The Fundamental Group and Groupoid~~](./HoTT.fundamentalGroup.html)
+  - [~~Cubical Type Theory~~](./HoTT.cubical.html)
 
-## 6. Algebraic Topology
+## 8. Algebraic Topology
 
   - [Introduction](./AlgTopos.introduction.html)
   - [Topology](./AlgTopos.topology.html)
@@ -96,17 +109,12 @@
   - [~~Verified Programming~~](./AppliedTypes.verified_programming.html)
   - [~~Binding with the outside world~~](./AppliedTypes.bindings.html)
 
-## β. Category Theory
+## Γ. Higher Category Theory
 
-  - [~~Categories and morphisms~~](./Cat.Categories.html)
-  - [~~Functors~~](./Cat.Functors.html)
-  - [~~Natural transformation~~](./Cat.Natural_Transformation.html)
-  - [~~Yoneda Lemma~~](./Cat.Yoneda_Lemma.html)
-  - [~~Limits and Co-Limits~~](./Cat.Limits.html)
-  - [~~Adjunctions~~](./Cat.Adjunctions.html)
-  - [~~Ends and Co-Ends~~](./Cat.Ends.html)
-  - [~~Kan Extensions~~](./Cat.Kan_Extensions.html)
-  - [~~The (∞,n)-category and Higher Category Theory~~](./Cat.Higher.html)
+## Δ. Topos Theory
+
+## ψ. Higher Topos Theory
+
 
 [Go up](contents.html)
 [Gitlab](https://gitlab.com/ixaxaar/monoid.space)
@@ -154,7 +162,11 @@ import Algebra.rings2
 import Algebra.ringMorphisms
 import Algebra.fields
 import Algebra.fields2
+import Algebra.fieldMorphisms
 import Algebra.numbers
+
+import Category.introduction
+import Category.category
 
 import HoTT.introduction
 import HoTT.homotopy

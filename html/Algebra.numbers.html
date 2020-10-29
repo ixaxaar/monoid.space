@@ -89,14 +89,13 @@
 <ul>
 <li><a href="#natural-numbers">Natural numbers</a></li>
 <li><a href="#integers">Integers</a></li>
-<li><a href="#rational-numbers">Rational numbers</a>
+<li><a href="#rational-numbers">Rational numbers</a></li>
+<li><a href="#real-numbers">Real Numbers</a>
 <ul>
 <li><a href="#dedekind-cuts">Dedekind cuts</a></li>
 <li><a href="#cauchy-sequences">Cauchy sequences</a></li>
-</ul></li>
 <li><a href="#real-numbers">Real numbers</a></li>
-<li><a href="#complex-numbers">Complex numbers</a></li>
-<li><a href="#rational-numbers-1">Rational numbers</a></li>
+</ul></li>
 </ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -198,13 +197,14 @@
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true"></a></span>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true"></a>  <span class="ot">_</span>⪦<span class="ot">_</span> <span class="ot">:</span> ℚ <span class="ot">→</span> ℚ <span class="ot">→</span> Bool</span>
 <span id="cb4-23"><a href="#cb4-23" aria-hidden="true"></a>  <span class="ot">(</span>a ⨸ b<span class="ot">)</span> ⪦ <span class="ot">(</span>c ⨸ d<span class="ot">)</span> <span class="ot">=</span> <span class="ot">((</span>a ⊗ d<span class="ot">)</span> ⧀ <span class="ot">(</span>c ⊗ b<span class="ot">))</span></span></code></pre></div>
+<h2 id="real-numbers">Real Numbers</h2>
 <p>The rational numbers, when represented using digits (0-9), can either be of finite decimal places, or of infinite decimal places but repetitive (e.g. 4.35353535…). Note that the denominator cannot be zero, as ∞ is not a rational number (it’s not considered to be any kind of number). Since rational numbers can be added, multiplied, subtracted and divided using integer operations all resulting in rational numbers, they form a field.</p>
 <p>We know all of the above kinds of numbers as represented with a string of digits <code>0-9</code> e.g. 3724765.1245. In other words, if we were to take the ten digits and arrange them in a certain order, we would get an integer. Same remains true for rational numbers, though they require two integers. Though this “decimal” representation of numbers are almost unanimously used, they are difficult to work with in mathematics. Hence alternate representations, which tend to be easier, are preferred, though the decimal representations have been shown to follow all the rules of the above definitions.</p>
 <p>Real numbers, which include the natural numbers, integers, rational and irrational numbers, are harder to construct as compared to natural numbers. Real numbers, as they include irrational numbers, are numbers with infinite precision. Consider the simplest operation on these numbers: addition: the traditional way of adding two numbers - starting from the right-most decimal, becomes impossible as in case of arbitrary precision numbers there is no right-most digit! Natural numbers, integers and rational numbers are discrete systems and do not face this problem of infinity. We therefore need to define real numbers using another, more manageable representation - as complete ordered fields. The completeness here can imply two different things - Cauchy and Dedekind completeness, either of which when satisfied, satisfies the other and we can then call the objects of the ordered field “real numbers”.</p>
 <h3 id="dedekind-cuts">Dedekind cuts</h3>
 <h3 id="cauchy-sequences">Cauchy sequences</h3>
 <p>The constructive definition of a real number is based on the algebraic object “Fields” we saw in the last section. There we first defined fields, followed by fields with ordering, also called “Ordered Fields”. We now use the definitions of ordered fields to construct real numbers. As a byproduct, we also show how to construct complex and rational numbers.</p>
-<h2 id="real-numbers">Real numbers</h2>
+<h3 id="real-numbers-1">Real numbers</h3>
 <p>Real numbers and their two operations, + and -, form a field. There are a few additional restrictions imposed on how + and - are to behave with ≤. Real numbers represent:</p>
 <ul>
 <li>A set $ ℝ $</li>
@@ -258,8 +258,6 @@
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>      *-preservesOrder <span class="ot">:</span> <span class="ot">(_</span>* 0#<span class="ot">)</span> Preserves <span class="ot">_</span>≤<span class="ot">_</span> ⟶ <span class="ot">_</span>≤<span class="ot">_</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a>    <span class="kw">open</span> IsOrderedField isOrderedField <span class="kw">public</span></span></code></pre></div>
-<h2 id="complex-numbers">Complex numbers</h2>
-<h2 id="rational-numbers-1">Rational numbers</h2>
 <hr />
 <p><a href="./HoTT.introduction.html">HoTT Introduction</a></p>
 </body>

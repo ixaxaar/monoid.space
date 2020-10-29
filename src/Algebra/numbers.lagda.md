@@ -6,11 +6,10 @@
   - [Natural numbers](#natural-numbers)
   - [Integers](#integers)
   - [Rational numbers](#rational-numbers)
+  - [Real Numbers](#real-numbers)
     - [Dedekind cuts](#dedekind-cuts)
     - [Cauchy sequences](#cauchy-sequences)
-  - [Real numbers](#real-numbers)
-  - [Complex numbers](#complex-numbers)
-  - [Rational numbers](#rational-numbers-1)
+    - [Real numbers](#real-numbers)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -136,6 +135,8 @@ A rational number is a quotient or fraction of two integers:
   (a ⨸ b) ⪦ (c ⨸ d) = ((a ⊗ d) ⧀ (c ⊗ b))
 ```
 
+## Real Numbers
+
 The rational numbers, when represented using digits (0-9), can either be of finite decimal places, or of infinite decimal places but repetitive (e.g. 4.35353535...). Note that the denominator cannot be zero, as ∞ is not a rational number (it's not considered to be any kind of number). Since rational numbers can be added, multiplied, subtracted and divided using integer operations all resulting in rational numbers, they form a field.
 
 We know all of the above kinds of numbers as represented with a string of digits `0-9` e.g. 3724765.1245. In other words, if we were to take the ten digits and arrange them in a certain order, we would get an integer. Same remains true for rational numbers, though they require two integers. Though this "decimal" representation of numbers are almost unanimously used, they are difficult to work with in mathematics. Hence alternate representations, which tend to be easier, are preferred, though the decimal representations have been shown to follow all the rules of the above definitions.
@@ -152,7 +153,7 @@ Real numbers, which include the natural numbers, integers, rational and irration
 The constructive definition of a real number is based on the algebraic object "Fields" we saw in the last section. There we first defined fields, followed by fields with ordering, also called "Ordered Fields". We now use the definitions of ordered fields to construct real numbers. As a byproduct, we also show how to construct complex and rational numbers.
 
 
-## Real numbers
+### Real numbers
 
 Real numbers and their two operations, + and -, form a field. There are a few additional restrictions imposed on how + and - are to behave with ≤. Real numbers represent:
 
@@ -193,10 +194,6 @@ where the structure defined on the operations are:
 
     open IsOrderedField isOrderedField public
 ```
-
-## Complex numbers
-
-## Rational numbers
 
 ****
 [HoTT Introduction](./HoTT.introduction.html)

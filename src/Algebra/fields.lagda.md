@@ -183,6 +183,7 @@ Ordered fields impose an additional restriction on fields: there has to be an or
       }
 ```
 
+The real and rational numbers form ordered fields.
 
 ****
 [Fields and family 2](./Algebra.fields2.html)

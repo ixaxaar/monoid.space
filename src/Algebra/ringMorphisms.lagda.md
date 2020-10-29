@@ -90,5 +90,21 @@ module _ {f t ℓ₁ ℓ₂} (From : Ring f ℓ₁) (To : Ring t ℓ₂) where
 
 ## Ring Isomorphism
 
+Finally for isomorphism we add the surjective condition:
+
+```lagda
+module _ {f t ℓ₁ ℓ₂} (From : Ring f ℓ₁) (To : Ring t ℓ₂) where
+  private
+    module F = Ring From
+    module T = Ring To
+
+  open Homomorphism F.Data T.Data T._≈_
+
+  record IsRingIsomorphism (𝕄⟦_⟧ : Morphism) : Set (f ⊔ t ⊔ ℓ₁ ⊔ ℓ₂) where
+    field
+      is-ring-homomorphism : IsRingMonomorphism From To 𝕄⟦_⟧
+      is-injective : Surjective 𝕄⟦_⟧
+```
+
 ****
 [Fields and family](./Algebra.fields.html)

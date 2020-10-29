@@ -12,9 +12,9 @@
   - [Paths](#paths)
   - [Homotopy](#homotopy)
   - [Fundamental group](#fundamental-group)
-  - [∞-groupoid](#-groupoid)
+  - [∞-groupoid](#%E2%88%9E-groupoid)
     - [Groupoid](#groupoid)
-    - [∞-groupoid](#-groupoid-1)
+    - [∞-groupoid](#%E2%88%9E-groupoid-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

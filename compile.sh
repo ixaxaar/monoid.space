@@ -44,7 +44,10 @@ declare -a files=(
   "Algebra/ringMorphisms"
   "Algebra/fields"
   "Algebra/fields2"
+  "Algebra/fieldMorphisms"
   "Algebra/numbers"
+
+  "Category/introduction"
 
   "AlgTopos/introduction"
 

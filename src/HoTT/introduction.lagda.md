@@ -1,4 +1,4 @@
----
+****
 
 [Contents](contents.html)
 [Previous](Algebra.real.html)
@@ -6,8 +6,7 @@
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
----
+****
 
 - [Homotopy Type Theory](#homotopy-type-theory)
 - [Intensional and Extensional Type Theories](#intensional-and-extensional-type-theories)
@@ -27,9 +26,9 @@ open import Types.equality
 module HoTT.introduction where
 ```
 
-Homotopy type theory is a part of a mathematician's quest to have a formal language in which to write mathematics in such that the correctness of the mathematics can be verified by a computer program. This mathematician, Vladimir Voevodsky, played a large part in formalizing homotopy type theory and lead the restructuring of mathematics based on this new foundation, called Univalent foundations, so that it is easier to implement and work with consistently in these formal languages.
+Homotopy type theory is a part of a mathematician's quest to have a formal language in which to write mathematics such that the correctness of the mathematics written can be automatically verified by a computer program. This mathematician, Vladimir Voevodsky, played a large part in formalizing homotopy type theory and lead the restructuring of mathematics based on this new foundation, called Univalent foundations, so that it is easier to implement and work consistently in these formal languages.
 
-We are working in one such language, Agda, though Voevodsky had used a different one - [Coq](https://coq.inria.fr/). There are a few more theorem provers, notably [Isabelle](https://isabelle.in.tum.de/), [Idris](https://www.idris-lang.org/), [Arend](https://arend-lang.github.io/) and [Lean](https://leanprover.github.io/).
+We are working in one such language, Agda, though Voevodsky had used a different one - [Coq](https://coq.inria.fr/). There are a few more of such languages called __Theorem Provers__, notably [Isabelle](https://isabelle.in.tum.de/), [Idris](https://www.idris-lang.org/), [Arend](https://arend-lang.github.io/) and [Lean](https://leanprover.github.io/).
 
 # Intensional and Extensional Type Theories
 
