@@ -46,9 +46,9 @@ Different areas of math share common patterns/trends/structures. For mathematici
 
 Category Theory has grown tremendously over the last few decades and has a large number of applications including:
 
-1. Huge presence in theoretical computer science in the design of type systems and programming patterns including the obligatory structure `monad` that represents IO, and other effects. A mixture of structures from abstract algebras and category theory are used to form a class of programming patterns called "functional programming".
-2. Widely adopted in physics and mathematical physics with field theories, higher field theories, quantum field and topological quantum field theories, quantum gravitation theories, string theory and so on making heavy use of categories.
-3. Modeling various structures in life sciences and economics.
+1. Huge presence in theoretical computer science in the design of type systems and programming patterns including the structure `monad` that represents side-effects, especially IO. A mixture of structures from abstract algebras and category theory are used to form a class of programming patterns called "functional programming".
+2. Widely adopted in physics and mathematical physics with field theories, higher field theories, quantum field and topological quantum field theories, quantum gravitation theories, string theory and so on making heavy use of categorical language.
+3. Modeling various structures in life sciences and economics are some of the more novel applications.
 
 ---
 

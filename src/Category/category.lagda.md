@@ -29,9 +29,11 @@ open import Types.equality
 module Category.category where
 ```
 
+A category is the object of study in category theory. It can be thought of being a bunch of objects, which are associated by a bunch of arrows between those objects, with the arrows being composable and each object having unit arrows. This minimal structure ensures a multitude of object types studied in mathematics can fit the description.
+
 A category ℂ consists of:
 
-1. A collection of objects $obj(ℂ)$
+1. A collection of objects $x \in obj(ℂ)$
 2. A collection of morphisms between those objects $hom(𝕔) = \{ f : a → b : a,b ∈ ℂ \}$, called a "hom" set
 
 such that:
@@ -113,27 +115,27 @@ We can use various mathematical structures to construct categories out of. When 
 
 A category of sets is the simplest of categories we can construct and the most intuitive to understand given we have been trained to think in terms of sets.
 
-Objects: Sets
-Morphisms: Total functions between sets
-Composition: Function composition
+- Objects: Sets
+- Morphisms: Total functions between sets
+- Composition: Function composition
 
 ## Category of Groups
 
-Objects: Groups
-Morphisms: Group homomorphisms
-Composition: Composition of group homomorphisms
+- Objects: Groups
+- Morphisms: Group homomorphisms
+- Composition: Composition of group homomorphisms
 
 ## Category of Rings
 
-Objects: Rings
-Morphisms: Ring homomorphisms
-Composition: Composition of ring homomorphisms
+- Objects: Rings
+- Morphisms: Ring homomorphisms
+- Composition: Composition of ring homomorphisms
 
 ## Category of Topological Spaces
 
-Objects: Topological Spaces
-Morphisms: Continuous maps/functions between spaces
-Composition: Composition of continuous maps
+- Objects: Topological Spaces
+- Morphisms: Continuous maps/functions between spaces
+- Composition: Composition of continuous maps
 
 Here are some other examples:
 

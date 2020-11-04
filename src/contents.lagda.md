@@ -75,8 +75,8 @@
 ## 6. Category Theory
 
   - [Introduction](./Category.introduction.html)
-  - [Categories and morphisms](./Category.category.html)
-  - [~~Functors~~](./Category.Functors.html)
+  - [Categories](./Category.category.html)
+  - [Functors](./Category.Functors.html)
   - [~~Natural transformation~~](./Category.Natural_Transformation.html)
   - [~~Yoneda Lemma~~](./Category.Yoneda_Lemma.html)
   - [~~Limits and Co-Limits~~](./Category.Limits.html)
