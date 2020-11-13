@@ -8,10 +8,18 @@
 ****
 
 - [Functors](#functors)
+- [Trivial Functors](#trivial-functors)
+  - [Constant Functor](#constant-functor)
+  - [Identity Functor](#identity-functor)
 - [Covariance and Contravariance](#covariance-and-contravariance)
 - [Opposite Functors](#opposite-functors)
 - [Hom Functors](#hom-functors)
+  - [Covariant Hom-Functor](#covariant-hom-functor)
+  - [Contravariant Hom-Functor](#contravariant-hom-functor)
 - [Bifunctors and multifunctors](#bifunctors-and-multifunctors)
+- [Endofunctor](#endofunctor)
+- [Diagonal Functor](#diagonal-functor)
+- [Forgetful Functor](#forgetful-functor)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -32,6 +40,10 @@ Formally, let ℂ and 𝔻 be two categories, then a functor 𝔽 between them:
 
 Thus, functors preserve composition and identity morphisms of the source category in the target category.
 
+# Trivial Functors
+## Constant Functor
+## Identity Functor
+
 # Covariance and Contravariance
 
 Covariant functors are the vanilla functors we discussed in the previous section.
@@ -49,9 +61,39 @@ Contravariant functors thus produce opposite categories. They can also be though
 
 # Opposite Functors
 
+Every functor $𝔽 : ℂ → 𝔻$ induces the opposite functor $𝔽^{op} : ℂ^{op} → 𝔻^{op}$ such that $(𝔽^{op})^{op} = 𝔽$.
+
 # Hom Functors
 
+For a category ℂ, the set of all morphisms in ℂ is called the Hom-set. If we take any object A ∈ ℂ, then the functor that maps any object X ∈ ℂ to the set of morphisms from A to X, i.e. Hom(A, X), is called the covariant Hom-functor. Similarly, the functor that maps any object X in ℂ to the set of morphisms from X to A, i.e. Hom(X, A), is called a contravariant Hom-functor.
+
+## Covariant Hom-Functor
+
+For a category ℂ and a fixed object A ∈ ℂ, a covariant Hom-functor $Hom(A, −) : A → Set$:
+
+- Maps each object X ∈ ℂ to the set of morphisms of ℂ, Hom(A, X)
+- Maps each morphism $f : X → Y$ to the morphism $Hom(A, f) : Hom(A, X) → Hom(A, Y)$ where each h ∈ Hom(A, f) takes some g ∈ Hom(A, X) to $f ∘ g$
+
+![Figure 1: Covariant hom functor](/artwork/covariant_hom_functor.png)
+
+## Contravariant Hom-Functor
+
+For a category ℂ and a fixed object A ∈ ℂ, a contravariant Hom-functor $Hom(−, B) : B → Set$:
+
+- Maps each object X ∈ ℂ to the set of morphisms of ℂ, Hom(X, B)
+- Maps each morphism $f : X → Y$ to the morphism $Hom(f, B) : Hom(X, B) → Hom(Y, B)$ where each h ∈ Hom(f, A) takes some g ∈ Hom(Y, B) to $g ∘ f$
+
+![Figure 2: Contravariant hom functor](/artwork/contravariant_hom_functor.png)
+
 # Bifunctors and multifunctors
+
+We define categories of the form 𝔸×𝔹 which is a cartesian product of two categories 𝔸 and 𝔹 as Cartesian categories. Given two functors $𝔽 : 𝔸 → 𝕏$ and $𝔾 : 𝔹 → 𝕐$, we can define a functor on a product category 𝔸×𝔹 as the cartesian product of the individual functors 𝔽×𝔾. Such a functor is called a bifunctor. We can extend this notion to multifunctors.
+
+# Endofunctor
+
+# Diagonal Functor
+
+# Forgetful Functor
 
 ---
 
