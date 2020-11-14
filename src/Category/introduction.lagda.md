@@ -40,7 +40,9 @@ In the previous sections on groups, rings and fields we defined a bunch of struc
 
 Category Theory is the set of tools to describe and work with generalized aspects of mathematical structures. A systematic study of category theory then allows us to prove general results about any of these types of mathematical structures. The stanford encyclopedia of philosophy describes it as:
 
-> Roughly, it is a general mathematical theory of structures and of systems of structures. At minimum, it is a powerful language, or conceptual framework, allowing us to see the universal components of a family of structures of a given kind, and how structures of different kinds are interrelated.
+```
+Roughly, it is a general mathematical theory of structures and of systems of structures. At minimum, it is a powerful language, or conceptual framework, allowing us to see the universal components of a family of structures of a given kind, and how structures of different kinds are interrelated.
+```
 
 Different areas of math share common patterns/trends/structures. For mathematicians, this becomes extraordinarily useful when you want to solve a problem in one realm (say, topology) but don't have the right tools at your disposal. By transporting the problem to a different realm (say, algebra), you can see the problem in a different light and perhaps discover new tools, and the solution may become much easier. The bridges between realms are also provided by category theory.
 
