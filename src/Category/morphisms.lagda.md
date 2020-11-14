@@ -67,4 +67,4 @@ An automorphism is both an endomorphism and an isomorphism.
 
 ---
 
-[Categories](./Category.functors.html)
+[Functors](./Category.functors.html)

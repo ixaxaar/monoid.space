@@ -193,4 +193,4 @@ For free categories these rules become:
 2. Construct the power set of these generators, these form the objects of the free category
 3. Define morphisms between every pair of objects and all compositions of their morphisms, together they form the hom-set of the free category
 
-[Categories](./Category.morphisms.html)
+[Morphisms](./Category.morphisms.html)
