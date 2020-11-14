@@ -76,6 +76,7 @@
 
   - [Introduction](./Category.introduction.html)
   - [Categories](./Category.category.html)
+  - [Morphisms](./Category.morphisms.html)
   - [Functors](./Category.Functors.html)
   - [~~Natural transformation~~](./Category.Natural_Transformation.html)
   - [~~Yoneda Lemma~~](./Category.Yoneda_Lemma.html)
@@ -167,6 +168,8 @@ import Algebra.numbers
 
 import Category.introduction
 import Category.category
+import Category.morphisms
+import Category.functors
 
 import HoTT.introduction
 import HoTT.homotopy

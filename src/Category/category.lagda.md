@@ -1,7 +1,7 @@
 ****
 [Contents](contents.html)
 [Previous](Algebra.introduction.html)
-[Next](Category.functors.html)
+[Next](Category.morphisms.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -14,17 +14,10 @@
     - [Category of Groups](#category-of-groups)
     - [Category of Rings](#category-of-rings)
     - [Category of Topological Spaces](#category-of-topological-spaces)
+  - [Nerves of Categories](#nerves-of-categories)
   - [Constructions of Categories](#constructions-of-categories)
     - [Product Category](#product-category)
     - [Free Category](#free-category)
-- [Morphisms](#morphisms)
-  - [Monomorphisms](#monomorphisms)
-  - [Epimorphisms](#epimorphisms)
-  - [Retraction](#retraction)
-  - [Section](#section)
-  - [Endomorphism](#endomorphism)
-  - [Isomorphism](#isomorphism)
-  - [Automorphism](#automorphism)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -59,6 +52,8 @@ $$g ∘ f : a → c$$
 2. Morphisms are associative:
 
 $$If~~ f : a → b,~ g : b → c ~~and~~ h : c → d ~~then~~ h ∘ (g ∘ f) = (h ∘ g) ∘ f$$
+
+![Figure 1: Composition](/artwork/covariant_hom_functor.png)
 
 3. Morphisms have identities: For every object x, there exists a morphism $1ₓ : x → x$ called the identity morphism for x, such that for every morphism $f : a → x$ and every morphism $g : x → b$, we have $1ₓ ∘ f = f$ and $g ∘ 1ₓ = g$.
 
@@ -120,7 +115,7 @@ record Categoryᴼᵖ (o ℓ e : Level) : Set (suc (o ⊔ ℓ ⊔ e)) where
 
 ## Examples
 
-We can use various mathematical structures to construct categories out of. When defining a category, we have to decide what our objects and our morphisms would be and how would the morphisms compose. This decision has to be taken in a way that the conditions of being a category are satisfied. We would then have a category of our chosen object.
+We can use various mathematical structures to construct categories out of. When defining a category, we have to decide what our objects and our morphisms would be and how would the morphisms compose. This decision has to be taken in a way that the conditions of being a category are satisfied (associativity, identity). We would then have a category of our chosen object.
 
 ### Category of Sets
 
@@ -159,10 +154,16 @@ Here are some other examples:
 | Poset | partially ordered sets | order-preserving functions |
 | TopVect | topological vector spaces | continuous linear maps |
 | 𝕄 | differentiable manifolds | differentiable maps |
-| Banach spaces | open subsets of banach spaces | differentiable maps |
+| Banach spaces | open subsets of Banach spaces | differentiable maps |
 | 𝕍 | vector bundles | vector bundle maps |
 
 There are in fact infinitely many more and so we are going to move along now.
+
+## Nerves of Categories
+
+The Nerve N(ℂ) of a category ℂ is a simplicial set constructed from objects as vertices of simplices and morphisms of ℂ as the edges.
+
+![Figure 2: Nerves of a category](/artwork/directed_graph.png)
 
 ## Constructions of Categories
 
@@ -180,7 +181,7 @@ Given two categories ℂ and 𝔻, their product is a category with:
 
 ### Free Category
 
-Free categories are a result of using a general pattern called "free constructions" for building categories. The idea of free objects in mathematics can be related to all types of objects with algebraic structure, and provides a general method of constructing objects using a set of "constructor" objects. The process of construction proceeeds as follows:
+Free categories are a result of using a general pattern called "free constructions" for building categories. The idea of free objects in mathematics can be related to all types of objects with algebraic structure, and provides a general method of constructing objects using a set of "constructor" objects. The process of construction proceeds as follows:
 
 1. Take a set of objects to construct the free category with
 2. Construct all possible combinations of these objects, in other words, the power set of the set of those objects. These form the algebraic object of interest
@@ -192,42 +193,4 @@ For free categories these rules become:
 2. Construct the power set of these generators, these form the objects of the free category
 3. Define morphisms between every pair of objects and all compositions of their morphisms, together they form the hom-set of the free category
 
-# Morphisms
-
-Morphisms are structure-preserving maps from one mathematical structure to another of the same type. They are a generalized notion that translates to group homomorphisms for groups, ring homomorphisms for rings, continuous maps for vector spaces and so on. In the context of category theory, these morphisms have to admit the properties of composition and associativity.
-
-## Monomorphisms
-
-A morphism $f : X → Y$ is called a Monomorphism if $f ∘ g_1 = f ∘ g_2$ implies $g_1 = g_2$ for all $g_1, g_2 : A → X$. A monomorphism is called "mono" in short and "monic" can be used as an adjective to describe such a morphism.
-
-![Figure 1: Monomorphism](/artwork/monic.png)
-
-## Epimorphisms
-
-Epimorphisms are dual objects to monomorphisms. A morphism $f : X → Y$ is called an Epimorphism if $g_1 ∘ f = g_2 ∘ f$ implies $g_1 = g_2$ for all $g_1, g_2 : Y → A$. An Epimorphism is called "epi" in short and "epic" can be used as an adjective to describe such a morphism.
-
-![Figure 2: Epimorphism](/artwork/epic.png)
-
-## Retraction
-
-A morphism $f: X → Y$ has a left inverse if there is a morphism $g: Y → X$ such that $g ∘ f = id_X$. The left inverse g is also called a retraction of f. Morphisms with left inverses are always monomorphisms, but the converse is not true in general; a monomorphism may fail to have a left inverse. If a retraction exists for a function f, it can also be expected to be injective.
-
-## Section
-
-A morphism $f: X → Y$ has a right inverse if there is a morphism $g: Y → X$ such that $f ∘ g = id_Y$. The right inverse g is also called a section of f. Morphisms having a right inverse are always epimorphisms, but the converse is not true in general, as an epimorphism may fail to have a right inverse. If a section exists for a function f, it can also be expected to be surjective.
-
-## Endomorphism
-
-Endomorphisms are morphisms with the same source and target, $f : X → X$.
-
-## Isomorphism
-
-A morphism $f : X → Y$ is called an isomorphism if there exists a unique morphism $g: Y → X$ such that $f ∘ g = id_Y$ and $g ∘ f = id_X$. If a morphism has both left-inverse and right-inverse, then the two inverses are equal, so f is an isomorphism, and g is called simply the inverse of f.
-
-## Automorphism
-
-An automorphism is both an endomorphism and an isomorphism.
-
----
-
-[Categories](./Category.functors.html)
+[Categories](./Category.morphisms.html)

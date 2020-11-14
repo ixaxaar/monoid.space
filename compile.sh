@@ -48,6 +48,9 @@ declare -a files=(
   "Algebra/numbers"
 
   "Category/introduction"
+  "Category/category"
+  "Category/morphisms"
+  "Category/functors"
 
   "AlgTopos/introduction"
 

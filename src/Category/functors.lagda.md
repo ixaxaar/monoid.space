@@ -26,6 +26,14 @@
 # Functors
 
 ```agda
+open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
+
+open import Types.product
+open import Types.relations
+open import Types.equality
+open import Category.category
+open import Category.morphisms
+
 module Category.functors where
 ```
 
