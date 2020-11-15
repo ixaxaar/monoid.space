@@ -89,11 +89,6 @@
 <hr />
 <ul>
 <li><a href="#functors">Functors</a></li>
-<li><a href="#trivial-functors">Trivial Functors</a>
-<ul>
-<li><a href="#constant-functor">Constant Functor</a></li>
-<li><a href="#identity-functor">Identity Functor</a></li>
-</ul></li>
 <li><a href="#covariance-and-contravariance">Covariance and Contravariance</a></li>
 <li><a href="#opposite-functors">Opposite Functors</a></li>
 <li><a href="#hom-functors">Hom Functors</a>
@@ -103,8 +98,9 @@
 </ul></li>
 <li><a href="#bifunctors-and-multifunctors">Bifunctors and multifunctors</a></li>
 <li><a href="#endofunctor">Endofunctor</a></li>
-<li><a href="#diagonal-functor">Diagonal Functor</a></li>
 <li><a href="#forgetful-functor">Forgetful Functor</a></li>
+<li><a href="#free-functor">Free Functor</a></li>
+<li><a href="#representable-functor">Representable Functor</a></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="functors">Functors</h1>
@@ -128,9 +124,9 @@
 </ul></li>
 </ul>
 <p>Thus, functors preserve composition and identity morphisms of the source category in the target category.</p>
-<h1 id="trivial-functors">Trivial Functors</h1>
-<h2 id="constant-functor">Constant Functor</h2>
-<h2 id="identity-functor">Identity Functor</h2>
+<figure>
+<img src="/artwork/covariant_functor.png" alt="Figure 1: Covariant Functor" /><figcaption aria-hidden="true">Figure 1: Covariant Functor</figcaption>
+</figure>
 <h1 id="covariance-and-contravariance">Covariance and Contravariance</h1>
 <p>Covariant functors are the vanilla functors we discussed in the previous section.</p>
 <p>Contravariant functors are similar to covariant functors except that the functor reverses the direction of arrows in the target category.</p>
@@ -143,6 +139,9 @@
 <li><span class="math inline">\(𝔽(g ∘ f) = 𝔽(f) ∘ 𝔽(g)\)</span> for all <span class="math inline">\(f : c_1 → c_2\)</span> and <span class="math inline">\(g : c_2 → c_3\)</span> ∈ ℂ</li>
 </ul></li>
 </ul>
+<figure>
+<img src="/artwork/contravariant_functor.png" alt="Figure 2: Contravariant Functor" /><figcaption aria-hidden="true">Figure 2: Contravariant Functor</figcaption>
+</figure>
 <p>Contravariant functors thus produce opposite categories. They can also be thought of as covariant functors from <span class="math inline">\(ℂ^{op} → 𝔻\)</span> or as <span class="math inline">\(ℂ → 𝔻^{op}\)</span> depending upon which one is convenient for working with. Contravariant functors play a very important role in various fields of mathematics, the most mentionable ones being presheaves and sheaves in algebraic topology are contravariant functors with some extra structure.</p>
 <h1 id="opposite-functors">Opposite Functors</h1>
 <p>Every functor <span class="math inline">\(𝔽 : ℂ → 𝔻\)</span> induces the opposite functor <span class="math inline">\(𝔽^{op} : ℂ^{op} → 𝔻^{op}\)</span> such that <span class="math inline">\((𝔽^{op})^{op} = 𝔽\)</span>.</p>
@@ -155,7 +154,7 @@
 <li>Maps each morphism <span class="math inline">\(f : X → Y\)</span> to the morphism <span class="math inline">\(Hom(A, f) : Hom(A, X) → Hom(A, Y)\)</span> where each h ∈ Hom(A, f) takes some g ∈ Hom(A, X) to <span class="math inline">\(f ∘ g\)</span></li>
 </ul>
 <figure>
-<img src="/artwork/covariant_hom_functor.png" alt="Figure 1: Covariant hom functor" /><figcaption aria-hidden="true">Figure 1: Covariant hom functor</figcaption>
+<img src="/artwork/covariant_hom_functor.png" alt="Figure 3: Covariant hom functor" /><figcaption aria-hidden="true">Figure 3: Covariant hom functor</figcaption>
 </figure>
 <h2 id="contravariant-hom-functor">Contravariant Hom-Functor</h2>
 <p>For a category ℂ and a fixed object A ∈ ℂ, a contravariant Hom-functor <span class="math inline">\(Hom(−, B) : B → Set\)</span>:</p>
@@ -164,13 +163,32 @@
 <li>Maps each morphism <span class="math inline">\(f : X → Y\)</span> to the morphism <span class="math inline">\(Hom(f, B) : Hom(X, B) → Hom(Y, B)\)</span> where each h ∈ Hom(f, A) takes some g ∈ Hom(Y, B) to <span class="math inline">\(g ∘ f\)</span></li>
 </ul>
 <figure>
-<img src="/artwork/contravariant_hom_functor.png" alt="Figure 2: Contravariant hom functor" /><figcaption aria-hidden="true">Figure 2: Contravariant hom functor</figcaption>
+<img src="/artwork/contravariant_hom_functor.png" alt="Figure 4: Contravariant hom functor" /><figcaption aria-hidden="true">Figure 4: Contravariant hom functor</figcaption>
 </figure>
 <h1 id="bifunctors-and-multifunctors">Bifunctors and multifunctors</h1>
 <p>We define categories of the form 𝔸×𝔹 which is a cartesian product of two categories 𝔸 and 𝔹 as Cartesian categories. Given two functors <span class="math inline">\(𝔽 : 𝔸 → 𝕏\)</span> and <span class="math inline">\(𝔾 : 𝔹 → 𝕐\)</span>, we can define a functor on a product category 𝔸×𝔹 as the cartesian product of the individual functors 𝔽×𝔾. Such a functor is called a bifunctor. We can extend this notion to multifunctors.</p>
 <h1 id="endofunctor">Endofunctor</h1>
-<h1 id="diagonal-functor">Diagonal Functor</h1>
+<p>Endofunctors are functors that have the same source and target categories: <span class="math inline">\(𝔽 : ℂ → ℂ\)</span>.</p>
 <h1 id="forgetful-functor">Forgetful Functor</h1>
+<p>Functors where the source category has more structure that the functor “forgets” while mapping it to the target category with lesser structure is called a forgetful functor. A functor from the category of Groups to the category of Sets which maps a group to its underlying set and a group homomorphism to its underlying function of sets is an example of a forgetful functor.</p>
+<h1 id="free-functor">Free Functor</h1>
+<p>A free functor is the dual of the forgetful functor − instead of forgetting structure, it adds structure to its source category to get the target category. This addition of structure is done by using the source category as generators for generating free target categories. The free functor from Sets to Groups sends every set X to the free group generated by X and functions between sets to homomorphisms between free groups.</p>
+<h1 id="representable-functor">Representable Functor</h1>
+<p>A representable functor sends a category to the category of sets. Representable functors represent an arbitrary category in the language of sets for studying the category in the more familiar language of sets.</p>
+<p>Formally, a functor <span class="math inline">\(𝔽 : ℂ → Set\)</span> is a representable functor if it is naturally isomorphic to the hom-functor <span class="math inline">\(Hom_{ℂ}(A, −)\)</span>, A ∈ ℂ.</p>
+<ul>
+<li>Sends every object <span class="math inline">\(X ∈ ℂ\)</span> to the hom-set <span class="math inline">\(Hom_{ℂ}(X, A)\)</span></li>
+<li>sends morphisms <span class="math inline">\(f : X&#39; → X\)</span> to <span class="math inline">\(F : (X → A) → (X&#39; → X → A)\)</span></li>
+</ul>
+<p>Dually, a contravariant functor <span class="math inline">\(𝔾 : ℂ^{op} → Set\)</span> is representable if it is naturally isomorphic to the contravariant hom-functor <span class="math inline">\(Hom_{ℂ}(−, A), A ∈ ℂ\)</span>.</p>
+<ul>
+<li>Sends every object <span class="math inline">\(X ∈ ℂ\)</span> to the hom-set <span class="math inline">\(Hom_{ℂ^{op}}(A, X)\)</span></li>
+<li>sends morphisms <span class="math inline">\(f : X → X&#39;\)</span> to <span class="math inline">\(F : (X → A) → (X&#39; → X → A)\)</span></li>
+</ul>
+<figure>
+<img src="/artwork/representable_presheaf.png" alt="Figure 5: Representable Functor (contravariant)" /><figcaption aria-hidden="true">Figure 5: Representable Functor (contravariant)</figcaption>
+</figure>
+<p>Though we have given a choppy definition of representable functors here without defining what “natural isomorphism” is, we will look deeper as they are one of the central concepts for building further structures of category theory.</p>
 <hr />
 <p><a href="./Category.natural_transformation.html">Natural Transformations</a></p>
 </body>

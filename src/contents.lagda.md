@@ -77,7 +77,7 @@
   - [Introduction](./Category.introduction.html)
   - [Categories](./Category.category.html)
   - [Morphisms](./Category.morphisms.html)
-  - [Functors](./Category.Functors.html)
+  - [Functors](./Category.functors.html)
   - [~~Natural transformation~~](./Category.Natural_Transformation.html)
   - [~~Yoneda Lemma~~](./Category.Yoneda_Lemma.html)
   - [~~Limits and Co-Limits~~](./Category.Limits.html)
