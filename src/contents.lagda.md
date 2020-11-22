@@ -78,7 +78,7 @@
   - [Categories](./Category.category.html)
   - [Morphisms](./Category.morphisms.html)
   - [Functors](./Category.functors.html)
-  - [~~Natural transformation~~](./Category.Natural_Transformation.html)
+  - [Natural Transformation](./Category.naturalTransformation.html)
   - [~~Yoneda Lemma~~](./Category.Yoneda_Lemma.html)
   - [~~Limits and Co-Limits~~](./Category.Limits.html)
   - [~~Adjunctions~~](./Category.Adjunctions.html)
@@ -170,6 +170,7 @@ import Category.introduction
 import Category.category
 import Category.morphisms
 import Category.functors
+import Category.naturalTransformation
 
 import HoTT.introduction
 import HoTT.homotopy

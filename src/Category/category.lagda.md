@@ -14,10 +14,13 @@
     - [Category of Groups](#category-of-groups)
     - [Category of Rings](#category-of-rings)
     - [Category of Topological Spaces](#category-of-topological-spaces)
-  - [Nerves of Categories](#nerves-of-categories)
-  - [Constructions of Categories](#constructions-of-categories)
-    - [Product Category](#product-category)
-    - [Free Category](#free-category)
+- [Nerves of Categories](#nerves-of-categories)
+  - [Simplicial Complexes](#simplicial-complexes)
+    - [Simplexes](#simplexes)
+    - [Simplicial Complexes](#simplicial-complexes-1)
+- [Constructions of Categories](#constructions-of-categories)
+  - [Product Category](#product-category)
+  - [Free Category](#free-category)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -159,15 +162,57 @@ Here are some other examples:
 
 There are in fact infinitely many more and so we are going to move along now.
 
-## Nerves of Categories
+# Nerves of Categories
 
-The Nerve N(ℂ) of a category ℂ is a simplicial set constructed from objects as vertices of simplices and morphisms of ℂ as the edges.
+## Simplicial Complexes
+
+Before explaining higher categories, let us look at a structure from algebraic topology called simplexes and simplicial complexes.
+
+### Simplexes
+
+A simplex is an n-dimensional "triangle". Some examples of the first few dimensional simplices are:
+
+- 0-simplex: point
+- 1-simplex: line segment
+- 2-simplex: triangle
+- 3-simplex: tetrahedron
+
+An n-dimensional simplex is also called an __(n+1)-cell__.
+
+![Figure 5: Simplices](/artwork/simplex.png)
+
+### Simplicial Complexes
+
+A simplicial complex is a structure formed by gluing together a bunch of simplices. The gluing process has to follow a set of properties:
+
+A set of simplices $\mathcal{K}$ is a simplicial complex if:
+- Every face of a simplex from $\mathcal{K}$ is also in $\mathcal{K}$
+- Intersections of any two simplices is a face of both the simplices
+
+A simplicial complex is of dimension n if the largest dimension of all the constituent simplices is n.
+
+$$
+dim(\mathcal{K}) = max(dim(σ_i))
+$$
+
+Examples:
+
+- Any n-ary tree is a simplicial complex
+- An undirected acyclic graph is a 1-dimensional simplicial complex
+- Any 1-D simplicial complex is a hypergraph
+- Any n-dimensional convex hull is a simplicial complex
+- Nerves of any category are simplicial complex
+- The triangulation of a polygon in the plane is a simplicial complex
+
+Simplicial complexes can be used to create or represent topological spaces and serve as a very useful tool. They can also be used to formalize algebraic constraints in geometric terms as well.
+
+The Nerve N(ℂ) of a category ℂ is a simplicial complex constructed from objects as vertices of simplices and morphisms of ℂ as the edges.
 
 ![Figure 2: Nerves of a category](/artwork/directed_graph.png)
 
-## Constructions of Categories
+# Constructions of Categories
 
-### Product Category
+## Product Category
 
 Given two (or more) categories, their cartesian product is also a category.
 
@@ -179,7 +224,7 @@ Given two categories ℂ and 𝔻, their product is a category with:
 - composition of morphisms defined as $(f_1, g_1) ∘ (f_2, g_2) = (f_1 ∘ f_2, g_1 ∘ g_2)$
 - identities  defined as $1_{(C, D)} = (1_C, 1_D)$
 
-### Free Category
+## Free Category
 
 Free categories are a result of using a general pattern called "free constructions" for building categories. The idea of free objects in mathematics can be related to all types of objects with algebraic structure, and provides a general method of constructing objects using a set of "constructor" objects. The process of construction proceeds as follows:
 
