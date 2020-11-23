@@ -98,12 +98,19 @@
 <li><a href="#category-of-rings">Category of Rings</a></li>
 <li><a href="#category-of-topological-spaces">Category of Topological Spaces</a></li>
 </ul></li>
-<li><a href="#nerves-of-categories">Nerves of Categories</a></li>
+</ul></li>
+<li><a href="#nerves-of-categories">Nerves of Categories</a>
+<ul>
+<li><a href="#simplicial-complexes">Simplicial Complexes</a>
+<ul>
+<li><a href="#simplexes">Simplexes</a></li>
+<li><a href="#simplicial-complexes-1">Simplicial Complexes</a></li>
+</ul></li>
+</ul></li>
 <li><a href="#constructions-of-categories">Constructions of Categories</a>
 <ul>
 <li><a href="#product-category">Product Category</a></li>
 <li><a href="#free-category">Free Category</a></li>
-</ul></li>
 </ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -269,16 +276,47 @@
 </tbody>
 </table>
 <p>There are in fact infinitely many more and so we are going to move along now.</p>
-<h2 id="nerves-of-categories">Nerves of Categories</h2>
-<p>The Nerve N(ℂ) of a category ℂ is a simplicial set constructed from objects as vertices of simplices and morphisms of ℂ as the edges.</p>
+<h1 id="nerves-of-categories">Nerves of Categories</h1>
+<h2 id="simplicial-complexes">Simplicial Complexes</h2>
+<p>Before explaining higher categories, let us look at a structure from algebraic topology called simplexes and simplicial complexes.</p>
+<h3 id="simplexes">Simplexes</h3>
+<p>A simplex is an n-dimensional “triangle”. Some examples of the first few dimensional simplices are:</p>
+<ul>
+<li>0-simplex: point</li>
+<li>1-simplex: line segment</li>
+<li>2-simplex: triangle</li>
+<li>3-simplex: tetrahedron</li>
+</ul>
+<p>An n-dimensional simplex is also called an <strong>(n+1)-cell</strong>.</p>
+<figure>
+<img src="/artwork/simplex.png" alt="Figure 5: Simplices" /><figcaption aria-hidden="true">Figure 5: Simplices</figcaption>
+</figure>
+<h3 id="simplicial-complexes-1">Simplicial Complexes</h3>
+<p>A simplicial complex is a structure formed by gluing together a bunch of simplices. The gluing process has to follow a set of properties:</p>
+<p>A set of simplices <span class="math inline">\(\mathcal{K}\)</span> is a simplicial complex if: - Every face of a simplex from <span class="math inline">\(\mathcal{K}\)</span> is also in <span class="math inline">\(\mathcal{K}\)</span> - Intersections of any two simplices is a face of both the simplices</p>
+<p>A simplicial complex is of dimension n if the largest dimension of all the constituent simplices is n.</p>
+<p><span class="math display">\[
+dim(\mathcal{K}) = max(dim(σ_i))
+\]</span></p>
+<p>Examples:</p>
+<ul>
+<li>Any n-ary tree is a simplicial complex</li>
+<li>An undirected acyclic graph is a 1-dimensional simplicial complex</li>
+<li>Any 1-D simplicial complex is a hypergraph</li>
+<li>Any n-dimensional convex hull is a simplicial complex</li>
+<li>Nerves of any category are simplicial complex</li>
+<li>The triangulation of a polygon in the plane is a simplicial complex</li>
+</ul>
+<p>Simplicial complexes can be used to create or represent topological spaces and serve as a very useful tool. They can also be used to formalize algebraic constraints in geometric terms as well.</p>
+<p>The Nerve N(ℂ) of a category ℂ is a simplicial complex constructed from objects as vertices of simplices and morphisms of ℂ as the edges.</p>
 <figure>
 <img src="/artwork/directed_graph.png" alt="Figure 2: Nerves of a category" /><figcaption aria-hidden="true">Figure 2: Nerves of a category</figcaption>
 </figure>
-<h2 id="constructions-of-categories">Constructions of Categories</h2>
-<h3 id="product-category">Product Category</h3>
+<h1 id="constructions-of-categories">Constructions of Categories</h1>
+<h2 id="product-category">Product Category</h2>
 <p>Given two (or more) categories, their cartesian product is also a category.</p>
 <p>Given two categories ℂ and 𝔻, their product is a category with: - Pairs (C, D) as objects such that C ∈ ℂ and D ∈ 𝔻 - (f, g) as morphisms where - <span class="math inline">\(f : C_1 → C_2; C_i ∈ ℂ\)</span> - <span class="math inline">\(g : D_1 → D_2; D_i ∈ 𝔻\)</span> - composition of morphisms defined as <span class="math inline">\((f_1, g_1) ∘ (f_2, g_2) = (f_1 ∘ f_2, g_1 ∘ g_2)\)</span> - identities defined as <span class="math inline">\(1_{(C, D)} = (1_C, 1_D)\)</span></p>
-<h3 id="free-category">Free Category</h3>
+<h2 id="free-category">Free Category</h2>
 <p>Free categories are a result of using a general pattern called “free constructions” for building categories. The idea of free objects in mathematics can be related to all types of objects with algebraic structure, and provides a general method of constructing objects using a set of “constructor” objects. The process of construction proceeds as follows:</p>
 <ol type="1">
 <li>Take a set of objects to construct the free category with</li>

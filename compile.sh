@@ -51,7 +51,8 @@ declare -a files=(
   "Category/category"
   "Category/morphisms"
   "Category/functors"
-  "Categry/naturalTransformation"
+  "Category/naturalTransformation"
+  "Category/yonedaLemma"
 
   "AlgTopos/introduction"
 

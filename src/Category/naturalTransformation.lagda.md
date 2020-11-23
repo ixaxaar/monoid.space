@@ -1,6 +1,6 @@
 ****
 [Contents](contents.html)
-[Previous](Algebra.functors.html)
+[Previous](Category.functors.html)
 [Next](Category.yonedaLemma.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -17,7 +17,7 @@
 # Natural Transformations
 
 ```agda
-module naturalTransformation where
+module Category.naturalTransformation where
 ```
 
 ## Commutative Diagrams
