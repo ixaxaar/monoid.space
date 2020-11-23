@@ -79,7 +79,7 @@
   - [Morphisms](./Category.morphisms.html)
   - [Functors](./Category.functors.html)
   - [Natural Transformation](./Category.naturalTransformation.html)
-  - [Yoneda Lemma](./Category.Yoneda_Lemma.html)
+  - [Yoneda Lemma](./Category.yoneda.html)
   - [~~Limits and Co-Limits~~](./Category.Limits.html)
   - [~~Adjunctions~~](./Category.Adjunctions.html)
   - [~~Ends and Co-Ends~~](./Category.Ends.html)
