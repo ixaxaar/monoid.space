@@ -171,7 +171,7 @@ import Category.category
 import Category.morphisms
 import Category.functors
 import Category.naturalTransformation
-import Category.yonedaLemma
+import Category.yoneda
 
 import HoTT.introduction
 import HoTT.homotopy
