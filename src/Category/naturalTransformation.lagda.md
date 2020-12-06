@@ -71,5 +71,5 @@ Given a bunch of categories $𝕔_i$, we can define a 2-category with:
 
 ---
 
-[Yoneda Lemma](./Category.yonedaLemma.html)
+[Yoneda Lemma](./Category.yoneda.html)
 
