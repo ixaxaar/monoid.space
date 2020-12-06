@@ -73,8 +73,7 @@ curl -sSL https://get.haskellstack.org/ | sh
 2. Clone [https://github.com/ixaxaar/monoid.space](https://github.com/ixaxaar/monoid.space) and `cd` into it. Proceed to use stack to install agda:
 
 ```bash
-stack setup
-stack build
+stack --resolver=lts-13.25 install Agda-2.6.0.1 EdisonCore-1.3.2.1 data-hash-0.2.0.1 equivalence-0.3.4 geniplate-mirror-0.7.6 EdisonAPI-1.3.1 STMonadTrans-0.4.3
 ```
 
 ## 3. Via package managers
