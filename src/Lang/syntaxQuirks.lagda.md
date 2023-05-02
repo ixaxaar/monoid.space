@@ -7,18 +7,17 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ****
 
-- [Syntactic quirks](#syntactic-quirks)
-- [Syntactic sugars](#syntactic-sugars)
-  - [Common parameters](#common-parameters)
-  - [Different ways of defining `data`](#different-ways-of-defining-data)
-  - [Implicit arguments](#implicit-arguments)
+- [Syntactic Quirks](#syntactic-quirks)
+- [Syntactic Sugars](#syntactic-sugars)
+  - [Common Parameters](#common-parameters)
+  - [Different Ways of Defining `data`](#different-ways-of-defining-data)
+  - [Implicit Arguments](#implicit-arguments)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+# Syntactic Quirks
 
-# Syntactic quirks
-
-We capture here some of the caveats and syntactic sugars here.
+This section highlights some Agda syntax features and alternative ways to express code that you might find helpful or convenient.
 
 ```agda
 module Lang.syntaxQuirks where
@@ -27,13 +26,13 @@ open import Lang.dataStructures
 open import Agda.Builtin.Equality
 ```
 
-# Syntactic sugars
+# Syntactic Sugars
 
-Mostly short-forms of various stuff used more often.
+These are shorthand forms of commonly used constructs.
 
-## Common parameters
+## Common Parameters
 
-The implicit parameter `{m : ℕ}` common to all constructors can be abstracted out into the data definition:
+Implicit parameters, such as `{m : ℕ}`, that are common to all constructors can be abstracted out into the data definition:
 
 ```agda
 data _≤′_ : ℕ → ℕ → Set where
@@ -41,7 +40,7 @@ data _≤′_ : ℕ → ℕ → Set where
   ≤′-step : {m : ℕ} → {n : ℕ} →  m ≤′ n  →  m ≤′ succ n
 ```
 
-is same as
+This is equivalent to:
 
 ```agda
 data _≤′₁_ (m : ℕ) : ℕ → Set where
@@ -49,30 +48,30 @@ data _≤′₁_ (m : ℕ) : ℕ → Set where
   ≤′₁-step : {n : ℕ} →  m ≤′₁ n  →  m ≤′₁ succ n
 ```
 
-## Different ways of defining `data`
+## Different Ways of Defining `data`
 
-The previous technique also works for concrete parameters:
+The technique above can also be applied to concrete parameters:
 
 ```agda
 data _≤″_ : ℕ → ℕ → Set where
   ≤″ : ∀ {m n k} → m + n ≡ k → m ≤″ k
 ```
 
-is same as
+This is equivalent to:
 
 ```agda
 data _≤″₁_ (m : ℕ) : ℕ → Set where
   ≤+ : ∀ {n k} → m + n ≡ k → m ≤″₁ k
 ```
 
-which is same as
+Which is also equivalent to:
 
 ```agda
 data _≤″₂_ (m : ℕ) (k : ℕ) : Set where
   ≤+ : ∀ {n} → m + n ≡ k → m ≤″₂ k
 ```
 
-## Implicit arguments
+## Implicit Arguments
 
 Arguments that can be inferred by the compiler can be left out with an `_`:
 
@@ -94,7 +93,7 @@ length'' A zero [] = zero
 length'' _ len _   = len
 ```
 
-Though these are generally ill-advised as they may cause confusion when used unwisely.
+Using `_` for inferring arguments can be helpful in making your code more concise. However, be careful when using this feature, as it can also lead to confusion if used inappropriately.
 
 ****
 [Debugging](./Lang.debugging.html)

@@ -66,7 +66,7 @@ declare -a files=(
   "AppliedTypes/verified_programming"
 )
 
-stack build
+# stack build
 rm -rf build html tmp
 mkdir html
 

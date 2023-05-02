@@ -7,15 +7,16 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ****
 
-- [Other language constructs](#other-language-constructs)
+- [Other Language Constructs](#other-language-constructs)
   - [Modules](#modules)
   - [Records](#records)
   - [Postulates](#postulates)
+- [Others](#others)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
-# Other language constructs
+# Other Language Constructs
 
 ```agda
 module Lang.other where
@@ -27,7 +28,7 @@ open import Lang.functions using (_+_)
 
 ## Modules
 
-Modules are used to scope variable and function namespaces such as "packages" in languages like java or python. They behave as closures with the indentation as the indicator of the extent of the closure. Each Agda source file may contain one module at the top level. Modules can be imported as can be seen from the blocks of imports above.
+Modules in Agda are used to organize code and manage namespaces, similar to packages in languages like Java or Python. They act as closures, with the indentation level indicating the scope of the module. Each Agda source file may contain one top-level module. Modules can be imported, as demonstrated in the import statements above.
 
 Modules support nesting:
 
@@ -52,7 +53,7 @@ open nested.Y renaming (x₂ to x₃)
 x₂ = x₃ + one
 ```
 
-Modules can have parameters valid inside their closures:
+Modules can also have parameters that are valid within their scope:
 
 ```agda
 module Sort (A : Set)(_≤_ : A → A → Bool) where
@@ -69,7 +70,7 @@ module Sort (A : Set)(_≤_ : A → A → Bool) where
 
 ## Records
 
-Tuples are called as `Record`s in Agda. Some examples are:
+In Agda, tuples are called `Record`s. Here are some examples:
 
 A tuple of `Bool` and `ℕ`:
 
@@ -89,14 +90,14 @@ record Pair (A B : Set) : Set where
     snd : B
 ```
 
-An object of `Pair` can be constructed as:
+An instance of `Pair` can be constructed as:
 
 ```agda
 p23 : Pair ℕ ℕ
 p23 = record { fst = two; snd = three }
 ```
 
-The `constructor` keyword can be specified to construct records:
+You can use the `constructor` keyword to define records:
 
 ```agda
 record Pair' (A B : Set) : Set where
@@ -109,14 +110,14 @@ p45 : Pair' ℕ ℕ
 p45 = four , five
 ```
 
-The values of a record can be pattern matched upon:
+The values of a record can be pattern matched:
 
 ```agda
 left : Pair' ℕ ℕ → ℕ
 left (x , y) = x
 ```
 
-A record can be parameterized:
+A record can also be parameterized:
 
 ```agda
 record List' (A : Set) : Set where
@@ -129,11 +130,11 @@ list₂ : List' Bool
 list₂ = L three vec3
 ```
 
-All `Data` definitions have an equivalent `Record` definition, however `Record`s are preferred whenever possible as a convention. Records have the obvious advantage of providing `getters` and `setters` for free.
+All `Data` definitions have equivalent `Record` definitions, but using `Record`s is preferred as a convention. Records have the advantage of automatically providing getters and setters.
 
 ## Postulates
 
-`postulate`s are another Agda language construct. These facilitate defining some type without the actual implementation.
+`postulate`s are another language construct in Agda. They allow you to define a type without providing an actual implementation.
 
 ```agda
 postulate
@@ -149,6 +150,46 @@ data False : Set where
 
 postulate bottom : False
 ```
+
+# Others
+
+In this section, we will discuss some of the quirks of Agda's syntax that might be helpful to know when writing code.
+
+1. The backslash (`\`) and lambda (`λ`) characters can be used interchangeably to define anonymous functions:
+
+```agda
+example₁ = \ (A : Set)(x : A) → x
+example₂ = λ A x → x
+```
+
+2. Implicit arguments can be specified using curly braces (`{}`). The compiler will try to infer the values of these arguments based on the context:
+
+```agda
+_++_ : {A : Set} → List A → List A → List A
+```
+
+3. Dot patterns (`.t`) can be used to indicate that the value of an argument can be uniquely determined by the patterns provided for other arguments:
+
+```agda
+root : (n : ℕ) → Square n → ℕ
+root .(m × m) (sq m) = m
+```
+
+4. The `forall` keyword can be used to define dependent function types:
+
+```agda
+prop₃ : (forall (x : A) → C)  is-the-same-as   ((x : A) → C)
+prop₄ : (forall x → C)        is-the-same-as   ((x : _) → C)
+prop₅ : (forall x y → C)      is-the-same-as   (forall x → forall y → C)
+```
+
+5. Parentheses can be omitted when applying a function to multiple arguments:
+
+```agda
+(f a b) is-the-same-as ((f a) b)
+```
+
+These syntax quirks can be useful in making your Agda code more concise and expressive. As you become more familiar with the language, you may find yourself using these features more frequently.
 
 ****
 [Quirks of Syntax](./Lang.syntaxQuirks.html)

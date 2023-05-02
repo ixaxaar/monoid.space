@@ -8,13 +8,20 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
     div.sourceCode { margin: 1em 0; }
     pre.sourceCode { margin: 0; }
@@ -49,7 +56,7 @@
     code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
     code span.at { color: #7d9029; } /* Attribute */
     code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
+    code span.bu { color: #008000; } /* BuiltIn */
     code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
     code span.ch { color: #4070a0; } /* Char */
     code span.cn { color: #880000; } /* Constant */
@@ -62,7 +69,7 @@
     code span.ex { } /* Extension */
     code span.fl { color: #40a070; } /* Float */
     code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
     code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
     code span.kw { color: #007020; font-weight: bold; } /* Keyword */
     code span.op { color: #666666; } /* Operator */
@@ -82,7 +89,8 @@
 </head>
 <body>
 <hr />
-<p><a href="contents.html">Contents</a> <a href="Logic.laws.html">Previous</a> <a href="Algebra.introduction.html">Next</a></p>
+<p><a href="contents.html">Contents</a> <a href="Logic.laws.html">Previous</a> <a
+href="Algebra.introduction.html">Next</a></p>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
@@ -96,101 +104,121 @@
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 <h1 id="decidability">Decidability</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>  ℕ<span class="ot">;</span> List<span class="ot">;</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Logic<span class="ot">.</span>logicBasics <span class="kw">using</span> <span class="ot">(</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>  ⟂<span class="ot">;</span> ⊤<span class="ot">;</span> ⟂-elim<span class="ot">;</span> ¬<span class="ot">;</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>  not<span class="ot">;</span> contradiction<span class="ot">;</span> contrapos<span class="ot">;</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>  <span class="ot">_</span>then<span class="ot">_</span>else<span class="ot">_)</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations <span class="kw">using</span> <span class="ot">(</span>Rel<span class="ot">;</span> REL<span class="ot">)</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">using</span> <span class="ot">(_</span>≡<span class="ot">_)</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a><span class="kw">module</span> Logic<span class="ot">.</span>decidability <span class="kw">where</span></span></code></pre></div>
-<p>Relations can de defined either as an inductive data type − the existence of the type implies that the relation exists. We say that the data type provides a <strong>witness</strong> that the relation is valid. The other way is to define relations as functions that compute whether the relation holds.</p>
-<p>Consider the relation <code>_&lt;=_</code>. If we have to prove that <code>2 &lt;= 4</code>, we can do that in two ways:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  ℕ<span class="ot">;</span> List<span class="ot">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Logic<span class="ot">.</span>logicBasics <span class="kw">using</span> <span class="ot">(</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  ⟂<span class="ot">;</span> ⊤<span class="ot">;</span> ⟂-elim<span class="ot">;</span> ¬<span class="ot">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  not<span class="ot">;</span> contradiction<span class="ot">;</span> contrapos<span class="ot">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="ot">_</span>then<span class="ot">_</span>else<span class="ot">_)</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations <span class="kw">using</span> <span class="ot">(</span>Rel<span class="ot">;</span> REL<span class="ot">)</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">using</span> <span class="ot">(_</span>≡<span class="ot">_)</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> Logic<span class="ot">.</span>decidability <span class="kw">where</span></span></code></pre></div>
+<p>Relations can de defined either as an inductive data type − the existence of the type implies that the relation
+exists. We say that the data type provides a <strong>witness</strong> that the relation is valid. The other way is to
+define relations as functions that compute whether the relation holds.</p>
+<p>Consider the relation <code>_&lt;=_</code>. If we have to prove that <code>2 &lt;= 4</code>, we can do that in two
+ways:</p>
 <h2 id="evidence-based">1. Evidence based</h2>
 <p>The Inductive relation:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">data</span> <span class="ot">_</span>&lt;=<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  ltz <span class="ot">:</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> zero &lt;= n</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>  lt <span class="ot">:</span> <span class="ot">{</span>m <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> m &lt;= n <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> &lt;= <span class="ot">(</span>succ n<span class="ot">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="ot">_</span>&lt;=<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  ltz <span class="ot">:</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> zero &lt;= n</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  lt <span class="ot">:</span> <span class="ot">{</span>m <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> m &lt;= n <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> &lt;= <span class="ot">(</span>succ n<span class="ot">)</span></span></code></pre></div>
 <p>Proof that 2 ≤ 4:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>2≤4 <span class="ot">:</span> two &lt;= four</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>2≤4 <span class="ot">=</span> lt <span class="ot">(</span>lt ltz<span class="ot">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>2≤4 <span class="ot">:</span> two &lt;= four</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>2≤4 <span class="ot">=</span> lt <span class="ot">(</span>lt ltz<span class="ot">)</span></span></code></pre></div>
 <h2 id="computation-based">2. Computation based</h2>
 <p>Relation as a Function type:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≤<span class="ot">_</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a><span class="ot">_</span>≤<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> Bool</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>zero ≤ n       <span class="ot">=</span>  true</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>succ m ≤ zero   <span class="ot">=</span>  false</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>succ m ≤ succ n  <span class="ot">=</span>  m ≤ n</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≤<span class="ot">_</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ot">_</span>≤<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> Bool</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>zero ≤ n       <span class="ot">=</span>  true</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>succ m ≤ zero   <span class="ot">=</span>  false</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>succ m ≤ succ n  <span class="ot">=</span>  m ≤ n</span></code></pre></div>
 <p>Proof that 2 ≤ 4:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equational</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="kw">open</span> ≡-Reasoning</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>twoLessThanFour <span class="ot">:</span> <span class="ot">(</span>two ≤ four<span class="ot">)</span> ≡ true</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>twoLessThanFour <span class="ot">=</span> begin</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>    two ≤ four</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a>  ≡⟨⟩</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a>    one ≤ three</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a>  ≡⟨⟩</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true"></a>    zero ≤ two</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true"></a>  ≡⟨⟩</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true"></a>    true</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true"></a>  ∎</span></code></pre></div>
-<p>We can always connect such forms of representation of the same underlying mathematical structures from the Computation based to evidence based:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>T <span class="ot">:</span> Bool <span class="ot">→</span> <span class="dt">Set</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>T true <span class="ot">=</span> ⊤</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>T false <span class="ot">=</span> ⟂</span></code></pre></div>
-<p>Like we saw for the proposition <code>2 ≤ 4</code>, for any proposition <code>P</code> to be decidable, either we can compute <code>P</code> or <code>¬ P</code>, i.e. either proposition <code>P</code> has a proof or it can been disproved. In the words of logic, a true/false decision problem is decidable if there exists an effective method for deriving the correct answer.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equational</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> ≡-Reasoning</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>twoLessThanFour <span class="ot">:</span> <span class="ot">(</span>two ≤ four<span class="ot">)</span> ≡ true</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>twoLessThanFour <span class="ot">=</span> begin</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    two ≤ four</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  ≡⟨⟩</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    one ≤ three</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  ≡⟨⟩</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    zero ≤ two</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  ≡⟨⟩</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    true</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  ∎</span></code></pre></div>
+<p>We can always connect such forms of representation of the same underlying mathematical structures from the
+Computation based to evidence based:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>T <span class="ot">:</span> Bool <span class="ot">→</span> <span class="dt">Set</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>T true <span class="ot">=</span> ⊤</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>T false <span class="ot">=</span> ⟂</span></code></pre></div>
+<p>Like we saw for the proposition <code>2 ≤ 4</code>, for any proposition <code>P</code> to be decidable, either we can
+compute <code>P</code> or <code>¬ P</code>, i.e. either proposition <code>P</code> has a proof or it can been disproved.
+In the words of logic, a true/false decision problem is decidable if there exists an effective method for deriving the
+correct answer.</p>
 <p>For representing this idea we use an inductive data type which has two constructors.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="kw">data</span> Dec <span class="ot">{</span>p<span class="ot">}</span> <span class="ot">(</span>P <span class="ot">:</span> <span class="dt">Set</span> p<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> p <span class="kw">where</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>  yes <span class="ot">:</span> <span class="ot">(</span> p <span class="ot">:</span>   P<span class="ot">)</span> <span class="ot">→</span> Dec P</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>  no  <span class="ot">:</span> <span class="ot">(</span>¬p <span class="ot">:</span> ¬ P<span class="ot">)</span> <span class="ot">→</span> Dec P</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> Dec <span class="ot">{</span>p<span class="ot">}</span> <span class="ot">(</span>P <span class="ot">:</span> <span class="dt">Set</span> p<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> p <span class="kw">where</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  yes <span class="ot">:</span> <span class="ot">(</span> p <span class="ot">:</span>   P<span class="ot">)</span> <span class="ot">→</span> Dec P</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  no  <span class="ot">:</span> <span class="ot">(</span>¬p <span class="ot">:</span> ¬ P<span class="ot">)</span> <span class="ot">→</span> Dec P</span></code></pre></div>
 <p>The computational equivalent of decidable relations would be:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>Decidable <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span> REL A B ℓ <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>Decidable <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> Dec <span class="ot">(</span>x ∼ y<span class="ot">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>Decidable <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span> REL A B ℓ <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Decidable <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> Dec <span class="ot">(</span>x ∼ y<span class="ot">)</span></span></code></pre></div>
 <p>Decidability can be computed into a boolean value. We write that and some other useful machinery:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a>⌊<span class="ot">_</span>⌋ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>p<span class="ot">}</span> <span class="ot">{</span>P <span class="ot">:</span> <span class="dt">Set</span> p<span class="ot">}</span> <span class="ot">→</span> Dec P <span class="ot">→</span> Bool</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>⌊ yes <span class="ot">_</span> ⌋ <span class="ot">=</span> true</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>⌊ no  <span class="ot">_</span> ⌋ <span class="ot">=</span> false</span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>True <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>p<span class="ot">}</span> <span class="ot">{</span>P <span class="ot">:</span> <span class="dt">Set</span> p<span class="ot">}</span> <span class="ot">→</span> Dec P <span class="ot">→</span> <span class="dt">Set</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>True Q <span class="ot">=</span> T ⌊ Q ⌋</span></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a>False <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>p<span class="ot">}</span> <span class="ot">{</span>P <span class="ot">:</span> <span class="dt">Set</span> p<span class="ot">}</span> <span class="ot">→</span> Dec P <span class="ot">→</span> <span class="dt">Set</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>False Q <span class="ot">=</span> T <span class="ot">(</span>not ⌊ Q ⌋<span class="ot">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="kw">record</span> Lift <span class="ot">{</span>a<span class="ot">}</span> ℓ <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>  <span class="kw">constructor</span> lift</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>  <span class="kw">field</span> lower <span class="ot">:</span> A</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a><span class="kw">module</span> <span class="ot">_</span> <span class="ot">{</span>p<span class="ot">}</span> <span class="ot">{</span>P <span class="ot">:</span> <span class="dt">Set</span> p<span class="ot">}</span> <span class="kw">where</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a>  From-yes <span class="ot">:</span> Dec P <span class="ot">→</span> <span class="dt">Set</span> p</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true"></a>  From-yes <span class="ot">(</span>yes <span class="ot">_)</span> <span class="ot">=</span> P</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true"></a>  From-yes <span class="ot">(</span>no  <span class="ot">_)</span> <span class="ot">=</span> Lift p ⊤</span></code></pre></div>
-<p>We can now use this machinery to prove that the relation <code>&lt;=</code> is decidable for all <code>x, y ∈ ℕ</code>:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a>nothingIsLessThanZero <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>x <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> ¬ <span class="ot">(</span>succ x &lt;= zero<span class="ot">)</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a>nothingIsLessThanZero <span class="ot">()</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a>successionsAreLessToo <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>x y <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> ¬ <span class="ot">(</span>x &lt;= y<span class="ot">)</span> <span class="ot">→</span> ¬ <span class="ot">(</span>succ x &lt;= succ y<span class="ot">)</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true"></a>successionsAreLessToo ¬x≤y <span class="ot">(</span>lt x≤y<span class="ot">)</span> <span class="ot">=</span> ¬x≤y x≤y</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true"></a><span class="ot">_</span>≤isDecidable<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">(</span>m n <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> Dec <span class="ot">(</span>m &lt;= n<span class="ot">)</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true"></a>zero  ≤isDecidable n                   <span class="ot">=</span>  yes ltz</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true"></a>succ m ≤isDecidable zero               <span class="ot">=</span>  no nothingIsLessThanZero</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true"></a>succ m ≤isDecidable succ n <span class="kw">with</span> m ≤isDecidable n</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true"></a><span class="ot">...</span>               <span class="ot">|</span> yes m≤n  <span class="ot">=</span>  yes <span class="ot">(</span>lt m≤n<span class="ot">)</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true"></a><span class="ot">...</span>               <span class="ot">|</span> no ¬m≤n  <span class="ot">=</span>  no <span class="ot">(</span>successionsAreLessToo ¬m≤n<span class="ot">)</span></span></code></pre></div>
-<p>We have used the <code>with</code> abstraction above. It lets you pattern match on the result of an intermediate computation by effectively adding an extra argument to the left-hand side of your function. Refer to more documentation <a href="https://agda.readthedocs.io/en/v2.5.2/language/with-abstraction.html">here</a>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>⌊<span class="ot">_</span>⌋ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>p<span class="ot">}</span> <span class="ot">{</span>P <span class="ot">:</span> <span class="dt">Set</span> p<span class="ot">}</span> <span class="ot">→</span> Dec P <span class="ot">→</span> Bool</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>⌊ yes <span class="ot">_</span> ⌋ <span class="ot">=</span> true</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>⌊ no  <span class="ot">_</span> ⌋ <span class="ot">=</span> false</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>True <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>p<span class="ot">}</span> <span class="ot">{</span>P <span class="ot">:</span> <span class="dt">Set</span> p<span class="ot">}</span> <span class="ot">→</span> Dec P <span class="ot">→</span> <span class="dt">Set</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>True Q <span class="ot">=</span> T ⌊ Q ⌋</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>False <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>p<span class="ot">}</span> <span class="ot">{</span>P <span class="ot">:</span> <span class="dt">Set</span> p<span class="ot">}</span> <span class="ot">→</span> Dec P <span class="ot">→</span> <span class="dt">Set</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>False Q <span class="ot">=</span> T <span class="ot">(</span>not ⌊ Q ⌋<span class="ot">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">record</span> Lift <span class="ot">{</span>a<span class="ot">}</span> ℓ <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">constructor</span> lift</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">field</span> lower <span class="ot">:</span> A</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="ot">_</span> <span class="ot">{</span>p<span class="ot">}</span> <span class="ot">{</span>P <span class="ot">:</span> <span class="dt">Set</span> p<span class="ot">}</span> <span class="kw">where</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  From-yes <span class="ot">:</span> Dec P <span class="ot">→</span> <span class="dt">Set</span> p</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  From-yes <span class="ot">(</span>yes <span class="ot">_)</span> <span class="ot">=</span> P</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  From-yes <span class="ot">(</span>no  <span class="ot">_)</span> <span class="ot">=</span> Lift p ⊤</span></code></pre></div>
+<p>We can now use this machinery to prove that the relation <code>&lt;=</code> is decidable for all
+<code>x, y ∈ ℕ</code>:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>nothingIsLessThanZero <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>x <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> ¬ <span class="ot">(</span>succ x &lt;= zero<span class="ot">)</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>nothingIsLessThanZero <span class="ot">()</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>successionsAreLessToo <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>x y <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> ¬ <span class="ot">(</span>x &lt;= y<span class="ot">)</span> <span class="ot">→</span> ¬ <span class="ot">(</span>succ x &lt;= succ y<span class="ot">)</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>successionsAreLessToo ¬x≤y <span class="ot">(</span>lt x≤y<span class="ot">)</span> <span class="ot">=</span> ¬x≤y x≤y</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="ot">_</span>≤isDecidable<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">(</span>m n <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> Dec <span class="ot">(</span>m &lt;= n<span class="ot">)</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>zero  ≤isDecidable n                   <span class="ot">=</span>  yes ltz</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>succ m ≤isDecidable zero               <span class="ot">=</span>  no nothingIsLessThanZero</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>succ m ≤isDecidable succ n <span class="kw">with</span> m ≤isDecidable n</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="ot">...</span>               <span class="ot">|</span> yes m≤n  <span class="ot">=</span>  yes <span class="ot">(</span>lt m≤n<span class="ot">)</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="ot">...</span>               <span class="ot">|</span> no ¬m≤n  <span class="ot">=</span>  no <span class="ot">(</span>successionsAreLessToo ¬m≤n<span class="ot">)</span></span></code></pre></div>
+<p>We have used the <code>with</code> abstraction above. It lets you pattern match on the result of an intermediate
+computation by effectively adding an extra argument to the left-hand side of your function. Refer to more documentation
+<a href="https://agda.readthedocs.io/en/v2.5.2/language/with-abstraction.html">here</a>.</p>
 <h1 id="going-further">Going Further</h1>
-<p>A theory is a set of formulas, often assumed to be closed under logical consequence. Decidability for a theory concerns whether there is an effective procedure that decides whether the formula is a member of the theory or not, given an arbitrary formula in the signature of the theory. The problem of decidability arises naturally when a theory is defined as the set of logical consequences of a fixed set of axioms.</p>
-<p>Every consistent theory is decidable, as every formula of the theory will be a logical consequence of, and thus a member of, the theory. First-order logic is not decidable in general; in particular, the set of logical validities in any signature that includes equality and at least one other predicate with two or more arguments is not decidable. Logical systems extending first-order logic, such as second-order logic and type theory, are also undecidable.</p>
-<p>Decidability and undecidability of an entire theory can be proven, one of the more famous proofs being <a href="https://en.wikipedia.org/wiki/G%C3%B6del%27s_incompleteness_theorems">Gödel’s incompleteness theorems</a>. The machinery we defined here form the basis of a larger set of structures required to prove the above facts, including problems like prime number generation. In light of the complexity associated with such a task, we choose to move on instead.</p>
+<p>A theory is a set of formulas, often assumed to be closed under logical consequence. Decidability for a theory
+concerns whether there is an effective procedure that decides whether the formula is a member of the theory or not,
+given an arbitrary formula in the signature of the theory. The problem of decidability arises naturally when a theory is
+defined as the set of logical consequences of a fixed set of axioms.</p>
+<p>Every consistent theory is decidable, as every formula of the theory will be a logical consequence of, and thus a
+member of, the theory. First-order logic is not decidable in general; in particular, the set of logical validities in
+any signature that includes equality and at least one other predicate with two or more arguments is not decidable.
+Logical systems extending first-order logic, such as second-order logic and type theory, are also undecidable.</p>
+<p>Decidability and undecidability of an entire theory can be proven, one of the more famous proofs being <a
+href="https://en.wikipedia.org/wiki/G%C3%B6del%27s_incompleteness_theorems">Gödel’s incompleteness theorems</a>. The
+machinery we defined here form the basis of a larger set of structures required to prove the above facts, including
+problems like prime number generation. In light of the complexity associated with such a task, we choose to move on
+instead.</p>
 <hr />
 <p><a href="./Algebra.introduction.html">Introduction</a></p>
 </body>

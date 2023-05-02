@@ -8,72 +8,15 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
     }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../css/agda.css" />
   <!--[if lt IE 9]>
@@ -83,74 +26,47 @@
 <body>
 <hr />
 <p><a href="contents.html">Contents</a> <a href="Lang.intro.html">Previous</a> <a href="Lang.naming.html">Next</a></p>
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-<hr />
 <ul>
-<li><a href="#setup-and-installation">Setup and installation</a>
+<li><a href="#setup-and-installation">Setup and Installation</a>
 <ul>
-<li><a href="#1-using-docker">1. Using Docker</a>
-<ul>
-<li><a href="#run">Run</a></li>
-</ul></li>
+<li><a href="#1-using-docker">1. Using Docker</a></li>
 <li><a href="#2-using-stack">2. Using Stack</a></li>
-<li><a href="#3-via-package-managers">3. Via package managers</a>
+<li><a href="#3-via-package-managers">3. Via Package Managers</a>
 <ul>
-<li><a href="#apt-debian-ubuntu-mint-elementary-mx-linux-etc">apt (Debian, Ubuntu, Mint, Elementary, MX Linux etc)</a></li>
+<li><a href="#apt-debian-ubuntu-mint-etc">apt (Debian, Ubuntu, Mint, etc.)</a></li>
 <li><a href="#yum-fedora-opensuse-rhel">yum (Fedora, openSUSE, RHEL)</a></li>
 <li><a href="#pacman-arch-manjaro-antergos">pacman (Arch, Manjaro, Antergos)</a></li>
 <li><a href="#brew-osx">brew (OSX)</a></li>
 </ul></li>
 </ul></li>
 </ul>
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<h1 id="setup-and-installation">Setup and installation</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">module</span> Lang<span class="ot">.</span>setup <span class="kw">where</span></span></code></pre></div>
+<h1 id="setup-and-installation">Setup and Installation</h1>
 <h2 id="using-docker">1. Using Docker</h2>
-<p>We’ve done most of the heavy-lifting, and packaged everything into a docker container. This is a platform-independent solution and can be run inside any major operating system. But first we would need to:</p>
 <ol type="1">
-<li>Install docker</li>
+<li>Install Docker: <code>curl -fsSL https://get.docker.com -o get-docker.sh &amp;&amp; sh get-docker.sh</code> or
+download <a href="https://github.com/docker/engine/releases">here</a>.</li>
+<li>Pull the image: <code>docker pull ixaxaar/agda:latest</code></li>
+<li>Run: <code>docker run -it -v /local/source/directory:/directory/inside/container ixaxaar/agda bash</code></li>
+<li>Compile: <code>agda /directory/inside/container/whatever.agda</code></li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ex">curl</span> -fsSL https://get.docker.com -o get-docker.sh</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="fu">sh</span> get-docker.sh</span></code></pre></div>
-<p>OR download and install docker binaries for your operating system <a href="https://github.com/docker/engine/releases">here</a>.</p>
-<ol start="2" type="1">
-<li>Pull the pre-configured docker image</li>
-</ol>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="ex">docker</span> pull ixaxaar/agda:latest</span></code></pre></div>
-<h3 id="run">Run</h3>
-<p>To run the agda compiler with docker:</p>
-<ul>
-<li>Launch the docker container while mounting the local source directory:</li>
-</ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="ex">docker</span> run -it -v /local/source/directory:/directory/inside/container ixaxaar/agda bash</span></code></pre></div>
-<ul>
-<li>Compile <code>whatever.agda</code></li>
-</ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="ex">agda</span> /directory/inside/container/whatever.agda</span></code></pre></div>
 <h2 id="using-stack">2. Using Stack</h2>
-<p><a href="https://www.haskellstack.org/">Stack</a> is one of haskell’s package managers, apart from <a href="https://www.haskell.org/cabal/">Cabal</a>. Stack uses cabal internally and is easier to practically deal with. In order to do a stack-based install:</p>
 <ol type="1">
-<li>Install Stack:</li>
+<li>Install Stack: <code>curl -sSL https://get.haskellstack.org/ | sh</code></li>
+<li>Clone <a href="https://github.com/ixaxaar/monoid.space">repo</a>, <code>cd</code> into it, and install Agda:</li>
 </ol>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="ex">curl</span> -sSL https://get.haskellstack.org/ <span class="kw">|</span> <span class="fu">sh</span></span></code></pre></div>
-<ol start="2" type="1">
-<li>Clone <a href="https://github.com/ixaxaar/monoid.space">https://github.com/ixaxaar/monoid.space</a> and <code>cd</code> into it. Proceed to use stack to install agda:</li>
-</ol>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="ex">stack</span> setup</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="ex">stack</span> build</span></code></pre></div>
-<h2 id="via-package-managers">3. Via package managers</h2>
-<p>Note: none of these are guaranteed to work. This way of installation might just work, or might require one to pull significant amounts of one’s own hair.</p>
-<h3 id="apt-debian-ubuntu-mint-elementary-mx-linux-etc">apt (Debian, Ubuntu, Mint, Elementary, MX Linux etc)</h3>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="fu">sudo</span> apt-get install agda-mode agda-stdlib</span></code></pre></div>
+<pre><code>stack --resolver=lts-13.25 install Agda-2.6.0.1 EdisonCore-1.3.2.1 data-hash-0.2.0.1 equivalence-0.3.4 geniplate-mirror-0.7.6 EdisonAPI-1.3.1 STMonadTrans-0.4.3</code></pre>
+<h2 id="via-package-managers">3. Via Package Managers</h2>
+<p><em>Note: success not guaranteed.</em></p>
+<h3 id="apt-debian-ubuntu-mint-etc.">apt (Debian, Ubuntu, Mint, etc.)</h3>
+<p><code>sudo apt-get install agda-mode agda-stdlib</code></p>
 <h3 id="yum-fedora-opensuse-rhel">yum (Fedora, openSUSE, RHEL)</h3>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="fu">sudo</span> yum install Agda</span></code></pre></div>
+<p><code>sudo yum install Agda</code></p>
 <h3 id="pacman-arch-manjaro-antergos">pacman (Arch, Manjaro, Antergos)</h3>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="fu">sudo</span> pacman -S agda agda-stdlib</span></code></pre></div>
+<p><code>sudo pacman -S agda agda-stdlib</code></p>
 <h3 id="brew-osx">brew (OSX)</h3>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="ex">brew</span> install agda</span></code></pre></div>
-<p>Other ways to install Agda are documented <a href="https://agda.readthedocs.io/en/v2.5.4/getting-started/installation.html">in the official documentation</a>.</p>
-<p>That’s pretty much it. Now we go ahead and learn some basics of the language.</p>
+<p><code>brew install agda</code></p>
+<p>More installation methods <a
+href="https://agda.readthedocs.io/en/v2.5.4/getting-started/installation.html">here</a>.</p>
 <hr />
 <p><a href="./Lang.naming.html">Naming Conventions</a></p>
 </body>

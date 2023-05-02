@@ -8,13 +8,20 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
     div.sourceCode { margin: 1em 0; }
     pre.sourceCode { margin: 0; }
@@ -49,7 +56,7 @@
     code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
     code span.at { color: #7d9029; } /* Attribute */
     code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
+    code span.bu { color: #008000; } /* BuiltIn */
     code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
     code span.ch { color: #4070a0; } /* Char */
     code span.cn { color: #880000; } /* Constant */
@@ -62,7 +69,7 @@
     code span.ex { } /* Extension */
     code span.fl { color: #40a070; } /* Float */
     code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
     code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
     code span.kw { color: #007020; font-weight: bold; } /* Keyword */
     code span.op { color: #666666; } /* Operator */
@@ -82,59 +89,63 @@
 </head>
 <body>
 <hr />
-<p><a href="contents.html">Contents</a> <a href="Lang.other.html">Previous</a> <a href="Lang.debugging.html">Next</a></p>
+<p><a href="contents.html">Contents</a> <a href="Lang.other.html">Previous</a> <a
+href="Lang.debugging.html">Next</a></p>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 <hr />
 <ul>
-<li><a href="#syntactic-quirks">Syntactic quirks</a></li>
-<li><a href="#syntactic-sugars">Syntactic sugars</a>
+<li><a href="#syntactic-quirks">Syntactic Quirks</a></li>
+<li><a href="#syntactic-sugars">Syntactic Sugars</a>
 <ul>
-<li><a href="#common-parameters">Common parameters</a></li>
-<li><a href="#different-ways-of-defining-data">Different ways of defining <code>data</code></a></li>
-<li><a href="#implicit-arguments">Implicit arguments</a></li>
+<li><a href="#common-parameters">Common Parameters</a></li>
+<li><a href="#different-ways-of-defining-data">Different Ways of Defining <code>data</code></a></li>
+<li><a href="#implicit-arguments">Implicit Arguments</a></li>
 </ul></li>
 </ul>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<h1 id="syntactic-quirks">Syntactic quirks</h1>
-<p>We capture here some of the caveats and syntactic sugars here.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">module</span> Lang<span class="ot">.</span>syntaxQuirks <span class="kw">where</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Builtin<span class="ot">.</span>Equality</span></code></pre></div>
-<h1 id="syntactic-sugars">Syntactic sugars</h1>
-<p>Mostly short-forms of various stuff used more often.</p>
-<h2 id="common-parameters">Common parameters</h2>
-<p>The implicit parameter <code>{m : ℕ}</code> common to all constructors can be abstracted out into the data definition:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">data</span> <span class="ot">_</span>≤′<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  ≤′-refl <span class="ot">:</span> <span class="ot">{</span>m <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span>                       m ≤′ m</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>  ≤′-step <span class="ot">:</span> <span class="ot">{</span>m <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span>  m ≤′ n  <span class="ot">→</span>  m ≤′ succ n</span></code></pre></div>
-<p>is same as</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">data</span> <span class="ot">_</span>≤′₁<span class="ot">_</span> <span class="ot">(</span>m <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>  ≤′₁-refl <span class="ot">:</span>                       m ≤′₁ m</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>  ≤′₁-step <span class="ot">:</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span>  m ≤′₁ n  <span class="ot">→</span>  m ≤′₁ succ n</span></code></pre></div>
-<h2 id="different-ways-of-defining-data">Different ways of defining <code>data</code></h2>
-<p>The previous technique also works for concrete parameters:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">data</span> <span class="ot">_</span>≤″<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>  ≤″ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>m n k<span class="ot">}</span> <span class="ot">→</span> m + n ≡ k <span class="ot">→</span> m ≤″ k</span></code></pre></div>
-<p>is same as</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="kw">data</span> <span class="ot">_</span>≤″₁<span class="ot">_</span> <span class="ot">(</span>m <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>  ≤+ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>n k<span class="ot">}</span> <span class="ot">→</span> m + n ≡ k <span class="ot">→</span> m ≤″₁ k</span></code></pre></div>
-<p>which is same as</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">data</span> <span class="ot">_</span>≤″₂<span class="ot">_</span> <span class="ot">(</span>m <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">(</span>k <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>  ≤+ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>n<span class="ot">}</span> <span class="ot">→</span> m + n ≡ k <span class="ot">→</span> m ≤″₂ k</span></code></pre></div>
-<h2 id="implicit-arguments">Implicit arguments</h2>
+<h1 id="syntactic-quirks">Syntactic Quirks</h1>
+<p>This section highlights some Agda syntax features and alternative ways to express code that you might find helpful or
+convenient.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> Lang<span class="ot">.</span>syntaxQuirks <span class="kw">where</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Builtin<span class="ot">.</span>Equality</span></code></pre></div>
+<h1 id="syntactic-sugars">Syntactic Sugars</h1>
+<p>These are shorthand forms of commonly used constructs.</p>
+<h2 id="common-parameters">Common Parameters</h2>
+<p>Implicit parameters, such as <code>{m : ℕ}</code>, that are common to all constructors can be abstracted out into the
+data definition:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="ot">_</span>≤′<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  ≤′-refl <span class="ot">:</span> <span class="ot">{</span>m <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span>                       m ≤′ m</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  ≤′-step <span class="ot">:</span> <span class="ot">{</span>m <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span>  m ≤′ n  <span class="ot">→</span>  m ≤′ succ n</span></code></pre></div>
+<p>This is equivalent to:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="ot">_</span>≤′₁<span class="ot">_</span> <span class="ot">(</span>m <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  ≤′₁-refl <span class="ot">:</span>                       m ≤′₁ m</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  ≤′₁-step <span class="ot">:</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span>  m ≤′₁ n  <span class="ot">→</span>  m ≤′₁ succ n</span></code></pre></div>
+<h2 id="different-ways-of-defining-data">Different Ways of Defining <code>data</code></h2>
+<p>The technique above can also be applied to concrete parameters:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="ot">_</span>≤″<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  ≤″ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>m n k<span class="ot">}</span> <span class="ot">→</span> m + n ≡ k <span class="ot">→</span> m ≤″ k</span></code></pre></div>
+<p>This is equivalent to:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="ot">_</span>≤″₁<span class="ot">_</span> <span class="ot">(</span>m <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  ≤+ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>n k<span class="ot">}</span> <span class="ot">→</span> m + n ≡ k <span class="ot">→</span> m ≤″₁ k</span></code></pre></div>
+<p>Which is also equivalent to:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="ot">_</span>≤″₂<span class="ot">_</span> <span class="ot">(</span>m <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">(</span>k <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  ≤+ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>n<span class="ot">}</span> <span class="ot">→</span> m + n ≡ k <span class="ot">→</span> m ≤″₂ k</span></code></pre></div>
+<h2 id="implicit-arguments">Implicit Arguments</h2>
 <p>Arguments that can be inferred by the compiler can be left out with an <code>_</code>:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>length <span class="ot">:</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">(</span>len <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> Vec A len <span class="ot">→</span> ℕ</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>length A zero [] <span class="ot">=</span> zero</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>length A len somevec <span class="ot">=</span> len</span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>length&#39; <span class="ot">:</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">(</span>len <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> Vec A len <span class="ot">→</span> ℕ</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>length&#39; A zero [] <span class="ot">=</span> zero</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a>length&#39; A len <span class="ot">_</span>   <span class="ot">=</span> len</span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a>length&#39;&#39; <span class="ot">:</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">(</span>len <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> Vec A len <span class="ot">→</span> ℕ</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>length&#39;&#39; A zero [] <span class="ot">=</span> zero</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>length&#39;&#39; <span class="ot">_</span> len <span class="ot">_</span>   <span class="ot">=</span> len</span></code></pre></div>
-<p>Though these are generally ill-advised as they may cause confusion when used unwisely.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>length <span class="ot">:</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">(</span>len <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> Vec A len <span class="ot">→</span> ℕ</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>length A zero [] <span class="ot">=</span> zero</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>length A len somevec <span class="ot">=</span> len</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>length&#39; <span class="ot">:</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">(</span>len <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> Vec A len <span class="ot">→</span> ℕ</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>length&#39; A zero [] <span class="ot">=</span> zero</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>length&#39; A len <span class="ot">_</span>   <span class="ot">=</span> len</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>length&#39;&#39; <span class="ot">:</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">(</span>len <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> Vec A len <span class="ot">→</span> ℕ</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>length&#39;&#39; A zero [] <span class="ot">=</span> zero</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>length&#39;&#39; <span class="ot">_</span> len <span class="ot">_</span>   <span class="ot">=</span> len</span></code></pre></div>
+<p>Using <code>_</code> for inferring arguments can be helpful in making your code more concise. However, be careful
+when using this feature, as it can also lead to confusion if used inappropriately.</p>
 <hr />
 <p><a href="./Lang.debugging.html">Debugging</a></p>
 </body>

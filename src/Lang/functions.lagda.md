@@ -16,9 +16,8 @@
   - [Examples - Recursive functions](#examples---recursive-functions)
     - [Addition of natural numbers](#addition-of-natural-numbers)
     - [Length of a List](#length-of-a-list)
-- [Dependent Function Types or Π-types](#dependent-function-types-or-%CF%80-types)
+- [Dependent Function Types or Π-types](#dependent-function-types-or-π-types)
   - [Lambda Functions](#lambda-functions)
-  - [Examples of further patterns](#examples-of-further-patterns)
     - [Implicit Arguments: List concatenation](#implicit-arguments-list-concatenation)
     - [Dot patterns: Square](#dot-patterns-square)
     - [Map](#map)
@@ -26,10 +25,9 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-
 # Functions
 
-A function `𝕗` which takes a value of type `𝔸` and returns a value of type `𝔹`, is said to be of type `𝔸 → 𝔹` and is written as `𝕗 : 𝔸 → 𝔹`. The type `𝔸` is called the function `𝕗`'s "domain" and `𝔹` is the "co-domain".
+A function `f` which takes a value of type `A` and returns a value of type `B`, is said to be of type `A → B` and is written as `f : A → B`. The type `A` is called the function `f`'s "domain" and `B` is the "co-domain".
 
 ```agda
 {-# OPTIONS --allow-unsolved-metas #-}
@@ -43,7 +41,7 @@ open import Lang.dataStructures hiding (_+_)
 
 Syntax for defining functions in Agda:
 
-1. Define name and type of function
+1. Define the name and type of the function
 2. Define clauses for each applicable pattern
 
 ```haskell
@@ -59,7 +57,7 @@ not false = true
 
 ### The Logical Not
 
-The simplest of functions simply match patterns. For example the function for `not`:
+The simplest of functions simply match patterns. For example, the function for `not`:
 
 ```agda
 not : Bool → Bool
@@ -67,7 +65,7 @@ not true = false -- return false if we are given a true
 not false = true -- return a true if we are given a false
 ```
 
-we could also use a wildcard type (`_`) like this:
+We could also use a wildcard type (`_`) like this:
 
 ```agda
 not₁ : Bool → Bool
@@ -128,6 +126,7 @@ succ m + n = succ (m + n)
 
 infixl 6 _+_
 ```
+
 Thus, we can use them to get new numbers easily:
 
 ```agda
@@ -146,52 +145,52 @@ length [] = zero
 length (x :: xs) = one + (length xs)
 ```
 
+The `length` function takes a list of type `List ⊤`, where `⊤` is a generic type, and returns a natural number (`ℕ`). It uses pattern matching to handle two cases:
+
+1. If the list is empty (`[]`), the length is `zero`.
+2. If the list has at least one element (`x :: xs`), the length is `one` plus the length of the rest of the list (`xs`).
+
+This function recursively processes the list, accumulating the total count of elements until it reaches the empty list.
+
 # Dependent Function Types or Π-types
 
-Dependent pair types are a pair of two types such that the second type is a function of the first type:
+Dependent function types (also called Π-types) are function types where the result type depends on the argument value. These types generalize regular function types to allow more expressive types.
 
-```
-data Σ (A : Set) (B : A → Set) : Set where
-  _,_ : (a : A) → (b : B a) → Σ A B
-```
-
-Similar to dependent pair types, a dependent function type is a function type whose result type depends upon its argument value. The notation in type theory looks like this for binary dependent function types:
+A dependent function type can be represented in type theory notation as follows for binary dependent function types:
 
 $$
 \prod_{x : A} B(x)
 $$
 
-with ternary dependent pair types being represented as:
+And for ternary dependent function types:
 
 $$
 \prod_{x : A} \prod_{y : B(x)} C(y)
 $$
 
-and so on.
+This pattern can be extended to any number of arguments.
 
 ## Lambda Functions
 
-Lambda or anonymous functions can be defined using the following syntax:
+Lambda (or anonymous) functions can be defined using the following syntax:
 
 ```agda
 example₁ = \ (A : Set)(x : A) → x
 ```
 
-and a more concise syntax:
+A more concise syntax is:
 
 ```agda
 example₂ = λ A x → x
 ```
 
-Note that `\` and `λ` can be used interchangeably.
+Both `\` and `λ` can be used interchangeably.
 
-Following are a few examples of functions:
-
-## Examples of further patterns
+Here are a few examples of lambda functions:
 
 ### Implicit Arguments: List concatenation
 
-Functions in Agda can work with implicit parameters. For example, instead of having the specify the type of `A`, the compiler can be expected to figure it out. Hence instead of defining `_++_ : (A : Set) → List A → List A → List A`, we define it like:
+Functions in Agda can work with implicit parameters, which means the compiler can infer certain argument values. For example, instead of defining `_++_ : (A : Set) → List A → List A → List A`, we define it like:
 
 ```agda
 _++_ : {A : Set} → List A → List A → List A
@@ -201,22 +200,22 @@ _++_ : {A : Set} → List A → List A → List A
 infixr 5 _++_
 ```
 
-Note that the curly braces `{}` are "implicit arguments" in Agda. Values of implicit arguments are derived from other arguments' (in this case `List A`) values and types by solving type equations. You don’t have to apply them or pattern match on them explicitly (though they can be explicitly passed like `function_name{A = A}`).
+Curly braces `{}` denote implicit arguments in Agda. Values of implicit arguments are derived from other argument values and types by solving type equations. You don’t have to apply them or pattern match on them explicitly (though they can be explicitly passed like `function_name {A = A}`).
 
-This function takes a type as a parameter `A`, and hence can work on `List`s of any type `A`. This feature of functions is called "parametric polymorphism".
+This function takes a type as a parameter `A`, and thus can work on `List`s of any type `A`. This feature of functions is called "parametric polymorphism".
 
 ### Dot patterns: Square
 
-A dot pattern (also called inaccessible pattern) can be used when the only type-correct value of the argument is determined by the patterns given for the other arguments. The syntax for a dot pattern is `.t`.
+A dot pattern (also called an inaccessible pattern) can be used when the only type-correct value of the argument is determined by the patterns given for the other arguments. The syntax for a dot pattern is `.t`.
 
-As an example, consider the datatype `Square` defined as follows:
+For example, consider the datatype `Square` defined as follows:
 
 ```agda
 data Square : ℕ → Set where
   sq : (m : ℕ) → Square (m × m)
 ```
 
-Suppose we want to define a function `root : (n : ℕ) → Square n → ℕ` that takes as its arguments a number `n` and a proof that it is a square, and returns the square root of that number. We can do so as follows:
+Suppose we want to define a function `root : (n : ℕ) → Square n → ℕ` that takes a number `n` and a proof that it is a square, and returns the square root of that number. We can do so as follows:
 
 ```agda
 root : (n : ℕ) → Square n → ℕ
@@ -228,7 +227,7 @@ root .(m × m) (sq m) = m
 We implement the `map` function, of "map-reduce" fame, for `List`s:
 A map function for a `List` is a function that applies a lambda (un-named) function to all elements of a `List`.
 
-If `f` were a lambda function, map-ing `f` over `List(a, b, c, d)` would produce `List(f(a), f(b), f(c), f(d))`
+If `f` were a lambda function, mapping `f` over `List(a, b, c, d)` would produce `List(f(a), f(b), f(c), f(d))`
 
 ![Figure 1: Map](/artwork/map.png)
 
@@ -249,6 +248,8 @@ oneAdded = map (one :: two :: three :: four :: []) addOne
 ```
 
 # Syntactical Sugar
+
+Agda provides syntactical sugar to simplify the expression of certain patterns:
 
 ```haskell
 prop₁ : ((x : A) (y : B) → C) is-the-same-as   ((x : A) → (y : B) → C)
