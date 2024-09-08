@@ -79,10 +79,10 @@ cd src || exit 1
 agda -i . --compile --without-K --no-main --compile-dir=../build contents.lagda.md
 
 for i in "${files[@]}"; do
-  if [[ $i != "contents" ]]; then
-    # generate TOC
-    doctoc --github --title '****' "${i}.lagda.md" &>/dev/null
-  fi
+  # if [[ $i != "contents" ]]; then
+  #   # generate TOC
+  #   doctoc --github --title '****' "${i}.lagda.md" &>/dev/null
+  # fi
 
   # remove doctoc's text
   sed -i "s/\*generated with \[DocToc\](https:\/\/github.com\/thlorenz\/doctoc)\*//g" "${i}.lagda.md"

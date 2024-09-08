@@ -1,18 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-****
-
-- [Setup and Installation](#setup-and-installation)
-  - [1. Using Docker](#1-using-docker)
-  - [2. Using Stack](#2-using-stack)
-  - [3. Via Package Managers](#3-via-package-managers)
-    - [apt (Debian, Ubuntu, Mint, etc.)](#apt-debian-ubuntu-mint-etc)
-    - [yum (Fedora, openSUSE, RHEL)](#yum-fedora-opensuse-rhel)
-    - [pacman (Arch, Manjaro, Antergos)](#pacman-arch-manjaro-antergos)
-    - [brew (OSX)](#brew-osx)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 ****
 [Contents](contents.html)
 [Previous](Lang.intro.html)
@@ -20,47 +5,119 @@
 
 - [Setup and Installation](#setup-and-installation)
   - [1. Using Docker](#1-using-docker)
-  - [2. Using Stack](#2-using-stack)
+  - [2. Using GHCup](#2-using-ghcup)
   - [3. Via Package Managers](#3-via-package-managers)
+    - [Homebrew (macOS and Linux)](#homebrew-macos-and-linux)
     - [apt (Debian, Ubuntu, Mint, etc.)](#apt-debian-ubuntu-mint-etc)
-    - [yum (Fedora, openSUSE, RHEL)](#yum-fedora-opensuse-rhel)
-    - [pacman (Arch, Manjaro, Antergos)](#pacman-arch-manjaro-antergos)
-    - [brew (OSX)](#brew-osx)
+    - [pacman (Arch, Manjaro)](#pacman-arch-manjaro)
+    - [Nix (NixOS and other systems)](#nix-nixos-and-other-systems)
+  - [4. Building from Source](#4-building-from-source)
+  - [Additional Setup](#additional-setup)
 
 # Setup and Installation
 
 ## 1. Using Docker
 
-1. Install Docker: `curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh` or download [here](https://github.com/docker/engine/releases).
-2. Pull the image: `docker pull ixaxaar/agda:latest`
-3. Run: `docker run -it -v /local/source/directory:/directory/inside/container ixaxaar/agda bash`
-4. Compile: `agda /directory/inside/container/whatever.agda`
+Docker provides a consistent environment across different platforms, making it an excellent choice for Agda development.
 
-## 2. Using Stack
+1. Install Docker:
+   - On Linux: `curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh`
+   - On macOS and Windows: Download and install Docker Desktop from the [official Docker website](https://www.docker.com/products/docker-desktop)
 
-1. Install Stack: `curl -sSL https://get.haskellstack.org/ | sh`
-2. Clone [repo](https://github.com/ixaxaar/monoid.space), `cd` into it, and install Agda:
-```bash
-stack --resolver=lts-13.25 install Agda-2.6.0.1 EdisonCore-1.3.2.1 data-hash-0.2.0.1 equivalence-0.3.4 geniplate-mirror-0.7.6 EdisonAPI-1.3.1 STMonadTrans-0.4.3
-```
+2. Pull the latest Agda image:
+   ```
+   docker pull agda/agda:latest
+   ```
+
+3. Run the Docker container:
+   ```
+   docker run -it -v /path/to/your/local/directory:/agda agda/agda:latest
+   ```
+
+4. Inside the container, you can now use Agda:
+   ```
+   agda --version
+   ```
+
+## 2. Using GHCup
+
+GHCup is a versatile installer for Haskell toolchains, including Agda.
+
+1. Install GHCup:
+   ```
+   curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+   ```
+
+2. Install Agda using GHCup:
+   ```
+   ghcup install agda
+   ghcup set agda latest
+   ```
+
+3. Verify the installation:
+   ```
+   agda --version
+   ```
 
 ## 3. Via Package Managers
 
-*Note: success not guaranteed.*
+### Homebrew (macOS and Linux)
+```
+brew install agda
+```
 
 ### apt (Debian, Ubuntu, Mint, etc.)
-`sudo apt-get install agda-mode agda-stdlib`
+```
+sudo apt update
+sudo apt install agda agda-mode
+```
 
-### yum (Fedora, openSUSE, RHEL)
-`sudo yum install Agda`
+### pacman (Arch, Manjaro)
+```
+sudo pacman -S agda agda-stdlib
+```
 
-### pacman (Arch, Manjaro, Antergos)
-`sudo pacman -S agda agda-stdlib`
+### Nix (NixOS and other systems)
+```
+nix-env -i agda
+```
 
-### brew (OSX)
-`brew install agda`
+## 4. Building from Source
 
-More installation methods [here](https://agda.readthedocs.io/en/v2.5.4/getting-started/installation.html).
+For the latest development version or specific customizations:
+
+1. Ensure you have GHC (Glasgow Haskell Compiler) and Cabal installed.
+
+2. Clone the Agda repository:
+   ```
+   git clone https://github.com/agda/agda.git
+   cd agda
+   ```
+
+3. Build and install:
+   ```
+   cabal update
+   cabal install --only-dependencies
+   cabal install
+   ```
+
+## Additional Setup
+
+1. Agda Standard Library:
+   ```
+   git clone https://github.com/agda/agda-stdlib.git
+   cd agda-stdlib
+   cabal install
+   ```
+
+2. Editor Integration:
+   - For Emacs: Install agda2-mode
+   - For VS Code: Install the "agda-mode" extension
+   - For Vim: Use agda-vim
+
+Remember to configure your `~/.agda/libraries` file to point to your Agda standard library installation.
+
+For the most up-to-date information, always refer to the [official Agda documentation](https://agda.readthedocs.io/en/latest/getting-started/installation.html).
 
 ****
 [Naming Conventions](./Lang.naming.html)
