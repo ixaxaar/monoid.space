@@ -13,7 +13,6 @@
   - [Data Structures](./Lang.dataStructures.html)
   - [Functions](./Lang.functions.html)
   - [Modules, Records and Postulates](./Lang.other.html)
-  - [Quirks of Syntax](./Lang.syntaxQuirks.html)
   - [Debugging](./Lang.debugging.html)
 
 ## 2. Type Theory
@@ -125,7 +124,6 @@
 import Lang.naming
 import Lang.dataStructures
 import Lang.functions
-import Lang.syntaxQuirks
 import Lang.other
 import Lang.debugging
 

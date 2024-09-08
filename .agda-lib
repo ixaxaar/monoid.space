@@ -1,0 +1,3 @@
+name: monoid-space
+depend: standard-library
+include: .
