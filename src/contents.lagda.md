@@ -122,7 +122,7 @@
 
 
 ```agda
-import Lang.setup
+import Lang.naming
 import Lang.dataStructures
 import Lang.functions
 import Lang.syntaxQuirks
