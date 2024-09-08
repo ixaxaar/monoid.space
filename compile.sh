@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+set -e
+set -o pipefail
+
 declare -a files=(
   "contents"
 
@@ -70,31 +73,30 @@ declare -a files=(
 rm -rf build html tmp
 mkdir html
 
-cd src
+cd src || exit 1
 
 # compile
 agda -i . --compile --without-K --no-main --compile-dir=../build contents.lagda.md
 
-for i in "${files[@]}"
-do
+for i in "${files[@]}"; do
   if [[ $i != "contents" ]]; then
     # generate TOC
-    doctoc --github --title '****' "${i}.lagda.md" &> /dev/null
+    doctoc --github --title '****' "${i}.lagda.md" &>/dev/null
   fi
 
   # remove doctoc's text
   sed -i "s/\*generated with \[DocToc\](https:\/\/github.com\/thlorenz\/doctoc)\*//g" "${i}.lagda.md"
 
-  echo "Generating HTML for " "${i}.lagda.md"
-  pandoc -s --mathjax --css=../css/agda.css --from=markdown+smart --to=html --metadata pagetitle="${i}" --columns=120 -o ../html/${${i/\.\//}/\//\.}.html "${i}.lagda.md"
+  echo "Generating HTML for ${i}.lagda.md"
+  pandoc -s --mathjax --css=../css/agda.css --from=markdown+smart --to=html --metadata pagetitle="${i}" --columns=120 -o "../html/${i/\//.}.html" "${i}.lagda.md"
 
 done
 
-cd ..
+cd .. || exit 1
 
 # copy resources
 cp -pr ./artwork ./html/
 
-find -name "*.agdai" | xargs rm -rf
+find . -name "*.agdai" -exec rm -rf {} +
 
-cp -pr ./css  ./html
+cp -pr ./css ./html

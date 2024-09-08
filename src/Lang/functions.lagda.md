@@ -16,7 +16,7 @@
   - [Examples - Recursive functions](#examples---recursive-functions)
     - [Addition of natural numbers](#addition-of-natural-numbers)
     - [Length of a List](#length-of-a-list)
-- [Dependent Function Types or Π-types](#dependent-function-types-or-π-types)
+- [Dependent Function Types or Π-types](#dependent-function-types-or-%CE%A0-types)
   - [Lambda Functions](#lambda-functions)
     - [Implicit Arguments: List concatenation](#implicit-arguments-list-concatenation)
     - [Dot patterns: Square](#dot-patterns-square)

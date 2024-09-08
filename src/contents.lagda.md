@@ -8,7 +8,6 @@
 
 ## 1. Agda
 
-  - [Introduction](./Lang.intro.html)
   - [Setup](./Lang.setup.html)
   - [Naming Conventions](./Lang.naming.html)
   - [Data Structures](./Lang.dataStructures.html)
@@ -124,7 +123,6 @@
 
 ```agda
 import Lang.setup
-import Lang.intro
 import Lang.dataStructures
 import Lang.functions
 import Lang.syntaxQuirks

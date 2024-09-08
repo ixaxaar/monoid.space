@@ -1,3 +1,18 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+****
+
+- [Setup and Installation](#setup-and-installation)
+  - [1. Using Docker](#1-using-docker)
+  - [2. Using Stack](#2-using-stack)
+  - [3. Via Package Managers](#3-via-package-managers)
+    - [apt (Debian, Ubuntu, Mint, etc.)](#apt-debian-ubuntu-mint-etc)
+    - [yum (Fedora, openSUSE, RHEL)](#yum-fedora-opensuse-rhel)
+    - [pacman (Arch, Manjaro, Antergos)](#pacman-arch-manjaro-antergos)
+    - [brew (OSX)](#brew-osx)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ****
 [Contents](contents.html)
 [Previous](Lang.intro.html)
@@ -25,7 +40,7 @@
 
 1. Install Stack: `curl -sSL https://get.haskellstack.org/ | sh`
 2. Clone [repo](https://github.com/ixaxaar/monoid.space), `cd` into it, and install Agda:
-```
+```bash
 stack --resolver=lts-13.25 install Agda-2.6.0.1 EdisonCore-1.3.2.1 data-hash-0.2.0.1 equivalence-0.3.4 geniplate-mirror-0.7.6 EdisonAPI-1.3.1 STMonadTrans-0.4.3
 ```
 
