@@ -1,11 +1,13 @@
-****
+---
+
 [Contents](contents.html)
 [Previous](Lang.dataStructures.html)
 [Next](Lang.other.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-****
+
+---
 
 - [Functions](#functions)
   - [Generic Syntax](#generic-syntax)
@@ -16,7 +18,7 @@
   - [Examples - Recursive functions](#examples---recursive-functions)
     - [Addition of natural numbers](#addition-of-natural-numbers)
     - [Length of a List](#length-of-a-list)
-- [Dependent Function Types or Π-types](#dependent-function-types-or-%CE%A0-types)
+- [Dependent Function Types or Π-types](#dependent-function-types-or-π-types)
   - [Lambda Functions](#lambda-functions)
     - [Implicit Arguments: List concatenation](#implicit-arguments-list-concatenation)
     - [Dot patterns: Square](#dot-patterns-square)
@@ -44,7 +46,7 @@ Syntax for defining functions in Agda:
 1. Define the name and type of the function
 2. Define clauses for each applicable pattern
 
-```haskell
+```scala
 -- 1. Name (not), Type (Bool → Bool)
 not : Bool → Bool
 -- 2. Clause 1: if the argument to `not` is `true`
@@ -122,7 +124,7 @@ Here we follow a similar pattern as in `data`, we define:
 ```agda
 _+_ : ℕ → ℕ → ℕ
 zero + n = n
-succ m + n = succ (m + n)
+suc m + n = suc (m + n)
 
 infixl 6 _+_
 ```
@@ -130,6 +132,8 @@ infixl 6 _+_
 Thus, we can use them to get new numbers easily:
 
 ```agda
+one = suc zero
+ten = suc suc suc suc suc suc suc suc suc one
 eleven = ten + one
 twelve = eleven + one
 thirteen = twelve + one
@@ -140,15 +144,15 @@ thirteen = twelve + one
 The length of a list consists of traversing through the list and adding one for each element:
 
 ```agda
-length : List ⊤ → ℕ
+length : {A : Set} → List A → ℕ
 length [] = zero
-length (x :: xs) = one + (length xs)
+length (x ∷ xs) = suc (length xs)
 ```
 
-The `length` function takes a list of type `List ⊤`, where `⊤` is a generic type, and returns a natural number (`ℕ`). It uses pattern matching to handle two cases:
+The `length` function takes a list of any type `A` and returns a natural number (`ℕ`). It uses pattern matching to handle two cases:
 
 1. If the list is empty (`[]`), the length is `zero`.
-2. If the list has at least one element (`x :: xs`), the length is `one` plus the length of the rest of the list (`xs`).
+2. If the list has at least one element (`x ∷ xs`), the length is the successor of the length of the rest of the list (`xs`).
 
 This function recursively processes the list, accumulating the total count of elements until it reaches the empty list.
 
@@ -190,17 +194,17 @@ Here are a few examples of lambda functions:
 
 ### Implicit Arguments: List concatenation
 
-Functions in Agda can work with implicit parameters, which means the compiler can infer certain argument values. For example, instead of defining `_++_ : (A : Set) → List A → List A → List A`, we define it like:
+Functions in Agda can work with implicit parameters, which means the compiler can infer certain argument values. For example:
 
 ```agda
 _++_ : {A : Set} → List A → List A → List A
 []        ++ ys = ys
-(x :: xs) ++ ys = x :: (xs ++ ys)
+(x ∷ xs) ++ ys = x ∷ (xs ++ ys)
 
 infixr 5 _++_
 ```
 
-Curly braces `{}` denote implicit arguments in Agda. Values of implicit arguments are derived from other argument values and types by solving type equations. You don’t have to apply them or pattern match on them explicitly (though they can be explicitly passed like `function_name {A = A}`).
+Curly braces `{}` denote implicit arguments in Agda. Values of implicit arguments are derived from other argument values and types by solving type equations. You don't have to apply them or pattern match on them explicitly (though they can be explicitly passed like `function_name {A = A}`).
 
 This function takes a type as a parameter `A`, and thus can work on `List`s of any type `A`. This feature of functions is called "parametric polymorphism".
 
@@ -212,14 +216,10 @@ For example, consider the datatype `Square` defined as follows:
 
 ```agda
 data Square : ℕ → Set where
-  sq : (m : ℕ) → Square (m × m)
-```
+  sq : (m : ℕ) → Square (m * m)
 
-Suppose we want to define a function `root : (n : ℕ) → Square n → ℕ` that takes a number `n` and a proof that it is a square, and returns the square root of that number. We can do so as follows:
-
-```agda
 root : (n : ℕ) → Square n → ℕ
-root .(m × m) (sq m) = m
+root .(m * m) (sq m) = m
 ```
 
 ### Map
@@ -232,34 +232,39 @@ If `f` were a lambda function, mapping `f` over `List(a, b, c, d)` would produce
 ![Figure 1: Map](/artwork/map.png)
 
 ```agda
-map : {A B : Set} → List A → (A → B) → List B
-map [] f = []
-map (x :: xs) f = (f x) :: (map xs f)
+map : {A B : Set} → (A → B) → List A → List B
+map f [] = []
+map f (x ∷ xs) = f x ∷ map f xs
 ```
 
 Here, we apply the function `addOne` to a list, using `map`:
 
 ```agda
 addOne : ℕ → ℕ
-addOne x  = x + one
+addOne x  = suc x
+
+two = suc one
+three = suc one
+four = suc one
 
 oneAdded : List ℕ
-oneAdded = map (one :: two :: three :: four :: []) addOne
+oneAdded = map addOne (one ∷ two ∷ three ∷ four ∷ [])
 ```
 
 # Syntactical Sugar
 
 Agda provides syntactical sugar to simplify the expression of certain patterns:
 
-```haskell
-prop₁ : ((x : A) (y : B) → C) is-the-same-as   ((x : A) → (y : B) → C)
-prop₂ : ((x y : A) → C)       is-the-same-as   ((x : A)(y : A) → C)
-prop₃ : (forall (x : A) → C)  is-the-same-as   ((x : A) → C)
-prop₄ : (forall x → C)        is-the-same-as   ((x : _) → C)
-prop₅ : (forall x y → C)      is-the-same-as   (forall x → forall y → C)
-(\x y → e)                    is-the-same-as   (\x → (\y → e))
-(f a b)                       is-the-same-as   ((f a) b)
+```agda
+-- prop₁ : ((x : A) (y : B) → C) is-the-same-as ((x : A) → (y : B) → C)
+-- prop₂ : ((x y : A) → C) is-the-same-as ((x : A)(y : A) → C)
+-- prop₃ : (forall (x : A) → C) is-the-same-as ((x : A) → C)
+-- prop₄ : (forall x → C) is-the-same-as ((x : _) → C)
+-- prop₅ : (forall x y → C) is-the-same-as (forall x → forall y → C)
+-- (\x y → e) is-the-same-as (\x → (\y → e))
+-- (f a b) is-the-same-as ((f a) b)
 ```
 
-****
+---
+
 [Modules, Records and Postulates](./Lang.other.html)
