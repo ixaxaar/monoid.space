@@ -98,7 +98,7 @@ map-maybe f Nothing   = Nothing
 
 ## Cumulativity
 
-Agda's universe hierarchy is cumulative, meaning that types from lower universes can be used in higher universes:
+Agda's universe hierarchy is cumulative, meaning that types from lower universes can be used in higher universes. Lifting is a mechanism that allows us to take a type from one universe level and create a corresponding type at a higher universe level.
 
 ```agda
 record Lift {a ℓ} (A : Set a) : Set (a ⊔ ℓ) where
