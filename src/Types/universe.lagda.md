@@ -7,161 +7,173 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ****
 
-- [Universes and families](#universes-and-families)
-- [Universes in Agda](#universes-in-agda)
-- [Universe Polymorphism](#universe-polymorphism)
-- [Machinery on Types](#machinery-on-types)
-  - [Type of](#type-of)
-  - [Equality of types](#equality-of-types)
-  - [Identity type](#identity-type)
+- [Universes and Families](#universes-and-families)
+  - [Introduction to Universes](#introduction-to-universes)
+  - [Universes in Agda](#universes-in-agda)
+  - [Universe Levels](#universe-levels)
+  - [Universe Polymorphism](#universe-polymorphism)
+  - [Cumulativity](#cumulativity)
+  - [The Prop Universe](#the-prop-universe)
+  - [Families of Types](#families-of-types)
+  - [Machinery on Types](#machinery-on-types)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+# Universes and Families
+
 ```agda
-
-
 module Types.universe where
 
-open import Lang.dataStructures using (
-  Bool; true; false;
-  ⊥; ⊤; ℕ; List;
-  zero; one)
-
-open import Agda.Primitive renaming (
-  Level to AgdaLevel;
-  lzero to alzero;
-  lsuc to alsuc;
-  _⊔_ to _⊔⊔_)
+open import Agda.Primitive renaming (Prop to UProp)
+open import Data.Nat using (ℕ; zero; suc)
+open import Data.List using (List; []; _∷_)
+open import Data.Unit using (⊤)
+open import Data.Empty using (⊥)
+open import Data.Sum using (_⊎_)
+open import Data.Product using (_×_)
 ```
 
-# Universes and families
+## Introduction to Universes
 
-A `universe` can be thought of as a container for all of mathematics. There is no mathematics that is possible outside of its universe. Thus, one can think of universes of types to contain all types, a universe of sets contains all sets and so on. One could also think of universes as a collection of entities that one needs to work with − for e.g. for proving a theorem on sets, one could work in a universe of sets.
+A `universe` can be thought of as a container for all of mathematics within a certain scope. There is no mathematics that is possible outside of its universe. In type theory, we often work with universes of types, which contain all types we can work with at a certain level.
 
-Formally, the structure of the universe used in type theory are [Russel-style and Tarski-style universes](http://www.cs.rhul.ac.uk/home/zhaohui/universes.pdf) though we use the former as it is easier and sufficient for our purposes. There are other kinds of universes in mathematics, for example the [Grothendieck universe](https://ncatlab.org/nlab/show/Grothendieck+universe), [Von Neumann universe](https://en.wikipedia.org/wiki/Von_Neumann_universe).
+Formally, the structure of the universe used in type theory are Russell-style and Tarski-style universes, though we use the former as it is easier and sufficient for our purposes. There are other kinds of universes in mathematics, for example the Grothendieck universe and Von Neumann universe.
 
-The type of all types is called `Set` in agda. Now, in constructing this type of all types naively we encounter a bunch of paradoxes, namely [Russel's Paradox](https://ncatlab.org/nlab/show/Russell%27s+paradox), [Cantor's Paradox](https://ncatlab.org/nlab/show/Cantor%27s+paradox), [Girard's Paradox](https://ncatlab.org/nlab/show/Burali-Forti%27s+paradox) etc. These can be avoided by constructing the type of all types as "universes" in a hierarchically cumulative way. When we consider our universe to be the set of all types, we say that our universe is constructed hierarchically, with an index `i` such that universe `Uᵢ` ∈ Uᵢ₊₁ and so on.
+## Universes in Agda
 
-$$
-U_{0} \in U_{1} \in U_{2} \in ... \in U_{i} \in U_{i+1}  \in ... \in U_{\infty}
-$$
+In Agda, the type of all types is called `Set`. However, to avoid paradoxes like Russell's Paradox, Cantor's Paradox, and Girard's Paradox, Agda uses a hierarchy of universes:
 
-This avoids the problem of Russel's paradox, which implies that the set of all sets itself is not a set. Namely, if there were such a set `U`, then one could form the subset `A ⊆ U` of all sets that do not contain themselves. Then we would have `A ∈ A` if and only if `A ∉ A`, a contradiction.
+- Every Agda type is of type `Set`, i.e., `Set : Set₁`.
+- Each universe level is an element of the next universe level: `Setᵢ : Setᵢ₊₁`.
+- There exist infinite universe levels in Agda: `Set : Set₁ : Set₂ : Set₃ : ...`.
 
-Let us define the above index `i` of universe `Uᵢ`, called `Level` in Agda's standard library:
+Here's a simple demonstration:
 
 ```agda
-infixl 6 _⊔_
+_ : Set
+_ = ℕ
 
-postulate
-  Level : Set
+_ : Set₁
+_ = Set
+
+_ : Set₂
+_ = Set₁
 ```
 
-We define it as a postulate so we don't have to provide an implementation yet. We continue to define some operations on it, i.e.:
+## Universe Levels
 
-- `lzero`, the trivial level 0
-- `lsuc` : successive iterator
-- `_⊔_` : least upper bound, an operator that composes
+Agda provides a special type `Level` to represent universe levels:
 
 ```agda
-postulate
-  lzero : Level
-  lsuc  : (ℓ : Level) → Level
-  _⊔_   : (ℓ₁ ℓ₂ : Level) → Level
+-- Already imported from Agda.Primitive:
+-- Level : Set
+-- lzero : Level
+-- lsuc  : Level → Level
+-- _⊔_   : Level → Level → Level
+
+-- Examples:
+level-example : Level
+level-example = lsuc (lsuc lzero)  -- represents Set₂
+
+max-level : Level → Level → Level
+max-level = _⊔_
 ```
 
-And finally, we define universe as:
+## Universe Polymorphism
 
-```haskell
-record Universe u e : Set (lsuc (u ⊔ e)) where
-  field
-    -- Codes.
-    U : Set u
-
-    -- Decoding function.
-    El : U → Set e
-```
-
-![Figure 1: Universes](../artwork/universes.png)
-
-A "family" of types varying over a given type are called, well "families of types". An example of this would be the finite set, [Fin](./dataStructures.html#finite-sequences) where every finite set has `n` elements where `n ∈ ℕ` and hence `Fin`, the creator of finite sets, is dependent on ℕ.
-
-# Universes in Agda
-
-- Every Agda type is of type `Set`, i.e. `Set : Set₁`.
-- Each universe level is an element of the next universe level: `Setᵢ ∈ Setᵢ₊₁`.
-- There exist infinite universe levels in Agda: `Set₁ : Set₂ : Set₃ : ...`.
-
-In some implementations, universes are represented using a different keyword `Type` instead of `Set` in order to avoid confusion:
+Universe polymorphism allows us to define functions and types that work across all universe levels:
 
 ```agda
-Type : (i : AgdaLevel) → Set (alsuc i)
-Type i = Set i
-
-Type₀ = Type alzero
-Type0 = Type alzero
-
-Type₁ = Type (alsuc alzero)
-Type1 = Type (alsuc alzero)
-```
-
-# Universe Polymorphism
-
-Now, given that we have infinite hierarchial universes, we would have to define the same functions, data types, proofs and other machinery for each universe level, which would be pretty tedious to say the least. However, we observe how our universes are defined and note that the level-based indexing system, that connects each successive universe, provides us with the mechanics to define math for all universe levels `ℓ`. Programmers would find this is nothing but the widely used pattern called [Polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)):
-
-```agda
-id : {ℓ : AgdaLevel} {A : Set ℓ} (x : A) → A
+id : ∀ {ℓ} {A : Set ℓ} → A → A
 id x = x
+
+data Maybe {ℓ} (A : Set ℓ) : Set ℓ where
+  Just    : A → Maybe A
+  Nothing : Maybe A
+
+map-maybe : ∀ {ℓ₁ ℓ₂} {A : Set ℓ₁} {B : Set ℓ₂} → (A → B) → Maybe A → Maybe B
+map-maybe f (Just x)  = Just (f x)
+map-maybe f Nothing   = Nothing
 ```
-Here `id` represents a family of identity functions given a type `A` and its level `ℓ` and works for all universe levels.
+
+## Cumulativity
+
+Agda's universe hierarchy is cumulative, meaning that types from lower universes can be used in higher universes:
 
 ```agda
-infixr 5 _::_
-data List₁ {ℓ : AgdaLevel} (A : Set ℓ) : Set (alsuc ℓ) where
-  [] : List₁ A
-  _::_ : A → List₁ A → List₁ A
+record Lift {a ℓ} (A : Set a) : Set (a ⊔ ℓ) where
+  constructor lift
+  field
+    lower : A
 
-someList : List₁ ℕ
-someList = (one :: zero :: [])
+lift-type : ∀ {ℓ} → Set ℓ → Set (lsuc ℓ)
+lift-type {ℓ} A = Lift {ℓ} {lsuc ℓ} A
 
-sameList : List₁ ℕ
-sameList = id someList
+nat-in-higher-universe : Set₁
+nat-in-higher-universe = lift-type ℕ
 ```
-
-# Machinery on Types
-
-We now define some utility machinery for operating on types.
-
-## Type of
-
-We obviously need a means to check types:
 
 ```agda
-typeof : ∀ {i} (A : Type i) (u : A) → A
-typeof A u = u
+-- Creating a lifted value
+lifted-five : nat-in-higher-universe
+lifted-five = lift 5
 
-infix 40 typeof
-syntax typeof A u =  u :> A
+-- Extracting the original value
+original-five : ℕ
+original-five = Lift.lower lifted-five
 ```
 
-## Equality of types
+## The Prop Universe
+
+Some type theories include a separate universe `Prop` for propositions. While standard Agda doesn't have this, we can simulate it:
 
 ```agda
-infix 30 _==_
-data _==_ {i} {A : Type i} (a : A) : A → Type i where
-  idp : a == a
+data Prop : Set₁ where
+  True  : Prop
+  False : Prop
+  And   : Prop → Prop → Prop
+  Or    : Prop → Prop → Prop
+
+⟦_⟧ : Prop → Set
+⟦ True ⟧      = ⊤
+⟦ False ⟧     = ⊥
+⟦ And p q ⟧   = ⟦ p ⟧ × ⟦ q ⟧
+⟦ Or p q ⟧    = ⟦ p ⟧ ⊎ ⟦ q ⟧
 ```
 
-## Identity type
+## Families of Types
 
-The equality of types is itself a type - the identity type:
+A "family" of types varying over a given type are called "families of types". An example is the finite set type `Fin n`, where `n : ℕ`:
 
 ```agda
-Path = _==_
+data Fin : ℕ → Set where
+  zero : {n : ℕ} → Fin (suc n)
+  suc  : {n : ℕ} → Fin n → Fin (suc n)
 ```
 
-The reason for calling this a `Path` has a huge backstory, which we will explore in [Homotopy Type Theory](./HoTT.introduction.html).
+## Machinery on Types
+
+Here are some utility functions for working with types:
+
+```agda
+-- Type of
+typeof : ∀ {ℓ} (A : Set ℓ) (x : A) → A
+typeof A x = x
+
+syntax typeof A x = x :> A
+
+-- Equality of types
+data _≡_ {ℓ} {A : Set ℓ} (x : A) : A → Set ℓ where
+  refl : x ≡ x
+
+infix 4 _≡_
+
+-- The identity type, also known as the Path type in Homotopy Type Theory
+Path : ∀ {ℓ} {A : Set ℓ} → A → A → Set ℓ
+Path = _≡_
+```
+
+The `Path` type is fundamental in Homotopy Type Theory, where it represents paths or equivalences between two points in a space. This connection between type theory and homotopy theory leads to powerful new ways of thinking about equality and structure in mathematics.
 
 ****
 [Relations](./Types.relations.html)
-
