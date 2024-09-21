@@ -9,8 +9,7 @@
 
 ---
 
-- [Setup and Installation for Lean](#setup-and-installation-for-lean)
-- [Data Structures in Lean](#data-structures-in-lean)
+- [Data Structures](#data-structures)
   - [Introduction to Types in Lean](#introduction-to-types-in-lean)
     - [Declaring Types](#declaring-types)
     - [The `Type` Universe](#the-type-universe)
@@ -30,11 +29,8 @@
   - [Finite Sets](#finite-sets)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-# Setup and Installation for Lean
 
-[Previous content remains unchanged...]
-
-# Data Structures in Lean
+# Data Structures
 
 ```lean
 namespace DataStructures
