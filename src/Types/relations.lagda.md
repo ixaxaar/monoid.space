@@ -8,11 +8,19 @@
 ****
 
 - [Relations](#relations)
-    - [Types of relations](#types-of-relations)
-    - [Nullary relations](#nullary-relations)
-    - [Unary relations](#unary-relations)
-    - [Binary relations](#binary-relations)
-      - [Properties of binary relations](#properties-of-binary-relations)
+        - [Introduction](#introduction)
+        - [Types of Relations](#types-of-relations)
+                - [1. Nullary Relations](#1-nullary-relations)
+                - [2. Unary Relations (Predicates)](#2-unary-relations-predicates)
+                - [3. Binary Relations](#3-binary-relations)
+        - [Properties of Relations](#properties-of-relations)
+                - [1. Reflexivity](#1-reflexivity)
+                - [2. Symmetry](#2-symmetry)
+                - [3. Transitivity](#3-transitivity)
+        - [Relation Transformations](#relation-transformations)
+                - [1. Inverse of a Relation](#1-inverse-of-a-relation)
+                - [2. Composition of Relations](#2-composition-of-relations)
+        - [Conclusion](#conclusion)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -22,172 +30,167 @@
 module Types.relations where
 
 open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
-open import Lang.dataStructures using (
-  Bool; true; false;
-  ⟂; ⊤; ℕ; List;
-  one; two; three; four; five; six; seven; eight; nine; ten; zero; succ; _+_;
-  _::_; [])
-open import Types.functions using (_on_; flip)
+open import Data.Nat using (ℕ; zero; suc; _+_; _<_; _≤_)
+open import Data.Bool using (Bool; true; false)
+open import Data.Empty using (⊥)
+open import Data.Unit using (⊤)
+open import Data.Product using (_×_; ∃; _,_)
+open import Relation.Binary.PropositionalEquality using (_≡_; refl)
 ```
 
-Relations can be defined as properties that assign truth values to finite tuples of elements. In other words, a relation is a function that accepts a finite set of arguments to produce a truth value. A binary relation would output a truth value given two objects, similarly a unary relation would apply on a single object to output a truth value. This can be generalized to k-ary relations.
+## Introduction
 
-In type theory, since relations are also types and "truth values" of a proposition is replaced by existence or belonging to the universe of all types, one can think of relations as functions that take n-tuples as input and return some  object of type `Set1` - the set of all `Set`s.
+In mathematics and logic, a relation is a concept that describes how elements of sets are connected or associated with each other. In type theory, relations are formalized as types, which allows us to reason about them with the full power of the type system.
 
-### Types of relations
+## Types of Relations
 
-### Nullary relations
+Relations can be classified based on the number of elements they relate:
 
-Nullary relations are functions that can take any object and return an empty set `∅`:
+### 1. Nullary Relations
+
+A nullary relation is essentially a proposition - a statement that can be true or false.
 
 ```agda
-infix 3 ¬_
+-- Representation of a nullary relation (proposition)
+Prop : Set₁
+Prop = Set
 
-¬_ : ∀ {ℓ} → Set ℓ → Set ℓ
-¬ P = P → ⟂
+-- Examples of nullary relations
+true-prop : Prop
+true-prop = ⊤
+
+false-prop : Prop
+false-prop = ⊥
 ```
 
-### Unary relations
+### 2. Unary Relations (Predicates)
 
-In logic, a predicate can essentially be defined as a function that returns a binary value - whether the proposition that the predicate represents is true or false. In type theory, however, we define predicate in a different way. A predicate for us is a function that exists (and hence, is true):
+A unary relation, often called a predicate, is a property that an element of a set might satisfy.
 
 ```agda
+-- Definition of a predicate
 Pred : ∀ {a} → Set a → (ℓ : Level) → Set (a ⊔ lsuc ℓ)
 Pred A ℓ = A → Set ℓ
+
+-- Example: Even numbers
+even : Pred ℕ lzero
+even zero = ⊤
+even (suc zero) = ⊥
+even (suc (suc n)) = even n
+
+-- Usage
+_ : even 4 ≡ ⊤
+_ = refl
+
+_ : even 3 ≡ ⊥
+_ = refl
 ```
 
-Here, a predicate `P : Pred A ℓ` can be seen as a subset of A containing all the elements of A that satisfy property P.
+### 3. Binary Relations
 
-Membership of objects of `A` in `P` can be defined as:
+Binary relations describe how pairs of elements are related.
 
 ```agda
-infix 4 _∈_ _∉_
-
-_∈_ : ∀ {a ℓ} {A : Set a} → A → Pred A ℓ → Set _
-x ∈ P = P x
-
-_∉_ : ∀ {a ℓ} {A : Set a} → A → Pred A ℓ → Set _
-x ∉ P = ¬ (x ∈ P)
-```
-
-The empty (or false) predicate becomes:
-
-```agda
-∅ : ∀ {a} {A : Set a} → Pred A lzero
-∅ = λ _ → ⟂
-```
-
-The singleton predicate (constructor):
-
-```lagda
-is_sameAs : ∀ {a} {A : Set a}
-        → A
-        → Pred A a
-is x sameAs = x ≡_
-```
-
-```lagda
-equal? : is six sameAs (succ five)
-equal? = refl
-```
-
-### Binary relations
-
-A heterogeneous binary relation is defined as:
-
-```agda
-REL : ∀ {a b} → Set a → Set b → (ℓ : Level) → Set (a ⊔ b ⊔ lsuc ℓ)
-REL A B ℓ = A → B → Set ℓ
-```
-
-and a homogenous one as:
-
-```agda
+-- Definition of a binary relation
 Rel : ∀ {a} → Set a → (ℓ : Level) → Set (a ⊔ lsuc ℓ)
-Rel A ℓ = REL A A ℓ
+Rel A ℓ = A → A → Set ℓ
+
+-- Example: Less than or equal to for natural numbers
+_≤'_ : Rel ℕ lzero
+zero ≤' _ = ⊤
+suc m ≤' zero = ⊥
+suc m ≤' suc n = m ≤' n
+
+-- Usage
+_ : 2 ≤' 4 ≡ ⊤
+_ = refl
+
+_ : 4 ≤' 2 ≡ ⊥
+_ = refl
 ```
 
-#### Properties of binary relations
+## Properties of Relations
 
-In type theory, an implication $ A ⟹ B $ is just a function type $ f: A → B $, and if `f` exists, the implication does too. We define implication between two relations in agda as:
+Relations can have various properties that describe their behavior:
+
+### 1. Reflexivity
+
+A relation is reflexive if every element is related to itself.
 
 ```agda
-_⇒_ : ∀ {a b ℓ₁ ℓ₂} {A : Set a} {B : Set b}
-        → REL A B ℓ₁
-        → REL A B ℓ₂
-        → Set _
-P ⇒ Q = ∀ {i j} → P i j → Q i j
+Reflexive : ∀ {a ℓ} {A : Set a} → Rel A ℓ → Set _
+Reflexive _R_ = ∀ {x} → x R x
+
+-- Example: ≤ is reflexive
+≤-refl : Reflexive _≤_
+≤-refl {zero} = z≤n
+  where
+    z≤n : ∀ {n : ℕ} → zero ≤ n
+    z≤n {zero} = _≤_.z≤n
+    z≤n {suc n} = _≤_.z≤n
+≤-refl {suc n} = s≤s ≤-refl
+  where
+    s≤s : ∀ {m n : ℕ} → m ≤ n → suc m ≤ suc n
+    s≤s m≤n = _≤_.s≤s m≤n
 ```
 
-A function `f : A → B` is invariant to two homogenous relations `Rel A ℓ₁` and `Rel B ℓ₂` if $ ∀ x, y ∈ A ~and~ f(x), f(y) ∈ B, f(Rel x y) ⟹ (Rel f(x) f(y)) $:
+### 2. Symmetry
+
+A relation is symmetric if when x is related to y, y is also related to x.
 
 ```agda
-_=[_]⇒_ : ∀ {a b ℓ₁ ℓ₂} {A : Set a} {B : Set b}
-          → Rel A ℓ₁
-          → (A → B)
-          → Rel B ℓ₂
-          → Set _
-P =[ f ]⇒ Q = P ⇒ (Q on f)
+Symmetric : {A : Set} -> Rel A -> Set
+Symmetric {A} _R_  = (x y : A) -> x R y -> y R x
+
+-- Example: Equality is symmetric
+≡-sym : {A : Set}(x y : A) -> x ≡ y -> y ≡ x
+≡-sym x y xy P py = xy (\z -> P z -> P x) (\px -> px) py
 ```
 
-A function `f` preserves an underlying relation while operating on a datatype if:
+### 3. Transitivity
+
+A relation is transitive if when x is related to y and y is related to z, then x is related to z.
 
 ```agda
-_Preserves_⟶_ : ∀ {a b ℓ₁ ℓ₂} {A : Set a} {B : Set b}
-        → (A → B)
-        → Rel A ℓ₁
-        → Rel B ℓ₂
-        → Set _
-f Preserves P ⟶ Q = P =[ f ]⇒ Q
+Transitive : ∀ {a ℓ} {A : Set a} → Rel A ℓ → Set _
+Transitive _R_ = ∀ {x y z} → x R y → y R z → x R z
+
+-- Example: ≤ is transitive
+≤-trans : Transitive _≤_
+≤-trans {zero} _ _ = Data.Nat.z≤n
+≤-trans {suc x} {suc y} {suc z} (Data.Nat.s≤s x≤y) (Data.Nat.s≤s y≤z) =
+  Data.Nat.s≤s (≤-trans x≤y y≤z)
+≤-trans {suc x} {suc y} {zero} _ ()
+≤-trans {suc x} {zero} () _
 ```
 
-Similarly, a binary operation `_+_` preserves the underlying relation if:
+## Relation Transformations
+
+We can define operations that transform relations:
+
+### 1. Inverse of a Relation
 
 ```agda
-_Preserves₂_⟶_⟶_ : ∀ {a b c ℓ₁ ℓ₂ ℓ₃} {A : Set a} {B : Set b} {C : Set c}
-        → (A → B → C)
-        → Rel A ℓ₁
-        → Rel B ℓ₂
-        → Rel C ℓ₃
-        → Set _
-_+_ Preserves₂ P ⟶ Q ⟶ R = ∀ {x y u v} → P x y → Q u v → R (x + u) (y + v)
+inverse : ∀ {a ℓ} {A : Set a} → Rel A ℓ → Rel A ℓ
+inverse _R_ y x = x R y
+
+-- Example: > is the inverse of ≤
+_>_ : Rel ℕ lzero
+_>_ = inverse _≤_
 ```
 
-Properties of binary relations:
+### 2. Composition of Relations
 
 ```agda
-Reflexive : ∀ {a ℓ} {A : Set a}
-        → Rel A ℓ
-        → Set _
-Reflexive _∼_ = ∀ {x} → x ∼ x
+_∘R_ : ∀ {a ℓ₁ ℓ₂} {A : Set a} → Rel A ℓ₁ → Rel A ℓ₂ → Rel A (a ⊔ ℓ₁ ⊔ ℓ₂)
+(R ∘R S) x z = ∃ λ y → R x y × S y z
 ```
 
-```agda
-Sym : ∀ {a b ℓ₁ ℓ₂} {A : Set a} {B : Set b}
-        → REL A B ℓ₁
-        → REL B A ℓ₂
-        → Set _
-Sym P Q = P ⇒ flip Q
+## Conclusion
 
-Symmetric : ∀ {a ℓ} {A : Set a}
-        → Rel A ℓ
-        → Set _
-Symmetric _∼_ = Sym _∼_ _∼_
-```
+Relations in type theory provide a powerful framework for expressing and reasoning about connections between elements. By formalizing relations as types, we gain access to the full expressiveness of the type system, allowing for precise and verifiable statements about the properties and behavior of relations.
 
-```agda
-Trans : ∀ {a b c ℓ₁ ℓ₂ ℓ₃} {A : Set a} {B : Set b} {C : Set c}
-        → REL A B ℓ₁
-        → REL B C ℓ₂
-        → REL A C ℓ₃
-        → Set _
-Trans P Q R = ∀ {i j k} → P i j → Q j k → R i k
-
-Transitive : ∀ {a ℓ} {A : Set a}
-        → Rel A ℓ
-        → Set _
-Transitive _∼_ = Trans _∼_ _∼_ _∼_
-```
+This overview covers the basics of relations in type theory and Agda, including their definition, properties, and some common operations. As you delve deeper into type theory, you'll find that relations play a crucial role in many advanced concepts and proofs.
 
 ****
 [Equality](./Types.equality.html)
