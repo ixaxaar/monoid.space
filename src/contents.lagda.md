@@ -6,14 +6,14 @@
 
 # Contents
 
-## 1. Agda
+## 1. Lean
 
-  - [Setup](./Lang.setup.html)
-  - [Naming Conventions](./Lang.naming.html)
-  - [Data Structures](./Lang.dataStructures.html)
-  - [Functions](./Lang.functions.html)
-  - [Modules, Records and Postulates](./Lang.other.html)
-  - [Debugging](./Lang.debugging.html)
+  - [Setup](./Lean.setup.html)
+  - [Naming Conventions](./Lean.naming.html)
+  - [Data Structures](./Lean.dataStructures.html)
+  - [Functions](./Lean.functions.html)
+  - [Modules, Records and Postulates](./Lean.other.html)
+  - [Debugging](./Lean.debugging.html)
 
 ## 2. Type Theory
 
@@ -69,6 +69,17 @@
   - [Fields and family 2](./Algebra.fields2.html)
   - [Field Morphisms](./Algebra.fieldMorphisms.html)
   - [Numbers](./Algebra.numbers.html)
+
+## -1. Agda [outdated]
+
+  - [Setup](./Lang.setup.html)
+  - [Naming Conventions](./Lang.naming.html)
+  - [Data Structures](./Lang.dataStructures.html)
+  - [Functions](./Lang.functions.html)
+  - [Modules, Records and Postulates](./Lang.other.html)
+  - [Debugging](./Lang.debugging.html)
+
+# WIP
 
 ## 6. Category Theory
 
