@@ -47,23 +47,23 @@
   - [Introduction](./Algebra.introduction.html)
   - [Sets in Type Theory](./Algebra.sets.html)
 
-#### 5.1 __Orders__
+#### 5.1 Orders
 
   - [Ordered objects](./Algebra.order.html)
 
-#### 5.2 __Groups__
+#### 5.2 Groups
 
   - [Groups and family](./Algebra.groups.html)
   - [Groups and family 2](./Algebra.groups2.html)
   - [Group Morphisms](./Algebra.groupMorphisms.html)
 
-#### 5.3 __Rings__
+#### 5.3 Rings
 
   - [Rings and family](./Algebra.rings.html)
   - [Rings and family 2](./Algebra.rings2.html)
   - [Ring Morphisms](./Algebra.ringMorphisms.html)
 
-#### 5.4 __Fields__
+#### 5.4 Fields
 
   - [Fields and family](./Algebra.fields.html)
   - [Fields and family 2](./Algebra.fields2.html)
