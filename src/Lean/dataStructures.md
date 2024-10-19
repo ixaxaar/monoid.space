@@ -9,97 +9,47 @@
 
 ---
 
-- [Data Structures](#data-structures)
-  - [Introduction to Types in Lean](#introduction-to-types-in-lean)
-    - [Declaring Types](#declaring-types)
-    - [The `Type` Universe](#the-type-universe)
-  - [Creating Custom Data Types](#creating-custom-data-types)
-    - [Examples of Product and Sum Types](#examples-of-product-and-sum-types)
-    - [Type Aliases](#type-aliases)
-  - [Functions in Lean](#functions-in-lean)
-  - [Basic Types in Lean](#basic-types-in-lean)
-    - [Empty Type](#empty-type)
-    - [Unit Type](#unit-type)
-    - [Boolean Type](#boolean-type)
-    - [Natural Numbers](#natural-numbers)
+- [Types](#types)
+  - [Declaring Types](#declaring-types)
+- [Basic Types in Lean](#basic-types-in-lean)
+  - [Empty Type](#empty-type)
+  - [Unit Type](#unit-type)
+  - [Boolean Type](#boolean-type)
+  - [Natural Numbers](#natural-numbers)
+- [Creating Custom Data Types](#creating-custom-data-types)
+  - [Product Types](#product-types)
+  - [Sum Types](#sum-types)
+  - [Type Aliases](#type-aliases)
+- [Common Data Structures](#common-data-structures)
   - [Lists](#lists)
   - [Binary Trees](#binary-trees)
   - [Graphs](#graphs)
-  - [Vectors (Sized Lists)](#vectors-sized-lists)
-  - [Finite Sets](#finite-sets)
+- [Advanced Types in Lean](#advanced-types-in-lean)
+  - [Dependent Types](#dependent-types)
+  - [Propositions as Types](#propositions-as-types)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Data Structures
+## Types
 
-```lean
-namespace DataStructures
-
-import Init.Data.Nat
-import Init.Data.List
-import Init.Data.Fin
-```
-
-## Introduction to Types in Lean
-
-Lean is based on dependent type theory, where types are first-class citizens. In Lean, types are objects of type `Type` or `Prop` (for propositions).
+Lean is a powerful theorem prover and programming language based on dependent type theory. In Lean, types are first-class citizens, meaning they can be manipulated and passed around just like any other value. This is similar to languages like Haskell or Scala, but with even more expressive power due to dependent types.
 
 ### Declaring Types
 
-In Lean, we declare types like this:
+In Lean, we declare types using the following syntax:
 
 ```lean
 def x : Nat := 0
 def b : Bool := true
 ```
 
-### The `Type` Universe
-
-In Lean, `Type` is the type of types, similar to Agda's `Set`. Lean also has a hierarchy of type universes to avoid paradoxes: `Type`, `Type 1`, `Type 2`, etc.
-
-## Creating Custom Data Types
-
-Lean uses the `inductive` keyword to define new data types, which is similar to Agda's `data` keyword.
-
-### Examples of Product and Sum Types
-
-```lean
--- Product type (AND)
-structure Point where
-  x : Float
-  y : Float
-
--- Sum type (OR)
-inductive Shape
-  | circle    : Float → Float → Float → Shape
-  | rectangle : Float → Float → Float → Float → Shape
-
--- Using constructors
-def myCircle := Shape.circle 1.2 12.1 123.1
-def myRectangle := Shape.rectangle 1.2 12.1 123.1 1234.5
-```
-
-### Type Aliases
-
-Lean allows type aliases using the `abbrev` keyword:
-
-```lean
-abbrev NewData := List Float
-```
-
-## Functions in Lean
-
-In Lean, functions are defined using the `def` keyword:
-
-```lean
-def not : Bool → Bool
-  | true  => false
-  | false => true
-```
+This is similar to type annotations in languages like TypeScript or Kotlin, but in Lean, the type system is much more powerful and can express complex relationships between types and values.
 
 ## Basic Types in Lean
 
 ### Empty Type
+
+The empty type, also known as the bottom type, is a type with no values. In some languages, this is called `Never` (TypeScript) or `Nothing` (Scala).
 
 ```lean
 inductive Empty : Type
@@ -108,6 +58,8 @@ inductive Empty : Type
 ```
 
 ### Unit Type
+
+The unit type is a type with exactly one value. This is similar to `void` in C++ or `()` in Haskell.
 
 ```lean
 inductive Unit : Type
@@ -118,20 +70,30 @@ inductive Unit : Type
 
 ### Boolean Type
 
+Booleans are a fundamental type in most programming languages. In Lean, they're defined as:
+
 ```lean
--- Lean has a predefined Bool type, but here's how you could define it:
-inductive Bool' : Type
-  | true
+inductive Bool : Type
   | false
+  | true
+
+-- Example usage
+def negation (b : Bool) : Bool :=
+  match b with
+  | true => false
+  | false => true
 ```
+
+This is similar to boolean types in virtually all programming languages, but in Lean, we can prove properties about boolean operations using the type system.
 
 ### Natural Numbers
 
+Natural numbers are defined inductively in Lean:
+
 ```lean
--- Lean has a predefined Nat type, but here's a simplified version:
-inductive Nat' : Type
-  | zero : Nat'
-  | succ : Nat' → Nat'
+inductive Nat : Type
+  | zero : Nat
+  | succ : Nat → Nat
 
 -- Arithmetic operations
 def add : Nat → Nat → Nat
@@ -143,20 +105,80 @@ def mul : Nat → Nat → Nat
   | m+1, n => n + (mul m n)
 ```
 
-## Lists
+This is similar to Peano arithmetic and is foundational in type theory. In practice, Lean optimizes this to use machine integers for efficiency.
 
-Lean has built-in lists, but here's how you could define them:
+## Creating Custom Data Types
+
+Lean uses the `inductive` keyword to define new data types. This is similar to `data` in Haskell or `sealed class` in Kotlin.
+
+### Product Types
+
+Product types combine multiple values into a single type. They're similar to structs in C or classes in Python.
 
 ```lean
-inductive List' (α : Type) : Type
-  | nil  : List' α
-  | cons : α → List' α → List' α
+structure Point where
+  x : Float
+  y : Float
+
+-- Creating a point
+def myPoint : Point := { x := 1.0, y := 2.0 }
+
+-- Accessing fields
+#eval myPoint.x  -- Output: 1.0
+```
+
+### Sum Types
+
+Sum types (also known as tagged unions or algebraic data types) allow a value to be one of several types. They're similar to enums in Rust or union types in TypeScript.
+
+```lean
+inductive Shape
+  | circle    : Float → Float → Float → Shape
+  | rectangle : Float → Float → Float → Float → Shape
+
+-- Using constructors
+def myCircle := Shape.circle 1.2 12.1 123.1
+def myRectangle := Shape.rectangle 1.2 12.1 123.1 1234.5
+
+-- Pattern matching
+def area : Shape → Float
+  | Shape.circle _ _ r => Float.pi * r * r
+  | Shape.rectangle _ _ w h => w * h
+```
+
+### Type Aliases
+
+Lean allows type aliases using the `abbrev` keyword, similar to `type` in TypeScript or `typealias` in Kotlin:
+
+```lean
+abbrev NewData := List Float
+```
+
+## Common Data Structures
+
+### Lists
+
+Lean has built-in lists, similar to many functional programming languages:
+
+```lean
+inductive List (α : Type) : Type
+  | nil  : List α
+  | cons : α → List α → List α
 
 -- Example usage
 def exampleList : List Bool := [true, false, true]
+
+-- List operations
+def length : List α → Nat
+  | [] => 0
+  | _::xs => 1 + length xs
+
+#eval length exampleList  -- Output: 3
 ```
 
-## Binary Trees
+### Binary Trees
+
+Binary trees are a common data structure in many languages:
 
 ```lean
 inductive BinTree (α : Type) : Type
@@ -168,29 +190,46 @@ def exampleTree : BinTree Nat :=
   BinTree.node 1
     (BinTree.node 2 BinTree.leaf BinTree.leaf)
     (BinTree.node 3 BinTree.leaf BinTree.leaf)
+
+-- Tree operations
+def depth : BinTree α → Nat
+  | BinTree.leaf => 0
+  | BinTree.node _ left right => 1 + max (depth left) (depth right)
+
+#eval depth exampleTree  -- Output: 2
 ```
 
-## Graphs
+### Graphs
 
 We can represent graphs in Lean using vertices and edges:
 
 ```lean
-inductive Vertex : Type
-  | mk : Nat → Vertex
+structure Vertex where
+  id : Nat
 
-inductive Edge : Type
-  | mk : Vertex → Vertex → Edge
+structure Edge where
+  from : Vertex
+  to : Vertex
 
-inductive Graph : Type
-  | empty : Graph
-  | addEdge : Graph → Edge → Graph
+structure Graph where
+  vertices : List Vertex
+  edges : List Edge
+
+-- Example usage
+def v1 := Vertex.mk 1
+def v2 := Vertex.mk 2
+def e := Edge.mk v1 v2
+def g : Graph := { vertices := [v1, v2], edges := [e] }
 ```
 
-## Vectors (Sized Lists)
+## Advanced Types in Lean
 
-Lean has a `Vector` type in its standard library, but here's a simplified version:
+### Dependent Types
+
+Dependent types are one of Lean's most powerful features. They allow types to depend on values:
 
 ```lean
+-- Vector: a list with a statically known length
 inductive Vector (α : Type) : Nat → Type
   | nil  : Vector α 0
   | cons : α → {n : Nat} → Vector α n → Vector α (n+1)
@@ -198,29 +237,34 @@ inductive Vector (α : Type) : Nat → Type
 -- Example usage
 def vec1 : Vector Bool 1 := Vector.cons true Vector.nil
 def vec2 : Vector Bool 2 := Vector.cons false vec1
+
+-- Type-safe head function
+def head {α : Type} {n : Nat} : Vector α (n+1) → α
+  | Vector.cons x _ => x
+
+#eval head vec2  -- Output: false
+-- This would be a compile-time error: #eval head Vector.nil
 ```
 
-## Finite Sets
+This is similar to dependent types in languages like Idris or Agda, but is not found in most mainstream programming languages.
 
-Lean's standard library includes a `Fin` type for finite sets:
+### Propositions as Types
+
+In Lean, propositions are types, and proofs are values of these types. This is known as the Curry-Howard correspondence:
 
 ```lean
--- Simplified version of Fin
-inductive Fin' : Nat → Type
-  | zero : {n : Nat} → Fin' (n+1)
-  | succ : {n : Nat} → Fin' n → Fin' (n+1)
+-- Conjunction (AND)
+def and_comm {p q : Prop} : p ∧ q → q ∧ p :=
+  fun h => And.intro h.right h.left
+
+-- Disjunction (OR)
+def or_comm {p q : Prop} : p ∨ q → q ∨ p
+  | Or.inl hp => Or.inr hp
+  | Or.inr hq => Or.inl hq
 ```
 
-```lean
--- Example usage (using Fin from the library)
-def fin0 : Fin 3 := Fin.ofNat 0
-def fin1 : Fin 3 := Fin.ofNat 1
-def fin2 : Fin 3 := Fin.ofNat 2
-```
+This allows Lean to be used not just as a programming language, but as a powerful theorem prover.
 
-These data structures form the foundation for more complex structures and algorithms in Lean. As you become more comfortable with these concepts, you'll be able to define and work with increasingly sophisticated types and functions.
-
-end DataStructures
 
 ---
 
