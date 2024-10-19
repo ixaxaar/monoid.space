@@ -3,6 +3,8 @@
 [Previous](Lang.setup.html)
 [Next](Lang.dataStructures.html)
 
+# Naming conventions
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ****
@@ -14,8 +16,6 @@
   - [Other material](#other-material)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Naming conventions
 
 ## Files and modules
 

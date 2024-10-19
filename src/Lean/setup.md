@@ -3,7 +3,9 @@
 [Previous](Lang.intro.html)
 [Next](Lang.naming.html)
 
-- [Setup and Installation](#setup-and-installation)
+# Lean Installation
+
+- [Lean Installation](#lean-installation)
    - [1. Using Docker](#1-using-docker)
    - [2. Using elan (Lean Version Manager)](#2-using-elan-lean-version-manager)
    - [3. Via Package Managers](#3-via-package-managers)
@@ -13,8 +15,6 @@
       - [Nix (NixOS and other systems)](#nix-nixos-and-other-systems)
    - [4. Building from Source](#4-building-from-source)
    - [Additional Setup](#additional-setup)
-
-# Setup and Installation
 
 ## 1. Using Docker
 
