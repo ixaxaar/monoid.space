@@ -4,7 +4,7 @@ SHELL := /bin/bash
 default: all
 
 watch:
-	@sh -c 'cd src && npx nodemon -e md --signal SIGKILL --exec "agda ./contents.lagda.md || exit 1"'
+	@npx nodemon -e md --signal SIGKILL --exec ./compile.sh
 
 clean:
 	rm -rf html
