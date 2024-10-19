@@ -9,30 +9,33 @@
 
 ---
 
-- [Types](#types)
-  - [Declaring Types](#declaring-types)
-- [Basic Types in Lean](#basic-types-in-lean)
-  - [Empty Type](#empty-type)
-  - [Unit Type](#unit-type)
-  - [Boolean Type](#boolean-type)
-  - [Natural Numbers](#natural-numbers)
-- [Creating Custom Data Types](#creating-custom-data-types)
-  - [Product Types](#product-types)
-  - [Sum Types](#sum-types)
-  - [Type Aliases](#type-aliases)
-- [Common Data Structures](#common-data-structures)
-  - [Lists](#lists)
-  - [Binary Trees](#binary-trees)
-  - [Graphs](#graphs)
-- [Advanced Types in Lean](#advanced-types-in-lean)
-  - [Dependent Types](#dependent-types)
-  - [Propositions as Types](#propositions-as-types)
+# Data Structures
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+***
+- [Data Structures](#data-structures)
+  - [Types](#types)
+    - [Declaring Types](#declaring-types)
+  - [Basic Types in Lean](#basic-types-in-lean)
+    - [Empty Type](#empty-type)
+    - [Unit Type](#unit-type)
+    - [Boolean Type](#boolean-type)
+    - [Natural Numbers](#natural-numbers)
+  - [Creating Custom Data Types](#creating-custom-data-types)
+    - [Product Types](#product-types)
+    - [Sum Types](#sum-types)
+    - [Type Aliases](#type-aliases)
+  - [Common Data Structures](#common-data-structures)
+    - [Lists](#lists)
+    - [Binary Trees](#binary-trees)
+    - [Graphs](#graphs)
+  - [Advanced Types in Lean](#advanced-types-in-lean)
+    - [Dependent Types](#dependent-types)
+    - [Propositions as Types](#propositions-as-types)
+
 
 ## Types
 
-Lean is a powerful theorem prover and programming language based on dependent type theory. In Lean, types are first-class citizens, meaning they can be manipulated and passed around just like any other value. This is similar to languages like Haskell or Scala, but with even more expressive power due to dependent types.
+In Lean, types are first-class citizens, meaning they can be manipulated and passed around just like any other value. This is similar to languages like Haskell or Scala, but with even more expressive as we shall see later.
 
 ### Declaring Types
 
@@ -43,7 +46,7 @@ def x : Nat := 0
 def b : Bool := true
 ```
 
-This is similar to type annotations in languages like TypeScript or Kotlin, but in Lean, the type system is much more powerful and can express complex relationships between types and values.
+This is similar to type annotations in languages like TypeScript or Kotlin.
 
 ## Basic Types in Lean
 
@@ -84,7 +87,29 @@ def negation (b : Bool) : Bool :=
   | false => true
 ```
 
-This is similar to boolean types in virtually all programming languages, but in Lean, we can prove properties about boolean operations using the type system.
+This is similar to boolean types in virtually all programming languages, but in Lean, we can prove properties about boolean operations using the type system, which looks something like this:
+
+Prove that `negation (negation x) == x`:
+
+```lean
+theorem negation_involutive : ∀ (b : Bool), negation (negation b) = b :=
+  fun b =>
+    match b with
+    | true =>
+      calc
+        negation (negation true)
+        = negation false        := rfl
+        = true                  := rfl
+    | false =>
+      calc
+        negation (negation false)
+        = negation true         := rfl
+        = false                 := rfl
+
+#check negation_involutive
+```
+
+We will look at how to do stuff like this in later sections.
 
 ### Natural Numbers
 
@@ -104,6 +129,8 @@ def mul : Nat → Nat → Nat
   | 0,   _ => 0
   | m+1, n => n + (mul m n)
 ```
+
+Here, we define natural numbers by defining the element `zero` and the function `succ` that adds 1 to any given integer (creates the successive natural number).
 
 This is similar to Peano arithmetic and is foundational in type theory. In practice, Lean optimizes this to use machine integers for efficiency.
 

@@ -5,6 +5,7 @@
 
 # Lean Installation
 
+****
 - [Lean Installation](#lean-installation)
    - [1. Using Docker](#1-using-docker)
    - [2. Using elan (Lean Version Manager)](#2-using-elan-lean-version-manager)

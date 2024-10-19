@@ -5,8 +5,6 @@
 
 # Naming conventions
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 ****
 
 - [Naming conventions](#naming-conventions)
@@ -14,8 +12,6 @@
   - [Literate programming](#literate-programming)
   - [Identifiers](#identifiers)
   - [Other material](#other-material)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Files and modules
 
