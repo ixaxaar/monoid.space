@@ -55,37 +55,39 @@ This is similar to type annotations in languages like TypeScript or Kotlin.
 The empty type, also known as the bottom type, is a type with no values. In some languages, this is called `Never` (TypeScript) or `Nothing` (Scala).
 
 ```lean
-inductive Empty : Type
-
--- There's also a predefined `Empty` type in Lean's standard library
+inductive Empty' : Type
 ```
+
+There's also a predefined `Empty` type in Lean's standard library.
 
 ### Unit Type
 
 The unit type is a type with exactly one value. This is similar to `void` in C++ or `()` in Haskell.
 
 ```lean
-inductive Unit : Type
+inductive Unit' : Type
   | unit
-
--- Lean also has a predefined `Unit` type
 ```
+
+Lean has a pre-defined unit type `Unit`.
 
 ### Boolean Type
 
 Booleans are a fundamental type in most programming languages. In Lean, they're defined as:
 
 ```lean
-inductive Bool : Type
+inductive Bool' : Type
   | false
   | true
 
 -- Example usage
-def negation (b : Bool) : Bool :=
+def negation (b : Bool') : Bool' :=
   match b with
-  | true => false
-  | false => true
+  | Bool'.true => Bool'.false
+  | Bool'.false => Bool'.true
 ```
+
+Lean has a pre-defined boolean type `Bool`.
 
 This is similar to boolean types in virtually all programming languages, but in Lean, we can prove properties about boolean operations using the type system, which looks something like this:
 
