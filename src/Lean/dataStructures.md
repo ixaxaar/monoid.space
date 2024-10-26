@@ -11,7 +11,8 @@
 
 # Data Structures
 
-***
+---
+
 - [Data Structures](#data-structures)
   - [Types](#types)
     - [Declaring Types](#declaring-types)
@@ -32,7 +33,6 @@
     - [Dependent Types](#dependent-types)
     - [Propositions as Types](#propositions-as-types)
 
-
 ## Types
 
 In Lean, types are first-class citizens, meaning they can be manipulated and passed around just like any other value. This is similar to languages like Haskell or Scala, but with even more expressive as we shall see later.
@@ -52,63 +52,50 @@ This is similar to type annotations in languages like TypeScript or Kotlin.
 
 ### Empty Type
 
-The empty type, also known as the bottom type, is a type with no values. In some languages, this is called `Never` (TypeScript) or `Nothing` (Scala).
+The empty type, also known as the bottom type, is a type with no values. In some languages, this is called `Never` (TypeScript) or `Nothing` (Scala). This is a pre-defined type called `Empty` in Lean which is defined something as:
 
 ```lean
-inductive Empty' : Type
+inductive Empty : Type
 ```
-
-There's also a predefined `Empty` type in Lean's standard library.
 
 ### Unit Type
 
 The unit type is a type with exactly one value. This is similar to `void` in C++ or `()` in Haskell.
 
 ```lean
-inductive Unit' : Type
+inductive Unit : Type
   | unit
 ```
 
-Lean has a pre-defined unit type `Unit`.
+Lean has a pre-defined unit type `Unit` which is defined like above.
 
 ### Boolean Type
 
 Booleans are a fundamental type in most programming languages. In Lean, they're defined as:
 
 ```lean
-inductive Bool' : Type
+inductive Bool : Type
   | false
   | true
 
 -- Example usage
-def negation (b : Bool') : Bool' :=
+def negation (b : Bool) : Bool :=
   match b with
-  | Bool'.true => Bool'.false
-  | Bool'.false => Bool'.true
+  | true => false
+  | false => true
 ```
-
-Lean has a pre-defined boolean type `Bool`.
 
 This is similar to boolean types in virtually all programming languages, but in Lean, we can prove properties about boolean operations using the type system, which looks something like this:
 
 Prove that `negation (negation x) == x`:
 
 ```lean
-theorem negation_involutive : ∀ (b : Bool), negation (negation b) = b :=
-  fun b =>
-    match b with
-    | true =>
-      calc
-        negation (negation true)
-        = negation false        := rfl
-        = true                  := rfl
-    | false =>
-      calc
-        negation (negation false)
-        = negation true         := rfl
-        = false                 := rfl
+theorem negationNegation (b : Bool) : negation (negation b) = b :=
+  match b with
+  | true => rfl
+  | false => rfl
 
-#check negation_involutive
+#check negationNegation
 ```
 
 We will look at how to do stuff like this in later sections.
@@ -122,14 +109,16 @@ inductive Nat : Type
   | zero : Nat
   | succ : Nat → Nat
 
+def one := succ zero
+
 -- Arithmetic operations
 def add : Nat → Nat → Nat
-  | 0,   n => n
-  | m+1, n => (add m n) + 1
+  | zero,   n => n
+  | m+one, n => (add m n) + one
 
 def mul : Nat → Nat → Nat
-  | 0,   _ => 0
-  | m+1, n => n + (mul m n)
+  | zero,   _ => zero
+  | m+one, n => n + (mul m n)
 ```
 
 Here, we define natural numbers by defining the element `zero` and the function `succ` that adds 1 to any given integer (creates the successive natural number).
@@ -177,10 +166,22 @@ def area : Shape → Float
 
 ### Type Aliases
 
-Lean allows type aliases using the `abbrev` keyword, similar to `type` in TypeScript or `typealias` in Kotlin:
+Lean allows type aliases using the `class` keyword, similar to `type` in TypeScript or `typealias` in Kotlin:
 
 ```lean
-abbrev NewData := List Float
+class Plus (α : Type) where
+  plus : α → α → α
+
+instance : Plus Nat where
+  plus := Nat.add
+
+instance : Plus Float where
+  plus := Float.add
+
+open Plus(plus)
+
+#eval plus 4 5 -- 9
+#eval plus 4.3 5.2 -- 9.500000
 ```
 
 ## Common Data Structures
@@ -293,7 +294,6 @@ def or_comm {p q : Prop} : p ∨ q → q ∨ p
 ```
 
 This allows Lean to be used not just as a programming language, but as a powerful theorem prover.
-
 
 ---
 
