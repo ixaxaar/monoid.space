@@ -27,7 +27,7 @@
     - [Arrays](#arrays)
     - [Sets](#sets)
     - [Stacks](#stacks)
-    - [Queue](#queue)
+    - [Queues](#queues)
     - [Maps](#maps)
     - [Binary Trees](#binary-trees)
     - [Graphs](#graphs)
@@ -267,7 +267,7 @@ def s' := push s 4.2
 #eval pop s'  -- Output: some (4.200000, { elems := [1.000000, 2.200000, 0.300000] })
 ```
 
-### Queue
+### Queues
 
 Queues are another common data structure that follows the First In First Out (FIFO) principle. We can implement a queue using a list:
 
