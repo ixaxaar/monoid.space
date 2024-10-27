@@ -29,7 +29,7 @@
       - [Sets](#sets)
       - [Stacks](#stacks)
       - [Queue](#queue)
-    - [Maps](#maps)
+      - [Maps](#maps)
     - [Binary Trees](#binary-trees)
     - [Graphs](#graphs)
   - [Custom Data Types](#custom-data-types)
@@ -302,7 +302,55 @@ def q' := enqueue q 4.2
 #eval dequeue q'  -- Output: some (1.000000, { elems := [2.200000, 0.300000, 4.200000] })
 ```
 
-### Maps
+#### Maps
+
+Maps are key-value pairs that allow efficient lookup of values based on keys. These are similar to dictionaries in Python or hash maps in Java. We can implement a map using a list of key-value pairs:
+
+```lean
+structure Map (α β : Type) where
+  pairs : List (α × β)
+deriving Repr
+```
+
+We now need to define how to access elements in the map:
+
+```lean
+def find {α β : Type} [DecidableEq α] (m : Map α β) (key : α) : Option β :=
+  match m.pairs.find? (fun (k, _) => k == key) with
+  | some (_, v) => some v
+  | none => none
+```
+
+Here, `find` searches for a key in the map and returns the corresponding value if found. We can define find as an infix operator for easier use:
+
+```lean
+infix:50 " ?? " => find
+```
+
+Here we define the `??` operator to find a value in the map. These are called as infix operators, and the number `50` is the precedence of the operator. This allows us to use the `??` operator to find values in the map:
+
+```lean
+def exampleMap1 : Map Nat String :=
+  Map.mk [(1, "one"), (2, "two"), (3, "three")]
+
+#eval exampleMap ?? 2  -- Output: some "two"
+```
+
+Representing maps as lists of key-value pairs is not the most efficient way to implement them, but it serves as a simple example. Lean also provides more efficient implementations of maps in the standard library.
+
+We can use more optimized implementations by importing the `Std.Data.HashMap` module:
+
+```lean
+import Std.Data.HashMap
+```
+
+```lean
+def exampleMap : Std.HashMap Nat String :=
+  Std.HashMap.ofList [(1, "one"), (2, "two"), (3, "three")]
+
+#eval exampleMap.contains 2  -- true
+#eval exampleMap.get! 2  -- "two"
+```
 
 ### Binary Trees
 
