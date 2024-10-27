@@ -16,24 +16,25 @@
 - [Data Structures](#data-structures)
   - [Types](#types)
     - [Declaring Types](#declaring-types)
-  - [Basic Types in Lean](#basic-types-in-lean)
+  - [Basic Types](#basic-types)
     - [Empty Type](#empty-type)
     - [Unit Type](#unit-type)
     - [Boolean Type](#boolean-type)
     - [Natural Numbers](#natural-numbers)
+    - [Other Primitive Types](#other-primitive-types)
+  - [Collecions](#collecions)
+    - [Lists and family](#lists-and-family)
+      - [Lists](#lists)
+      - [Arrays](#arrays)
+      - [Sets](#sets)
+    - [Maps](#maps)
+    - [Binary Trees](#binary-trees)
+    - [Graphs](#graphs)
   - [Custom Data Types](#custom-data-types)
     - [Product Types](#product-types)
     - [Sum Types](#sum-types)
     - [Type Classes](#type-classes)
-  - [Common Data Structures](#common-data-structures)
-    - [Lists and Arrays](#lists-and-arrays)
-      - [Lists](#lists)
-      - [Arrays](#arrays)
-      - [Unordered Sets](#unordered-sets)
-      - [Ordered Sets](#ordered-sets)
-    - [Binary Trees](#binary-trees)
-    - [Graphs](#graphs)
-  - [Advanced Types in Lean](#advanced-types-in-lean)
+  - [Advanced Types](#advanced-types)
     - [Dependent Types](#dependent-types)
     - [Propositions as Types](#propositions-as-types)
 
@@ -52,7 +53,7 @@ def b : Bool := true
 
 This is similar to type annotations in languages like TypeScript or Kotlin.
 
-## Basic Types in Lean
+## Basic Types
 
 ### Empty Type
 
@@ -131,6 +132,154 @@ def add : Nat → Nat → Nat
 def mul : Nat → Nat → Nat
 | zero, _ => zero -- _ implies we dont care what the argument is
 | m+one, n => n + (mul m n)
+```
+
+### Other Primitive Types
+
+| Type     | Description                                        | Example Usage               | Notes                                 |
+| -------- | -------------------------------------------------- | --------------------------- | ------------------------------------- |
+| `Empty`  | The empty type with no values                      | `def f : Empty → α`         | Used for logical impossibility        |
+| `Unit`   | The unit type with one value `unit`                | `def x : Unit := ()`        | Often used as dummy value             |
+| `Bool`   | Booleans with values `true` and `false`            | `def b : Bool := true`      | Used for conditional logic            |
+| `Nat`    | Natural numbers with zero and successor operations | `def n : Nat := 42`         | Non-negative integers (0, 1, 2, ...)  |
+| `Int`    | Integers with addition, subtraction, etc.          | `def i : Int := -42`        | Whole numbers (positive and negative) |
+| `Float`  | Floating-point numbers                             | `def f : Float := 3.14`     | IEEE 754 double-precision             |
+| `String` | Strings                                            | `def s : String := "hello"` | UTF-8 encoded text                    |
+| `Char`   | Single Unicode characters                          | `def c : Char := 'a'`       | Unicode code points                   |
+| `USize`  | Platform-dependent unsigned integer                | `def u : USize := 42`       | Used for array indexing               |
+
+## Collecions
+
+### Lists and family
+
+#### Lists
+
+Lean has built-in lists, similar to many functional programming languages:
+
+```lean
+inductive List (α : Type) : Type
+  | nil  : List α                    -- Empty list
+  | cons : α → List α → List α       -- Add element to front of list
+```
+
+This can be used to define, say, a list of booleans:
+
+```lean
+def exampleList : List Bool := [true, false, true]
+```
+
+Operations can be defined on lists, such as finding the length:
+
+```lean
+def length : List α → Nat
+  | [] => 0
+  | _::xs => 1 + length xs
+
+#eval length exampleList  -- Output: 3
+```
+
+Lists are immutable, so operations like adding elements create new lists:
+
+```lean
+def exampleList2 := false :: exampleList
+#eval length exampleList2  -- Output: 4
+```
+
+#### Arrays
+
+Dynamic arrays are also available in Lean, which are similar to lists but have better performance for some operations:
+
+```lean
+def exampleArray : Array Nat := #[1, 2, 3]
+```
+
+Here, `#[1,2,3]` is a shorthand for `Array.mk [1,2,3]`. We can access elements of the array using the `get!` function:
+
+```lean
+#eval exampleArray.get! 1  -- Output: 2
+```
+
+We can also use the `push` function to add elements to the array:
+
+```lean
+def exampleArray2 := exampleArray.push 4
+#eval exampleArray2.get! 3  -- Output: 4
+```
+
+#### Sets
+
+Unordered sets are also available in Lean, which are similar to arrays but have better performance for some operations:
+
+```lean
+def exampleSet : Finset Nat := {1, 2, 3}
+```
+
+Here, `{1,2,3}` is a shorthand for `Finset.mk [1,2,3]`. We can check if an element is in the set using the `mem` function:
+
+```lean
+#eval exampleSet.mem 2  -- Output: true
+```
+
+We can also use the `insert` function to add elements to the set:
+
+```lean
+def exampleSet2 := exampleSet.insert 4
+#eval exampleSet2.mem 4  -- Output: true
+```
+
+and finally, we can use the `erase` function to remove elements from the set:
+
+```lean
+def exampleSet3 := exampleSet2.erase 4
+#eval exampleSet3.mem 4  -- Output: false
+```
+
+### Maps
+
+### Binary Trees
+
+Binary trees are a common data structure in many languages:
+
+```lean
+inductive BinTree (α : Type) : Type
+  | leaf : BinTree α
+  | node : α → BinTree α → BinTree α → BinTree α
+
+-- Example usage
+def exampleTree : BinTree Nat :=
+  BinTree.node 1
+    (BinTree.node 2 BinTree.leaf BinTree.leaf)
+    (BinTree.node 3 BinTree.leaf BinTree.leaf)
+
+-- Tree operations
+def depth : BinTree α → Nat
+  | BinTree.leaf => 0
+  | BinTree.node _ left right => 1 + max (depth left) (depth right)
+
+#eval depth exampleTree  -- Output: 2
+```
+
+### Graphs
+
+We can represent graphs in Lean using vertices and edges:
+
+```lean
+structure Vertex where
+  id : Nat
+
+structure Edge where
+  from : Vertex
+  to : Vertex
+
+structure Graph where
+  vertices : List Vertex
+  edges : List Edge
+
+-- Example usage
+def v1 := Vertex.mk 1
+def v2 := Vertex.mk 2
+def e := Edge.mk v1 v2
+def g : Graph := { vertices := [v1, v2], edges := [e] }
 ```
 
 ## Custom Data Types
@@ -260,167 +409,7 @@ open Plus(plus)
 #eval plus 4.3 5.2 -- 9.500000
 ```
 
-## Common Data Structures
-
-### Lists and Arrays
-
-#### Lists
-
-Lean has built-in lists, similar to many functional programming languages:
-
-```lean
-inductive List (α : Type) : Type
-  | nil  : List α                    -- Empty list
-  | cons : α → List α → List α       -- Add element to front of list
-```
-
-This can be used to define, say, a list of booleans:
-
-```lean
-def exampleList : List Bool := [true, false, true]
-```
-
-Operations can be defined on lists, such as finding the length:
-
-```lean
-def length : List α → Nat
-  | [] => 0
-  | _::xs => 1 + length xs
-
-#eval length exampleList  -- Output: 3
-```
-
-Lists are immutable, so operations like adding elements create new lists:
-
-```lean
-def exampleList2 := false :: exampleList
-#eval length exampleList2  -- Output: 4
-```
-
-#### Arrays
-
-Dynamic arrays are also available in Lean, which are similar to lists but have better performance for some operations:
-
-```lean
-def exampleArray : Array Nat := #[1, 2, 3]
-```
-
-Here, `#[1,2,3]` is a shorthand for `Array.mk [1,2,3]`. We can access elements of the array using the `get!` function:
-
-```lean
-#eval exampleArray.get! 1  -- Output: 2
-```
-
-We can also use the `push` function to add elements to the array:
-
-```lean
-def exampleArray2 := exampleArray.push 4
-#eval exampleArray2.get! 3  -- Output: 4
-```
-
-#### Unordered Sets
-
-Unordered sets are also available in Lean, which are similar to arrays but have better performance for some operations:
-
-```lean
-def exampleSet : Finset Nat := {1, 2, 3}
-```
-
-Here, `{1,2,3}` is a shorthand for `Finset.mk [1,2,3]`. We can check if an element is in the set using the `mem` function:
-
-```lean
-#eval exampleSet.mem 2  -- Output: true
-```
-
-We can also use the `insert` function to add elements to the set:
-
-```lean
-def exampleSet2 := exampleSet.insert 4
-#eval exampleSet2.mem 4  -- Output: true
-```
-
-and finally, we can use the `erase` function to remove elements from the set:
-
-```lean
-def exampleSet3 := exampleSet2.erase 4
-#eval exampleSet3.mem 4  -- Output: false
-```
-
-#### Ordered Sets
-
-Ordered sets are also available in Lean, which are similar to unordered sets:
-
-```lean
-def exampleOSet : Ordset Nat := {1, 2, 3}
-```
-
-Here, `{1,2,3}` is a shorthand for `Ordset.mk [1,2,3]`. We can check if an element is in the set using the `mem` function:
-
-```lean
-#eval exampleOSet.mem 2  -- Output: true
-```
-
-We can also use the `insert` function to add elements to the set:
-
-```lean
-def exampleOSet2 := exampleOSet.insert 4
-#eval exampleOSet2.mem 4  -- Output: true
-```
-
-and finally, we can use the `erase` function to remove elements from the set:
-
-```lean
-def exampleOSet3 := exampleOSet2.erase 4
-#eval exampleOSet3.mem 4  -- Output: false
-```
-
-### Binary Trees
-
-Binary trees are a common data structure in many languages:
-
-```lean
-inductive BinTree (α : Type) : Type
-  | leaf : BinTree α
-  | node : α → BinTree α → BinTree α → BinTree α
-
--- Example usage
-def exampleTree : BinTree Nat :=
-  BinTree.node 1
-    (BinTree.node 2 BinTree.leaf BinTree.leaf)
-    (BinTree.node 3 BinTree.leaf BinTree.leaf)
-
--- Tree operations
-def depth : BinTree α → Nat
-  | BinTree.leaf => 0
-  | BinTree.node _ left right => 1 + max (depth left) (depth right)
-
-#eval depth exampleTree  -- Output: 2
-```
-
-### Graphs
-
-We can represent graphs in Lean using vertices and edges:
-
-```lean
-structure Vertex where
-  id : Nat
-
-structure Edge where
-  from : Vertex
-  to : Vertex
-
-structure Graph where
-  vertices : List Vertex
-  edges : List Edge
-
--- Example usage
-def v1 := Vertex.mk 1
-def v2 := Vertex.mk 2
-def e := Edge.mk v1 v2
-def g : Graph := { vertices := [v1, v2], edges := [e] }
-```
-
-## Advanced Types in Lean
+## Advanced Types
 
 ### Dependent Types
 
