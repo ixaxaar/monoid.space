@@ -22,7 +22,7 @@
     - [Boolean Type](#boolean-type)
     - [Natural Numbers](#natural-numbers)
     - [Other Primitive Types](#other-primitive-types)
-  - [Collecions](#collecions)
+  - [Collections](#collections)
     - [Lists and family](#lists-and-family)
       - [Lists](#lists)
       - [Arrays](#arrays)
@@ -148,7 +148,7 @@ def mul : Nat → Nat → Nat
 | `Char`   | Single Unicode characters                          | `def c : Char := 'a'`       | Unicode code points                   |
 | `USize`  | Platform-dependent unsigned integer                | `def u : USize := 42`       | Used for array indexing               |
 
-## Collecions
+## Collections
 
 ### Lists and family
 
@@ -208,30 +208,33 @@ def exampleArray2 := exampleArray.push 4
 
 #### Sets
 
-Unordered sets are also available in Lean, which are similar to arrays but have better performance for some operations:
+Unordered sets can be implemented using the HashSet data structure. HashSets are data structures that store unique elements and provide fast lookup times. They are similar to sets in Python or Java.
 
 ```lean
-def exampleSet : Finset Nat := {1, 2, 3}
-```
+import Std.Data.HashSet
+open Std
 
-Here, `{1,2,3}` is a shorthand for `Finset.mk [1,2,3]`. We can check if an element is in the set using the `mem` function:
+-- create a set with elements 1, 2, 3
+def exampleSet : HashSet Nat := HashSet.ofList [1, 2, 3]
+```
 
 ```lean
-#eval exampleSet.mem 2  -- Output: true
+#eval exampleSet.contains 2  -- true
+#eval exampleSet.contains 4  -- false
 ```
 
-We can also use the `insert` function to add elements to the set:
+Sets can be modified using functions like `insert` and `erase`:
 
 ```lean
 def exampleSet2 := exampleSet.insert 4
-#eval exampleSet2.mem 4  -- Output: true
+#eval exampleSet2.contains 4  -- true
 ```
 
-and finally, we can use the `erase` function to remove elements from the set:
+Finally, we can delete elements from the set using the `erase` function:
 
 ```lean
 def exampleSet3 := exampleSet2.erase 4
-#eval exampleSet3.mem 4  -- Output: false
+#eval exampleSet3.contains 4  -- false
 ```
 
 ### Maps
