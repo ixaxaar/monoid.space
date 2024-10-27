@@ -23,13 +23,12 @@
     - [Natural Numbers](#natural-numbers)
     - [Other Primitive Types](#other-primitive-types)
   - [Collections](#collections)
-    - [Lists and family](#lists-and-family)
-      - [Lists](#lists)
-      - [Arrays](#arrays)
-      - [Sets](#sets)
-      - [Stacks](#stacks)
-      - [Queue](#queue)
-      - [Maps](#maps)
+    - [Lists](#lists)
+    - [Arrays](#arrays)
+    - [Sets](#sets)
+    - [Stacks](#stacks)
+    - [Queue](#queue)
+    - [Maps](#maps)
     - [Binary Trees](#binary-trees)
     - [Graphs](#graphs)
   - [Custom Data Types](#custom-data-types)
@@ -152,9 +151,7 @@ def mul : Nat → Nat → Nat
 
 ## Collections
 
-### Lists and family
-
-#### Lists
+### Lists
 
 Lean has built-in lists, similar to many functional programming languages:
 
@@ -187,7 +184,7 @@ def exampleList2 := false :: exampleList
 #eval length exampleList2  -- Output: 4
 ```
 
-#### Arrays
+### Arrays
 
 Dynamic arrays are also available in Lean, which are similar to lists but have better performance for some operations:
 
@@ -208,7 +205,7 @@ def exampleArray2 := exampleArray.push 4
 #eval exampleArray2.get! 3  -- Output: 4
 ```
 
-#### Sets
+### Sets
 
 Unordered sets can be implemented using the HashSet data structure. HashSets are data structures that store unique elements and provide fast lookup times. They are similar to sets in Python or Java.
 
@@ -239,7 +236,7 @@ def exampleSet3 := exampleSet2.erase 4
 #eval exampleSet3.contains 4  -- false
 ```
 
-#### Stacks
+### Stacks
 
 Stacks are a common data structure that follows the Last In First Out (LIFO) principle. We can implement a stack using a list:
 
@@ -270,7 +267,7 @@ def s' := push s 4.2
 #eval pop s'  -- Output: some (4.200000, { elems := [1.000000, 2.200000, 0.300000] })
 ```
 
-#### Queue
+### Queue
 
 Queues are another common data structure that follows the First In First Out (FIFO) principle. We can implement a queue using a list:
 
@@ -302,7 +299,7 @@ def q' := enqueue q 4.2
 #eval dequeue q'  -- Output: some (1.000000, { elems := [2.200000, 0.300000, 4.200000] })
 ```
 
-#### Maps
+### Maps
 
 Maps are key-value pairs that allow efficient lookup of values based on keys. These are similar to dictionaries in Python or hash maps in Java. We can implement a map using a list of key-value pairs:
 
