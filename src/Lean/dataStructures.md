@@ -21,10 +21,10 @@
     - [Unit Type](#unit-type)
     - [Boolean Type](#boolean-type)
     - [Natural Numbers](#natural-numbers)
-  - [Creating Custom Data Types](#creating-custom-data-types)
+  - [Custom Data Types](#custom-data-types)
     - [Product Types](#product-types)
     - [Sum Types](#sum-types)
-    - [Type Aliases](#type-aliases)
+    - [Type Classes](#type-classes)
   - [Common Data Structures](#common-data-structures)
     - [Lists](#lists)
     - [Binary Trees](#binary-trees)
@@ -129,23 +129,29 @@ def mul : Nat → Nat → Nat
 | m+one, n => n + (mul m n)
 ```
 
-## Creating Custom Data Types
+## Custom Data Types
 
 Lean uses the `inductive` keyword to define new data types. This is similar to `data` in Haskell or `sealed class` in Kotlin.
 
 ### Product Types
 
-Product types combine multiple values into a single type. They're similar to structs in C or classes in Python.
+Product types combine multiple values into a single type. They're similar to structs in C or dataclasses in Python.
 
 ```lean
 structure Point where
   x : Float
   y : Float
+```
 
--- Creating a point
+This defines a new type `Point` with two fields `x` and `y`. We can create objects of this type using the constructor:
+
+```lean
 def myPoint : Point := { x := 1.0, y := 2.0 }
+```
 
--- Accessing fields
+We can access the fields of the object using dot notation:
+
+```lean
 #eval myPoint.x  -- Output: 1.0
 ```
 
@@ -155,33 +161,95 @@ Sum types (also known as tagged unions or algebraic data types) allow a value to
 
 ```lean
 inductive Shape
-  | circle    : Float → Float → Float → Shape
+  -- constructor that takes in 3 floats and outputs an object of type Shape (a triangle)
+  | triangle    : Float → Float → Float → Shape
+  -- constructor that takes in 4 floats and outputs an object of type Shape (a rectangle)
   | rectangle : Float → Float → Float → Float → Shape
+```
 
--- Using constructors
-def myCircle := Shape.circle 1.2 12.1 123.1
+These constructors can be used to create objects of type `Shape`:
+
+```lean
+def myTriangle := Shape.triangle 1.2 12.1 123.1
 def myRectangle := Shape.rectangle 1.2 12.1 123.1 1234.5
+```
 
--- Pattern matching
+The `Shape` type can now be used in functions to calculate the area of a shape using pattern matching:
+
+```lean
 def area : Shape → Float
-  | Shape.circle _ _ r => Float.pi * r * r
+  | Shape.triangle _ _ r => Float.pi * r * r
   | Shape.rectangle _ _ w h => w * h
 ```
 
-### Type Aliases
+### Type Classes
 
-Lean allows type aliases using the `class` keyword, similar to `type` in TypeScript or `typealias` in Kotlin:
+Lean allows the definition of type classes, which are similar to interfaces in TypeScript or traits in Rust. They define a set of functions that a type must implement.
+
+Lets take a very basic example, say we want all kinds of a certain type to have a zero value. We can define a type class `HasZero` that requires a zero value to be defined for any type that implements it:
+
+```lean
+-- Define a basic type class for types that have a "zero" value
+class HasZero (α : Type) where
+  zero : α  -- Every instance must provide a zero value
+```
+
+We can then implement this type class for different types:
+
+```lean
+-- Implement HasZero for some types
+instance : HasZero Nat where
+  zero := 0
+
+instance : HasZero Bool where
+  zero := false
+
+instance : HasZero String where
+  zero := ""
+```
+
+We can then use the `zero` function to get the zero value for any type that implements the `HasZero` type class:
+
+```lean
+-- Example usage
+def getZero {α : Type} [HasZero α] : α := HasZero.zero
+
+#eval getZero (α := Nat)    -- Output: 0
+#eval getZero (α := Bool)   -- Output: false
+#eval getZero (α := String)   -- Output: ""
+```
+
+A few more things to note here:
+
+1. The curly braces `{}` are used to define type parameters. These are inferred by the compiler if not provided explicitly, for example, `getZero` can be defined as `def getZero [HasZero α] : α := HasZero.zero` and the compiler will infer the type `α` from the context.
+
+2. The square brackets `[]` are used to define type class constraints. In this case, we require that the type `α` implements the `HasZero` type class. If the type does not implement the type class, the compiler will throw an error.
+
+`getZero` is called a polymorphic function, as it can work with any type that implements the `HasZero` type class. Parametric polymorphism is a powerful feature of Lean that allows us to write generic functions that work with any type that satisfies certain constraints.
+
+Here's another example of a `Plus` type class that defines a `plus` function which defines addition for all types that implement it:
 
 ```lean
 class Plus (α : Type) where
   plus : α → α → α
+```
 
+This can be implemented for different types like `Nat` and `Float`:
+
+```lean
 instance : Plus Nat where
   plus := Nat.add
 
 instance : Plus Float where
   plus := Float.add
 
+instance : Plus String where
+  plus := String.append
+```
+
+Finally, we can use the `plus` function on different types:
+
+```lean
 open Plus(plus)
 
 #eval plus 4 5 -- 9
