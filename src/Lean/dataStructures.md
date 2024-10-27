@@ -272,6 +272,36 @@ def s' := push s 4.2
 
 #### Queue
 
+Queues are another common data structure that follows the First In First Out (FIFO) principle. We can implement a queue using a list:
+
+```lean
+structure Q (α : Type) where
+  elems : List α
+deriving Repr
+
+#eval x.elems  -- Output: [1, 2, 3]
+```
+
+Enqueue and dequeue operations can be performed on the queue:
+
+```lean
+def enqueue {α : Type} (q : Q α) (x : α) : Q α :=
+  { q with elems := q.elems ++ [x] } -- append x to the end of the list
+
+def dequeue {α : Type} (q : Q α) : Option (α × Q α) :=
+  match q.elems with
+  | [] => none
+  | x :: xs => some (x, { elems := xs })
+```
+
+Finally, queues can be used as such:
+
+```lean
+def q : Q Float := { elems := [1.0, 2.2, 0.3] }
+def q' := enqueue q 4.2
+#eval dequeue q'  -- Output: some (1.000000, { elems := [2.200000, 0.300000, 4.200000] })
+```
+
 ### Maps
 
 ### Binary Trees
