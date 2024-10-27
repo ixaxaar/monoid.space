@@ -27,6 +27,8 @@
       - [Lists](#lists)
       - [Arrays](#arrays)
       - [Sets](#sets)
+      - [Stacks](#stacks)
+      - [Queue](#queue)
     - [Maps](#maps)
     - [Binary Trees](#binary-trees)
     - [Graphs](#graphs)
@@ -236,6 +238,39 @@ Finally, we can delete elements from the set using the `erase` function:
 def exampleSet3 := exampleSet2.erase 4
 #eval exampleSet3.contains 4  -- false
 ```
+
+#### Stacks
+
+Stacks are a common data structure that follows the Last In First Out (LIFO) principle. We can implement a stack using a list:
+
+```lean
+structure Stack (α : Type) where
+  elems : List α
+deriving Repr
+```
+
+We can define operations like `push` and `pop` on the stack:
+
+```lean
+def push {α : Type} (s : Stack α) (x : α) : Stack α :=
+  { s with elems := x :: s.elems } -- append x to the end of the list
+
+-- in pop we return the top element and the rest of the stack
+def pop {α : Type} (s : Stack α) : Option (α × Stack α) :=
+  match s.elems with
+  | [] => none
+  | x :: xs => some (x, { elems := xs })
+```
+
+Here, `push` adds an element to the top of the stack, while `pop` removes and returns the top element:
+
+```lean
+def s : Stack Float := { elems := [1.0, 2.2, 0.3] }
+def s' := push s 4.2
+#eval pop s'  -- Output: some (4.200000, { elems := [1.000000, 2.200000, 0.300000] })
+```
+
+#### Queue
 
 ### Maps
 
