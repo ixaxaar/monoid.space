@@ -111,13 +111,13 @@ inductive Nat : Type
   | succ : Nat → Nat -- every such object has a succeeding object
 ```
 
-Here, we define natural numbers by defining the element `zero` and the function `succ` that adds 1 to any given integer (creates the successive natural number) i.e. `succ zero` is 1, `succ (succ zero)` is two and so on. This is similar to Peano arithmetic and is foundational in type theory. In practice, Lean optimizes this to use machine integers for efficiency.
+Here, we define natural numbers by defining the element `zero` and the function `succ` that adds 1 to any given integer (creates the successive natural number) i.e. `succ zero` is 1, `succ (succ zero)` is two and so on. This is similar to Peano arithmetic and is foundational in type theory. In practice, `Nat` is a pre-defined type and Lean optimizes this to use machine integers for efficiency.
 
 ```lean
 def one := succ zero
 ```
 
-`Nat` is also a pre-defined type in Lean. Arithmetic operations can now be defined on `Nat` like addition and multiplicattion:
+Arithmetic operations can now be defined on `Nat` like addition and multiplicattion:
 
 ```lean
 def add : Nat → Nat → Nat
