@@ -34,8 +34,8 @@
   - [Custom Data Types](#custom-data-types)
     - [Product Types](#product-types)
     - [Sum Types](#sum-types)
-    - [Type Classes](#type-classes)
   - [Advanced Types](#advanced-types)
+    - [Type Classes](#type-classes)
     - [Dependent Types](#dependent-types)
     - [Propositions as Types](#propositions-as-types)
 
@@ -448,6 +448,8 @@ def area : Shape → Float
   | Shape.rectangle _ _ w h => w * h
 ```
 
+## Advanced Types
+
 ### Type Classes
 
 Lean allows the definition of type classes, which are similar to interfaces in TypeScript or traits in Rust. They define a set of functions that a type must implement.
@@ -521,8 +523,6 @@ open Plus(plus)
 #eval plus 4 5 -- 9
 #eval plus 4.3 5.2 -- 9.500000
 ```
-
-## Advanced Types
 
 ### Dependent Types
 
