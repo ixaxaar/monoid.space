@@ -77,17 +77,18 @@ Booleans are a fundamental type in most programming languages. In Lean, they're 
 inductive Bool : Type
   | false
   | true
-
--- Example usage
-def negation (b : Bool) : Bool :=
-  match b with
-  | true => false
-  | false => true
 ```
 
-This is similar to boolean types in virtually all programming languages, but in Lean, we can prove properties about boolean operations using the type system, which looks something like this:
+This type can be used to define a function such as negation, which takes in a `Bool` and returns a `Bool`:
 
-Prove that `negation (negation x) == x`:
+```lean
+def negation (b : Bool) : Bool :=
+  match b with -- an example of a switch-case in Lean
+  | true => false -- if b is true, we return false
+  | false => true -- if b is false, we return true
+```
+
+This is similar to boolean types in virtually all programming languages, but in Lean, we can prove properties about boolean operations using the type system. Let us see a proof of `negation (negation x) == x`:
 
 ```lean
 theorem negationNegation (b : Bool) : negation (negation b) = b :=
@@ -106,24 +107,27 @@ Natural numbers are defined inductively in Lean:
 
 ```lean
 inductive Nat : Type
-  | zero : Nat
-  | succ : Nat → Nat
-
-def one := succ zero
-
--- Arithmetic operations
-def add : Nat → Nat → Nat
-  | zero,   n => n
-  | m+one, n => (add m n) + one
-
-def mul : Nat → Nat → Nat
-  | zero,   _ => zero
-  | m+one, n => n + (mul m n)
+  | zero : Nat -- define a zero object as the base
+  | succ : Nat → Nat -- every such object has a succeeding object
 ```
 
-Here, we define natural numbers by defining the element `zero` and the function `succ` that adds 1 to any given integer (creates the successive natural number).
+Here, we define natural numbers by defining the element `zero` and the function `succ` that adds 1 to any given integer (creates the successive natural number) i.e. `succ zero` is 1, `succ (succ zero)` is two and so on. This is similar to Peano arithmetic and is foundational in type theory. In practice, Lean optimizes this to use machine integers for efficiency.
 
-This is similar to Peano arithmetic and is foundational in type theory. In practice, Lean optimizes this to use machine integers for efficiency.
+```lean
+def one := succ zero
+```
+
+`Nat` is also a pre-defined type in Lean. Arithmetic operations can now be defined on `Nat` like addition and multiplicattion:
+
+```lean
+def add : Nat → Nat → Nat
+| zero, n => n
+| m+one, n => (add m n) + one
+
+def mul : Nat → Nat → Nat
+| zero, _ => zero -- _ implies we dont care what the argument is
+| m+one, n => n + (mul m n)
+```
 
 ## Creating Custom Data Types
 
