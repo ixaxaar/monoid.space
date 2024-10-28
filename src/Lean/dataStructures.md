@@ -52,7 +52,7 @@ def x : Nat := 0
 def b : Bool := true
 ```
 
-This is similar to type annotations in languages like TypeScript or Kotlin.
+This is similar to type annotations in languages like TypeScript or Kotlin. The `def` keyword is used to define a new variable, `x`, with type `Nat` and value `0`. Similarly, `b` is defined as a `Bool` with value `true`.
 
 ## Basic Types
 
@@ -63,6 +63,8 @@ The empty type, also known as the bottom type, is a type with no values. In some
 ```lean
 inductive Empty : Type
 ```
+
+The `inductive` keyword is used to define new types in Lean. The `Empty` type has no constructors, so it has no values. This type is used to represent logical impossibility or undefined behavior.
 
 ### Unit Type
 
@@ -94,7 +96,7 @@ def negation (b : Bool) : Bool :=
   | false => true -- if b is false, we return true
 ```
 
-This is similar to boolean types in virtually all programming languages, but in Lean, we can prove properties about boolean operations using the type system. Let us see a proof of `negation (negation x) == x`:
+This is how functions are defined in Lean, though we will see more about functions in the next sections. `Bool` is similar to boolean types in virtually all programming languages, but in Lean, we can prove properties about boolean operations using the type system. Let us see a proof of `negation (negation x) == x`:
 
 ```lean
 theorem negationNegation (b : Bool) : negation (negation b) = b :=
@@ -245,6 +247,8 @@ structure Stack (α : Type) where
   elems : List α
 deriving Repr
 ```
+
+Here we use the `structure` keyword to define a new data structure `Stack` with a single field `elems` of type `List α`. In lean, the `structure` keyword is used to define new data structures, similar to `data` in Haskell or `struct` in C++. The structure also derives a `Repr` instance, which allows us to print the stack using `#eval`.
 
 We can define operations like `push` and `pop` on the stack:
 
