@@ -1,7 +1,7 @@
 ---
 
 [Contents](contents.html)
-[Previous](Lean.dataStructures.html)
+[Previous](Lean.types.html)
 [Next](Lean.other.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -30,7 +30,7 @@
 # Functions
 
 [Contents](contents.md)
-[Previous](Lean.dataStructures.md)
+[Previous](Lean.types.md)
 [Next](Lean.other.md)
 
 ## Generic Syntax

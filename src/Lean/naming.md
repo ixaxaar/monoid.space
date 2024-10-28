@@ -1,7 +1,7 @@
 ****
 [Contents](contents.html)
 [Previous](Lean.setup.html)
-[Next](Lean.dataStructures.html)
+[Next](Lean.types.html)
 
 # Naming conventions
 
@@ -75,4 +75,4 @@ Here's a list of resources for learning Lean:
 10. [Formal Abstractions](https://www.youtube.com/c/FormalAbstractions): A YouTube channel with Lean tutorials and demonstrations.
 
 ****
-[Data Structures](./Lean.dataStructures.html)
+[Types](./Lean.types.html)
