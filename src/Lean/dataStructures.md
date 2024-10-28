@@ -138,7 +138,7 @@ def mul : Nat → Nat → Nat
 ### Other Primitive Types
 
 | Type     | Description                                        | Example Usage               | Notes                                 |
-| -------- | -------------------------------------------------- | --------------------------- | ------------------------------------- |
+|----------|----------------------------------------------------|-----------------------------|---------------------------------------|
 | `Empty`  | The empty type with no values                      | `def f : Empty → α`         | Used for logical impossibility        |
 | `Unit`   | The unit type with one value `unit`                | `def x : Unit := ()`        | Often used as dummy value             |
 | `Bool`   | Booleans with values `true` and `false`            | `def b : Bool := true`      | Used for conditional logic            |
@@ -351,26 +351,42 @@ def exampleMap : Std.HashMap Nat String :=
 
 ### Binary Trees
 
-Binary trees are a common data structure in many languages:
+Binary trees are a common data structure in many languages. The data structure consists of nodes, each of which has a value and two children (left and right). Each node can be a leaf (no children) or an internal node (with children). We can define a binary tree in Lean as follows:
 
 ```lean
 inductive BinTree (α : Type) : Type
-  | leaf : BinTree α
-  | node : α → BinTree α → BinTree α → BinTree α
+  | leaf : BinTree α -- leaf node, with value of type α
+  | node : α → BinTree α → BinTree α → BinTree α -- value, left child, right child
+```
 
--- Example usage
+We can create a binary tree using the `leaf` and `node` constructors:
+
+```lean
 def exampleTree : BinTree Nat :=
   BinTree.node 1
     (BinTree.node 2 BinTree.leaf BinTree.leaf)
     (BinTree.node 3 BinTree.leaf BinTree.leaf)
+```
 
--- Tree operations
+This creates a binary tree with the following structure:
+
+```
+    1
+   / \
+  2   3
+```
+
+We can define operations on binary trees, such as finding the depth of the tree:
+
+```lean
 def depth : BinTree α → Nat
   | BinTree.leaf => 0
   | BinTree.node _ left right => 1 + max (depth left) (depth right)
 
 #eval depth exampleTree  -- Output: 2
 ```
+
+We will take a closer look on tree based algorithms in the next sections.
 
 ### Graphs
 
