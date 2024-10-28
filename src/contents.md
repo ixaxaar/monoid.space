@@ -10,7 +10,7 @@
 
   - [Setup](./Lean.setup.html)
   - [Naming Conventions](./Lean.naming.html)
-  - [Types](./Lean.types.html)
+  - [Types & Data structures](./Lean.types.html)
   - [Functions](./Lean.functions.html)
   - [Modules, Records and Postulates](./Lean.other.html)
   - [Debugging](./Lean.debugging.html)

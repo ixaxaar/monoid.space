@@ -9,11 +9,11 @@
 
 ---
 
-# Data Structures
+# Types & Data Structures
 
 ---
 
-- [Data Structures](#data-structures)
+- [Types \& Data Structures](#types--data-structures)
   - [Types](#types)
     - [Declaring Types](#declaring-types)
   - [Basic Types](#basic-types)
