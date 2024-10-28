@@ -1,7 +1,7 @@
 ****
 [Contents](contents.html)
-[Previous](Lang.functions.html)
-[Next](Lang.debugging.html)
+[Previous](Lean.functions.html)
+[Next](Lean.debugging.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -21,7 +21,7 @@
 # Additional Language Features and Syntax
 
 ```agda
-module Lang.other where
+module Lean.other where
 
 open import Data.Nat using (ℕ; zero; suc; _+_; _*_)
 open import Data.Bool using (Bool; true; false)
@@ -231,4 +231,4 @@ Using `_` for inferring arguments can be helpful in making your code more concis
 
 
 ****
-[Debugging](./Lang.debugging.html)
+[Debugging](./Lean.debugging.html)

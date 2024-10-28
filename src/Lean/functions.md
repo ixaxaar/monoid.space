@@ -1,8 +1,8 @@
 ---
 
 [Contents](contents.html)
-[Previous](Lang.dataStructures.html)
-[Next](Lang.other.html)
+[Previous](Lean.dataStructures.html)
+[Next](Lean.other.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -30,8 +30,8 @@
 # Functions
 
 [Contents](contents.md)
-[Previous](Lang.dataStructures.md)
-[Next](Lang.other.md)
+[Previous](Lean.dataStructures.md)
+[Next](Lean.other.md)
 
 ## Generic Syntax
 
@@ -234,8 +234,8 @@ Lean provides syntactical sugar to simplify the expression of certain patterns:
 
 ---
 
-[Modules, Structures, and Axioms](./Lang.other.md)
+[Modules, Structures, and Axioms](./Lean.other.md)
 
 ---
 
-[Modules, Records and Postulates](./Lang.other.html)
+[Modules, Records and Postulates](./Lean.other.html)

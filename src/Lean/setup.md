@@ -1,7 +1,7 @@
 ****
 [Contents](contents.html)
-[Previous](Lang.intro.html)
-[Next](Lang.naming.html)
+[Previous](Lean.intro.html)
+[Next](Lean.naming.html)
 
 # Lean Installation
 
@@ -116,5 +116,6 @@ For the latest development version or specific customizations:
    - For Vim: Use lean.vim
 
 For the most up-to-date information, always refer to the [official Lean documentation](https://leanprover.github.io/lean4/doc/).
+
 ****
-[Naming Conventions](./Lang.naming.html)
+[Naming Conventions](./Lean.naming.html)

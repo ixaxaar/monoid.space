@@ -1,8 +1,8 @@
 ---
 
 [Contents](contents.html)
-[Previous](Lang.naming.html)
-[Next](Lang.functions.html)
+[Previous](Lean.naming.html)
+[Next](Lean.functions.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -604,4 +604,4 @@ This allows Lean to be used not just as a programming language, but as a powerfu
 
 ---
 
-[Functions](./Lang.functions.html)
+[Functions](./Lean.functions.html)
