@@ -31,7 +31,7 @@
     - [Maps](#maps)
     - [Binary Trees](#binary-trees)
     - [Graphs](#graphs)
-  - [Custom Data Types](#custom-data-types)
+  - [Custom Types](#custom-types)
     - [Product Types](#product-types)
     - [Sum Types](#sum-types)
   - [Advanced Types](#advanced-types)
@@ -429,7 +429,7 @@ def neighbors (v : Vertex) (g : Graph) : List Vertex :=
 
 We will look at how to implement more advanced graph algorithms in the next sections.
 
-## Custom Data Types
+## Custom Types
 
 Lean uses the `inductive` keyword to define new data types. This is similar to `data` in Haskell or `sealed class` in Kotlin.
 
