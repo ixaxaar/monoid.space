@@ -407,13 +407,27 @@ structure Edge where
 structure Graph where
   vertices : List Vertex
   edges : List Edge
+```
 
--- Example usage
+Here, we define a `Vertex` as a structure with an `id` field, an `Edge` as a structure with `from` and `to` fields, and a `Graph` as a structure with lists of vertices and edges. We can create vertices and edges and define a graph as follows:
+
+```lean
 def v1 := Vertex.mk 1
 def v2 := Vertex.mk 2
 def e := Edge.mk v1 v2
 def g : Graph := { vertices := [v1, v2], edges := [e] }
 ```
+
+Operations on graphs can be defined, such as finding the neighbors of a vertex:
+
+```lean
+def neighbors (v : Vertex) (g : Graph) : List Vertex :=
+  g.edges.filterMap fun e =>
+    if e.from == v then some e.to
+    else none
+```
+
+We will look at how to implement more advanced graph algorithms in the next sections.
 
 ## Custom Data Types
 
@@ -553,8 +567,11 @@ Dependent types are one of Lean's most powerful features. They allow types to de
 inductive Vector (α : Type) : Nat → Type
   | nil  : Vector α 0
   | cons : α → {n : Nat} → Vector α n → Vector α (n+1)
+```
 
--- Example usage
+Here, `Vector α n` is a vector of length `n` containing elements of type `α`. The `nil` constructor creates an empty vector, while the `cons` constructor adds an element to the front of a vector. The length of the vector is encoded in the type itself, so the type system ensures that operations like `head` (which returns the first element of a non-empty vector) are safe:
+
+```lean
 def vec1 : Vector Bool 1 := Vector.cons true Vector.nil
 def vec2 : Vector Bool 2 := Vector.cons false vec1
 
@@ -566,7 +583,7 @@ def head {α : Type} {n : Nat} : Vector α (n+1) → α
 -- This would be a compile-time error: #eval head Vector.nil
 ```
 
-This is similar to dependent types in languages like Idris or Agda, but is not found in most mainstream programming languages.
+This is similar to dependent types in languages like Idris or Agda, but is not found in most mainstream programming languages. Dependent types allow us to encode complex invariants in the type system, leading to safer and more expressive code, and moving some runtime errors to compile-time errors.
 
 ### Propositions as Types
 
@@ -583,7 +600,7 @@ def or_comm {p q : Prop} : p ∨ q → q ∨ p
   | Or.inr hq => Or.inl hq
 ```
 
-This allows Lean to be used not just as a programming language, but as a powerful theorem prover.
+This allows Lean to be used not just as a programming language, but as a powerful theorem prover. We will cover more about theorem proving in a subsequent chapter.
 
 ---
 
