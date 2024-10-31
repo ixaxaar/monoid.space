@@ -11,11 +11,12 @@
 
 - [Functions](#functions)
   - [Generic Syntax](#generic-syntax)
-  - [Examples - Pattern matching functions](#examples---pattern-matching-functions)
+  - [Pattern matching functions](#pattern-matching-functions)
     - [The Logical Not](#the-logical-not)
     - [The logical AND](#the-logical-and)
     - [The logical OR](#the-logical-or)
-  - [Examples - Recursive functions](#examples---recursive-functions)
+    - [The logical XOR](#the-logical-xor)
+  - [Recursive functions](#recursive-functions)
     - [Addition of natural numbers](#addition-of-natural-numbers)
     - [Length of a List](#length-of-a-list)
 - [Dependent Function Types or Π-types](#dependent-function-types-or-π-types)
@@ -33,6 +34,19 @@
 [Previous](Lean.types.md)
 [Next](Lean.other.md)
 
+Functions in Lean are defined using the `def` keyword. The syntax for defining functions in Lean is similar to defining inductive types.
+
+These are the different types of functions we can define in Lean:
+
+| Type of Function           | Description                                                   |
+|----------------------------|---------------------------------------------------------------|
+| Pattern-matching functions | Functions that match patterns to produce outputs              |
+| Recursive functions        | Functions that call themselves to compute results             |
+| Dependent functions        | Functions where the result type depends on the argument value |
+| Lambda functions           | Anonymous functions that can be passed as arguments           |
+
+Functions are also first-class citizens in Lean, meaning they can be passed as arguments to other functions, returned as results, and stored in data structures.
+
 ## Generic Syntax
 
 Syntax for defining functions in Lean:
@@ -48,7 +62,54 @@ def not : Bool → Bool
   | false => true
 ```
 
-## Examples - Pattern matching functions
+## Pattern matching functions
+
+Pattern-matching functions are functions that match patterns to produce outputs. They are defined using the `def` keyword, followed by the function name, type, and pattern-matching clauses.
+
+The verbose lean syntax for pattern matching functions is:
+
+```lean
+def functionName : inputType → outputType
+  match inputType with
+    | pattern₁ => output₁
+    | pattern₂ => output₂
+    ...
+    | patternN => outputN
+```
+
+This can be shortened to:
+
+```lean
+def functionName : inputType → outputType
+  | pattern₁ => output₁
+  | pattern₂ => output₂
+  ...
+  | patternN => outputN
+```
+
+There is also a version of pattern matching that uses a wildcard pattern (`_`) to match any value:
+
+```lean
+def functionName : inputType → outputType
+  | pattern₁ => output₁
+  | _        => defaultOutput
+```
+
+There are also infix functions, which are functions that can be used in infix notation. For example, the `and` function (`,`) can be used as `true ∧ false`.
+
+```lean
+def functionName : inputType → inputType → outputType
+  | pattern₁, pattern₂ => output
+  | pattern₃, pattern₄ => output
+```
+
+Finally, you can define functions with multiple arguments:
+
+```lean
+def functionName : inputType₁ → inputType₂ → outputType
+  | pattern₁, pattern₂ => output
+  | pattern₃, pattern₄ => output
+```
 
 ### The Logical Not
 
@@ -80,6 +141,13 @@ def and : Bool → Bool → Bool
 infixr:70 " ∧ " => and
 ```
 
+We can use this function as:
+
+```lean
+def true₀ : Bool := true ∧ true
+def false₀ : Bool := true ∧ false
+```
+
 ### The logical OR
 
 ```lean
@@ -100,31 +168,33 @@ def false₁ : Bool := true ∧ false
 def true₁ : Bool := true ∨ false ∨ false₁
 ```
 
-## Examples - Recursive functions
+### The logical XOR
+
+The xor function with multiple arguments and wildcards:
+
+```lean
+def xor : Bool → Bool → Bool
+  | true,  false => true  -- true XOR false is true
+  | false, true  => true  -- false XOR true is true
+  | _,     _     => false -- all other cases are false
+```
+
+## Recursive functions
+
+Recursive functions are functions that call themselves to compute results. They are useful for defining functions that operate on recursive data structures or have recursive behavior.
+
+The syntax for defining recursive functions in Lean is similar to pattern-matching functions, but with a recursive call to the function itself.
 
 ### Addition of natural numbers
 
-Here we follow a similar pattern as in `inductive`, we define:
-
-- the base case, what happens on addition with zero
-- and how to successively build up the final value
+The addition of natural numbers is a classic example of a recursive function. Here's how it can be defined in Lean:
 
 ```lean
 def add : Nat → Nat → Nat
-  | 0,    n => n
-  | m+1,  n => (add m n) + 1
+  | 0,    n => n -- base case: 0 + n is n
+  | m+1,  n => (add m n) + 1 -- recursive case: (m+1) + n is m + (n+1)
 
 infixl:65 " + " => add
-```
-
-Thus, we can use them to get new numbers easily:
-
-```lean
-def one : Nat := 1
-def ten : Nat := 10
-def eleven : Nat := ten + one
-def twelve : Nat := eleven + one
-def thirteen : Nat := twelve + one
 ```
 
 ### Length of a List
