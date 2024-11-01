@@ -11,25 +11,26 @@
 
 - [Functions](#functions)
   - [Generic Syntax](#generic-syntax)
-  - [Pattern matching functions](#pattern-matching-functions)
+    - [Syntactical Sugar](#syntactical-sugar)
+  - [Pattern matching](#pattern-matching)
     - [Syntax](#syntax)
     - [The Logical Not](#the-logical-not)
     - [The logical AND](#the-logical-and)
     - [The logical OR](#the-logical-or)
     - [The logical XOR](#the-logical-xor)
-  - [Recursive functions](#recursive-functions)
+  - [Recursion](#recursion)
     - [Addition of natural numbers](#addition-of-natural-numbers)
     - [Length of a List](#length-of-a-list)
-  - [Dependent Function Types](#dependent-function-types)
+  - [Dependent Types](#dependent-types)
     - [Syntax](#syntax-1)
     - [Conditional Types](#conditional-types)
     - [Length-Indexed Vectors](#length-indexed-vectors)
     - [Working with Implicit Arguments](#working-with-implicit-arguments)
   - [Lambda Functions](#lambda-functions)
-    - [Implicit Arguments: List concatenation](#implicit-arguments-list-concatenation)
-    - [Dependent Pattern Matching: Square Root](#dependent-pattern-matching-square-root)
+    - [Syntax](#syntax-2)
+    - [Implicit Arguments](#implicit-arguments)
+    - [Dependent Pattern Matching](#dependent-pattern-matching)
     - [Map](#map)
-- [Syntactical Sugar](#syntactical-sugar)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -43,12 +44,12 @@ Functions in Lean are defined using the `def` keyword. The syntax for defining f
 
 These are the different types of functions we can define in Lean:
 
-| Type of Function           | Description                                                   |
-|----------------------------|---------------------------------------------------------------|
-| Pattern-matching functions | Functions that match patterns to produce outputs              |
-| Recursive functions        | Functions that call themselves to compute results             |
-| Dependent functions        | Functions where the result type depends on the argument value |
-| Lambda functions           | Anonymous functions that can be passed as arguments           |
+| Type of Function | Description                                                   |
+|------------------|---------------------------------------------------------------|
+| Pattern-matching | Functions that match patterns to produce outputs              |
+| Recursive        | Functions that call themselves to compute results             |
+| Dependent        | Functions where the result type depends on the argument value |
+| Lambda           | Anonymous functions that can be passed as arguments           |
 
 Functions are also first-class citizens in Lean, meaning they can be passed as arguments to other functions, returned as results, and stored in data structures.
 
@@ -67,7 +68,19 @@ def not : Bool → Bool
   | false => true
 ```
 
-## Pattern matching functions
+### Syntactical Sugar
+
+Lean provides syntactical sugar to simplify the expression of certain patterns:
+
+```lean
+-- (x : α) → (y : β) → γ  is equivalent to  (x : α) (y : β) → γ
+-- ∀ (x : α), γ  is equivalent to  (x : α) → γ
+-- ∀ x, γ  is equivalent to  (x : _) → γ  (type is inferred)
+-- λ x y => e  is equivalent to  λ x => λ y => e
+-- f a b  is equivalent to  (f a) b
+```
+
+## Pattern matching
 
 Pattern-matching functions are functions that match patterns to produce outputs. They are defined using the `def` keyword, followed by the function name, type, and pattern-matching clauses.
 
@@ -186,7 +199,7 @@ def xor : Bool → Bool → Bool
   | _,     _     => false -- all other cases are false
 ```
 
-## Recursive functions
+## Recursion
 
 Recursive functions are functions that call themselves to compute results. They are useful for defining functions that operate on recursive data structures or have recursive behavior.
 
@@ -221,7 +234,7 @@ The `length` function takes a list of any type `α` and returns a natural number
 
 This function recursively processes the list, accumulating the total count of elements until it reaches the empty list.
 
-## Dependent Function Types
+## Dependent Types
 
 Dependent function types, also known as Π-types (Pi-types), represent one of the most powerful features in dependent type theory and Lean. Unlike simple function types where input and output types are fixed, dependent function types allow the *output type to depend on the input value*. This capability enables us to express complex relationships between values and types that would be impossible in simply-typed languages.
 
@@ -338,6 +351,10 @@ As we can see, the `replicate` function creates a vector of a specified length f
 
 ## Lambda Functions
 
+Lambda functions, also known as anonymous functions, are functions that are not bound to a specific name. They are useful for defining functions on the fly, passing functions as arguments, and returning functions as results. In Lean, lambda functions are defined using the `λ` symbol.
+
+### Syntax
+
 Lambda (or anonymous) functions can be defined using the following syntax:
 
 ```lean
@@ -346,7 +363,7 @@ def example₁ := λ (α : Type) (x : α) => x
 
 Here are a few examples of lambda functions:
 
-### Implicit Arguments: List concatenation
+### Implicit Arguments
 
 Functions in Lean can work with implicit parameters, which means the compiler can infer certain argument values. For example:
 
@@ -362,7 +379,7 @@ Curly braces `{}` denote implicit arguments in Lean. Values of implicit argument
 
 This function takes a type as a parameter `α`, and thus can work on `List`s of any type `α`. This feature of functions is called "parametric polymorphism".
 
-### Dependent Pattern Matching: Square Root
+### Dependent Pattern Matching
 
 Lean supports dependent pattern matching, which is similar to Agda's dot patterns. Here's an example:
 
@@ -395,22 +412,6 @@ def addOne : Nat → Nat
 
 #eval map addOne [1, 2, 3, 4]  -- Output: [2, 3, 4, 5]
 ```
-
-# Syntactical Sugar
-
-Lean provides syntactical sugar to simplify the expression of certain patterns:
-
-```lean
--- (x : α) → (y : β) → γ  is equivalent to  (x : α) (y : β) → γ
--- ∀ (x : α), γ  is equivalent to  (x : α) → γ
--- ∀ x, γ  is equivalent to  (x : _) → γ  (type is inferred)
--- λ x y => e  is equivalent to  λ x => λ y => e
--- f a b  is equivalent to  (f a) b
-```
-
----
-
-[Modules, Structures, and Axioms](./Lean.other.md)
 
 ---
 
