@@ -2,7 +2,7 @@
 
 [Contents](contents.html)
 [Previous](Lean.types.html)
-[Next](Lean.other.html)
+[Next](Lean.algorithms.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -415,4 +415,4 @@ def addOne : Nat → Nat
 
 ---
 
-[Modules, Records and Postulates](./Lean.other.html)
+[Algorithms](./Lean.algorithms.html)
