@@ -20,7 +20,7 @@
     - [Addition of natural numbers](#addition-of-natural-numbers)
     - [Length of a List](#length-of-a-list)
   - [Dependent Function Types](#dependent-function-types)
-    - [Notation](#notation)
+    - [Syntax](#syntax)
     - [Conditional Types](#conditional-types)
     - [Length-Indexed Vectors](#length-indexed-vectors)
     - [Working with Implicit Arguments](#working-with-implicit-arguments)
@@ -222,7 +222,7 @@ This function recursively processes the list, accumulating the total count of el
 
 Dependent function types, also known as Π-types (Pi-types), represent one of the most powerful features in dependent type theory and Lean. Unlike simple function types where input and output types are fixed, dependent function types allow the *output type to depend on the input value*. This capability enables us to express complex relationships between values and types that would be impossible in simply-typed languages.
 
-### Notation
+### Syntax
 
 In Lean, dependent function types can be written in several ways:
 - Using `Π` (Pi) notation
