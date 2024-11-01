@@ -19,7 +19,11 @@
   - [Recursive functions](#recursive-functions)
     - [Addition of natural numbers](#addition-of-natural-numbers)
     - [Length of a List](#length-of-a-list)
-- [Dependent Function Types or Π-types](#dependent-function-types-or-π-types)
+  - [Dependent Function Types](#dependent-function-types)
+    - [Notation](#notation)
+    - [Conditional Types](#conditional-types)
+    - [Length-Indexed Vectors](#length-indexed-vectors)
+    - [Working with Implicit Arguments](#working-with-implicit-arguments)
   - [Lambda Functions](#lambda-functions)
     - [Implicit Arguments: List concatenation](#implicit-arguments-list-concatenation)
     - [Dependent Pattern Matching: Square Root](#dependent-pattern-matching-square-root)
@@ -203,8 +207,8 @@ The length of a list consists of traversing through the list and adding one for 
 
 ```lean
 def length {α : Type} : List α → Nat
-  | []      => 0
-  | _ :: xs => 1 + length xs
+  | []      => 0 -- base case: empty list has length 0
+  | _ :: xs => 1 + length xs -- recursive case: 1 + length of the rest of the list
 ```
 
 The `length` function takes a list of any type `α` and returns a natural number (`Nat`). It uses pattern matching to handle two cases:
@@ -214,21 +218,120 @@ The `length` function takes a list of any type `α` and returns a natural number
 
 This function recursively processes the list, accumulating the total count of elements until it reaches the empty list.
 
-# Dependent Function Types or Π-types
+## Dependent Function Types
 
-Dependent function types (also called Π-types) are function types where the result type depends on the argument value. These types generalize regular function types to allow more expressive types.
+Dependent function types, also known as Π-types (Pi-types), represent one of the most powerful features in dependent type theory and Lean. Unlike simple function types where input and output types are fixed, dependent function types allow the *output type to depend on the input value*. This capability enables us to express complex relationships between values and types that would be impossible in simply-typed languages.
 
-In Lean, dependent function types are written using the `Pi` keyword or the `∀` symbol. For example:
+### Notation
+
+In Lean, dependent function types can be written in several ways:
+- Using `Π` (Pi) notation
+- Using `∀` (forall) notation
+- Using arrow notation `→` when appropriate
+
+Let's start with a simple example to illustrate the concept:
 
 ```lean
--- Binary dependent function type
-def binaryDepFun (α : Type) (β : α → Type) : Type :=
-  (a : α) → β a
+/-- A function that takes a type and returns a type.
+    Note that even this simple example is a dependent type, as
+    the result is a type that depends on the input type! -/
+def F (α : Type) : Type := List α
 
--- Ternary dependent function type
-def ternaryDepFun (α : Type) (β : α → Type) (γ : (a : α) → β a → Type) : Type :=
-  (a : α) → (b : β a) → γ a b
+/-
+The type of F itself is Type → Type. This means it takes a type
+and returns a type. While simple, this demonstrates the basic idea
+of type dependency.
+-/
+#check F      -- Type → Type
+#check F Nat  -- Type
 ```
+
+### Conditional Types
+
+One powerful application of dependent types is the ability to have different return types based on a condition. Here's an example:
+
+```lean
+/-- This function returns either a Nat or a String depending on the boolean input.
+    Note how the return type uses an if-expression directly in the type! -/
+def natOrStringThree (b : Bool) : if b then Nat else String :=
+  match b with
+  | true => (3 : Nat)
+  | false => "three"
+```
+
+Let's examine what happens when we use this function:
+
+```lean
+#check natOrStringThree true   -- Nat
+#check natOrStringThree false  -- String
+#eval natOrStringThree true    -- 3
+#eval natOrStringThree false   -- "three"
+```
+
+As we can see, the return type of `natOrStringThree` depends on the input value `b`. If `b` is `true`, the function returns a `Nat`, and if `b` is `false`, it returns a `String`.
+
+### Length-Indexed Vectors
+
+Perhaps the most classic example of dependent types is vectors - lists whose lengths are encoded in their types. This example showcases how dependent types can enforce properties at the type level:
+
+A Vector is a list whose length is tracked in its type. α is the type of elements. The second parameter (Nat) indicates this is indexed by natural numbers:
+
+```lean
+inductive Vector (α : Type) : Nat → Type
+  | nil  : Vector α 0                                        -- Empty vector has length 0
+  | cons : α → {n : Nat} → Vector α n → Vector α (n + 1)    -- Adding an element increases length by 1
+```
+
+Get the length of a vector. Note that we don't need to examine the vector itself, as the length is encoded in its type:
+
+```lean
+def vectorLength {α : Type} {n : Nat} (v : Vector α n) : Nat := n
+```
+
+Append two vectors. Notice how the return type shows that lengths add:
+
+```lean
+def append {α : Type} : {n m : Nat} → Vector α n → Vector α m → Vector α (n + m)
+  | 0, m, Vector.nil, ys => ys
+  | n+1, m, Vector.cons x xs, ys => Vector.cons x (append xs ys)
+```
+
+Let's create some vectors to see how this works:
+
+```lean
+def v1 := Vector.cons 1 Vector.nil           -- Vector Nat 1
+def v2 := Vector.cons 2 (Vector.cons 3 Vector.nil)  -- Vector Nat 2
+#check append v1 v2  -- Vector Nat 3
+```
+
+### Working with Implicit Arguments
+
+Dependent types often work with implicit arguments, which Lean can infer from context. Consider a function that creates a vector of a specified length filled with a value:
+
+```lean
+-- Notice how {α : Type} is implicit but (n : Nat) is explicit
+def replicate {α : Type} (n : Nat) (x : α) : Vector α n :=
+  match n with
+  | 0 => Vector.nil
+  | n+1 => Vector.cons x (replicate n x)
+```
+
+Next, we define a `map` function that applies a function to each element of a vector:
+
+```lean
+def map {α β : Type} {n : Nat} (f : α → β) : Vector α n → Vector β n
+  | Vector.nil => Vector.nil
+  | Vector.cons x xs => Vector.cons (f x) (map f xs)
+```
+
+Let's see how these functions work:
+
+```lean
+#eval replicate 3 true   -- Vector of 3 trues
+#check map (· + 1) (replicate 3 0)  -- Vector Nat 3
+```
+
+As we can see, the `replicate` function creates a vector of a specified length filled with a given value, and the `map` function applies a function to each element of a vector.
 
 ## Lambda Functions
 
