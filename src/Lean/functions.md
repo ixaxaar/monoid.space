@@ -12,6 +12,7 @@
 - [Functions](#functions)
   - [Generic Syntax](#generic-syntax)
   - [Pattern matching functions](#pattern-matching-functions)
+    - [Syntax](#syntax)
     - [The Logical Not](#the-logical-not)
     - [The logical AND](#the-logical-and)
     - [The logical OR](#the-logical-or)
@@ -20,7 +21,7 @@
     - [Addition of natural numbers](#addition-of-natural-numbers)
     - [Length of a List](#length-of-a-list)
   - [Dependent Function Types](#dependent-function-types)
-    - [Syntax](#syntax)
+    - [Syntax](#syntax-1)
     - [Conditional Types](#conditional-types)
     - [Length-Indexed Vectors](#length-indexed-vectors)
     - [Working with Implicit Arguments](#working-with-implicit-arguments)
@@ -69,6 +70,8 @@ def not : Bool → Bool
 ## Pattern matching functions
 
 Pattern-matching functions are functions that match patterns to produce outputs. They are defined using the `def` keyword, followed by the function name, type, and pattern-matching clauses.
+
+### Syntax
 
 The verbose lean syntax for pattern matching functions is:
 
