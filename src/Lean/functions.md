@@ -31,6 +31,13 @@
     - [Implicit Arguments](#implicit-arguments)
     - [Dependent Pattern Matching](#dependent-pattern-matching)
     - [Map](#map)
+  - [Function Operations](#function-operations)
+    - [Parametric Polymorphism](#parametric-polymorphism)
+    - [Function Composition](#function-composition)
+    - [Currying and Partial Application](#currying-and-partial-application)
+    - [Local definitions](#local-definitions)
+    - [Termination Checking](#termination-checking)
+    - [Mutual Recursion](#mutual-recursion)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -377,7 +384,7 @@ infixr:65 " ++ " => append
 
 Curly braces `{}` denote implicit arguments in Lean. Values of implicit arguments are derived from other argument values and types by solving type equations. You don't have to apply them explicitly (though they can be explicitly passed like `@function_name α`).
 
-This function takes a type as a parameter `α`, and thus can work on `List`s of any type `α`. This feature of functions is called "parametric polymorphism".
+This function takes a type as a parameter `α`, and thus can work on `List`s of any type `α`. This feature of functions is called "parametric polymorphism", more on that later.
 
 ### Dependent Pattern Matching
 
@@ -412,6 +419,137 @@ def addOne : Nat → Nat
 
 #eval map addOne [1, 2, 3, 4]  -- Output: [2, 3, 4, 5]
 ```
+
+## Function Operations
+
+### Parametric Polymorphism
+
+Parametric polymorphism is a feature of some programming languages that allows functions and data types to be generic over types. This means that functions and data types can be defined without specifying the exact type they operate on, making them more flexible and reusable.
+
+In Lean, parametric polymorphism is achieved using type variables. Type variables are placeholders for types that can be instantiated with any concrete type. They are denoted by names enclosed in curly braces `{}`.
+
+Here's an example of a parametrically polymorphic function in Lean:
+
+```lean
+def id {α : Type} (x : α) : α := x
+```
+
+In this example, `id` is a function that takes a value of any type `α` and returns the same value. The type variable `α` is used to indicate that the function is generic over types.
+
+Lets now look at a slightly more complex example:
+
+```lean
+def swap {α β : Type} (p : α × β) : β × α :=
+  match p with
+  | (a, b) => (b, a)
+```
+
+In this example, `swap` is a function that takes a pair of values of types `α` and `β` and returns a pair with the values swapped. The type variables `α` and `β` indicate that the function is generic over types. The function `swap` can be used with any pair of values of any types:
+
+```lean
+#eval swap (1, "hello")  -- Output: ("hello", 1)
+#eval swap ("world", 42)  -- Output: (42, "world")
+```
+
+### Function Composition
+
+Function composition is a fundamental concept in functional programming that allows you to combine multiple functions to create a new function. In Lean, function composition can be achieved using the `∘` operator.
+
+Here's an example of function composition in Lean:
+
+```lean
+def addOne : Nat → Nat := λ x => x + 1
+def double : Nat → Nat := λ x => x * 2
+```
+
+We can compose the `addOne` and `double` functions to create a new function that first adds one to a number and then doubles the result:
+
+```lean
+def addOneThenDouble : Nat → Nat := double ∘ addOne
+```
+
+The `∘` operator is used to compose the `double` function with the `addOne` function. The resulting `addOneThenDouble` function first applies `addOne` to a number and then applies `double` to the result.
+
+### Currying and Partial Application
+
+Currying is the process of converting a function that takes multiple arguments into a sequence of functions, each taking a single argument. This allows for partial application of functions, where some arguments are provided, and the function returns a new function that takes the remaining arguments.
+
+In Lean, currying and partial application can be achieved using lambda functions. Here's an example:
+
+```lean
+def add : Nat → Nat → Nat := λ x y => x + y
+```
+
+The `add` function takes two arguments and returns their sum. We can curry the `add` function to create a new function that takes one argument and returns a function that takes the second argument:
+
+```lean
+def addCurried : Nat → Nat → Nat := λ x => λ y => x + y
+```
+
+We can then partially apply the `addCurried` function to create a new function that adds 5 to a number:
+
+```lean
+def addFive : Nat → Nat := addCurried 5
+```
+
+The `addFive` function is a partially applied version of the `addCurried` function that adds 5 to a number. We can use the `addFive` function to add 5 to any number:
+
+```lean
+#eval addFive 10  -- Output: 15
+#eval addFive 20  -- Output: 25
+```
+
+### Local definitions
+
+Local definitions are used to define functions or values within the scope of another function. They are useful for breaking down complex functions into smaller, more manageable parts.
+
+Here's an example of using local definitions in Lean:
+
+```lean
+def sumOfSquares : Nat → Nat → Nat
+| x, y =>
+  let square (z : Nat) : Nat := z * z
+  square x + square y
+```
+
+In this example, the `sumOfSquares` function takes two numbers `x` and `y` and calculates the sum of their squares. The `square` function is defined locally within the `sumOfSquares` function and is used to calculate the square of a number.
+
+Local definitions are scoped to the function in which they are defined and cannot be accessed outside that function. They are a powerful tool for organizing and structuring code.
+
+### Termination Checking
+
+In Lean, functions are required to be total, meaning they must terminate for all inputs. This is enforced by the termination checker, which ensures that recursive functions make progress towards a base case.
+
+Here's an example of a recursive function that calculates the factorial of a number:
+
+```lean
+def factorial : Nat → Nat
+| 0 => 1
+| n+1 => (n+1) * factorial n
+```
+
+The `factorial` function calculates the factorial of a number by recursively multiplying the number by the factorial of the previous number until it reaches the base case of 0. The termination checker ensures that the recursive calls to `factorial` make progress towards the base case of 0.
+
+Functions that do not terminate or make progress towards a base case will be rejected by the termination checker, preventing non-terminating functions from being defined in Lean.
+
+### Mutual Recursion
+
+Mutual recursion is a technique where two or more functions call each other in a cycle. This can be useful for defining functions that have interdependent behavior.
+
+Here's an example of mutual recursion in Lean:
+
+```lean
+mutual
+  def isEven : Nat → Bool
+  | 0 => true
+  | n+1 => isOdd n
+
+  def isOdd : Nat → Bool
+  | 0 => false
+  | n+1 => isEven n
+```
+
+In this example, the `isEven` and `isOdd` functions are defined mutually recursively. The `isEven` function checks if a number is even by calling the `isOdd` function, and the `isOdd` function checks if a number is odd by calling the `isEven` function. This mutual recursion allows the functions to work together to determine if a number is even or odd.
 
 ---
 
