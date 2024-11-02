@@ -18,6 +18,8 @@
     - [The logical AND](#the-logical-and)
     - [The logical OR](#the-logical-or)
     - [The logical XOR](#the-logical-xor)
+    - [Pattern matching with guards](#pattern-matching-with-guards)
+    - [Nested pattern matching](#nested-pattern-matching)
   - [Recursion](#recursion)
     - [Addition of natural numbers](#addition-of-natural-numbers)
     - [Length of a List](#length-of-a-list)
@@ -31,13 +33,14 @@
     - [Implicit Arguments](#implicit-arguments)
     - [Dependent Pattern Matching](#dependent-pattern-matching)
     - [Map](#map)
-  - [Function Operations](#function-operations)
+  - [Advanced Concepts](#advanced-concepts)
     - [Parametric Polymorphism](#parametric-polymorphism)
     - [Function Composition](#function-composition)
     - [Currying and Partial Application](#currying-and-partial-application)
     - [Local definitions](#local-definitions)
     - [Termination Checking](#termination-checking)
     - [Mutual Recursion](#mutual-recursion)
+    - [Higher-Order Functions](#higher-order-functions)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -205,6 +208,34 @@ def xor : Bool → Bool → Bool
   | false, true  => true  -- false XOR true is true
   | _,     _     => false -- all other cases are false
 ```
+
+### Pattern matching with guards
+
+"Guards" are conditions that can be added to pattern-matching clauses to further refine the matching process. They are represented by `if` expressions that evaluate to `true` or `false`. Guards can be used to add conditions to patterns:
+
+```lean
+def max3 (x y z : Nat) : Nat :=
+  match x, y, z with
+  | a, b, c =>
+    if a ≥ b && a ≥ c then a
+    else if b ≥ a && b ≥ c then b
+    else c
+```
+
+The `max3` function takes three natural numbers `x`, `y`, and `z` and returns the maximum of the three numbers. It uses pattern matching with guards to compare the numbers and determine the maximum.
+
+### Nested pattern matching
+
+Pattern matching can also be nested to handle more complex patterns:
+
+```lean
+def deepMatch : List (Option Nat) → Nat
+  | [] => 0
+  | none::xs => deepMatch xs
+  | (some n)::xs => n + deepMatch xs
+```
+
+The `deepMatch` function takes a list of optional natural numbers and returns the sum of the non-`none` values in the list. It uses nested pattern matching to handle the different cases of `none` and `some` values in the list.
 
 ## Recursion
 
@@ -420,7 +451,7 @@ def addOne : Nat → Nat
 #eval map addOne [1, 2, 3, 4]  -- Output: [2, 3, 4, 5]
 ```
 
-## Function Operations
+## Advanced Concepts
 
 ### Parametric Polymorphism
 
@@ -550,6 +581,44 @@ mutual
 ```
 
 In this example, the `isEven` and `isOdd` functions are defined mutually recursively. The `isEven` function checks if a number is even by calling the `isOdd` function, and the `isOdd` function checks if a number is odd by calling the `isEven` function. This mutual recursion allows the functions to work together to determine if a number is even or odd.
+
+### Higher-Order Functions
+
+Higher-order functions are functions that take other functions as arguments or return functions as results. They are a powerful feature of functional programming that allows for the composition and abstraction of functions.
+
+Here's an example of a higher-order function in Lean:
+
+```lean
+def apply {α β : Type} (f : α → β) (x : α) : β := f x
+```
+
+The `apply` function takes a function `f` that maps values of type `α` to values of type `β` and a value `x` of type `α` and applies the function `f` to the value `x`. This higher-order function allows for the application of arbitrary functions to values.
+
+A slight variation of the `apply` function is the `applyTwice` function:
+
+```lean
+def applyTwice {α : Type} (f : α → α) (x : α) : α := f (f x)
+```
+
+The `applyTwice` function takes a function `f` and a value `x` of type `α` and applies the function `f` twice to the value `x`. This higher-order function allows for the composition of functions by applying a function multiple times.
+
+Similarly, higher order functions can be used to define functions that return functions as results. For example:
+
+```lean
+def addN : Nat → Nat → Nat := λ n => λ x => x + n
+```
+
+The `addN` function takes a number `n` and returns a function that adds `n` to a number. This higher-order function allows for the creation of specialized functions that add a specific number to values.
+
+Filtering functions are another example of higher-order functions. Here's an example of a `filter` function that takes a predicate function and a list and returns a new list containing only the elements that satisfy the predicate:
+
+```lean
+def filter {α : Type} (p : α → Bool) : List α → List α
+  | [],    _ => []
+  | x::xs, p => if p x then x :: filter p xs else filter p xs
+```
+
+The `filter` function takes a predicate function `p` that maps values of type `α` to booleans, a list of values of type `α`, and returns a new list containing only the elements that satisfy the predicate `p`. This higher-order function allows for the selective extraction of elements from a list based on a condition.
 
 ---
 
