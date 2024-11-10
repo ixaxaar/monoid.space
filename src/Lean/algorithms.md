@@ -83,29 +83,30 @@ We start with the usual trivial case of an empty list, in which case we return `
 We then define a helper function that takes the list, the target, and the low and high indices. If the low index is greater than the high index, we return `none`. Otherwise, we calculate the middle index and compare the middle element with the target. If they are equal, we return `some mid`. If the middle element is less than the target, we recursively search the right half of the list. If the middle element is greater than the target, we recursively search the left half of the list.
 
 ```lean
-def binarySearch {α : Type} [Ord α] : List α → α → Option Nat
-  | [],     _ => none -- trivial case
-  | xs,     t => binarySearchHelper xs t 0 (xs.length - 1) -- call the helper function
-where
-  binarySearchHelper (xs : List α) (t : α) (low high : Nat) : Option Nat := -- helper function
-    if low > high then none -- if the low index is greater than the high index, return none
+def binarySearch {α : Type} [Ord α] (xs : List α) (target : α) : Option Nat :=
+  let rec aux (lo hi : Nat) (size : Nat) : Option Nat := -- recursive helper function
+    if size = 0 then -- trivial case
+      none
     else
-      let mid := (low + high) / 2 -- calculate the middle index
+      let mid := lo + size / 2 -- calculate the middle index
       match xs.get? mid with -- get the element at the middle index
-      | none     => none -- if the element is not found, return none
-      | some val => match compare val t with -- compare the middle element with the target
-                   | Ordering.eq => some mid -- if they are equal, return the middle index
-                   -- if the middle element is less than the target, search the right half
-                   | Ordering.lt => binarySearchHelper xs t (mid + 1) high
-                   -- if the middle element is greater than the target, search the left half
-                   | Ordering.gt => binarySearchHelper xs t low (mid - 1)
+      | none => none -- if the element is not found, return none
+      | some x => -- if the element is found
+        match compare x target with -- compare the middle element with the target
+        | Ordering.eq => some mid -- if they are equal, return the middle index
+        | Ordering.lt => aux (mid + 1) hi (size / 2) -- if the middle element is less than the target, search the right half
+        | Ordering.gt => aux lo (mid - 1) (size / 2) -- if the middle element is greater than the target, search the left half
+  termination_by size
+
+  aux 0 (xs.length - 1) xs.length -- start the search from the beginning and end of the list
 ```
 
 There are a few things to note here:
 
 1. `Ord` is a typeclass that provides a way to compare elements of type `α`. It is similar to the `Ord` typeclass in Haskell. The `compare` function returns an `Ordering` value, which can be `lt`, `eq`, or `gt`.
 2. We use the `get?` function to get the element at the middle index. This function returns an `Option` type, which we pattern match on.
-3. We use the `where` keyword to define the helper function `binarySearchHelper` inside the `binarySearch` function. `where` can be used to define local functions or variables that are only visible within the scope of the enclosing function.
+3. We use the `let` keyword to bind the value of the middle element to `x`. `Let` is used to bind values to names in Lean, similar to `let` in Haskell, and `val` in Scala etc.
+4. `termination_by size` is a directive that tells Lean that the function terminates when the `size` argument decreases. This is necessary because Lean requires that recursive functions are well-founded, i.e., they must terminate for all inputs. We will look at termination in more detail later.
 
 This can be used as follows:
 
