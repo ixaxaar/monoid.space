@@ -30,7 +30,7 @@
 
 ---
 
-Algorithms in Lean are implemented as functions that operate on data structures. The implementation often closely mirrors mathematical definitions while ensuring termination and correctness. This section is intended to also serve as a starting point where we use more real-world examples.
+Algorithms in Lean are implemented as functions that operate on data structures. The implementation often closely mirrors mathematical definitions while ensuring termination and correctness. This section is intended to also serve as a starting point where we use more real-world examples. A bunch of things are introduced here, and will be explained in more detail in the following sections.
 
 These are the different types of algorithms we'll explore:
 
@@ -143,31 +143,62 @@ def unsortedList1 := [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
 
 ### Merge Sort
 
-Merge sort uses the divide-and-conquer strategy to sort elements.
+Merge sort uses the divide-and-conquer strategy to sort elements. The algorithm works as follows:
+
+1. Divide the list into two halves.
+2. Recursively sort the two halves.
+3. Merge the sorted halves.
+
+We first define a `merge` function that merges two sorted lists.
+We then define a `split` function that splits a list into two halves.
+Finally, we define the `mergeSort` function that recursively splits the list into halves, sorts the halves, and merges them back together.
 
 ```lean
 def merge {α : Type} [Ord α] : List α → List α → List α
   | [],     ys     => ys
   | xs,     []     => xs
-  | x::xs', y::ys' => match compare x y with
-                      | Ordering.lt => x::(merge xs' (y::ys'))
-                      | _          => y::(merge (x::xs') ys')
+  | x::xs', y::ys' =>
+    match compare x y with
+    | Ordering.lt => x::(merge xs' (y::ys'))
+    | _           => y::(merge (x::xs') ys')
 
-def split {α : Type} : List α → (List α × List α)
+def split {α : Type} (list : List α) : (List α × List α) :=
+  match list with
   | []      => ([], [])
   | [x]     => ([x], [])
-  | x::y::r => let (xs, ys) := split r
-               (x::xs, y::ys)
+  | x::y::r =>
+    let (xs, ys) := split r
+    (x::xs, y::ys)
 
-def mergeSort {α : Type} [Ord α] : List α → List α
-  | []  => []
-  | [x] => [x]
-  | xs  => let (ys, zs) := split xs
-           merge (mergeSort ys) (mergeSort zs)
+def mergeSort {α : Type} [Ord α] (list : List α) : List α :=
+  if list.length <= 1 then
+    list
+  else
+    let (ys, zs) := split list
+    merge (mergeSort ys) (mergeSort zs)
+```
 
-/-- Example usage: -/
+```lean
+def unsortedList1 := [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
 #eval mergeSort unsortedList1
 ```
+
+This code will not actually compile, as the Lean compiler will not be able to prove its termination. We see this error:
+
+```md
+failed to prove termination, possible solutions:
+
+- Use `have`-expressions to prove the remaining goals
+- Use `termination_by` to specify a different well-founded relation
+- Use `decreasing_by` to specify your own tactic for discharging this kind of goal
+  α : Type
+  list : List α
+  h✝ : ¬list.length ≤ 1
+  ys : List α
+  ⊢ sizeOf ys < sizeOf list
+```
+
+which says that the compiler is unable to prove that the size of the list decreases in each recursive call. We will look at proving termination in more detail later.
 
 ## Tree Algorithms
 
