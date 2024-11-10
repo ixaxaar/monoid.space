@@ -118,26 +118,27 @@ def sortedList := [1, 3, 5, 7, 9]
 
 ## Sorting Algorithms
 
-Sorting algorithms arrange elements in a specific order. We'll implement insertion sort and merge sort.
+Sorting algorithms arrange elements in a specific order. These algorithms can work on data types that support sorting, indicated by `[Ord α]` type constraint. We'll implement insertion sort and merge sort.
 
 ### Insertion Sort
 
-Insertion sort builds the final sorted array one element at a time.
+Given a list, insertion sort builds the sorted list one element at a time by inserting each element into its correct position. We start with the trivial case of an empty list, in which case we return an empty list. For a non-empty list, we define a helper function that takes an element and a list. If the list is empty, we return a list containing the element. If the list is non-empty, we compare the element with the head of the list. If the element is less than the head, we insert the element at the beginning of the list. Otherwise, we recursively insert the element into the tail of the list.
 
 ```lean
-def insert {α : Type} [Ord α] : α → List α → List α
-  | x, []     => [x]
-  | x, y::ys  => match compare x y with
-                 | Ordering.lt => x::y::ys
-                 | _          => y::(insert x ys)
+def insert {α : Type} [Ord α] : α → List α → List α -- helper function to insert an element into a list
+  | x, []     => [x] -- trivial case: if the list is empty, return a list containing the element
+  | x, y::ys  => match compare x y with -- if the list is non-empty, compare the element with the head of the list
+                 | Ordering.lt => x::y::ys -- if the element is less than the head, insert it at the beginning of the list
+                 | _          => y::(insert x ys) -- otherwise, recursively insert the element into the tail of the list
 
-def insertionSort {α : Type} [Ord α] : List α → List α
-  | []     => []
-  | x::xs  => insert x (insertionSort xs)
+def insertionSort {α : Type} [Ord α] : List α → List α -- insertion sort function
+  | []     => [] -- trivial case: if the list is empty, return an empty list
+  | x::xs  => insert x (insertionSort xs) -- for a non-empty list, insert the head into the sorted tail
+```
 
-/-- Example usage: -/
+```lean
 def unsortedList1 := [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
-#eval insertionSort unsortedList1
+#eval insertionSort unsortedList1 -- [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]
 ```
 
 ### Merge Sort
