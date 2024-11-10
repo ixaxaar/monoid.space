@@ -4,9 +4,6 @@
 [Previous](Lean.naming.html)
 [Next](Lean.other.html)
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 ---
 
 # Algorithms
@@ -30,15 +27,15 @@
   - [Dynamic Programming](#dynamic-programming)
     - [Fibonacci Sequence](#fibonacci-sequence)
     - [Longest Common Subsequence](#longest-common-subsequence)
+
 ---
 
-
-Algorithms in Lean are implemented as functions that operate on data structures. The implementation often closely mirrors mathematical definitions while ensuring termination and correctness.
+Algorithms in Lean are implemented as functions that operate on data structures. The implementation often closely mirrors mathematical definitions while ensuring termination and correctness. This section is intended to also serve as a starting point where we use more real-world examples.
 
 These are the different types of algorithms we'll explore:
 
 | Algorithm Type | Description                                  |
-|----------------|----------------------------------------------|
+| -------------- | -------------------------------------------- |
 | Search         | Finding elements in collections              |
 | Sorting        | Ordering elements according to some criteria |
 | Tree           | Operations on tree data structures           |
@@ -47,22 +44,32 @@ These are the different types of algorithms we'll explore:
 
 ## Search Algorithms
 
-Search algorithms find elements in collections. We'll implement two fundamental search algorithms: linear search and binary search.
+Search algorithms find a givem elements in collections. We'll implement two fundamental search algorithms: linear search and binary search.
 
 ### Linear Search
 
-Linear search sequentially checks each element in a list until finding the target or reaching the end.
+Linear search sequentially checks each element in a list until finding the target or reaching the end of the list.
+
+We have 2 cases to deal with:
+
+- The list is empty, in which case we return `none`.
+- The list is non-empty, in which case we check if the first element is equal to the target. If it is, we return `some 0`. Otherwise, we recursively search the rest of the list and increment the index by 1.
 
 ```lean
 def linearSearch {α : Type} [BEq α] : List α → α → Option Nat
-  | [],     _ => none
-  | x::xs,  t => if x == t
-                 then some 0
-                 else match linearSearch xs t with
-                      | none   => none
-                      | some i => some (i + 1)
+  | [],     _ => none -- trivial case
+  | x::xs,  t => if x == t -- if the first element is the target,
+                 then some 0 -- return the index 0
+                 else match linearSearch xs t with -- otherwise, search the rest of the list
+                      | none   => none -- if the target is not found, return none
+                      | some i => some (i + 1) -- if the target is found, return the index + 1
+```
 
-/-- Example usage: -/
+`BEq` here is a typeclass that provides a way to compare elements of type `α`. It is similar to the `Eq` typeclass in Haskell, with the `B` standing for "binary".
+
+Using this function in lean:
+
+```lean
 def list1 := [1, 2, 3, 4, 5]
 #eval linearSearch list1 3  -- some 2
 #eval linearSearch list1 6  -- none
@@ -72,23 +79,37 @@ def list1 := [1, 2, 3, 4, 5]
 
 Binary search requires a sorted list and repeatedly divides the search interval in half.
 
+We start with the usual trivial case of an empty list, in which case we return `none`.
+We then define a helper function that takes the list, the target, and the low and high indices. If the low index is greater than the high index, we return `none`. Otherwise, we calculate the middle index and compare the middle element with the target. If they are equal, we return `some mid`. If the middle element is less than the target, we recursively search the right half of the list. If the middle element is greater than the target, we recursively search the left half of the list.
+
 ```lean
 def binarySearch {α : Type} [Ord α] : List α → α → Option Nat
-  | [],     _ => none
-  | xs,     t => binarySearchHelper xs t 0 (xs.length - 1)
+  | [],     _ => none -- trivial case
+  | xs,     t => binarySearchHelper xs t 0 (xs.length - 1) -- call the helper function
 where
-  binarySearchHelper (xs : List α) (t : α) (low high : Nat) : Option Nat :=
-    if low > high then none
+  binarySearchHelper (xs : List α) (t : α) (low high : Nat) : Option Nat := -- helper function
+    if low > high then none -- if the low index is greater than the high index, return none
     else
-      let mid := (low + high) / 2
-      match xs.get? mid with
-      | none     => none
-      | some val => match compare val t with
-                   | Ordering.eq => some mid
+      let mid := (low + high) / 2 -- calculate the middle index
+      match xs.get? mid with -- get the element at the middle index
+      | none     => none -- if the element is not found, return none
+      | some val => match compare val t with -- compare the middle element with the target
+                   | Ordering.eq => some mid -- if they are equal, return the middle index
+                   -- if the middle element is less than the target, search the right half
                    | Ordering.lt => binarySearchHelper xs t (mid + 1) high
+                   -- if the middle element is greater than the target, search the left half
                    | Ordering.gt => binarySearchHelper xs t low (mid - 1)
+```
 
-/-- Example usage: -/
+There are a few things to note here:
+
+1. `Ord` is a typeclass that provides a way to compare elements of type `α`. It is similar to the `Ord` typeclass in Haskell. The `compare` function returns an `Ordering` value, which can be `lt`, `eq`, or `gt`.
+2. We use the `get?` function to get the element at the middle index. This function returns an `Option` type, which we pattern match on.
+3. We use the `where` keyword to define the helper function `binarySearchHelper` inside the `binarySearch` function. `where` can be used to define local functions or variables that are only visible within the scope of the enclosing function.
+
+This can be used as follows:
+
+```lean
 def sortedList := [1, 3, 5, 7, 9]
 #eval binarySearch sortedList 5  -- some 2
 #eval binarySearch sortedList 6  -- none
