@@ -4,8 +4,9 @@
 [Previous](Lean.types.html)
 [Next](Lean.algorithms.html)
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+---
+
+# Functions
 
 ---
 
@@ -42,20 +43,12 @@
     - [Mutual Recursion](#mutual-recursion)
     - [Higher-Order Functions](#higher-order-functions)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Functions
-
-[Contents](contents.md)
-[Previous](Lean.types.md)
-[Next](Lean.other.md)
-
 Functions in Lean are defined using the `def` keyword. The syntax for defining functions in Lean is similar to defining inductive types.
 
 These are the different types of functions we can define in Lean:
 
 | Type of Function | Description                                                   |
-|------------------|---------------------------------------------------------------|
+| ---------------- | ------------------------------------------------------------- |
 | Pattern-matching | Functions that match patterns to produce outputs              |
 | Recursive        | Functions that call themselves to compute results             |
 | Dependent        | Functions where the result type depends on the argument value |
@@ -274,11 +267,12 @@ This function recursively processes the list, accumulating the total count of el
 
 ## Dependent Types
 
-Dependent function types, also known as Π-types (Pi-types), represent one of the most powerful features in dependent type theory and Lean. Unlike simple function types where input and output types are fixed, dependent function types allow the *output type to depend on the input value*. This capability enables us to express complex relationships between values and types that would be impossible in simply-typed languages.
+Dependent function types, also known as Π-types (Pi-types), represent one of the most powerful features in dependent type theory and Lean. Unlike simple function types where input and output types are fixed, dependent function types allow the _output type to depend on the input value_. This capability enables us to express complex relationships between values and types that would be impossible in simply-typed languages.
 
 ### Syntax
 
 In Lean, dependent function types can be written in several ways:
+
 - Using `Π` (Pi) notation
 - Using `∀` (forall) notation
 - Using arrow notation `→` when appropriate
