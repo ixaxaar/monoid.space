@@ -19,7 +19,6 @@
     - [Merge Sort](#merge-sort)
   - [Tree Algorithms](#tree-algorithms)
     - [Tree Traversal](#tree-traversal)
-    - [Binary Search Tree Operations](#binary-search-tree-operations)
   - [Graph Algorithms](#graph-algorithms)
     - [Graph Representation](#graph-representation)
     - [Depth-First Search](#depth-first-search)
@@ -202,7 +201,7 @@ which says that the compiler is unable to prove that the size of the list decrea
 
 ## Tree Algorithms
 
-Tree algorithms operate on hierarchical data structures. We'll look at basic tree operations and traversals.
+Trees have been used in computer science for a long time to represent hierarchical data. Data structures like binary trees, binary search trees, and heaps are a mainstay of computer science. General operations on trees include traversal, insertion, and deletion. There are also specialized trees like AVL trees, red-black trees, and B-trees and corresponding specialized operations on them.
 
 ### Tree Traversal
 
@@ -210,39 +209,59 @@ First, we define a binary tree structure and implement different traversal metho
 
 ```lean
 inductive BinTree (α : Type)
-  | leaf : BinTree α
+  | leaf : BinTree α -- leaf node
+  -- internal node, note this is a complete binary tree
   | node : BinTree α → α → BinTree α → BinTree α
+```
 
-def preorder {α : Type} : BinTree α → List α
-  | BinTree.leaf => []
-  | BinTree.node l x r => x :: (preorder l ++ preorder r)
+This can be used to create trees like:
 
-def inorder {α : Type} : BinTree α → List α
-  | BinTree.leaf => []
-  | BinTree.node l x r => inorder l ++ [x] ++ inorder r
-
-def postorder {α : Type} : BinTree α → List α
-  | BinTree.leaf => []
-  | BinTree.node l x r => postorder l ++ postorder r ++ [x]
-
-/-- Example usage: -/
+```lean
 def tree1 := BinTree.node
   (BinTree.node BinTree.leaf 1 BinTree.leaf)
   2
   (BinTree.node BinTree.leaf 3 BinTree.leaf)
-
-#eval preorder tree1   -- [2, 1, 3]
-#eval inorder tree1    -- [1, 2, 3]
-#eval postorder tree1  -- [1, 3, 2]
 ```
 
-### Binary Search Tree Operations
+We define three traversal methods: preorder, inorder, and postorder.
+
+- Preorder traversal visits the root node first, then the left subtree, and finally the right subtree.
+- Inorder traversal visits the left subtree first, then the root node, and finally the right subtree.
+- Postorder traversal visits the left subtree first, then the right subtree, and finally the root node.
+
+or in short:
+
+- Preorder: root, left, right
+- Inorder: left, root, right
+- Postorder: left, right, root
+
+```lean
+def preorder {α : Type} : BinTree α → List α
+  -- trivial case: if the tree is a leaf, return an empty list
+  | BinTree.leaf => []
+  -- for an internal node, visit the root, then the left and right subtrees
+  | BinTree.node l x r => x :: (preorder l ++ preorder r)
+
+def inorder {α : Type} : BinTree α → List α
+  -- trivial case: if the tree is a leaf, return an empty list
+  | BinTree.leaf => []
+  -- for an internal node, visit the left subtree, then the root, and finally the right subtree
+  | BinTree.node l x r => inorder l ++ [x] ++ inorder r
+
+def postorder {α : Type} : BinTree α → List α
+  -- trivial case: if the tree is a leaf, return an empty list
+  | BinTree.leaf => []
+  -- for an internal node, visit the left and right subtrees, then the root
+  | BinTree.node l x r => postorder l ++ postorder r ++ [x]
+```
 
 Operations on binary search trees maintain the ordering property:
 
 ```lean
 def insert_bst {α : Type} [Ord α] : BinTree α → α → BinTree α
+  -- trivial case: if the tree is a leaf, create a new node with the element
   | BinTree.leaf, x => BinTree.node BinTree.leaf x BinTree.leaf
+  -- for an internal node, compare the element with the root and insert it in the left or right subtree
   | BinTree.node l y r, x =>
       match compare x y with
       | Ordering.lt => BinTree.node (insert_bst l x) y r
@@ -250,12 +269,59 @@ def insert_bst {α : Type} [Ord α] : BinTree α → α → BinTree α
       | Ordering.eq => BinTree.node l y r
 
 def contains_bst {α : Type} [Ord α] : BinTree α → α → Bool
+  -- trivial case: if the tree is a leaf, return false
   | BinTree.leaf, _ => false
+  -- for an internal node, compare the element with the root and search in the left or right subtree
   | BinTree.node l y r, x =>
       match compare x y with
       | Ordering.lt => contains_bst l x
       | Ordering.gt => contains_bst r x
       | Ordering.eq => true
+```
+
+Lets look at a comprehensive example where we first create a rather complex tree and then perform various operations on it:
+
+```lean
+-- create a complex binary tree
+def tree2 := BinTree.node
+  (BinTree.node
+    (BinTree.node
+      BinTree.leaf 1
+      (BinTree.node BinTree.leaf 2 BinTree.leaf)
+    )
+    3
+    (BinTree.node
+      BinTree.leaf 4
+      (BinTree.node BinTree.leaf 5 BinTree.leaf)
+    )
+  )
+  6
+  (BinTree.node
+    (BinTree.node
+      (BinTree.node BinTree.leaf 7 BinTree.leaf)
+      8
+      BinTree.leaf
+    )
+    9
+    (BinTree.node BinTree.leaf 10 BinTree.leaf)
+  )
+
+-- traversals
+#eval preorder tree2  -- [6, 3, 1, 2, 4, 5, 9, 7, 8, 10]
+#eval inorder tree2   -- [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+#eval postorder tree2 -- [2, 1, 5, 4, 3, 7, 8, 10, 9, 6]
+
+-- insertions
+def tree3 := insert_bst tree2 0
+def tree4 := insert_bst tree3 11
+def tree5 := insert_bst tree4 6
+
+-- verify if elements are present in the tree
+#eval inorder tree5   -- [0, 1, 2, 3, 4, 5, 6, 6, 7, 8, 9, 10, 11]
+
+-- search for elements in the tree
+#eval contains_bst tree5 7  -- true
+#eval contains_bst tree5 12 -- false
 ```
 
 ## Graph Algorithms
