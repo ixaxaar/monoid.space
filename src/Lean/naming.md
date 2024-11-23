@@ -9,6 +9,7 @@
 
 - [Naming conventions](#naming-conventions)
   - [Files and modules](#files-and-modules)
+  - [Naming Conventions](#naming-conventions-1)
   - [Literate programming](#literate-programming)
   - [Identifiers](#identifiers)
   - [Other material](#other-material)
@@ -23,6 +24,13 @@ You can also explicitly declare modules within a file:
 module MyModule where
   -- Module contents here
 ```
+
+## Naming Conventions
+
+- Functions and Variables: Use snake_case (e.g., is_prime, find_max).
+- Types and Structures: Use PascalCase (e.g., NaturalNumber, GroupTheory).
+- Modules: Generally use PascalCase for module names, such as Data.List or Algebra.Ring.
+- Constants and Axioms: Use descriptive names and often use PascalCase (e.g., ExcludedMiddle, AxiomOfChoice).
 
 ## Literate programming
 

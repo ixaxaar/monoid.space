@@ -39,6 +39,14 @@ Lean files typically end with a `.lean` extension, and each file represents a mo
 
 - Each Lean file (.lean) defines a module, and the name of the file without the extension is the name of the module. For example, a file named group_theory.lean will define a module called group_theory.
 - Files are organized into folders, and folder names are used as prefixes for module names. For instance, a file located at src/algebra/group.lean would define a module named algebra.group.
+- Modules can also be explicitly defined using the `module` keyword. This is useful when you want to define a module with a different name than the file name:
+
+```lean
+-- In src/algebra/group.lean
+module my_group
+
+-- code here
+```
 
 To quickly get started with Lean, you can create a simple `.lean` file and open it in vscode with the Lean extension installed. You can then start writing Lean code and see the real-time type information and error messages.
 
@@ -55,7 +63,7 @@ The file can also be compiled using the Lean compiler, which will check the synt
 lean my_file.lean
 ```
 
-This is great to start a new project or experiment with Lean code. However, for larger projects, it is recommended to use a more structured approach with multiple files and modules.
+This is great to start a new project or experiment with Lean code. However, for larger projects, it is recommended to use a more structured approach with multiple files and modules, as we shall see below.
 
 ## Projects
 
