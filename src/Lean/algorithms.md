@@ -451,4 +451,6 @@ We can now calculate the LCS of two sequences:
 #eval lcs "ABCDGH".data "AEDFHR".data  -- ['A', 'D', 'H']
 ```
 
+****
+
 [Modules and projects](./Lean.other.html)

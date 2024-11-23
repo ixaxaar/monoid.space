@@ -596,6 +596,6 @@ def or_comm {p q : Prop} : p ∨ q → q ∨ p
 
 This allows Lean to be used not just as a programming language, but as a powerful theorem prover. We will cover more about theorem proving in a subsequent chapter.
 
----
+****
 
 [Functions](./Lean.functions.html)

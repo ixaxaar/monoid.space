@@ -3,232 +3,264 @@
 [Previous](Lean.functions.html)
 [Next](Lean.debugging.html)
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+# Modules and Projects
+
 ****
 
-- [Additional Language Features and Syntax](#additional-language-features-and-syntax)
-  - [Modules](#modules)
-  - [Records](#records)
-  - [Postulates](#postulates)
-  - [Syntactic Sugar and Alternative Syntax](#syntactic-sugar-and-alternative-syntax)
-    - [Common Parameters](#common-parameters)
-    - [Different Ways of Defining `data`](#different-ways-of-defining-data)
-    - [Implicit Arguments](#implicit-arguments)
+- [Modules and Projects](#modules-and-projects)
+  - [Basics](#basics)
+  - [Projects](#projects)
+    - [File Structure](#file-structure)
+    - [Module System](#module-system)
+    - [Lake Package Manager](#lake-package-manager)
+  - [Tooling and Development Environment](#tooling-and-development-environment)
+    - [VSCode Integration](#vscode-integration)
+    - [Infoview](#infoview)
+    - [Documentation](#documentation)
+    - [Debugging Tools](#debugging-tools)
+      - [Print Statements](#print-statements)
+      - [Holes and Placeholders](#holes-and-placeholders)
+  - [Advanced Features](#advanced-features)
+    - [Metaprogramming](#metaprogramming)
+    - [Custom Syntax](#custom-syntax)
+    - [Unicode Support](#unicode-support)
+  - [Best Practices](#best-practices)
+    - [Naming Conventions](#naming-conventions)
+    - [Code Organization](#code-organization)
+    - [Performance Considerations](#performance-considerations)
+  - [Common Patterns](#common-patterns)
+    - [Error Handling](#error-handling)
+    - [Builder Pattern](#builder-pattern)
+    - [Monadic Operations](#monadic-operations)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+## Basics
 
-# Additional Language Features and Syntax
+Lean files typically end with a `.lean` extension, and each file represents a module. The name of the file implicitly determines the name of the module, and this module can be imported by other modules.
 
-```agda
-module Lean.other where
+- Each Lean file (.lean) defines a module, and the name of the file without the extension is the name of the module. For example, a file named group_theory.lean will define a module called group_theory.
+- Files are organized into folders, and folder names are used as prefixes for module names. For instance, a file located at src/algebra/group.lean would define a module named algebra.group.
 
-open import Data.Nat using (ℕ; zero; suc; _+_; _*_)
-open import Data.Bool using (Bool; true; false)
-open import Data.List using (List; []; _∷_)
-open import Data.Vec using (Vec; []; _∷_)
-open import Data.Product using (_×_; _,_)
-open import Relation.Binary.PropositionalEquality using (_≡_; refl)
-open import Level using (Level; _⊔_) renaming (zero to lzero; suc to lsuc)
+To quickly get started with Lean, you can create a simple `.lean` file and open it in vscode with the Lean extension installed. You can then start writing Lean code and see the real-time type information and error messages.
+
+```lean
+def hello : String := "Hello, Lean!"
+#check hello
 ```
 
-## Modules
+The lean extension has a sidebar that shows the structure of the file, and you can navigate to different sections of the file by clicking on the items in the sidebar, called the "lean infoview". The infoview also shows the type of the current expression under the cursor and any errors in the file. The infoview can be toggled using the `ctrl+shift+enter` shortcut.
 
-Modules in Agda are used to organize code and manage namespaces, similar to packages in languages like Java or Python. They act as closures, with the indentation level indicating the scope of the module. Each Agda source file may contain one top-level module. Modules can be imported, as demonstrated in the import statements above.
+The file can also be compiled using the Lean compiler, which will check the syntax and type correctness of the code. The Lean compiler can be run from the command line using the `lean` command.
 
-Modules support nesting:
-
-```agda
-module nested where
-  module X where
-    x₁ = 1
-
-  module Y where
-    x₂ = 2
-
-  sum = X.x₁ + Y.x₂
+```bash
+lean my_file.lean
 ```
 
-Importing modules:
+This is great to start a new project or experiment with Lean code. However, for larger projects, it is recommended to use a more structured approach with multiple files and modules.
 
-```agda
-open nested.X
-x₁₁ = x₁ + 1
+## Projects
 
-open nested.Y renaming (x₂ to x₃)
-x₂ = x₃ + 1
+### File Structure
+In Lean, projects typically follow a standard directory structure:
+
+```
+my_project/
+├── lakefile.lean    # Project configuration file
+├── lean-toolchain  # Specifies Lean version
+├── Main.lean       # Main entry point
+└── src/            # Source files
+    ├── Basic/      # Basic definitions
+    ├── Logic/      # Logic-related modules
+    └── Utils/      # Utility functions
 ```
 
-Modules can also have parameters that are valid within their scope:
+### Module System
 
-```agda
-module Sort (A : Set)(_≤_ : A → A → Bool) where
-  insert : A → List A → List A
-  insert x [] = x ∷ []
-  insert x (y ∷ ys) with x ≤ y
-  insert x (y ∷ ys)    | true  = x ∷ y ∷ ys
-  insert x (y ∷ ys)    | false = y ∷ insert x ys
+Modules in Lean are used to organize code and manage namespaces. Each `.lean` file automatically creates a module matching its path.
 
-  sort : List A → List A
-  sort []       = []
-  sort (x ∷ xs) = insert x (sort xs)
+```lean
+-- In src/Basic/Numbers.lean
+namespace Basic.Numbers
+
+def add (x y : Nat) : Nat := x + y
+
+end Basic.Numbers
 ```
 
-## Records
+Modules can be imported using relative or absolute paths:
 
-In Agda, tuples are called `Record`s. Here are some examples:
-
-A tuple of `Bool` and `ℕ`:
-
-```agda
-record R : Set where
-  field
-    r₁ : Bool
-    r₂ : ℕ
+```lean
+import Basic.Numbers            -- absolute import
+import «Basic.Numbers»         -- with quotes for names containing spaces
 ```
 
-A generic tuple:
+### Lake Package Manager
 
-```agda
-record Pair (A B : Set) : Set where
-  field
-    fst : A
-    snd : B
+Lake is Lean's built-in package manager and build system. It uses `lakefile.lean` for configuration:
+
+```lean
+import Lake
+open Lake DSL
+
+package «my_project» where
+  -- Package metadata
+  version := "1.0"
+  dependencies := #[
+    { name := "mathlib4"
+      git := "https://github.com/leanprover-community/mathlib4.git"
+      rev := "main" }
+  ]
+
+lean_lib «MyProject» where
+  -- Library configuration
+  root := `src
 ```
 
-An instance of `Pair` can be constructed as:
-
-```agda
-p23 : Pair ℕ ℕ
-p23 = record { fst = 2; snd = 3 }
+Common Lake commands:
+```bash
+lake build        # Build the project
+lake exe         # Build and run executables
+lake clean       # Clean build artifacts
 ```
 
-You can use the `constructor` keyword to define records:
+## Tooling and Development Environment
 
-```agda
-record Pair' (A B : Set) : Set where
-  constructor _,_
-  field
-    fst : A
-    snd : B
+### VSCode Integration
+VSCode is the primary IDE for Lean development. The Lean extension provides:
+- Syntax highlighting
+- Real-time type information
+- Interactive theorem proving
+- Go to definition
+- Auto-completion
 
-p43 : Pair' ℕ ℕ
-p43 = 4 , 3
+### Infoview
+The Infoview panel is crucial for Lean development:
+- Shows real-time type information
+- Displays proof state
+- Provides error messages
+- Shows documentation
+
+### Documentation
+Lean supports documentation strings using `/-! ... -/` for modules and `/-- ... -/` for definitions:
+
+```lean
+/-!
+# Basic Arithmetic Module
+This module provides basic arithmetic operations.
+-/
+
+/--
+`add` performs addition on natural numbers.
+# Examples
+```lean
+#eval add 2 3  -- returns 5
+```
+-/
+def add (x y : Nat) : Nat := x + y
 ```
 
-The values of a record can be pattern matched:
+### Testing
+Lean supports unit testing through its `test` command:
 
-```agda
-left : Pair' ℕ ℕ → ℕ
-left (x , y) = x
+```lean
+def double (x : Nat) : Nat := x * 2
+
+#test double 2 = 4        -- Basic test
+#test double 0 = 0        -- Edge case
 ```
 
-A record can also be parameterized:
+### Debugging Tools
 
-```agda
-record List' (A : Set) : Set where
-  constructor L
-  field
-    length : ℕ
-    vector : Vec A length
-
-exampleVec : Vec Bool 3
-exampleVec = true ∷ false ∷ true ∷ []
-
-list₂ : List' Bool
-list₂ = L 3 exampleVec
+#### Print Statements
+```lean
+def debugExample (x : Nat) : Nat :=
+  dbg_trace "Processing {x}"  -- prints debug info
+  x + 1
 ```
 
-All `Data` definitions have equivalent `Record` definitions, but using `Record`s is preferred as a convention. Records have the advantage of automatically providing getters and setters.
-
-## Postulates
-
-`postulate`s are another language construct in Agda. They allow you to define a type without providing an actual implementation.
-
-```agda
-postulate
-  A B    : Set
-  a      : A
-  b      : B
-  _=AB=_ : A → B → Set
-  a==b   : a =AB= b
+#### Holes and Placeholders
+```lean
+def incomplete (x : Nat) : Nat :=
+  let y := x + 1
+  sorry    -- placeholder for incomplete implementation
 ```
 
-```agda
-data False : Set where
+## Advanced Features
 
-postulate bottom : False
+### Metaprogramming
+Lean supports metaprogramming through its macro system:
+
+```lean
+macro "mylet" id:ident ":=" val:term : command =>
+  `(def $id := $val)
+
+mylet example := 42
 ```
 
-## Syntactic Sugar and Alternative Syntax
+### Custom Syntax
+Lean allows defining custom syntax using macros:
 
-These are shorthand forms of commonly used constructs and alternative ways to express code that you might find helpful or convenient.
-
-### Common Parameters
-
-Implicit parameters, such as `{m : ℕ}`, that are common to all constructors can be abstracted out into the data definition:
-
-```agda
-data _≤′_ : ℕ → ℕ → Set where
-  ≤′-refl : {m : ℕ} →                       m ≤′ m
-  ≤′-step : {m : ℕ} → {n : ℕ} →  m ≤′ n  →  m ≤′ suc n
+```lean
+syntax "show" term : tactic
+macro_rules
+  | `(tactic| show $e) => `(tactic| exact $e)
 ```
 
-This is equivalent to:
+### Unicode Support
+Lean has extensive Unicode support for mathematical notation:
 
-```agda
-data _≤′₁_ (m : ℕ) : ℕ → Set where
-  ≤′₁-refl :                       m ≤′₁ m
-  ≤′₁-step : {n : ℕ} →  m ≤′₁ n  →  m ≤′₁ suc n
+```lean
+def π : Float := 3.14159
+def ∑ (f : Nat → Nat) (n : Nat) : Nat :=
+  if n = 0 then f 0 else f n + ∑ f (n-1)
 ```
 
-### Different Ways of Defining `data`
+## Best Practices
 
-The technique above can also be applied to concrete parameters:
+### Naming Conventions
+- Type names: PascalCase (e.g., `MyType`)
+- Functions: camelCase (e.g., `myFunction`)
+- Variables: camelCase (e.g., `myVar`)
+- Constants: UPPERCASE (e.g., `MAX_VALUE`)
 
-```agda
-data _≤″_ : ℕ → ℕ → Set where
-  ≤″ : ∀ {m n k} → m + n ≡ k → m ≤″ k
+### Code Organization
+- Group related definitions in modules
+- Use sections for local scoping
+- Keep files focused and manageable in size
+- Document public interfaces
+
+### Performance Considerations
+- Use tail recursion when possible
+- Prefer pattern matching over if-then-else
+- Use type classes for polymorphic code
+- Consider computational complexity
+
+## Common Patterns
+
+### Error Handling
+```lean
+def divide (x y : Nat) : Option Nat :=
+  if y = 0 then none else some (x / y)
 ```
 
-This is equivalent to:
+### Builder Pattern
+```lean
+structure Builder where
+  field1? : Option String := none
+  field2? : Option Nat := none
 
-```agda
-data _≤″₁_ (m : ℕ) : ℕ → Set where
-  ≤+ : ∀ {n k} → m + n ≡ k → m ≤″₁ k
+def build (b : Builder) : Option String :=
+  match b.field1?, b.field2? with
+  | some f1, some f2 => some s!"{f1}: {f2}"
+  | _, _ => none
 ```
 
-Which is also equivalent to:
-
-```agda
-data _≤″₂_ (m : ℕ) (k : ℕ) : Set where
-  ≤+ : ∀ {n} → m + n ≡ k → m ≤″₂ k
+### Monadic Operations
+```lean
+def computeResult (x : Nat) : Option Nat := do
+  let y ← if x > 0 then some x else none
+  let z ← some (y * 2)
+  return z + 1
 ```
-
-### Implicit Arguments
-
-Arguments that can be inferred by the compiler can be left out with an `_`:
-
-```agda
-length : (A : Set) (len : ℕ) → Vec A len → ℕ
-length A zero [] = zero
-length A len somevec = len
-```
-
-```agda
-length' : (A : Set) (len : ℕ) → Vec A len → ℕ
-length' A zero [] = zero
-length' A len _   = len
-```
-
-```agda
-length'' : (A : Set) (len : ℕ) → Vec A len → ℕ
-length'' A zero [] = zero
-length'' _ len _   = len
-```
-
-Using `_` for inferring arguments can be helpful in making your code more concise. However, be careful when using this feature, as it can also lead to confusion if used inappropriately.
-
 
 ****
 [Debugging](./Lean.debugging.html)

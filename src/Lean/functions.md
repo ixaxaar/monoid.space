@@ -611,6 +611,6 @@ def filter {α : Type} (p : α → Bool) : List α → List α
 
 The `filter` function takes a predicate function `p` that maps values of type `α` to booleans, a list of values of type `α`, and returns a new list containing only the elements that satisfy the predicate `p`. This higher-order function allows for the selective extraction of elements from a list based on a condition.
 
----
+****
 
 [Algorithms](./Lean.algorithms.html)
