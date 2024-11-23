@@ -427,21 +427,30 @@ Now we can calculate the Fibonacci number for any given `n`:
 
 ### Longest Common Subsequence
 
-Finding the longest common subsequence of two sequences:
+The longest common subsequence (LCS) problem is a classic dynamic programming problem. Given two sequences, the LCS problem is to find the longest subsequence that is common to both sequences. This problem has several practical applications, such as comparing DNA sequences, comparing files, and comparing version control histories.
+
+We define a recursive function that takes two lists and returns the longest common subsequence. We have 3 cases to deal with:
+
+1. If either of the lists is empty, the LCS is empty.
+2. If the first elements of the lists are equal, the LCS is the first element followed by the LCS of the rest of the lists.
+3. If the first elements of the lists are not equal, we calculate the LCS of the first list with the second list minus the first element and the first list minus the first element with the second list. We then return the LCS with the maximum length.
 
 ```lean
 def lcs {α : Type} [BEq α] : List α → List α → List α
-  | [],     _      => []
-  | _,      []     => []
-  | x::xs', y::ys' =>
-      if x == y
-      then x::(lcs xs' ys')
+  | [],     _      => [] -- trivial case: if the first list is empty, return an empty list
+  | _,      []     => [] -- trivial case: if the second list is empty, return an empty list
+  | x::xs', y::ys' => -- for non-empty lists
+      if x == y -- if the first elements are equal
+      then x::(lcs xs' ys')   -- return the first element followed by the LCS of the rest of the lists
       else
-        let l1 := lcs (x::xs') ys'
-        let l2 := lcs xs' (y::ys')
-        if l1.length ≥ l2.length then l1 else l2
+        let l1 := lcs (x::xs') ys' -- calculate the LCS of the first list with the second list minus the first element
+        let l2 := lcs xs' (y::ys') -- calculate the LCS of the first list minus the first element with the second list
+        if l1.length ≥ l2.length then l1 else l2 -- return the LCS with the maximum length
+```
 
-/-- Example usage: -/
+We can now calculate the LCS of two sequences:
+
+```lean
 #eval lcs "ABCDGH".data "AEDFHR".data  -- ['A', 'D', 'H']
 ```
 
