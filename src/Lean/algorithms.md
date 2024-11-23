@@ -34,7 +34,7 @@ Algorithms in Lean are implemented as functions that operate on data structures.
 These are the different types of algorithms we'll explore:
 
 | Algorithm Type | Description                                  |
-| -------------- | -------------------------------------------- |
+|----------------|----------------------------------------------|
 | Search         | Finding elements in collections              |
 | Sorting        | Ordering elements according to some criteria |
 | Tree           | Operations on tree data structures           |
@@ -398,24 +398,30 @@ Dynamic programming solves complex problems by breaking them down into simpler s
 
 ### Fibonacci Sequence
 
-A classic example of dynamic programming:
+A classic example of dynamic programming  is the Fibonacci sequence.
+
+We implement the Fibonacci sequence using memoization. Memoization is a technique that stores the results of expensive function calls and returns the cached result when the same inputs occur again. Here we use an array to store the results of the Fibonacci sequence and return the result along with the updated array.
 
 ```lean
 def fib_memo : Nat → Array Nat → Nat × Array Nat
-  | 0, memo => (0, memo)
-  | 1, memo => (1, memo)
-  | n+2, memo =>
-    match memo.get? (n+2) with
-    | some val => (val, memo)
-    | none     =>
-      let (val1, memo1) := fib_memo (n+1) memo
-      let (val2, memo2) := fib_memo n memo1
-      let result := val1 + val2
-      (result, memo2.push result)
+  | 0, memo => (0, memo) -- trivial case: if n is 0, return 0
+  | 1, memo => (1, memo) -- trivial case: if n is 1, return 1
+  | n+2, memo => -- for n > 1, calculate the Fibonacci number using memoization
+    match memo.get? (n+2) with -- check if the result is already memoized
+    | some val => (val, memo) -- if the result is memoized, return the result
+    | none     => -- if the result is not memoized
+      let (val1, memo1) := fib_memo (n+1) memo -- calculate the Fibonacci number for n+1
+      let (val2, memo2) := fib_memo n memo1 -- calculate the Fibonacci number for n
+      let result := val1 + val2 -- calculate the Fibonacci number for n+2
+      (result, memo2.push result) -- return the result and update the memo array
 
-def fib (n : Nat) : Nat :=
+def fib (n : Nat) : Nat := -- wrapper function to calculate the Fibonacci number
   (fib_memo n #[0, 1]).1
+```
 
+Now we can calculate the Fibonacci number for any given `n`:
+
+```lean
 #eval fib 10  -- 55
 ```
 
