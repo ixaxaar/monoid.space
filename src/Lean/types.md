@@ -1,14 +1,11 @@
----
-
+****
 [Contents](contents.html)
 [Previous](Lean.naming.html)
 [Next](Lean.functions.html)
 
----
-
 # Types & Data Structures
 
----
+****
 
 - [Types \& Data Structures](#types--data-structures)
   - [Types](#types)
@@ -137,7 +134,7 @@ def mul : Nat → Nat → Nat
 ### Other Primitive Types
 
 | Type     | Description                                        | Example Usage               | Notes                                 |
-| -------- | -------------------------------------------------- | --------------------------- | ------------------------------------- |
+|----------|----------------------------------------------------|-----------------------------|---------------------------------------|
 | `Empty`  | The empty type with no values                      | `def f : Empty → α`         | Used for logical impossibility        |
 | `Unit`   | The unit type with one value `unit`                | `def x : Unit := ()`        | Often used as dummy value             |
 | `Bool`   | Booleans with values `true` and `false`            | `def b : Bool := true`      | Used for conditional logic            |

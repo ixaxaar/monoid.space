@@ -1,14 +1,11 @@
----
-
+****
 [Contents](contents.html)
 [Previous](Lean.naming.html)
 [Next](Lean.other.html)
 
----
-
 # Algorithms
 
----
+****
 
 - [Algorithms](#algorithms)
   - [Search Algorithms](#search-algorithms)

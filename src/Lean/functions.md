@@ -1,14 +1,11 @@
----
-
+****
 [Contents](contents.html)
 [Previous](Lean.types.html)
 [Next](Lean.algorithms.html)
 
----
-
 # Functions
 
----
+****
 
 - [Functions](#functions)
   - [Generic Syntax](#generic-syntax)
@@ -48,7 +45,7 @@ Functions in Lean are defined using the `def` keyword. The syntax for defining f
 These are the different types of functions we can define in Lean:
 
 | Type of Function | Description                                                   |
-| ---------------- | ------------------------------------------------------------- |
+|------------------|---------------------------------------------------------------|
 | Pattern-matching | Functions that match patterns to produce outputs              |
 | Recursive        | Functions that call themselves to compute results             |
 | Dependent        | Functions where the result type depends on the argument value |
