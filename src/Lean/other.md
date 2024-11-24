@@ -11,7 +11,6 @@
   - [Basics](#basics)
   - [Projects](#projects)
     - [File Structure](#file-structure)
-    - [Module System](#module-system)
     - [Lake Package Manager](#lake-package-manager)
   - [Tooling and Development Environment](#tooling-and-development-environment)
     - [VSCode Integration](#vscode-integration)
@@ -67,12 +66,30 @@ This is great to start a new project or experiment with Lean code. However, for 
 
 ## Projects
 
+In larger Lean projects, you will typically have multiple files organized into modules and directories. Lean projects can be managed using the Lake package manager, which helps with building, testing, and managing dependencies.
+
+The Lake package manager can be used to create a new Lean project with the `lake new` command:
+
+```bash
+lake new my_project
+```
+
+This creates a new directory called `my_project` that contains the following files:
+
+- `lakefile.toml`: The configuration file for the project.
+- `lean-toolchain`: Specifies the Lean version.
+- `Main.lean`: The main entry point for the project.
+- `MyProject.lean` and `MyProject/Basic.lean`: scaffolding of a support library for the project.
+
+In addition to this, it also creates a git repo for the project and a `.gitingore` file.
+
 ### File Structure
+
 In Lean, projects typically follow a standard directory structure:
 
 ```
 my_project/
-├── lakefile.lean    # Project configuration file
+├── lakefile.toml    # Project configuration file
 ├── lean-toolchain  # Specifies Lean version
 ├── Main.lean       # Main entry point
 └── src/            # Source files
@@ -81,51 +98,44 @@ my_project/
     └── Utils/      # Utility functions
 ```
 
-### Module System
-
-Modules in Lean are used to organize code and manage namespaces. Each `.lean` file automatically creates a module matching its path.
-
-```lean
--- In src/Basic/Numbers.lean
-namespace Basic.Numbers
-
-def add (x y : Nat) : Nat := x + y
-
-end Basic.Numbers
-```
-
-Modules can be imported using relative or absolute paths:
-
-```lean
-import Basic.Numbers            -- absolute import
-import «Basic.Numbers»         -- with quotes for names containing spaces
-```
+Directories under `src/` can be customized based on the project's needs. Each directory can contain multiple `.lean` files, each defining a module. The `Main.lean` file serves as the entry point for the project.
 
 ### Lake Package Manager
 
-Lake is Lean's built-in package manager and build system. It uses `lakefile.lean` for configuration:
+Lake is Lean's built-in package manager and build system for lean. It simplifies the process of building, testing, and managing Lean projects. Lake uses `lakefile.toml` for configuration:
 
 ```lean
-import Lake
-open Lake DSL
+name = "my_project"
+version = "0.1.0"
+defaultTargets = ["my_project"]
 
-package «my_project» where
-  -- Package metadata
-  version := "1.0"
-  dependencies := #[
-    { name := "mathlib4"
-      git := "https://github.com/leanprover-community/mathlib4.git"
-      rev := "main" }
-  ]
+[[lean_lib]]
+name = "MyProject"
 
-lean_lib «MyProject» where
-  -- Library configuration
-  root := `src
+[[lean_exe]]
+name = "MyProject"
+root = "Main"
+
+[[dependencies]]
+name = "mathlib"
+version = "3.0.0"
 ```
+
+Here are some key points about the configuration:
+
+- `name`: The name of the project.
+- `version`: The version of the project.
+- `defaultTargets`: The default targets to build when running `lake build`.
+- `[[lean_lib]]`: Defines a Lean library target.
+- `[[lean_exe]]`: Defines a Lean executable target.
+- `root`: The entry point for the executable.
+- `[[dependencies]]`: Specifies dependencies for the project, such as mathlib.
+
+There are several more options available for configuring the project in the `lakefile.toml` and can be found in the [Lake documentation](https://github.com/leanprover/lean4/blob/master/src/lake/README.md).
 
 Common Lake commands:
 ```bash
-lake build        # Build the project
+lake build       # Build the project
 lake exe         # Build and run executables
 lake clean       # Clean build artifacts
 ```
