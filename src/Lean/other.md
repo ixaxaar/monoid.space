@@ -14,8 +14,9 @@
     - [Lake Package Manager](#lake-package-manager)
   - [Tooling and Development Environment](#tooling-and-development-environment)
     - [VSCode Integration](#vscode-integration)
-    - [Infoview](#infoview)
+    - [elan](#elan)
     - [Documentation](#documentation)
+    - [Testing](#testing)
     - [Debugging Tools](#debugging-tools)
       - [Print Statements](#print-statements)
       - [Holes and Placeholders](#holes-and-placeholders)
@@ -143,21 +144,35 @@ lake clean       # Clean build artifacts
 ## Tooling and Development Environment
 
 ### VSCode Integration
-VSCode is the primary IDE for Lean development. The Lean extension provides:
-- Syntax highlighting
-- Real-time type information
-- Interactive theorem proving
-- Go to definition
-- Auto-completion
 
-### Infoview
-The Infoview panel is crucial for Lean development:
-- Shows real-time type information
-- Displays proof state
-- Provides error messages
-- Shows documentation
+VSCode is the primary IDE for Lean development. The Lean extension provides several features like any modern development environment such as syntax highlighting, real-time type information, interactive theorem proving, go to definition, auto-completion, and an infoview that shows real-time type information, proof state, error messages, and documentation.
+
+Other editor integrations are available such as `lean-mode` for Emacs and `lean.vim` for Vim. However, the VSCode extension is the most feature-rich and actively maintained.
+
+### elan
+
+`elan` is a tool for managing Lean installations. It allows you to install and manage multiple versions of Lean on your system. You can install elan using the following command:
+
+```bash
+curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
+```
+
+Once installed, you can use elan to install the latest stable version of Lean:
+
+```bash
+elan default stable
+```
+
+You can also use elan to switch between different versions of Lean and manage your Lean environment.
+
+```bash
+elan install <version>  # Install a specific version of Lean
+elan default <version>  # Set the default version of Lean
+elan list               # List installed Lean versions
+```
 
 ### Documentation
+
 Lean supports documentation strings using `/-! ... -/` for modules and `/-- ... -/` for definitions:
 
 ```lean
@@ -174,6 +189,15 @@ This module provides basic arithmetic operations.
 ```
 -/
 def add (x y : Nat) : Nat := x + y
+```
+
+Lean also supports markdown-style comments for documentation:
+
+```lean
+/- Markdown-style comment
+# Heading
+This is a paragraph.
+-/
 ```
 
 ### Testing
