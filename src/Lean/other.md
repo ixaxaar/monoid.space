@@ -11,27 +11,11 @@
   - [Basics](#basics)
   - [Projects](#projects)
     - [File Structure](#file-structure)
-    - [Lake Package Manager](#lake-package-manager)
-  - [Tooling and Development Environment](#tooling-and-development-environment)
-    - [VSCode Integration](#vscode-integration)
-    - [elan](#elan)
-    - [Documentation](#documentation)
-    - [Testing](#testing)
-    - [Debugging Tools](#debugging-tools)
-      - [Print Statements](#print-statements)
-      - [Holes and Placeholders](#holes-and-placeholders)
-  - [Advanced Features](#advanced-features)
-    - [Metaprogramming](#metaprogramming)
-    - [Custom Syntax](#custom-syntax)
-    - [Unicode Support](#unicode-support)
-  - [Best Practices](#best-practices)
-    - [Naming Conventions](#naming-conventions)
-    - [Code Organization](#code-organization)
-    - [Performance Considerations](#performance-considerations)
-  - [Common Patterns](#common-patterns)
-    - [Error Handling](#error-handling)
-    - [Builder Pattern](#builder-pattern)
-    - [Monadic Operations](#monadic-operations)
+  - [Lake Package Manager](#lake-package-manager)
+  - [vscode / vscodium Integration](#vscode--vscodium-integration)
+  - [elan](#elan)
+  - [doc-gen4](#doc-gen4)
+  - [Testing](#testing)
 
 ## Basics
 
@@ -101,11 +85,11 @@ my_project/
 
 Directories under `src/` can be customized based on the project's needs. Each directory can contain multiple `.lean` files, each defining a module. The `Main.lean` file serves as the entry point for the project.
 
-### Lake Package Manager
+## Lake Package Manager
 
 Lake is Lean's built-in package manager and build system for lean. It simplifies the process of building, testing, and managing Lean projects. Lake uses `lakefile.toml` for configuration:
 
-```lean
+```toml
 name = "my_project"
 version = "0.1.0"
 defaultTargets = ["my_project"]
@@ -141,15 +125,13 @@ lake exe         # Build and run executables
 lake clean       # Clean build artifacts
 ```
 
-## Tooling and Development Environment
-
-### VSCode Integration
+## vscode / vscodium Integration
 
 VSCode is the primary IDE for Lean development. The Lean extension provides several features like any modern development environment such as syntax highlighting, real-time type information, interactive theorem proving, go to definition, auto-completion, and an infoview that shows real-time type information, proof state, error messages, and documentation.
 
 Other editor integrations are available such as `lean-mode` for Emacs and `lean.vim` for Vim. However, the VSCode extension is the most feature-rich and actively maintained.
 
-### elan
+## elan
 
 `elan` is a tool for managing Lean installations. It allows you to install and manage multiple versions of Lean on your system. You can install elan using the following command:
 
@@ -171,7 +153,7 @@ elan default <version>  # Set the default version of Lean
 elan list               # List installed Lean versions
 ```
 
-### Documentation
+## doc-gen4
 
 Lean supports documentation strings using `/-! ... -/` for modules and `/-- ... -/` for definitions:
 
@@ -200,7 +182,39 @@ This is a paragraph.
 -/
 ```
 
-### Testing
+Documentation strings can be accessed using the `#print` command:
+
+```lean
+#print add
+```
+
+[`doc-gen4`](https://github.com/leanprover/doc-gen4) is a tool that generates documentation for Lean projects and comes bundled with the Lean installation. Its setup includes creating a nested project for documentation building inside the lake project.
+
+1. Create a directory called `docbuild` inside the project.
+2. Create a `lakefile.toml` file inside the `docbuild` directory:
+
+```toml
+name = "docbuild"
+reservoir = false
+version = "0.1.0"
+packagesDir = "../.lake/packages"
+
+[[require]]
+name = "MyProject"
+path = "../"
+
+[[require]]
+scope = "leanprover"
+name = "doc-gen4"
+# Use revision v4.x if you are developing against a stable Lean version.
+rev = "main"
+```
+
+3. Run `lake update doc-gen4` within `docbuild` to pin `doc-gen4` and its dependencies to the chosen versions.
+4. If the parent project has dependencies, they can be updated for building the documentation by running `lake update MyProject` in the `docbuild` directory.
+
+## Testing
+
 Lean supports unit testing through its `test` command:
 
 ```lean
@@ -210,98 +224,10 @@ def double (x : Nat) : Nat := x * 2
 #test double 0 = 0        -- Edge case
 ```
 
-### Debugging Tools
+Tests can be run using the `lean --test` command:
 
-#### Print Statements
-```lean
-def debugExample (x : Nat) : Nat :=
-  dbg_trace "Processing {x}"  -- prints debug info
-  x + 1
-```
-
-#### Holes and Placeholders
-```lean
-def incomplete (x : Nat) : Nat :=
-  let y := x + 1
-  sorry    -- placeholder for incomplete implementation
-```
-
-## Advanced Features
-
-### Metaprogramming
-Lean supports metaprogramming through its macro system:
-
-```lean
-macro "mylet" id:ident ":=" val:term : command =>
-  `(def $id := $val)
-
-mylet example := 42
-```
-
-### Custom Syntax
-Lean allows defining custom syntax using macros:
-
-```lean
-syntax "show" term : tactic
-macro_rules
-  | `(tactic| show $e) => `(tactic| exact $e)
-```
-
-### Unicode Support
-Lean has extensive Unicode support for mathematical notation:
-
-```lean
-def π : Float := 3.14159
-def ∑ (f : Nat → Nat) (n : Nat) : Nat :=
-  if n = 0 then f 0 else f n + ∑ f (n-1)
-```
-
-## Best Practices
-
-### Naming Conventions
-- Type names: PascalCase (e.g., `MyType`)
-- Functions: camelCase (e.g., `myFunction`)
-- Variables: camelCase (e.g., `myVar`)
-- Constants: UPPERCASE (e.g., `MAX_VALUE`)
-
-### Code Organization
-- Group related definitions in modules
-- Use sections for local scoping
-- Keep files focused and manageable in size
-- Document public interfaces
-
-### Performance Considerations
-- Use tail recursion when possible
-- Prefer pattern matching over if-then-else
-- Use type classes for polymorphic code
-- Consider computational complexity
-
-## Common Patterns
-
-### Error Handling
-```lean
-def divide (x y : Nat) : Option Nat :=
-  if y = 0 then none else some (x / y)
-```
-
-### Builder Pattern
-```lean
-structure Builder where
-  field1? : Option String := none
-  field2? : Option Nat := none
-
-def build (b : Builder) : Option String :=
-  match b.field1?, b.field2? with
-  | some f1, some f2 => some s!"{f1}: {f2}"
-  | _, _ => none
-```
-
-### Monadic Operations
-```lean
-def computeResult (x : Nat) : Option Nat := do
-  let y ← if x > 0 then some x else none
-  let z ← some (y * 2)
-  return z + 1
+```bash
+lean --test my_file.lean
 ```
 
 ****
