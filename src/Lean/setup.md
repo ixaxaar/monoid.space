@@ -119,4 +119,5 @@ For the latest development version or specific customizations:
 For the most up-to-date information, always refer to the [official Lean documentation](https://leanprover.github.io/lean4/doc/).
 
 ****
+
 [Naming Conventions](./Lean.naming.html)

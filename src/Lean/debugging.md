@@ -3,174 +3,297 @@
 [Previous](Lang.syntaxQuirks.html)
 [Next](Types.introduction.html)
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+# Debugging
+
 ****
 
-- [Debugging Agda](#debugging-agda)
+- [Debugging](#debugging)
   - [Holes](#holes)
-  - [Features](#features)
-    - [Global commands](#global-commands)
-    - [Goal-specific commands](#goal-specific-commands)
-    - [Commands working in the context of a specific goal](#commands-working-in-the-context-of-a-specific-goal)
-  - [Text editor support](#text-editor-support)
-  - [Useful Agda-mode commands](#useful-agda-mode-commands)
+  - [Global commands](#global-commands)
+    - [`#check` and `#eval`](#check-and-eval)
+    - [`#print`](#print)
+    - [`#reduce`](#reduce)
+    - [`#exit`](#exit)
+  - [Goal-specific commands](#goal-specific-commands)
+    - [`show_goal`](#show_goal)
+    - [`trace`](#trace)
+    - [`sorry`](#sorry)
+    - [`have`](#have)
+    - [`let`](#let)
+    - [`show`](#show)
   - [Practical Debugging Examples](#practical-debugging-examples)
+  - [Debugging Tactics](#debugging-tactics)
+  - [Best Practices](#best-practices)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+Errors in lean can come in many forms: type mismatches, incomplete proofs, incorrect tactics, or even logical inconsistencies. Here are some common debugging techniques used in Lean development:
 
-# Debugging Agda
-
-```agda
-{-# OPTIONS --allow-unsolved-metas #-}
-
-module Lang.debugging where
-
-open import Agda.Builtin.Nat
-open import Agda.Builtin.Equality
-```
-
-Debugging and tooling are arguably the most vital parts of the development process and a language ecosystem. Tools tend to help developers figure out issues and assist them in the entire process. Agda has a small set of indispensable tools for such purposes. We look at how to use some of them to make our lives easier.
+1. Error messages: Lean provides detailed error messages that can help you identify the source of the problem. These messages often include information about the expected type, actual type, and the context in which the error occurred.
+2. Holes: Lean allows you to insert holes in your code using the `_` symbol. These holes can be used to indicate incomplete or unknown parts of your code. You can then use the `#check` command to see the type of the hole and the context in which it appears.
+3. Interactive theorem proving: Lean's interactive mode allows you to step through your code and see the state of the proof at each step. This can help you identify where the error occurred and how to fix it.
 
 ## Holes
 
-The Agda compiler supports type checking and providing hints while writing code. Unknown types can be represented with a placeholder `?` and the compiler can help deduce the type.
+Holes are a powerful debugging tool in Lean. They allow you to insert placeholders in your code for incomplete or unknown parts. You can then use the `#check` command to see the type of the hole and the context in which it appears. This can help you identify the source of the error and guide you in completing the proof.
 
-```agda
-data _even : Nat → Set where
-  ZERO : zero even
-  STEP : ∀ x → x even → suc (suc x) even
+Here's an example of using holes in Lean:
 
-proof₁ : suc (suc (suc (suc zero))) even
-proof₁ = ?
-```
-The Agda compiler hints that the `?` should be of type `4 even`. This placeholder `?` is called a **hole**.
-
-Holes are particularly useful when you're not sure how to proceed with a proof or implementation. They allow you to leave parts of your code unfinished while still being able to type-check the rest.
-
-## Features
-
-Agda supports various `Interaction` commands to provide several features via the `agda --interaction` command. This implements a client-server protocol whereby a client can communicate with the Agda compiler to do various tasks on the source files.
-
-Agda supports the following commands:
-
-### Global commands
-
-| Name                                 | Description                                                                                    | Internal name               |
-|--------------------------------------|------------------------------------------------------------------------------------------------|-----------------------------|
-| load                                 | Load a file and type check it.                                                                 | `Cmd_Load`                  |
-| compile                              | compile a file using the various Agda backends (`GHC`, `GHCNoMain`, `LaTeX`, `QuickLaTeX` etc) | `Cmd_compile`               |
-| abort                                | abort the current operation, do nothing otherwise                                              | `Cmd_abort`                 |
-| toggle-display-of-implicit-arguments |                                                                                                | `ToggleImplicitArgs`        |
-| show-constraints                     | Show constraints or goals                                                                      | `Cmd_constraints`           |
-| solve-constraints                    | Solve all constraints in a file                                                                | `Cmd_solveAll`              |
-| show-goals                           | Show all goals in a file                                                                       | `Cmd_metas`                 |
-| search-about                         | Search about a keyword                                                                         | `Cmd_search_about_toplevel` |
-
-### Goal-specific commands
-
-| Name                | Description                                                         | Internal name              |
-|---------------------|---------------------------------------------------------------------|----------------------------|
-| why-in-scope        | Explain why a keyword is in scope                                   | `Cmd_why_in_scope`         |
-| infer-type          | Infer type                                                          | `Cmd_infer`                |
-| module-contents     | List all module contents                                            | `Cmd_show_module_contents` |
-| compute-normal-form | Compute the normal form of either selected code or given expression | `Cmd_compute`              |
-
-### Commands working in the context of a specific goal
-
-| Name                        | Description                                                 | Internal name                 |
-|-----------------------------|-------------------------------------------------------------|-------------------------------|
-| give                        | Fill a goal                                                 | `Cmd_give`                    |
-| refine                      | Refine. Partial give: makes new holes for missing arguments | `Cmd_refine_or_intro`         |
-| auto                        | Automatic proof search, find proofs                         | `Cmd_auto`                    |
-| case                        | pattern match on variables (case split)                     | `Cmd_make_case`               |
-| goal-type                   | Goal type                                                   | `Cmd_goal_type`               |
-| context                     | Context of the goal                                         | `Cmd_context`                 |
-| goal-type-and-context       | Type and context of the goal                                | `Cmd_goal_type_context`       |
-| goal-type-and-inferred-type | Infer goal type and the context of the goal                 | `Cmd_goal_type_context_infer` |
-
-## Text editor support
-
-The interaction commands mentioned above can be tied to text editors and IDEs to provide additional assistance for programmers. Such integrations exist for the following text editors:
-
-- Emacs - developed first, has tightest integration [Emacs mode](https://agda.readthedocs.io/en/v2.5.2/tools/emacs-mode.html)
-- Atom - [agda-mode](https://atom.io/packages/agda-mode)
-- VSCode - [vscode-agda](https://github.com/banacorn/vscode-agda)
-- vim - [agda-vim](https://github.com/derekelkins/agda-vim)
-
-There is discontinued support for [sublime](https://github.com/banacorn/agda-mode-st3) and [eclipse](https://pdfs.semanticscholar.org/b7f9/32609298debd21398d54e13c864e26a03ac1.pdf).
-
-## Useful Agda-mode commands
-
-```markdown
-C-c C-l   load (type checking)
-C-c C-f   forward (jump to next hole)
-C-c C-b   backward (jump to previous hole)
-C-c C-d   deduce (type of expression)
-C-c C-n   normalize (evaluate expression)
+```lean
+def add (x y : Nat) : Nat :=
+  _ + y
 ```
 
-```markdown
-Commands inside a hole
-C-c C-,   information about the hole
-C-c C-d   deduce (type of contents of hole)
-C-c C-Space   give (checks whether the term in the hole has the right type and if it has, replaces the hole with the term)
-C-c C-c   case split (pattern match on variables)
-C-c C-r   refine (one step further)
-C-c C-a   auto (try to find a solution)
+In this example, the `_` symbol is used as a hole to indicate an incomplete part of the code. You can then use the `#check` command to see the type of the hole and the context in which it appears:
+
+```lean
+#check add
 ```
 
-Agda-mode for Emacs can be installed using:
+This will display the type of the `add` function and the context in which it appears, helping you identify the source of the error.
 
-```bash
-agda-mode setup
+e.g. `add : Nat → Nat → Nat`. This indicates that the `add` function takes two `Nat` arguments and returns a `Nat` value. We can then complete the proof by replacing the hole with the correct expression (e.g., `x + y`).
+
+## Global commands
+
+Global commands are used to interact with the Lean environment and perform various operations such as checking types, evaluating expressions, printing definitions, reducing expressions, and exiting proofs.
+
+| Command   | Description                                                                |
+|-----------|----------------------------------------------------------------------------|
+| `#check`  | Shows the type of an expression                                            |
+| `#eval`   | Evaluates an expression                                                    |
+| `#print`  | Displays the definition of a declaration                                   |
+| `#reduce` | Reduces an expression to normal form                                       |
+| `#exit`   | Terminate an unfinished proof without marking the entire file as incorrect |
+
+### `#check` and `#eval`
+
+The `#check` and `#eval` commands are the most basic commands used for debugging.
+
+- **`#check`**: Use this to check the type of an expression. This is especially useful when trying to understand type mismatches or when you're unsure of the result type of a complex expression.
+
+  ```lean
+  #check 1 + 1  -- Output: Nat
+  #check "Hello"  -- Output: String
+  ```
+
+- **`#eval`**: This command evaluates an expression and returns its value. It is helpful for testing functions and verifying that they behave as expected.
+
+  ```lean
+  #eval 2 + 2  -- Output: 4
+  #eval "Hello, " ++ "World!"  -- Output: "Hello, World!"
+  ```
+
+### `#print`
+
+The `#print` command can be used to see the definitions of constants, theorems, or even entire modules. This is particularly useful when you need to understand how something is implemented or when you suspect that a definition might be incorrect.
+
+```lean
+#print Nat.add
 ```
 
-This entire project can be loaded into Emacs like:
+### `#reduce`
 
-```bash
-emacs ./contents.lagda.md
+The `#reduce` command reduces an expression to its normal form. This can be useful when you want to see the result of a computation or when you're trying to understand how a complex expression is evaluated.
+
+```lean
+#reduce 2 + 2  -- Output: 4
+#reduce 2 * 3  -- Output: 6
 ```
 
-followed by loading `agda-mode` by typing `space` `space` `agda-mode`. Using [spacemacs](http://spacemacs.org/) is recommended.
+### `#exit`
+
+The `#exit` command allows you to terminate an unfinished proof without marking the entire file as incorrect. This is useful if you want to quickly move past a problematic proof and return to it later.
+
+```lean
+example (n : Nat) : n + 0 = n := by
+  -- Proof in progress
+  #exit
+```
+
+## Goal-specific commands
+
+Lean has several commands that can be used to interact with the current proof state. These commands can help understand the current goal, trace the execution of a proof, or temporarily fill a hole in a proof.
+
+| Command     | Description                         |
+|-------------|-------------------------------------|
+| `show_goal` | Displays the current goal           |
+| `trace`     | Outputs debug information           |
+| `sorry`     | Temporarily fills a hole in a proof |
+
+When working on a specific goal, Lean provides additional commands that can be used to introduce hypotheses, create local definitions, or restate the current goal.
+
+| Command | Description                 |
+|---------|-----------------------------|
+| `have`  | Introduces a new hypothesis |
+| `let`   | Creates a local definition  |
+| `show`  | Restates the current goal   |
+
+### `show_goal`
+
+The `show_goal` command displays the current goal in the proof state. This can be helpful when you're working on a complex proof and need to understand the current context.
+
+```lean
+example (n : Nat) : n + 0 = n := by
+  show_goal
+```
+
+This will display the current goal in the proof state, helping you understand what you need to prove next.
+
+### `trace`
+
+The `trace` command outputs debug information during the execution of a proof. This can be useful for understanding how a proof is progressing or for tracing the execution of a complex proof.
+
+```lean
+example (n : Nat) : n + 0 = n := by
+  trace "Starting proof"
+  -- Continue with the proof
+```
+
+This will output the debug information "Starting proof" during the execution of the proof.
+
+### `sorry`
+
+The `sorry` command is used to temporarily fill a hole in a proof. This can be helpful when you want to work incrementally on a proof or when you're not sure how to complete a particular step.
+
+```lean
+example (n : Nat) : n + 0 = n := by
+  sorry
+```
+
+This will fill the hole with a placeholder value and allow you to continue working on the proof. However, it is important to replace `sorry` with a valid proof before finalizing the proof.
+
+### `have`
+
+The `have` command introduces a new hypothesis in a proof. This can be useful when you need to break down a complex proof into smaller steps or when you want to document intermediate results.
+
+```lean
+example (n : Nat) : n + 0 = n := by
+  have h1 : n + 0 = n := by rfl
+  -- Continue with the proof
+```
+
+This introduces a new hypothesis `h1` in the proof and allows you to continue working on the proof incrementally.
+
+### `let`
+
+The `let` command creates a local definition in a proof. This can be useful when you need to introduce a new variable or function in a proof or when you want to simplify the proof by defining intermediate values.
+
+```lean
+example (n : Nat) : n + 0 = n := by
+  let m := 0
+  -- Continue with the proof
+```
+
+This creates a local definition `m` with the value `0` and allows you to use it in the proof.
+
+### `show`
+
+The `show` command restates the current goal in a proof. This can be useful when you want to clarify the current goal or when you need to restate the goal in a different form.
+
+```lean
+example (n : Nat) : n + 0 = n := by
+  show n + 0 = n
+  -- Continue with the proof
+```
+
+This restates the current goal in the proof and allows you to continue working on the proof.
 
 ## Practical Debugging Examples
 
-Let's look at a couple of practical examples to illustrate how to use Agda's debugging features:
+Let's look at some common debugging scenarios:
 
-1. Using holes to develop a proof incrementally:
-
-```agda
-+-comm : (m n : Nat) → m + n ≡ n + m
-+-comm zero n = ?
-+-comm (suc m) n = ?
+1. Type Mismatch:
+```lean
+def incorrect_add (x : Nat) (y : Int) : Nat :=
+  x + y  -- Error: type mismatch
+         -- expected: Nat
+         -- got: Int
 ```
 
-Here, we've left holes in our proof of commutativity of addition. We can use Agda-mode commands to:
-- Check the type of each hole (C-c C-,)
-- Try auto-completion (C-c C-a)
-- Refine the proof step by step (C-c C-r)
-
-2. Using case splits:
-
-```agda
-data Bool : Set where
-  true : Bool
-  false : Bool
-
-not : Bool → Bool
-not x = ?
+Fix using type conversion:
+```lean
+def correct_add (x : Nat) (y : Int) : Nat :=
+  x + y.toNat
 ```
 
-With the cursor on `x`, we can use C-c C-c to perform a case split, which will generate:
+2. Incomplete Pattern Matching:
+```lean
+inductive Color
+  | Red | Green | Blue
 
-```agda
-not' : Bool → Bool
-not' true = ?
-not' false = ?
+def to_string (c : Color) : String :=
+  match c with
+  | Color.Red => "red"
+  | Color.Green => "green"
+  -- Error: missing case Color.Blue
 ```
 
-These practical examples demonstrate how Agda's interactive features can assist in developing proofs and functions step by step, making the development process more manageable and insightful.
+3. Proof Debugging:
+```lean
+example (n m : Nat) : n + m = m + n := by
+  induction n with
+  | zero =>
+    -- Use trace to debug
+    trace "Base case"
+    simp
+  | succ n ih =>
+    -- Use sorry to work incrementally
+    sorry
+```
+
+## Debugging Tactics
+
+Lean's tactic framework provides several debugging tactics that can be used to trace the execution of a proof, output custom debugging information, or simplify expressions. These tactics can be helpful when you're working on a complex proof and need to understand how the proof is progressing.
+
+- **`trace`**: The `trace` tactic is used to output custom debugging information to the Info View. This can be useful for tracing the values of variables or the progress of a proof.
+
+  ```lean
+  example (n : Nat) : n + 0 = n := by
+    trace "Starting proof"
+    induction n with
+    | zero => rfl
+    | succ n ih =>
+      trace "Inductive case"
+      simp
+  ```
+
+- **`simp` and `rw`**: These tactics are also useful for debugging because they allow you to simplify expressions or rewrite parts of a proof. When a proof fails, `simp` can often help you identify which part of the expression is not simplifying as expected.
+
+  ```lean
+  example (n : Nat) : n + 0 = n := by
+    simp  -- Simplifies `n + 0` to `n`
+  ```
+
+## Best Practices
+
+1. Use Small Steps
+   - Break complex proofs into smaller lemmas
+   - Use `have` statements to document intermediate steps
+   ```lean
+   theorem complex_proof (n m : Nat) : n + m = m + n := by
+     have h1 : n + 0 = n := by rfl
+     have h2 : m + 0 = m := by rfl
+     -- continue with smaller steps
+   ```
+
+2. Leverage Type Information
+   - Use `#check` frequently
+   - Examine Info View feedback
+   - Insert holes (`_`) to see expected types
+
+3. Interactive Development
+   - Use `sorry` for incremental development
+   - Test sub-lemmas independently
+   - Keep proofs organized and well-documented
+
+4. Error Handling
+   ```lean
+   def safe_div (x y : Nat) : Option Nat :=
+     if y = 0 then
+       none
+     else
+       some (x / y)
+   ```
 
 ****
+
 [Type Theory - Introduction](./Types.introduction.html)

@@ -24,8 +24,6 @@
     - [Fibonacci Sequence](#fibonacci-sequence)
     - [Longest Common Subsequence](#longest-common-subsequence)
 
----
-
 Algorithms in Lean are implemented as functions that operate on data structures. The implementation often closely mirrors mathematical definitions while ensuring termination and correctness. This section is intended to also serve as a starting point where we use more real-world examples. A bunch of things are introduced here, and will be explained in more detail in the following sections.
 
 These are the different types of algorithms we'll explore:

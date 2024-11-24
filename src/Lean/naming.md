@@ -91,4 +91,5 @@ Here's a list of resources for learning Lean:
 10. [Formal Abstractions](https://www.youtube.com/c/FormalAbstractions): A YouTube channel with Lean tutorials and demonstrations.
 
 ****
+
 [Types](./Lean.types.html)
