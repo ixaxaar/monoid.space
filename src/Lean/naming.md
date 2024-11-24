@@ -8,13 +8,13 @@
 ****
 
 - [Naming conventions](#naming-conventions)
-  - [Files and modules](#files-and-modules)
+  - [Modules](#modules)
   - [Naming Conventions](#naming-conventions-1)
   - [Literate programming](#literate-programming)
   - [Identifiers](#identifiers)
   - [Other material](#other-material)
 
-## Files and modules
+## Modules
 
 In Lean, each file implicitly declares a module with the same name as the file (without the `.lean` extension). For example, a file named `intro.lean` implicitly declares a module named `intro`.
 
@@ -23,6 +23,13 @@ You can also explicitly declare modules within a file:
 ```lean
 module MyModule where
   -- Module contents here
+```
+
+Modules can be imported using relative or absolute paths:
+
+```lean
+import Basic.Numbers            -- absolute import
+import .Numbers                 -- relative import
 ```
 
 ## Naming Conventions
