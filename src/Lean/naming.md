@@ -30,6 +30,7 @@ Modules can be imported using relative or absolute paths:
 ```lean
 import Basic.Numbers            -- absolute import
 import .Numbers                 -- relative import
+import «Numbers»                -- import using Unicode characters
 ```
 
 ## Naming Conventions
