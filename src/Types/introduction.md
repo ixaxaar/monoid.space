@@ -29,7 +29,6 @@
 
 
 ```lean
--- We'll start by importing some basic modules
 import Mathlib.Data.Nat.Basic     -- For natural numbers
 import Mathlib.Data.Int.Basic     -- For integers
 import Mathlib.Data.List.Basic    -- For lists
@@ -39,12 +38,11 @@ import Mathlib.Logic.Basic        -- For logical operations
 
 ## Foundations of Mathematics
 
-Mathematics requires rigorous foundations (what are mathematical foundations?? like what do they even contain / mean etc??) to ensure the validity of proofs and prevent paradoxes (what?!?!?!?). Over the past century, two main foundational systems have emerged:
+At the very base of mathematics, we have the concept of sets, which are collections of objects. Set theory provides a formal language for defining and manipulating these collections. Set theory forms the programming language of mathematics, allowing us to express mathematical concepts and operations in a precise and unambiguous way. All mathematical structures can be built from sets, and all machinery operating on these structures can be expressed in terms of set operations. Mathematics is built on a foundation of axioms and rules that define the basic concepts and operations used in mathematical reasoning. These foundations provide a framework for proving theorems and establishing the validity of mathematical results.
 
-1. Set Theory (specifically Zermelo-Fraenkel Set Theory with Choice, ZFC)
-2. Type Theory (in various forms including Martin-Löf Type Theory and Calculus of Constructions)
+Set theory, however, is not the only foundational system for mathematics. Over the past century, another foundational system has emerged: type theory. Type theory is a formal system that classifies mathematical objects by their types and specifies valid operations on these objects. In type theory, every mathematical object has a type, and types serve multiple roles, such as classifying objects, specifying operations, catching errors, and representing propositions. Type theory provides a different perspective on mathematics, emphasizing the structure of mathematical objects and the relationships between them.
 
-While both can serve as foundations, they approach mathematics in fundamentally different ways. Lean is based on type theory, specifically the Calculus of Inductive Constructions (CIC) with some extensions.
+While both set theory and type theory can serve as foundations for mathematics, they approach mathematical reasoning in fundamentally different ways. Lean, like several other modern proof assistants, is based on type theory - specifically, a version of the Calculus of Inductive Constructions (CIC) with various extensions. This choice enables Lean to provide powerful tools for both mathematical reasoning and computation.
 
 ## Set Theory Fundamentals
 
