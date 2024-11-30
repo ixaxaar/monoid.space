@@ -44,6 +44,8 @@ Set theory, however, is not the only foundational system for mathematics. Over t
 
 While both set theory and type theory can serve as foundations for mathematics, they approach mathematical reasoning in fundamentally different ways. Lean, like several other modern proof assistants, is based on type theory - specifically, a version of the Calculus of Inductive Constructions (CIC) with various extensions. This choice enables Lean to provide powerful tools for both mathematical reasoning and computation.
 
+Practically, using Lean instead of set theory implies we can automatically check proofs, instead of the ultra-tedious manual checking that would be required in set theory. This is because Lean's type theory is designed to be computable, which means that we can write programs that manipulate proofs and terms. This is a significant advantage over set theory, where proofs are typically written in natural language and must be checked manually by humans, who tend to make their own mistakes.
+
 ## Set Theory Fundamentals
 
 In set theory, mathematical objects are sets, and the basic operations are set membership and set formation:
