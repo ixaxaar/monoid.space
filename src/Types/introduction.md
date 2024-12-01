@@ -11,7 +11,7 @@
   - [Foundations of Mathematics](#foundations-of-mathematics)
   - [Set Theory Fundamentals](#set-theory-fundamentals)
   - [Type Theory Fundamentals](#type-theory-fundamentals)
-    - [Types and Terms](#types-and-terms)
+    - [Types](#types)
     - [Judgments](#judgments)
     - [Function Types](#function-types)
     - [Dependent Types](#dependent-types)
@@ -66,7 +66,7 @@ Set theory is the foundation of modern mathematics and provides a rich language 
 
 ## Type Theory Fundamentals
 
-### Types and Terms
+### Types
 
 The fundamental concept in type theory is that every mathematical object has a type. We write this using a colon:
 
@@ -75,11 +75,15 @@ def x : Nat := 5        -- x has type Nat (natural number)
 def b : Bool := true    -- b has type Bool (boolean)
 ```
 
+A `Type` in mathematics and computer science is a collection of objects that share common properties. In type theory, types classify mathematical objects and specify valid operations on them. For example, the type `Nat` represents the set of natural numbers, and the type `Bool` represents the set of boolean values. Types can also represent propositions, as we will see later.
+
 Types serve multiple roles:
-- They classify mathematical objects
-- They specify valid operations
-- They help catch errors
-- They can represent propositions (the propositions-as-types principle)
+
+- They classify mathematical objects, as in all objects of a type share common properties.
+- They specify valid operations on objects of a type.
+- They can represent propositions (the propositions-as-types principle).
+
+Generally, a "theory" in mathematics can be constructed using type theory by defining the types of objects in the theory and the operations that can be performed on them. This is similar to how a "theory" in set theory can be constructed by defining the sets of objects in the theory and the operations that can be performed on them.
 
 ### Judgments
 
