@@ -10,6 +10,10 @@
 - [Introduction to Type Theory](#introduction-to-type-theory)
   - [Foundations of Mathematics](#foundations-of-mathematics)
   - [Set Theory Fundamentals](#set-theory-fundamentals)
+    - [Construction](#construction)
+    - [Membership and Subsets](#membership-and-subsets)
+    - [Set Operations](#set-operations)
+    - [Properties of operations on Sets](#properties-of-operations-on-sets)
   - [Type Theory Fundamentals](#type-theory-fundamentals)
     - [Types](#types)
     - [Judgments](#judgments)
@@ -46,23 +50,132 @@ While both set theory and type theory can serve as foundations for mathematics, 
 
 ## Set Theory Fundamentals
 
-In set theory, mathematical objects are sets, and the basic operations are set membership and set formation:
+In set theory, mathematical objects are sets. Here we cover the very basics of sets and their operations.
+
+### Construction
+
+Sets can be constructed by enumerating their elements. For example, `x` is a set containing the natural numbers 1, 2, and 3:
 
 ```lean
-def x : Set Nat := {n | n > 0}  -- x is the set of natural numbers greater than 0
 def y : Set Nat := {1, 2, 3}    -- y is the set {1, 2, 3}
 ```
 
-Sets can be combined using set operations:
+Sets can also be constructed by the builder notation {x | P x}, where P x is a predicate that specifies the objects that belong to the set. For example, `x` is a set of natural numbers greater than 0:
 
 ```lean
-def z : Set Nat := x ∪ y        -- z is the union of x and y
-def w : Set Nat := x ∩ y        -- w is the intersection of x and y
+def x : Set Nat := {n | n > 0}  -- x is the set of natural numbers greater than 0
 ```
 
-Sets also support a host of other operations, such as Cartesian products, power sets, and functions between sets. These operations can be used to define more complex mathematical structures. 19th and 20th-century mathematicians developed set theory to provide a rigorous foundation for mathematics, "foundations" in this context refers to the basic building blocks of mathematics, the axioms and rules that underpin all mathematical reasoning which are then used to prove theorems and results, whereas "paradoxes" refer to logical inconsistencies that can arise in a system of axioms and rules, such as Russell's paradox in set theory.
+### Membership and Subsets
 
-Set theory is the foundation of modern mathematics and provides a rich language for expressing mathematical concepts. However, it has some limitations, such as the need for a separate logic system and the potential for paradoxes (like Russell's paradox).
+Set membership is denoted by the symbol ∈. It implies that an object, `x`, belongs to a set, for example here `x` belongs to the set of natural numbers `Nat`:
+
+```lean
+def x : Set Nat := {n | n > 0}  -- x is the set of natural numbers greater than 0
+```
+
+Subsets are denoted by the symbol ⊆. It implies that a set, `y`, is a subset of another set, `x`:
+
+```lean
+def y : Set Nat := {n | n > 1}  -- y is the set of natural numbers greater than 1
+def z : Bool := y ⊆ x           -- z is true because y is a subset of x
+```
+
+### Set Operations
+
+Sets can be combined using set operations. For example, the union of two sets `x` and `y` is a set containing all elements that belong to either `x` or `y`:
+
+```lean
+def x : Set Nat := {1, 2, 3}    -- x is the set {1, 2, 3}
+def y : Set Nat := {3, 4, 5}    -- y is the set {3, 4, 5}
+
+def z : Set Nat := x ∪ y        -- z is the union of x and y
+```
+
+Similarly, the intersection of two sets `x` and `y` is a set containing all elements that belong to both `x` and `y`:
+
+```lean
+def z : Set Nat := x ∩ y        -- z is the intersection of x and y
+```
+
+Sets can have complements, which are the elements that do not belong to the set:
+
+```lean
+def z : Set Nat := xᶜ          -- z is the complement of x
+```
+
+There is a special set, the empty set, denoted by ∅, which contains no elements:
+
+```lean
+def z : Set Nat := ∅            -- z is the empty set
+```
+
+and power sets, which are sets of all subsets of a given set:
+
+```lean
+def z : Set (Set Nat) := 𝒫 x    -- z is the power set of x
+```
+
+### Properties of operations on Sets
+
+The operations on sets have several properties. For example, the following properties hold for union and intersection:
+
+1. Commutativity: The order of sets does not matter for union and intersection:
+
+```lean
+def z₁ : Set Nat := x ∪ y
+def z₂ : Set Nat := y ∪ x
+def z₃ : Bool := z₁ = z₂
+```
+
+Here, $z_{1}$, $z_{2}$, and $z_{3}$ are equivalent.
+
+2. Associativity: The grouping of sets does not matter for union and intersection:
+
+```lean
+def z₁ : Set Nat := x ∪ (y ∪ z)
+def z₂ : Set Nat := (x ∪ y) ∪ z
+```
+
+Here, $z_{1}$ and $z_{2}$ are equivalent.
+
+3. Distributivity: Union and intersection distribute over each other:
+
+```lean
+def z₁ : Set Nat := x ∪ (y ∩ z)
+def z₂ : Set Nat := (x ∪ y) ∩ (x ∪ z)
+```
+
+Here, $z_{1}$ and $z_{2}$ are equivalent.
+
+4. Idempotence: Repeated union or intersection with the same set does not change the set:
+
+```lean
+def z₁ : Set Nat := x ∪ x
+def z₂ : Set Nat := x ∩ x
+```
+
+Here, $z_{1}$ and $z_{2}$ are equivalent to $x$.
+
+5. Identity: The empty set is the identity for union and the universal set is the identity for intersection:
+
+```lean
+def z₁ : Set Nat := x ∪ ∅
+def z₂ : Set Nat := x ∩ {n | n > 0}
+```
+
+Here, $z_{1}$ is equivalent to $x$ and $z_{2}$ is equivalent to $x$.
+
+6. Distributivity of union over intersection: Union operation distributes over intersection:
+
+```lean
+def z₁ : Set Nat := x ∪ (y ∩ z)
+def z₂ : Set Nat := (x ∪ y) ∩ (x ∪ z)
+```
+
+Here, $z_{1}$ and $z_{2}$ are equivalent.
+
+There are several other properties of set operations, which are used in mathematical reasoning and proofs, and we are going to skip those as styduing them is not the goal of this book.
 
 ## Type Theory Fundamentals
 
