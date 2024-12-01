@@ -17,19 +17,13 @@
   - [Type Theory Fundamentals](#type-theory-fundamentals)
     - [Types and Terms](#types-and-terms)
     - [Judgments](#judgments)
-    - [Function Types](#function-types)
-    - [Dependent Types](#dependent-types)
-  - [Propositions as Types (Curry-Howard Correspondence)](#propositions-as-types-curry-howard-correspondence)
-  - [Inductive Types](#inductive-types)
-  - [Type Classes](#type-classes)
-  - [Universe Hierarchy](#universe-hierarchy)
-  - [Working with Types in Practice](#working-with-types-in-practice)
-    - [Pattern Matching](#pattern-matching)
-    - [Recursive Functions](#recursive-functions)
-    - [Dependent Pattern Matching](#dependent-pattern-matching)
   - [Applications](#applications)
-  - [Comparison with Set Theory](#comparison-with-set-theory)
-  - [Advanced Concepts](#advanced-concepts)
+    - [Computer Science](#computer-science)
+    - [Mathematics](#mathematics)
+  - [Advanced Concepts and Implications](#advanced-concepts-and-implications)
+    - [Categorical Interpretations](#categorical-interpretations)
+    - [Homotopy Type Theory](#homotopy-type-theory)
+    - [Proof Assistants and Formal Verification](#proof-assistants-and-formal-verification)
 
 
 ```lean
@@ -247,159 +241,65 @@ example : 2 + 2 = 4 := rfl  -- rfl proves equality by definition
 
 Here, `rfl` is a proof that `2 + 2` is equal to `4`, where `rfl` denotes reflexivity property of equality which states that every term is equal to itself, or if `x` is equal to `y`, then `y` is equal to `x`.
 
-### Function Types
-
-Functions are first-class citizens in type theory. A function type A → B represents functions from type A to type B:
-
-```lean
-def increment : Nat → Nat :=
-  fun n => n + 1
-
-def compose {A B C : Type} (g : B → C) (f : A → B) : A → C :=
-  fun x => g (f x)
-```
-
-### Dependent Types
-
-One of type theory's most powerful features is dependent types - types that depend on values:
-
-```lean
-def Vec (α : Type) (n : Nat) : Type :=
-  {xs : List α // xs.length = n}
-
--- A proof that 2+2=4 has type 2+2=4
-theorem two_plus_two : 2 + 2 = 4 := rfl
-```
-
-## Propositions as Types (Curry-Howard Correspondence)
-
-In type theory, propositions are represented as types and proofs as terms of those types:
-
-```lean
--- Logical AND corresponds to product types
-example (P Q : Prop) : P ∧ Q → Q ∧ P := fun ⟨p, q⟩ => ⟨q, p⟩
-
--- Logical OR corresponds to sum types
-example (P Q : Prop) : P ∨ Q → Q ∨ P := fun
-  | Or.inl p => Or.inr p
-  | Or.inr q => Or.inl q
-
--- Implication corresponds to function types
-example (P Q R : Prop) : (P → Q) → (Q → R) → (P → R) :=
-  fun h₁ h₂ p => h₂ (h₁ p)
-```
-
-## Inductive Types
-
-Many types in Lean are defined inductively. This means specifying:
-1. Base cases (constructors with no recursive arguments)
-2. Inductive cases (constructors with recursive arguments)
-
-```lean
-inductive Nat where
-  | zero : Nat            -- Base case
-  | succ : Nat → Nat     -- Inductive case
-
-inductive List (α : Type) where
-  | nil  : List α
-  | cons : α → List α → List α
-```
-
-## Type Classes
-
-Type classes allow ad-hoc polymorphism and overloading:
-
-```lean
-class Add (α : Type) where
-  add : α → α → α
-
-instance : Add Nat where
-  add := Nat.add
-
-#check (10 + 20)    -- Uses the Add instance for Nat
-```
-
-## Universe Hierarchy
-
-To avoid paradoxes, Lean uses a hierarchy of universes:
-
-```lean
-#check Type        -- Type : Type 1
-#check Type 1      -- Type 1 : Type 2
-#check Type 2      -- Type 2 : Type 3
-```
-
-## Working with Types in Practice
-
-### Pattern Matching
-
-Pattern matching is a key tool for working with inductive types:
-
-```lean
-def factorial : Nat → Nat
-  | 0     => 1
-  | n + 1 => (n + 1) * factorial n
-```
-
-### Recursive Functions
-
-Many functions are defined recursively:
-
-```lean
-def length {α : Type} : List α → Nat
-  | []     => 0
-  | _ :: t => 1 + length t
-```
-
-### Dependent Pattern Matching
-
-Pattern matching becomes more powerful with dependent types:
-
-```lean
-def tail {α : Type} {n : Nat} : Vec α (n + 1) → Vec α n :=
-  fun ⟨x :: xs, h⟩ => ⟨xs, sorry⟩  -- (proof omitted)
-```
+We will further explore type theory in the following sections.
 
 ## Applications
 
-Type theory and Lean have numerous applications:
+### Computer Science
 
-1. Formal Mathematics
-   - Verify complex mathematical proofs
-   - Discover new mathematics through formalization
+Type Theory has found extensive applications in computer science:
 
-2. Program Verification
-   - Prove correctness of algorithms
-   - Verify safety properties of systems
+1. **Programming Language Design**: Many modern programming languages incorporate ideas from Type Theory in their type systems.
 
-3. Programming Language Theory
-   - Study type systems
-   - Develop new programming languages
+2. **Formal Verification**: Type Theory provides a basis for proving properties of programs and verifying their correctness.
 
-4. Category Theory
-   - Formalize categorical concepts
-   - Study relationships between different structures
+3. **Proof Assistants**: Software like Coq, Agda, and Lean, based on Type Theory, allow for computer-assisted theorem proving.
 
-## Comparison with Set Theory
+4. **Foundations of Computer Science**: Type Theory provides a theoretical foundation for understanding computation and programming languages.
 
-While set theory and type theory can both serve as foundations, they differ in important ways:
+### Mathematics
 
-| Aspect       | Set Theory            | Type Theory            |
-|--------------|-----------------------|------------------------|
-| Basic notion | Membership (∈)        | Typing judgment (:)    |
-| Functions    | Sets of ordered pairs | Primitive concept      |
-| Logic        | Classical             | Constructive (usually) |
-| Computation  | Not built-in          | Inherent               |
-| Hierarchy    | Sets                  | Universe levels        |
+While Set Theory remains the most common foundation for mathematics, Type Theory offers some advantages:
 
-## Advanced Concepts
+1. **Constructive Mathematics**: Type Theory naturally supports constructive approaches to mathematics.
 
-Several advanced concepts build on these fundamentals:
+2. **Computational Content**: Proofs in Type Theory often have direct computational interpretations.
 
-1. Higher-Inductive Types
-2. Univalence
-3. Homotopy Type Theory
-4. Dependent Type Theory
-5. Linear Type Systems
+3. **Higher-Order Logic**: Type Theory easily accommodates higher-order logic, which can be more expressive than first-order logic used in Set Theory.
 
-These will be covered in later chapters.
+4. **Homotopy Type Theory**: Recent developments have connected Type Theory with modern areas of mathematics like homotopy theory.
+
+## Advanced Concepts and Implications
+
+### Categorical Interpretations
+
+Both Set Theory and Type Theory have important connections to Category Theory, a branch of mathematics that deals with abstract structures and relationships between them.
+
+1. **Set Theory and Categories**:
+   - The category Set, whose objects are sets and morphisms are functions, is a fundamental example in category theory.
+   - Many set-theoretic constructions have categorical generalizations (e.g., products, coproducts, exponentials).
+
+2. **Type Theory and Categories**:
+   - There's a deep connection between Type Theory and Cartesian closed categories.
+   - Each type theory gives rise to a category, where types are objects and terms are morphisms.
+
+### Homotopy Type Theory
+
+Homotopy Type Theory (HoTT) is a recent development that connects Type Theory with abstract homotopy theory.
+
+1. **Univalence Axiom**: This axiom in HoTT states that isomorphic types are equal, providing a powerful principle for reasoning about equivalence.
+
+2. **Inductive Types with Recursion**: HoTT extends Type Theory with inductive types and recursion principles, allowing for the construction of complex structures like higher inductive types.
+
+### Proof Assistants and Formal Verification
+
+The development of proof assistants based on Type Theory has significant implications for mathematics and computer science.
+
+1. **Formalized Mathematics**: Large parts of mathematics have been formalized in systems like Coq, Lean, and Agda, and is the basic reason why we are here!
+
+2. **Software Verification**: Type Theory-based systems are used to verify the correctness of critical software systems.
+
+Example (CompCert, a verified C compiler).
+
+****
+[Universes and families](./Types.universe.html)
