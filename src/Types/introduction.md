@@ -13,9 +13,9 @@
     - [Construction](#construction)
     - [Membership and Subsets](#membership-and-subsets)
     - [Set Operations](#set-operations)
-    - [Properties of operations on Sets](#properties-of-operations-on-sets)
+    - [Properties of Set Operations](#properties-of-set-operations)
   - [Type Theory Fundamentals](#type-theory-fundamentals)
-    - [Types](#types)
+    - [Types and Terms](#types-and-terms)
     - [Judgments](#judgments)
     - [Function Types](#function-types)
     - [Dependent Types](#dependent-types)
@@ -116,7 +116,7 @@ and power sets, which are sets of all subsets of a given set:
 def z : Set (Set Nat) := 𝒫 x    -- z is the power set of x
 ```
 
-### Properties of operations on Sets
+### Properties of Set Operations
 
 The operations on sets have several properties. For example, the following properties hold for union and intersection:
 
@@ -179,7 +179,7 @@ There are several other properties of set operations, which are used in mathemat
 
 ## Type Theory Fundamentals
 
-### Types
+### Types and Terms
 
 The fundamental concept in type theory is that every mathematical object has a type. We write this using a colon:
 
@@ -198,33 +198,54 @@ Types serve multiple roles:
 
 Generally, a "theory" in mathematics can be constructed using type theory by defining the types of objects in the theory and the operations that can be performed on them. This is similar to how a "theory" in set theory can be constructed by defining the sets of objects in the theory and the operations that can be performed on them.
 
+A term is an object of a type. For example, `5` is a term of type `Nat`, and `true` is a term of type `Bool`. Terms can be combined using operations defined on their types. For example, we can add two natural numbers:
+
+```lean
+def x : Nat := 5
+def y : Nat := 10
+def z : Nat := x + y
+```
+
+Here, `z` is a term of type `Nat` obtained by adding `x` and `y`.
+
 ### Judgments
 
-Type theory works with several kinds of judgments:
+Judgements are statements about types and terms in type theory. They are used to define what constitutes a valid type, a valid term of a type, and when two types or terms are considered equal. Type theory works with several kinds of judgments:
 
 1. Type Formation: Defines what constitutes a valid type
+
 ```lean
 #check Nat        -- Nat : Type
 #check Bool       -- Bool : Type
 ```
 
+Formally, a type is a valid type if it is a member of the universe of types.
+
 2. Term Formation: Defines valid terms of a type
+
 ```lean
 def valid_nat : Nat := 42
 -- This would fail: def invalid_nat : Nat := true
 ```
 
+Formally, a term is a valid term of a type if it is a member of the set of terms of that type. Consider the type `Nat` as the set of natural numbers. Then, `42` is a valid term of type `Nat`, while `true` is not.
+
 3. Type Equality: When two types are considered the same
+
 ```lean
 def A : Type := Nat
 def B : Type := ℕ     -- ℕ is notation for Nat
--- A and B are the same type
 ```
 
+Types `A` and `B` are considered equal because they are defined to be the same type. Technically, there are various notions of equality in type theory, such as definitional equality, propositional equality, and judgmental equality, and we will look at them in depth later.
+
 4. Term Equality: When two terms are considered equal
+
 ```lean
 example : 2 + 2 = 4 := rfl  -- rfl proves equality by definition
 ```
+
+Here, `rfl` is a proof that `2 + 2` is equal to `4`, where `rfl` denotes reflexivity property of equality which states that every term is equal to itself, or if `x` is equal to `y`, then `y` is equal to `x`.
 
 ### Function Types
 
