@@ -3,8 +3,8 @@
 [Previous](Types.introduction.html)
 [Next](Types.relations.html)
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+# Universes
+
 ****
 
 - [Universes](#universes)
@@ -12,10 +12,6 @@
   - [Lifting](#lifting)
   - [Universe Polymorphism](#universe-polymorphism)
   - [The `Prop` Type](#the-prop-type)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Universes
 
 Set theory has had to deal with paradoxes, such as Russell's Paradox, which shows that the set of all sets that do not contain themselves cannot exist. Set theorists have developed ways to avoid these paradoxes, such as the Zermelo-Fraenkel axioms or ZFC, which avoid the paradoxes by restricting the kinds of sets that can be formed to in a well-defined way.
 
