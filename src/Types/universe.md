@@ -59,6 +59,20 @@ Each level of the universe hierarchy contains the types of the universe below it
 #check Type 3 -- : Type 4
 ```
 
+Elements of a higher universe level can be created from elements of a lower universe level. For example, we can create a function that takes a type in `Type 0` and returns a type in `Type 1`:
+
+```lean
+def liftType.{u} (α : Type u) : Type (u+1) := PLift α
+```
+
+Here, `PLift` is a type constructor that takes a type `α` in `Type u` and returns a type in `Type (u+1)`. The `u` in `Type u` is a universe level parameter, which is used to specify the universe level of the type. The `u+1` in `Type (u+1)` is the universe level of the returned type.
+
+This function can be used to create a type in `Type 1` from a type in `Type 0`:
+
+```lean
+#check @liftType.{0} Nat  -- List Nat : Type 1
+```
+
 
 
 
