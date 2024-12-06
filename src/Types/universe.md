@@ -8,14 +8,10 @@
 ****
 
 - [Universes](#universes)
-  - [Introduction to Universes](#introduction-to-universes)
-  - [Universes in Agda](#universes-in-agda)
-  - [Universe Levels](#universe-levels)
+  - [Introduction](#introduction)
+  - [Lifting](#lifting)
   - [Universe Polymorphism](#universe-polymorphism)
-  - [Cumulativity](#cumulativity)
-  - [The Prop Universe](#the-prop-universe)
-  - [Families of Types](#families-of-types)
-  - [Machinery on Types](#machinery-on-types)
+  - [The `Prop` Type](#the-prop-type)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -24,6 +20,8 @@
 Set theory has had to deal with paradoxes, such as Russell's Paradox, which shows that the set of all sets that do not contain themselves cannot exist. Set theorists have developed ways to avoid these paradoxes, such as the Zermelo-Fraenkel axioms or ZFC, which avoid the paradoxes by restricting the kinds of sets that can be formed to in a well-defined way.
 
 Just like Set theory, Type theory also has had to deal with paradoxes. In Type theory, we have a similar problem to Russell's Paradox: the type of all types cannot exist, as it would lead to a contradiction. To avoid this, the concept of universes was introduced. Universes are a way to organize types into a hierarchy, where each universe contains the types of the universe below it. This way, we can avoid paradoxes by not allowing types to contain themselves. In Lean, the type of all types is called `Type`, and it is a universe itself. However, to avoid paradoxes, Lean uses a hierarchy of universes, where each universe contains the types of the universe below it.
+
+## Introduction
 
 Formally, the structure of the universe used in type theory are Russell-style and Tarski-style universes. In Russell-style universes, the universe is a type, and in Tarski-style universes, the universe is a type family. In Lean, the universe is a type family, and it is called `Sort`. The `Sort` family is a type family that contains all the types in the hierarchy of universes.
 
@@ -59,22 +57,116 @@ Each level of the universe hierarchy contains the types of the universe below it
 #check Type 3 -- : Type 4
 ```
 
-Elements of a higher universe level can be created from elements of a lower universe level. For example, we can create a function that takes a type in `Type 0` and returns a type in `Type 1`:
+Function types occupy the same universe level that can contain both their argument types and their return types. For example, the type of a function that takes a `Nat` and returns a `Nat` is in `Type 0`:
+
+```lean
+#check Nat → Nat -- : Type
+```
+
+The type of a function that takes a `Nat` and returns a `Bool` is in `Type 0`:
+
+```lean
+#check Nat → Bool -- : Type
+```
+
+The type of a function that takes a `Nat` and returns a `Type` `Type 1`:
+
+```lean
+#check Nat → Type -- : Type 1
+```
+
+## Lifting
+
+Elements of a higher universe level can be created from elements of a lower universe level. "Lifting" is a mechanism that allows us to take a type from one universe level and create a corresponding type at a higher universe level. For example, we can create a function that takes a type in `Type 0` and returns a type in `Type 1`:
 
 ```lean
 def liftType.{u} (α : Type u) : Type (u+1) := PLift α
 ```
 
-Here, `PLift` is a type constructor that takes a type `α` in `Type u` and returns a type in `Type (u+1)`. The `u` in `Type u` is a universe level parameter, which is used to specify the universe level of the type. The `u+1` in `Type (u+1)` is the universe level of the returned type.
+Here, `PLift` is a type constructor that takes a type `α` in `Type u` and returns a type in `Type (u+1)`. The `u` in `Type u` is a universe level parameter, which is used to specify the universe level of the type. The `u+1` in `Type (u+1)` is the universe level of the returned type. The `.{u}` is a universe level parameter that specifies the universe level of the function, which can also be inferred by Lean:
+
+```lean
+def liftType1 (α : Type u) : Type (u+1) := PLift α
+```
+
+Here, we have omitted the universe level parameter `u` in the function definition (the `.{u}`), and Lean will infer the universe level from the type of the argument `α`.
 
 This function can be used to create a type in `Type 1` from a type in `Type 0`:
 
 ```lean
-#check @liftType.{0} Nat  -- List Nat : Type 1
+#check @liftType.{0} Nat  -- Nat : Type 1
+#check @liftType1 Nat  -- Nat : Type 1
 ```
 
+## Universe Polymorphism
+
+Universe polymorphism is a feature of type theory that allows us to write functions that can take types in any universe level, and return types in any universe level.
+
+In Lean, universe polymorphism is used to specify the universe level of a type. Universe polymorphism allows us to write functions that can take types in any universe level. For example, the `liftType` function above is universe polymorphic, as it can take types in any universe level. The `u` in `Type u` is a universe level parameter, which is used to specify the universe level of the type.
+
+Universe polymorphism is used to specify the universe level of a type. For example, the `liftType` function above is universe polymorphic, as it can take types in any universe level. The `u` in `Type u` is a universe level parameter, which is used to specify the universe level of the type.
+
+Here are a few examples of universe polymorphism in Lean:
+
+```lean
+def idd.{u} (α : Type u) (a : α) : α := a
+#check @idd.{0} Nat -- (α : Type) → α → α
+
+def pair.{u, v} (α : Type u) (β : Type v) (a : α) (b : β) : α × β := (a, b)
+#check @pair.{0, 0} -- (α β : Type) → α → β → α × β
+
+inductive Listy (α : Type u) : Type u where
+  | nil : Listy α
+  | cons : α → Listy α → Listy α
+def mylist : Listy Nat :=
+  .cons 2 (.cons 2 .nil) -- Listy Nat
+```
+
+Definitions with multiple arguments can have multiple universe level parameters for maximum flexibility.
+
+```lean
+inductive SumInflexible (x : Type u) (y : Type u) : Type u where
+  | inl : x → SumInflexible x y
+  | inr : y → SumInflexible x y
+
+def stringOrNat : SumInflexible String Nat :=
+  SumInflexible.inl "hello" -- SumInflexible String Nat
+```
+
+This is an inflexible definition because the universe level of `SumInflexible` is fixed to the universe level of the arguments `x` and `y`. This means that `SumInflexible` can only be used with both types of `x` and `y` in the same universe level.
+
+```lean
+inductive SumFlexible (x : Type u) (y : Type v) : Type (max u v) where
+  | inl : x → SumFlexible x y
+  | inr : y → SumFlexible x y
+
+def stringOrListString : SumFlexible String (List String) :=
+  SumFlexible.inl "hello"
+```
+
+whereas `SumFlexible` is a flexible definition because the universe level of `SumFlexible` is the maximum of the universe levels of the arguments `x` and `y`. This means that `SumFlexible` can be used with types in different universe levels.
+
+## The `Prop` Type
+
+In Lean, the `Prop` type is used to represent propositions, which are types that represent logical statements. The `Prop` type is a universe that contains the types of propositions. The `Prop` type is used to represent logical statements, such as `true`, `false`, `∀`, `∃`, etc. For propositions, it does not matter which evidence is used to prove them, only that they are true, unlike a program which requires a specific value to be returned, say `3` and not just any `Nat`.
 
 
+The type of `Prop` is in `Type 0`:
+
+```lean
+#check Prop -- : Type
+```
+
+A few simple propositions in Lean:
+
+```lean
+def isTrue : Prop := true
+
+theorem simple_prop : 1 = 1 := rfl -- 1 = 1
+#check simple_prop -- 1 = 1 : Prop
+
+def truthValues : List Prop := [true, false, 1 + 2 = 3, 2 + 2 = 5]
+```
 
 ****
 [Relations](./Types.relations.html)
