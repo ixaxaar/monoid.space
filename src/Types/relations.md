@@ -26,171 +26,39 @@
 
 # Relations
 
-```agda
-module Types.relations where
-
-open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
-open import Data.Nat using (ℕ; zero; suc; _+_; _<_; _≤_)
-open import Data.Bool using (Bool; true; false)
-open import Data.Empty using (⊥)
-open import Data.Unit using (⊤)
-open import Data.Product using (_×_; ∃; _,_)
-open import Relation.Binary.PropositionalEquality using (_≡_; refl)
-```
-
-## Introduction
-
-In mathematics and logic, a relation is a concept that describes how elements of sets are connected or associated with each other. In type theory, relations are formalized as types, which allows us to reason about them with the full power of the type system.
+In mathematics and logic, relations describe how elements are connected or associated with each other. In type theory, relations are formalized as types, which allows us to reason about them using the full power of the type system.
 
 ## Types of Relations
 
-Relations can be classified based on the number of elements they relate:
+Relations can be classified based on the number of elements they relate. They can be:
+- nullary: relations that make statements about elements, also known as propositions
+- unary: relations that describe properties of elements, also known as predicates
+- binary: relations that describe relationships between pairs of elements
 
-### 1. Nullary Relations
-
-A nullary relation is essentially a proposition - a statement that can be true or false.
-
-```agda
--- Representation of a nullary relation (proposition)
-Prop : Set₁
-Prop = Set
-
--- Examples of nullary relations
-true-prop : Prop
-true-prop = ⊤
-
-false-prop : Prop
-false-prop = ⊥
-```
+### 1. Nullary Relations (Propositions)
 
 ### 2. Unary Relations (Predicates)
 
-A unary relation, often called a predicate, is a property that an element of a set might satisfy.
+A unary predicate is represented as a function that takes an element and returns a proposition. In simpler terms, a unary relation on type `A` is a function `A → Prop` and is a way of selecting a subset of elements from `A` based on some property. For example if `A` is `Nat` or natural numbers, a unary predicate could be `isEven` which selects all even numbers from `Nat`:
 
-```agda
--- Definition of a predicate
-Pred : ∀ {a} → Set a → (ℓ : Level) → Set (a ⊔ lsuc ℓ)
-Pred A ℓ = A → Set ℓ
-
--- Example: Even numbers
-even : Pred ℕ lzero
-even zero = ⊤
-even (suc zero) = ⊥
-even (suc (suc n)) = even n
-
--- Usage
-_ : even 4 ≡ ⊤
-_ = refl
-
-_ : even 3 ≡ ⊥
-_ = refl
+```lean
+def is_even (n : Nat) : Prop := ∃ k, n = 2 * k
 ```
 
-### 3. Binary Relations
+This defines a function `is_even` that takes a natural number `n` and returns a proposition stating that there exists some natural number `k` such that `n` equals `2 * k`, which is the definition of an even number.
 
-Binary relations describe how pairs of elements are related.
+Here is another example of a unary predicate that selects all prime numbers from `Nat`:
 
-```agda
--- Definition of a binary relation
-Rel : ∀ {a} → Set a → (ℓ : Level) → Set (a ⊔ lsuc ℓ)
-Rel A ℓ = A → A → Set ℓ
-
--- Example: Less than or equal to for natural numbers
-_≤'_ : Rel ℕ lzero
-zero ≤' _ = ⊤
-suc m ≤' zero = ⊥
-suc m ≤' suc n = m ≤' n
-
--- Usage
-_ : 2 ≤' 4 ≡ ⊤
-_ = refl
-
-_ : 4 ≤' 2 ≡ ⊥
-_ = refl
+```
+def isPrime (n : Nat) : Prop := ∀ m : Nat, m > 1 → m < n → n % m ≠ 0
 ```
 
-## Properties of Relations
+This defines a function `isPrime` that takes a natural number `n` and returns a proposition stating that for all natural numbers `m` greater than 1 and less than `n`, `n` is not divisible by `m`.
 
-Relations can have various properties that describe their behavior:
 
-### 1. Reflexivity
 
-A relation is reflexive if every element is related to itself.
 
-```agda
-Reflexive : ∀ {a ℓ} {A : Set a} → Rel A ℓ → Set _
-Reflexive _R_ = ∀ {x} → x R x
 
--- Example: ≤ is reflexive
-≤-refl : Reflexive _≤_
-≤-refl {zero} = z≤n
-  where
-    z≤n : ∀ {n : ℕ} → zero ≤ n
-    z≤n {zero} = _≤_.z≤n
-    z≤n {suc n} = _≤_.z≤n
-≤-refl {suc n} = s≤s ≤-refl
-  where
-    s≤s : ∀ {m n : ℕ} → m ≤ n → suc m ≤ suc n
-    s≤s m≤n = _≤_.s≤s m≤n
-```
-
-### 2. Symmetry
-
-A relation is symmetric if when x is related to y, y is also related to x.
-
-```agda
-Symmetric : {A : Set} -> Rel A -> Set
-Symmetric {A} _R_  = (x y : A) -> x R y -> y R x
-
--- Example: Equality is symmetric
-≡-sym : {A : Set}(x y : A) -> x ≡ y -> y ≡ x
-≡-sym x y xy P py = xy (\z -> P z -> P x) (\px -> px) py
-```
-
-### 3. Transitivity
-
-A relation is transitive if when x is related to y and y is related to z, then x is related to z.
-
-```agda
-Transitive : ∀ {a ℓ} {A : Set a} → Rel A ℓ → Set _
-Transitive _R_ = ∀ {x y z} → x R y → y R z → x R z
-
--- Example: ≤ is transitive
-≤-trans : Transitive _≤_
-≤-trans {zero} _ _ = Data.Nat.z≤n
-≤-trans {suc x} {suc y} {suc z} (Data.Nat.s≤s x≤y) (Data.Nat.s≤s y≤z) =
-  Data.Nat.s≤s (≤-trans x≤y y≤z)
-≤-trans {suc x} {suc y} {zero} _ ()
-≤-trans {suc x} {zero} () _
-```
-
-## Relation Transformations
-
-We can define operations that transform relations:
-
-### 1. Inverse of a Relation
-
-```agda
-inverse : ∀ {a ℓ} {A : Set a} → Rel A ℓ → Rel A ℓ
-inverse _R_ y x = x R y
-
--- Example: > is the inverse of ≤
-_>_ : Rel ℕ lzero
-_>_ = inverse _≤_
-```
-
-### 2. Composition of Relations
-
-```agda
-_∘R_ : ∀ {a ℓ₁ ℓ₂} {A : Set a} → Rel A ℓ₁ → Rel A ℓ₂ → Rel A (a ⊔ ℓ₁ ⊔ ℓ₂)
-(R ∘R S) x z = ∃ λ y → R x y × S y z
-```
-
-## Conclusion
-
-Relations in type theory provide a powerful framework for expressing and reasoning about connections between elements. By formalizing relations as types, we gain access to the full expressiveness of the type system, allowing for precise and verifiable statements about the properties and behavior of relations.
-
-This overview covers the basics of relations in type theory and Agda, including their definition, properties, and some common operations. As you delve deeper into type theory, you'll find that relations play a crucial role in many advanced concepts and proofs.
 
 ****
 [Equality](./Types.equality.html)
