@@ -11,6 +11,8 @@
   - [Definitional Equality](#definitional-equality)
   - [Computational Equality](#computational-equality)
   - [Propositional Equality](#propositional-equality)
+  - [Transport](#transport)
+  - [Hetereogeneous Equality](#hetereogeneous-equality)
 
 ```lean
 import data.bool
@@ -175,6 +177,58 @@ Propositional equality satisfies some properties of relations:
     ```lean
     example (a b : Nat) (f : Nat → Nat) (h : a = b) : f a = f b := congrArg f h
     ```
+
+## Transport
+
+Intuitively, if any two elements are equal, then any property that holds for one element should also hold for the other. Transport is a fundamental principle in type theory that allows us to "transport" properties or structures along an equality path. Imagine you have a property `P` that holds for a term `x`. If you can prove that `x` is equal to another term `y`, transport allows you to "transport" the proof of `P x` to a proof of `P y`. This is formalized as:
+
+```lean
+def transport {A : Type} {x y : A} (P : A → Type) (p : x = y) : P x → P y
+```
+
+Practically, transport is used to rewrite terms based on equalities. For example, consider the following proof that the sum of two numbers is commutative:
+
+```lean
+theorem add_comm (a b : Nat) : a + b = b + a :=
+begin
+  induction a with a ha,
+  { simp },
+  { simp [ha] },
+end
+```
+
+Here, `simp` is a tactic that simplifies the goal using various rules, including the commutativity of addition. The `simp` tactic uses transport to rewrite the goal based on the equality `a + b = b + a`. Transport is also intrinsically linked to **path induction**, a fundamental principle in homotopy type theory. Path induction states that to prove a property holds for any path (equality proof) between two terms, it suffices to prove it for the reflexivity path (the proof that a term is equal to itself). This is because any path can be continuously deformed into the reflexivity path. This is expressed as:
+
+```lean
+def J {A : Type} {x : A} (P : ∀ (y : A), x = y → Type)
+  (refl_case : P x (Eq.refl x))
+  {y : A} (p : x = y) : P y p
+```
+
+The `J` rule effectively says: "If you can prove `P` for the reflexive case where `y` is `x` and the proof `p` is `Eq.refl x`, then you can prove `P` for *any* `y` and *any* proof `p` of `x = y`." This is a powerful induction principle for reasoning about equality.
+
+## Hetereogeneous Equality
+
+Heterogeneous equality, also known as John Major equality, extends propositional equality to cases where the two terms being compared belong to different types. In Lean, heterogeneous equality is represented by the `HEq` type, which is defined as:
+
+```lean
+structure HEq {α : Sort u} (a : α) {β : Sort v} (b : β) : Prop
+```
+
+This becomes essential when working with dependent types, where types themselves can depend on values. Consider vectors:
+
+```lean
+def Vec (A : Type) (n : Nat) : Type  -- Vector type of length n
+```
+
+Here the type `Vec A n` represents a vector of length `n` with elements of type `A`. If you have two vectors `v : Vec A n` and `w : Vec A m`, where `n` and `m` are natural numbers, you can't directly compare them using propositional equality because they belong to different types. This is where heterogeneous equality comes in:
+
+```lean
+def vecEq {A : Type} {n m : Nat} (v : Vec A n) (w : Vec A m) : HEq n m → HEq (Vec A n) (Vec A m) → v = w
+```
+
+Here we defined a way to compare vectors of different lengths using heterogeneous equality. The `vecEq` function takes two vectors `v` and `w`, along with proofs that the lengths `n` and `m` are equal and that the vector types `Vec A n` and `Vec A m` are equal. This allows us to compare vectors of different lengths using heterogeneous equality.
+
 
 ****
 [Product Types / Σ-types](./Types.product.html)
