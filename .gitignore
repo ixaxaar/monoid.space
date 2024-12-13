@@ -6,3 +6,4 @@ tmp/
 .stack-work/
 dogfood/
 stack.yaml.lock
+test/

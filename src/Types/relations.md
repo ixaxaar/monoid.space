@@ -14,6 +14,11 @@
         - [The Universal Quantifier](#the-universal-quantifier)
         - [The Existential Quantifier](#the-existential-quantifier)
     - [Binary Relations](#binary-relations)
+    - [Properties of Relations](#properties-of-relations)
+        - [Reflexivity](#reflexivity)
+        - [Symmetry](#symmetry)
+        - [Transitivity](#transitivity)
+        - [Antisymmetry](#antisymmetry)
 
 
 # Relations
@@ -73,6 +78,8 @@ The universal quantifier can be written in lean either as `∀` or `\all`. The f
 TODO: define an algebra and explain `axiom` or import mathlib here.
 
 ```lean
+import Mathlib.Data.Nat.Prime.Basic
+
 #check ∀ x, (Even x ∨ Odd x) ∧ ¬ (Even x ∧ Odd x)
 #check ∀ x, Even x ↔ 2 ∣ x
 #check ∀ x, Even x → Even (x^2)
@@ -114,11 +121,81 @@ i.e. an even number.
 A binary relation is represented as a function that takes two elements and returns a proposition. In simpler terms, a binary relation on types `A` and `B` is a function `A → B → Prop` and is a way of describing relationships between pairs of elements. For example, a binary relation on `Nat` could be `lessThan` which selects all pairs of natural numbers `(m, n)` such that `m` is less than `n`:
 
 ```lean
-def lessThan (m n : Nat) : Prop := m < n
+def lessThanOrEqual (m n : Nat) : Prop := m ≤ n
 ```
 
+Usage in raw form:
+
+```lean
+#check lessThanOrEqual 3 5
+```
+
+Infix notations can be used to make binary relations more readable. For example, the following defines a binary relation `lessThan` using the infix notation $\leqq$:
+
+```lean
+local infix:50 " ≦ " => Nat.le
+```
+
+The usage now becomes:
+
+```
+#check 3 ≦ 5
+```
+
+## Properties of Relations
+
+Relations can have various properties such as reflexivity, symmetry, and transitivity. These properties are important for defining equivalence relations as well as mathematical structures such as groups, rings, and fields and all higher algebraic structures.
+
+| Property     | Definition                                                                                                    | Example                                                            |
+|--------------|---------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| Reflexivity  | A relation is reflexive if every element is related to itself.                                                | `≤` is reflexive because `n ≤ n` for all natural numbers `n`.      |
+| Symmetry     | A relation is symmetric if whenever `a` is related to `b`, `b` is also related to `a`.                        | `=` is symmetric because if `a = b`, then `b = a`.                 |
+| Transitivity | A relation is transitive if whenever `a` is related to `b` and `b` is related to `c`, `a` is related to `c`.  | `≤` is transitive because if `a ≤ b` and `b ≤ c`, then `a ≤ c`.    |
+| Antisymmetry | A relation is antisymmetric if whenever `a` is related to `b` and `b` is related to `a`, `a` is equal to `b`. | `≤` is antisymmetric because if `a ≤ b` and `b ≤ a`, then `a = b`. |
+
+Spefial combinations of these properties give rise to other important properties such as equivalence relations, partial orders, and total orders that we will look at later.
+
+### Reflexivity
+
+A relation is reflexive if every element is related to itself. For example, the relation `≤` is reflexive because `n ≤ n` for all natural numbers `n`. The property of reflexivity can be expressed as follows:
+
+```lean
+def reflexive {A : Type} (R : A → A → Prop) : Prop := ∀ a : A, R a a
+```
+
+This defines a function `reflexive` that takes a relation `R` on type `A` and returns a proposition stating that for all elements `a` of type `A`, `a` is related to itself.
+
+### Symmetry
+
+A relation is symmetric if whenever `a` is related to `b`, `b` is also related to `a`. For example, the relation `=` is symmetric because if `a = b`, then `b = a`. The property of symmetry can be expressed as follows:
+
+```lean
+def symmetric {A : Type} (R : A → A → Prop) : Prop := ∀ a b : A, R a b → R b a
+```
+
+This defines a function `symmetric` that takes a relation `R` on type `A` and returns a proposition stating that for all elements `a` and `b` of type `A`, if `a` is related to `b`, then `b` is related to `a`.
 
 
+### Transitivity
+
+A relation is transitive if whenever `a` is related to `b` and `b` is related to `c`, `a` is related to `c`. For example, the relation `≤` is transitive because if `a ≤ b` and `b ≤ c`, then `a ≤ c`. The property of transitivity can be expressed as follows:
+
+```lean
+def transitive {A : Type} (R : A → A → Prop) : Prop := ∀ a b c : A, R a b → R b c → R a c
+```
+
+This defines a function `transitive` that takes a relation `R` on type `A` and returns a proposition stating that for all elements `a`, `b`, and `c` of type `A`, if `a` is related to `b` and `b` is related to `c`, then `a` is related to `c`.
+
+
+### Antisymmetry
+
+A relation is antisymmetric if whenever `a` is related to `b` and `b` is related to `a`, `a` is equal to `b`. For example, the relation `≤` is antisymmetric because if `a ≤ b` and `b ≤ a`, then `a = b`. The property of antisymmetry can be expressed as follows:
+
+```lean
+def antisymmetric {A : Type} (R : A → A → Prop) : Prop := ∀ a b : A, R a b → R b a → a = b
+```
+
+This defines a function `antisymmetric` that takes a relation `R` on type `A` and returns a proposition stating that for all elements `a` and `b` of type `A`, if `a` is related to `b` and `b` is related to `a`, then `a` is equal to `b`.
 
 ****
 [Equality](./Types.equality.html)

@@ -1,4 +1,4 @@
-import Mathlib.Data.Nat.Prime
+import Mathlib.Data.Nat.Prime.Basic
 
 
 inductive Boolean : Type
@@ -105,3 +105,17 @@ def isPrime (n : Nat) : Prop := ∀ m : Nat, m > 1 → m < n → n % m ≠ 0
 def lessThan (m n : Nat) : Prop := m < n
 
 #check ∀ x, (Even x ∨ Odd x) ∧ ¬ (Even x ∧ Odd x)
+
+#check ∀ x, (Even x ∨ Odd x) ∧ ¬ (Even x ∧ Odd x)
+#check ∀ x, Even x ↔ 2 ∣ x
+#check ∀ x, Even x → Even (x^2)
+#check ∀ x, Even x ↔ Odd (x + 1)
+
+
+local infix:50 " ≦ " => Nat.le
+#check 3 ≦ 5
+
+def reflexive {A : Type} (R : A → A → Prop) : Prop := ∀ a : A, R a a
+def symmetric {A : Type} (R : A → A → Prop) : Prop := ∀ a b : A, R a b → R b a
+def transitive {A : Type} (R : A → A → Prop) : Prop := ∀ a b c : A, R a b → R b c → R a c
+def antisymmetric {A : Type} (R : A → A → Prop) : Prop := ∀ a b : A, R a b → R b a → a = b
