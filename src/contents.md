@@ -22,7 +22,7 @@
   - [Function Types and Π-types](./Types.functions.html)
   - [More about Function Types](./Types.functions2.html)
 
-## 3. Type Theory 2
+## 3. Theorem Proving
 
   - [Proofs as Data](./Types.proofsAsData.html)
   - [Introduction of New Types](./Types.patterns.html)

@@ -3,185 +3,109 @@
 [Previous](Types.relations.html)
 [Next](Types.operations.html)
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+# Equality
+
 ****
 
-- [Equalities](#equalities)
-- [Definitional Equality](#definitional-equality)
-- [Computational Equality](#computational-equality)
-- [Propositional Equality](#propositional-equality)
-    - [Symmetry](#symmetry)
-    - [Transitivity](#transitivity)
-    - [Congruence: functions that preserve equality](#congruence-functions-that-preserve-equality)
-    - [Substitution](#substitution)
-- [Equivalence, with universe polymorphism](#equivalence-with-universe-polymorphism)
-    - [Equality](#equality)
-    - [Properties of equality](#properties-of-equality)
+- [Equality](#equality)
+  - [Definitional Equality](#definitional-equality)
+  - [Computational Equality](#computational-equality)
+  - [Propositional Equality](#propositional-equality)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-
-# Equalities
-
-```agda
-module Types.equality where
-
-open import Lang.dataStructures using (
-  Bool; true; false;
-  ⟂; ⊤; ℕ; List;
-  one; two; three; four; five; six; seven; eight; nine; ten; zero; succ; _+_;
-  _::_; [])
-open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
-open import Types.functions using (_on_; flip)
-open import Types.relations
+```lean
+import data.bool
+import data.Nat.basic
+import data.list.basic
+import logic.relation
 ```
 
-Equality is perhaps one of the most richest but most naively understood concepts. Here we try to provide some structural analysis as to what equality really means in various contexts of mathematics. Equality is treated as a relation in type theory and can be classified broadly as of three kinds:
+Equality is a fundamental concept in mathematics and logic, yet it can be more subtle than it first appears. In type theory, particularly in proof assistants like Lean, equality comes in different forms, each with its own nuances and uses. In type theory, equality can be broadly classified into three kinds:
 
-- Propositional equality
-- Computational equality
-- Definitional equality
+- **Propositional equality**
+- **Computational equality**
+- **Definitional equality**
 
-# Definitional Equality
+## Definitional Equality
 
-Definitional equality is the most basic notion of equality which appeals to our notion of equality being the sameness of meaning (by definition). For example, `9` and `3 + 3` represent the same thing and hence are definitionally equal `9 ≡ 3²`. Similarly `two ≡ succ (succ zero)`.
+Definitional equality is the most straightforward form of equality. It refers to expressions that are equal by virtue of their definitions or because they are syntactically identical after unfolding definitions. In Lean, two terms are definitionally equal if they reduce to the same expression via computation steps like beta reduction (function application) or delta reduction (unfolding definitions). In easier terms, if two terms are equal by definition, they are definitionally equal. For example:
 
-```agda
-defEqual₁ : ℕ
-defEqual₁ = seven
+```lean
+def defEqual₁ : Nat :=
+  7
 
-defEqual₂ : ℕ
-defEqual₂ = succ (succ five)
+def defEqual₂ : Nat :=
+  Nat.succ (Nat.succ 5)
 ```
 
 Here, `defEqual₁` and `defEqual₂` both are equal, with equality of the kind "definitional equality".
 
-# Computational Equality
-
-This kind of equality describes the sameness of types that are not directly equal but can be reduced to be equal. "Reduction" here implies mathematical reduction, referring to rewriting expressions into simpler forms. An example of such an equality is applying a function $$(λ x.x+x)(2) ≡ 2 + 2$$ Expansions of recursors also falls under this kind of equality: $$2 + 2 ≡ succ (succ zero) + succ (succ zero) ≡ succ (succ (succ (succ zero)))$$ Practically, computational equality is included into definitional equality and is also known as "Judgemental equality".
-
-# Propositional Equality
-
-Definitional and computational equalities describe something intrinsic - a property that does not depend upon a proof. For example, `a + b ≡ b + a` cannot be proven to be definitionally equal unless the concrete values of `a` and `b` are known. However, if they're natural numbers `a, b ∈ ℕ`, then the statement `a + b ≡ b + a` requires a proof to claim its truthfulness. Given `a, b ∈ ℕ`, we can prove that `a + b ≡ b + a` or in other words that there exists an identity of type `Id : a + b ≡ b + a` where `Id` is a proposition − exhibiting a term belonging to such a type is exhibiting (i.e. proving) such a propositional equality.
-
- However, other notions of equalities can be defined that do require proofs. Consider for example natural language - when we say "all flowers are beautiful" the "all flowers" part of the sentence implies all flowers are equal in some way. Or, consider natural numbers `a + b = b + a ∀ a, b ∈ ℕ`. Here we would need to prove the symmetry of the `+` operator in order to prove the equality. Such equalities that require to be specified come under the umbrella of propositional equality. Propositional equality is a kind of equality which requires a proof, and hence the equality itself is also a type `∼`:
-
-```haskell
-infix 4 _∼_
-
-data _∼_ {A : Set}(a : A) : {B : Set} → B → Set where
-  same : a ∼ a
+```lean
+#eval defEqual₁  -- Output: 7
+#eval defEqual₂  -- Output: 7
 ```
 
-Reflexivity is defined with the definition of `∼` by the keyword `same`, the others being:
+Another way to define definitional equality is by using the `rfl` tactic, which stands for "reflexivity":
 
-### Symmetry
+```lean
+def seven : Nat := 7
+def also_seven : Nat := 3 + 4
 
-Symmetry is the property where binary a relation's behavior does not depend upon its argument's position (left or right):
-
-```haskell
-symmetry : ∀ {A B}{a : A}{b : B}
-  → a ∼ b
-  → b ∼ a
-symmetry same = same
+-- These are definitionally equal
+example : seven = also_seven := rfl
 ```
 
-### Transitivity
+Note here the `example` keyword is used to define a theorem, which is a statement that needs to be proven. The `rfl` tactic is used to prove that the two terms are equal by definition.
 
-Transitivity is when a binary relation `_∼_` and $x ∼ y and y ∼ z ⟹ x ∼ z$
+## Computational Equality
 
-```haskell
-transitivity : ∀ {A B C}{a : A}{b : B}{c : C}
-  → a ∼ b
-  → b ∼ c
-  → a ∼ c
-transitivity same p = p
+Computational equality arises when expressions are not identical as written but can be reduced to the same value through computation. This includes evaluating functions, simplifying expressions, and performing arithmetic operations. An example of such an equality is applying a function:
+
+```lean
+example : (λ x, x + x) 2 = 2 + 2 :=
+rfl
 ```
 
-### Congruence: functions that preserve equality
+Here `λ x, x + x` is a lambda function that doubles its argument, and `(λ x, x + x) 2` applies this function to `2`, which evaluates to `2 + 2`. The `rfl` tactic is used to prove that the two expressions are equal by computation.
 
-Functions that when applied to objects of a type, do not alter the operation of equality can be defined as:
+Expansions of recursors also fall under this kind of equality:
 
-```haskell
-congruence : ∀ {A B : Set} (f : A → B) {x y : A}
-  → x ∼ y
-  → f x ∼ f y
-congruence f same = same
+```lean
+example : 2 + 2 = Nat.succ (Nat.succ 0) + Nat.succ (Nat.succ 0) :=
+rfl
+
+example : Nat.succ (Nat.succ 0) + Nat.succ (Nat.succ 0) = Nat.succ (Nat.succ (Nat.succ (Nat.succ 0))) :=
+rfl
 ```
 
-### Substitution
+Even though `2 + 2` and `Nat.succ (Nat.succ (Nat.succ (Nat.succ 0)))` look different, they both reduce to the number 4 through computation, so they are computationally equal.
 
-If `a = b` and if `predicate a = true` ⟹ `predicate b = true`
+In Lean, computational equality can be conflated with definitional equality because both rely on the underlying computation rules of the system.
 
-```haskell
-substitution : ∀ {A : Set} {x y : A} (Predicate : A → Set)
-  → x ∼ y
-  → Predicate x
-  → Predicate y
-substitution Predicate same p = p
+## Propositional Equality
+
+Propositional equality is a more general form of equality that requires explicit proofs. It represents the notion that two expressions are equal because there exists a proof that demonstrates their equality, even if they are not definitionally or computationally equal. For instance, the commutativity of addition can be expressed as a proposition:
+
+```lean
+theorem add_comm (a b : Nat) : a + b = b + a :=
+begin
+  induction a with a ha,
+  { simp },
+  { simp [ha] },
+end
 ```
 
-Any relation which satisfies the above properties of `reflexivity`, `transitivity` and `symmetry` can be considered an equivalence relation and hence can judge a propositional equality.
+Propositional equality is represented in Lean using the `=` symbol, which is defined as an inductive type:
 
-# Equivalence, with universe polymorphism
-
-We now present a more formal machinery for relations. We use [universe polymorphism](Types.universe.html#universe-polymorphism) throughout to develop this machinery.
-
-### Equality
-
-We first re-define propositional equality within the framework of universe polymorphism:
-
-```agda
-infix 4 _≡_
-data _≡_ {a} {A : Set a} (x : A) : A → Set a where
-  instance refl : x ≡ x
+```lean
+inductive eq {α : Sort u} (a : α) : α → Prop
+| refl : eq a
 ```
 
-And an equivalence relation for binary relations:
+The `eq` type is a binary relation that takes two arguments of the same type and returns a proposition. The `refl` constructor of `eq` represents reflexivity, which states that every element is equal to itself. The `eq` type is used to define the propositional equality in Lean.
 
-```agda
-record IsEquivalence {a ℓ} {A : Set a}
-                     (_≈_ : Rel A ℓ) : Set (a ⊔ ℓ) where
-  field
-    rfl   : Reflexive _≈_
-    sym   : Symmetric _≈_
-    trans : Transitive _≈_
 
-  reflexive : _≡_ ⇒ _≈_
-  reflexive refl = rfl
-```
 
-### Properties of equality
 
-We use the new structures to re-define the properties of propositional equality.
-
-```agda
-module ≡-properties {a} {A : Set a} where
-  sym-≡ : Symmetric {A = A} _≡_
-  sym-≡ refl = refl
-
-  trans-≡ : Transitive {A = A} _≡_
-  trans-≡ refl p = p
-
-  isEquivalence : IsEquivalence {A = A} _≡_
-  isEquivalence = record
-    { rfl  = refl
-    ; sym   = sym-≡
-    ; trans = trans-≡
-    }
-
-cong-≡ : ∀ {a b} {A : Set a} {B : Set b} (f : A → B) {x y : A}
-  → x ≡ y
-  → f x ≡ f y
-cong-≡ f refl = refl
-
-subs-≡ : ∀ {a} {A : Set a}{x y : A} (Predicate : A → Set)
-  → x ≡ y
-  → Predicate x
-  → Predicate y
-subs-≡ Predicate refl p = p
-```
 
 ****
 [Product Types / Σ-types](./Types.product.html)

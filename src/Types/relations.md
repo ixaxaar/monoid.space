@@ -3,8 +3,8 @@
 [Previous](Types.universe.html)
 [Next](Types.equality.html)
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+# Relations
+
 ****
 
 - [Relations](#relations)
@@ -19,9 +19,6 @@
         - [Symmetry](#symmetry)
         - [Transitivity](#transitivity)
         - [Antisymmetry](#antisymmetry)
-
-
-# Relations
 
 In mathematics and logic, relations describe how elements are connected or associated with each other. In type theory, relations are formalized as types, which allows us to reason about them using the full power of the type system.
 

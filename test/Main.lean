@@ -1,5 +1,5 @@
 import Mathlib.Data.Nat.Prime.Basic
-
+import Mathlib.Data.Nat.Basic
 
 inductive Boolean : Type
   | false
@@ -119,3 +119,16 @@ def reflexive {A : Type} (R : A → A → Prop) : Prop := ∀ a : A, R a a
 def symmetric {A : Type} (R : A → A → Prop) : Prop := ∀ a b : A, R a b → R b a
 def transitive {A : Type} (R : A → A → Prop) : Prop := ∀ a b c : A, R a b → R b c → R a c
 def antisymmetric {A : Type} (R : A → A → Prop) : Prop := ∀ a b : A, R a b → R b a → a = b
+
+def defEqual₁ : Nat :=
+  7
+
+def defEqual₂ : Nat :=
+  Nat.succ (Nat.succ 5)
+
+#eval defEqual₁  -- Output: 7
+#eval defEqual₂  -- Output: 7
+
+
+example : (λ x, x + x) 2 = 2 + 2 :=
+rfl
