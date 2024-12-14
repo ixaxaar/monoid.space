@@ -200,7 +200,6 @@ def vecEq {A : Type} {n m : Nat} (v : Vec A n) (w : Vec A m) : HEq n m → HEq (
 
 Here we defined a way to compare vectors of different lengths using heterogeneous equality. The `vecEq` function takes two vectors `v` and `w`, along with proofs that the lengths `n` and `m` are equal and that the vector types `Vec A n` and `Vec A m` are equal. This allows us to compare vectors of different lengths using heterogeneous equality.
 
-
 ## Transport
 
 Intuitively, if any two elements are equal, then any property that holds for one element should also hold for the other. Transport is a fundamental principle in type theory that allows us to "transport" properties or structures along an equality path. Imagine you have a property `P` that holds for a term `x`. If you can prove that `x` is equal to another term `y`, transport allows you to "transport" the proof of `P x` to a proof of `P y`. This is formalized as:
@@ -229,7 +228,6 @@ def J {A : Type} {x : A} (P : ∀ (y : A), x = y → Type)
 ```
 
 The `J` rule effectively says: "If you can prove `P` for the reflexive case where `y` is `x` and the proof `p` is `Eq.refl x`, then you can prove `P` for *any* `y` and *any* proof `p` of `x = y`." This is a powerful induction principle for reasoning about equality.
-
 
 ****
 [Product Types / Σ-types](./Types.product.html)
