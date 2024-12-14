@@ -3,312 +3,287 @@
 [Previous](Types.equality.html)
 [Next](Types.product.html)
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+# Operations
+
 ****
 
 - [Operations](#operations)
-  - [Operator laws](#operator-laws)
+  - [Operator Laws](#operator-laws)
     - [Associativity](#associativity)
     - [Commutativity](#commutativity)
-    - [Identity](#identity)
-    - [Elimination](#elimination)
-    - [Inverse](#inverse)
-    - [Distributive](#distributive)
-    - [Absorptive](#absorptive)
-    - [Cancellative](#cancellative)
+    - [Identity Element](#identity-element)
+    - [Elimination (Annihilator)](#elimination-annihilator)
+    - [Inverse Element](#inverse-element)
+    - [Distributivity](#distributivity)
+    - [Absorption](#absorption)
+    - [Cancellation](#cancellation)
     - [Congruence](#congruence)
-  - [Respecting an relation](#respecting-an-relation)
+    - [Respecting a Relation](#respecting-a-relation)
+    - [Equivalence Relations](#equivalence-relations)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+An operation can be thought of as a map or a function between types with a certain arity. Operations can also be thought of as functions that may take zero or more operands and return an output value. Some examples are addition, subtraction, multiplication, and division of natural, real, and complex numbers. Based on arity, operations can be:
 
+- **Nullary**: Takes no arguments (e.g., a function that returns a constant).
+- **Unary**: Takes one argument.
+- **Binary**: Takes two arguments.
+- **Ternary**: Takes three arguments.
 
-# Operations
+Operations of higher arity can often be decomposed into ones of lower arity using techniques like currying. We will start by defining operations and the laws these operations may obey.
 
-An operation can be thought of as a map between types with an arity. Operations can also be though of as functions that may take 0 or more operands and return an output value. Some examples are addition, subtraction, multiplication and division of natural, real and complex numbers. Based on arity, operations can be:
-
-- Nullary: takes no argument (e.g. a function that returns a constant).
-- Unary: takes one argument.
-- Binary: takes two arguments.
-- Ternary: takes three arguments.
-
-Operations of higher arity can be decomposed into ones of lower arity, with currying. We now start by defining operations and laws these operations obey.
-
-```agda
-open import Types.relations
-open import Types.equality
-open import Types.functions
-open import Types.product
-
-open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
-
-module Types.operations {a ℓ} {A : Set a} (_==_ : Rel A ℓ) where
+```lean
+import data.set
+import data.equiv
+import logic.function.basic
 ```
 
-A binary operation $ ★ $ on a set A is a function that takes two elements of type A and returns an element of A:
+A **binary operation** `★` on a set `A` is a function that takes two elements of type `A` and returns an element of `A`:
 
 ```math
 ★ : A × A → A
 ```
 
-More often the operation is applied to the two objects `x, y ∈ A` in an infix fashion $x ★ y$.
+More often, the operation is applied to the two elements `x, y ∈ A` in an infix fashion `x ★ y`.
 
-A unary operation on the other hand operates on only one element of A to return an element of A:
+A **unary operation**, on the other hand, operates on only one element of `A` to return an element of `A`:
 
 ```math
 ♠ : A → A
 ```
 
-In agda, a homogenous binary operation `★ A` can be defined as:
+In Lean, a homogeneous binary operation `★` on a type `A` can be defined as:
 
-```agda
-  ★_ : ∀ {a} → Set a → Set a
-  ★ A = A → A → A
+```lean
+def bin_op (A : Type*) := A → A → A
 ```
 
-and a unary operation as:
+And a unary operation `♠` as:
 
-```agda
-  ♠_ : ∀ {a} → Set a → Set a
-  ♠ A = A → A
+```lean
+def unary_op (A : Type*) := A → A
 ```
 
-## Operator laws
+## Operator Laws
 
-We now describe a few laws that operators could follow. This would enable us to study objects built on top of these operators that following the same laws as the underlying operator, as well as structure-preserving maps that preserve the underlying structure of such objects and so on.
+We now describe a few laws that operations might follow. This enables us to study algebraic structures built on top of these operations, as well as structure-preserving maps (homomorphisms) that preserve the underlying structure of such objects.
 
 ### Associativity
 
-Mathematically, given an operation `★`, it is called associative if:
+Mathematically, given an operation `★`, it is called **associative** if:
 
 ```math
-∀ x, y, z ∈ A,
-operation ★ is associative if:
-
-x ★ (y ★ z) ≡ (x ★ y) ★ z
+∀ x, y, z ∈ A, \quad x ★ (y ★ z) = (x ★ y) ★ z
 ```
 
-```agda
-  Associative : ★ A → Set _
-  Associative _∙_ = ∀ x y z → ((x ∙ y) ∙ z) == (x ∙ (y ∙ z))
+In Lean, we can define associativity of a binary operation as:
+
+```lean
+def associative {A : Type*} (op : A → A → A) : Prop :=
+  ∀ x y z : A, op (op x y) z = op x (op y z)
 ```
 
 ### Commutativity
 
-Commutativity is defined as:
+An operation is **commutative** if:
 
 ```math
-∀ x, y ∈ A,
-operation ★ is commutative if:
-
-x ★ y ≡ y ★ x
+∀ x, y ∈ A, \quad x ★ y = y ★ x
 ```
 
-```agda
-  Commutative : ★ A → Set _
-  Commutative _∙_ = ∀ x y → (x ∙ y) == (y ∙ x)
+In Lean, commutativity is defined as:
+
+```lean
+def commutative {A : Type*} (op : A → A → A) : Prop :=
+  ∀ x y : A, op x y = op y x
 ```
 
-### Identity
+### Identity Element
+
+An element `e ∈ A` is called an **identity element** for the operation `★` if:
 
 ```math
-∀ x ∈ A,
-if id is the identity object of A,
-
-x ★ id ≡ x
-id ★ x ≡ x
+∀ x ∈ A, \quad e ★ x = x \quad \text{and} \quad x ★ e = x
 ```
 
-We treat identity as a pair of right and left identities. This helps in working with non-commutative types as well.
+In Lean, we can define left and right identity separately and then define identity as the conjunction of both:
 
-```agda
-  LeftIdentity : A → ★ A → Set _
-  LeftIdentity e _∙_ = ∀ x → (e ∙ x) == x
+```lean
+def left_identity {A : Type*} (e : A) (op : A → A → A) : Prop :=
+  ∀ x : A, op e x = x
 
-  RightIdentity : A → ★ A → Set _
-  RightIdentity e _∙_ = ∀ x → (x ∙ e) == x
+def right_identity {A : Type*} (e : A) (op : A → A → A) : Prop :=
+  ∀ x : A, op x e = x
 
-  Identity : A → ★ A → Set _
-  Identity e ∙ = LeftIdentity e ∙ × RightIdentity e ∙
+def identity {A : Type*} (e : A) (op : A → A → A) : Prop :=
+  left_identity e op ∧ right_identity e op
 ```
 
-### Elimination
+### Elimination (Annihilator)
+
+An element `z ∈ A` is called an **annihilator** for the operation `★` if:
 
 ```math
-∀ x ∈ A,
-
-x ★ 0 ≡ 0
-0 ★ x ≡ 0
+∀ x ∈ A, \quad z ★ x = z \quad \text{or} \quad x ★ z = z
 ```
 
-How does our object interact with `0`? We define that here.
+In Lean, we define left and right zero (annihilator):
 
-```agda
-  LeftZero : A → ★ A → Set _
-  LeftZero z _∙_ = ∀ x → (z ∙ x) == z
+```lean
+def left_zero {A : Type*} (z : A) (op : A → A → A) : Prop :=
+  ∀ x : A, op z x = z
 
-  RightZero : A → ★ A → Set _
-  RightZero z _∙_ = ∀ x → (x ∙ z) == z
+def right_zero {A : Type*} (z : A) (op : A → A → A) : Prop :=
+  ∀ x : A, op x z = z
 
-  Zero : A → ★ A → Set _
-  Zero z ∙ = LeftZero z ∙ × RightZero z ∙
+def zero {A : Type*} (z : A) (op : A → A → A) : Prop :=
+  left_zero z op ∧ right_zero z op
 ```
 
-### Inverse
+### Inverse Element
+
+An element `x⁻¹ ∈ A` is called an **inverse** of `x ∈ A` with respect to identity element `e` if:
 
 ```math
-∀ x ∈ A, ∃ x⁻¹ ∈ A such that
-
-x ★ x⁻¹ ≡ id
-
-x⁻¹ ★ x ≡ id
+x ★ x⁻¹ = e \quad \text{and} \quad x⁻¹ ★ x = e
 ```
 
-Given any unary function `_⁻¹`, we define what it takes for the function to qualify as an inverse.
+Given a unary operation `♠` (denoted as `inv`), we define what it means for it to assign inverses:
 
-```agda
-  LeftInverse : A → ♠ A → ★ A → Set _
-  LeftInverse e _⁻¹ _∙_ = ∀ x → ((x ⁻¹) ∙ x) == e
+```lean
+def left_inverse {A : Type*} (e : A) (inv : A → A) (op : A → A → A) : Prop :=
+  ∀ x : A, op (inv x) x = e
 
-  RightInverse : A → ♠ A → ★ A → Set _
-  RightInverse e _⁻¹ _∙_ = ∀ x → (x ∙ (x ⁻¹)) == e
+def right_inverse {A : Type*} (e : A) (inv : A → A) (op : A → A → A) : Prop :=
+  ∀ x : A, op x (inv x) = e
 
-  Inverse : A → ♠ A → ★ A → Set _
-  Inverse e ⁻¹ ∙ = LeftInverse e ⁻¹ ∙ × RightInverse e ⁻¹ ∙
+def inverse {A : Type*} (e : A) (inv : A → A) (op : A → A → A) : Prop :=
+  left_inverse e inv op ∧ right_inverse e inv op
 ```
 
-### Distributive
+### Distributivity
+
+An operation `*` is **distributive** over another operation `+` if:
+
+- **Left Distributivity**:
+
+  ```math
+  ∀ x, y, z ∈ A, \quad x * (y + z) = (x * y) + (x * z)
+  ```
+
+- **Right Distributivity**:
+
+  ```math
+  ∀ x, y, z ∈ A, \quad (y + z) * x = (y * x) + (z * x)
+  ```
+
+In Lean, we define distributivity as:
+
+```lean
+def left_distributive {A : Type*} (mul add : A → A → A) : Prop :=
+  ∀ x y z : A, mul x (add y z) = add (mul x y) (mul x z)
+
+def right_distributive {A : Type*} (mul add : A → A → A) : Prop :=
+  ∀ x y z : A, mul (add y z) x = add (mul y x) (mul z x)
+
+def distributive {A : Type*} (mul add : A → A → A) : Prop :=
+  left_distributive mul add ∧ right_distributive mul add
+```
+
+### Absorption
+
+Two operations `∙` and `∘` are **absorptive** if:
 
 ```math
-∀ x, y, z ∈ A,
-operation ★ is distributive if:
-
-( x ★ y ) ★ z ≡ x ★ y × y ★ z
+∀ x, y ∈ A, \quad x ∙ (x ∘ y) = x \quad \text{and} \quad x ∘ (x ∙ y) = x
 ```
 
-```agda
-  _DistributesOverˡ_ : ★ A → ★ A → Set _
-  _*_ DistributesOverˡ _+_ =
-    ∀ x y z → (x * (y + z)) == ((x * y) + (x * z))
+In Lean, we define absorption as:
 
-  _DistributesOverʳ_ : ★ A → ★ A → Set _
-  _*_ DistributesOverʳ _+_ =
-    ∀ x y z → ((y + z) * x) == ((y * x) + (z * x))
+```lean
+def absorbs {A : Type*} (op1 op2 : A → A → A) : Prop :=
+  ∀ x y : A, op1 x (op2 x y) = x ∧ op2 x (op1 x y) = x
 
-  _DistributesOver_ : ★ A → ★ A → Set _
-  * DistributesOver + = (* DistributesOverˡ +) × (* DistributesOverʳ +)
+def absorptive {A : Type*} (op1 op2 : A → A → A) : Prop :=
+  absorbs op1 op2 ∧ absorbs op2 op1
 ```
 
-### Absorptive
+### Cancellation
 
-```math
-∀ x ∈ A and two operations
- ∙ : A → A → A
- ∘ : A → A → A
+An operation is **cancellative** if one can "cancel" an element from both sides of an equation involving that operation. Specifically:
 
-operation ∙ absorbs ∘ if:
+- **Left Cancellation**:
 
-x ∙ (x ∘ y) ≡ x
+  ```math
+  ∀ x, y, z ∈ A, \quad x ★ y = x ★ z \implies y = z
+  ```
 
-and ∘ absorbs ∙ if:
-x ∘ (x ∙ y) ≡ x
+- **Right Cancellation**:
 
-and if both are satisfied collectively ∙ and ∘ are absorptive.
-```
+  ```math
+  ∀ x, y, z ∈ A, \quad y ★ x = z ★ x \implies y = z
+  ```
 
-```agda
-  _Absorbs_ : ★ A → ★ A → Set _
-  _∙_ Absorbs _∘_ = ∀ x y → (x ∙ (x ∘ y)) == x
+In Lean, we define cancellation as:
 
-  Absorptive : ★ A → ★ A → Set _
-  Absorptive ∙ ∘ = (∙ Absorbs ∘) × (∘ Absorbs ∙)
-```
+```lean
+def left_cancellative {A : Type*} (op : A → A → A) : Prop :=
+  ∀ x y z : A, op x y = op x z → y = z
 
-### Cancellative
+def right_cancellative {A : Type*} (op : A → A → A) : Prop :=
+  ∀ x y z : A, op y x = op z x → y = z
 
-```math
-∀ x, y ∈ A
-and a function • : A → A → A,
-
-(x • y) == (x • z) ⟹ y == z
-```
-
-```agda
-  LeftCancellative : ★ A → Set _
-  LeftCancellative _•_ = ∀ x {y z} → (x • y) == (x • z) → y == z
-
-  RightCancellative : ★ A → Set _
-  RightCancellative _•_ = ∀ {x} y z → (y • x) == (z • x) → y == z
-
-  Cancellative : ★ A → Set _
-  Cancellative _•_ = LeftCancellative _•_ × RightCancellative _•_
+def cancellative {A : Type*} (op : A → A → A) : Prop :=
+  left_cancellative op ∧ right_cancellative op
 ```
 
 ### Congruence
 
+A relation `~` on `A` is a **congruence** with respect to an operation `★` if it is preserved under that operation. That is:
+
 ```math
-Given
-  a₁, a₂ ∈ A
-  b₁ b₂ ∈ B
-  ∙ : A → B,
-
-if a₁ ≡ a₂,
-   b₁ = ∙ a₁
-   b₂ = ∙ a₂
-then b₁ ≡ b₂
+∀ a₁, a₂, b₁, b₂ ∈ A, \quad a₁ ~ a₂ \land b₁ ~ b₂ \implies (a₁ ★ b₁) ~ (a₂ ★ b₂)
 ```
 
-A congruent relation preserves equivalences:
+In Lean, congruence is defined as:
 
-- for binary relation `♣`, if $(x₁, y₁) == (x₂, y₂)$ then $(x₁ ♣ y₁) == (x₂ ♣ y₂)$.
-- for unary relation `♡`, if $x == y$ then $♡ x == ♡ y$.
-
-```agda
-  Congruent₁ : ♠ A → Set _
-  Congruent₁ f = f Preserves _==_ ⟶ _==_
-
-  Congruent₂ : ★ A → Set _
-  Congruent₂ ∙ = ∙ Preserves₂ _==_ ⟶ _==_ ⟶ _==_
-
-  LeftCongruent : ★ A → Set _
-  LeftCongruent _∙_ = ∀ {x} → (_∙ x) Preserves _==_ ⟶ _==_
-
-  RightCongruent : ★ A → Set _
-  RightCongruent _∙_ = ∀ {x} → (x ∙_) Preserves _==_ ⟶ _==_
+```lean
+def congruence {A : Type*} (R : A → A → Prop) (op : A → A → A) : Prop :=
+  ∀ a₁ a₂ b₁ b₂ : A, R a₁ a₂ → R b₁ b₂ → R (op a₁ b₁) (op a₂ b₂)
 ```
 
-## Respecting an relation
+Additionally, for a unary operation `♠`:
 
-Finally, we define what we mean by a functions "respects" an operation or is invariant of it. For a function $f$ and an operation $∘$, if  $x ∘ y ⟹ f(x) ∘ f(y)$, we say the function $f$ respects the operation $∘$. We define two versions of this utility here
-
-- `_Respects_` for already commutative laws
-- `_Respects₂_` which combines left `_Respectsˡ_` and right `_Respectsʳ_` laws
-
-```agda
-  _Respects_ : ∀ {a ℓ₁ ℓ₂} {A : Set a}
-          → (A → Set ℓ₁)
-          → Rel A ℓ₂
-          → Set _
-  P Respects _∼_ = ∀ {x y} → x ∼ y → P x → P y
-
-  _Respectsʳ_ : ∀ {a ℓ₁ ℓ₂} {A : Set a}
-          → Rel A ℓ₁
-          → Rel A ℓ₂
-          → Set _
-  P Respectsʳ _∼_ = ∀ {x} → (P x) Respects _∼_
-
-  _Respectsˡ_ : ∀ {a ℓ₁ ℓ₂} {A : Set a}
-          → Rel A ℓ₁
-          → Rel A ℓ₂
-          → Set _
-  P Respectsˡ _∼_ = ∀ {y} → (flip P y) Respects _∼_
-
-  _Respects₂_ : ∀ {a ℓ₁ ℓ₂} {A : Set a}
-          → Rel A ℓ₁
-          → Rel A ℓ₂
-          → Set _
-  P Respects₂ _∼_ = (P Respectsʳ _∼_) × (P Respectsˡ _∼_)
+```lean
+def congruent_unary {A : Type*} (R : A → A → Prop) (f : A → A) : Prop :=
+  ∀ a b : A, R a b → R (f a) (f b)
 ```
+
+### Respecting a Relation
+
+A function `f : A → B` **respects** a relation `∼` on `A` if:
+
+```math
+∀ x, y ∈ A, \quad x ∼ y \implies f(x) ∼ f(y)
+```
+
+In Lean, we can define this as:
+
+```lean
+def respects {A B : Type*} (R : A → A → Prop) (f : A → B) : Prop :=
+  ∀ x y : A, R x y → f x = f y  -- Adjusted for equality in B
+```
+
+For operations, we may want to consider functions that preserve relations in more general contexts.
+
+### Equivalence Relations
+
+An **equivalence relation** on a set `A` is a relation that is reflexive, symmetric, and transitive. In Lean:
+
+```lean
+def equivalence {A : Type*} (R : A → A → Prop) : Prop :=
+  reflexive R ∧ symmetric R ∧ transitive R
+```
+
+An equivalence relation partitions a set into equivalence classes where elements are related to each other.
 
 ****
 [Equational Reasoning](./Algebra.equational.html)

@@ -230,4 +230,4 @@ def J {A : Type} {x : A} (P : ∀ (y : A), x = y → Type)
 The `J` rule effectively says: "If you can prove `P` for the reflexive case where `y` is `x` and the proof `p` is `Eq.refl x`, then you can prove `P` for *any* `y` and *any* proof `p` of `x = y`." This is a powerful induction principle for reasoning about equality.
 
 ****
-[Product Types / Σ-types](./Types.product.html)
+[Operations](./Types.operations.html)
