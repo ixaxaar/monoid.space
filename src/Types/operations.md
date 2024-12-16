@@ -8,6 +8,11 @@
 ****
 
 - [Operations](#operations)
+  - [Nullary Operations](#nullary-operations)
+  - [Unary Operations](#unary-operations)
+  - [Binary Operations](#binary-operations)
+  - [Higher Arity Operations](#higher-arity-operations)
+    - [Curry-Howard Isomorphism](#curry-howard-isomorphism)
   - [Operator Laws](#operator-laws)
     - [Associativity](#associativity)
     - [Commutativity](#commutativity)
@@ -23,44 +28,138 @@
 
 An operation can be thought of as a map or a function between types with a certain arity. Operations can also be thought of as functions that may take zero or more operands and return an output value. Some examples are addition, subtraction, multiplication, and division of natural, real, and complex numbers. Based on arity, operations can be:
 
-- **Nullary**: Takes no arguments (e.g., a function that returns a constant).
+- **Nullary**: Takes no arguments.
 - **Unary**: Takes one argument.
 - **Binary**: Takes two arguments.
 - **Ternary**: Takes three arguments.
 
-Operations of higher arity can often be decomposed into ones of lower arity using techniques like currying. We will start by defining operations and the laws these operations may obey.
+Operations of higher arity can often be decomposed into ones of lower arity using techniques like currying.
 
 ```lean
-import data.set
-import data.equiv
-import logic.function.basic
+import Data.Set
+import Data.Equiv
+import Logic.Function.Basic
 ```
 
-A **binary operation** `★` on a set `A` is a function that takes two elements of type `A` and returns an element of `A`:
+## Nullary Operations
 
-```math
-★ : A × A → A
+A nullary operation `♠` on a set `A` is a function that takes no arguments and returns an element of type `A`. All constants are examples of nullary operations, as they do not require any arguments to return a value (themselves) e.g. 3 can be thought of as a nullary operation that returns 3. In Lean, a nullary operation `♠` on a type `A` can be defined as:
+
+```lean
+def nullary_operation {A : Type*} (f : A) : Prop := true
 ```
 
-More often, the operation is applied to the two elements `x, y ∈ A` in an infix fashion `x ★ y`.
+We can also define a nullary operation that respects a relation `R` on `A`:
 
-A **unary operation**, on the other hand, operates on only one element of `A` to return an element of `A`:
+```lean
+def nullary_operation_respects {A : Type*} (R : A → A → Prop) (f : A) : Prop := true
+```
+
+Here, `R` is a relation on `A` that is respected by the nullary operation `f`, and respecting means that the relation `R` is preserved under the operation `f`.
+
+## Unary Operations
+
+A unary operation `♠` on a set `A` is a function that takes an element of type `A` and returns an element of `A`:
 
 ```math
 ♠ : A → A
 ```
 
-In Lean, a homogeneous binary operation `★` on a type `A` can be defined as:
+In Lean, a unary operation `♠` on a type `A` can be defined as:
 
 ```lean
-def bin_op (A : Type*) := A → A → A
+def unary_operation {A : Type*} (f : A → A) : Prop := true
 ```
 
-And a unary operation `♠` as:
+We can also define a unary operation that respects a relation `R` on `A`:
 
 ```lean
-def unary_op (A : Type*) := A → A
+def unary_operation_respects {A : Type*} (R : A → A → Prop) (f : A → A) : Prop :=
+  ∀ x y : A, R x y → R (f x) (f y)
 ```
+
+Here, `R` is a relation on `A` that is respected by the unary operation `f`, and respecting means that if `x ~ y`, then `f(x) ~ f(y)` i.e. the relation `R` is preserved under the operation `f`.
+
+## Binary Operations
+
+A binary operation `★` on a set `A` is a function that takes two elements of type `A` and returns an element of `A`:
+
+```math
+★ : A → A → A
+```
+
+In Lean, a binary operation `★` on a type `A` can be defined as:
+
+```lean
+def binary_operation {A : Type*} (op : A → A → A) : Prop := true
+```
+
+We can also define a binary operation that respects a relation `R` on `A`:
+
+```lean
+def binary_operation_respects {A : Type*} (R : A → A → Prop) (op : A → A → A) : Prop :=
+  ∀ x₁ x₂ y₁ y₂ : A, R x₁ x₂ → R y₁ y₂ → R (op x₁ y₁) (op x₂ y₂)
+```
+
+Here, "respecting" means that if `x₁ ~ x₂` and `y₁ ~ y₂`, then `x₁ ★ y₁ ~ x₂ ★ y₂` i.e. the relation `R` is preserved under the operation `op`.
+
+## Higher Arity Operations
+
+Operations of arity greater than 2 can be defined similarly. Higher operations can also be composed of lower arity operations. For example, a ternary operation can be defined in terms of a binary operation:
+
+```math
+♠ : A → A → A → A
+♠ x y z = (x ★ y) ★ z
+```
+
+In Lean, we can define a ternary operation as:
+
+```lean
+def ternary_operation {A : Type*} (op : A → A → A → A) : Prop :=
+  ∀ x y z : A, op x y z = op (op x y) z
+```
+
+### Curry-Howard Isomorphism
+
+The Curry-Howard isomorphism is a correspondence between logic and computation. It states that logical formulas correspond to types, proofs correspond to programs, and proof normalization corresponds to program evaluation. In this context, operations can be thought of as functions that take arguments and return values, similar to functions in programming languages.
+
+Let's break that down:
+
+1. **Logical Formulas Correspond to Types**: Logical formulas like `A → B` correspond to types like `A → B`. For example, the formula `A → B` corresponds to the type `A → B` in Lean.
+2. **Proofs Correspond to Programs**: Proofs of logical formulas correspond to programs that inhabit the corresponding types. For example, a proof of `A → B` corresponds to a program that takes an argument of type `A` and returns a value of type `B`.
+3. **Proof Normalization Corresponds to Program Evaluation**: Normalizing (or simplifying) proofs corresponds to evaluating programs. For example, normalizing a proof of `A → B` corresponds to evaluating a program that takes an argument of type `A` and returns a value of type `B`.
+4. **Operations Correspond to Functions**: Operations like `A → A → A` correspond to functions that take two arguments of type `A` and return a value of type `A`. For example, the operation `A → A → A` corresponds to a function that takes two arguments of type `A` and returns a value of type `A`.
+
+This correspondence, or isomorphism, between logic and computation is the foundation of functional programming languages like Lean, where logical formulas are types and proofs are programs, and proof normalization is program evaluation, making theorem proving a form of programming possible.
+
+There is another conseqquence of this: currying. Currying is the process of converting a function that takes multiple arguments into a sequence of functions that each take a single argument. This is useful for partial application of functions, where some arguments are fixed and others are left as parameters. In Lean, currying can be achieved using the `→` type constructor, which is right-associative:
+
+```lean
+def curry {A B C : Type*} (f : A × B → C) : A → B → C :=
+  λ a b, f (a, b)
+```
+
+Practically, currying allows us to define functions that take multiple arguments as a sequence of functions that each take a single argument. This can be useful for partial application of functions, where some arguments are fixed and others are left as parameters. Currying is also a method to construct higher-arity operations from lower-arity operations.
+
+Let us look at a more involved example in lean:
+
+```lean
+def curry {A B C : Type*} (f : A × B → C) : A → B → C :=
+  λ a b, f (a, b)
+
+def uncurry {A B C : Type*} (f : A → B → C) : A × B → C :=
+  λ p, f p.1 p.2
+
+def add : ℕ × ℕ → ℕ := λ p, p.1 + p.2
+def add' : ℕ → ℕ → ℕ := curry add
+def add'' : ℕ × ℕ → ℕ := uncurry add'
+
+#eval add (3, 4)  -- 7
+#eval add' 3 4     -- 7
+#eval add'' (3, 4) -- 7
+```
+
+In this example, we define a binary operation `add` that takes a pair of natural numbers and returns their sum. We then curry this operation to obtain a function `add'` that takes two natural numbers and returns their sum. We also uncurry the operation to obtain a function `add''` that takes a pair of natural numbers and returns their sum. We evaluate these functions with the arguments `(3, 4)` and `3` and `4` to obtain the sum `7` in each case.
 
 ## Operator Laws
 
