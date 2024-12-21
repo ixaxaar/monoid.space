@@ -16,12 +16,12 @@
   - [Operator Laws](#operator-laws)
     - [Associativity](#associativity)
     - [Commutativity](#commutativity)
-    - [Identity Element](#identity-element)
-    - [Elimination (Annihilator)](#elimination-annihilator)
-    - [Inverse Element](#inverse-element)
     - [Distributivity](#distributivity)
     - [Absorption](#absorption)
     - [Cancellation](#cancellation)
+    - [Identity Element](#identity-element)
+    - [Inverse](#inverse)
+    - [Elimination (Annihilator)](#elimination-annihilator)
     - [Congruence](#congruence)
     - [Respecting a Relation](#respecting-a-relation)
     - [Equivalence Relations](#equivalence-relations)
@@ -218,113 +218,6 @@ example : commutative (λ x y : Nat => x + y) :=
   λ x y => by simp [Nat.add_comm]
 ```
 
-### Identity Element
-
-An element `e ∈ A` is called an **identity element** for the operation `★` if:
-
-```math
-∀ x ∈ A, \quad e ★ x = x \quad \text{and} \quad x ★ e = x
-```
-
-Identitiy elements are unique and are often denoted as `e` or `1`. Identities can also be handled separately as left and right identities. Left identity is defined as the property that for all `x` in `A`, the operation `★` with `e` on the left side returns `x`. Similarly, right identity is defined as the property that for all `x` in `A`, the operation `★` with `e` on the right side returns `x`. The sidedness of the identity element is important for non-commutative operations. The sides can be combined to define the identity element property.
-
-- **Left Identity**:
-
-  ```math
-  ∀ x ∈ A, \quad e ★ x = x
-  ```
-
-- **Right Identity**:
-
-  ```math
-  ∀ x ∈ A, \quad x ★ e = x
-  ```
-
-In Lean, we can define left and right identity separately and then define identity as the conjunction of both:
-
-```lean
-def left_identity {A : Type*} (e : A) (op : A → A → A) : Prop :=
-  ∀ x : A, op e x = x
-
-def right_identity {A : Type*} (e : A) (op : A → A → A) : Prop :=
-  ∀ x : A, op x e = x
-
-def identity {A : Type*} (e : A) (op : A → A → A) : Prop :=
-  left_identity e op ∧ right_identity e op
-```
-
-A given function can be proven to have an identity element, with an example for the addition operation on natural numbers:
-
-```lean
-example : identity 0 (λ x y : Nat => x + y) :=
-  ⟨Nat.zero_add, Nat.add_zero⟩
-```
-
-Similarly, we can prove that multiplication has an identity element:
-
-```lean
-example : identity 1 (λ x y : Nat => x * y) :=
-  ⟨Nat.one_mul, Nat.mul_one⟩
-```
-
-We use the square brackets `⟨ ⟩` to construct a pair of proofs for left and right identity. The proofs are provided as lambda functions that take an argument `x` and return the result of the operation with the identity element.
-
-I'll rewrite this with a more practical example from linear algebra and matrix operations, which is commonly used in computer graphics, data science, and engineering:
-
-### Elimination (Annihilator)
-
-An **annihilator** (or absorbing element) is a special element that "dominates" an operation, making the result predictable regardless of what you combine it with. Its like multiplication by 0 renders any real number with the same result - 0. In matrix algebra, the zero matrix (containing all zeros) is an annihilator for matrix multiplication:
-
-```math
-\begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix} \times
-\begin{bmatrix} a & b \\ c & d \end{bmatrix} =
-\begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix}
-```
-
-The annihilator property helps in getting rid of redundant or unnecessary operations for simplification. In Lean, we can define the annihilator property as:
-
-```lean
-def left_annihilator {A : Type*} (e : A) (op : A → A → A) : Prop :=
-  ∀ x : A, op e x = e
-
-def right_annihilator {A : Type*} (e : A) (op : A → A → A) : Prop :=
-  ∀ x : A, op x e = e
-
-def annihilator {A : Type*} (e : A) (op : A → A → A) : Prop :=
-  left_annihilator e op ∧ right_annihilator e op
-```
-
-An example of an annihilator for matrix multiplication can be shown as:
-
-```lean
-example : annihilator (λ i j, 0) (λ A B, λ i j, ∑ k, A i k * B k j) :=
-  ⟨λ A, funext $ λ i, funext $ λ j, by simp,
-   λ A, funext $ λ i, funext $ λ j, by simp⟩
-```
-
-Here, we define the annihilator as a function that takes two matrices `A` and `B` and returns a matrix of the same size with all elements as 0. We then prove that this function is an annihilator for matrix multiplication by showing that it satisfies the left and right annihilator properties.
-
-### Inverse Element
-
-An element `x⁻¹ ∈ A` is called an **inverse** of `x ∈ A` with respect to identity element `e` if:
-
-```math
-x ★ x⁻¹ = e \quad \text{and} \quad x⁻¹ ★ x = e
-```
-
-Given a unary operation `♠` (denoted as `inv`), we define what it means for it to assign inverses:
-
-```lean
-def left_inverse {A : Type*} (e : A) (inv : A → A) (op : A → A → A) : Prop :=
-  ∀ x : A, op (inv x) x = e
-
-def right_inverse {A : Type*} (e : A) (inv : A → A) (op : A → A → A) : Prop :=
-  ∀ x : A, op x (inv x) = e
-
-def inverse {A : Type*} (e : A) (inv : A → A) (op : A → A → A) : Prop :=
-  left_inverse e inv op ∧ right_inverse e inv op
-```
-
 ### Distributivity
 
 An operation `*` is **distributive** over another operation `+` if:
@@ -400,6 +293,113 @@ def right_cancellative {A : Type*} (op : A → A → A) : Prop :=
 def cancellative {A : Type*} (op : A → A → A) : Prop :=
   left_cancellative op ∧ right_cancellative op
 ```
+
+### Identity Element
+
+An element `e ∈ A` is called an **identity element** for the operation `★` if:
+
+```math
+∀ x ∈ A, \quad e ★ x = x \quad \text{and} \quad x ★ e = x
+```
+
+Identitiy elements are unique and are often denoted as `e` or `1`. Identities can also be handled separately as left and right identities. Left identity is defined as the property that for all `x` in `A`, the operation `★` with `e` on the left side returns `x`. Similarly, right identity is defined as the property that for all `x` in `A`, the operation `★` with `e` on the right side returns `x`. The sidedness of the identity element is important for non-commutative operations. The sides can be combined to define the identity element property.
+
+- **Left Identity**:
+
+  ```math
+  ∀ x ∈ A, \quad e ★ x = x
+  ```
+
+- **Right Identity**:
+
+  ```math
+  ∀ x ∈ A, \quad x ★ e = x
+  ```
+
+In Lean, we can define left and right identity separately and then define identity as the conjunction of both:
+
+```lean
+def left_identity {A : Type*} (e : A) (op : A → A → A) : Prop :=
+  ∀ x : A, op e x = x
+
+def right_identity {A : Type*} (e : A) (op : A → A → A) : Prop :=
+  ∀ x : A, op x e = x
+
+def identity {A : Type*} (e : A) (op : A → A → A) : Prop :=
+  left_identity e op ∧ right_identity e op
+```
+
+A given function can be proven to have an identity element, with an example for the addition operation on natural numbers:
+
+```lean
+example : identity 0 (λ x y : Nat => x + y) :=
+  ⟨Nat.zero_add, Nat.add_zero⟩
+```
+
+Similarly, we can prove that multiplication has an identity element:
+
+```lean
+example : identity 1 (λ x y : Nat => x * y) :=
+  ⟨Nat.one_mul, Nat.mul_one⟩
+```
+
+We use the square brackets `⟨ ⟩` to construct a pair of proofs for left and right identity. The proofs are provided as lambda functions that take an argument `x` and return the result of the operation with the identity element.
+
+I'll rewrite this with a more practical example from linear algebra and matrix operations, which is commonly used in computer graphics, data science, and engineering:
+
+### Inverse
+
+An element `x⁻¹ ∈ A` is called an **inverse** of `x ∈ A` with respect to identity element `e` if:
+
+```math
+x ★ x⁻¹ = e \quad \text{and} \quad x⁻¹ ★ x = e
+```
+
+Given a unary operation `♠` (denoted as `inv`), we define what it means for it to assign inverses:
+
+```lean
+def left_inverse {A : Type*} (e : A) (inv : A → A) (op : A → A → A) : Prop :=
+  ∀ x : A, op (inv x) x = e
+
+def right_inverse {A : Type*} (e : A) (inv : A → A) (op : A → A → A) : Prop :=
+  ∀ x : A, op x (inv x) = e
+
+def inverse {A : Type*} (e : A) (inv : A → A) (op : A → A → A) : Prop :=
+  left_inverse e inv op ∧ right_inverse e inv op
+```
+
+### Elimination (Annihilator)
+
+An **annihilator** (or absorbing element) is a special element that "dominates" an operation, making the result predictable regardless of what you combine it with. Its like multiplication by 0 renders any real number with the same result - 0. In matrix algebra, the zero matrix (containing all zeros) is an annihilator for matrix multiplication:
+
+```math
+\begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix} \times
+\begin{bmatrix} a & b \\ c & d \end{bmatrix} =
+\begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix}
+```
+
+The annihilator property helps in getting rid of redundant or unnecessary operations for simplification. In Lean, we can define the annihilator property as:
+
+```lean
+def left_annihilator {A : Type*} (e : A) (op : A → A → A) : Prop :=
+  ∀ x : A, op e x = e
+
+def right_annihilator {A : Type*} (e : A) (op : A → A → A) : Prop :=
+  ∀ x : A, op x e = e
+
+def annihilator {A : Type*} (e : A) (op : A → A → A) : Prop :=
+  left_annihilator e op ∧ right_annihilator e op
+```
+
+An example of an annihilator for matrix multiplication can be shown as:
+
+```lean
+example : annihilator (λ i j, 0) (λ A B, λ i j, ∑ k, A i k * B k j) :=
+  ⟨λ A, funext $ λ i, funext $ λ j, by simp,
+   λ A, funext $ λ i, funext $ λ j, by simp⟩
+```
+
+Here, we define the annihilator as a function that takes two matrices `A` and `B` and returns a matrix of the same size with all elements as 0. We then prove that this function is an annihilator for matrix multiplication by showing that it satisfies the left and right annihilator properties.
 
 ### Congruence
 
