@@ -163,21 +163,37 @@ In this example, we define a binary operation `add` that takes a pair of natural
 
 ## Operator Laws
 
-We now describe a few laws that operations might follow. This enables us to study algebraic structures built on top of these operations, as well as structure-preserving maps (homomorphisms) that preserve the underlying structure of such objects.
+Similar to how relations have properties like reflexivity, symmetry, and transitivity, operations have properties like associativity, commutativity, identity element, inverse element, distributivity, absorption, cancellation, and congruence. These properties help us understand how operations behave and interact with each other. Mathematical objects are often defined in terms of the data they carry, the operations they support, and the laws that govern these operations.
 
 ### Associativity
 
-Mathematically, given an operation `★`, it is called **associative** if:
+Mathematically, given a binary operation `★` on a type `A`, the operation is **associative** if:
 
 ```math
 ∀ x, y, z ∈ A, \quad x ★ (y ★ z) = (x ★ y) ★ z
 ```
+
+or order of operations does not matter, i.e. x and y can be operated on first or y and z can be operated on first, the final result will be the same.
 
 In Lean, we can define associativity of a binary operation as:
 
 ```lean
 def associative {A : Type*} (op : A → A → A) : Prop :=
   ∀ x y z : A, op (op x y) z = op x (op y z)
+```
+
+This property can be used as:
+
+```lean
+example : associative (λ x y : Nat => x + y) :=
+  λ x y z => by simp [Nat.add_assoc]
+```
+
+Here we provide an example of associativity for the addition $(+)$ operation on natural numbers. The `simp` tactic is used to simplify the expression and prove the associativity property. Note that `λ` and `fun` are used interchangeably in Lean to define functions, so this is equivalent to the above code:
+
+```lean
+example : associative (fun x y : Nat => x + y) :=
+  fun x y z => by simp [Nat.add_assoc]
 ```
 
 ### Commutativity

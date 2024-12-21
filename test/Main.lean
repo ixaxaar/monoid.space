@@ -1,5 +1,7 @@
+
+
 import Mathlib.Data.Nat.Prime.Basic
-import Mathlib.Data.Nat.Basic
+
 
 inductive Boolean : Type
   | false
@@ -130,5 +132,14 @@ def defEqual₂ : Nat :=
 #eval defEqual₂  -- Output: 7
 
 
-example : (λ x, x + x) 2 = 2 + 2 :=
-rfl
+-- example : (λ (x:Nat), x + x) 2 = 2 + 2 :=
+-- rfl
+
+def associative {A : Type*} (op : A → A → A) : Prop :=
+  ∀ x y z : A, op (op x y) z = op x (op y z)
+
+example : associative (fun x y : Nat => x + y) :=
+  fun x y z => by simp [Nat.add_assoc]
+
+example : associative (λ x y : Nat => x + y) :=
+  λ x y z => by simp [Nat.add_assoc]
