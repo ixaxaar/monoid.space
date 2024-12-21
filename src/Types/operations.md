@@ -19,7 +19,8 @@
     - [Distributivity](#distributivity)
     - [Absorption](#absorption)
     - [Cancellation](#cancellation)
-    - [Identity Element](#identity-element)
+  - [Special Operations](#special-operations)
+    - [Identity](#identity)
     - [Inverse](#inverse)
     - [Elimination (Annihilator)](#elimination-annihilator)
     - [Congruence](#congruence)
@@ -294,7 +295,9 @@ def cancellative {A : Type*} (op : A → A → A) : Prop :=
   left_cancellative op ∧ right_cancellative op
 ```
 
-### Identity Element
+## Special Operations
+
+### Identity
 
 An element `e ∈ A` is called an **identity element** for the operation `★` if:
 
