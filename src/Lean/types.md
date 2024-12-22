@@ -92,6 +92,8 @@ def negation (b : Bool) : Bool :=
 
 This is how functions are defined in Lean, though we will see more about functions in the next sections. `Bool` is similar to boolean types in virtually all programming languages, but in Lean, we can prove properties about boolean operations using the type system. Let us see a proof of `negation (negation x) == x`:
 
+Pattern matching is a central feature of Lean, and it is used to define functions that operate on different cases. The `match` keyword is used to match a value against different cases, and the `with` keyword is used to specify the cases. In the above example, we match the value `b` against the cases `true` and `false` and return the corresponding values `false` and `true`.
+
 ```lean
 theorem negationNegation (b : Bool) : negation (negation b) = b :=
   match b with
