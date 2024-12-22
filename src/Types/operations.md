@@ -174,23 +174,68 @@ Mathematically, given a binary operation `★` on a type `A`, the operation is *
 ∀ x, y, z ∈ A, \quad x ★ (y ★ z) = (x ★ y) ★ z
 ```
 
-or order of operations does not matter, i.e. x and y can be operated on first or y and z can be operated on first, the final result will be the same.
+or order of operations does not matter, i.e. x and y can be operated on first or y and z can be operated on first, the final result will be the same. Operators can also be associative from only one direction, left or right, such that:
 
-In Lean, we can define associativity of a binary operation as:
+- **Left Associativity**:
+
+```math
+∀ x, y, z ∈ A, \quad (x ★ y) ★ z = x ★ (y ★ z)
+```
+
+- **Right Associativity**:
+
+```math
+∀ x, y, z ∈ A, \quad x ★ (y ★ z) = (x ★ y) ★ z
+```
+
+Left and right associativity can be combined to define associativity:
+
+```math
+∀ x, y, z ∈ A, \quad x ★ (y ★ z) = (x ★ y) ★ z = x ★ y ★ z
+```
+
+A simple example of a non-trivial associative operation is exponentiation `^` on natural numbers, where $(x^y)^z = x^{y \cdot z} = x^{y \cdot z}$. Here `3 ^ 2 ^ 3` can result in different values based on the associativity:
+
+```math
+3 ^ {(2 ^ 3)} = 3 ^ 8 = 6561
+```
+
+```math
+(3 ^ 2) ^ 3 = 9 ^ 3 = 729
+```
+
+which means the exponentiation operation is right-associative, but not left-associative, hence not associative. Natural number addition and multiplication are simple examples of associative operations. Lets start with the definitions of left and right associativity in Lean:
+
+```lean
+def left_associative {A : Type*} (op : A → A → A) : Prop :=
+  ∀ x y z : A, op (op x y) z = op x (op y z)
+
+def right_associative {A : Type*} (op : A → A → A) : Prop :=
+  ∀ x y z : A, op x (op y z) = op (op x y) z
+```
+
+And then define associativity as a combination of left and right associativity:
+
+```lean
+def associative {A : Type*} (op : A → A → A) : Prop :=
+  left_associative op ∧ right_associative op
+```
+
+Alternatively, we can define associativity directly as:
 
 ```lean
 def associative {A : Type*} (op : A → A → A) : Prop :=
   ∀ x y z : A, op (op x y) z = op x (op y z)
 ```
 
-This property can be used as:
+This property can be used to, say prove associativity of addition on natural numbers:
 
 ```lean
 example : associative (λ x y : Nat => x + y) :=
   λ x y z => by simp [Nat.add_assoc]
 ```
 
-Here we provide an example of associativity for the addition $(+)$ operation on natural numbers. The `simp` tactic is used to simplify the expression and prove the associativity property. Note that `λ` and `fun` are used interchangeably in Lean to define functions, so this is equivalent to the above code:
+The `simp` tactic is used to simplify the expression and prove the associativity property. Note that `λ` and `fun` are used interchangeably in Lean to define functions, so this is equivalent to the above code:
 
 ```lean
 example : associative (fun x y : Nat => x + y) :=
