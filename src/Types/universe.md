@@ -8,18 +8,21 @@
 ****
 
 - [Universes](#universes)
-  - [Introduction](#introduction)
-  - [Lifting](#lifting)
+  - [The `Type` Type](#the-type-type)
+  - [Lifting Types](#lifting-types)
   - [Universe Polymorphism](#universe-polymorphism)
   - [The `Prop` Type](#the-prop-type)
+  - [`Prop` and `Type` and `Sort`](#prop-and-type-and-sort)
 
 Set theory has had to deal with paradoxes, such as Russell's Paradox, which shows that the set of all sets that do not contain themselves cannot exist. Set theorists have developed ways to avoid these paradoxes, such as the Zermelo-Fraenkel axioms or ZFC, which avoid the paradoxes by restricting the kinds of sets that can be formed to in a well-defined way.
 
 Just like Set theory, Type theory also has had to deal with paradoxes. In Type theory, we have a similar problem to Russell's Paradox: the type of all types cannot exist, as it would lead to a contradiction. To avoid this, the concept of universes was introduced. Universes are a way to organize types into a hierarchy, where each universe contains the types of the universe below it. This way, we can avoid paradoxes by not allowing types to contain themselves. In Lean, the type of all types is called `Type`, and it is a universe itself. However, to avoid paradoxes, Lean uses a hierarchy of universes, where each universe contains the types of the universe below it.
 
-## Introduction
+In Type Theory, a universe is a type that contains other types. Formally, a universe is a type `U` such that for any type `A`, `A : U` means that `A` is a type. The universe is used to organize the types in a hierarchy, where each universe contains the types of the universe below it.
 
-Formally, the structure of the universe used in type theory are Russell-style and Tarski-style universes. In Russell-style universes, the universe is a type, and in Tarski-style universes, the universe is a type family. In Lean, the universe is a type family, and it is called `Sort`. The `Sort` family is a type family that contains all the types in the hierarchy of universes.
+## The `Type` Type
+
+The structure of the universe used in type theory are Russell-style and Tarski-style universes. In Russell-style universes, the universe is a type, and in Tarski-style universes, the universe is a type family. In Lean, the universe is a type family, and it is called `Type`. The `Type` family is a type family that contains all the types in the hierarchy of universes. Theorem provers have chosen either Russell-style or Tarski-style universes, some examples for Russell-style are Coq and Agda, and for Tarski-style are Lean and Idris, and each has its own advantages and disadvantages.
 
 This heirarchy of universes is denoted as:
 
@@ -71,7 +74,7 @@ The type of a function that takes a `Nat` and returns a `Type` `Type 1`:
 #check Nat → Type -- : Type 1
 ```
 
-## Lifting
+## Lifting Types
 
 Elements of a higher universe level can be created from elements of a lower universe level. "Lifting" is a mechanism that allows us to take a type from one universe level and create a corresponding type at a higher universe level. For example, we can create a function that takes a type in `Type 0` and returns a type in `Type 1`:
 
@@ -146,7 +149,6 @@ whereas `SumFlexible` is a flexible definition because the universe level of `Su
 
 In Lean, the `Prop` type is used to represent propositions, which are types that represent logical statements. The `Prop` type is a universe that contains the types of propositions. The `Prop` type is used to represent logical statements, such as `true`, `false`, `∀`, `∃`, etc. For propositions, it does not matter which evidence is used to prove them, only that they are true, unlike a program which requires a specific value to be returned, say `3` and not just any `Nat`.
 
-
 The type of `Prop` is in `Type 0`:
 
 ```lean
@@ -163,6 +165,32 @@ theorem simple_prop : 1 = 1 := rfl -- 1 = 1
 
 def truthValues : List Prop := [true, false, 1 + 2 = 3, 2 + 2 = 5]
 ```
+
+## `Prop` and `Type` and `Sort`
+
+In Lean's internal implementation, there's a more fundamental concept called `Sort`. The `Sort` is the "type of types", and both `Prop` and `Type` are examples of `Sort`. To organize the different levels of universes for types, Lean uses the hierarchy `Sort 0`, `Sort 1`, `Sort 2`, and so on. `Type u` is essentially shorthand for `Sort (u + 1)`.
+
+Here's where the special role of `Prop` comes in:
+
+-   **`Prop` is synonymous with `Sort 0`.**  This is the lowest universe level.
+-   **`Type 0` is `Sort 1`, `Type 1` is `Sort 2`, and so on.**
+-   **`Sort u` is in `Sort (u + 1)` for any universe level `u`.** This prevents types from containing themselves.
+
+This means `Prop` is special because it sits at the bottom of the universe hierarchy. This design choice is related to the idea of *impredicativity*, which essentially means that when creating something in `Prop` (proving a proposition), we are allowed to quantify over all propositions, in other words we are allowed to use the proposition we are trying to prove in the proof itself. Impredicativity is very powerful but can cause logical inconsistencies if not handled carefully, as self-reference can lead to paradoxes. By keeping `Prop` separate at the bottom, Lean ensures consistency.
+
+It is important to note that `Prop` and `Type` are distinct because `Prop` is *impredicative*, while `Type` is *predicative*. In a predicative system, a definition cannot refer to the totality of objects to which it belongs. In an impredicative system, a definition can refer to the totality of objects to which it belongs. In Lean, `Prop` is impredicative because it contains definitions that refer to the totality of propositions. For example, the definition of `∀` refers to the totality of propositions:
+
+```lean
+∀ (P : Prop), P   -- For all propositions P, P is true
+```
+
+This definition refers to the totality of propositions, including the proposition being defined. This is not allowed in a predicative system. In Lean, `Type` is predicative because it contains definitions that do not refer to the totality of types. For example, the definition of equality refers to the totality of natural numbers in a given universe:
+
+```lean
+∀ (a b : Nat), a = b  -- For all natural numbers a and b, a is (not) equal to b
+```
+
+This definition refers to the totality of natural numbers in a given universe, but not to the totality of all types. This is allowed in a predicative system.
 
 ****
 [Relations](./Types.relations.html)
