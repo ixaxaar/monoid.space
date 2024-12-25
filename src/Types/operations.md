@@ -25,7 +25,6 @@
     - [Elimination (Annihilator)](#elimination-annihilator)
     - [Congruence](#congruence)
     - [Respecting a Relation](#respecting-a-relation)
-    - [Equivalence Relations](#equivalence-relations)
 
 An operation can be thought of as a map or a function between types with a certain arity. Operations can also be thought of as functions that may take zero or more operands and return an output value. Some examples are addition, subtraction, multiplication, and division of natural, real, and complex numbers. Based on arity, operations can be:
 
@@ -235,7 +234,11 @@ example : associative (λ x y : Nat => x + y) :=
   λ x y z => by simp [Nat.add_assoc]
 ```
 
-The `simp` tactic is used to simplify the expression and prove the associativity property. Note that `λ` and `fun` are used interchangeably in Lean to define functions, so this is equivalent to the above code:
+There are a few things about Lean that are worth noting here:
+
+The `simp` tactic is used to simplify the expression and prove the associativity property. `Nat.add_assoc` is a lemma in Lean that states the associativity of addition on natural numbers, we use the already proven lemma to prove the associativity of addition, and `simp` allows us to simplify the expression using the lemma.
+
+Also, `λ` and `fun` are used interchangeably in Lean to define functions, so this is equivalent to the above code:
 
 ```lean
 example : associative (fun x y : Nat => x + y) :=
@@ -264,9 +267,17 @@ example : commutative (λ x y : Nat => x + y) :=
   λ x y => by simp [Nat.add_comm]
 ```
 
+Addition and multiplication of natural numbers are simple examples of commutative operations. Subtraction and division are examples of non-commutative operations.
+
 ### Distributivity
 
 An operation `*` is **distributive** over another operation `+` if:
+
+```math
+∀ x, y, z ∈ A, \quad x * (y + z) = (x * y) + (x * z) \quad \text{and} \quad (y + z) * x = (y * x) + (z * x)
+```
+
+As in associativity, distributivity can be left or right distributive, or both. Non-commutative operations can have different left and right distributivity properties.
 
 - **Left Distributivity**:
 
@@ -291,6 +302,20 @@ def right_distributive {A : Type*} (mul add : A → A → A) : Prop :=
 
 def distributive {A : Type*} (mul add : A → A → A) : Prop :=
   left_distributive mul add ∧ right_distributive mul add
+```
+
+Distribuivity can also be described on its own, without the need for left and right distributivity:
+
+```lean
+def distributive {A : Type*} (mul add : A → A → A) : Prop :=
+  ∀ x y z : A, mul x (add y z) = add (mul x y) (mul x z)
+```
+
+We can now proved the distributivity of multiplication over addition for natural numbers:
+
+```lean
+example : distributive (λ x y : Nat => x * y) (λ x y : Nat => x + y) :=
+  λ x y z => by simp [Nat.left_distrib]
 ```
 
 ### Absorption
@@ -487,17 +512,6 @@ def respects {A B : Type*} (R : A → A → Prop) (f : A → B) : Prop :=
 ```
 
 For operations, we may want to consider functions that preserve relations in more general contexts.
-
-### Equivalence Relations
-
-An **equivalence relation** on a set `A` is a relation that is reflexive, symmetric, and transitive. In Lean:
-
-```lean
-def equivalence {A : Type*} (R : A → A → Prop) : Prop :=
-  reflexive R ∧ symmetric R ∧ transitive R
-```
-
-An equivalence relation partitions a set into equivalence classes where elements are related to each other.
 
 ****
 [Equational Reasoning](./Algebra.equational.html)
