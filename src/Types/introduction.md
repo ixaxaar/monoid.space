@@ -302,4 +302,5 @@ The development of proof assistants based on Type Theory has significant implica
 Example (CompCert, a verified C compiler).
 
 ****
+
 [Universes and families](./Types.universe.html)

@@ -74,7 +74,7 @@ cd src || exit 1
 
 for i in "${files[@]}"; do
   echo "Generating HTML for ${i}.md"
-  pandoc -s --mathjax --css=../css/lean.css --from=markdown+smart --to=html --metadata pagetitle="${i}" --columns=120 -o "../html/${i/\//.}.html" "${i}.md"
+  pandoc -s --mathjax --css=../css/agda.css --from=markdown+smart --to=html --metadata pagetitle="${i}" --columns=120 -o "../html/${i/\//.}.html" "${i}.md"
 done
 
 cd .. || exit 1

@@ -1,6 +1,6 @@
 ****
 [Contents](contents.html)
-[Previous](Lang.syntaxQuirks.html)
+[Previous](Lean.other.html)
 [Next](Types.introduction.html)
 
 # Debugging
