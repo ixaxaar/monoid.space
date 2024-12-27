@@ -223,6 +223,7 @@ hr {
 hr:first-of-type {
   height: 200px;
   padding: 20px;
+  background-position: center;
   background-image: url("../artwork/header.png");
   background-repeat: no-repeat;
   background-size: contain;
