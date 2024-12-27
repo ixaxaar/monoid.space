@@ -140,8 +140,6 @@ pre.sourceCode {
   margin: 20px 0;
   padding: 20px;
   text-align: left;
-  border-radius: var(--border-radius);
-  box-shadow: inset 0 0 30px var(--shadow);
 }
 
 /* Code Highlighting */
@@ -221,8 +219,8 @@ hr {
 }
 
 hr:first-of-type {
-  height: 200px;
-  padding: 20px;
+  height: 150px;
+  padding: 5em;
   background-position: center;
   background-image: url("../artwork/header.png");
   background-repeat: no-repeat;
