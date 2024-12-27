@@ -117,10 +117,10 @@ def lessThan (m n : Nat) : Prop := m < n
 local infix:50 " ≦ " => Nat.le
 #check 3 ≦ 5
 
-def reflexive {A : Type} (R : A → A → Prop) : Prop := ∀ a : A, R a a
-def symmetric {A : Type} (R : A → A → Prop) : Prop := ∀ a b : A, R a b → R b a
-def transitive {A : Type} (R : A → A → Prop) : Prop := ∀ a b c : A, R a b → R b c → R a c
-def antisymmetric {A : Type} (R : A → A → Prop) : Prop := ∀ a b : A, R a b → R b a → a = b
+-- def reflexive {A : Type} (R : A → A → Prop) : Prop := ∀ a : A, R a a
+-- def symmetric {A : Type} (R : A → A → Prop) : Prop := ∀ a b : A, R a b → R b a
+-- def transitive {A : Type} (R : A → A → Prop) : Prop := ∀ a b c : A, R a b → R b c → R a c
+-- def antisymmetric {A : Type} (R : A → A → Prop) : Prop := ∀ a b : A, R a b → R b a → a = b
 
 def defEqual₁ : Nat :=
   7
@@ -143,3 +143,26 @@ example : associative (fun x y : Nat => x + y) :=
 
 example : associative (λ x y : Nat => x + y) :=
   λ x y z => by simp [Nat.add_assoc]
+
+
+def reflexive {A : Type} (R : A → A → Prop) : Prop := ∀ x : A, R x x
+
+def symmetric {A : Type} (R : A → A → Prop) : Prop := ∀ x y : A, R x y → R y x
+
+def transitive {A : Type} (R : A → A → Prop) : Prop := ∀ x y z : A, R x y → R y z → R x z
+
+def equivalence_relation {A : Type} (R : A → A → Prop) : Prop :=
+  reflexive R ∧ symmetric R ∧ transitive R
+
+theorem eq_is_equivalence : equivalence_relation (@Eq ℕ) := by
+  apply And.intro
+  · intro x
+    rfl
+
+  apply And.intro
+  · intro x y h
+    symm
+    exact h
+
+  · intro x y z h₁ h₂
+    exact Eq.trans h₁ h₂

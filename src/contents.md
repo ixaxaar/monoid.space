@@ -18,17 +18,16 @@
   - [Relations](./Types.relations.html)
   - [Equality](./Types.equality.html)
   - [Operations](./Types.operations.html)
-  - [Product Types and Σ-types](./Types.product.html)
-  - [Function Types and Π-types](./Types.functions.html)
-  - [More about Function Types](./Types.functions2.html)
+  - [Products & Co-products](./Types.product.html)
+  - [Function Types](./Types.functions.html)
 
 ## 3. Theorem Proving
 
-  - [Proofs as Data](./Types.proofsAsData.html)
-  - [Introduction of New Types](./Types.patterns.html)
-  - [Equational Reasoning](./Types.equational.html)
-  - [Equational Reasoning 2](./Types.equational2.html)
-  - [Equality 2](./Types.variations.html)
+  - [Proofs as Data](./Proofs.proofsAsData.html)
+  - [Introduction of New Types](./Proofs.patterns.html)
+  - [Equational Reasoning](./Proofs.equational.html)
+  - [Equational Reasoning 2](./Proofs.equational2.html)
+  - [Equality 2](./Proofs.variations.html)
 
 ## 4. Boolean Algebra
 

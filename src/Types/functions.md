@@ -8,19 +8,23 @@
 ****
 
 - [Functions](#functions)
-- [Dependent Function Types or Π-types](#dependent-function-types-or-%CF%80-types)
-  - [Construction](#construction)
+- [Dependent Function Types or Π-types](#dependent-function-types-or-π-types)
+        - [Construction](#construction)
 - [Properties of function types](#properties-of-function-types)
-  - [Function composition](#function-composition)
-  - [Identity and constant functions](#identity-and-constant-functions)
-  - [Application](#application)
-  - [Currying](#currying)
-  - [Infix application](#infix-application)
+        - [Function composition](#function-composition)
+        - [Identity and constant functions](#identity-and-constant-functions)
+        - [Application](#application)
+        - [Currying](#currying)
+        - [Infix application](#infix-application)
 - [Other useful API](#other-useful-api)
-  - [Flip](#flip)
-  - [On](#on)
-  - [Type extractor](#type-extractor)
-  - [Case statements](#case-statements)
+        - [Flip](#flip)
+        - [On](#on)
+        - [Type extractor](#type-extractor)
+        - [Case statements](#case-statements)
+- [Classifications of functions](#classifications-of-functions)
+        - [Injection](#injection)
+        - [Surjection](#surjection)
+        - [Bijection](#bijection)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -231,6 +235,63 @@ case x return B of f = f x
 case_of_ : ∀ {a b} {A : Set a} {B : Set b} → A → (A → B) → B
 case x of f = case x return _ of f
 ```
+
+# Classifications of functions
+
+Functions can be classified into:
+
+1. Injective (one-to-one)
+2. Surjective (onto)
+3. Bijective (one-to-one and onto)
+
+Note that a function, by definition, can never produce multiple outputs given the same input.
+
+## Injection
+
+![Figure 1: Injection](../artwork/injective.png)
+
+A function `f : X → Y` is injective if $∀ x ∈ X, y ∈ Y, f(x) == f(y) ⟹ x == y$. Or in other words, the map is one-to-one between all objects of X and some objects of Y.
+
+```agda
+Injective : ∀ {a b} {A : Set a} {B : Set b} → (A → B) → Set (a ⊔ b)
+Injective f = ∀ {x y} → f x ≡ f y → x ≡ y
+
+record Injection {f t} (From : Set f) (To : Set t) : Set (f ⊔ t) where
+  field
+    to        : From → To
+    injective : Injective to
+```
+
+## Surjection
+
+![Figure 2: Surjection](../artwork/surjective.png)
+
+A function `f : X → Y` is surjective if $∀ y ∈ Y, ∃ x ∈ X s.t. f(x) == y$. This states that for every element of Y, there should be at least one element of X such that `f(x) == y`. So Y is an complete image of X.
+
+```agda
+-- Surjective : ∀ {a b} {A : Set a} {B : Set b} → (A → B) → Set (a ⊔ b)
+-- Surjective f = ∀ y → ∃ λ x → f x ≡ y
+
+record Surjection {f t} (From : Set f) (To : Set t) : Set (f ⊔ t) where
+  field
+    to   : From → To
+    from : To → From
+    right-inverse-of : ∀ x → to (from x) ≡ x
+```
+
+## Bijection
+
+![Figure 3: Bijection](../artwork/bijection.png)
+
+Bijection is the combination of injection and surjection. A bijection implies one-to-one correspondence from the domain to the codomain − each element of one set is paired with exactly one element of the other set, and each element of the other set is paired with exactly one element of the first set. There are no unpaired elements.
+
+```agda
+record Bijection {f t} (From : Set f) (To : Set t) : Set (f ⊔ t) where
+  field
+    injection : Injection From To
+    surjection : Surjection From To
+```
+
 
 ****
 [Proofs as Data](./Types.proofsAsData.html)
