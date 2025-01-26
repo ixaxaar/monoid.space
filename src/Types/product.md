@@ -47,7 +47,7 @@ interface Either<A, B> {
 }
 ```
 
-In both the above examples, we define a new type or class (an enclosure) that can be either of the two types `A` or `B`. This is a co-product type and is a very useful way to often handle errors or exceptions in programming, another very popular example being the `Option` type.
+In the above examples of coproducts, we define a new type or class (an enclosure) that can be either of the two types `A` or `B`. This is a co-product type and is a very useful way to often handle errors or exceptions in programming, another very popular example being the `Option` type.
 
 ## Products
 
@@ -132,6 +132,7 @@ Here, `pair` is a product of `ℕ` and `String`. We can then extract the first a
 ```
 
 The above code will return `1` and `"hello"` respectively.
+
 
 
 ****
