@@ -23,6 +23,8 @@
   - [Products & Co-products](./Types.product.html)
   - [Function Types](./Types.functions.html)
 
+# ❌ WIP - (Re-)Work in Progress ❌
+
 ## 3. Theorem Proving
 
   - [Proofs as Data](./Proofs.proofsAsData.html)
@@ -75,8 +77,6 @@
   - [Functions](./Lang.functions.html)
   - [Modules, Records and Postulates](./Lang.other.html)
   - [Debugging](./Lang.debugging.html)
-
-# WIP
 
 ## 6. Category Theory
 
