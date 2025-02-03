@@ -15,6 +15,12 @@
   - [Co-products](#co-products)
     - [Definition](#definition-1)
     - [Co-products in Lean](#co-products-in-lean)
+  - [Dependent Types](#dependent-types)
+    - [Dependent Products (Π-types)](#dependent-products-π-types)
+    - [Dependent Sums (Σ-types)](#dependent-sums-σ-types)
+    - [Universal Properties](#universal-properties)
+    - [Examples](#examples)
+    - [Relationship with Products and Co-products](#relationship-with-products-and-co-products)
 
 ## Introduction
 
@@ -211,6 +217,107 @@ case_analysis (λ a, s!"left({toString a})") (λ b, s!"right({toString b})")
 #eval toString left  -- "left(42)"
 #eval toString right -- "right(world)"
 ```
+
+## Dependent Types
+
+Dependent types extend the concepts of products and co-products by allowing types to depend on values. In other words, the type of a value can be determined by the value itself. This is particularly useful for expressing relationships between values and types, which is not possible with regular products and co-products.
+
+Lets take a very simple example - the type of a list in type theory is a function of its length, or lists of different lengths are different types. Thus, a list is a dependent type where the type of the list is dependent on its length.
+
+### Dependent Products (Π-types)
+
+A dependent product type, also known as a Π-type (Pi-type), is a generalization of the regular product type where the second type can depend on values of the first type. For a type `A` and a family of types `B : A → Type`, the dependent product `Π(x : A), B x` represents functions that map each `a : A` to an element of `B a`.
+
+```math
+Π(x : A), B x = \{ f \mid ∀a : A, f(a) : B(a) \}
+```
+
+In programming terms, this is similar to a dependent function type. For example:
+
+```lean
+-- A function where the return type depends on the input
+def vector_length (n : Nat) : Vector Nat n → Nat := λ v, n
+```
+
+Here, `Vector Nat n` is a type that depends on the value `n`.
+
+### Dependent Sums (Σ-types)
+
+A dependent sum type, also known as a Σ-type (Sigma-type), is a generalization of the regular product type where the second type can depend on values of the first type. For a type `A` and a family of types `B : A → Type`, the dependent sum `Σ(x : A), B x` represents pairs where if the first component is `a : A`, then the second component must be of type `B a`.
+
+```math
+Σ(x : A), B x = \{ (a, b) \mid a : A, b : B(a) \}
+```
+
+In Lean, we can define dependent sum types as:
+
+```lean
+structure Sigma {A : Type} (B : A → Type) : Type where
+  fst : A
+  snd : B fst
+```
+
+A practical example would be:
+
+```lean
+-- A vector is a list with a length stored in its type
+structure Vector (A : Type) (n : Nat) : Type where
+  data : List A
+  size_eq : data.length = n
+```
+
+### Universal Properties
+
+The universal properties for dependent types are similar to their non-dependent counterparts but are more general:
+
+For Π-types:
+- Given `A : Type` and `B : A → Type`, for any type `X` with a function `f : ∀(a : A), B a → X`, there exists a unique function `λg. f ∘ g : (Π(x : A), B x) → X`
+
+For Σ-types:
+- Given `A : Type` and `B : A → Type`, for any type `X` with functions `f : A → X` and `g : ∀(a : A), B a → X`, there exists a unique function `h : (Σ(x : A), B x) → X`
+
+### Examples
+
+Here's a complete example showing both Π-types and Σ-types:
+
+```lean
+-- Π-type example: A function that takes a natural number n
+-- and returns a vector of that length
+def makeVector (n : Nat) : Vector Nat n :=
+  { data := List.replicate n 0,
+    size_eq := by simp }
+
+-- Σ-type example: A pair of a natural number and a vector of that length
+structure SizedVector (A : Type) : Type where
+  size : Nat
+  vector : Vector A size
+
+-- Using dependent types together
+def double_sized_vector : SizedVector Nat :=
+  { size := 2,
+    vector := makeVector 2 }
+```
+
+### Relationship with Products and Co-products
+
+Regular products and co-products can be seen as special cases of dependent types:
+
+- A regular product `A × B` is equivalent to `Σ(_ : A), B` where `B` is a constant type family
+- A regular function type `A → B` is equivalent to `Π(_ : A), B` where `B` is a constant type family
+
+This shows how dependent types naturally generalize the concepts we discussed earlier. The key difference is that dependent types allow us to express relationships between values and types, which is not possible with simple products and co-products.
+
+```lean
+-- Regular product as a special case of Σ-type
+def regular_product (A B : Type) : Type :=
+  Σ(_ : A), λ_ => B
+
+-- Regular function type as a special case of Π-type
+def regular_function (A B : Type) : Type :=
+  Π(_ : A), λ_ => B
+```
+
+This additional expressiveness makes dependent types particularly useful in theorem proving and in writing programs with strong correctness guarantees, as they can encode logical predicates and invariants directly in the type system.
 
 ****
 [Dependent Function Types / Π-types](./Types.functions.html)
