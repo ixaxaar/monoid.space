@@ -230,6 +230,15 @@ A relatable example for programmers is the type of sized arrays or vectors, wher
 type Vec3 = [number, number, number];
 ```
 
+or using templates in C++:
+
+```cpp
+template <typename T, int N>
+struct array {
+    T data[N];
+};
+```
+
 Other functional programming languages like Haskell sized vectors can be defined as:
 
 ```haskell
