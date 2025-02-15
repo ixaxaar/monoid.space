@@ -15,12 +15,7 @@
   - [Co-products](#co-products)
     - [Definition](#definition-1)
     - [Co-products in Lean](#co-products-in-lean)
-  - [Dependent Types](#dependent-types)
-    - [Dependent Products (Π-types)](#dependent-products-π-types)
-    - [Dependent Sums (Σ-types)](#dependent-sums-σ-types)
-    - [Universal Properties](#universal-properties)
-    - [Examples](#examples)
-    - [Relationship with Products and Co-products](#relationship-with-products-and-co-products)
+  - [Dependent Product Types](#dependent-product-types)
 
 ## Introduction
 
@@ -220,9 +215,17 @@ case_analysis (λ a, s!"left({toString a})") (λ b, s!"right({toString b})")
 #eval toString right -- "right(world)"
 ```
 
-## Dependent Types
+## Dependent Product Types
 
-Dependent types extend the concepts of products and co-products by allowing types to depend on values. In other words, the type of a value can be determined by the value itself. This is particularly useful in expressing relationships between values and types, and in theorem proving and functional programming, where types can encode logical properties and invariants.
+Dependent product or pair types generalizes the concept of product types by allowing the type of one component to depend on the value of another component. Unlike simple product types where both types are fixed and independent, dependent product types create a relationship where the second type is a function of the value of the first type.
+
+Mathematically, dependent product types are denoted as Σ-types (sigma types) and are defined as:
+
+```math
+Σ(x : A) B(x) = \{ (a, b) \mid a : A, b : B(a) \}
+```
+
+Here, `A` is a type and `B` is a type family indexed by `A`. The dependent pair `(a, b)` consists of a value `a : A` and a value `b : B(a)` where `B(a)` is the type of the second component that depends on the value of `a`.
 
 A relatable example for programmers is the type of sized arrays or vectors, where the length of the array is part of the type itself. In typescript for example, we can define a tuple that can only have 3 elements as:
 
@@ -249,100 +252,14 @@ data Vector n a where
 
 Though most mainstream languages do not support dependent types, languages like Idris, Agda, and Lean have built-in support for dependent types.
 
-### Dependent Products (Π-types)
-
-A dependent product type, also known as a Π-type (Pi-type), is a generalization of the regular product type where the second type can depend on values of the first type. For a type `A` and a family of types `B : A → Type`, the dependent product `Π(x : A), B x` represents functions that map each `a : A` to an element of `B a`.
-
-```math
-Π(x : A), B x = \{ f \mid ∀a : A, f(a) : B(a) \}
-```
-
-In programming terms, this is similar to a dependent function type. For example:
+In Lean, we can define dependent product types as:
 
 ```lean
--- A function where the return type depends on the input
-def vector_length (n : Nat) : Vector Nat n → Nat := λ v, n
+inductive Sigma {A : Type} (B : A → Type) : Type
+| mk : Π (a : A), B a → Sigma
 ```
 
-Here, `Vector Nat n` is a type that depends on the value `n`.
-
-### Dependent Sums (Σ-types)
-
-A dependent sum type, also known as a Σ-type (Sigma-type), is a generalization of the regular product type where the second type can depend on values of the first type. For a type `A` and a family of types `B : A → Type`, the dependent sum `Σ(x : A), B x` represents pairs where if the first component is `a : A`, then the second component must be of type `B a`.
-
-```math
-Σ(x : A), B x = \{ (a, b) \mid a : A, b : B(a) \}
-```
-
-In Lean, we can define dependent sum types as:
-
-```lean
-structure Sigma {A : Type} (B : A → Type) : Type where
-  fst : A
-  snd : B fst
-```
-
-A practical example would be:
-
-```lean
--- A vector is a list with a length stored in its type
-structure Vector (A : Type) (n : Nat) : Type where
-  data : List A
-  size_eq : data.length = n
-```
-
-### Universal Properties
-
-The universal properties for dependent types are similar to their non-dependent counterparts but are more general:
-
-For Π-types:
-- Given `A : Type` and `B : A → Type`, for any type `X` with a function `f : ∀(a : A), B a → X`, there exists a unique function `λg. f ∘ g : (Π(x : A), B x) → X`
-
-For Σ-types:
-- Given `A : Type` and `B : A → Type`, for any type `X` with functions `f : A → X` and `g : ∀(a : A), B a → X`, there exists a unique function `h : (Σ(x : A), B x) → X`
-
-### Examples
-
-Here's a complete example showing both Π-types and Σ-types:
-
-```lean
--- Π-type example: A function that takes a natural number n
--- and returns a vector of that length
-def makeVector (n : Nat) : Vector Nat n :=
-  { data := List.replicate n 0,
-    size_eq := by simp }
-
--- Σ-type example: A pair of a natural number and a vector of that length
-structure SizedVector (A : Type) : Type where
-  size : Nat
-  vector : Vector A size
-
--- Using dependent types together
-def double_sized_vector : SizedVector Nat :=
-  { size := 2,
-    vector := makeVector 2 }
-```
-
-### Relationship with Products and Co-products
-
-Regular products and co-products can be seen as special cases of dependent types:
-
-- A regular product `A × B` is equivalent to `Σ(_ : A), B` where `B` is a constant type family
-- A regular function type `A → B` is equivalent to `Π(_ : A), B` where `B` is a constant type family
-
-This shows how dependent types naturally generalize the concepts we discussed earlier. The key difference is that dependent types allow us to express relationships between values and types, which is not possible with simple products and co-products.
-
-```lean
--- Regular product as a special case of Σ-type
-def regular_product (A B : Type) : Type :=
-  Σ(_ : A), λ_ => B
-
--- Regular function type as a special case of Π-type
-def regular_function (A B : Type) : Type :=
-  Π(_ : A), λ_ => B
-```
-
-This additional expressiveness makes dependent types particularly useful in theorem proving and in writing programs with strong correctness guarantees, as they can encode logical predicates and invariants directly in the type system.
+Here, `Sigma` is a type constructor that takes a type `A` and a type family `B : A → Type` and returns a new type `Sigma B`. The type `Sigma B` is then defined as a type that contains all possible dependent pairs `(a, b)` where `a : A` and `b : B a`.
 
 ****
 [Dependent Function Types / Π-types](./Types.functions.html)
