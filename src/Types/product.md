@@ -222,9 +222,23 @@ case_analysis (λ a, s!"left({toString a})") (λ b, s!"right({toString b})")
 
 ## Dependent Types
 
-Dependent types extend the concepts of products and co-products by allowing types to depend on values. In other words, the type of a value can be determined by the value itself. This is particularly useful for expressing relationships between values and types, which is not possible with regular products and co-products.
+Dependent types extend the concepts of products and co-products by allowing types to depend on values. In other words, the type of a value can be determined by the value itself. This is particularly useful in expressing relationships between values and types, and in theorem proving and functional programming, where types can encode logical properties and invariants.
 
-Lets take a very simple example - the type of a list in type theory is a function of its length, or lists of different lengths are different types. Thus, a list is a dependent type where the type of the list is dependent on its length.
+A relatable example for programmers is the type of sized arrays or vectors, where the length of the array is part of the type itself. In typescript for example, we can define a tuple that can only have 3 elements as:
+
+```typescript
+type Vec3 = [number, number, number];
+```
+
+Other functional programming languages like Haskell sized vectors can be defined as:
+
+```haskell
+data Vector n a where
+    Nil  :: Vector 0 a
+    Cons :: a -> Vector n a -> Vector (n + 1) a
+```
+
+Though most mainstream languages do not support dependent types, languages like Idris, Agda, and Lean have built-in support for dependent types.
 
 ### Dependent Products (Π-types)
 
