@@ -132,7 +132,7 @@ Now, we can define a simple example of a product type:
 def pair := Prod.mk 1 "hello"
 ```
 
-Here, `pair` is a product of `ℕ` and `String`. We can then extract the first and second elements from `pair` using the projection functions:
+Here, `pair` is a product of `Nat` and `String`. We can then extract the first and second elements from `pair` using the projection functions:
 
 ```lean
 #eval fst pair -- 1
@@ -165,8 +165,6 @@ The categorical definition of a co-product is that it is a type `Sum` that comes
 
 For any type `X` and functions `f : A → X` and `g : B → X`, there exists a unique function `[f, g] : Sum → X` such that `[f, g] ∘ i₁ = f` and `[f, g] ∘ i₂ = g`.
 
-This can be interpreted as follows: Consider `A + B` as a co-product type of `A` and `B`. Thus `A + B` is a type that contains either values from `A` or values from `B`. However, there might be other types that can also represent this choice! Hence we need to distinguish between the true co-product type and other types that represent this choice. If we have a type `X` that can represent this choice, then we can have two functions `f : A → X` and `g : B → X` that map values from `A` and `B` to `X`. The uniqueness of `A + B` as the true co-product is guaranteed by the existence of a unique function `[f, g] : A + B → X` that satisfies the universal property.
-
 The following diagram illustrates the universal property of a co-product type:
 
 ```plantuml
@@ -186,6 +184,8 @@ A -[#red]-> X : f
 B -[#red]-> X : g
 @enduml
 ```
+
+This can be interpreted as follows: Consider `A + B` as a co-product type of `A` and `B`. Thus `A + B` is a type that contains either values from `A` or values from `B`. However, there might be other types that can also represent this choice! Hence we need to distinguish between the true co-product type and other types that represent this choice. If we have a type `X` that can represent this choice, then we can have two functions `f : A → X` and `g : B → X` that map values from `A` and `B` to `X`. The uniqueness of `A + B` as the true co-product is guaranteed by the existence of a unique function `[f, g] : A + B → X` that satisfies the universal property.
 
 ### Co-products in Lean
 
