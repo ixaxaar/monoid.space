@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Category/category</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a> <a href="Algebra.introduction.html">Previous</a> <a
+href="Category.morphisms.html">Next</a></p>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<hr />
+<ul>
+<li><a href="#category">Category</a>
+<ul>
+<li><a href="#opposite-category">Opposite Category</a></li>
+<li><a href="#examples">Examples</a>
+<ul>
+<li><a href="#category-of-sets">Category of Sets</a></li>
+<li><a href="#category-of-groups">Category of Groups</a></li>
+<li><a href="#category-of-rings">Category of Rings</a></li>
+<li><a href="#category-of-topological-spaces">Category of Topological Spaces</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#nerves-of-categories">Nerves of Categories</a>
+<ul>
+<li><a href="#simplicial-complexes">Simplicial Complexes</a>
+<ul>
+<li><a href="#simplexes">Simplexes</a></li>
+<li><a href="#simplicial-complexes-1">Simplicial Complexes</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#constructions-of-categories">Constructions of Categories</a>
+<ul>
+<li><a href="#product-category">Product Category</a></li>
+<li><a href="#free-category">Free Category</a></li>
+</ul></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h1 id="category">Category</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> Category<span class="ot">.</span>category <span class="kw">where</span></span></code></pre></div>
+<p>A category is the object of study in category theory. It can be thought of being a bunch of objects, which are
+associated by a bunch of arrows between those objects, with the arrows being composable and each object having unit
+arrows. This minimal structure ensures a multitude of object types studied in mathematics can fit the description.</p>
+<p>A category ℂ consists of:</p>
+<ol type="1">
+<li>A collection of objects <span class="math inline">\(x \in obj(ℂ)\)</span></li>
+<li>A collection of morphisms between those objects <span class="math inline">\(hom(𝕔) = \{ f : a → b : a,b ∈ ℂ
+\}\)</span>, called a “hom” set</li>
+</ol>
+<p>such that:</p>
+<ol type="1">
+<li>Morphisms compose:</li>
+</ol>
+<p>If <span class="math display">\[f : a → b, g : b → c\]</span> then <span class="math display">\[g ∘ f : a →
+c\]</span></p>
+<ol start="2" type="1">
+<li>Morphisms are associative:</li>
+</ol>
+<p><span class="math display">\[If~~ f : a → b,~ g : b → c ~~and~~ h : c → d ~~then~~ h ∘ (g ∘ f) = (h ∘ g) ∘
+f\]</span></p>
+<figure>
+<img src="/artwork/covariant_hom_functor.png" alt="Figure 1: Composition" />
+<figcaption aria-hidden="true">Figure 1: Composition</figcaption>
+</figure>
+<ol start="3" type="1">
+<li>Morphisms have identities: For every object x, there exists a morphism <span class="math inline">\(1ₓ : x →
+x\)</span> called the identity morphism for x, such that for every morphism <span class="math inline">\(f : a →
+x\)</span> and every morphism <span class="math inline">\(g : x → b\)</span>, we have <span class="math inline">\(1ₓ ∘ f
+= f\)</span> and <span class="math inline">\(g ∘ 1ₓ = g\)</span>.</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">record</span> Category <span class="ot">(</span>o ℓ e <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>o ⊔ ℓ ⊔ e<span class="ot">))</span> <span class="kw">where</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>⇒<span class="ot">_</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">infixr</span> <span class="dv">9</span> <span class="ot">_</span>∘<span class="ot">_</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">field</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    Obj <span class="ot">:</span> <span class="dt">Set</span> o                     <span class="co">-- objects</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="ot">_</span>⇒<span class="ot">_</span> <span class="ot">:</span> Rel Obj ℓ                 <span class="co">-- morphism</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B<span class="ot">}</span> <span class="ot">→</span> Rel <span class="ot">(</span>A ⇒ B<span class="ot">)</span> e   <span class="co">-- equivalence of morphisms</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    id  <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>A ⇒ A<span class="ot">)</span>           <span class="co">-- identity</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- composition of morphisms</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="ot">_</span>∘<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B C<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>B ⇒ C<span class="ot">)</span> <span class="ot">→</span> <span class="ot">(</span>A ⇒ B<span class="ot">)</span> <span class="ot">→</span> <span class="ot">(</span>A ⇒ C<span class="ot">)</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- laws</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- satisfy associativity</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    assoc     <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B C D<span class="ot">}</span> <span class="ot">{</span>f <span class="ot">:</span> A ⇒ B<span class="ot">}</span> <span class="ot">{</span>g <span class="ot">:</span> B ⇒ C<span class="ot">}</span> <span class="ot">{</span>h <span class="ot">:</span> C ⇒ D<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>h ∘ g<span class="ot">)</span> ∘ f ≈ h ∘ <span class="ot">(</span>g ∘ f<span class="ot">)</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- satisfy identity</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    identityˡ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B<span class="ot">}</span> <span class="ot">{</span>f <span class="ot">:</span> A ⇒ B<span class="ot">}</span> <span class="ot">→</span> id ∘ f ≈ f</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    identityʳ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B<span class="ot">}</span> <span class="ot">{</span>f <span class="ot">:</span> A ⇒ B<span class="ot">}</span> <span class="ot">→</span> f ∘ id ≈ f</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- has an equivalence for morphisms</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    equiv     <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B<span class="ot">}</span> <span class="ot">→</span> IsEquivalence <span class="ot">(_</span>≈<span class="ot">_</span> <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">{</span>B<span class="ot">})</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- composition is congruent on equivalence</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    ∘-resp-≈  <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B C<span class="ot">}</span> <span class="ot">{</span>f h <span class="ot">:</span> B ⇒ C<span class="ot">}</span> <span class="ot">{</span>g i <span class="ot">:</span> A ⇒ B<span class="ot">}</span> <span class="ot">→</span> f ≈ h <span class="ot">→</span> g ≈ i <span class="ot">→</span> f ∘ g ≈ h ∘ i</span></code></pre></div>
+<h2 id="opposite-category">Opposite Category</h2>
+<p>The machinery of category theory also admits a duality, like an object and its mirror image. The opposite or dual of
+a category <span class="math inline">\(ℂ\)</span>, denoted by <span class="math inline">\(ℂᴼᵖ\)</span>, is the same
+category, but with all morphisms in the opposite direction. All laws and machinery of category theory have their dual
+versions.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">record</span> Categoryᴼᵖ <span class="ot">(</span>o ℓ e <span class="ot">:</span> Level<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>suc <span class="ot">(</span>o ⊔ ℓ ⊔ e<span class="ot">))</span> <span class="kw">where</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">infix</span>  <span class="dv">4</span> <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">_</span>⇒<span class="ot">_</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">infixr</span> <span class="dv">9</span> <span class="ot">_</span>∘<span class="ot">_</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">field</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    Obj <span class="ot">:</span> <span class="dt">Set</span> o                     <span class="co">-- objects</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="ot">_</span>⇒<span class="ot">_</span> <span class="ot">:</span> Rel Obj ℓ                 <span class="co">-- morphism</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="ot">_</span>≈<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B<span class="ot">}</span> <span class="ot">→</span> Rel <span class="ot">(</span>B ⇒ A<span class="ot">)</span> e   <span class="co">-- equivalence of morphisms</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    id  <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>A ⇒ A<span class="ot">)</span>           <span class="co">-- identity</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- composition of morphisms</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="ot">_</span>∘<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B C<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>B ⇒ A<span class="ot">)</span> <span class="ot">→</span> <span class="ot">(</span>C ⇒ B<span class="ot">)</span> <span class="ot">→</span> <span class="ot">(</span>C ⇒ A<span class="ot">)</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- laws</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- satisfy associativity</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    assoc     <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B C D<span class="ot">}</span> <span class="ot">{</span>f <span class="ot">:</span> A ⇒ B<span class="ot">}</span> <span class="ot">{</span>g <span class="ot">:</span> B ⇒ C<span class="ot">}</span> <span class="ot">{</span>h <span class="ot">:</span> C ⇒ D<span class="ot">}</span> <span class="ot">→</span> h ∘ <span class="ot">(</span>g ∘ f<span class="ot">)</span> ≈ <span class="ot">(</span>h ∘ g<span class="ot">)</span> ∘ f</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- satisfy identity</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    identityˡ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B<span class="ot">}</span> <span class="ot">{</span>f <span class="ot">:</span> A ⇒ B<span class="ot">}</span> <span class="ot">→</span> id ∘ f ≈ f</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    identityʳ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B<span class="ot">}</span> <span class="ot">{</span>f <span class="ot">:</span> A ⇒ B<span class="ot">}</span> <span class="ot">→</span> f ∘ id ≈ f</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- has an equivalence for morphisms</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    equiv     <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B<span class="ot">}</span> <span class="ot">→</span> IsEquivalence <span class="ot">(_</span>≈<span class="ot">_</span> <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">{</span>B<span class="ot">})</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- composition is congruent on equivalence</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    ∘-resp-≈  <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>A B C<span class="ot">}</span> <span class="ot">{</span>f h <span class="ot">:</span> B ⇒ C<span class="ot">}</span> <span class="ot">{</span>g i <span class="ot">:</span> A ⇒ B<span class="ot">}</span> <span class="ot">→</span> g ≈ i <span class="ot">→</span> f ≈ h <span class="ot">→</span> g ∘ f ≈ i ∘ h</span></code></pre></div>
+<h2 id="examples">Examples</h2>
+<p>We can use various mathematical structures to construct categories out of. When defining a category, we have to
+decide what our objects and our morphisms would be and how would the morphisms compose. This decision has to be taken in
+a way that the conditions of being a category are satisfied (associativity, identity). We would then have a category of
+our chosen object.</p>
+<h3 id="category-of-sets">Category of Sets</h3>
+<p>A category of sets is the simplest of categories we can construct and the most intuitive to understand given we have
+been trained to think in terms of sets.</p>
+<ul>
+<li>Objects: Sets</li>
+<li>Morphisms: Total functions between sets</li>
+<li>Composition: Function composition</li>
+</ul>
+<h3 id="category-of-groups">Category of Groups</h3>
+<ul>
+<li>Objects: Groups</li>
+<li>Morphisms: Group homomorphisms</li>
+<li>Composition: Composition of group homomorphisms</li>
+</ul>
+<h3 id="category-of-rings">Category of Rings</h3>
+<ul>
+<li>Objects: Rings</li>
+<li>Morphisms: Ring homomorphisms</li>
+<li>Composition: Composition of ring homomorphisms</li>
+</ul>
+<h3 id="category-of-topological-spaces">Category of Topological Spaces</h3>
+<ul>
+<li>Objects: Topological Spaces</li>
+<li>Morphisms: Continuous maps/functions between spaces</li>
+<li>Composition: Composition of continuous maps</li>
+</ul>
+<p>Here are some other examples:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Category</th>
+<th>Objects</th>
+<th>Morphisms</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Set</td>
+<td>sets</td>
+<td>total functions</td>
+</tr>
+<tr class="even">
+<td>Group</td>
+<td>groups</td>
+<td>group homomorphisms</td>
+</tr>
+<tr class="odd">
+<td>Top</td>
+<td>topological spaces</td>
+<td>continuous functions</td>
+</tr>
+<tr class="even">
+<td>Vectₖ</td>
+<td>vector spaces over field K</td>
+<td>linear transformations</td>
+</tr>
+<tr class="odd">
+<td>Poset</td>
+<td>partially ordered sets</td>
+<td>order-preserving functions</td>
+</tr>
+<tr class="even">
+<td>TopVect</td>
+<td>topological vector spaces</td>
+<td>continuous linear maps</td>
+</tr>
+<tr class="odd">
+<td>𝕄</td>
+<td>differentiable manifolds</td>
+<td>differentiable maps</td>
+</tr>
+<tr class="even">
+<td>Banach spaces</td>
+<td>open subsets of Banach spaces</td>
+<td>differentiable maps</td>
+</tr>
+<tr class="odd">
+<td>𝕍</td>
+<td>vector bundles</td>
+<td>vector bundle maps</td>
+</tr>
+</tbody>
+</table>
+<p>There are in fact infinitely many more and so we are going to move along now.</p>
+<h1 id="nerves-of-categories">Nerves of Categories</h1>
+<h2 id="simplicial-complexes">Simplicial Complexes</h2>
+<p>Before explaining higher categories, let us look at a structure from algebraic topology called simplexes and
+simplicial complexes.</p>
+<h3 id="simplexes">Simplexes</h3>
+<p>A simplex is an n-dimensional “triangle”. Some examples of the first few dimensional simplices are:</p>
+<ul>
+<li>0-simplex: point</li>
+<li>1-simplex: line segment</li>
+<li>2-simplex: triangle</li>
+<li>3-simplex: tetrahedron</li>
+</ul>
+<p>An n-dimensional simplex is also called an <strong>(n+1)-cell</strong>.</p>
+<figure>
+<img src="/artwork/simplex.png" alt="Figure 5: Simplices" />
+<figcaption aria-hidden="true">Figure 5: Simplices</figcaption>
+</figure>
+<h3 id="simplicial-complexes-1">Simplicial Complexes</h3>
+<p>A simplicial complex is a structure formed by gluing together a bunch of simplices. The gluing process has to follow
+a set of properties:</p>
+<p>A set of simplices <span class="math inline">\(\mathcal{K}\)</span> is a simplicial complex if: - Every face of a
+simplex from <span class="math inline">\(\mathcal{K}\)</span> is also in <span
+class="math inline">\(\mathcal{K}\)</span> - Intersections of any two simplices is a face of both the simplices</p>
+<p>A simplicial complex is of dimension n if the largest dimension of all the constituent simplices is n.</p>
+<p><span class="math display">\[
+dim(\mathcal{K}) = max(dim(σ_i))
+\]</span></p>
+<p>Examples:</p>
+<ul>
+<li>Any n-ary tree is a simplicial complex</li>
+<li>An undirected acyclic graph is a 1-dimensional simplicial complex</li>
+<li>Any 1-D simplicial complex is a hypergraph</li>
+<li>Any n-dimensional convex hull is a simplicial complex</li>
+<li>Nerves of any category are simplicial complex</li>
+<li>The triangulation of a polygon in the plane is a simplicial complex</li>
+</ul>
+<p>Simplicial complexes can be used to create or represent topological spaces and serve as a very useful tool. They can
+also be used to formalize algebraic constraints in geometric terms as well.</p>
+<p>The Nerve N(ℂ) of a category ℂ is a simplicial complex constructed from objects as vertices of simplices and
+morphisms of ℂ as the edges.</p>
+<figure>
+<img src="/artwork/directed_graph.png" alt="Figure 2: Nerves of a category" />
+<figcaption aria-hidden="true">Figure 2: Nerves of a category</figcaption>
+</figure>
+<h1 id="constructions-of-categories">Constructions of Categories</h1>
+<h2 id="product-category">Product Category</h2>
+<p>Given two (or more) categories, their cartesian product is also a category.</p>
+<p>Given two categories ℂ and 𝔻, their product is a category with: - Pairs (C, D) as objects such that C ∈ ℂ and D ∈ 𝔻 -
+(f, g) as morphisms where - <span class="math inline">\(f : C_1 → C_2; C_i ∈ ℂ\)</span> - <span class="math inline">\(g
+: D_1 → D_2; D_i ∈ 𝔻\)</span> - composition of morphisms defined as <span class="math inline">\((f_1, g_1) ∘ (f_2, g_2)
+= (f_1 ∘ f_2, g_1 ∘ g_2)\)</span> - identities defined as <span class="math inline">\(1_{(C, D)} = (1_C,
+1_D)\)</span></p>
+<h2 id="free-category">Free Category</h2>
+<p>Free categories are a result of using a general pattern called “free constructions” for building categories. The idea
+of free objects in mathematics can be related to all types of objects with algebraic structure, and provides a general
+method of constructing objects using a set of “constructor” objects. The process of construction proceeds as
+follows:</p>
+<ol type="1">
+<li>Take a set of objects to construct the free category with</li>
+<li>Construct all possible combinations of these objects, in other words, the power set of the set of those objects.
+These form the algebraic object of interest</li>
+<li>Define relations between every pair of objects according to the kind of algebraic object to construct</li>
+</ol>
+<p>For free categories these rules become:</p>
+<ol type="1">
+<li>Consider a bunch of objects to be taken as generators</li>
+<li>Construct the power set of these generators, these form the objects of the free category</li>
+<li>Define morphisms between every pair of objects and all compositions of their morphisms, together they form the
+hom-set of the free category</li>
+</ol>
+<p><a href="./Category.morphisms.html">Morphisms</a></p>
+</body>
+</html>

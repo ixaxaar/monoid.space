@@ -38,7 +38,7 @@ type Tuple2<A, B> = Pair<A, B>
 
 In both the above examples, we define a new type or class (an enclosure) that contains two elements of types `A` and `B`. This is a product type and is a very obvious way to combine types widely used in programming.
 
-A co-product, on the other hand, is a type that can be either of the types `A`, `B`, `C`, `D`, etc. In programming, this is similar to a sum type or a union in Scala:
+A co-product, on the other hand, is a type that can be either of the types `A`, `B`, `C`, or `D`, etc. In programming, this is similar to a "sum" type or a union in Scala:
 
 ```scala
 sealed trait Either[A, B]
@@ -46,7 +46,7 @@ case class Left[A, B](a: A) extends Either[A, B]
 case class Right[A, B](b: B) extends Either[A, B]
 ```
 
-or for example Either type in Java:
+or for example Either type in languages like Java:
 
 ```java
 interface Either<A, B> {
@@ -55,7 +55,7 @@ interface Either<A, B> {
 }
 ```
 
-In the above examples of coproducts, we define a new type or class (an enclosure) that can be either of the two types `A` or `B`. This is a co-product type and is a very useful way to often handle errors or exceptions in programming, another very popular example being the `Option` type.
+In the above examples of coproducts, we define a new type or class (an enclosure) that can be either of the two types `A` or `B`. This is a co-product type and is a very useful way to often handle errors or exceptions in programming, another very popular example being the `Option` type which is specialized to either contain a result or an error.
 
 ## Products
 
@@ -79,9 +79,7 @@ snd : A × B → B
 
 The categorical definition of a product is that it is a type `Prod` that comes with two projection functions `π₁` and `π₂` that satisfy the following universal property:
 
-For any type `X` and functions `f : X → A` and `g : X → B`, there exists a unique function `⟨f, g⟩ : X → Prod` such that `π₁ ∘ ⟨f, g⟩ = f` and `π₂ ∘ ⟨f, g⟩ = g`.
-
-The way this is interpreted is that, consider `A x B` as a product type of `A` and `B`. Thus `A x B` is a type that contains pairs of elements `(a, b)` where `a : A` and `b : B`. However there can be more such types that also contains some form of pairs of `(a:A, b:B)` too! Hence we need to distinguish between the true product type and the other types that contain pairs of `(a, b)`. Say we have a type `X` that contains pairs of `(a, b)` too. Then we can have two functions `f : X → A` and `g : X → B` that map the pairs of `X` to `A` and `B` respectively. Now, we exploit the fact that `A x B` being the true product type, it should be unique! Uniquness is guaranteed by the fact that there exists a unique function `⟨f, g⟩ : X → A x B` that maps the pairs of `X` to `A x B` such that `π₁ ∘ ⟨f, g⟩ = f` and `π₂ ∘ ⟨f, g⟩ = g`. This is the universal property of a product type.
+Let `A \x B` be the product type of types `A` and `B`. Then for any other type `X` which also has functions `f : X → A` and `g : X → B`, there exists a unique function `⟨f, g⟩ : X → Prod` such that `π₁ ∘ ⟨f, g⟩ = f` and `π₂ ∘ ⟨f, g⟩ = g`.
 
 The following diagram illustrates the universal property of a product type:
 
@@ -102,6 +100,10 @@ X -[#red]-> A : f
 X -[#red]-> B : g
 @enduml
 ```
+
+The way this is interpreted is that, consider `A × B` as a product type of `A` and `B`. Thus `A × B` is a type that contains pairs of elements `(a, b)` where `a : A` and `b : B`. However there can be more such types that also contains some form of pairs of `(a:A, b:B)` too! Hence we need to distinguish between the true product type and the other types that contain pairs of `(a, b)`. To do this, we take advantage of the fact that the product type of `A` and `B` is unique.
+
+Say we have a type `X` that contains pairs of `(a, b)` too. Then we can have two functions `f : X → A` and `g : X → B` that map the pairs of `X` to `A` and `B` respectively. Uniquness of `A × B` is guaranteed by the fact that for any other `X`, there exists a unique function `⟨f, g⟩ : X → A × B` that maps `X` to `A × B` such that `π₁ ∘ ⟨f, g⟩ = f` and `π₂ ∘ ⟨f, g⟩ = g`. This is the universal property of a product type.
 
 ### Products in Lean
 

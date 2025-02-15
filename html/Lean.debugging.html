@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Lean/debugging</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a> <a href="Lang.syntaxQuirks.html">Previous</a> <a
+href="Types.introduction.html">Next</a></p>
+<h1 id="debugging">Debugging</h1>
+<hr />
+<ul>
+<li><a href="#debugging">Debugging</a>
+<ul>
+<li><a href="#holes">Holes</a></li>
+<li><a href="#global-commands">Global commands</a>
+<ul>
+<li><a href="#check-and-eval"><code>#check</code> and <code>#eval</code></a></li>
+<li><a href="#print"><code>#print</code></a></li>
+<li><a href="#reduce"><code>#reduce</code></a></li>
+<li><a href="#exit"><code>#exit</code></a></li>
+</ul></li>
+<li><a href="#goal-specific-commands">Goal-specific commands</a>
+<ul>
+<li><a href="#show_goal"><code>show_goal</code></a></li>
+<li><a href="#trace"><code>trace</code></a></li>
+<li><a href="#sorry"><code>sorry</code></a></li>
+<li><a href="#have"><code>have</code></a></li>
+<li><a href="#let"><code>let</code></a></li>
+<li><a href="#show"><code>show</code></a></li>
+</ul></li>
+<li><a href="#practical-debugging-examples">Practical Debugging Examples</a></li>
+<li><a href="#debugging-tactics">Debugging Tactics</a></li>
+<li><a href="#best-practices">Best Practices</a></li>
+</ul></li>
+</ul>
+<p>Errors in lean can come in many forms: type mismatches, incomplete proofs, incorrect tactics, or even logical
+inconsistencies. Here are some common debugging techniques used in Lean development:</p>
+<ol type="1">
+<li>Error messages: Lean provides detailed error messages that can help you identify the source of the problem. These
+messages often include information about the expected type, actual type, and the context in which the error
+occurred.</li>
+<li>Holes: Lean allows you to insert holes in your code using the <code>_</code> symbol. These holes can be used to
+indicate incomplete or unknown parts of your code. You can then use the <code>#check</code> command to see the type of
+the hole and the context in which it appears.</li>
+<li>Interactive theorem proving: Lean’s interactive mode allows you to step through your code and see the state of the
+proof at each step. This can help you identify where the error occurred and how to fix it.</li>
+</ol>
+<h2 id="holes">Holes</h2>
+<p>Holes are a powerful debugging tool in Lean. They allow you to insert placeholders in your code for incomplete or
+unknown parts. You can then use the <code>#check</code> command to see the type of the hole and the context in which it
+appears. This can help you identify the source of the error and guide you in completing the proof.</p>
+<p>Here’s an example of using holes in Lean:</p>
+<pre class="lean"><code>def add (x y : Nat) : Nat :=
+  _ + y</code></pre>
+<p>In this example, the <code>_</code> symbol is used as a hole to indicate an incomplete part of the code. You can then
+use the <code>#check</code> command to see the type of the hole and the context in which it appears:</p>
+<pre class="lean"><code>#check add</code></pre>
+<p>This will display the type of the <code>add</code> function and the context in which it appears, helping you identify
+the source of the error.</p>
+<p>e.g. <code>add : Nat → Nat → Nat</code>. This indicates that the <code>add</code> function takes two <code>Nat</code>
+arguments and returns a <code>Nat</code> value. We can then complete the proof by replacing the hole with the correct
+expression (e.g., <code>x + y</code>).</p>
+<h2 id="global-commands">Global commands</h2>
+<p>Global commands are used to interact with the Lean environment and perform various operations such as checking types,
+evaluating expressions, printing definitions, reducing expressions, and exiting proofs.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>#check</code></td>
+<td>Shows the type of an expression</td>
+</tr>
+<tr class="even">
+<td><code>#eval</code></td>
+<td>Evaluates an expression</td>
+</tr>
+<tr class="odd">
+<td><code>#print</code></td>
+<td>Displays the definition of a declaration</td>
+</tr>
+<tr class="even">
+<td><code>#reduce</code></td>
+<td>Reduces an expression to normal form</td>
+</tr>
+<tr class="odd">
+<td><code>#exit</code></td>
+<td>Terminate an unfinished proof without marking the entire file as incorrect</td>
+</tr>
+</tbody>
+</table>
+<h3 id="check-and-eval"><code>#check</code> and <code>#eval</code></h3>
+<p>The <code>#check</code> and <code>#eval</code> commands are the most basic commands used for debugging.</p>
+<ul>
+<li><p><strong><code>#check</code></strong>: Use this to check the type of an expression. This is especially useful when
+trying to understand type mismatches or when you’re unsure of the result type of a complex expression.</p>
+<pre class="lean"><code>#check 1 + 1  -- Output: Nat
+#check &quot;Hello&quot;  -- Output: String</code></pre></li>
+<li><p><strong><code>#eval</code></strong>: This command evaluates an expression and returns its value. It is helpful
+for testing functions and verifying that they behave as expected.</p>
+<pre class="lean"><code>#eval 2 + 2  -- Output: 4
+#eval &quot;Hello, &quot; ++ &quot;World!&quot;  -- Output: &quot;Hello, World!&quot;</code></pre></li>
+</ul>
+<h3 id="print"><code>#print</code></h3>
+<p>The <code>#print</code> command can be used to see the definitions of constants, theorems, or even entire modules.
+This is particularly useful when you need to understand how something is implemented or when you suspect that a
+definition might be incorrect.</p>
+<pre class="lean"><code>#print Nat.add</code></pre>
+<h3 id="reduce"><code>#reduce</code></h3>
+<p>The <code>#reduce</code> command reduces an expression to its normal form. This can be useful when you want to see
+the result of a computation or when you’re trying to understand how a complex expression is evaluated.</p>
+<pre class="lean"><code>#reduce 2 + 2  -- Output: 4
+#reduce 2 * 3  -- Output: 6</code></pre>
+<h3 id="exit"><code>#exit</code></h3>
+<p>The <code>#exit</code> command allows you to terminate an unfinished proof without marking the entire file as
+incorrect. This is useful if you want to quickly move past a problematic proof and return to it later.</p>
+<pre class="lean"><code>example (n : Nat) : n + 0 = n := by
+  -- Proof in progress
+  #exit</code></pre>
+<h2 id="goal-specific-commands">Goal-specific commands</h2>
+<p>Lean has several commands that can be used to interact with the current proof state. These commands can help
+understand the current goal, trace the execution of a proof, or temporarily fill a hole in a proof.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>show_goal</code></td>
+<td>Displays the current goal</td>
+</tr>
+<tr class="even">
+<td><code>trace</code></td>
+<td>Outputs debug information</td>
+</tr>
+<tr class="odd">
+<td><code>sorry</code></td>
+<td>Temporarily fills a hole in a proof</td>
+</tr>
+</tbody>
+</table>
+<p>When working on a specific goal, Lean provides additional commands that can be used to introduce hypotheses, create
+local definitions, or restate the current goal.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>have</code></td>
+<td>Introduces a new hypothesis</td>
+</tr>
+<tr class="even">
+<td><code>let</code></td>
+<td>Creates a local definition</td>
+</tr>
+<tr class="odd">
+<td><code>show</code></td>
+<td>Restates the current goal</td>
+</tr>
+</tbody>
+</table>
+<h3 id="show_goal"><code>show_goal</code></h3>
+<p>The <code>show_goal</code> command displays the current goal in the proof state. This can be helpful when you’re
+working on a complex proof and need to understand the current context.</p>
+<pre class="lean"><code>example (n : Nat) : n + 0 = n := by
+  show_goal</code></pre>
+<p>This will display the current goal in the proof state, helping you understand what you need to prove next.</p>
+<h3 id="trace"><code>trace</code></h3>
+<p>The <code>trace</code> command outputs debug information during the execution of a proof. This can be useful for
+understanding how a proof is progressing or for tracing the execution of a complex proof.</p>
+<pre class="lean"><code>example (n : Nat) : n + 0 = n := by
+  trace &quot;Starting proof&quot;
+  -- Continue with the proof</code></pre>
+<p>This will output the debug information “Starting proof” during the execution of the proof.</p>
+<h3 id="sorry"><code>sorry</code></h3>
+<p>The <code>sorry</code> command is used to temporarily fill a hole in a proof. This can be helpful when you want to
+work incrementally on a proof or when you’re not sure how to complete a particular step.</p>
+<pre class="lean"><code>example (n : Nat) : n + 0 = n := by
+  sorry</code></pre>
+<p>This will fill the hole with a placeholder value and allow you to continue working on the proof. However, it is
+important to replace <code>sorry</code> with a valid proof before finalizing the proof.</p>
+<h3 id="have"><code>have</code></h3>
+<p>The <code>have</code> command introduces a new hypothesis in a proof. This can be useful when you need to break down
+a complex proof into smaller steps or when you want to document intermediate results.</p>
+<pre class="lean"><code>example (n : Nat) : n + 0 = n := by
+  have h1 : n + 0 = n := by rfl
+  -- Continue with the proof</code></pre>
+<p>This introduces a new hypothesis <code>h1</code> in the proof and allows you to continue working on the proof
+incrementally.</p>
+<h3 id="let"><code>let</code></h3>
+<p>The <code>let</code> command creates a local definition in a proof. This can be useful when you need to introduce a
+new variable or function in a proof or when you want to simplify the proof by defining intermediate values.</p>
+<pre class="lean"><code>example (n : Nat) : n + 0 = n := by
+  let m := 0
+  -- Continue with the proof</code></pre>
+<p>This creates a local definition <code>m</code> with the value <code>0</code> and allows you to use it in the
+proof.</p>
+<h3 id="show"><code>show</code></h3>
+<p>The <code>show</code> command restates the current goal in a proof. This can be useful when you want to clarify the
+current goal or when you need to restate the goal in a different form.</p>
+<pre class="lean"><code>example (n : Nat) : n + 0 = n := by
+  show n + 0 = n
+  -- Continue with the proof</code></pre>
+<p>This restates the current goal in the proof and allows you to continue working on the proof.</p>
+<h2 id="practical-debugging-examples">Practical Debugging Examples</h2>
+<p>Let’s look at some common debugging scenarios:</p>
+<ol type="1">
+<li>Type Mismatch:</li>
+</ol>
+<pre class="lean"><code>def incorrect_add (x : Nat) (y : Int) : Nat :=
+  x + y  -- Error: type mismatch
+         -- expected: Nat
+         -- got: Int</code></pre>
+<p>Fix using type conversion:</p>
+<pre class="lean"><code>def correct_add (x : Nat) (y : Int) : Nat :=
+  x + y.toNat</code></pre>
+<ol start="2" type="1">
+<li>Incomplete Pattern Matching:</li>
+</ol>
+<pre class="lean"><code>inductive Color
+  | Red | Green | Blue
+
+def to_string (c : Color) : String :=
+  match c with
+  | Color.Red =&gt; &quot;red&quot;
+  | Color.Green =&gt; &quot;green&quot;
+  -- Error: missing case Color.Blue</code></pre>
+<ol start="3" type="1">
+<li>Proof Debugging:</li>
+</ol>
+<pre class="lean"><code>example (n m : Nat) : n + m = m + n := by
+  induction n with
+  | zero =&gt;
+    -- Use trace to debug
+    trace &quot;Base case&quot;
+    simp
+  | succ n ih =&gt;
+    -- Use sorry to work incrementally
+    sorry</code></pre>
+<h2 id="debugging-tactics">Debugging Tactics</h2>
+<p>Lean’s tactic framework provides several debugging tactics that can be used to trace the execution of a proof, output
+custom debugging information, or simplify expressions. These tactics can be helpful when you’re working on a complex
+proof and need to understand how the proof is progressing.</p>
+<ul>
+<li><p><strong><code>trace</code></strong>: The <code>trace</code> tactic is used to output custom debugging information
+to the Info View. This can be useful for tracing the values of variables or the progress of a proof.</p>
+<pre class="lean"><code>example (n : Nat) : n + 0 = n := by
+  trace &quot;Starting proof&quot;
+  induction n with
+  | zero =&gt; rfl
+  | succ n ih =&gt;
+    trace &quot;Inductive case&quot;
+    simp</code></pre></li>
+<li><p><strong><code>simp</code> and <code>rw</code></strong>: These tactics are also useful for debugging because they
+allow you to simplify expressions or rewrite parts of a proof. When a proof fails, <code>simp</code> can often help you
+identify which part of the expression is not simplifying as expected.</p>
+<pre class="lean"><code>example (n : Nat) : n + 0 = n := by
+  simp  -- Simplifies `n + 0` to `n`</code></pre></li>
+</ul>
+<h2 id="best-practices">Best Practices</h2>
+<ol type="1">
+<li><p>Use Small Steps</p>
+<ul>
+<li>Break complex proofs into smaller lemmas</li>
+<li>Use <code>have</code> statements to document intermediate steps</li>
+</ul>
+<pre class="lean"><code>theorem complex_proof (n m : Nat) : n + m = m + n := by
+  have h1 : n + 0 = n := by rfl
+  have h2 : m + 0 = m := by rfl
+  -- continue with smaller steps</code></pre></li>
+<li><p>Leverage Type Information</p>
+<ul>
+<li>Use <code>#check</code> frequently</li>
+<li>Examine Info View feedback</li>
+<li>Insert holes (<code>_</code>) to see expected types</li>
+</ul></li>
+<li><p>Interactive Development</p>
+<ul>
+<li>Use <code>sorry</code> for incremental development</li>
+<li>Test sub-lemmas independently</li>
+<li>Keep proofs organized and well-documented</li>
+</ul></li>
+<li><p>Error Handling</p>
+<pre class="lean"><code>def safe_div (x y : Nat) : Option Nat :=
+  if y = 0 then
+    none
+  else
+    some (x / y)</code></pre></li>
+</ol>
+<hr />
+<p><a href="./Types.introduction.html">Type Theory - Introduction</a></p>
+</body>
+</html>

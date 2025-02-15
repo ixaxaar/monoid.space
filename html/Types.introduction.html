@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Types/introduction</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a> <a href="Lang.debugging.html">Previous</a> <a
+href="Types.universe.html">Next</a></p>
+<h1 id="introduction-to-type-theory">Introduction to Type Theory</h1>
+<hr />
+<ul>
+<li><a href="#introduction-to-type-theory">Introduction to Type Theory</a>
+<ul>
+<li><a href="#foundations-of-mathematics">Foundations of Mathematics</a></li>
+<li><a href="#set-theory-fundamentals">Set Theory Fundamentals</a>
+<ul>
+<li><a href="#construction">Construction</a></li>
+<li><a href="#membership-and-subsets">Membership and Subsets</a></li>
+<li><a href="#set-operations">Set Operations</a></li>
+<li><a href="#properties-of-set-operations">Properties of Set Operations</a></li>
+</ul></li>
+<li><a href="#type-theory-fundamentals">Type Theory Fundamentals</a>
+<ul>
+<li><a href="#types-and-terms">Types and Terms</a></li>
+<li><a href="#judgments">Judgments</a></li>
+</ul></li>
+<li><a href="#applications">Applications</a>
+<ul>
+<li><a href="#computer-science">Computer Science</a></li>
+<li><a href="#mathematics">Mathematics</a></li>
+</ul></li>
+<li><a href="#advanced-concepts-and-implications">Advanced Concepts and Implications</a>
+<ul>
+<li><a href="#categorical-interpretations">Categorical Interpretations</a></li>
+<li><a href="#homotopy-type-theory">Homotopy Type Theory</a></li>
+<li><a href="#proof-assistants-and-formal-verification">Proof Assistants and Formal Verification</a></li>
+</ul></li>
+</ul></li>
+</ul>
+<pre class="lean"><code>import Mathlib.Data.Nat.Basic     -- For natural numbers
+import Mathlib.Data.Int.Basic     -- For integers
+import Mathlib.Data.List.Basic    -- For lists
+import Mathlib.Data.Vector        -- For vectors
+import Mathlib.Logic.Basic        -- For logical operations</code></pre>
+<h2 id="foundations-of-mathematics">Foundations of Mathematics</h2>
+<p>At the very base of mathematics, we have the concept of sets, which are collections of objects. Set theory provides a
+formal language for defining and manipulating these collections. Set theory forms the programming language of
+mathematics, allowing us to express mathematical concepts and operations in a precise and unambiguous way. All
+mathematical structures can be built from sets, and all machinery operating on these structures can be expressed in
+terms of set operations. Mathematics is built on a foundation of axioms and rules that define the basic concepts and
+operations used in mathematical reasoning. These foundations provide a framework for proving theorems and establishing
+the validity of mathematical results.</p>
+<p>Set theory, however, is not the only foundational system for mathematics. Over the past century, another foundational
+system has emerged: type theory. Type theory is a formal system that classifies mathematical objects by their types and
+specifies valid operations on these objects. In type theory, every mathematical object has a type, and types serve
+multiple roles, such as classifying objects, specifying operations, catching errors, and representing propositions. Type
+theory provides a different perspective on mathematics, emphasizing the structure of mathematical objects and the
+relationships between them.</p>
+<p>While both set theory and type theory can serve as foundations for mathematics, they approach mathematical reasoning
+in fundamentally different ways. Lean, like several other modern proof assistants, is based on type theory. This choice
+enables Lean to provide powerful tools for both mathematical reasoning and computation. Practically, using Lean, and
+hence type theory, instead of set theory implies we can automatically check proofs, instead of the ultra-tedious manual
+checking that would be required in set theory. This is because Lean’s type theory is designed to be computable, which
+means that we can write programs that manipulate proofs and terms. This is a significant advantage over set theory,
+where proofs are typically written in natural language and must be checked manually by humans, who tend to make their
+own mistakes.</p>
+<h2 id="set-theory-fundamentals">Set Theory Fundamentals</h2>
+<p>In set theory, mathematical objects are sets. Here we cover the very basics of sets and their operations.</p>
+<h3 id="construction">Construction</h3>
+<p>Sets can be constructed by enumerating their elements. For example, <code>x</code> is a set containing the natural
+numbers 1, 2, and 3:</p>
+<pre class="lean"><code>def y : Set Nat := {1, 2, 3}    -- y is the set {1, 2, 3}</code></pre>
+<p>Sets can also be constructed by the builder notation {x | P x}, where P x is a predicate that specifies the objects
+that belong to the set. For example, <code>x</code> is a set of natural numbers greater than 0:</p>
+<pre class="lean"><code>def x : Set Nat := {n | n &gt; 0}  -- x is the set of natural numbers greater than 0</code></pre>
+<h3 id="membership-and-subsets">Membership and Subsets</h3>
+<p>Set membership is denoted by the symbol ∈. It implies that an object, <code>x</code>, belongs to a set, for example
+here <code>x</code> belongs to the set of natural numbers <code>Nat</code>:</p>
+<pre class="lean"><code>def x : Set Nat := {n | n &gt; 0}  -- x is the set of natural numbers greater than 0</code></pre>
+<p>Subsets are denoted by the symbol ⊆. It implies that a set, <code>y</code>, is a subset of another set,
+<code>x</code>:</p>
+<pre class="lean"><code>def y : Set Nat := {n | n &gt; 1}  -- y is the set of natural numbers greater than 1
+def z : Bool := y ⊆ x           -- z is true because y is a subset of x</code></pre>
+<h3 id="set-operations">Set Operations</h3>
+<p>Sets can be combined using set operations. For example, the union of two sets <code>x</code> and <code>y</code> is a
+set containing all elements that belong to either <code>x</code> or <code>y</code>:</p>
+<pre class="lean"><code>def x : Set Nat := {1, 2, 3}    -- x is the set {1, 2, 3}
+def y : Set Nat := {3, 4, 5}    -- y is the set {3, 4, 5}
+
+def z : Set Nat := x ∪ y        -- z is the union of x and y</code></pre>
+<p>Similarly, the intersection of two sets <code>x</code> and <code>y</code> is a set containing all elements that
+belong to both <code>x</code> and <code>y</code>:</p>
+<pre class="lean"><code>def z : Set Nat := x ∩ y        -- z is the intersection of x and y</code></pre>
+<p>Sets can have complements, which are the elements that do not belong to the set:</p>
+<pre class="lean"><code>def z : Set Nat := xᶜ          -- z is the complement of x</code></pre>
+<p>There is a special set, the empty set, denoted by ∅, which contains no elements:</p>
+<pre class="lean"><code>def z : Set Nat := ∅            -- z is the empty set</code></pre>
+<p>and power sets, which are sets of all subsets of a given set:</p>
+<pre class="lean"><code>def z : Set (Set Nat) := 𝒫 x    -- z is the power set of x</code></pre>
+<h3 id="properties-of-set-operations">Properties of Set Operations</h3>
+<p>The operations on sets have several properties. For example, the following properties hold for union and
+intersection:</p>
+<ol type="1">
+<li>Commutativity: The order of sets does not matter for union and intersection:</li>
+</ol>
+<pre class="lean"><code>def z₁ : Set Nat := x ∪ y
+def z₂ : Set Nat := y ∪ x
+def z₃ : Bool := z₁ = z₂</code></pre>
+<p>Here, <span class="math inline">\(z_{1}\)</span>, <span class="math inline">\(z_{2}\)</span>, and <span
+class="math inline">\(z_{3}\)</span> are equivalent.</p>
+<ol start="2" type="1">
+<li>Associativity: The grouping of sets does not matter for union and intersection:</li>
+</ol>
+<pre class="lean"><code>def z₁ : Set Nat := x ∪ (y ∪ z)
+def z₂ : Set Nat := (x ∪ y) ∪ z</code></pre>
+<p>Here, <span class="math inline">\(z_{1}\)</span> and <span class="math inline">\(z_{2}\)</span> are equivalent.</p>
+<ol start="3" type="1">
+<li>Distributivity: Union and intersection distribute over each other:</li>
+</ol>
+<pre class="lean"><code>def z₁ : Set Nat := x ∪ (y ∩ z)
+def z₂ : Set Nat := (x ∪ y) ∩ (x ∪ z)</code></pre>
+<p>Here, <span class="math inline">\(z_{1}\)</span> and <span class="math inline">\(z_{2}\)</span> are equivalent.</p>
+<ol start="4" type="1">
+<li>Idempotence: Repeated union or intersection with the same set does not change the set:</li>
+</ol>
+<pre class="lean"><code>def z₁ : Set Nat := x ∪ x
+def z₂ : Set Nat := x ∩ x</code></pre>
+<p>Here, <span class="math inline">\(z_{1}\)</span> and <span class="math inline">\(z_{2}\)</span> are equivalent to
+<span class="math inline">\(x\)</span>.</p>
+<ol start="5" type="1">
+<li>Identity: The empty set is the identity for union and the universal set is the identity for intersection:</li>
+</ol>
+<pre class="lean"><code>def z₁ : Set Nat := x ∪ ∅
+def z₂ : Set Nat := x ∩ {n | n &gt; 0}</code></pre>
+<p>Here, <span class="math inline">\(z_{1}\)</span> is equivalent to <span class="math inline">\(x\)</span> and <span
+class="math inline">\(z_{2}\)</span> is equivalent to <span class="math inline">\(x\)</span>.</p>
+<ol start="6" type="1">
+<li>Distributivity of union over intersection: Union operation distributes over intersection:</li>
+</ol>
+<pre class="lean"><code>def z₁ : Set Nat := x ∪ (y ∩ z)
+def z₂ : Set Nat := (x ∪ y) ∩ (x ∪ z)</code></pre>
+<p>Here, <span class="math inline">\(z_{1}\)</span> and <span class="math inline">\(z_{2}\)</span> are equivalent.</p>
+<p>There are several other properties of set operations, which are used in mathematical reasoning and proofs, and we are
+going to skip those as styduing them is not the goal of this book.</p>
+<h2 id="type-theory-fundamentals">Type Theory Fundamentals</h2>
+<h3 id="types-and-terms">Types and Terms</h3>
+<p>The fundamental concept in type theory is that every mathematical object has a type. We write this using a colon:</p>
+<pre class="lean"><code>def x : Nat := 5        -- x has type Nat (natural number)
+def b : Bool := true    -- b has type Bool (boolean)</code></pre>
+<p>A <code>Type</code> in mathematics and computer science is a collection of objects that share common properties. In
+type theory, types classify mathematical objects and specify valid operations on them. For example, the type
+<code>Nat</code> represents the set of natural numbers, and the type <code>Bool</code> represents the set of boolean
+values. Types can also represent propositions, as we will see later.</p>
+<p>Types serve multiple roles:</p>
+<ul>
+<li>They classify mathematical objects, as in all objects of a type share common properties.</li>
+<li>They specify valid operations on objects of a type.</li>
+<li>They can represent propositions (the propositions-as-types principle).</li>
+</ul>
+<p>Generally, a “theory” in mathematics can be constructed using type theory by defining the types of objects in the
+theory and the operations that can be performed on them. This is similar to how a “theory” in set theory can be
+constructed by defining the sets of objects in the theory and the operations that can be performed on them.</p>
+<p>A term is an object of a type. For example, <code>5</code> is a term of type <code>Nat</code>, and <code>true</code>
+is a term of type <code>Bool</code>. Terms can be combined using operations defined on their types. For example, we can
+add two natural numbers:</p>
+<pre class="lean"><code>def x : Nat := 5
+def y : Nat := 10
+def z : Nat := x + y</code></pre>
+<p>Here, <code>z</code> is a term of type <code>Nat</code> obtained by adding <code>x</code> and <code>y</code>.</p>
+<h3 id="judgments">Judgments</h3>
+<p>Judgements are statements about types and terms in type theory. They are used to define what constitutes a valid
+type, a valid term of a type, and when two types or terms are considered equal. Type theory works with several kinds of
+judgments:</p>
+<ol type="1">
+<li>Type Formation: Defines what constitutes a valid type</li>
+</ol>
+<pre class="lean"><code>#check Nat        -- Nat : Type
+#check Bool       -- Bool : Type</code></pre>
+<p>Formally, a type is a valid type if it is a member of the universe of types.</p>
+<ol start="2" type="1">
+<li>Term Formation: Defines valid terms of a type</li>
+</ol>
+<pre class="lean"><code>def valid_nat : Nat := 42
+-- This would fail: def invalid_nat : Nat := true</code></pre>
+<p>Formally, a term is a valid term of a type if it is a member of the set of terms of that type. Consider the type
+<code>Nat</code> as the set of natural numbers. Then, <code>42</code> is a valid term of type <code>Nat</code>, while
+<code>true</code> is not.</p>
+<ol start="3" type="1">
+<li>Type Equality: When two types are considered the same</li>
+</ol>
+<pre class="lean"><code>def A : Type := Nat
+def B : Type := ℕ     -- ℕ is notation for Nat</code></pre>
+<p>Types <code>A</code> and <code>B</code> are considered equal because they are defined to be the same type.
+Technically, there are various notions of equality in type theory, such as definitional equality, propositional
+equality, and judgmental equality, and we will look at them in depth later.</p>
+<ol start="4" type="1">
+<li>Term Equality: When two terms are considered equal</li>
+</ol>
+<pre class="lean"><code>example : 2 + 2 = 4 := rfl  -- rfl proves equality by definition</code></pre>
+<p>Here, <code>rfl</code> is a proof that <code>2 + 2</code> is equal to <code>4</code>, where <code>rfl</code> denotes
+reflexivity property of equality which states that every term is equal to itself, or if <code>x</code> is equal to
+<code>y</code>, then <code>y</code> is equal to <code>x</code>.</p>
+<p>We will further explore type theory in the following sections.</p>
+<h2 id="applications">Applications</h2>
+<h3 id="computer-science">Computer Science</h3>
+<p>Type Theory has found extensive applications in computer science:</p>
+<ol type="1">
+<li><p><strong>Programming Language Design</strong>: Many modern programming languages incorporate ideas from Type
+Theory in their type systems.</p></li>
+<li><p><strong>Formal Verification</strong>: Type Theory provides a basis for proving properties of programs and
+verifying their correctness.</p></li>
+<li><p><strong>Proof Assistants</strong>: Software like Coq, Agda, and Lean, based on Type Theory, allow for
+computer-assisted theorem proving.</p></li>
+<li><p><strong>Foundations of Computer Science</strong>: Type Theory provides a theoretical foundation for understanding
+computation and programming languages.</p></li>
+</ol>
+<h3 id="mathematics">Mathematics</h3>
+<p>While Set Theory remains the most common foundation for mathematics, Type Theory offers some advantages:</p>
+<ol type="1">
+<li><p><strong>Constructive Mathematics</strong>: Type Theory naturally supports constructive approaches to
+mathematics.</p></li>
+<li><p><strong>Computational Content</strong>: Proofs in Type Theory often have direct computational
+interpretations.</p></li>
+<li><p><strong>Higher-Order Logic</strong>: Type Theory easily accommodates higher-order logic, which can be more
+expressive than first-order logic used in Set Theory.</p></li>
+<li><p><strong>Homotopy Type Theory</strong>: Recent developments have connected Type Theory with modern areas of
+mathematics like homotopy theory.</p></li>
+</ol>
+<h2 id="advanced-concepts-and-implications">Advanced Concepts and Implications</h2>
+<h3 id="categorical-interpretations">Categorical Interpretations</h3>
+<p>Both Set Theory and Type Theory have important connections to Category Theory, a branch of mathematics that deals
+with abstract structures and relationships between them.</p>
+<ol type="1">
+<li><strong>Set Theory and Categories</strong>:
+<ul>
+<li>The category Set, whose objects are sets and morphisms are functions, is a fundamental example in category
+theory.</li>
+<li>Many set-theoretic constructions have categorical generalizations (e.g., products, coproducts, exponentials).</li>
+</ul></li>
+<li><strong>Type Theory and Categories</strong>:
+<ul>
+<li>There’s a deep connection between Type Theory and Cartesian closed categories.</li>
+<li>Each type theory gives rise to a category, where types are objects and terms are morphisms.</li>
+</ul></li>
+</ol>
+<h3 id="homotopy-type-theory">Homotopy Type Theory</h3>
+<p>Homotopy Type Theory (HoTT) is a recent development that connects Type Theory with abstract homotopy theory.</p>
+<ol type="1">
+<li><p><strong>Univalence Axiom</strong>: This axiom in HoTT states that isomorphic types are equal, providing a
+powerful principle for reasoning about equivalence.</p></li>
+<li><p><strong>Inductive Types with Recursion</strong>: HoTT extends Type Theory with inductive types and recursion
+principles, allowing for the construction of complex structures like higher inductive types.</p></li>
+</ol>
+<h3 id="proof-assistants-and-formal-verification">Proof Assistants and Formal Verification</h3>
+<p>The development of proof assistants based on Type Theory has significant implications for mathematics and computer
+science.</p>
+<ol type="1">
+<li><p><strong>Formalized Mathematics</strong>: Large parts of mathematics have been formalized in systems like Coq,
+Lean, and Agda, and is the basic reason why we are here!</p></li>
+<li><p><strong>Software Verification</strong>: Type Theory-based systems are used to verify the correctness of critical
+software systems.</p></li>
+</ol>
+<p>Example (CompCert, a verified C compiler).</p>
+<hr />
+<p><a href="./Types.universe.html">Universes and families</a></p>
+</body>
+</html>

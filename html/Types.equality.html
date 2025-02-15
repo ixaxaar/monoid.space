@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Types/equality</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a> <a href="Types.relations.html">Previous</a> <a
+href="Types.operations.html">Next</a></p>
+<h1 id="equality">Equality</h1>
+<hr />
+<ul>
+<li><a href="#equality">Equality</a>
+<ul>
+<li><a href="#definitional-equality">Definitional Equality</a>
+<ul>
+<li><a href="#the-example-keyword">The <code>example</code> Keyword</a></li>
+</ul></li>
+<li><a href="#computational-equality">Computational Equality</a></li>
+<li><a href="#propositional-equality">Propositional Equality</a></li>
+<li><a href="#hetereogeneous-equality">Hetereogeneous Equality</a></li>
+<li><a href="#equivalence-relations">Equivalence Relations</a></li>
+<li><a href="#transport">Transport</a></li>
+</ul></li>
+</ul>
+<pre class="lean"><code>import data.bool
+import data.Nat.basic
+import data.list.basic
+import logic.relation</code></pre>
+<p>Equality is a fundamental concept in mathematics and logic, yet it can be more subtle than it first appears. In type
+theory, particularly in proof assistants like Lean, equality comes in different forms, each with its own nuances and
+uses. In type theory, equality can be broadly classified into three kinds:</p>
+<ul>
+<li><strong>Propositional equality</strong></li>
+<li><strong>Computational equality</strong></li>
+<li><strong>Definitional equality</strong></li>
+</ul>
+<h2 id="definitional-equality">Definitional Equality</h2>
+<p>Definitional equality is the most straightforward form of equality. It refers to expressions that are equal by virtue
+of their definitions or because they are syntactically identical after unfolding definitions. In Lean, two terms are
+definitionally equal if they reduce to the same expression via computation steps like beta reduction (function
+application) or delta reduction (unfolding definitions). In easier terms, if two terms are equal by definition, they are
+definitionally equal. For example:</p>
+<pre class="lean"><code>def defEqual₁ : Nat :=
+  7
+
+def defEqual₂ : Nat :=
+  Nat.succ (Nat.succ 5)</code></pre>
+<p>Here, <code>defEqual₁</code> and <code>defEqual₂</code> both are equal, with equality of the kind “definitional
+equality”.</p>
+<pre class="lean"><code>#eval defEqual₁  -- Output: 7
+#eval defEqual₂  -- Output: 7</code></pre>
+<p>Now we need to prove that <code>defEqual₁</code> and <code>defEqual₂</code> are definitionally equal, and for that we
+need to introduce the <code>example</code> keyword and basic theorem proving tactics in Lean.</p>
+<h3 id="the-example-keyword">The <code>example</code> Keyword</h3>
+<p>Theorem proving is at the center of Lean’s functionality. The <code>example</code> keyword is used to define an
+unnamed theorem, while the keyword <code>theorem</code> is used to define a named theorem. The <code>example</code>
+keyword is often used to demonstrate theorems or properties without giving them a name. <code>example</code>s also
+cannot be reused in later proofs, so they are more like throwaway theorems.</p>
+<p>Theorem proving involves tactics, which are commands that manipulate the proof state. Tactics can be used to prove
+theorems, simplify expressions, and interact with the proof state. The <code>example</code> keyword is often used in
+conjunction with tactics to demonstrate theorems or properties. Reflexivity, or the <code>rfl</code> tactic, is a common
+tactic used to prove equality.</p>
+<p>As a simple example, one way to define definitional equality is by using the <code>rfl</code> tactic, which stands
+for “reflexivity”:</p>
+<pre class="lean"><code>def seven : Nat := 7
+def also_seven : Nat := 3 + 4
+
+-- These are definitionally equal
+example : seven = also_seven := rfl</code></pre>
+<p>Similarly, our <code>defEqual₁</code> and <code>defEqual₂</code> can be proven to be definitionally equal using the
+<code>rfl</code> tactic:</p>
+<pre class="lean"><code>example : defEqual₁ = defEqual₂ := rfl</code></pre>
+<p>Theorem proving can also be used to see whether definitional equality saitisfies the properties of an equivalence
+relation:</p>
+<p>Definitional equality as a relation satisfies reflexivity, symmetry, and transitivity, i.e.:</p>
+<ol type="1">
+<li><strong>Reflexivity</strong>: For any term <code>a</code>, <code>a = a</code></li>
+</ol>
+<pre class="lean"><code>example (a : Nat) : a = a := rfl</code></pre>
+<ol start="2" type="1">
+<li><strong>Symmetry</strong>: If <code>a = b</code>, then <code>b = a</code></li>
+</ol>
+<pre class="lean"><code>example (a b : Nat) (h : a = b) : b = a := Eq.symm h</code></pre>
+<ol start="3" type="1">
+<li><strong>Transitivity</strong>: If <code>a = b</code> and <code>b = c</code>, then <code>a = c</code></li>
+</ol>
+<pre class="lean"><code>example (a b c : Nat) (h₁ : a = b) (h₂ : b = c) : a = c := Eq.trans h₁ h₂</code></pre>
+<p>Definitional equality is important in type theory because:</p>
+<ul>
+<li>It’s automatic and doesn’t require explicit proofs, i.e., it’s built into the system</li>
+<li>It’s used by the type checker to ensure the correctness of programs</li>
+<li>It’s decidable (the system can always determine if two terms are definitionally equal)</li>
+</ul>
+<p>Notice that we have also used the <code>Eq</code> module to access the <code>symm</code> and <code>trans</code>
+theorems, which are used to prove symmetry and transitivity of equality, respectively. These are fundamental theorems in
+Lean’s type theory and we are simply using them, instead of proving anything new.</p>
+<h2 id="computational-equality">Computational Equality</h2>
+<p>Computational equality arises when expressions are not identical as written but can be reduced to the same value
+through computation. This includes evaluating functions, simplifying expressions, and performing arithmetic operations.
+An example of such an equality is applying a function:</p>
+<pre class="lean"><code>example : (λ x, x + x) 2 = 2 + 2 :=
+  rfl</code></pre>
+<p>Here <code>λ x, x + x</code> is a lambda function that doubles its argument, and <code>(λ x, x + x) 2</code> applies
+this function to <code>2</code>, which evaluates to <code>2 + 2</code>. The <code>rfl</code> tactic is used to prove
+that the two expressions are equal by computation.</p>
+<p>Expansions of recursors also fall under this kind of equality:</p>
+<pre class="lean"><code>example : 2 + 2 = Nat.succ (Nat.succ 0) + Nat.succ (Nat.succ 0) :=
+  rfl
+
+example : Nat.succ (Nat.succ 0) + Nat.succ (Nat.succ 0) = Nat.succ (Nat.succ (Nat.succ (Nat.succ 0))) :=
+  rfl</code></pre>
+<p>Even though <code>2 + 2</code> and <code>Nat.succ (Nat.succ (Nat.succ (Nat.succ 0)))</code> look different, they both
+reduce to the number 4 through computation, so they are computationally equal. Computational equality satisfies the same
+properties as definitional equality: reflexivity, symmetry, and transitivity.</p>
+<ol type="1">
+<li><p><strong>Reflexivity</strong>: For any term <code>a</code>, <code>a = a</code>.</p>
+<pre class="lean"><code>example (a : Nat) : a = a := rfl</code></pre></li>
+<li><p><strong>Symmetry</strong>: If <code>a = b</code>, then <code>b = a</code>.</p>
+<pre class="lean"><code>example (a b : Nat) (h : a = b) : b = a := Eq.symm h</code></pre></li>
+<li><p><strong>Transitivity</strong>: If <code>a = b</code> and <code>b = c</code>, then <code>a = c</code>.</p>
+<pre class="lean"><code>example (a b c : Nat) (h₁ : a = b) (h₂ : b = c) : a = c := Eq.trans h₁ h₂</code></pre></li>
+</ol>
+<p>Computational equality is based on the idea that expressions can be reduced through computation to establish
+equality. Practically, computational equalities can often be handled automatically using tactics like <code>rfl</code>,
+which checks for definitional equality and is thus deeply integrated into Lean’s type-checking system.</p>
+<h2 id="propositional-equality">Propositional Equality</h2>
+<p>Propositional equality is a more general form of equality that requires explicit proofs. It represents the notion
+that two expressions are equal because there exists a proof that demonstrates their equality, even if they are not
+definitionally or computationally equal. Propositional equality is represented in Lean using the <code>=</code> symbol,
+which is defined as an inductive type:</p>
+<pre class="lean"><code>inductive eq {α : Sort u} (a : α) : α → Prop
+  | refl : eq a</code></pre>
+<p>The <code>eq</code> type is a binary relation that takes two arguments of the same type and returns a proposition.
+The <code>refl</code> constructor of <code>eq</code> represents reflexivity, which states that every element is equal to
+itself. Propositional equality is used to prove theorems and properties that are not immediately obvious from
+definitions or computations.</p>
+<p>Propositional equality satisfies some properties of relations:</p>
+<ol type="1">
+<li><p><strong>Reflexivity</strong>: For any element <code>a</code>, <code>a = a</code>. This is captured by the
+<code>refl</code> constructor:</p>
+<pre class="lean"><code>example (a : Nat) : a = a := eq.refl a</code></pre></li>
+<li><p><strong>Symmetry</strong>: If <code>a = b</code>, then <code>b = a</code>. This can be proved using the
+<code>eq.symm</code> theorem:</p>
+<pre class="lean"><code>example (a b : Nat) (h : a = b) : b = a := eq.symm h</code></pre></li>
+<li><p><strong>Transitivity</strong>: If <code>a = b</code> and <code>b = c</code>, then <code>a = c</code>. This is
+proved using the <code>eq.trans</code> theorem:</p>
+<pre class="lean"><code>example (a b c : Nat) (h₁ : a = b) (h₂ : b = c) : a = c := eq.trans h₁ h₂</code></pre></li>
+<li><p><strong>Substitution</strong>: If <code>a = b</code>, then for any function <code>f</code>,
+<code>f a = f b</code>. This is captured by the <code>congrArg</code> theorem:</p>
+<pre class="lean"><code>example (a b : Nat) (f : Nat → Nat) (h : a = b) : f a = f b := congrArg f h</code></pre></li>
+</ol>
+<h2 id="hetereogeneous-equality">Hetereogeneous Equality</h2>
+<p>Heterogeneous equality, also known as John Major equality, extends propositional equality to cases where the two
+terms being compared belong to different types. In Lean, heterogeneous equality is represented by the <code>HEq</code>
+type, which is defined as:</p>
+<pre class="lean"><code>structure HEq {α : Sort u} (a : α) {β : Sort v} (b : β) : Prop</code></pre>
+<p>This becomes essential when working with dependent types, where types themselves can depend on values. Consider
+vectors:</p>
+<pre class="lean"><code>def Vec (A : Type) (n : Nat) : Type  -- Vector type of length n</code></pre>
+<p>Here the type <code>Vec A n</code> represents a vector of length <code>n</code> with elements of type <code>A</code>.
+If you have two vectors <code>v : Vec A n</code> and <code>w : Vec A m</code>, where <code>n</code> and <code>m</code>
+are natural numbers, you can’t directly compare them using propositional equality because they belong to different
+types. This is where heterogeneous equality comes in:</p>
+<pre class="lean"><code>def vecEq {A : Type} {n m : Nat} (v : Vec A n) (w : Vec A m) : HEq n m → HEq (Vec A n) (Vec A m) → v = w</code></pre>
+<p>Here we defined a way to compare vectors of different lengths using heterogeneous equality. The <code>vecEq</code>
+function takes two vectors <code>v</code> and <code>w</code>, along with proofs that the lengths <code>n</code> and
+<code>m</code> are equal and that the vector types <code>Vec A n</code> and <code>Vec A m</code> are equal. This allows
+us to compare vectors of different lengths using heterogeneous equality.</p>
+<h2 id="equivalence-relations">Equivalence Relations</h2>
+<p>An equivalence relation is a relation that is reflexive, symmetric, and transitive. Propositional equality is an
+example of an equivalence relation. Equivalences are used to classify structures into equivalence classes, which are
+sets of structures that are related by the equivalence relation. Lets look at the formal definition of an equivalence
+relation:</p>
+<p>An equivalence relation on a type <code>A</code> is a relation <code>R : A → A → Prop</code> that satisfies the
+following properties:</p>
+<ol type="1">
+<li>Reflexivity: <code>∀ a : A, R a a</code></li>
+<li>Symmetry: <code>∀ a b : A, R a b → R b a</code></li>
+<li>Transitivity: <code>∀ a b c : A, R a b → R b c → R a c</code></li>
+</ol>
+<p>The property of an equivalence relation can be expressed as follows:</p>
+<pre class="lean"><code>def reflexive {A : Type} (R : A → A → Prop) : Prop := ∀ x : A, R x x
+
+def symmetric {A : Type} (R : A → A → Prop) : Prop := ∀ x y : A, R x y → R y x
+
+def transitive {A : Type} (R : A → A → Prop) : Prop := ∀ x y z : A, R x y → R y z → R x z
+
+def equivalence_relation {A : Type} (R : A → A → Prop) : Prop :=
+  reflexive R ∧ symmetric R ∧ transitive R</code></pre>
+<p>This defines a function <code>equivalence_relation</code> that takes a relation <code>R</code> on type <code>A</code>
+and returns a proposition stating that <code>R</code> is an equivalence relation on <code>A</code>. Let us now look at
+using this to prove that <code>=</code> is an equivalence relation on <code>Nat</code>.Now we can use this machinery to
+write a proof for any given relation <code>R</code> that it is an equivalence relation. The most striaghtforward example
+is proving that <code>=</code> is an equivalence relation on <code>Nat</code>.</p>
+<p>To prove that <code>=</code> is an equivalence relation on <code>Nat</code>, the strategy would be to prove that it
+satisfies the three properties of an equivalence relation: reflexivity, symmetry, and transitivity. For each of these
+properties, we can use Lean’s built-in theorems and tactics to construct the proof to keep things light for now. Here is
+how you can prove that <code>=</code> is an equivalence relation on <code>Nat</code>:</p>
+<pre class="lean"><code>theorem eq_is_equivalence : equivalence_relation (@Eq Nat) := by
+  -- since equivalence relation is an AND of three properties, we need to prove each separately
+  -- so we use And.intro to successively split the goal into three subgoals
+  apply And.intro     -- Split into first part and (second ∧ third) parts
+  · intro x          -- &quot;Let x be any natural number&quot;
+    rfl              -- &quot;Obviously x = x&quot;
+
+  -- first time we split (reflexivity ^ (symmetry ∧ transitivity)) into reflexivity and (symmetry ∧ transitivity)
+  -- now we split (symmetry ∧ transitivity) into symmetry and transitivity
+  apply And.intro     -- Split remaining into second and third parts
+  · intro x y h      -- &quot;Let x,y be numbers and h be proof that x = y&quot;
+    symm             -- &quot;Flip the equality&quot;
+    exact h          -- &quot;Use h to prove that they&#39;re still equal&quot;
+
+  -- we are left only with transitivity now, no need to split
+  · intro x y z h₁ h₂ -- &quot;Let x,y,z be numbers with h₁: x=y and h₂: y=z&quot;
+    exact Eq.trans h₁ h₂  -- &quot;Chain the equalities together&quot;</code></pre>
+<p>Here is the code’s explanation:</p>
+<p>In order to prove that <code>=</code> or <code>Eq</code> is an equivalence relation on <code>Nat</code>, we first use
+the <code>theorem</code> keyword to define a named theorem <code>eq_is_equivalence</code>. We then use the
+<code>by</code> keyword to start a proof block. Now, since an equivalence relation is defined as an AND <code>∧</code>
+of these three properties, we use <code>apply And.intro</code> to break our goal into proving each property separately.
+This is called <strong>destructuring</strong> the goal, and it’s a common technique in Lean proofs.</p>
+<ul>
+<li>For reflexivity, We say “take any natural number x” <code>intro x</code> and then use <code>rfl</code> tactic to
+prove that <code>x = x</code>.</li>
+<li>For symmetry, we say “take any two numbers x and y, and assume they’re equal (that’s what h means)”. Then symm flips
+the equality around, and exact h uses our assumption to complete the proof. The <code>h</code> here is the proof that
+<code>x = y</code>, and <code>symm</code> flips it to <code>y = x</code>.</li>
+<li>For transitivity, we say “take any three numbers x, y, and z, and assume that x = y and y = z”. Then we use the
+<code>Eq.trans</code> theorem to chain these two equalities together and prove that <code>x = z</code>.</li>
+</ul>
+<p>This is a common pattern in Lean proofs: you state the goal, break it down into smaller subgoals, and then prove each
+subgoal step by step.</p>
+<p>Here are the new syntax elements used in this proof:</p>
+<ol type="1">
+<li><p><strong><code>apply</code></strong>: Used when your goal matches the conclusion of another theorem/lemma</p>
+<pre class="lean"><code>apply And.intro  -- When your goal is to prove A ∧ B</code></pre></li>
+<li><p><strong><code>intro</code></strong>: Brings hypotheses into your context</p>
+<pre class="lean"><code>intro x    -- Introduces one variable
+intro x y h -- Introduces multiple things</code></pre>
+<ul>
+<li>Used when proving statements with ∀ (for all) or → (implies)</li>
+</ul></li>
+<li><p><strong><code>exact</code></strong>: “This exactly proves the goal”</p>
+<pre class="lean"><code>exact h    -- When h is exactly what you need to prove
+exact Eq.trans h₁ h₂  -- When combining h₁ and h₂ exactly proves your goal</code></pre>
+<ul>
+<li>Think of <code>exact</code> as saying “this is precisely what we need”</li>
+<li>It’s like fitting a perfect puzzle piece</li>
+</ul></li>
+<li><p><strong><code>·</code></strong> (bullet point): Separates different subgoals</p>
+<pre class="lean"><code>apply And.intro
+· first subgoal
+· second subgoal</code></pre></li>
+</ol>
+<h2 id="transport">Transport</h2>
+<p>Intuitively, if any two elements are equal, then any property that holds for one element should also hold for the
+other. Transport is a fundamental principle in type theory that allows us to “transport” properties or structures along
+an equality path. Imagine you have a property <code>P</code> that holds for a term <code>x</code>. If you can prove that
+<code>x</code> is equal to another term <code>y</code>, transport allows you to “transport” the proof of
+<code>P x</code> to a proof of <code>P y</code>. This is formalized as:</p>
+<pre class="lean"><code>def transport {A : Type} {x y : A} (P : A → Type) (p : x = y) : P x → P y</code></pre>
+<p>Practically, transport is used to rewrite terms based on equalities. For example, consider the following proof that
+the sum of two numbers is commutative:</p>
+<pre class="lean"><code>theorem add_comm (a b : Nat) : a + b = b + a :=
+begin
+  induction a with a ha,
+  { simp },
+  { simp [ha] },
+end</code></pre>
+<p>Here, <code>simp</code> is a tactic that simplifies the goal using various rules, including the commutativity of
+addition. The <code>simp</code> tactic uses transport to rewrite the goal based on the equality
+<code>a + b = b + a</code>. Transport is also intrinsically linked to <strong>path induction</strong>, a fundamental
+principle in homotopy type theory. Path induction states that to prove a property holds for any path (equality proof)
+between two terms, it suffices to prove it for the reflexivity path (the proof that a term is equal to itself). This is
+because any path can be continuously deformed into the reflexivity path. This is expressed as:</p>
+<pre class="lean"><code>def J {A : Type} {x : A} (P : ∀ (y : A), x = y → Type)
+  (refl_case : P x (Eq.refl x))
+  {y : A} (p : x = y) : P y p</code></pre>
+<p>The <code>J</code> rule effectively says: “If you can prove <code>P</code> for the reflexive case where
+<code>y</code> is <code>x</code> and the proof <code>p</code> is <code>Eq.refl x</code>, then you can prove
+<code>P</code> for <em>any</em> <code>y</code> and <em>any</em> proof <code>p</code> of <code>x = y</code>.” This is a
+powerful induction principle for reasoning about equality.</p>
+<hr />
+<p><a href="./Types.operations.html">Operations</a></p>
+</body>
+</html>

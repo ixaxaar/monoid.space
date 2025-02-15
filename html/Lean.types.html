@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Lean/types</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a> <a href="Lean.naming.html">Previous</a> <a
+href="Lean.functions.html">Next</a></p>
+<h1 id="types-data-structures">Types &amp; Data Structures</h1>
+<hr />
+<ul>
+<li><a href="#types--data-structures">Types &amp; Data Structures</a>
+<ul>
+<li><a href="#types">Types</a>
+<ul>
+<li><a href="#declaring-types">Declaring Types</a></li>
+</ul></li>
+<li><a href="#basic-types">Basic Types</a>
+<ul>
+<li><a href="#empty-type">Empty Type</a></li>
+<li><a href="#unit-type">Unit Type</a></li>
+<li><a href="#boolean-type">Boolean Type</a></li>
+<li><a href="#natural-numbers">Natural Numbers</a></li>
+<li><a href="#other-primitive-types">Other Primitive Types</a></li>
+</ul></li>
+<li><a href="#collections">Collections</a>
+<ul>
+<li><a href="#lists">Lists</a></li>
+<li><a href="#arrays">Arrays</a></li>
+<li><a href="#sets">Sets</a></li>
+<li><a href="#stacks">Stacks</a></li>
+<li><a href="#queues">Queues</a></li>
+<li><a href="#maps">Maps</a></li>
+<li><a href="#binary-trees">Binary Trees</a></li>
+<li><a href="#graphs">Graphs</a></li>
+</ul></li>
+<li><a href="#custom-types">Custom Types</a>
+<ul>
+<li><a href="#product-types">Product Types</a></li>
+<li><a href="#sum-types">Sum Types</a></li>
+</ul></li>
+<li><a href="#advanced-types">Advanced Types</a>
+<ul>
+<li><a href="#type-classes">Type Classes</a></li>
+<li><a href="#dependent-types">Dependent Types</a></li>
+<li><a href="#propositions-as-types">Propositions as Types</a></li>
+</ul></li>
+</ul></li>
+</ul>
+<h2 id="types">Types</h2>
+<p>In Lean, types are first-class citizens, meaning they can be manipulated and passed around just like any other value.
+This is similar to languages like Haskell or Scala, but with even more expressive as we shall see later.</p>
+<h3 id="declaring-types">Declaring Types</h3>
+<p>In Lean, we declare types using the following syntax:</p>
+<pre class="lean"><code>def x : Nat := 0
+def b : Bool := true</code></pre>
+<p>This is similar to type annotations in languages like TypeScript or Kotlin. The <code>def</code> keyword is used to
+define a new variable, <code>x</code>, with type <code>Nat</code> and value <code>0</code>. Similarly, <code>b</code> is
+defined as a <code>Bool</code> with value <code>true</code>.</p>
+<h2 id="basic-types">Basic Types</h2>
+<h3 id="empty-type">Empty Type</h3>
+<p>The empty type, also known as the bottom type, is a type with no values. In some languages, this is called
+<code>Never</code> (TypeScript) or <code>Nothing</code> (Scala). This is a pre-defined type called <code>Empty</code> in
+Lean which is defined something as:</p>
+<pre class="lean"><code>inductive Empty : Type</code></pre>
+<p>The <code>inductive</code> keyword is used to define new types in Lean. The <code>Empty</code> type has no
+constructors, so it has no values. This type is used to represent logical impossibility or undefined behavior.</p>
+<h3 id="unit-type">Unit Type</h3>
+<p>The unit type is a type with exactly one value. This is similar to <code>void</code> in C++ or <code>()</code> in
+Haskell.</p>
+<pre class="lean"><code>inductive Unit : Type
+  | unit</code></pre>
+<p>Lean has a pre-defined unit type <code>Unit</code> which is defined like above.</p>
+<h3 id="boolean-type">Boolean Type</h3>
+<p>Booleans are a fundamental type in most programming languages. In Lean, they’re defined as:</p>
+<pre class="lean"><code>inductive Bool : Type
+  | false
+  | true</code></pre>
+<p>This type can be used to define a function such as negation, which takes in a <code>Bool</code> and returns a
+<code>Bool</code>:</p>
+<pre class="lean"><code>def negation (b : Bool) : Bool :=
+  match b with -- an example of a switch-case in Lean
+  | true =&gt; false -- if b is true, we return false
+  | false =&gt; true -- if b is false, we return true</code></pre>
+<p>This is how functions are defined in Lean, though we will see more about functions in the next sections.
+<code>Bool</code> is similar to boolean types in virtually all programming languages, but in Lean, we can prove
+properties about boolean operations using the type system. Let us see a proof of
+<code>negation (negation x) == x</code>:</p>
+<p>Pattern matching is a central feature of Lean, and it is used to define functions that operate on different cases.
+The <code>match</code> keyword is used to match a value against different cases, and the <code>with</code> keyword is
+used to specify the cases. In the above example, we match the value <code>b</code> against the cases <code>true</code>
+and <code>false</code> and return the corresponding values <code>false</code> and <code>true</code>.</p>
+<pre class="lean"><code>theorem negationNegation (b : Bool) : negation (negation b) = b :=
+  match b with
+  | true =&gt; rfl
+  | false =&gt; rfl
+
+#check negationNegation</code></pre>
+<p>We will look at how to do stuff like this in later sections.</p>
+<h3 id="natural-numbers">Natural Numbers</h3>
+<p>Natural numbers are defined inductively in Lean:</p>
+<pre class="lean"><code>inductive Nat : Type
+  | zero : Nat -- define a zero object as the base
+  | succ : Nat → Nat -- every such object has a succeeding object</code></pre>
+<p>Here, we define natural numbers by defining the element <code>zero</code> and the function <code>succ</code> that
+adds 1 to any given integer (creates the successive natural number) i.e. <code>succ zero</code> is 1,
+<code>succ (succ zero)</code> is two and so on. This is similar to Peano arithmetic and is foundational in type theory.
+In practice, <code>Nat</code> is a pre-defined type and Lean optimizes this to use machine integers for efficiency.</p>
+<pre class="lean"><code>def one := succ zero</code></pre>
+<p>Arithmetic operations can now be defined on <code>Nat</code> like addition and multiplicattion:</p>
+<pre class="lean"><code>def add : Nat → Nat → Nat
+| zero, n =&gt; n
+| m+one, n =&gt; (add m n) + one
+
+def mul : Nat → Nat → Nat
+| zero, _ =&gt; zero -- _ implies we dont care what the argument is
+| m+one, n =&gt; n + (mul m n)</code></pre>
+<h3 id="other-primitive-types">Other Primitive Types</h3>
+<table>
+<colgroup>
+<col style="width: 7%" />
+<col style="width: 40%" />
+<col style="width: 22%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+<th>Example Usage</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Empty</code></td>
+<td>The empty type with no values</td>
+<td><code>def f : Empty → α</code></td>
+<td>Used for logical impossibility</td>
+</tr>
+<tr class="even">
+<td><code>Unit</code></td>
+<td>The unit type with one value <code>unit</code></td>
+<td><code>def x : Unit := ()</code></td>
+<td>Often used as dummy value</td>
+</tr>
+<tr class="odd">
+<td><code>Bool</code></td>
+<td>Booleans with values <code>true</code> and <code>false</code></td>
+<td><code>def b : Bool := true</code></td>
+<td>Used for conditional logic</td>
+</tr>
+<tr class="even">
+<td><code>Nat</code></td>
+<td>Natural numbers with zero and successor operations</td>
+<td><code>def n : Nat := 42</code></td>
+<td>Non-negative integers (0, 1, 2, …)</td>
+</tr>
+<tr class="odd">
+<td><code>Int</code></td>
+<td>Integers with addition, subtraction, etc.</td>
+<td><code>def i : Int := -42</code></td>
+<td>Whole numbers (positive and negative)</td>
+</tr>
+<tr class="even">
+<td><code>Float</code></td>
+<td>Floating-point numbers</td>
+<td><code>def f : Float := 3.14</code></td>
+<td>IEEE 754 double-precision</td>
+</tr>
+<tr class="odd">
+<td><code>String</code></td>
+<td>Strings</td>
+<td><code>def s : String := "hello"</code></td>
+<td>UTF-8 encoded text</td>
+</tr>
+<tr class="even">
+<td><code>Char</code></td>
+<td>Single Unicode characters</td>
+<td><code>def c : Char := 'a'</code></td>
+<td>Unicode code points</td>
+</tr>
+<tr class="odd">
+<td><code>USize</code></td>
+<td>Platform-dependent unsigned integer</td>
+<td><code>def u : USize := 42</code></td>
+<td>Used for array indexing</td>
+</tr>
+</tbody>
+</table>
+<h2 id="collections">Collections</h2>
+<h3 id="lists">Lists</h3>
+<p>Lean has built-in lists, similar to many functional programming languages:</p>
+<pre class="lean"><code>inductive List (α : Type) : Type
+  | nil  : List α                    -- Empty list
+  | cons : α → List α → List α       -- Add element to front of list</code></pre>
+<p>This can be used to define, say, a list of booleans:</p>
+<pre class="lean"><code>def exampleList : List Bool := [true, false, true]</code></pre>
+<p>Operations can be defined on lists, such as finding the length:</p>
+<pre class="lean"><code>def length : List α → Nat
+  | [] =&gt; 0
+  | _::xs =&gt; 1 + length xs
+
+#eval length exampleList  -- Output: 3</code></pre>
+<p>Lists are immutable, so operations like adding elements create new lists:</p>
+<pre class="lean"><code>def exampleList2 := false :: exampleList
+#eval length exampleList2  -- Output: 4</code></pre>
+<h3 id="arrays">Arrays</h3>
+<p>Dynamic arrays are also available in Lean, which are similar to lists but have better performance for some
+operations:</p>
+<pre class="lean"><code>def exampleArray : Array Nat := #[1, 2, 3]</code></pre>
+<p>Here, <code>#[1,2,3]</code> is a shorthand for <code>Array.mk [1,2,3]</code>. We can access elements of the array
+using the <code>get!</code> function:</p>
+<pre class="lean"><code>#eval exampleArray.get! 1  -- Output: 2</code></pre>
+<p>We can also use the <code>push</code> function to add elements to the array:</p>
+<pre class="lean"><code>def exampleArray2 := exampleArray.push 4
+#eval exampleArray2.get! 3  -- Output: 4</code></pre>
+<h3 id="sets">Sets</h3>
+<p>Unordered sets can be implemented using the HashSet data structure. HashSets are data structures that store unique
+elements and provide fast lookup times. They are similar to sets in Python or Java.</p>
+<pre class="lean"><code>import Std.Data.HashSet
+open Std
+
+-- create a set with elements 1, 2, 3
+def exampleSet : HashSet Nat := HashSet.ofList [1, 2, 3]</code></pre>
+<pre class="lean"><code>#eval exampleSet.contains 2  -- true
+#eval exampleSet.contains 4  -- false</code></pre>
+<p>Sets can be modified using functions like <code>insert</code> and <code>erase</code>:</p>
+<pre class="lean"><code>def exampleSet2 := exampleSet.insert 4
+#eval exampleSet2.contains 4  -- true</code></pre>
+<p>Finally, we can delete elements from the set using the <code>erase</code> function:</p>
+<pre class="lean"><code>def exampleSet3 := exampleSet2.erase 4
+#eval exampleSet3.contains 4  -- false</code></pre>
+<h3 id="stacks">Stacks</h3>
+<p>Stacks are a common data structure that follows the Last In First Out (LIFO) principle. We can implement a stack
+using a list:</p>
+<pre class="lean"><code>structure Stack (α : Type) where
+  elems : List α
+deriving Repr</code></pre>
+<p>Here we use the <code>structure</code> keyword to define a new data structure <code>Stack</code> with a single field
+<code>elems</code> of type <code>List α</code>. In lean, the <code>structure</code> keyword is used to define new data
+structures, similar to <code>data</code> in Haskell or <code>struct</code> in C++. The structure also derives a
+<code>Repr</code> instance, which allows us to print the stack using <code>#eval</code>.</p>
+<p>We can define operations like <code>push</code> and <code>pop</code> on the stack:</p>
+<pre class="lean"><code>def push {α : Type} (s : Stack α) (x : α) : Stack α :=
+  { s with elems := x :: s.elems } -- append x to the end of the list
+
+-- in pop we return the top element and the rest of the stack
+def pop {α : Type} (s : Stack α) : Option (α × Stack α) :=
+  match s.elems with
+  | [] =&gt; none
+  | x :: xs =&gt; some (x, { elems := xs })</code></pre>
+<p>Here, <code>push</code> adds an element to the top of the stack, while <code>pop</code> removes and returns the top
+element:</p>
+<pre class="lean"><code>def s : Stack Float := { elems := [1.0, 2.2, 0.3] }
+def s&#39; := push s 4.2
+#eval pop s&#39;  -- Output: some (4.200000, { elems := [1.000000, 2.200000, 0.300000] })</code></pre>
+<h3 id="queues">Queues</h3>
+<p>Queues are another common data structure that follows the First In First Out (FIFO) principle. We can implement a
+queue using a list:</p>
+<pre class="lean"><code>structure Q (α : Type) where
+  elems : List α
+deriving Repr
+
+#eval x.elems  -- Output: [1, 2, 3]</code></pre>
+<p>Enqueue and dequeue operations can be performed on the queue:</p>
+<pre class="lean"><code>def enqueue {α : Type} (q : Q α) (x : α) : Q α :=
+  { q with elems := q.elems ++ [x] } -- append x to the end of the list
+
+def dequeue {α : Type} (q : Q α) : Option (α × Q α) :=
+  match q.elems with
+  | [] =&gt; none
+  | x :: xs =&gt; some (x, { elems := xs })</code></pre>
+<p>Finally, queues can be used as such:</p>
+<pre class="lean"><code>def q : Q Float := { elems := [1.0, 2.2, 0.3] }
+def q&#39; := enqueue q 4.2
+#eval dequeue q&#39;  -- Output: some (1.000000, { elems := [2.200000, 0.300000, 4.200000] })</code></pre>
+<h3 id="maps">Maps</h3>
+<p>Maps are key-value pairs that allow efficient lookup of values based on keys. These are similar to dictionaries in
+Python or hash maps in Java. We can implement a map using a list of key-value pairs:</p>
+<pre class="lean"><code>structure Map (α β : Type) where
+  pairs : List (α × β)
+deriving Repr</code></pre>
+<p>We now need to define how to access elements in the map:</p>
+<pre class="lean"><code>def find {α β : Type} [DecidableEq α] (m : Map α β) (key : α) : Option β :=
+  match m.pairs.find? (fun (k, _) =&gt; k == key) with
+  | some (_, v) =&gt; some v
+  | none =&gt; none</code></pre>
+<p>Here, <code>find</code> searches for a key in the map and returns the corresponding value if found. We can define
+find as an infix operator for easier use:</p>
+<pre class="lean"><code>infix:50 &quot; ?? &quot; =&gt; find</code></pre>
+<p>Here we define the <code>??</code> operator to find a value in the map. These are called as infix operators, and the
+number <code>50</code> is the precedence of the operator. This allows us to use the <code>??</code> operator to find
+values in the map:</p>
+<pre class="lean"><code>def exampleMap1 : Map Nat String :=
+  Map.mk [(1, &quot;one&quot;), (2, &quot;two&quot;), (3, &quot;three&quot;)]
+
+#eval exampleMap ?? 2  -- Output: some &quot;two&quot;</code></pre>
+<p>Representing maps as lists of key-value pairs is not the most efficient way to implement them, but it serves as a
+simple example. Lean also provides more efficient implementations of maps in the standard library.</p>
+<p>We can use more optimized implementations by importing the <code>Std.Data.HashMap</code> module:</p>
+<pre class="lean"><code>import Std.Data.HashMap</code></pre>
+<pre class="lean"><code>def exampleMap : Std.HashMap Nat String :=
+  Std.HashMap.ofList [(1, &quot;one&quot;), (2, &quot;two&quot;), (3, &quot;three&quot;)]
+
+#eval exampleMap.contains 2  -- true
+#eval exampleMap.get! 2  -- &quot;two&quot;</code></pre>
+<h3 id="binary-trees">Binary Trees</h3>
+<p>Binary trees are a common data structure in many languages. The data structure consists of nodes, each of which has a
+value and two children (left and right). Each node can be a leaf (no children) or an internal node (with children). We
+can define a binary tree in Lean as follows:</p>
+<pre class="lean"><code>inductive BinTree (α : Type) : Type
+  | leaf : BinTree α -- leaf node, with value of type α
+  | node : α → BinTree α → BinTree α → BinTree α -- value, left child, right child</code></pre>
+<p>We can create a binary tree using the <code>leaf</code> and <code>node</code> constructors:</p>
+<pre class="lean"><code>def exampleTree : BinTree Nat :=
+  BinTree.node 1
+    (BinTree.node 2 BinTree.leaf BinTree.leaf)
+    (BinTree.node 3 BinTree.leaf BinTree.leaf)</code></pre>
+<p>This creates a binary tree with the following structure:</p>
+<pre><code>    1
+   / \
+  2   3</code></pre>
+<p>We can define operations on binary trees, such as finding the depth of the tree:</p>
+<pre class="lean"><code>def depth : BinTree α → Nat
+  | BinTree.leaf =&gt; 0
+  | BinTree.node _ left right =&gt; 1 + max (depth left) (depth right)
+
+#eval depth exampleTree  -- Output: 2</code></pre>
+<p>We will take a closer look on tree based algorithms in the next sections.</p>
+<h3 id="graphs">Graphs</h3>
+<p>We can represent graphs in Lean using vertices and edges:</p>
+<pre class="lean"><code>structure Vertex where
+  id : Nat
+
+structure Edge where
+  from : Vertex
+  to : Vertex
+
+structure Graph where
+  vertices : List Vertex
+  edges : List Edge</code></pre>
+<p>Here, we define a <code>Vertex</code> as a structure with an <code>id</code> field, an <code>Edge</code> as a
+structure with <code>from</code> and <code>to</code> fields, and a <code>Graph</code> as a structure with lists of
+vertices and edges. We can create vertices and edges and define a graph as follows:</p>
+<pre class="lean"><code>def v1 := Vertex.mk 1
+def v2 := Vertex.mk 2
+def e := Edge.mk v1 v2
+def g : Graph := { vertices := [v1, v2], edges := [e] }</code></pre>
+<p>Operations on graphs can be defined, such as finding the neighbors of a vertex:</p>
+<pre class="lean"><code>def neighbors (v : Vertex) (g : Graph) : List Vertex :=
+  g.edges.filterMap fun e =&gt;
+    if e.from == v then some e.to
+    else none</code></pre>
+<p>We will look at how to implement more advanced graph algorithms in the next sections.</p>
+<h2 id="custom-types">Custom Types</h2>
+<p>Lean uses the <code>inductive</code> keyword to define new data types. This is similar to <code>data</code> in
+Haskell or <code>sealed class</code> in Kotlin.</p>
+<h3 id="product-types">Product Types</h3>
+<p>Product types combine multiple values into a single type. They’re similar to structs in C or dataclasses in
+Python.</p>
+<pre class="lean"><code>structure Point where
+  x : Float
+  y : Float</code></pre>
+<p>This defines a new type <code>Point</code> with two fields <code>x</code> and <code>y</code>. We can create objects
+of this type using the constructor:</p>
+<pre class="lean"><code>def myPoint : Point := { x := 1.0, y := 2.0 }</code></pre>
+<p>We can access the fields of the object using dot notation:</p>
+<pre class="lean"><code>#eval myPoint.x  -- Output: 1.0</code></pre>
+<h3 id="sum-types">Sum Types</h3>
+<p>Sum types (also known as tagged unions or algebraic data types) allow a value to be one of several types. They’re
+similar to enums in Rust or union types in TypeScript.</p>
+<pre class="lean"><code>inductive Shape
+  -- constructor that takes in 3 floats and outputs an object of type Shape (a triangle)
+  | triangle    : Float → Float → Float → Shape
+  -- constructor that takes in 4 floats and outputs an object of type Shape (a rectangle)
+  | rectangle : Float → Float → Float → Float → Shape</code></pre>
+<p>These constructors can be used to create objects of type <code>Shape</code>:</p>
+<pre class="lean"><code>def myTriangle := Shape.triangle 1.2 12.1 123.1
+def myRectangle := Shape.rectangle 1.2 12.1 123.1 1234.5</code></pre>
+<p>The <code>Shape</code> type can now be used in functions to calculate the area of a shape using pattern matching:</p>
+<pre class="lean"><code>def area : Shape → Float
+  | Shape.triangle _ _ r =&gt; Float.pi * r * r
+  | Shape.rectangle _ _ w h =&gt; w * h</code></pre>
+<h2 id="advanced-types">Advanced Types</h2>
+<h3 id="type-classes">Type Classes</h3>
+<p>Lean allows the definition of type classes, which are similar to interfaces in TypeScript or traits in Rust. They
+define a set of functions that a type must implement.</p>
+<p>Lets take a very basic example, say we want all kinds of a certain type to have a zero value. We can define a type
+class <code>HasZero</code> that requires a zero value to be defined for any type that implements it:</p>
+<pre class="lean"><code>-- Define a basic type class for types that have a &quot;zero&quot; value
+class HasZero (α : Type) where
+  zero : α  -- Every instance must provide a zero value</code></pre>
+<p>We can then implement this type class for different types:</p>
+<pre class="lean"><code>-- Implement HasZero for some types
+instance : HasZero Nat where
+  zero := 0
+
+instance : HasZero Bool where
+  zero := false
+
+instance : HasZero String where
+  zero := &quot;&quot;</code></pre>
+<p>We can then use the <code>zero</code> function to get the zero value for any type that implements the
+<code>HasZero</code> type class:</p>
+<pre class="lean"><code>-- Example usage
+def getZero {α : Type} [HasZero α] : α := HasZero.zero
+
+#eval getZero (α := Nat)    -- Output: 0
+#eval getZero (α := Bool)   -- Output: false
+#eval getZero (α := String)   -- Output: &quot;&quot;</code></pre>
+<p>A few more things to note here:</p>
+<ol type="1">
+<li><p>The curly braces <code>{}</code> are used to define type parameters. These are inferred by the compiler if not
+provided explicitly, for example, <code>getZero</code> can be defined as
+<code>def getZero [HasZero α] : α := HasZero.zero</code> and the compiler will infer the type <code>α</code> from the
+context.</p></li>
+<li><p>The square brackets <code>[]</code> are used to define type class constraints. In this case, we require that the
+type <code>α</code> implements the <code>HasZero</code> type class. If the type does not implement the type class, the
+compiler will throw an error.</p></li>
+</ol>
+<p><code>getZero</code> is called a polymorphic function, as it can work with any type that implements the
+<code>HasZero</code> type class. Parametric polymorphism is a powerful feature of Lean that allows us to write generic
+functions that work with any type that satisfies certain constraints.</p>
+<p>Here’s another example of a <code>Plus</code> type class that defines a <code>plus</code> function which defines
+addition for all types that implement it:</p>
+<pre class="lean"><code>class Plus (α : Type) where
+  plus : α → α → α</code></pre>
+<p>This can be implemented for different types like <code>Nat</code> and <code>Float</code>:</p>
+<pre class="lean"><code>instance : Plus Nat where
+  plus := Nat.add
+
+instance : Plus Float where
+  plus := Float.add
+
+instance : Plus String where
+  plus := String.append</code></pre>
+<p>Finally, we can use the <code>plus</code> function on different types:</p>
+<pre class="lean"><code>open Plus(plus)
+
+#eval plus 4 5 -- 9
+#eval plus 4.3 5.2 -- 9.500000</code></pre>
+<h3 id="dependent-types">Dependent Types</h3>
+<p>Dependent types are one of Lean’s most powerful features. They allow types to depend on values:</p>
+<pre class="lean"><code>-- Vector: a list with a statically known length
+inductive Vector (α : Type) : Nat → Type
+  | nil  : Vector α 0
+  | cons : α → {n : Nat} → Vector α n → Vector α (n+1)</code></pre>
+<p>Here, <code>Vector α n</code> is a vector of length <code>n</code> containing elements of type <code>α</code>. The
+<code>nil</code> constructor creates an empty vector, while the <code>cons</code> constructor adds an element to the
+front of a vector. The length of the vector is encoded in the type itself, so the type system ensures that operations
+like <code>head</code> (which returns the first element of a non-empty vector) are safe:</p>
+<pre class="lean"><code>def vec1 : Vector Bool 1 := Vector.cons true Vector.nil
+def vec2 : Vector Bool 2 := Vector.cons false vec1
+
+-- Type-safe head function
+def head {α : Type} {n : Nat} : Vector α (n+1) → α
+  | Vector.cons x _ =&gt; x
+
+#eval head vec2  -- Output: false
+-- This would be a compile-time error: #eval head Vector.nil</code></pre>
+<p>This is similar to dependent types in languages like Idris or Agda, but is not found in most mainstream programming
+languages. Dependent types allow us to encode complex invariants in the type system, leading to safer and more
+expressive code, and moving some runtime errors to compile-time errors.</p>
+<h3 id="propositions-as-types">Propositions as Types</h3>
+<p>In Lean, propositions are types, and proofs are values of these types. This is known as the Curry-Howard
+correspondence:</p>
+<pre class="lean"><code>-- Conjunction (AND)
+def and_comm {p q : Prop} : p ∧ q → q ∧ p :=
+  fun h =&gt; And.intro h.right h.left
+
+-- Disjunction (OR)
+def or_comm {p q : Prop} : p ∨ q → q ∨ p
+  | Or.inl hp =&gt; Or.inr hp
+  | Or.inr hq =&gt; Or.inl hq</code></pre>
+<p>This allows Lean to be used not just as a programming language, but as a powerful theorem prover. We will cover more
+about theorem proving in a subsequent chapter.</p>
+<hr />
+<p><a href="./Lean.functions.html">Functions</a></p>
+</body>
+</html>
