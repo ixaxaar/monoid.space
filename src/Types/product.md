@@ -15,7 +15,7 @@
   - [Co-products](#co-products)
     - [Definition](#definition-1)
     - [Co-products in Lean](#co-products-in-lean)
-  - [Dependent Product Types](#dependent-product-types)
+  - [Dependent Pair Types](#dependent-pair-types)
 
 ## Introduction
 
@@ -215,11 +215,11 @@ case_analysis (λ a, s!"left({toString a})") (λ b, s!"right({toString b})")
 #eval toString right -- "right(world)"
 ```
 
-## Dependent Product Types
+## Dependent Pair Types
 
-Dependent product or pair types generalizes the concept of product types by allowing the type of one component to depend on the value of another component. Unlike simple product types where both types are fixed and independent, dependent product types create a relationship where the second type is a function of the value of the first type.
+Dependent pair types generalizes the concept of product types by allowing the type of one component to depend on the value of another component. Unlike simple product types where both types are fixed and independent, dependent pair types create a relationship where the second type is a function of the value of the first type.
 
-Mathematically, dependent product types are denoted as Σ-types (sigma types) and are defined as:
+Mathematically, dependent pair types are denoted as Σ-types (sigma types) and are defined as:
 
 ```math
 Σ(x : A) B(x) = \{ (a, b) \mid a : A, b : B(a) \}
@@ -252,7 +252,7 @@ data Vector n a where
 
 Though most mainstream languages do not support dependent types, languages like Idris, Agda, and Lean have built-in support for dependent types.
 
-In Lean, we can define dependent product types as:
+In Lean, we can define dependent pair types as:
 
 ```lean
 inductive Sigma {A : Type} (B : A → Type) : Type
