@@ -17,6 +17,10 @@
   - [Type Theory Fundamentals](#type-theory-fundamentals)
     - [Types and Terms](#types-and-terms)
     - [Judgments](#judgments)
+      - [1. Type Formation: Defines what constitutes a valid type](#1-type-formation-defines-what-constitutes-a-valid-type)
+      - [2. Term Formation: Defines valid terms of a type](#2-term-formation-defines-valid-terms-of-a-type)
+      - [3. Type Equality: When two types are considered the same](#3-type-equality-when-two-types-are-considered-the-same)
+      - [4. Term Equality: When two terms are considered equal](#4-term-equality-when-two-terms-are-considered-equal)
   - [Applications](#applications)
     - [Computer Science](#computer-science)
     - [Mathematics](#mathematics)
@@ -32,6 +36,7 @@ import Mathlib.Data.Int.Basic     -- For integers
 import Mathlib.Data.List.Basic    -- For lists
 import Mathlib.Data.Vector        -- For vectors
 import Mathlib.Logic.Basic        -- For logical operations
+import Mathlib.Data.Set.Basic     -- For set operations
 ```
 
 ## Foundations of Mathematics
@@ -117,9 +122,11 @@ The operations on sets have several properties. For example, the following prope
 1. Commutativity: The order of sets does not matter for union and intersection:
 
 ```lean
-def z₁ : Set Nat := x ∪ y
-def z₂ : Set Nat := y ∪ x
-def z₃ : Bool := z₁ = z₂
+def x : Set Nat := {1, 2, 3}
+def y : Set Nat := {3, 4, 5}
+
+#check x ∪ y -- Set Nat
+#check y ∪ x -- Set Nat
 ```
 
 Here, $z_{1}$, $z_{2}$, and $z_{3}$ are equivalent.
@@ -127,8 +134,10 @@ Here, $z_{1}$, $z_{2}$, and $z_{3}$ are equivalent.
 2. Associativity: The grouping of sets does not matter for union and intersection:
 
 ```lean
-def z₁ : Set Nat := x ∪ (y ∪ z)
-def z₂ : Set Nat := (x ∪ y) ∪ z
+def z : Set Nat := {5, 6, 7}
+
+#check x ∪ (y ∪ z) -- Set Nat
+#check (x ∪ y) ∪ z -- Set Nat
 ```
 
 Here, $z_{1}$ and $z_{2}$ are equivalent.
@@ -136,8 +145,8 @@ Here, $z_{1}$ and $z_{2}$ are equivalent.
 3. Distributivity: Union and intersection distribute over each other:
 
 ```lean
-def z₁ : Set Nat := x ∪ (y ∩ z)
-def z₂ : Set Nat := (x ∪ y) ∩ (x ∪ z)
+#check x ∪ (y ∩ z)
+#check (x ∪ y) ∩ (x ∪ z)
 ```
 
 Here, $z_{1}$ and $z_{2}$ are equivalent.
@@ -145,8 +154,8 @@ Here, $z_{1}$ and $z_{2}$ are equivalent.
 4. Idempotence: Repeated union or intersection with the same set does not change the set:
 
 ```lean
-def z₁ : Set Nat := x ∪ x
-def z₂ : Set Nat := x ∩ x
+#check x ∪ x
+#check x ∩ x
 ```
 
 Here, $z_{1}$ and $z_{2}$ are equivalent to $x$.
@@ -206,7 +215,7 @@ Here, `z` is a term of type `Nat` obtained by adding `x` and `y`.
 
 Judgements are statements about types and terms in type theory. They are used to define what constitutes a valid type, a valid term of a type, and when two types or terms are considered equal. Type theory works with several kinds of judgments:
 
-1. Type Formation: Defines what constitutes a valid type
+#### 1. Type Formation: Defines what constitutes a valid type
 
 ```lean
 #check Nat        -- Nat : Type
@@ -215,7 +224,7 @@ Judgements are statements about types and terms in type theory. They are used to
 
 Formally, a type is a valid type if it is a member of the universe of types.
 
-2. Term Formation: Defines valid terms of a type
+#### 2. Term Formation: Defines valid terms of a type
 
 ```lean
 def valid_nat : Nat := 42
@@ -224,16 +233,28 @@ def valid_nat : Nat := 42
 
 Formally, a term is a valid term of a type if it is a member of the set of terms of that type. Consider the type `Nat` as the set of natural numbers. Then, `42` is a valid term of type `Nat`, while `true` is not.
 
-3. Type Equality: When two types are considered the same
+#### 3. Type Equality: When two types are considered the same
+
+Lean provides a way to state basic equalities using `=`. We have the principle that every value is equal to itself: which is the principle of reflexivity.
+
+For example:
 
 ```lean
-def A : Type := Nat
-def B : Type := ℕ     -- ℕ is notation for Nat
+#check 2 + 2 = 4
 ```
+The `rfl` tactic stands for "reflexivity." It allows Lean to acknowledge this simple kind of equality, where something is clearly equal to itself *by definition*:
+```lean
+example : 2 + 2 = 4 := rfl  -- 2 + 2 reduces to 4 definitionally.
+```
+`rfl` proofs that the two sides of the equality (`=`) are definitionally equal.
 
-Types `A` and `B` are considered equal because they are defined to be the same type. Technically, there are various notions of equality in type theory, such as definitional equality, propositional equality, and judgmental equality, and we will look at them in depth later.
+There are three kinds of equality in type theory:
 
-4. Term Equality: When two terms are considered equal
+- **Definitional Equality**: Equality by definition (what Lean's #reduce shows).
+- **Propositional Equality**: Equality expressed as a proposition (the = we've been using). This kind of equality is non-trivial and needs to be proved.
+- **Judgmental Equality**: A lower-level notion of equality that is built into Lean's type checker.
+
+#### 4. Term Equality: When two terms are considered equal
 
 ```lean
 example : 2 + 2 = 4 := rfl  -- rfl proves equality by definition
