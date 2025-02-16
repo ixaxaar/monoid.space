@@ -262,4 +262,4 @@ inductive Sigma {A : Type} (B : A → Type) : Type
 Here, `Sigma` is a type constructor that takes a type `A` and a type family `B : A → Type` and returns a new type `Sigma B`. The type `Sigma B` is then defined as a type that contains all possible dependent pairs `(a, b)` where `a : A` and `b : B a`.
 
 ****
-[Dependent Function Types / Π-types](./Types.functions.html)
+[Function Types](./Types.functions.html)
