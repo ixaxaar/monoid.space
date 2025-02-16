@@ -31,6 +31,26 @@ Relations can be classified based on the number of elements they relate. They ca
 
 ## Nullary Relations (Propositions)
 
+A nullary relation is a statement that doesn't involve any variables.  In type theory, these statements are represented as *propositions*.
+
+In Lean, the type of propositions is called `Prop`. Think of a proposition as a statement that can be either true or false.
+
+```lean
+#check Prop  -- Prop : Type
+
+-- Examples of propositions:
+#check 2 + 2 = 4        -- 2 + 2 = 4 : Prop
+#check 3 < 5          -- 3 < 5 : Prop
+#check 1 = 0          -- 1 = 0 : Prop  (This proposition is false)
+
+-- We can define propositions:
+def is_even (n : Nat) : Prop := ∃ k, n = 2 * k
+
+#check is_even 4  -- is_even 4 : Prop
+```
+
+In simple terms, the type Prop in Lean is used to represent statements that can be true or false (propositions).
+
 ## Unary Relations (Predicates)
 
 A unary predicate is represented as a function that takes an element and returns a proposition. In simpler terms, a unary relation on type `A` is a function `A → Prop` and is a way of selecting a subset of elements from `A` based on some property. For example if `A` is `Nat` or natural numbers, a unary predicate could be `isEven` which selects all even numbers from `Nat`:
@@ -61,13 +81,13 @@ def greaterThanOne (n : Nat) : Prop := n > 1
 This can be expressed using the universal quantifier as follows:
 
 ```lean
-def greaterThanOne (n : Nat) : Prop := ∀ m : Nat, m > 1 → m < n
+def greaterThanOne (n : Nat) : Prop := ∀ k, (1 < k ∧ k < n) → False
 ```
 
 This defines a function `greaterThanOne` that takes a natural number `n` and returns a proposition stating that:
 
 ```markdown
-for all natural numbers `m` greater than 1 and less than `n`, `n` is greater than `m`.
+for all natural numbers `k` such that `1 < k` and `k < n`, `k` is not greater than 1, i.e. `False`.
 ```
 
 The universal quantifier can be written in lean either as `∀` or `\all`. The following are a few examples of how the universal quantifier can be used:
