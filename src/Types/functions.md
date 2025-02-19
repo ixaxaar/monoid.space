@@ -1,297 +1,224 @@
 ****
 [Contents](contents.html)
 [Previous](Types.product.html)
-[Next](Types.functions2.html)
+[Next](Types.identity.html)
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+# Function Types
+
 ****
 
-- [Functions](#functions)
-- [Dependent Function Types or Π-types](#dependent-function-types-or-π-types)
-        - [Construction](#construction)
-- [Properties of function types](#properties-of-function-types)
-        - [Function composition](#function-composition)
-        - [Identity and constant functions](#identity-and-constant-functions)
-        - [Application](#application)
-        - [Currying](#currying)
-        - [Infix application](#infix-application)
-- [Other useful API](#other-useful-api)
-        - [Flip](#flip)
-        - [On](#on)
-        - [Type extractor](#type-extractor)
-        - [Case statements](#case-statements)
-- [Classifications of functions](#classifications-of-functions)
-        - [Injection](#injection)
-        - [Surjection](#surjection)
-        - [Bijection](#bijection)
+- [Function Types](#function-types)
+    - [Introduction](#introduction)
+    - [Function Types](#function-types-1)
+        - [Definition and Notation](#definition-and-notation)
+        - [Examples](#examples)
+            - [Defining Functions](#defining-functions)
+            - [Function Application](#function-application)
+            - [Lambda Expressions](#lambda-expressions)
+    - [Introduction to Dependent Types](#introduction-to-dependent-types)
+        - [Motivating Example: Vectors](#motivating-example-vectors)
+        - [Type Families](#type-families)
+    - [Pi Types (Dependent Function Types)](#pi-types-dependent-function-types)
+        - [Definition and Notation](#definition-and-notation-1)
+        - [Examples in Lean](#examples-in-lean)
+            - [Defining Pi Types](#defining-pi-types)
+            - [Dependent Function Application](#dependent-function-application)
+        - [Relationship to Simple Function Types](#relationship-to-simple-function-types)
+    - [Currying and Uncurrying (Revisited)](#currying-and-uncurrying-revisited)
+    - [Function Composition](#function-composition)
+    - [Extensionality](#extensionality)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Functions
-
-```agda
-module Types.functions where
-
-open import Lang.dataStructures using (
-  Bool; true; false;
-  ℕ; List;
-  one; two; three; four; five; six; seven; eight; nine; ten; zero; succ;
-  _::_; [];
-  ⊤; singleton; ⟂)
-
-open import Agda.Primitive using (Level; _⊔_; lsuc)
-
-open import Types.product using (Σ; _,_; fst; snd)
+```lean
+import Mathlib.Data.Vector
+import Mathlib.Data.Fin.Basic
 ```
 
-We have previously looked at how [functions are defined in Agda](Lang.functions.html). Here we will look at some abstract representations of functions and their properties.
+## Introduction
 
-A unary function is defined as:
+Recall that in type theory, every term has a type.  We've seen basic types like `Nat`, `Bool`, and `String`, and ways to combine types using products and co-products.  In this chapter, we'll explore *function types*, which represent functions between types, and the powerful generalization of function types known as Pi (Π) types (or dependent function types).
 
-```agda
-Fun₁ : ∀ {i} → Set i → Set i
-Fun₁ A = A → A
+## Function Types
+
+A function type, written `A → B`, represents functions that take an argument of type `A` and return a value of type `B`.  This is often read as "A to B".  The type `A` is the domain, and the type `B` is the codomain.
+
+Mathematically, a function `f : A → B` is a relation between sets `A` and `B` such that for every `a ∈ A`, there is exactly one `b ∈ B` such that `(a, b)` is in the relation.  In type theory, functions are *first-class*: they can be arguments to other functions, returned as results, and stored in data structures.
+
+### Examples
+
+#### Lambda Expressions
+
+We can also define functions anonymously, without giving them a name, using *lambda expressions*.  A lambda expression starts with the keyword `fun` (or the symbol `λ`), followed by the argument list, and then `=>` and the function body.
+
+```lean
+#check fun (n : Nat) => n * 2  -- fun n => n * 2 : ℕ → ℕ
+
+def double : Nat → Nat := fun n => n * 2
+
+#eval double 7 -- 14
 ```
 
-and a binary one as:
+Lambda expressions are particularly useful when passing functions as arguments to other functions.
 
-```agda
-Fun₂ : ∀ {i} → Set i → Set i
-Fun₂ A = A → A → A
-```
-In Type Theory, a function is also a type, called a **function type** represented as the type `Input₁ → Input₂ → ... → Inputₙ → Output`, where `Inputᵢ` are the input types and `Output` is the output type. A function type `f : A → B` can also be considered to be an exponential `f : Bᴬ` and can be thought of as belonging to the set of all `b ∈ B` that can be obtained from any `a ∈ A`, hence `Bᴬ` such elements.
+## Dependent Function Types
 
-The concept of **currying** can be explained using this representation as $C^{A × B} = (C^A)^B$  hence a function taking multiple arguments `f : (A, B) → C` is the same as `f : A → B → C`. **Partial functions** can then be trivally described as functions that return functions with lesser number of arguments, or **arity**: `∀ a ∈ A, g = f(a) : B → C`.
+A type family is a family of types indexed by a value of another type. Given a type `A`, a type family `B` indexed by `A` assigns a type `B a` to each value `a : A`.  Dependent types allow the type of a term to depend on the value of another term.
 
-# Dependent Function Types or Π-types
+A dependent function type or Π-type, written `(a : A) → B a` (or `∀ (a : A), B a`), represents functions where the type of the return value depends on the value of the input. `B` is a type family indexed by `A`.
 
-Dependent function types or Π-types are functions whose type of second argument depends upon the type of first.
+This can be read as "for all `a` of type `A`, a return type of `B a`".  This is a generalization of the simple function type `A → B`.  If `B` doesn't actually depend on `a`, then `(a : A) → B a` is the same as `A → B`.
 
-i.e. function `f : A → (g A) → Set` where `g : A → B`.
+### Examples
 
-In the notation of lambda abstraction:
+#### Defining Pi Types
 
-$$
-λx. (λx.y).ϕ
-$$
+```lean
+-- A function that takes a length 'n' and returns a vector of zeros of that length.
+def zeros (n : Nat) : Vector Nat n := Vector.replicate n 0
 
-Another notation is to use $\Pi_{x : A} B(x)$, mostly used in type theory to denote Π-types. Functions of higher arity then take the form $\Pi_{x : A}\Pi_{y : B(x)} D(y)$ and so on.
-
-To show how to use this type, we construct an example:
-
-```agda
--- divide by 2
-divBy2 : ℕ → ℕ
-divBy2 zero = zero
-divBy2 (succ zero) = one -- well...
-divBy2 (succ (succ n)) = succ (divBy2 n) -- take 2 at a time and count as 1
-
--- proof of a number being even
-even : ℕ → Set
-even zero = ⊤
-even (succ zero) = ⟂
-even (succ (succ n)) = even n
+#check zeros  -- zeros : (n : ℕ) → Vector ℕ n
 ```
 
-Now, we can define a function that divides only even numbers by 2:
+The type of `zeros` is a Pi type.  The return type, `Vector Nat n`, depends on the input value, `n`.
 
-```agda
-divBy2₂ : (n : ℕ) → even n → ℕ
-divBy2₂ zero p = zero
-divBy2₂ (succ zero) ()
-divBy2₂ (succ (succ y)) p = succ (divBy2₂ y p)
+Another example: a function that gets the element at a specific index in a vector.  The index must be less than the length of the vector. Lean's `Fin n` type represents natural numbers less than `n`:
+
+```lean
+-- Get the element at index 'i' in a vector of length 'n'.
+def Vector.get (v : Vector α n) (i : Fin n) : α := v.1[i]
+
+#check Vector.get -- {α : Type} → {n : ℕ} → Vector α n → Fin n → α
+
 ```
 
-In order to be applied, `divBy2₂` requries its input `n` to conform to the type `even n`, which can only exist if the number `n` is even! This makes `divBy2₂` a dependent function.
+The type of `Vector.get` is also a Pi Type. Note the use of the curly brackets `{}` to indicate implicit parameters.
 
-## Construction
+Dependent function application looks just like regular function application:
 
-A dependent Π-type can be constructively defined as:
-
-```agda
-Π : ∀ {i j} (A : Set i) (P : A → Set j) → Set (i ⊔ j)
-Π A P = (x : A) → P x
+```lean
+#eval zeros 3    -- ⟨[0, 0, 0], by simp⟩
+#eval (zeros 5).get ⟨2, by simp⟩  -- 0   (Accessing the element at index 2)
 ```
 
-# Properties of function types
+### Relationship to Simple Function Types
 
-## Function composition
+A simple function type `A → B` is just a special case of a Pi type where the return type *doesn't* depend on the input value. So, Lean can infer the use of non-dependent functions even while using dependent types.
 
-A function composition is defined as:
+```lean
+def const_fun {A B : Type} (b : B) : (a : A) → B :=
+  fun _ => b
 
-```agda
-_∘_ : ∀ {a b c} {A : Set a} {B : A → Set b} {C : {x : A} → B x → Set c}
-        → (g : {x : A} (y : B x) → C y)
-        → (f : (x : A) → B x)
-        → ((x : A) → C (f x))
-g ∘ f = λ x → g (f x)
-
-_∘′_ : ∀ {a b c} {A : Set a} {B : Set b} {C : Set c}
-        → (B → C)
-        → (A → B)
-        → (A → C)
-f ∘′ g = _∘_ f g
+#check @const_fun -- {A B : Type} → B → A → B
 ```
 
-and specifically for dependent types:
+## Currying and Uncurrying (Revisited)
 
-```agda
-_○_ : ∀ {a b c} {A : Set a} {B : A → Set b} {C : (x : A) → B x → Set c}
-        → (g : {x : A} → Π (B x) (C x))
-        → (f : Π A B)
-        → Π A (λ x → C x (f x))
-g ○ f = λ x → g (f x)
+We saw Currying and Uncurrying already. This is a good time to revisit the concept and illustrate it with more involved examples, potentially also introducing the `curry` and `uncurry` functions from `Mathlib`.
+
+## Function Composition
+Define function composition mathematically and in Lean.
+
+```lean
+def compose {α β γ : Type} (g : β → γ) (f : α → β) : α → γ :=
+  fun x => g (f x)
+
+#check @compose
 ```
 
-Going further, we define our machinery on all functions, dependent or not. However, it is worth nothing that by functions, we mean **pure functions**, i.e. without any side effects, for example IO, state manipulation, etc.
+## Parametric Polymorphism
 
-## Identity and constant functions
+Parametric polymorphism allows us to write functions (and define types) that operate uniformly over different types. Instead of writing separate functions for `Nat → Nat`, `Bool → Bool`, and `String → String`, we can write a *single*, *generic* function that works for *any* type.
 
-```agda
-id : ∀ {a} {A : Set a} → A → A
-id x = x
+In Lean, parametric polymorphism is achieved using type parameters, indicated by curly braces `{}` or explicit type arguments. Let's look at an identity function, a function that return the input parameter it receives:
 
-const : ∀ {a b} {A : Set a} {B : Set b} → A → B → A
-const x = λ _ → x
+```lean
+def identity {α : Type} (x : α) : α := x
+
+#check identity  -- {α : Type} → α → α
+#eval identity 5    -- 5
+#eval identity "hello"  -- "hello"
+#eval identity true     -- true
 ```
 
-## Application
+Here, `{α : Type}` introduces a *type parameter* `α`. The function `identity` can then be used with arguments of *any* type. Lean automatically infers the type parameter in many cases, which is why we don't need to write `identity Nat 5`.
 
-A function application is a type which actually applies a bunch of arguments to a function.
+Another example: a function that swaps the elements of a pair:
 
-```agda
-_$_ : ∀ {a b} {A : Set a} {B : A → Set b}
-        → ((x : A) → B x)
-        → ((x : A) → B x)
-f $ x = f x
+```lean
+def swap {α β : Type} (pair : α × β) : β × α :=
+  (pair.snd, pair.fst)
+
+#check swap  -- {α β : Type} → α × β → β × α
+#eval swap (1, "one")  -- ("one", 1)
 ```
 
-## Currying
+`swap` works for pairs of *any* two types (which can even be different).
 
-Currying, as we saw earlier, converts a function that takes multiple arguments into a sequence of functions each taking one argument. Un-currying is the opposite of currying. We define both for binary functions, though further extensions are trivial:
 
-```agda
-curry : ∀ {i j k} {A : Set i} {B : A → Set j} {C : Σ A B → Set k}
-        → (∀ s → C s)
-        → (∀ x y → C (x , y))
-curry f x y = f (x , y)
+## Higher-Order Functions
 
-uncurry : ∀ {i j k} {A : Set i} {B : A → Set j} {C : ∀ x → B x → Set k}
-        → (∀ x y → C x y)
-        → (∀ s → C (fst s) (snd s))
-uncurry f (x , y) = f x y
+Higher-order functions are functions that take other functions as arguments or return them as results. This is a powerful concept that enables code reuse and abstraction.  We've already seen some higher-order functions implicitly (like `compose`), but let's make it explicit.
+
+### Functions as Arguments
+
+Example:  A function that applies another function twice.
+
+```lean
+def applyTwice {α : Type} (f : α → α) (x : α) : α :=
+  f (f x)
+
+#check applyTwice  -- {α : Type} → (α → α) → α → α
+
+def square (n : Nat) := n * n
+#eval applyTwice square 3  -- 81 ( (3 * 3) * (3 * 3) )
 ```
 
-## Infix application
+`applyTwice` takes a function `f : α → α` as an argument and applies it twice to the input `x`.
 
-```agda
-_⟨_⟩_ : ∀ {a b c} {A : Set a} {B : Set b} {C : Set c}
-        → A
-        → (A → B → C)
-        → B
-        → C
-x ⟨ f ⟩ y = f x y
+### Functions as Results
+
+Example: A function that takes a value and returns a function that always returns that value (a constant function).
+
+```lean
+def constantFunction {α β : Type} (b : β) : α → β :=
+  fun _ => b
+
+#check constantFunction -- {α β : Type} → β → α → β
+
+def alwaysFive : Nat → Nat := constantFunction 5
+#eval alwaysFive 10     -- 5
+#eval alwaysFive 100    -- 5
 ```
 
-# Other useful API
+`constantFunction` returns a *function*.
 
-## Flip
+### Lifting
 
-```agda
-flip : ∀ {a b c} {A : Set a} {B : Set b} {C : A → B → Set c}
-        → ((x : A) (y : B) → C x y)
-        → ((y : B) (x : A) → C x y)
-flip f = λ y x → f x y
+"Lifting" is a general term for taking a function that operates on one type and transforming it into a function that operates on a "wrapped" or "structured" version of that type. This is closely related to concepts like Functors and Applicatives, which we'll explore later.
+
+Let use the `Option` type as an example.  `Option α` represents a value of type `α` that might be present (`some a`) or absent (`none`). We can "lift" a function `f : α → β` to a function `Option α → Option β`:
+
+```lean
+def optionMap {α β : Type} (f : α → β) : Option α → Option β
+  | some a => some (f a)
+  | none   => none
+
+#check optionMap  -- {α β : Type} → (α → β) → Option α → Option β
+
+def add1Opt : Option Nat → Option Nat := optionMap (fun n => n+1)
+#eval add1Opt (some 5)  -- some 6
+#eval add1Opt none       -- none
 ```
 
-## On
+`optionMap` takes a function `f` and applies it to the value *inside* the `Option` (if it exists). This is a higher order function. There also happens to be a `lift` function.
 
-```agda
-_on_ : ∀ {a b c} {A : Set a} {B : Set b} {C : Set c}
-        → (B → B → C)
-        → (A → B)
-        → (A → A → C)
-_*_ on f = λ x y → f x * f y
+## Extensionality
+
+<<<Introduce the *axiom of extensionality*.  Explain that two functions are equal if they return equal results for all inputs. This is *not* provable in Lean's core type theory, but it's a commonly assumed axiom.>>>
+
+```lean
+-- This is an axiom, not a theorem!
+axiom funext {α β : Type*} {f g : α → β} (h : ∀ x, f x = g x) : f = g
 ```
-
-## Type extractor
-
-```agda
-typeOf : ∀ {a} {A : Set a} → A → Set a
-typeOf {A = A} _ = A
-```
-
-## Case statements
-
-```agda
-infix 0 case_return_of_ case_of_
-
-case_return_of_ :
-  ∀ {a b} {A : Set a}
-  (x : A) (B : A → Set b) → ((x : A) → B x) → B x
-case x return B of f = f x
-
-case_of_ : ∀ {a b} {A : Set a} {B : Set b} → A → (A → B) → B
-case x of f = case x return _ of f
-```
-
-# Classifications of functions
-
-Functions can be classified into:
-
-1. Injective (one-to-one)
-2. Surjective (onto)
-3. Bijective (one-to-one and onto)
-
-Note that a function, by definition, can never produce multiple outputs given the same input.
-
-## Injection
-
-![Figure 1: Injection](../artwork/injective.png)
-
-A function `f : X → Y` is injective if $∀ x ∈ X, y ∈ Y, f(x) == f(y) ⟹ x == y$. Or in other words, the map is one-to-one between all objects of X and some objects of Y.
-
-```agda
-Injective : ∀ {a b} {A : Set a} {B : Set b} → (A → B) → Set (a ⊔ b)
-Injective f = ∀ {x y} → f x ≡ f y → x ≡ y
-
-record Injection {f t} (From : Set f) (To : Set t) : Set (f ⊔ t) where
-  field
-    to        : From → To
-    injective : Injective to
-```
-
-## Surjection
-
-![Figure 2: Surjection](../artwork/surjective.png)
-
-A function `f : X → Y` is surjective if $∀ y ∈ Y, ∃ x ∈ X s.t. f(x) == y$. This states that for every element of Y, there should be at least one element of X such that `f(x) == y`. So Y is an complete image of X.
-
-```agda
--- Surjective : ∀ {a b} {A : Set a} {B : Set b} → (A → B) → Set (a ⊔ b)
--- Surjective f = ∀ y → ∃ λ x → f x ≡ y
-
-record Surjection {f t} (From : Set f) (To : Set t) : Set (f ⊔ t) where
-  field
-    to   : From → To
-    from : To → From
-    right-inverse-of : ∀ x → to (from x) ≡ x
-```
-
-## Bijection
-
-![Figure 3: Bijection](../artwork/bijection.png)
-
-Bijection is the combination of injection and surjection. A bijection implies one-to-one correspondence from the domain to the codomain − each element of one set is paired with exactly one element of the other set, and each element of the other set is paired with exactly one element of the first set. There are no unpaired elements.
-
-```agda
-record Bijection {f t} (From : Set f) (To : Set t) : Set (f ⊔ t) where
-  field
-    injection : Injection From To
-    surjection : Surjection From To
-```
-
 
 ****
-[Proofs as Data](./Types.proofsAsData.html)
+[Identity Types](./Types.identity.html)
