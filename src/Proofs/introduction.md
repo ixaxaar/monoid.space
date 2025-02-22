@@ -9,6 +9,7 @@
 
 - [Introduction](#introduction)
     - [Propositions as Types](#propositions-as-types)
+    - [Curry-Howard Isomorphism](#curry-howard-isomorphism)
     - [Proofs as Terms](#proofs-as-terms)
     - [Basic Tactics](#basic-tactics)
         - [`rfl`](#rfl)
@@ -110,6 +111,41 @@ We can state the proposition `1 = 0`, but we can't create a term of that type (u
 "Terms of propositional types" means "proofs of propositions, represented as inhabitants of the types that represent those propositions."  The ability to treat propositions as types and proofs as terms is a fundamental aspect of type theory and is what makes Lean a powerful tool for both programming and formal verification. It blurs the line between data and proof, making them aspects of the same underlying concept: terms inhabiting types. This is the essence of the "propositions as types" correspondence.
 
 Propositions can be combined using logical connectives like `∧` (and), `∨` (or), `→` (implies), and `¬` (not). Propositions can also be quantified over types or values using `∀` (for all) and `∃` (there exists). Thus, proving a theorem in Lean is akin to constructing a term of a certain type, which is the proposition to be proved.
+
+## Curry-Howard Isomorphism
+
+The Curry-Howard Isomorphism is a deep and fundamental connection between logic and computation. It establishes a correspondence between:
+
+*   **Proofs** in logic.
+*   **Programs** in computation.
+*   **Types** in type theory.
+
+The correspondence is as follows:
+
+*   **Propositions** are types.
+*   **Proofs** are terms.
+*   **Implication** is a function type.
+*   **Conjunction** is a product type.
+*   **Disjunction** is a sum type.
+
+Here is a more detailed comparison:
+
+| Logic                                    | Type Theory                                                         | Programming (Lean)                            | Explanation                                                                                                                                                                                                                           |
+|------------------------------------------|---------------------------------------------------------------------|-----------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Proposition                              | Type (in `Prop`)                                                    | `2 + 2 = 4` : `Prop`                          | A statement that can be true or false. In Lean, propositions are types.                                                                                                                                                               |
+| Proof                                    | Term                                                                | `rfl` : `2 + 2 = 4`                           | A witness that a proposition is true. In Lean, proofs are terms of the propositional type.                                                                                                                                            |
+| Implication (`P → Q`)                    | Function Type (`P → Q`)                                             | `fun (h : P) => ... : Q`                      | If you have a proof of `P`, you can get a proof of `Q`.  Corresponds to a function that takes an argument of type `P` and returns a value of type `Q`.                                                                                |
+| Conjunction (`P ∧ Q`)                    | Product Type (`P × Q` or `And P Q`)                                 | `(p, q)` : `P × Q` , `And.intro p q : P ∧ Q ` | You have a proof of *both* `P` and `Q`. Corresponds to a tuple or pair containing a term of type `P` and a term of type `Q`.                                                                                                          |
+| Disjunction (`P ∨ Q`)                    | Sum Type (`P + Q` or `Or P Q`)                                      | `Or.inl p` : `P ∨ Q`, `Or.inr q` : `P ∨ Q`    | You have a proof of *either* `P` *or* `Q`. Corresponds to a type that can hold either a value of type `P` or a value of type `Q` (like `Either` in Haskell or tagged unions in other languages).                                      |
+| Universal Quantification (`∀ x, P(x)`)   | Dependent Function Type (`(x : A) → P x`)                           | `fun (x : A) => ... : (x : A) → P x`          | For *all* `x` of type `A`, `P(x)` holds.  Corresponds to a dependent function type, where the type of the result (`P x`) depends on the value of the input (`x`). The return *type* can change depending on the *value* of the input. |
+| Existential Quantification (`∃ x, P(x)`) | Dependent Pair Type (`Σ (x : A), P x` or `Exists (fun x:A => P x)`) | `⟨x, p⟩` : `Σ (x : A), P x`                   | There *exists* an `x` of type `A` such that `P(x)` holds. Corresponds to a dependent pair (Sigma type) where you have a value `x` of type `A` *and* a proof that `P(x)` holds.                                                        |
+| True (`⊤` or `True`)                     | Unit Type (`Unit` or `PUnit`)                                       | `()` : `Unit`                                 | A proposition that is always true. Corresponds to a type with a single inhabitant (like the unit type). There is only one proof, and it carries no information beyond the fact that the proposition is true.                          |
+| False (`⊥` or `False`)                   | Empty Type (`Empty`)                                                | *(No term)*                                   | A proposition that is always false. Corresponds to a type with *no* inhabitants (the empty type).  You cannot construct a term of this type (without introducing inconsistencies).                                                    |
+| Negation (`¬P`)                          | Function Type (`P → Empty`)                                         | `fun (h : P) => ... : Empty`                  | If you have a proof of `P`, you can reach a contradiction. This is represented as a function that takes a proof of `P` and returns a term of the empty type (which is impossible).  `¬P` is *defined* as `P → False` in Lean.         |
+| Equality (`a = b`)                       | Identity Type (`a = b`)                                             | `refl` (if `a` and `b` are def. equal)        | The type representing the proposition that `a` and `b` are equal.  The term `rfl` (reflexivity) is a proof that `a = a`. More complex equalities require proofs using path induction and other techniques.                            |
+| Type Variables                           | Type Parameters                                                     | `{α : Type}`                                  | Allows generalizing theorems/functions to work across different types.                                                                                                                                                                |
+
+This correspondence is what enables us to use Lean for theorem proving. We can construct terms (programs) that correspond to proofs of propositions (logical statements), using the type system to ensure correctness. This is why Lean is called a **proof assistant** - it helps us construct and verify proofs of theorems.
 
 ## Proofs as Terms
 
