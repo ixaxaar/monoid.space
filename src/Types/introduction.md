@@ -9,25 +9,21 @@
 
 - [Introduction to Type Theory](#introduction-to-type-theory)
   - [Foundations of Mathematics](#foundations-of-mathematics)
-  - [Set Theory Fundamentals](#set-theory-fundamentals)
+  - [Set Theory](#set-theory)
     - [Construction](#construction)
     - [Membership and Subsets](#membership-and-subsets)
     - [Set Operations](#set-operations)
     - [Properties of Set Operations](#properties-of-set-operations)
-  - [Type Theory Fundamentals](#type-theory-fundamentals)
-    - [Types and Terms](#types-and-terms)
-    - [Judgments](#judgments)
-      - [1. Type Formation: Defines what constitutes a valid type](#1-type-formation-defines-what-constitutes-a-valid-type)
-      - [2. Term Formation: Defines valid terms of a type](#2-term-formation-defines-valid-terms-of-a-type)
-      - [3. Type Equality: When two types are considered the same](#3-type-equality-when-two-types-are-considered-the-same)
-      - [4. Term Equality: When two terms are considered equal](#4-term-equality-when-two-terms-are-considered-equal)
-  - [Applications](#applications)
-    - [Computer Science](#computer-science)
-    - [Mathematics](#mathematics)
-  - [Advanced Concepts and Implications](#advanced-concepts-and-implications)
-    - [Categorical Interpretations](#categorical-interpretations)
-    - [Homotopy Type Theory](#homotopy-type-theory)
-    - [Proof Assistants and Formal Verification](#proof-assistants-and-formal-verification)
+  - [Type Theory](#type-theory)
+    - [Types, Terms, and Judgments](#types-terms-and-judgments)
+    - [Type Formation](#type-formation)
+    - [Term Formation](#term-formation)
+    - [Type Equality](#type-equality)
+    - [Term Equality](#term-equality)
+    - [Advantages of Type Theory](#advantages-of-type-theory)
+    - [Applications](#applications)
+      - [Computer Science](#computer-science)
+      - [Mathematics](#mathematics)
 
 
 ```lean
@@ -47,7 +43,7 @@ Set theory, however, is not the only foundational system for mathematics. Over t
 
 While both set theory and type theory can serve as foundations for mathematics, they approach mathematical reasoning in fundamentally different ways. Lean, like several other modern proof assistants, is based on type theory. This choice enables Lean to provide powerful tools for both mathematical reasoning and computation. Practically, using Lean, and hence type theory, instead of set theory implies we can automatically check proofs, instead of the ultra-tedious manual checking that would be required in set theory. This is because Lean's type theory is designed to be computable, which means that we can write programs that manipulate proofs and terms. This is a significant advantage over set theory, where proofs are typically written in natural language and must be checked manually by humans, who tend to make their own mistakes.
 
-## Set Theory Fundamentals
+## Set Theory
 
 In set theory, mathematical objects are sets. Here we cover the very basics of sets and their operations.
 
@@ -180,147 +176,109 @@ Here, $z_{1}$ and $z_{2}$ are equivalent.
 
 There are several other properties of set operations, which are used in mathematical reasoning and proofs, and we are going to skip those as styduing them is not the goal of this book.
 
-## Type Theory Fundamentals
+## Type Theory
 
-### Types and Terms
+Type theory is a formal system that serves as an alternative foundation for mathematics and computer science, distinct from set theory.  Instead of building everything from sets, type theory centers around the concept of types.  Crucially, every object in type theory has a type.  This is a fundamental and pervasive principle.  Type theory provides an emphasis on computation and is well-suited for formal verification and automated proof checking, as implemented in proof assistants like Lean.
 
-The fundamental concept in type theory is that every mathematical object has a type. We write this using a colon:
+### Types, Terms, and Judgments
 
-```lean
-def x : Nat := 5        -- x has type Nat (natural number)
-def b : Bool := true    -- b has type Bool (boolean)
-```
+The core building blocks of type theory are:
 
-A `Type` in mathematics and computer science is a collection of objects that share common properties. In type theory, types classify mathematical objects and specify valid operations on them. For example, the type `Nat` represents the set of natural numbers, and the type `Bool` represents the set of boolean values. Types can also represent propositions, as we will see later.
+*   **Types:**  These represent collections of objects with shared properties.  Think of familiar examples like `Nat` (natural numbers) or `Bool` (booleans).  But types can be much more sophisticated, representing functions, propositions, and complex data structures.
+*   **Terms:** These are the individual objects that inhabit types.  For example, `5` is a term of type `Nat`, and `true` is a term of type `Bool`.  We use the notation `a : A` to say that term `a` has type `A`.
+*   **Judgments:** These are the fundamental assertions we make within type theory.  They are *not* propositions that can be true or false within the system; instead, they are declarations about the validity of types and terms.  There are four main kinds of judgments:
 
-Types serve multiple roles:
+### Type Formation
 
-- They classify mathematical objects, as in all objects of a type share common properties.
-- They specify valid operations on objects of a type.
-- They can represent propositions (the propositions-as-types principle).
-
-Generally, a "theory" in mathematics can be constructed using type theory by defining the types of objects in the theory and the operations that can be performed on them. This is similar to how a "theory" in set theory can be constructed by defining the sets of objects in the theory and the operations that can be performed on them.
-
-A term is an object of a type. For example, `5` is a term of type `Nat`, and `true` is a term of type `Bool`. Terms can be combined using operations defined on their types. For example, we can add two natural numbers:
-
-```lean
-def x : Nat := 5
-def y : Nat := 10
-def z : Nat := x + y
-```
-
-Here, `z` is a term of type `Nat` obtained by adding `x` and `y`.
-
-### Judgments
-
-Judgements are statements about types and terms in type theory. They are used to define what constitutes a valid type, a valid term of a type, and when two types or terms are considered equal. Type theory works with several kinds of judgments:
-
-#### 1. Type Formation: Defines what constitutes a valid type
+This judgment asserts that something is a well-formed type.  In Lean:
 
 ```lean
 #check Nat        -- Nat : Type
 #check Bool       -- Bool : Type
+#check Nat → Bool  -- Nat → Bool : Type (Functions from Nat to Bool)
 ```
 
-Formally, a type is a valid type if it is a member of the universe of types.
+Formally, the judgment `A : Type` (or sometimes `A type`, depending on the specific type theory) means that `A` is a valid type.  This is not something you prove within the system; it's a foundational assertion established by rules. The notation `#check` will only succeed for well formed types.
 
-#### 2. Term Formation: Defines valid terms of a type
+### Term Formation
+
+This judgment asserts that a term belongs to a specific type:
 
 ```lean
-def valid_nat : Nat := 42
--- This would fail: def invalid_nat : Nat := true
+#check (5 : Nat)      -- 5 : Nat
+#check (true : Bool)   -- true : Bool
+
+def myNumber : Nat := 5
+#check myNumber       -- myNumber : Nat
+
+-- Example of an ill-typed term (this would cause an error):
+-- def badNumber : Nat := true  -- Error: type mismatch
 ```
 
-Formally, a term is a valid term of a type if it is a member of the set of terms of that type. Consider the type `Nat` as the set of natural numbers. Then, `42` is a valid term of type `Nat`, while `true` is not.
+Formally, `a : A` means "term `a` has type `A`".  Again, this is not a proposition to be proven, but a declaration based on the rules of type theory.  Lean's type checker enforces these rules.  If you try to construct a term that violates the typing rules, Lean will report an error.
 
-#### 3. Type Equality: When two types are considered the same
+### Type Equality
 
-Lean provides a way to state basic equalities using `=`. We have the principle that every value is equal to itself: which is the principle of reflexivity.
-
-For example:
+This judgment asserts that two types are definitionally equal. This is a very strong form of equality.  It means they are the same type, not just equivalent in some way.  This is often written as `A ≡ B` or (in some contexts) just `A = B` (but be careful – in a type theory, equality can mean different things).  Lean handles definitional equality internally.
 
 ```lean
-#check 2 + 2 = 4
+-- Example (though Lean infers this automatically)
+def MyType : Type := Nat
+#check MyType -- MyType : Type, which is definitionally equal to Nat.
 ```
-The `rfl` tactic stands for "reflexivity." It allows Lean to acknowledge this simple kind of equality, where something is clearly equal to itself *by definition*:
-```lean
-example : 2 + 2 = 4 := rfl  -- 2 + 2 reduces to 4 definitionally.
-```
-`rfl` proofs that the two sides of the equality (`=`) are definitionally equal.
 
-There are three kinds of equality in type theory:
+In this simple case, the type `MyType` on the right hand side is defined as equal to the `Nat`. With a simple equality, this is a *definitional equality*. Other examples are provided below.
 
-- **Definitional Equality**: Equality by definition (what Lean's #reduce shows).
-- **Propositional Equality**: Equality expressed as a proposition (the = we've been using). This kind of equality is non-trivial and needs to be proved.
-- **Judgmental Equality**: A lower-level notion of equality that is built into Lean's type checker.
+### Term Equality
 
-#### 4. Term Equality: When two terms are considered equal
+This judgment has two main forms, with critical distinctions:
+
+*   **Definitional Equality (≡):**  Two terms are definitionally equal if they reduce to the same normal form.   This is like saying `2 + 2` and `4` are definitionally equal. Lean checks this automatically.
 
 ```lean
-example : 2 + 2 = 4 := rfl  -- rfl proves equality by definition
+example : 2 + 2 = 4 := rfl  -- Success!  2 + 2 and 4 are definitionally equal.
 ```
 
-Here, `rfl` is a proof that `2 + 2` is equal to `4`, where `rfl` denotes reflexivity property of equality which states that every term is equal to itself, or if `x` is equal to `y`, then `y` is equal to `x`.
+   `rfl` (reflexivity) works precisely because `2 + 2` and `4` are *definitionally* equal. Lean can see this directly, without further proof steps.
 
-We will further explore type theory in the following sections.
+*   **Propositional Equality (=):** This is the more familiar notion of equality, expressed as a *proposition* that can be proven.  `a = b` (where `a` and `b` are terms of the same type) is itself a *type*!  This is where the *propositions-as-types* principle comes in (which we'll cover later, but it's good to be aware of it early).  Proving `a = b` involves constructing a *term* of that type.
 
-## Applications
+```lean
+-- An easy example, still provable by rfl because of definitional equality
+example : (2 + 2 : Nat) = (4 : Nat) := rfl
 
-### Computer Science
+-- A slightly more interesting example, requiring a proof (using theorems)
+example (n : Nat) : n + 0 = n := Nat.add_zero n
+```
+
+Crucially, definitional equality implies propositional equality, but *not* the other way around.  If `a ≡ b`, then `a = b` is trivially provable (with `rfl`).
+
+### Advantages of Type Theory
+
+*   **Computability:** Type theory is inherently computational.  Terms can be evaluated, and type checking is a decidable process.
+*   **Formal Verification:** This computability makes type theory ideal for formalizing mathematics and verifying the correctness of computer programs.  Proof assistants like Lean are built on type theory.
+*   **Expressiveness:**  Type theory can express complex mathematical concepts in a natural and concise way.
+*   **Propositions as Types:**  A key concept (to be explored later) is that propositions (statements that can be true or false) can also be treated as types.  This creates a powerful connection between logic and computation.
+
+### Applications
+
+#### Computer Science
 
 Type Theory has found extensive applications in computer science:
 
-1. **Programming Language Design**: Many modern programming languages incorporate ideas from Type Theory in their type systems.
+1.  **Programming Language Design**: Many modern programming languages incorporate ideas from Type Theory in their type systems.
+2.  **Formal Verification**: Type Theory provides a basis for proving properties of programs and verifying their correctness.
+3.  **Proof Assistants**: Software like Coq, Agda, and Lean, based on Type Theory, allow for computer-assisted theorem proving.
+4.  **Foundations of Computer Science**: Type Theory provides a theoretical foundation for understanding computation and programming languages.
 
-2. **Formal Verification**: Type Theory provides a basis for proving properties of programs and verifying their correctness.
-
-3. **Proof Assistants**: Software like Coq, Agda, and Lean, based on Type Theory, allow for computer-assisted theorem proving.
-
-4. **Foundations of Computer Science**: Type Theory provides a theoretical foundation for understanding computation and programming languages.
-
-### Mathematics
+#### Mathematics
 
 While Set Theory remains the most common foundation for mathematics, Type Theory offers some advantages:
 
-1. **Constructive Mathematics**: Type Theory naturally supports constructive approaches to mathematics.
-
-2. **Computational Content**: Proofs in Type Theory often have direct computational interpretations.
-
-3. **Higher-Order Logic**: Type Theory easily accommodates higher-order logic, which can be more expressive than first-order logic used in Set Theory.
-
-4. **Homotopy Type Theory**: Recent developments have connected Type Theory with modern areas of mathematics like homotopy theory.
-
-## Advanced Concepts and Implications
-
-### Categorical Interpretations
-
-Both Set Theory and Type Theory have important connections to Category Theory, a branch of mathematics that deals with abstract structures and relationships between them.
-
-1. **Set Theory and Categories**:
-   - The category Set, whose objects are sets and morphisms are functions, is a fundamental example in category theory.
-   - Many set-theoretic constructions have categorical generalizations (e.g., products, coproducts, exponentials).
-
-2. **Type Theory and Categories**:
-   - There's a deep connection between Type Theory and Cartesian closed categories.
-   - Each type theory gives rise to a category, where types are objects and terms are morphisms.
-
-### Homotopy Type Theory
-
-Homotopy Type Theory (HoTT) is a recent development that connects Type Theory with abstract homotopy theory.
-
-1. **Univalence Axiom**: This axiom in HoTT states that isomorphic types are equal, providing a powerful principle for reasoning about equivalence.
-
-2. **Inductive Types with Recursion**: HoTT extends Type Theory with inductive types and recursion principles, allowing for the construction of complex structures like higher inductive types.
-
-### Proof Assistants and Formal Verification
-
-The development of proof assistants based on Type Theory has significant implications for mathematics and computer science.
-
-1. **Formalized Mathematics**: Large parts of mathematics have been formalized in systems like Coq, Lean, and Agda, and is the basic reason why we are here!
-
-2. **Software Verification**: Type Theory-based systems are used to verify the correctness of critical software systems.
-
-Example (CompCert, a verified C compiler).
+1.  **Constructive Mathematics**: Type Theory naturally supports constructive approaches to mathematics.
+2.  **Computational Content**: Proofs in Type Theory often have direct computational interpretations.
+3.  **Higher-Order Logic**: Type Theory easily accommodates higher-order logic, which can be more expressive than first-order logic used in Set Theory.
+4.  **Homotopy Type Theory**: Recent developments have connected Type Theory with modern areas of mathematics like homotopy theory.
 
 ****
 
