@@ -8,7 +8,7 @@
 ****
 
 - [Introduction](#introduction)
-    - [Propositions as Types (Review)](#propositions-as-types-review)
+    - [Propositions as Types](#propositions-as-types)
     - [Proofs as Terms](#proofs-as-terms)
     - [Basic Tactics](#basic-tactics)
         - [`rfl`](#rfl)
@@ -40,20 +40,76 @@ In previous chapters, we've seen that types in Lean can represent mathematical o
 
 Theorem proving in Lean is a process of constructing **terms of propositional types** to prove theorems. This is done using a combination of tactics that manipulate the proof state, which consists of goals (propositions to be proved) and hypotheses (assumptions that can be used in the proof). These terms are the formal, machine-checkable proofs of the propositions. Once Lean accepts a proof, it will also type-check the proof.
 
-## Propositions as Types (Review)
+## Propositions as Types
 
-Recall the *propositions-as-types* principle (also called the Curry-Howard correspondence):
-
-*   A **proposition** (a statement that can be true or false) is represented as a **type**.
-*   A **proof** of a proposition is represented as a **term** of that type.
-
-If a type representing a proposition is *inhabited* (we can construct a term of that type), the proposition is considered "true".  If it's *uninhabited*, the proposition is considered "false."
+In type theory, propositions are types. A proposition is a type with only one inhabitant (a term of that type) if it is true, and no inhabitants if it is false. For example, the proposition `2 + 2 = 4` is a type with one term, `rfl`, which is the proof that `2 + 2 = 4`.  If the proposition is false, the type will have no terms, as its simply impossible to construct such a term.
 
 ```lean
-#check 2 + 2 = 4  -- 2 + 2 = 4 : Prop  (A proposition)
-
-def proof_of_2_plus_2 : 2 + 2 = 4 := rfl  -- A term of type 2 + 2 = 4 (a proof)
+def proof_of_2_plus_2 : 2 + 2 = 4 := rfl
 ```
+
+Let's break this down and look at it in more detail:
+
+A **proposition** is a statement that can be either true or false. Examples:
+1.   "2 + 2 = 4"
+1.   "All cats are mammals."
+1.   "x > 5" (where 'x' is a variable)
+
+In type theory (and in Lean), propositions are treated as types. These types are called **propositional types**. The specific type that represents propositions in Lean is called `Prop`. So, instead of just *saying* "2 + 2 = 4" is a proposition, we can say it's a *type* (of type `Prop`).  In Lean:
+
+```lean
+#check 2 + 2 = 4  -- Output: 2 + 2 = 4 : Prop
+```
+
+This `#check` command confirms that the expression `2 + 2 = 4` has the type `Prop`, meaning it's a propositional type.
+
+In type theory, a **term** is an inhabitant of a type. It's a specific value or expression that belongs to that type.  Think of it like this:
+
+1.   `Nat` is a type (the type of natural numbers).
+1.   `5` is a term of type `Nat`.
+1.   `"hello"` is a term of type `String`.
+1.   `true` is a term of type `Bool`.
+
+**Terms *of* Propositional Types:**
+
+If a proposition is a *type*, what does it mean to have a *term* of that type? -- A term of a propositional type is a *proof* of that proposition. If you can construct a term whose type is a particular proposition, you have *proven* that proposition. If you *cannot* construct such a term, the proposition is considered unproven (or, in some cases, false).
+
+Let's see some examples:
+
+**Example 1: A true proposition**
+
+```lean
+def my_proof : 2 + 2 = 4 := rfl
+#check my_proof  -- Output: my_proof : 2 + 2 = 4
+```
+
+*   `2 + 2 = 4` is the propositional type (a proposition).
+*   `my_proof` is a term of that type.
+*   `rfl` is the actual proof (it says "2 + 2 = 4 by definition").  `rfl` is a term, and that's the term we're assigning to `my_proof`.
+*   Because we were able to construct the term `my_proof`, we have proven the proposition `2 + 2 = 4`.
+
+**Example 2: An implication**
+
+```lean
+def add_one_increases (n : Nat) : n < n + 1 := Nat.lt_succ_self n
+#check add_one_increases  -- Output: add_one_increases : ∀ (n : ℕ), n < n + 1
+```
+Here, we have the following:
+* The propositional type is `∀ (n: Nat), n < n+1`, this means "for all natural numbers, n will be less than n+1", a true statement.
+* Then, using the already defined `Nat.lt_succ_self` we define a function to prove this proposition.
+
+**Example 3: An uninhabited proposition (no term)**
+
+We can state the proposition `1 = 0`, but we can't create a term of that type (unless our logic is inconsistent!).
+
+```lean
+#check 1 = 0   -- Output: 1 = 0 : Prop
+--  We can't write:  def a_proof : 1 = 0 := ...  (There's nothing we can put here)
+```
+
+"Terms of propositional types" means "proofs of propositions, represented as inhabitants of the types that represent those propositions."  The ability to treat propositions as types and proofs as terms is a fundamental aspect of type theory and is what makes Lean a powerful tool for both programming and formal verification. It blurs the line between data and proof, making them aspects of the same underlying concept: terms inhabiting types. This is the essence of the "propositions as types" correspondence.
+
+Propositions can be combined using logical connectives like `∧` (and), `∨` (or), `→` (implies), and `¬` (not). Propositions can also be quantified over types or values using `∀` (for all) and `∃` (there exists). Thus, proving a theorem in Lean is akin to constructing a term of a certain type, which is the proposition to be proved.
 
 ## Proofs as Terms
 
