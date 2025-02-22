@@ -224,5 +224,5 @@ Identity types provide the foundation for Homotopy Type Theory (HoTT), where typ
 However, to go there we need to introduce more concepts like algebraic geometry, higher inductive types and univalence. We'll explore these in future chapters.
 
 ****
-[Operations](./Proofs.introduction.html)
+[Proofs - Introduction](Proofs.introduction.html)
 

@@ -1,7 +1,7 @@
 ****
 [Contents](contents.html)
 [Previous](Types.identity.html)
-[Next](Types.tactics.html)  <!-- Assuming the next chapter is on Tactics -->
+[Next](Proofs.tactics.html)  <!-- Assuming the next chapter is on Tactics -->
 
 # Introduction
 
@@ -10,8 +10,7 @@
 - [Introduction](#introduction)
     - [Propositions as Types](#propositions-as-types)
     - [Curry-Howard Isomorphism](#curry-howard-isomorphism)
-    - [Proofs as Terms](#proofs-as-terms)
-    - [Basic Tactics](#basic-tactics)
+    - [Tactics](#tactics)
         - [`rfl`](#rfl)
         - [`intro`](#intro)
         - [`apply`](#apply)
@@ -29,7 +28,7 @@
     - [Interacting with Lean](#interacting-with-lean)
         - [Info View](#info-view)
     - [Structuring Proofs](#structuring-proofs)
-    - [Automated Tactics (Brief Introduction)](#automated-tactics-brief-introduction)
+    - [Automated Tactics](#automated-tactics)
 
 ```lean
 import Mathlib.Data.Nat.Basic
@@ -108,13 +107,13 @@ We can state the proposition `1 = 0`, but we can't create a term of that type (u
 --  We can't write:  def a_proof : 1 = 0 := ...  (There's nothing we can put here)
 ```
 
-"Terms of propositional types" means "proofs of propositions, represented as inhabitants of the types that represent those propositions."  The ability to treat propositions as types and proofs as terms is a fundamental aspect of type theory and is what makes Lean a powerful tool for both programming and formal verification. It blurs the line between data and proof, making them aspects of the same underlying concept: terms inhabiting types. This is the essence of the "propositions as types" correspondence.
+This ability to treat propositions as types and proofs as terms is a fundamental aspect of type theory and is what makes Lean a powerful tool for both programming and formal verification. It blurs the line between data and proof, making them aspects of the same underlying concept: terms inhabiting types. This is the essence of the "propositions as types" correspondence.
 
 Propositions can be combined using logical connectives like `∧` (and), `∨` (or), `→` (implies), and `¬` (not). Propositions can also be quantified over types or values using `∀` (for all) and `∃` (there exists). Thus, proving a theorem in Lean is akin to constructing a term of a certain type, which is the proposition to be proved.
 
 ## Curry-Howard Isomorphism
 
-The Curry-Howard Isomorphism is a deep and fundamental connection between logic and computation. It establishes a correspondence between:
+The Curry-Howard Isomorphism is a deep and fundamental connection between logic and computation with type theory as the foundational way of expression. It establishes the direct connection between mathematical proofs and computer programs. It's named after logician Haskell Curry and logician William Howard. It states that there is a correspondence between:
 
 *   **Proofs** in logic.
 *   **Programs** in computation.
@@ -145,19 +144,11 @@ Here is a more detailed comparison:
 | Equality (`a = b`)                       | Identity Type (`a = b`)                                             | `refl` (if `a` and `b` are def. equal)        | The type representing the proposition that `a` and `b` are equal.  The term `rfl` (reflexivity) is a proof that `a = a`. More complex equalities require proofs using path induction and other techniques.                            |
 | Type Variables                           | Type Parameters                                                     | `{α : Type}`                                  | Allows generalizing theorems/functions to work across different types.                                                                                                                                                                |
 
-This correspondence is what enables us to use Lean for theorem proving. We can construct terms (programs) that correspond to proofs of propositions (logical statements), using the type system to ensure correctness. This is why Lean is called a **proof assistant** - it helps us construct and verify proofs of theorems.
+This correspondence is what enables us to use Lean for theorem proving. We can construct terms (programs) that correspond to proofs of propositions (logical statements), using the type system to ensure correctness. The Curry-Howard Isomorphism thus bridges mathematical logic, type theory and computation.
 
-## Proofs as Terms
+There are extensions of the Curry-Howard Isomorphism, such as the Curry-Howard-Lambek Correspondence, which extends the correspondence to include category theory, the Curry-Howard-De Bruijn Correspondence, which extends it to include lambda calculus.
 
-The statement `def proof_of_2_plus_2 : 2 + 2 = 4 := rfl` is simultaneously:
-
-*   A *definition* of a term named `proof_of_2_plus_2`.
-*   A *theorem* stating that `2 + 2 = 4`.
-*    A *proof*.
-
-The *type* of `proof_of_2_plus_2` is `2 + 2 = 4`, which is a proposition.  The *term* `rfl` is the proof itself.
-
-## Basic Tactics
+## Tactics
 
 Tactics are commands that instruct Lean on how to construct a proof term. They manipulate the *proof state*, which consists of:
 
@@ -340,7 +331,7 @@ example (a b c : Nat) (h : a ≤ b ∧ b < c) : a < c := by
   apply Nat.lt_of_le_of_lt hab hbc  -- Use a lemma combining ≤ and <.
 ```
 
-## Automated Tactics (Brief Introduction)
+## Automated Tactics
 
 Lean provides powerful automated tactics that can often find proofs (or parts of proofs) automatically.  These include:
 
@@ -349,11 +340,7 @@ Lean provides powerful automated tactics that can often find proofs (or parts of
 *   `linarith`:  Solves linear arithmetic problems.
 *   `finish`: Attempt to finish the proof.
 
-We'll cover these in more detail later, but you can start experimenting with them.
+We'll cover these in more detail later.
 
-```lean
-example (a b c : Nat) (h : a ≤ b ∧ b < c) : a < c := by
-  cases h
-  rename_i h1 h2
-  apply Nat.lt_of_le_of_lt <;> assumption
-```
+****
+[Strategies & Tactics](Proofs.tactics.html)
