@@ -24,13 +24,13 @@
   - [Function Types](./Types.functions.html)
   - [Identity Types](./Types.identity.html)
 
-# ❌ WIP - (Re-)Work in Progress ❌
-
 ## 3. Theorem Proving
 
   - [Introduction](./Proofs.introduction.html)
-  - [Proof Patterns](./Proofs.patterns.html)
-  - [Strategies & Tactics](./Proofs.strategies.html)
+  - [Strategies & Tactics](./Proofs.tactics.html)
+
+# ❌ WIP - (Re-)Work in Progress ❌
+
   - [Automation & Reflection](./Proofs.automation.html)
   - [Debugging](./Proofs.debugging.html)
   - [Useful Libraries](./Proofs.libraries.html)
