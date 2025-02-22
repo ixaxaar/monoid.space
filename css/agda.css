@@ -235,7 +235,7 @@ body > p:first-of-type {
   position: fixed;
   right: 0px;
   top: 3em;
-  width: 6em;
+  width: 4em;
   padding: 2em;
   background-color: var(--bg-primary);
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
