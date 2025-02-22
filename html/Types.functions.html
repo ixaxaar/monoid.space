@@ -20,292 +20,198 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
-    /* CSS for syntax highlighting */
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { color: #008000; } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { color: #008000; font-weight: bold; } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../css/agda.css" />
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 </head>
 <body>
 <hr />
 <p><a href="contents.html">Contents</a> <a href="Types.product.html">Previous</a> <a
-href="Types.functions2.html">Next</a></p>
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+href="Types.identity.html">Next</a></p>
+<h1 id="function-types">Function Types</h1>
 <hr />
 <ul>
-<li><a href="#functions">Functions</a></li>
-<li><a href="#dependent-function-types-or-π-types">Dependent Function Types or Π-types</a> - <a
-href="#construction">Construction</a></li>
-<li><a href="#properties-of-function-types">Properties of function types</a> - <a href="#function-composition">Function
-composition</a> - <a href="#identity-and-constant-functions">Identity and constant functions</a> - <a
-href="#application">Application</a> - <a href="#currying">Currying</a> - <a href="#infix-application">Infix
-application</a></li>
-<li><a href="#other-useful-api">Other useful API</a> - <a href="#flip">Flip</a> - <a href="#on">On</a> - <a
-href="#type-extractor">Type extractor</a> - <a href="#case-statements">Case statements</a></li>
-<li><a href="#classifications-of-functions">Classifications of functions</a> - <a href="#injection">Injection</a> - <a
-href="#surjection">Surjection</a> - <a href="#bijection">Bijection</a></li>
+<li><a href="#function-types">Function Types</a>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#function-types-1">Function Types</a>
+<ul>
+<li><a href="#definition-and-notation">Definition and Notation</a></li>
+<li><a href="#examples">Examples</a>
+<ul>
+<li><a href="#defining-functions">Defining Functions</a></li>
+<li><a href="#function-application">Function Application</a></li>
+<li><a href="#lambda-expressions">Lambda Expressions</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#introduction-to-dependent-types">Introduction to Dependent Types</a>
+<ul>
+<li><a href="#motivating-example-vectors">Motivating Example: Vectors</a></li>
+<li><a href="#type-families">Type Families</a></li>
+</ul></li>
+<li><a href="#pi-types-dependent-function-types">Pi Types (Dependent Function Types)</a>
+<ul>
+<li><a href="#definition-and-notation-1">Definition and Notation</a></li>
+<li><a href="#examples-in-lean">Examples in Lean</a>
+<ul>
+<li><a href="#defining-pi-types">Defining Pi Types</a></li>
+<li><a href="#dependent-function-application">Dependent Function Application</a></li>
+</ul></li>
+<li><a href="#relationship-to-simple-function-types">Relationship to Simple Function Types</a></li>
+</ul></li>
+<li><a href="#currying-and-uncurrying-revisited">Currying and Uncurrying (Revisited)</a></li>
+<li><a href="#function-composition">Function Composition</a></li>
+<li><a href="#extensionality">Extensionality</a></li>
+</ul></li>
 </ul>
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<h1 id="functions">Functions</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> Types<span class="ot">.</span>functions <span class="kw">where</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  ℕ<span class="ot">;</span> List<span class="ot">;</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">;</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  ⊤<span class="ot">;</span> singleton<span class="ot">;</span> ⟂<span class="ot">)</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">)</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product <span class="kw">using</span> <span class="ot">(</span>Σ<span class="ot">;</span> <span class="ot">_</span>,<span class="ot">_;</span> fst<span class="ot">;</span> snd<span class="ot">)</span></span></code></pre></div>
-<p>We have previously looked at how <a href="Lang.functions.html">functions are defined in Agda</a>. Here we will look
-at some abstract representations of functions and their properties.</p>
-<p>A unary function is defined as:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Fun₁ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> i <span class="ot">→</span> <span class="dt">Set</span> i</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Fun₁ A <span class="ot">=</span> A <span class="ot">→</span> A</span></code></pre></div>
-<p>and a binary one as:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Fun₂ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> i <span class="ot">→</span> <span class="dt">Set</span> i</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Fun₂ A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> A</span></code></pre></div>
-<p>In Type Theory, a function is also a type, called a <strong>function type</strong> represented as the type
-<code>Input₁ → Input₂ → ... → Inputₙ → Output</code>, where <code>Inputᵢ</code> are the input types and
-<code>Output</code> is the output type. A function type <code>f : A → B</code> can also be considered to be an
-exponential <code>f : Bᴬ</code> and can be thought of as belonging to the set of all <code>b ∈ B</code> that can be
-obtained from any <code>a ∈ A</code>, hence <code>Bᴬ</code> such elements.</p>
-<p>The concept of <strong>currying</strong> can be explained using this representation as <span
-class="math inline">\(C^{A × B} = (C^A)^B\)</span> hence a function taking multiple arguments
-<code>f : (A, B) → C</code> is the same as <code>f : A → B → C</code>. <strong>Partial functions</strong> can then be
-trivally described as functions that return functions with lesser number of arguments, or <strong>arity</strong>:
-<code>∀ a ∈ A, g = f(a) : B → C</code>.</p>
-<h1 id="dependent-function-types-or-π-types">Dependent Function Types or Π-types</h1>
-<p>Dependent function types or Π-types are functions whose type of second argument depends upon the type of first.</p>
-<p>i.e. function <code>f : A → (g A) → Set</code> where <code>g : A → B</code>.</p>
-<p>In the notation of lambda abstraction:</p>
-<p><span class="math display">\[
-λx. (λx.y).ϕ
-\]</span></p>
-<p>Another notation is to use <span class="math inline">\(\Pi_{x : A} B(x)\)</span>, mostly used in type theory to
-denote Π-types. Functions of higher arity then take the form <span class="math inline">\(\Pi_{x : A}\Pi_{y : B(x)}
-D(y)\)</span> and so on.</p>
-<p>To show how to use this type, we construct an example:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- divide by 2</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>divBy2 <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>divBy2 zero <span class="ot">=</span> zero</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>divBy2 <span class="ot">(</span>succ zero<span class="ot">)</span> <span class="ot">=</span> one <span class="co">-- well...</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>divBy2 <span class="ot">(</span>succ <span class="ot">(</span>succ n<span class="ot">))</span> <span class="ot">=</span> succ <span class="ot">(</span>divBy2 n<span class="ot">)</span> <span class="co">-- take 2 at a time and count as 1</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">-- proof of a number being even</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>even <span class="ot">:</span> ℕ <span class="ot">→</span> <span class="dt">Set</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>even zero <span class="ot">=</span> ⊤</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>even <span class="ot">(</span>succ zero<span class="ot">)</span> <span class="ot">=</span> ⟂</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>even <span class="ot">(</span>succ <span class="ot">(</span>succ n<span class="ot">))</span> <span class="ot">=</span> even n</span></code></pre></div>
-<p>Now, we can define a function that divides only even numbers by 2:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>divBy2₂ <span class="ot">:</span> <span class="ot">(</span>n <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> even n <span class="ot">→</span> ℕ</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>divBy2₂ zero p <span class="ot">=</span> zero</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>divBy2₂ <span class="ot">(</span>succ zero<span class="ot">)</span> <span class="ot">()</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>divBy2₂ <span class="ot">(</span>succ <span class="ot">(</span>succ y<span class="ot">))</span> p <span class="ot">=</span> succ <span class="ot">(</span>divBy2₂ y p<span class="ot">)</span></span></code></pre></div>
-<p>In order to be applied, <code>divBy2₂</code> requries its input <code>n</code> to conform to the type
-<code>even n</code>, which can only exist if the number <code>n</code> is even! This makes <code>divBy2₂</code> a
-dependent function.</p>
-<h2 id="construction">Construction</h2>
-<p>A dependent Π-type can be constructively defined as:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Π <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i j<span class="ot">}</span> <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> i<span class="ot">)</span> <span class="ot">(</span>P <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> j<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>i ⊔ j<span class="ot">)</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Π A P <span class="ot">=</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> P x</span></code></pre></div>
-<h1 id="properties-of-function-types">Properties of function types</h1>
-<h2 id="function-composition">Function composition</h2>
-<p>A function composition is defined as:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ot">_</span>∘<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="ot">{</span>x <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">→</span> B x <span class="ot">→</span> <span class="dt">Set</span> c<span class="ot">}</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">(</span>g <span class="ot">:</span> <span class="ot">{</span>x <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">(</span>y <span class="ot">:</span> B x<span class="ot">)</span> <span class="ot">→</span> C y<span class="ot">)</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">(</span>f <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x<span class="ot">)</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> C <span class="ot">(</span>f x<span class="ot">))</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>g ∘ f <span class="ot">=</span> <span class="ot">λ</span> x <span class="ot">→</span> g <span class="ot">(</span>f x<span class="ot">)</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="ot">_</span>∘′<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">(</span>B <span class="ot">→</span> C<span class="ot">)</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> C<span class="ot">)</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>f ∘′ g <span class="ot">=</span> <span class="ot">_</span>∘<span class="ot">_</span> f g</span></code></pre></div>
-<p>and specifically for dependent types:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">_</span>○<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x <span class="ot">→</span> <span class="dt">Set</span> c<span class="ot">}</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">(</span>g <span class="ot">:</span> <span class="ot">{</span>x <span class="ot">:</span> A<span class="ot">}</span> <span class="ot">→</span> Π <span class="ot">(</span>B x<span class="ot">)</span> <span class="ot">(</span>C x<span class="ot">))</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">(</span>f <span class="ot">:</span> Π A B<span class="ot">)</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> Π A <span class="ot">(λ</span> x <span class="ot">→</span> C x <span class="ot">(</span>f x<span class="ot">))</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>g ○ f <span class="ot">=</span> <span class="ot">λ</span> x <span class="ot">→</span> g <span class="ot">(</span>f x<span class="ot">)</span></span></code></pre></div>
-<p>Going further, we define our machinery on all functions, dependent or not. However, it is worth nothing that by
-functions, we mean <strong>pure functions</strong>, i.e. without any side effects, for example IO, state manipulation,
-etc.</p>
-<h2 id="identity-and-constant-functions">Identity and constant functions</h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>id <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> A</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>id x <span class="ot">=</span> x</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>const <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> B <span class="ot">→</span> A</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>const x <span class="ot">=</span> <span class="ot">λ</span> <span class="ot">_</span> <span class="ot">→</span> x</span></code></pre></div>
-<h2 id="application">Application</h2>
-<p>A function application is a type which actually applies a bunch of arguments to a function.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ot">_</span>$<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">}</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x<span class="ot">)</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x<span class="ot">)</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>f $ x <span class="ot">=</span> f x</span></code></pre></div>
-<h2 id="currying">Currying</h2>
-<p>Currying, as we saw earlier, converts a function that takes multiple arguments into a sequence of functions each
-taking one argument. Un-currying is the opposite of currying. We define both for binary functions, though further
-extensions are trivial:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>curry <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i j k<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> i<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> j<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> Σ A B <span class="ot">→</span> <span class="dt">Set</span> k<span class="ot">}</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">(∀</span> s <span class="ot">→</span> C s<span class="ot">)</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">(∀</span> x y <span class="ot">→</span> C <span class="ot">(</span>x , y<span class="ot">))</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>curry f x y <span class="ot">=</span> f <span class="ot">(</span>x , y<span class="ot">)</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>uncurry <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>i j k<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> i<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> j<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> B x <span class="ot">→</span> <span class="dt">Set</span> k<span class="ot">}</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">(∀</span> x y <span class="ot">→</span> C x y<span class="ot">)</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">(∀</span> s <span class="ot">→</span> C <span class="ot">(</span>fst s<span class="ot">)</span> <span class="ot">(</span>snd s<span class="ot">))</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>uncurry f <span class="ot">(</span>x , y<span class="ot">)</span> <span class="ot">=</span> f x y</span></code></pre></div>
-<h2 id="infix-application">Infix application</h2>
-<div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ot">_</span>⟨<span class="ot">_</span>⟩<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> A</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B <span class="ot">→</span> C<span class="ot">)</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> B</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> C</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>x ⟨ f ⟩ y <span class="ot">=</span> f x y</span></code></pre></div>
-<h1 id="other-useful-api">Other useful API</h1>
-<h2 id="flip">Flip</h2>
-<div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>flip <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> A <span class="ot">→</span> B <span class="ot">→</span> <span class="dt">Set</span> c<span class="ot">}</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(</span>y <span class="ot">:</span> B<span class="ot">)</span> <span class="ot">→</span> C x y<span class="ot">)</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">((</span>y <span class="ot">:</span> B<span class="ot">)</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> C x y<span class="ot">)</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>flip f <span class="ot">=</span> <span class="ot">λ</span> y x <span class="ot">→</span> f x y</span></code></pre></div>
-<h2 id="on">On</h2>
-<div class="sourceCode" id="cb14"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ot">_</span>on<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b c<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">{</span>C <span class="ot">:</span> <span class="dt">Set</span> c<span class="ot">}</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">(</span>B <span class="ot">→</span> B <span class="ot">→</span> C<span class="ot">)</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> A <span class="ot">→</span> C<span class="ot">)</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="ot">_</span>*<span class="ot">_</span> on f <span class="ot">=</span> <span class="ot">λ</span> x y <span class="ot">→</span> f x * f y</span></code></pre></div>
-<h2 id="type-extractor">Type extractor</h2>
-<div class="sourceCode" id="cb15"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>typeOf <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span> a</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>typeOf <span class="ot">{</span>A <span class="ot">=</span> A<span class="ot">}</span> <span class="ot">_</span> <span class="ot">=</span> A</span></code></pre></div>
-<h2 id="case-statements">Case statements</h2>
-<div class="sourceCode" id="cb16"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">infix</span> <span class="dv">0</span> case<span class="ot">_</span>return<span class="ot">_</span>of<span class="ot">_</span> case<span class="ot">_</span>of<span class="ot">_</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>case<span class="ot">_</span>return<span class="ot">_</span>of<span class="ot">_</span> <span class="ot">:</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">(</span>B <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> b<span class="ot">)</span> <span class="ot">→</span> <span class="ot">((</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> B x<span class="ot">)</span> <span class="ot">→</span> B x</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>case x return B of f <span class="ot">=</span> f x</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>case<span class="ot">_</span>of<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> B</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>case x of f <span class="ot">=</span> case x return <span class="ot">_</span> of f</span></code></pre></div>
-<h1 id="classifications-of-functions">Classifications of functions</h1>
-<p>Functions can be classified into:</p>
-<ol type="1">
-<li>Injective (one-to-one)</li>
-<li>Surjective (onto)</li>
-<li>Bijective (one-to-one and onto)</li>
-</ol>
-<p>Note that a function, by definition, can never produce multiple outputs given the same input.</p>
-<h2 id="injection">Injection</h2>
-<figure>
-<img src="../artwork/injective.png" alt="Figure 1: Injection" />
-<figcaption aria-hidden="true">Figure 1: Injection</figcaption>
-</figure>
-<p>A function <code>f : X → Y</code> is injective if <span class="math inline">\(∀ x ∈ X, y ∈ Y, f(x) == f(y) ⟹ x ==
-y\)</span>. Or in other words, the map is one-to-one between all objects of X and some objects of Y.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>Injective <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span> <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ b<span class="ot">)</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Injective f <span class="ot">=</span> <span class="ot">∀</span> <span class="ot">{</span>x y<span class="ot">}</span> <span class="ot">→</span> f x ≡ f y <span class="ot">→</span> x ≡ y</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">record</span> Injection <span class="ot">{</span>f t<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> <span class="dt">Set</span> f<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> <span class="dt">Set</span> t<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">field</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">to</span>        <span class="ot">:</span> From <span class="ot">→</span> To</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    injective <span class="ot">:</span> Injective <span class="kw">to</span></span></code></pre></div>
-<h2 id="surjection">Surjection</h2>
-<figure>
-<img src="../artwork/surjective.png" alt="Figure 2: Surjection" />
-<figcaption aria-hidden="true">Figure 2: Surjection</figcaption>
-</figure>
-<p>A function <code>f : X → Y</code> is surjective if <span class="math inline">\(∀ y ∈ Y, ∃ x ∈ X s.t. f(x) ==
-y\)</span>. This states that for every element of Y, there should be at least one element of X such that
-<code>f(x) == y</code>. So Y is an complete image of X.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Surjective : ∀ {a b} {A : Set a} {B : Set b} → (A → B) → Set (a ⊔ b)</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- Surjective f = ∀ y → ∃ λ x → f x ≡ y</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="kw">record</span> Surjection <span class="ot">{</span>f t<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> <span class="dt">Set</span> f<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> <span class="dt">Set</span> t<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">field</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">to</span>   <span class="ot">:</span> From <span class="ot">→</span> To</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    from <span class="ot">:</span> To <span class="ot">→</span> From</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    right-inverse-of <span class="ot">:</span> <span class="ot">∀</span> x <span class="ot">→</span> <span class="kw">to</span> <span class="ot">(</span>from x<span class="ot">)</span> ≡ x</span></code></pre></div>
-<h2 id="bijection">Bijection</h2>
-<figure>
-<img src="../artwork/bijection.png" alt="Figure 3: Bijection" />
-<figcaption aria-hidden="true">Figure 3: Bijection</figcaption>
-</figure>
-<p>Bijection is the combination of injection and surjection. A bijection implies one-to-one correspondence from the
-domain to the codomain − each element of one set is paired with exactly one element of the other set, and each element
-of the other set is paired with exactly one element of the first set. There are no unpaired elements.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">record</span> Bijection <span class="ot">{</span>f t<span class="ot">}</span> <span class="ot">(</span>From <span class="ot">:</span> <span class="dt">Set</span> f<span class="ot">)</span> <span class="ot">(</span>To <span class="ot">:</span> <span class="dt">Set</span> t<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>f ⊔ t<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">field</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    injection <span class="ot">:</span> Injection From To</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    surjection <span class="ot">:</span> Surjection From To</span></code></pre></div>
+<pre class="lean"><code>import Mathlib.Data.Vector
+import Mathlib.Data.Fin.Basic</code></pre>
+<h2 id="introduction">Introduction</h2>
+<p>Recall that in type theory, every term has a type. We’ve seen basic types like <code>Nat</code>, <code>Bool</code>,
+and <code>String</code>, and ways to combine types using products and co-products. In this chapter, we’ll explore
+<em>function types</em>, which represent functions between types, and the powerful generalization of function types
+known as Pi (Π) types (or dependent function types).</p>
+<h2 id="function-types-1">Function Types</h2>
+<p>A function type, written <code>A → B</code>, represents functions that take an argument of type <code>A</code> and
+return a value of type <code>B</code>. This is often read as “A to B”. The type <code>A</code> is the domain, and the
+type <code>B</code> is the codomain.</p>
+<p>Mathematically, a function <code>f : A → B</code> is a relation between sets <code>A</code> and <code>B</code> such
+that for every <code>a ∈ A</code>, there is exactly one <code>b ∈ B</code> such that <code>(a, b)</code> is in the
+relation. In type theory, functions are <em>first-class</em>: they can be arguments to other functions, returned as
+results, and stored in data structures.</p>
+<h3 id="examples">Examples</h3>
+<h4 id="lambda-expressions">Lambda Expressions</h4>
+<p>We can also define functions anonymously, without giving them a name, using <em>lambda expressions</em>. A lambda
+expression starts with the keyword <code>fun</code> (or the symbol <code>λ</code>), followed by the argument list, and
+then <code>=&gt;</code> and the function body.</p>
+<pre class="lean"><code>#check fun (n : Nat) =&gt; n * 2  -- fun n =&gt; n * 2 : ℕ → ℕ
+
+def double : Nat → Nat := fun n =&gt; n * 2
+
+#eval double 7 -- 14</code></pre>
+<p>Lambda expressions are particularly useful when passing functions as arguments to other functions.</p>
+<h2 id="dependent-function-types">Dependent Function Types</h2>
+<p>A type family is a family of types indexed by a value of another type. Given a type <code>A</code>, a type family
+<code>B</code> indexed by <code>A</code> assigns a type <code>B a</code> to each value <code>a : A</code>. Dependent
+types allow the type of a term to depend on the value of another term.</p>
+<p>A dependent function type or Π-type, written <code>(a : A) → B a</code> (or <code>∀ (a : A), B a</code>), represents
+functions where the type of the return value depends on the value of the input. <code>B</code> is a type family indexed
+by <code>A</code>.</p>
+<p>This can be read as “for all <code>a</code> of type <code>A</code>, a return type of <code>B a</code>”. This is a
+generalization of the simple function type <code>A → B</code>. If <code>B</code> doesn’t actually depend on
+<code>a</code>, then <code>(a : A) → B a</code> is the same as <code>A → B</code>.</p>
+<h3 id="examples-1">Examples</h3>
+<h4 id="defining-pi-types">Defining Pi Types</h4>
+<pre class="lean"><code>-- A function that takes a length &#39;n&#39; and returns a vector of zeros of that length.
+def zeros (n : Nat) : Vector Nat n := Vector.replicate n 0
+
+#check zeros  -- zeros : (n : ℕ) → Vector ℕ n</code></pre>
+<p>The type of <code>zeros</code> is a Pi type. The return type, <code>Vector Nat n</code>, depends on the input value,
+<code>n</code>.</p>
+<p>Another example: a function that gets the element at a specific index in a vector. The index must be less than the
+length of the vector. Lean’s <code>Fin n</code> type represents natural numbers less than <code>n</code>:</p>
+<pre class="lean"><code>-- Get the element at index &#39;i&#39; in a vector of length &#39;n&#39;.
+def Vector.get (v : Vector α n) (i : Fin n) : α := v.1[i]
+
+#check Vector.get -- {α : Type} → {n : ℕ} → Vector α n → Fin n → α
+</code></pre>
+<p>The type of <code>Vector.get</code> is also a Pi Type. Note the use of the curly brackets <code>{}</code> to indicate
+implicit parameters.</p>
+<p>Dependent function application looks just like regular function application:</p>
+<pre class="lean"><code>#eval zeros 3    -- ⟨[0, 0, 0], by simp⟩
+#eval (zeros 5).get ⟨2, by simp⟩  -- 0   (Accessing the element at index 2)</code></pre>
+<h3 id="relationship-to-simple-function-types">Relationship to Simple Function Types</h3>
+<p>A simple function type <code>A → B</code> is just a special case of a Pi type where the return type <em>doesn’t</em>
+depend on the input value. So, Lean can infer the use of non-dependent functions even while using dependent types.</p>
+<pre class="lean"><code>def const_fun {A B : Type} (b : B) : (a : A) → B :=
+  fun _ =&gt; b
+
+#check @const_fun -- {A B : Type} → B → A → B</code></pre>
+<h2 id="currying-and-uncurrying-revisited">Currying and Uncurrying (Revisited)</h2>
+<p>We saw Currying and Uncurrying already. This is a good time to revisit the concept and illustrate it with more
+involved examples, potentially also introducing the <code>curry</code> and <code>uncurry</code> functions from
+<code>Mathlib</code>.</p>
+<h2 id="function-composition">Function Composition</h2>
+<p>Define function composition mathematically and in Lean.</p>
+<pre class="lean"><code>def compose {α β γ : Type} (g : β → γ) (f : α → β) : α → γ :=
+  fun x =&gt; g (f x)
+
+#check @compose</code></pre>
+<h2 id="parametric-polymorphism">Parametric Polymorphism</h2>
+<p>Parametric polymorphism allows us to write functions (and define types) that operate uniformly over different types.
+Instead of writing separate functions for <code>Nat → Nat</code>, <code>Bool → Bool</code>, and
+<code>String → String</code>, we can write a <em>single</em>, <em>generic</em> function that works for <em>any</em>
+type.</p>
+<p>In Lean, parametric polymorphism is achieved using type parameters, indicated by curly braces <code>{}</code> or
+explicit type arguments. Let’s look at an identity function, a function that return the input parameter it receives:</p>
+<pre class="lean"><code>def identity {α : Type} (x : α) : α := x
+
+#check identity  -- {α : Type} → α → α
+#eval identity 5    -- 5
+#eval identity &quot;hello&quot;  -- &quot;hello&quot;
+#eval identity true     -- true</code></pre>
+<p>Here, <code>{α : Type}</code> introduces a <em>type parameter</em> <code>α</code>. The function <code>identity</code>
+can then be used with arguments of <em>any</em> type. Lean automatically infers the type parameter in many cases, which
+is why we don’t need to write <code>identity Nat 5</code>.</p>
+<p>Another example: a function that swaps the elements of a pair:</p>
+<pre class="lean"><code>def swap {α β : Type} (pair : α × β) : β × α :=
+  (pair.snd, pair.fst)
+
+#check swap  -- {α β : Type} → α × β → β × α
+#eval swap (1, &quot;one&quot;)  -- (&quot;one&quot;, 1)</code></pre>
+<p><code>swap</code> works for pairs of <em>any</em> two types (which can even be different).</p>
+<h2 id="higher-order-functions">Higher-Order Functions</h2>
+<p>Higher-order functions are functions that take other functions as arguments or return them as results. This is a
+powerful concept that enables code reuse and abstraction. We’ve already seen some higher-order functions implicitly
+(like <code>compose</code>), but let’s make it explicit.</p>
+<h3 id="functions-as-arguments">Functions as Arguments</h3>
+<p>Example: A function that applies another function twice.</p>
+<pre class="lean"><code>def applyTwice {α : Type} (f : α → α) (x : α) : α :=
+  f (f x)
+
+#check applyTwice  -- {α : Type} → (α → α) → α → α
+
+def square (n : Nat) := n * n
+#eval applyTwice square 3  -- 81 ( (3 * 3) * (3 * 3) )</code></pre>
+<p><code>applyTwice</code> takes a function <code>f : α → α</code> as an argument and applies it twice to the input
+<code>x</code>.</p>
+<h3 id="functions-as-results">Functions as Results</h3>
+<p>Example: A function that takes a value and returns a function that always returns that value (a constant
+function).</p>
+<pre class="lean"><code>def constantFunction {α β : Type} (b : β) : α → β :=
+  fun _ =&gt; b
+
+#check constantFunction -- {α β : Type} → β → α → β
+
+def alwaysFive : Nat → Nat := constantFunction 5
+#eval alwaysFive 10     -- 5
+#eval alwaysFive 100    -- 5</code></pre>
+<p><code>constantFunction</code> returns a <em>function</em>.</p>
+<h3 id="lifting">Lifting</h3>
+<p>“Lifting” is a general term for taking a function that operates on one type and transforming it into a function that
+operates on a “wrapped” or “structured” version of that type. This is closely related to concepts like Functors and
+Applicatives, which we’ll explore later.</p>
+<p>Let use the <code>Option</code> type as an example. <code>Option α</code> represents a value of type <code>α</code>
+that might be present (<code>some a</code>) or absent (<code>none</code>). We can “lift” a function
+<code>f : α → β</code> to a function <code>Option α → Option β</code>:</p>
+<pre class="lean"><code>def optionMap {α β : Type} (f : α → β) : Option α → Option β
+  | some a =&gt; some (f a)
+  | none   =&gt; none
+
+#check optionMap  -- {α β : Type} → (α → β) → Option α → Option β
+
+def add1Opt : Option Nat → Option Nat := optionMap (fun n =&gt; n+1)
+#eval add1Opt (some 5)  -- some 6
+#eval add1Opt none       -- none</code></pre>
+<p><code>optionMap</code> takes a function <code>f</code> and applies it to the value <em>inside</em> the
+<code>Option</code> (if it exists). This is a higher order function. There also happens to be a <code>lift</code>
+function.</p>
+<h2 id="extensionality">Extensionality</h2>
+<p>&lt;&lt;&lt;Introduce the <em>axiom of extensionality</em>. Explain that two functions are equal if they return equal
+results for all inputs. This is <em>not</em> provable in Lean’s core type theory, but it’s a commonly assumed
+axiom.&gt;&gt;&gt;</p>
+<pre class="lean"><code>-- This is an axiom, not a theorem!
+axiom funext {α β : Type*} {f g : α → β} (h : ∀ x, f x = g x) : f = g</code></pre>
 <hr />
-<p><a href="./Types.proofsAsData.html">Proofs as Data</a></p>
+<p><a href="./Types.identity.html">Identity Types</a></p>
 </body>
 </html>

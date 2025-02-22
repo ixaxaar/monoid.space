@@ -123,6 +123,22 @@ system.</p>
 statements about elements, also known as propositions - unary: relations that describe properties of elements, also
 known as predicates - binary: relations that describe relationships between pairs of elements</p>
 <h2 id="nullary-relations-propositions">Nullary Relations (Propositions)</h2>
+<p>A nullary relation is a statement that doesn’t involve any variables. In type theory, these statements are
+represented as <em>propositions</em>.</p>
+<p>In Lean, the type of propositions is called <code>Prop</code>. Think of a proposition as a statement that can be
+either true or false.</p>
+<pre class="lean"><code>#check Prop  -- Prop : Type
+
+-- Examples of propositions:
+#check 2 + 2 = 4        -- 2 + 2 = 4 : Prop
+#check 3 &lt; 5          -- 3 &lt; 5 : Prop
+#check 1 = 0          -- 1 = 0 : Prop  (This proposition is false)
+
+-- We can define propositions:
+def is_even (n : Nat) : Prop := ∃ k, n = 2 * k
+
+#check is_even 4  -- is_even 4 : Prop</code></pre>
+<p>In simple terms, the type Prop in Lean is used to represent statements that can be true or false (propositions).</p>
 <h2 id="unary-relations-predicates">Unary Relations (Predicates)</h2>
 <p>A unary predicate is represented as a function that takes an element and returns a proposition. In simpler terms, a
 unary relation on type <code>A</code> is a function <code>A → Prop</code> and is a way of selecting a subset of elements
@@ -144,10 +160,10 @@ that satisfy a given property. For example, the following unary predicate select
 than 1:</p>
 <pre class="lean"><code>def greaterThanOne (n : Nat) : Prop := n &gt; 1</code></pre>
 <p>This can be expressed using the universal quantifier as follows:</p>
-<pre class="lean"><code>def greaterThanOne (n : Nat) : Prop := ∀ m : Nat, m &gt; 1 → m &lt; n</code></pre>
+<pre class="lean"><code>def greaterThanOne (n : Nat) : Prop := ∀ k, (1 &lt; k ∧ k &lt; n) → False</code></pre>
 <p>This defines a function <code>greaterThanOne</code> that takes a natural number <code>n</code> and returns a
 proposition stating that:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>for all natural numbers <span class="in">`m`</span> greater than 1 and less than <span class="in">`n`</span>, <span class="in">`n`</span> is greater than <span class="in">`m`</span>.</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>for all natural numbers <span class="in">`k`</span> such that <span class="in">`1 &lt; k`</span> and <span class="in">`k &lt; n`</span>, <span class="in">`k`</span> is not greater than 1, i.e. <span class="in">`False`</span>.</span></code></pre></div>
 <p>The universal quantifier can be written in lean either as <code>∀</code> or <code>\all</code>. The following are a
 few examples of how the universal quantifier can be used:</p>
 <p>TODO: define an algebra and explain <code>axiom</code> or import mathlib here.</p>
@@ -169,7 +185,7 @@ even:</p>
 <pre class="lean"><code>def isEven (n : Nat) : Prop := ∃ k : Nat, n = 2 * k</code></pre>
 <p>This defines a function <code>isEven</code> that takes a natural number <code>n</code> and returns a proposition
 stating that</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>there exists some natural number <span class="in">`k`</span> such that <span class="in">`n`</span> equals <span class="in">`2 * k`</span>,</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>there exists some natural number <span class="in">`k`</span> such that <span class="in">`n`</span> equals <span class="in">`2 * k`</span>,</span></code></pre></div>
 <p>i.e. an even number.</p>
 <h2 id="binary-relations">Binary Relations</h2>
 <p>A binary relation is represented as a function that takes two elements and returns a proposition. In simpler terms, a
