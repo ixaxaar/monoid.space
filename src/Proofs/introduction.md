@@ -25,8 +25,6 @@
             - [Conjunction](#conjunction)
             - [Disjunction](#disjunction)
             - [Negation and False](#negation-and-false)
-    - [Interacting with Lean](#interacting-with-lean)
-        - [Info View](#info-view)
     - [Structuring Proofs](#structuring-proofs)
     - [Automated Tactics](#automated-tactics)
 
@@ -306,16 +304,6 @@ To prove `¬ P`, assume `P` and prove `False`.
 example (P : Prop) (h : P) (hnp : ¬ P) : False :=
   hnp h -- Apply the negation. ¬P is equivalent to P → False
 ```
-
-## Interacting with Lean
-
-### Info View
-
-The Info View in VS Code (or your editor) is crucial for interactive theorem proving. It shows:
-
-*   The current goal(s).
-*   The available hypotheses.
-*    The tactic state (the sequence of tactics you have used/are currently using).
 
 ## Structuring Proofs
 
