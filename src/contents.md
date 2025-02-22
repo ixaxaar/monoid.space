@@ -22,16 +22,19 @@
   - [Operations](./Types.operations.html)
   - [Products & Co-products](./Types.product.html)
   - [Function Types](./Types.functions.html)
+  - [Identity Types](./Types.identity.html)
 
 # ❌ WIP - (Re-)Work in Progress ❌
 
 ## 3. Theorem Proving
 
-  - [Proofs as Data](./Proofs.proofsAsData.html)
-  - [Introduction of New Types](./Proofs.patterns.html)
-  - [Equational Reasoning](./Proofs.equational.html)
-  - [Equational Reasoning 2](./Proofs.equational2.html)
-  - [Equality 2](./Proofs.variations.html)
+  - [Introduction](./Proofs.introduction.html)
+  - [Proof Patterns](./Proofs.patterns.html)
+  - [Strategies & Tactics](./Proofs.strategies.html)
+  - [Automation & Reflection](./Proofs.automation.html)
+  - [Debugging](./Proofs.debugging.html)
+  - [Useful Libraries](./Proofs.libraries.html)
+  - [Other Proof Assistants](./Proofs.others.html)
 
 ## 4. Boolean Algebra
 
@@ -40,6 +43,7 @@
   - [Equality](./Logic.equality.html)
   - [Laws of Logic](./Logic.laws.html)
   - [Decidability](./Logic.decidability.html)
+  - [System F](./Logic.system_f.html)
 
 ## 5. Abstract Algebras
 
