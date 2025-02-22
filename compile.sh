@@ -21,6 +21,7 @@ declare -a files=(
   "Types/operations"
   "Types/product"
   "Types/functions"
+  "Types/identity"
 
   "Proofs/proofsAsData"
   "Proofs/variations"
