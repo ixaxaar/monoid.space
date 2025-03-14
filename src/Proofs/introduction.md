@@ -8,25 +8,25 @@
 ****
 
 - [Introduction](#introduction)
-    - [Propositions as Types](#propositions-as-types)
-    - [Curry-Howard Isomorphism](#curry-howard-isomorphism)
-    - [Tactics](#tactics)
-        - [`rfl`](#rfl)
-        - [`intro`](#intro)
-        - [`apply`](#apply)
-        - [`exact`](#exact)
-        - [`have`](#have)
-        - [`let`](#let)
-        - [Rewriting with `rw`](#rewriting-with-rw)
-    - [Example Proofs](#example-proofs)
-        - [Equality](#equality)
-        - [Logical Connectives](#logical-connectives)
-            - [Implication](#implication)
-            - [Conjunction](#conjunction)
-            - [Disjunction](#disjunction)
-            - [Negation and False](#negation-and-false)
-    - [Structuring Proofs](#structuring-proofs)
-    - [Automated Tactics](#automated-tactics)
+  - [Propositions as Types](#propositions-as-types)
+  - [Curry-Howard Isomorphism](#curry-howard-isomorphism)
+  - [Tactics](#tactics)
+    - [`rfl`](#rfl)
+    - [`intro`](#intro)
+    - [`apply`](#apply)
+    - [`exact`](#exact)
+    - [`have`](#have)
+    - [`let`](#let)
+    - [Rewriting with `rw`](#rewriting-with-rw)
+  - [Example Proofs](#example-proofs)
+    - [Equality](#equality)
+    - [Logical Connectives](#logical-connectives)
+      - [Implication](#implication)
+      - [Conjunction](#conjunction)
+      - [Disjunction](#disjunction)
+      - [Negation and False](#negation-and-false)
+  - [Structuring Proofs](#structuring-proofs)
+  - [Automated Tactics](#automated-tactics)
 
 ```lean
 import Mathlib.Data.Nat.Basic
@@ -155,9 +155,22 @@ Tactics are commands that instruct Lean on how to construct a proof term. They m
 
 A proof starts with an initial goal (the theorem we want to prove) and ends when all goals have been closed (proven). A proof may involve multiple subgoals, each requiring its own proof, just like computer programs can be broken down into smaller functions and combined.
 
+When using tactics in Lean, you typically start with the `by` keyword, which enters "tactic mode." The proof state is then displayed in the editor, showing the current goal and available hypotheses. As you apply tactics, the proof state changes, and Lean guides you toward completing the proof.
+
+For example, here's how a proof state might look when proving a simple theorem:
+
+```lean
+a b c : Nat
+h1 : a ≤ b
+h2 : b ≤ c
+⊢ a ≤ c
+```
+
+The line with `⊢` shows the current goal, and the lines above show the available hypotheses. The goal is to prove `a ≤ c` using the hypotheses `a ≤ b` and `b ≤ c`.
+
 ### `rfl`
 
-We've already seen `rfl`. It proves goals that are *definitionally equal* (equal by computation).
+We've already seen `rfl`. It proves goals that are definitionally equal (equal by computation).
 
 ```lean
 example : 2 + 2 = 4 := rfl
