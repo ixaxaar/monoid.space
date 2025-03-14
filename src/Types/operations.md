@@ -1,11 +1,12 @@
-****
+---
+
 [Contents](contents.html)
 [Previous](Types.equality.html)
 [Next](Types.product.html)
 
 # Operations
 
-****
+---
 
 - [Operations](#operations)
   - [Nullary Operations](#nullary-operations)
@@ -513,5 +514,6 @@ def respects {A B : Type*} (R : A → A → Prop) (f : A → B) : Prop :=
 
 For operations, we may want to consider functions that preserve relations in more general contexts.
 
-****
+---
+
 [Equational Reasoning](./Algebra.equational.html)

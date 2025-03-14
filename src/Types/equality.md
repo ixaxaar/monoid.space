@@ -1,11 +1,12 @@
-****
+---
+
 [Contents](contents.html)
 [Previous](Types.relations.html)
 [Next](Types.operations.html)
 
 # Equality
 
-****
+---
 
 - [Equality](#equality)
   - [Definitional Equality](#definitional-equality)
@@ -77,19 +78,22 @@ Theorem proving can also be used to see whether definitional equality saitisfies
 Definitional equality as a relation satisfies reflexivity, symmetry, and transitivity, i.e.:
 
 1. **Reflexivity**: For any term `a`, `a = a`
-  ```lean
-  example (a : Nat) : a = a := rfl
-  ```
+
+```lean
+example (a : Nat) : a = a := rfl
+```
 
 2. **Symmetry**: If `a = b`, then `b = a`
-  ```lean
-  example (a b : Nat) (h : a = b) : b = a := Eq.symm h
-  ```
+
+```lean
+example (a b : Nat) (h : a = b) : b = a := Eq.symm h
+```
 
 3. **Transitivity**: If `a = b` and `b = c`, then `a = c`
-  ```lean
-  example (a b c : Nat) (h₁ : a = b) (h₂ : b = c) : a = c := Eq.trans h₁ h₂
-  ```
+
+```lean
+example (a b c : Nat) (h₁ : a = b) (h₂ : b = c) : a = c := Eq.trans h₁ h₂
+```
 
 Definitional equality is important in type theory because:
 
@@ -155,30 +159,29 @@ The `eq` type is a binary relation that takes two arguments of the same type and
 
 Propositional equality satisfies some properties of relations:
 
-
 1. **Reflexivity**: For any element `a`, `a = a`. This is captured by the `refl` constructor:
 
-    ```lean
-    example (a : Nat) : a = a := eq.refl a
-    ```
+   ```lean
+   example (a : Nat) : a = a := eq.refl a
+   ```
 
 2. **Symmetry**: If `a = b`, then `b = a`. This can be proved using the `eq.symm` theorem:
 
-    ```lean
-    example (a b : Nat) (h : a = b) : b = a := eq.symm h
-    ```
+   ```lean
+   example (a b : Nat) (h : a = b) : b = a := eq.symm h
+   ```
 
 3. **Transitivity**: If `a = b` and `b = c`, then `a = c`. This is proved using the `eq.trans` theorem:
 
-    ```lean
-    example (a b c : Nat) (h₁ : a = b) (h₂ : b = c) : a = c := eq.trans h₁ h₂
-    ```
+   ```lean
+   example (a b c : Nat) (h₁ : a = b) (h₂ : b = c) : a = c := eq.trans h₁ h₂
+   ```
 
 4. **Substitution**: If `a = b`, then for any function `f`, `f a = f b`. This is captured by the `congrArg` theorem:
 
-    ```lean
-    example (a b : Nat) (f : Nat → Nat) (h : a = b) : f a = f b := congrArg f h
-    ```
+   ```lean
+   example (a b : Nat) (f : Nat → Nat) (h : a = b) : f a = f b := congrArg f h
+   ```
 
 ## Hetereogeneous Equality
 
@@ -262,22 +265,27 @@ This is a common pattern in Lean proofs: you state the goal, break it down into 
 Here are the new syntax elements used in this proof:
 
 1. **`apply`**: Used when your goal matches the conclusion of another theorem/lemma
+
    ```lean
    apply And.intro  -- When your goal is to prove A ∧ B
    ```
 
 2. **`intro`**: Brings hypotheses into your context
+
    ```lean
    intro x    -- Introduces one variable
    intro x y h -- Introduces multiple things
    ```
-   - Used when proving statements with ∀ (for all) or →  (implies)
+
+   - Used when proving statements with ∀ (for all) or → (implies)
 
 3. **`exact`**: "This exactly proves the goal"
+
    ```lean
    exact h    -- When h is exactly what you need to prove
    exact Eq.trans h₁ h₂  -- When combining h₁ and h₂ exactly proves your goal
    ```
+
    - Think of `exact` as saying "this is precisely what we need"
    - It's like fitting a perfect puzzle piece
 
@@ -315,7 +323,8 @@ def J {A : Type} {x : A} (P : ∀ (y : A), x = y → Type)
   {y : A} (p : x = y) : P y p
 ```
 
-The `J` rule effectively says: "If you can prove `P` for the reflexive case where `y` is `x` and the proof `p` is `Eq.refl x`, then you can prove `P` for *any* `y` and *any* proof `p` of `x = y`." This is a powerful induction principle for reasoning about equality.
+The `J` rule effectively says: "If you can prove `P` for the reflexive case where `y` is `x` and the proof `p` is `Eq.refl x`, then you can prove `P` for _any_ `y` and _any_ proof `p` of `x = y`." This is a powerful induction principle for reasoning about equality.
 
-****
+---
+
 [Operations](./Types.operations.html)

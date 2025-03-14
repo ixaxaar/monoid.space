@@ -1,11 +1,12 @@
-****
+---
+
 [Contents](contents.html)
 [Previous](Types.introduction.html)
 [Next](Types.relations.html)
 
 # Universes
 
-****
+---
 
 - [Universes](#universes)
   - [The `Type` Type](#the-type-type)
@@ -172,13 +173,13 @@ In Lean's internal implementation, there's a more fundamental concept called `So
 
 Here's where the special role of `Prop` comes in:
 
--   **`Prop` is synonymous with `Sort 0`.**  This is the lowest universe level.
--   **`Type 0` is `Sort 1`, `Type 1` is `Sort 2`, and so on.**
--   **`Sort u` is in `Sort (u + 1)` for any universe level `u`.** This prevents types from containing themselves.
+- **`Prop` is synonymous with `Sort 0`.** This is the lowest universe level.
+- **`Type 0` is `Sort 1`, `Type 1` is `Sort 2`, and so on.**
+- **`Sort u` is in `Sort (u + 1)` for any universe level `u`.** This prevents types from containing themselves.
 
-This means `Prop` is special because it sits at the bottom of the universe hierarchy. This design choice is related to the idea of *impredicativity*, which essentially means that when creating something in `Prop` (proving a proposition), we are allowed to quantify over all propositions, in other words we are allowed to use the proposition we are trying to prove in the proof itself. Impredicativity is very powerful but can cause logical inconsistencies if not handled carefully, as self-reference can lead to paradoxes. By keeping `Prop` separate at the bottom, Lean ensures consistency.
+This means `Prop` is special because it sits at the bottom of the universe hierarchy. This design choice is related to the idea of _impredicativity_, which essentially means that when creating something in `Prop` (proving a proposition), we are allowed to quantify over all propositions, in other words we are allowed to use the proposition we are trying to prove in the proof itself. Impredicativity is very powerful but can cause logical inconsistencies if not handled carefully, as self-reference can lead to paradoxes. By keeping `Prop` separate at the bottom, Lean ensures consistency.
 
-It is important to note that `Prop` and `Type` are distinct because `Prop` is *impredicative*, while `Type` is *predicative*. In a predicative system, a definition cannot refer to the totality of objects to which it belongs. In an impredicative system, a definition can refer to the totality of objects to which it belongs. In Lean, `Prop` is impredicative because it contains definitions that refer to the totality of propositions. For example, the definition of `∀` refers to the totality of propositions:
+It is important to note that `Prop` and `Type` are distinct because `Prop` is _impredicative_, while `Type` is _predicative_. In a predicative system, a definition cannot refer to the totality of objects to which it belongs. In an impredicative system, a definition can refer to the totality of objects to which it belongs. In Lean, `Prop` is impredicative because it contains definitions that refer to the totality of propositions. For example, the definition of `∀` refers to the totality of propositions:
 
 ```lean
 ∀ (P : Prop), P   -- For all propositions P, P is true
@@ -192,5 +193,6 @@ This definition refers to the totality of propositions, including the propositio
 
 This definition refers to the totality of natural numbers in a given universe, but not to the totality of all types. This is allowed in a predicative system.
 
-****
+---
+
 [Relations](./Types.relations.html)

@@ -1,11 +1,12 @@
-****
+---
+
 [Contents](contents.html)
 [Previous](Types.functions.html)
 [Next](Proofs.introduction.html)
 
 # Identity Types
 
-****
+---
 
 - [Identity Types](#identity-types)
   - [Introduction](#introduction)
@@ -39,6 +40,7 @@ import Mathlib.Tactic.Basic
 In programming, we often need to compare values for equality. In most languages, this is done with operators like `==` or `.equals()`. However, in type theory, equality is a much richer concept. Instead of being just a boolean operation that returns true or false, equality is itself a type. This means we can talk about proofs of equality, transformations between equal things, and even equalities between equalities.
 
 Consider these seemingly simple questions:
+
 - When are two functions equal?
 - When are two proofs of the same theorem equal?
 - If we have two ways to show that `a = b`, are these ways themselves equal?
@@ -50,13 +52,16 @@ These questions lead us to identity types, which provide a foundation for answer
 Before looking at identity types, let's recall the different kinds of equality we've encountered:
 
 1. **Definitional Equality:** Two terms are definitionally equal if they are equal "by definition" - they compute to the same thing. For example:
+
 ```lean
 #eval 2 + 2 -- 4
 #eval 4     -- 4
 ```
+
 Here, `2 + 2` and `4` are definitionally equal because they compute to the same value.
 
 2. **Propositional Equality:** This is equality that needs to be **proven**. We write it as `a = b` in Lean:
+
 ```lean
 -- This needs a proof, even though it's "obvious"
 example : 2 + 3 = 5 := rfl
@@ -137,7 +142,7 @@ def J {α : Type} {x : α}
   | rfl => r
 ```
 
-This might look intimidating, but it's saying: if you want to prove something about *any* equality, you only need to prove it for the case where the equality is reflexivity, i.e. the most basic case and all other equalities can be reduced to this.
+This might look intimidating, but it's saying: if you want to prove something about _any_ equality, you only need to prove it for the case where the equality is reflexivity, i.e. the most basic case and all other equalities can be reduced to this.
 
 ### Based Path Induction
 
@@ -215,7 +220,7 @@ Identity types provide the foundation for Homotopy Type Theory (HoTT), where typ
 ### The Correspondence
 
 | Type Theory     | Homotopy Theory |
-|-----------------|-----------------|
+| --------------- | --------------- |
 | Type            | Space           |
 | Term            | Point           |
 | Identity        | Path            |
@@ -223,6 +228,6 @@ Identity types provide the foundation for Homotopy Type Theory (HoTT), where typ
 
 However, to go there we need to introduce more concepts like algebraic geometry, higher inductive types and univalence. We'll explore these in future chapters.
 
-****
-[Proofs - Introduction](Proofs.introduction.html)
+---
 
+[Proofs - Introduction](Proofs.introduction.html)

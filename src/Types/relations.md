@@ -1,37 +1,39 @@
-****
+---
+
 [Contents](contents.html)
 [Previous](Types.universe.html)
 [Next](Types.equality.html)
 
 # Relations
 
-****
+---
 
 - [Relations](#relations)
-    - [Types of Relations](#types-of-relations)
-    - [Nullary Relations (Propositions)](#nullary-relations-propositions)
-    - [Unary Relations (Predicates)](#unary-relations-predicates)
-        - [The Universal Quantifier](#the-universal-quantifier)
-        - [The Existential Quantifier](#the-existential-quantifier)
-    - [Binary Relations](#binary-relations)
-    - [Properties of Relations](#properties-of-relations)
-        - [Reflexivity](#reflexivity)
-        - [Symmetry](#symmetry)
-        - [Transitivity](#transitivity)
-        - [Antisymmetry](#antisymmetry)
+  - [Types of Relations](#types-of-relations)
+  - [Nullary Relations (Propositions)](#nullary-relations-propositions)
+  - [Unary Relations (Predicates)](#unary-relations-predicates)
+    - [The Universal Quantifier](#the-universal-quantifier)
+    - [The Existential Quantifier](#the-existential-quantifier)
+  - [Binary Relations](#binary-relations)
+  - [Properties of Relations](#properties-of-relations)
+    - [Reflexivity](#reflexivity)
+    - [Symmetry](#symmetry)
+    - [Transitivity](#transitivity)
+    - [Antisymmetry](#antisymmetry)
 
 In mathematics and logic, relations describe how elements are connected or associated with each other. In type theory, relations are formalized as types, which allows us to reason about them using the full power of the type system.
 
 ## Types of Relations
 
 Relations can be classified based on the number of elements they relate. They can be:
+
 - nullary: relations that make statements about elements, also known as propositions
 - unary: relations that describe properties of elements, also known as predicates
 - binary: relations that describe relationships between pairs of elements
 
 ## Nullary Relations (Propositions)
 
-A nullary relation is a statement that doesn't involve any variables.  In type theory, these statements are represented as *propositions*.
+A nullary relation is a statement that doesn't involve any variables. In type theory, these statements are represented as _propositions_.
 
 In Lean, the type of propositions is called `Prop`. Think of a proposition as a statement that can be either true or false.
 
@@ -78,6 +80,7 @@ The universal quantifier `∀` can be used to define unary predicates that selec
 ```lean
 def greaterThanOne (n : Nat) : Prop := n > 1
 ```
+
 This can be expressed using the universal quantifier as follows:
 
 ```lean
@@ -104,6 +107,7 @@ import Mathlib.Data.Nat.Prime.Basic
 ```
 
 where:
+
 - `→` is the implication operator
 - `∧` is the conjunction operator
 - `∨` is the disjunction operator
@@ -164,7 +168,7 @@ The usage now becomes:
 Relations can have various properties such as reflexivity, symmetry, and transitivity. These properties are important for defining equivalence relations as well as mathematical structures such as groups, rings, and fields and all higher algebraic structures.
 
 | Property     | Definition                                                                                                    | Example                                                            |
-|--------------|---------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| ------------ | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
 | Reflexivity  | A relation is reflexive if every element is related to itself.                                                | `≤` is reflexive because `n ≤ n` for all natural numbers `n`.      |
 | Symmetry     | A relation is symmetric if whenever `a` is related to `b`, `b` is also related to `a`.                        | `=` is symmetric because if `a = b`, then `b = a`.                 |
 | Transitivity | A relation is transitive if whenever `a` is related to `b` and `b` is related to `c`, `a` is related to `c`.  | `≤` is transitive because if `a ≤ b` and `b ≤ c`, then `a ≤ c`.    |
@@ -192,7 +196,6 @@ def symmetric {A : Type} (R : A → A → Prop) : Prop := ∀ a b : A, R a b →
 
 This defines a function `symmetric` that takes a relation `R` on type `A` and returns a proposition stating that for all elements `a` and `b` of type `A`, if `a` is related to `b`, then `b` is related to `a`.
 
-
 ### Transitivity
 
 A relation is transitive if whenever `a` is related to `b` and `b` is related to `c`, `a` is related to `c`. For example, the relation `≤` is transitive because if `a ≤ b` and `b ≤ c`, then `a ≤ c`. The property of transitivity can be expressed as follows:
@@ -202,7 +205,6 @@ def transitive {A : Type} (R : A → A → Prop) : Prop := ∀ a b c : A, R a b 
 ```
 
 This defines a function `transitive` that takes a relation `R` on type `A` and returns a proposition stating that for all elements `a`, `b`, and `c` of type `A`, if `a` is related to `b` and `b` is related to `c`, then `a` is related to `c`.
-
 
 ### Antisymmetry
 
@@ -214,5 +216,6 @@ def antisymmetric {A : Type} (R : A → A → Prop) : Prop := ∀ a b : A, R a b
 
 This defines a function `antisymmetric` that takes a relation `R` on type `A` and returns a proposition stating that for all elements `a` and `b` of type `A`, if `a` is related to `b` and `b` is related to `a`, then `a` is equal to `b`.
 
-****
+---
+
 [Equality](./Types.equality.html)

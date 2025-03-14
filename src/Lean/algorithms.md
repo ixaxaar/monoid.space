@@ -1,11 +1,12 @@
-****
+---
+
 [Contents](contents.html)
 [Previous](Lean.naming.html)
 [Next](Lean.other.html)
 
 # Algorithms
 
-****
+---
 
 - [Algorithms](#algorithms)
   - [Search Algorithms](#search-algorithms)
@@ -29,7 +30,7 @@ Algorithms in Lean are implemented as functions that operate on data structures.
 These are the different types of algorithms we'll explore:
 
 | Algorithm Type | Description                                  |
-|----------------|----------------------------------------------|
+| -------------- | -------------------------------------------- |
 | Search         | Finding elements in collections              |
 | Sorting        | Ordering elements according to some criteria |
 | Tree           | Operations on tree data structures           |
@@ -393,7 +394,7 @@ Dynamic programming solves complex problems by breaking them down into simpler s
 
 ### Fibonacci Sequence
 
-A classic example of dynamic programming  is the Fibonacci sequence.
+A classic example of dynamic programming is the Fibonacci sequence.
 
 We implement the Fibonacci sequence using memoization. Memoization is a technique that stores the results of expensive function calls and returns the cached result when the same inputs occur again. Here we use an array to store the results of the Fibonacci sequence and return the result along with the updated array.
 
@@ -449,6 +450,6 @@ We can now calculate the LCS of two sequences:
 #eval lcs "ABCDGH".data "AEDFHR".data  -- ['A', 'D', 'H']
 ```
 
-****
+---
 
 [Modules and projects](./Lean.other.html)

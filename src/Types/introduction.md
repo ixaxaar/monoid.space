@@ -1,11 +1,12 @@
-****
+---
+
 [Contents](contents.html)
 [Previous](Lang.debugging.html)
 [Next](Types.universe.html)
 
 # Introduction to Type Theory
 
-****
+---
 
 - [Introduction to Type Theory](#introduction-to-type-theory)
   - [Foundations of Mathematics](#foundations-of-mathematics)
@@ -24,7 +25,6 @@
     - [Applications](#applications)
       - [Computer Science](#computer-science)
       - [Mathematics](#mathematics)
-
 
 ```lean
 import Mathlib.Data.Nat.Basic     -- For natural numbers
@@ -178,19 +178,19 @@ There are several other properties of set operations, which are used in mathemat
 
 ## Type Theory
 
-Type theory is a formal system that serves as an alternative foundation for mathematics and computer science, distinct from set theory.  Instead of building everything from sets, type theory centers around the concept of types.  Crucially, every object in type theory has a type.  This is a fundamental and pervasive principle.  Type theory provides an emphasis on computation and is well-suited for formal verification and automated proof checking, as implemented in proof assistants like Lean.
+Type theory is a formal system that serves as an alternative foundation for mathematics and computer science, distinct from set theory. Instead of building everything from sets, type theory centers around the concept of types. Crucially, every object in type theory has a type. This is a fundamental and pervasive principle. Type theory provides an emphasis on computation and is well-suited for formal verification and automated proof checking, as implemented in proof assistants like Lean.
 
 ### Types, Terms, and Judgments
 
 The core building blocks of type theory are:
 
-*   **Types:**  These represent collections of objects with shared properties.  Think of familiar examples like `Nat` (natural numbers) or `Bool` (booleans).  But types can be much more sophisticated, representing functions, propositions, and complex data structures.
-*   **Terms:** These are the individual objects that inhabit types.  For example, `5` is a term of type `Nat`, and `true` is a term of type `Bool`.  We use the notation `a : A` to say that term `a` has type `A`.
-*   **Judgments:** These are the fundamental assertions we make within type theory.  They are *not* propositions that can be true or false within the system; instead, they are declarations about the validity of types and terms.  There are four main kinds of judgments:
+- **Types:** These represent collections of objects with shared properties. Think of familiar examples like `Nat` (natural numbers) or `Bool` (booleans). But types can be much more sophisticated, representing functions, propositions, and complex data structures.
+- **Terms:** These are the individual objects that inhabit types. For example, `5` is a term of type `Nat`, and `true` is a term of type `Bool`. We use the notation `a : A` to say that term `a` has type `A`.
+- **Judgments:** These are the fundamental assertions we make within type theory. They are _not_ propositions that can be true or false within the system; instead, they are declarations about the validity of types and terms. There are four main kinds of judgments:
 
 ### Type Formation
 
-This judgment asserts that something is a well-formed type.  In Lean:
+This judgment asserts that something is a well-formed type. In Lean:
 
 ```lean
 #check Nat        -- Nat : Type
@@ -198,7 +198,7 @@ This judgment asserts that something is a well-formed type.  In Lean:
 #check Nat → Bool  -- Nat → Bool : Type (Functions from Nat to Bool)
 ```
 
-Formally, the judgment `A : Type` (or sometimes `A type`, depending on the specific type theory) means that `A` is a valid type.  This is not something you prove within the system; it's a foundational assertion established by rules. The notation `#check` will only succeed for well formed types.
+Formally, the judgment `A : Type` (or sometimes `A type`, depending on the specific type theory) means that `A` is a valid type. This is not something you prove within the system; it's a foundational assertion established by rules. The notation `#check` will only succeed for well formed types.
 
 ### Term Formation
 
@@ -215,11 +215,11 @@ def myNumber : Nat := 5
 -- def badNumber : Nat := true  -- Error: type mismatch
 ```
 
-Formally, `a : A` means "term `a` has type `A`".  Again, this is not a proposition to be proven, but a declaration based on the rules of type theory.  Lean's type checker enforces these rules.  If you try to construct a term that violates the typing rules, Lean will report an error.
+Formally, `a : A` means "term `a` has type `A`". Again, this is not a proposition to be proven, but a declaration based on the rules of type theory. Lean's type checker enforces these rules. If you try to construct a term that violates the typing rules, Lean will report an error.
 
 ### Type Equality
 
-This judgment asserts that two types are definitionally equal. This is a very strong form of equality.  It means they are the same type, not just equivalent in some way.  This is often written as `A ≡ B` or (in some contexts) just `A = B` (but be careful – in a type theory, equality can mean different things).  Lean handles definitional equality internally.
+This judgment asserts that two types are definitionally equal. This is a very strong form of equality. It means they are the same type, not just equivalent in some way. This is often written as `A ≡ B` or (in some contexts) just `A = B` (but be careful – in a type theory, equality can mean different things). Lean handles definitional equality internally.
 
 ```lean
 -- Example (though Lean infers this automatically)
@@ -227,21 +227,21 @@ def MyType : Type := Nat
 #check MyType -- MyType : Type, which is definitionally equal to Nat.
 ```
 
-In this simple case, the type `MyType` on the right hand side is defined as equal to the `Nat`. With a simple equality, this is a *definitional equality*. Other examples are provided below.
+In this simple case, the type `MyType` on the right hand side is defined as equal to the `Nat`. With a simple equality, this is a _definitional equality_. Other examples are provided below.
 
 ### Term Equality
 
 This judgment has two main forms, with critical distinctions:
 
-*   **Definitional Equality (≡):**  Two terms are definitionally equal if they reduce to the same normal form.   This is like saying `2 + 2` and `4` are definitionally equal. Lean checks this automatically.
+- **Definitional Equality (≡):** Two terms are definitionally equal if they reduce to the same normal form. This is like saying `2 + 2` and `4` are definitionally equal. Lean checks this automatically.
 
 ```lean
 example : 2 + 2 = 4 := rfl  -- Success!  2 + 2 and 4 are definitionally equal.
 ```
 
-   `rfl` (reflexivity) works precisely because `2 + 2` and `4` are *definitionally* equal. Lean can see this directly, without further proof steps.
+`rfl` (reflexivity) works precisely because `2 + 2` and `4` are _definitionally_ equal. Lean can see this directly, without further proof steps.
 
-*   **Propositional Equality (=):** This is the more familiar notion of equality, expressed as a *proposition* that can be proven.  `a = b` (where `a` and `b` are terms of the same type) is itself a *type*!  This is where the *propositions-as-types* principle comes in (which we'll cover later, but it's good to be aware of it early).  Proving `a = b` involves constructing a *term* of that type.
+- **Propositional Equality (=):** This is the more familiar notion of equality, expressed as a _proposition_ that can be proven. `a = b` (where `a` and `b` are terms of the same type) is itself a _type_! This is where the _propositions-as-types_ principle comes in (which we'll cover later, but it's good to be aware of it early). Proving `a = b` involves constructing a _term_ of that type.
 
 ```lean
 -- An easy example, still provable by rfl because of definitional equality
@@ -251,14 +251,14 @@ example : (2 + 2 : Nat) = (4 : Nat) := rfl
 example (n : Nat) : n + 0 = n := Nat.add_zero n
 ```
 
-Crucially, definitional equality implies propositional equality, but *not* the other way around.  If `a ≡ b`, then `a = b` is trivially provable (with `rfl`).
+Crucially, definitional equality implies propositional equality, but _not_ the other way around. If `a ≡ b`, then `a = b` is trivially provable (with `rfl`).
 
 ### Advantages of Type Theory
 
-*   **Computability:** Type theory is inherently computational.  Terms can be evaluated, and type checking is a decidable process.
-*   **Formal Verification:** This computability makes type theory ideal for formalizing mathematics and verifying the correctness of computer programs.  Proof assistants like Lean are built on type theory.
-*   **Expressiveness:**  Type theory can express complex mathematical concepts in a natural and concise way.
-*   **Propositions as Types:**  A key concept (to be explored later) is that propositions (statements that can be true or false) can also be treated as types.  This creates a powerful connection between logic and computation.
+- **Computability:** Type theory is inherently computational. Terms can be evaluated, and type checking is a decidable process.
+- **Formal Verification:** This computability makes type theory ideal for formalizing mathematics and verifying the correctness of computer programs. Proof assistants like Lean are built on type theory.
+- **Expressiveness:** Type theory can express complex mathematical concepts in a natural and concise way.
+- **Propositions as Types:** A key concept (to be explored later) is that propositions (statements that can be true or false) can also be treated as types. This creates a powerful connection between logic and computation.
 
 ### Applications
 
@@ -280,6 +280,6 @@ While Set Theory remains the most common foundation for mathematics, Type Theory
 3.  **Higher-Order Logic**: Type Theory easily accommodates higher-order logic, which can be more expressive than first-order logic used in Set Theory.
 4.  **Homotopy Type Theory**: Recent developments have connected Type Theory with modern areas of mathematics like homotopy theory.
 
-****
+---
 
 [Universes and families](./Types.universe.html)

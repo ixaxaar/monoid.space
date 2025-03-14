@@ -1,11 +1,12 @@
-****
+---
+
 [Contents](contents.html)
 [Previous](Lean.functions.html)
 [Next](Lean.debugging.html)
 
 # Modules and Projects
 
-****
+---
 
 - [Modules and Projects](#modules-and-projects)
   - [Basics](#basics)
@@ -119,6 +120,7 @@ Here are some key points about the configuration:
 There are several more options available for configuring the project in the `lakefile.toml` and can be found in the [Lake documentation](https://github.com/leanprover/lean4/blob/master/src/lake/README.md).
 
 Common Lake commands:
+
 ```bash
 lake build       # Build the project
 lake exe         # Build and run executables
@@ -157,7 +159,7 @@ elan list               # List installed Lean versions
 
 Lean supports documentation strings using `/-! ... -/` for modules and `/-- ... -/` for definitions:
 
-```lean
+````lean
 /-!
 # Basic Arithmetic Module
 This module provides basic arithmetic operations.
@@ -168,10 +170,12 @@ This module provides basic arithmetic operations.
 # Examples
 ```lean
 #eval add 2 3  -- returns 5
-```
+````
+
 -/
 def add (x y : Nat) : Nat := x + y
-```
+
+````
 
 Lean also supports markdown-style comments for documentation:
 
@@ -180,7 +184,7 @@ Lean also supports markdown-style comments for documentation:
 # Heading
 This is a paragraph.
 -/
-```
+````
 
 Documentation strings can be accessed using the `#print` command:
 
@@ -230,6 +234,6 @@ Tests can be run using the `lean --test` command:
 lean --test my_file.lean
 ```
 
-****
+---
 
 [Debugging](./Lean.debugging.html)

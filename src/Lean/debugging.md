@@ -1,11 +1,12 @@
-****
+---
+
 [Contents](contents.html)
 [Previous](Lean.other.html)
 [Next](Types.introduction.html)
 
 # Debugging
 
-****
+---
 
 - [Debugging](#debugging)
   - [Holes](#holes)
@@ -57,7 +58,7 @@ e.g. `add : Nat → Nat → Nat`. This indicates that the `add` function takes t
 Global commands are used to interact with the Lean environment and perform various operations such as checking types, evaluating expressions, printing definitions, reducing expressions, and exiting proofs.
 
 | Command   | Description                                                                |
-|-----------|----------------------------------------------------------------------------|
+| --------- | -------------------------------------------------------------------------- |
 | `#check`  | Shows the type of an expression                                            |
 | `#eval`   | Evaluates an expression                                                    |
 | `#print`  | Displays the definition of a declaration                                   |
@@ -114,7 +115,7 @@ example (n : Nat) : n + 0 = n := by
 Lean has several commands that can be used to interact with the current proof state. These commands can help understand the current goal, trace the execution of a proof, or temporarily fill a hole in a proof.
 
 | Command     | Description                         |
-|-------------|-------------------------------------|
+| ----------- | ----------------------------------- |
 | `show_goal` | Displays the current goal           |
 | `trace`     | Outputs debug information           |
 | `sorry`     | Temporarily fills a hole in a proof |
@@ -122,7 +123,7 @@ Lean has several commands that can be used to interact with the current proof st
 When working on a specific goal, Lean provides additional commands that can be used to introduce hypotheses, create local definitions, or restate the current goal.
 
 | Command | Description                 |
-|---------|-----------------------------|
+| ------- | --------------------------- |
 | `have`  | Introduces a new hypothesis |
 | `let`   | Creates a local definition  |
 | `show`  | Restates the current goal   |
@@ -202,6 +203,7 @@ This restates the current goal in the proof and allows you to continue working o
 Let's look at some common debugging scenarios:
 
 1. Type Mismatch:
+
 ```lean
 def incorrect_add (x : Nat) (y : Int) : Nat :=
   x + y  -- Error: type mismatch
@@ -210,12 +212,14 @@ def incorrect_add (x : Nat) (y : Int) : Nat :=
 ```
 
 Fix using type conversion:
+
 ```lean
 def correct_add (x : Nat) (y : Int) : Nat :=
   x + y.toNat
 ```
 
 2. Incomplete Pattern Matching:
+
 ```lean
 inductive Color
   | Red | Green | Blue
@@ -228,6 +232,7 @@ def to_string (c : Color) : String :=
 ```
 
 3. Proof Debugging:
+
 ```lean
 example (n m : Nat) : n + m = m + n := by
   induction n with
@@ -266,8 +271,10 @@ Lean's tactic framework provides several debugging tactics that can be used to t
 ## Best Practices
 
 1. Use Small Steps
+
    - Break complex proofs into smaller lemmas
    - Use `have` statements to document intermediate steps
+
    ```lean
    theorem complex_proof (n m : Nat) : n + m = m + n := by
      have h1 : n + 0 = n := by rfl
@@ -276,11 +283,13 @@ Lean's tactic framework provides several debugging tactics that can be used to t
    ```
 
 2. Leverage Type Information
+
    - Use `#check` frequently
    - Examine Info View feedback
    - Insert holes (`_`) to see expected types
 
 3. Interactive Development
+
    - Use `sorry` for incremental development
    - Test sub-lemmas independently
    - Keep proofs organized and well-documented
@@ -294,6 +303,6 @@ Lean's tactic framework provides several debugging tactics that can be used to t
        some (x / y)
    ```
 
-****
+---
 
 [Type Theory - Introduction](./Types.introduction.html)

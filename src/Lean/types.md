@@ -1,11 +1,12 @@
-****
+---
+
 [Contents](contents.html)
 [Previous](Lean.naming.html)
 [Next](Lean.functions.html)
 
 # Types & Data Structures
 
-****
+---
 
 - [Types \& Data Structures](#types--data-structures)
   - [Types](#types)
@@ -136,7 +137,7 @@ def mul : Nat → Nat → Nat
 ### Other Primitive Types
 
 | Type     | Description                                        | Example Usage               | Notes                                 |
-|----------|----------------------------------------------------|-----------------------------|---------------------------------------|
+| -------- | -------------------------------------------------- | --------------------------- | ------------------------------------- |
 | `Empty`  | The empty type with no values                      | `def f : Empty → α`         | Used for logical impossibility        |
 | `Unit`   | The unit type with one value `unit`                | `def x : Unit := ()`        | Often used as dummy value             |
 | `Bool`   | Booleans with values `true` and `false`            | `def b : Bool := true`      | Used for conditional logic            |
@@ -598,6 +599,6 @@ def or_comm {p q : Prop} : p ∨ q → q ∨ p
 
 This allows Lean to be used not just as a programming language, but as a powerful theorem prover. We will cover more about theorem proving in a subsequent chapter.
 
-****
+---
 
 [Functions](./Lean.functions.html)

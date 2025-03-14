@@ -1,11 +1,12 @@
-****
+---
+
 [Contents](contents.html)
 [Previous](Lean.setup.html)
 [Next](Lean.types.html)
 
 # Naming conventions
 
-****
+---
 
 - [Naming conventions](#naming-conventions)
   - [Modules](#modules)
@@ -90,6 +91,6 @@ Here's a list of resources for learning Lean:
 
 10. [Formal Abstractions](https://www.youtube.com/c/FormalAbstractions): A YouTube channel with Lean tutorials and demonstrations.
 
-****
+---
 
 [Types](./Lean.types.html)
