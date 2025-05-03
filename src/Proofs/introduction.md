@@ -56,24 +56,24 @@ A proposition is a statement that can be either true or false. Examples:
 1.  "All cats are mammals."
 1.  "x > 5" (where 'x' is a variable)
 
-In type theory (and in Lean), propositions are treated as types. These types are called **propositional types**. The specific type that represents propositions in Lean is called `Prop`. So, instead of just saying "2 + 2 = 4" is a proposition, we can say it's a type (of type `Prop`). In Lean:
+In type theory (and in Lean), propositions are treated as types. These types are called **propositional types**. The specific type that represents propositions in Lean is called `Prop`. So, instead of just saying "2 + 2 = 4" is a proposition, we can say its a type (of type `Prop`). In Lean:
 
 ```lean
 #check 2 + 2 = 4  -- Output: 2 + 2 = 4 : Prop
 ```
 
-This `#check` command confirms that the expression `2 + 2 = 4` has the type `Prop`, meaning it's a propositional type.
+This `#check` command confirms that the expression `2 + 2 = 4` has the type `Prop`, meaning its a propositional type.
 
-In type theory, a **term** is an inhabitant of a type. It's a specific value or expression that belongs to that type. Think of it like this:
+In type theory, a "term" is an inhabitant of a type. Its a specific value or expression that belongs to that type. Think of it like this:
 
 1.  `Nat` is a type (the type of natural numbers).
 1.  `5` is a term of type `Nat`.
 1.  `"hello"` is a term of type `String`.
 1.  `true` is a term of type `Bool`.
 
-**Terms _of_ Propositional Types:**
+**Terms of Propositional Types:**
 
-If a proposition is a _type_, what does it mean to have a _term_ of that type? -- A term of a propositional type is a _proof_ of that proposition. If you can construct a term whose type is a particular proposition, you have _proven_ that proposition. If you _cannot_ construct such a term, the proposition is considered unproven (or, in some cases, false).
+A term of a propositional type is a proof of that proposition. If you can construct a term whose type is a particular proposition, you have proven that proposition. If you cannot construct such a term, the proposition is considered unproven (or, in some cases, false).
 
 Let's see some examples:
 
@@ -98,8 +98,10 @@ def add_one_increases (n : Nat) : n < n + 1 := Nat.lt_succ_self n
 
 Here, we have the following:
 
-- The propositional type is `∀ (n: Nat), n < n+1`, this means "for all natural numbers, n will be less than n+1", a true statement.
-- Then, using the already defined `Nat.lt_succ_self` we define a function to prove this proposition.
+- `n < n + 1` is the propositional type (a proposition).
+- `add_one_increases` is a term of that type.
+- `Nat.lt_succ_self n` is the actual proof (it says "n < n + 1 by definition").
+- Because we were able to construct the term `add_one_increases`, we have proven the proposition `n < n + 1`.
 
 **Example 3: An uninhabited proposition (no term)**
 
@@ -112,11 +114,9 @@ We can state the proposition `1 = 0`, but we can't create a term of that type (u
 
 This ability to treat propositions as types and proofs as terms is a fundamental aspect of type theory and is what makes Lean a powerful tool for both programming and formal verification. It blurs the line between data and proof, making them aspects of the same underlying concept: terms inhabiting types. This is the essence of the "propositions as types" correspondence.
 
-Propositions can be combined using logical connectives like `∧` (and), `∨` (or), `→` (implies), and `¬` (not). Propositions can also be quantified over types or values using `∀` (for all) and `∃` (there exists). Thus, proving a theorem in Lean is akin to constructing a term of a certain type, which is the proposition to be proved.
-
 ## Curry-Howard Isomorphism
 
-The Curry-Howard Isomorphism is a deep and fundamental connection between logic and computation with type theory as the foundational way of expression. It establishes the direct connection between mathematical proofs and computer programs. It's named after logician Haskell Curry and logician William Howard. It states that there is a correspondence between:
+The Curry-Howard Isomorphism is a deep and fundamental connection between logic and computation with type theory as the foundational way of expression. It establishes the direct connection between mathematical proofs and computer programs. Its named after logicians Haskell Curry and William Howard. It states that there is a correspondence between:
 
 - **Proofs** in logic.
 - **Programs** in computation.
@@ -153,22 +153,27 @@ There are extensions of the Curry-Howard Isomorphism, such as the Curry-Howard-L
 
 ## Tactics
 
-Tactics are commands that instruct Lean on how to construct a proof term. They manipulate the _proof state_, which consists of:
+Tactics are commands that instruct Lean on how to construct a proof term. They manipulate the proof state, which consists of:
 
 - **Goals:** The propositions we're currently trying to prove.
 - **Hypotheses:** Assumptions we can use in the proof.
 
 A proof starts with an initial goal (the theorem we want to prove) and ends when all goals have been closed (proven). A proof may involve multiple subgoals, each requiring its own proof, just like computer programs can be broken down into smaller functions and combined.
 
+Propositions can be combined using logical connectives like `∧` (and), `∨` (or), `→` (implies), and `¬` (not). Propositions can also be quantified over types or values using `∀` (for all) and `∃` (there exists).
+
 When using tactics in Lean, you typically start with the `by` keyword, which enters "tactic mode." The proof state is then displayed in the editor, showing the current goal and available hypotheses. As you apply tactics, the proof state changes, and Lean guides you toward completing the proof.
 
 For example, here's how a proof state might look when proving a simple theorem:
 
 ```lean
-a b c : Nat
-h1 : a ≤ b
-h2 : b ≤ c
-⊢ a ≤ c
+example (a b c : Nat) (h1 : a ≤ b) (h2 : b ≤ c) : a ≤ c := by
+  -- Proof state:
+  -- a b c : Nat
+  -- h1 : a ≤ b
+  -- h2 : b ≤ c
+  -- ⊢ a ≤ c
+  exact Nat.le_trans h1 h2 -- using the fact that ≤ is transitive (proof from mathlib)
 ```
 
 The line with `⊢` shows the current goal, and the lines above show the available hypotheses. The goal is to prove `a ≤ c` using the hypotheses `a ≤ b` and `b ≤ c`.
@@ -183,7 +188,7 @@ example : 2 + 2 = 4 := rfl
 
 ### `intro`
 
-The `intro` tactic (short for "introduce") introduces a new hypothesis. It's used when the goal is an implication (`A → B`) or a universal quantification (`∀ x, ...`).
+The `intro` tactic (short for "introduce") introduces a new hypothesis. Its used when the goal is an implication (`A → B`) or a universal quantification (`∀ x, ...`).
 
 ```lean
 example : ∀ x : Nat, x ≤ x + 1 := by

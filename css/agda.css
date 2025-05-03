@@ -39,7 +39,7 @@ html {
 
 body {
   margin: auto;
-  max-width: 1000px;
+  max-width: 80vh;
   color: var(--text-primary);
   font-family: "Source Code Pro", sans-serif;
   line-height: 2em;

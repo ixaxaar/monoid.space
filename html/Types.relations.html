@@ -21,8 +21,9 @@
       vertical-align: middle;
     }
     /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +34,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -119,9 +120,12 @@ href="Types.equality.html">Next</a></p>
 theory, relations are formalized as types, which allows us to reason about them using the full power of the type
 system.</p>
 <h2 id="types-of-relations">Types of Relations</h2>
-<p>Relations can be classified based on the number of elements they relate. They can be: - nullary: relations that make
-statements about elements, also known as propositions - unary: relations that describe properties of elements, also
-known as predicates - binary: relations that describe relationships between pairs of elements</p>
+<p>Relations can be classified based on the number of elements they relate. They can be:</p>
+<ul>
+<li>nullary: relations that make statements about elements, also known as propositions</li>
+<li>unary: relations that describe properties of elements, also known as predicates</li>
+<li>binary: relations that describe relationships between pairs of elements</li>
+</ul>
 <h2 id="nullary-relations-propositions">Nullary Relations (Propositions)</h2>
 <p>A nullary relation is a statement that doesn’t involve any variables. In type theory, these statements are
 represented as <em>propositions</em>.</p>
@@ -173,9 +177,15 @@ few examples of how the universal quantifier can be used:</p>
 #check ∀ x, Even x ↔ 2 ∣ x
 #check ∀ x, Even x → Even (x^2)
 #check ∀ x, Even x ↔ Odd (x + 1)</code></pre>
-<p>where: - <code>→</code> is the implication operator - <code>∧</code> is the conjunction operator - <code>∨</code> is
-the disjunction operator - <code>¬</code> is the negation operator - <code>∣</code> is the divisibility operator -
-<code>^</code> is the exponentiation operator.</p>
+<p>where:</p>
+<ul>
+<li><code>→</code> is the implication operator</li>
+<li><code>∧</code> is the conjunction operator</li>
+<li><code>∨</code> is the disjunction operator</li>
+<li><code>¬</code> is the negation operator</li>
+<li><code>∣</code> is the divisibility operator</li>
+<li><code>^</code> is the exponentiation operator.</li>
+</ul>
 <h3 id="the-existential-quantifier">The Existential Quantifier</h3>
 <p>The existential quantifier <code>∃</code> can be used to define unary predicates that select at least one element of
 a type that satisfies a given property. For example, the following unary predicate selects all natural numbers that are
@@ -207,8 +217,8 @@ for defining equivalence relations as well as mathematical structures such as gr
 algebraic structures.</p>
 <table>
 <colgroup>
-<col style="width: 7%" />
-<col style="width: 57%" />
+<col style="width: 6%" />
+<col style="width: 58%" />
 <col style="width: 35%" />
 </colgroup>
 <thead>
