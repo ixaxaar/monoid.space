@@ -66,7 +66,7 @@ When working with Lean, there are multiple ways to approach proofs:
 2. **Tactic mode:** Using tactics with the `by` keyword
 3. **Structured proofs:** Combining term and tactic mode with `have`, `let`, etc.
 
-This chapter focuses primarily on tactic mode, which offers a good balance between control and automation.
+This chapter focuses primarily on tactic mode, which offers a good balance between control and automation. Whether you're new to proof assistants or transitioning from another system like Agda, mastering tactics in Lean will significantly enhance your ability to formalize mathematics and logic.
 
 ## Structured Proofs
 
@@ -76,7 +76,7 @@ Before diving into individual tactics, let's discuss how to structure proofs eff
 - **Modular:** Break complex proofs into smaller, manageable parts
 - **Maintainable:** Easy to modify or extend if needed
 
-Here's an example of a structured proof:
+Here's an example of a structured proof in Lean, which combines multiple steps in a readable way:
 
 ```lean
 example (a b c : ℕ) (h₁ : a ≤ b) (h₂ : b < c) : a < c := by
@@ -87,24 +87,32 @@ example (a b c : ℕ) (h₁ : a ≤ b) (h₂ : b < c) : a < c := by
   · exact h₂  -- Second premise: b < c
 ```
 
+`apply` here is used to apply a theorem `Nat.lt_of_le_of_lt` from the library, which states that if `a ≤ b` and `b < c`, then `a < c` on natural numbers.
+
+`exact` is used to provide the exact hypotheses needed for the theorem.
+
+So, if we are given `h₁` and `h₂`, we can apply the theorem already proven theorem from the library and we supply the hypotheses `h₁` and `h₂` to the theorem to prove the goal.
+
+In this context, it might be helpful for thinking of a theorem as a function that takes arguments (hypotheses) and returns a result (the conclusion). The `apply` tactic is like calling that function, and `exact` is like providing the arguments.
+
 ## Tactic Combinators
 
-Lean provides several ways to combine tactics:
+Lean provides several ways to combine tactics, allowing you to chain, branch, or repeat them for easier proof construction:
 
 ### Sequencing with `;`
 
-The semicolon allows you to chain tactics:
+The semicolon allows you to chain tactics, applying one after another to the current goal:
 
 ```lean
 example (P Q : Prop) (h : P → Q) (p : P) : Q := by
   apply h; exact p
 ```
 
-This applies `h` and then immediately applies `exact p` to the resulting goal.
+This applies `h` to transform the goal into needing `P`, and then immediately uses `exact p` to close the goal with the provided hypothesis.
 
 ### Branching with `|`
 
-The vertical bar allows you to try different tactics for the same goal:
+The vertical bar allows you to try different tactics for the same goal, useful when multiple approaches might work:
 
 ```lean
 example (P Q : Prop) : P → (P → Q) → Q := by
@@ -114,9 +122,11 @@ example (P Q : Prop) : P → (P → Q) → Q := by
   | apply h; exact p
 ```
 
+Here, `first` tries each tactic in order until one succeeds. This can be handy for experimentation or when a goal can be solved in multiple ways.
+
 ### Repetition with `*` and `+`
 
-You can repeat tactics with `*` (zero or more times) and `+` (one or more times):
+You can repeat tactics with `*` (zero or more times) and `+` (one or more times), which is particularly useful for handling multiple hypotheses or goals:
 
 ```lean
 example (P Q R : Prop) : (P → Q → R) → P → Q → R := by
@@ -124,20 +134,26 @@ example (P Q R : Prop) : (P → Q → R) → P → Q → R := by
   assumption -- Use an assumption that matches the goal
 ```
 
+The `intros*` tactic introduces all possible hypotheses in one go, streamlining the proof process.
+
 ## Basic Tactics
+
+Let's explore the foundational tactics in Lean. These are the building blocks you'll use in almost every proof, so getting comfortable with them is essential.
 
 ### `rfl` and `refl`
 
-Both prove goals of the form `a = a` by reflexivity:
+Both prove goals of the form `a = a` by reflexivity, often used for equalities that hold by definition:
 
 ```lean
 example : 2 + 2 = 4 := by
   rfl -- Proves by computation (definitional equality)
 ```
 
+While `rfl` focuses on computational equality, `refl` is a more general tactic for reflexive relations. You'll most often use `rfl` for straightforward equalities.
+
 ### `intro` and `intros`
 
-Introduces hypotheses for implications and universal quantifiers:
+These tactics introduce hypotheses for implications and universal quantifiers, moving them from the goal to the context:
 
 ```lean
 example : ∀ (n m : ℕ), n = m → m = n := by
@@ -146,9 +162,11 @@ example : ∀ (n m : ℕ), n = m → m = n := by
   exact h
 ```
 
+`intro` introduces one hypothesis at a time, while `intros` can handle multiple at once, as shown above. This mirrors how you might assume premises in a mathematical argument.
+
 ### `apply`
 
-Applies a theorem or hypothesis whose conclusion matches the goal:
+Applies a theorem or hypothesis whose conclusion matches the goal, potentially generating new subgoals for its premises:
 
 ```lean
 example (P Q : Prop) (h : P → Q) (p : P) : Q := by
@@ -156,27 +174,33 @@ example (P Q : Prop) (h : P → Q) (p : P) : Q := by
   exact p
 ```
 
+Think of `apply` as working backward: it reduces the goal to proving the premises of the applied theorem or hypothesis.
+
 ### `exact`
 
-Provides an exact proof term for the current goal:
+Provides an exact proof term for the current goal, closing it if the term matches the goal precisely:
 
 ```lean
 example (P : Prop) (h : P) : P := by
   exact h
 ```
 
+This is often used after other tactics have shaped the goal to match an existing hypothesis or theorem.
+
 ### `assumption`
 
-Looks for a hypothesis that exactly matches the goal:
+Looks for a hypothesis in the context that exactly matches the goal, closing it automatically:
 
 ```lean
 example (P Q : Prop) (h₁ : P) (h₂ : Q) : P := by
   assumption
 ```
 
+This is a quick way to resolve goals when the required proof is already in the context, saving you from explicitly naming the hypothesis.
+
 ### `have`
 
-Introduces a new subgoal and adds it as a hypothesis once proved:
+Introduces a new subgoal and adds it as a hypothesis once proved, useful for breaking down complex proofs into smaller steps:
 
 ```lean
 example (P Q R : Prop) (h₁ : P → Q) (h₂ : Q → R) (p : P) : R := by
@@ -184,9 +208,11 @@ example (P Q R : Prop) (h₁ : P → Q) (h₂ : Q → R) (p : P) : R := by
   exact h₂ q
 ```
 
+This tactic helps in making proofs more modular, allowing you to name intermediate results for clarity and reuse.
+
 ### `let`
 
-Introduces a local definition:
+Introduces a local definition within a proof, which can simplify expressions or clarify intent:
 
 ```lean
 example (n : ℕ) : n + n = 2 * n := by
@@ -196,9 +222,11 @@ example (n : ℕ) : n + n = 2 * n := by
   exact this
 ```
 
+`let` is particularly useful when you need to refer to a computed value multiple times in a proof.
+
 ### `rewrite` and `rw`
 
-Rewrites the goal using an equality:
+Rewrites the goal using an equality, transforming expressions based on proven equalities or definitions:
 
 ```lean
 example (a b : ℕ) (h : a = b) : a + a = b + b := by
@@ -207,7 +235,7 @@ example (a b : ℕ) (h : a = b) : a + a = b + b := by
   rfl
 ```
 
-You can rewrite multiple equalities and specify directions:
+You can rewrite multiple equalities and specify direction with `←` for reverse rewriting:
 
 ```lean
 example (a b c : ℕ) (h₁ : a = b) (h₂ : c = b) : a = c := by
@@ -217,9 +245,11 @@ example (a b c : ℕ) (h₁ : a = b) (h₂ : c = b) : a = c := by
   rfl
 ```
 
+`rw` is one of the most frequently used tactics, as it allows direct manipulation of terms in the goal.
+
 ### `cases`
 
-Breaks down a hypothesis by cases:
+Breaks down a hypothesis or goal by cases, useful for handling inductive types or logical disjunctions:
 
 ```lean
 example (P Q : Prop) : P ∧ Q → Q ∧ P := by
@@ -230,9 +260,11 @@ example (P Q : Prop) : P ∧ Q → Q ∧ P := by
     · exact hp
 ```
 
+This tactic splits the proof into manageable parts based on the structure of the data or proposition, much like a case analysis in mathematics.
+
 ### `induction`
 
-Proves a goal by induction:
+Proves a goal by induction, essential for reasoning about recursive structures like natural numbers or lists:
 
 ```lean
 example (n : ℕ) : 2 * n = n + n := by
@@ -243,273 +275,260 @@ example (n : ℕ) : 2 * n = n + n := by
     rfl
 ```
 
+Here, `ih` is the induction hypothesis, used to build the proof for the successor case. Induction is a cornerstone of formal proofs in Lean.
+
 ### `contradiction`
 
-Proves a goal when the hypotheses are contradictory:
+Proves a goal when the hypotheses are contradictory, resolving the proof by showing an inconsistency:
 
 ```lean
 example (P : Prop) (h₁ : P) (h₂ : ¬P) : Q := by
   contradiction
 ```
 
+This tactic is useful in proofs by contradiction, where assuming the negation leads to an impossible state.
+
 ### `by_cases`
 
-Splits a proof into cases based on whether a proposition is true or false:
+Splits the proof into two cases based on a decidable proposition, allowing you to handle both possibilities:
 
 ```lean
-example (P Q : Prop) : (P → Q) → (¬P ∨ Q) := by
-  intro h
-  by_cases hp : P
-  · right
-    exact h hp
-  · left
-    exact hp
+example (P Q : Prop) (h : P → Q) : ¬P ∨ Q := by
+  by_cases p : P
+  · exact Or.inr (h p)  -- Case 1: P is true, so Q must be true
+  · exact Or.inl p      -- Case 2: P is false, so ¬P holds
 ```
+
+`by_cases` is particularly useful for propositions where you can reason about both truth and falsity, mirroring classical logic's law of excluded middle (though Lean often works constructively).
 
 ## Intermediate Tactics
 
+Once you're comfortable with the basics, these intermediate tactics can speed up proof development by automating common patterns.
+
 ### `simp`
 
-Simplifies the goal using a library of simplification lemmas:
+Simplifies the goal or hypotheses using a set of simplification rules, often reducing expressions to their canonical form:
 
 ```lean
-example (a b c : ℕ) (h : a = b) : a + c = b + c := by
-  simp [h]
+example (a b : ℕ) : a + 0 + b = a + b := by
+  simp
 ```
+
+`simp` is a powerful tool for cleaning up goals, especially in algebraic contexts, though it can sometimes be opaque about what rules it applies.
 
 ### `ring`
 
-Solves equalities in commutative rings:
+Automates proofs of equalities in commutative rings, solving polynomial equations over integers or rationals:
 
 ```lean
-example (a b : ℕ) : (a + b) * (a + b) = a*a + 2*a*b + b*b := by
+example (a b : ℤ) : (a + b) * (a - b) = a^2 - b^2 := by
   ring
 ```
+
+This tactic is invaluable for algebraic manipulations, handling tedious calculations automatically.
 
 ### `field`
 
-Solves equalities in fields, handling divisions:
+Similar to `ring`, but for fields, handling fractions and division in expressions:
 
 ```lean
-example (a b c : ℚ) (h : c ≠ 0) : (a + b) / c = a / c + b / c := by
-  field_simp
-  ring
+example (a b : ℚ) (h : b ≠ 0) : (a / b) * b = a := by
+  field
+  exact h
 ```
+
+`field` simplifies rational expressions, making it easier to work with fractions in proofs.
 
 ### `linarith`
 
-Solves linear arithmetic problems:
+Automates linear arithmetic, proving inequalities and equalities involving addition and scalar multiplication:
 
 ```lean
-example (a b c : ℕ) (h₁ : a ≤ b) (h₂ : b < c) : a < c := by
+example (a b c : ℤ) (h₁ : a ≤ b) (h₂ : b < c) : a < c := by
   linarith
 ```
 
+This tactic is a go-to for numerical inequalities, combining hypotheses to resolve the goal.
+
 ## Advanced Tactics
+
+For more complex proofs, these advanced tactics can handle entire subgoals or apply sophisticated automation.
 
 ### `tauto`
 
-Proves tautologies in propositional logic:
+Automates proofs in propositional logic, resolving tautologies using logical rules:
 
 ```lean
-example (P Q : Prop) : P ∧ Q → P := by
+example (P Q : Prop) : (P → Q) → (¬Q → ¬P) := by
   tauto
 ```
 
+`tauto` is great for logical implications and contradictions, often closing goals in one step.
+
 ### `finish`
 
-Attempts to finish the proof using a combination of tactics:
+A powerful automation tactic that attempts to close the goal using a combination of logical and arithmetic reasoning:
 
 ```lean
-example (P Q : Prop) (h₁ : P → Q) (h₂ : P) : Q := by
+example (P Q : Prop) (h : P → Q) (p : P) : Q := by
   finish
 ```
 
+While convenient, `finish` can be slow for large goals, so use it judiciously.
+
 ### `omega`
 
-Handles linear arithmetic over integers:
+Handles Presburger arithmetic, proving statements about integers using addition and inequalities:
 
 ```lean
-example (a b : Int) (h₁ : a ≤ b) (h₂ : a ≥ b) : a = b := by
+example (a b : ℤ) (h : a < b) : a + 1 ≤ b := by
   omega
 ```
 
+`omega` is particularly useful for integer arithmetic beyond simple linear combinations.
+
 ### `aesop`
 
-The Automated Extensible Search for Obvious Proofs (aesop) is a powerful search tactic:
+A modern automation tactic in Lean, designed as a successor to `finish`, offering customizable search strategies:
 
 ```lean
-example (P Q R : Prop) (h₁ : P → Q) (h₂ : Q → R) (hp : P) : R := by
+example (P Q R : Prop) (h₁ : P → Q) (h₂ : Q → R) (p : P) : R := by
   aesop
 ```
 
+`aesop` is highly configurable and often more efficient than older automation tactics, making it a strong choice for complex proofs.
+
 ## Proof Patterns and Strategies
+
+Beyond individual tactics, successful theorem proving in Lean involves understanding broader strategies. These patterns help you approach proofs systematically, especially for complex goals.
 
 ### Forward Reasoning vs. Backward Reasoning
 
-In **forward reasoning**, you start with what you know and derive new facts until you reach the goal:
+- **Forward Reasoning**: Start with what you know (hypotheses) and build towards the goal. Tactics like `have` and direct computation support this approach.
+- **Backward Reasoning**: Start with the goal and work backward to what you need to prove. Tactics like `apply` and `rw` are key here, reducing the goal to simpler subgoals.
 
-```lean
-example (P Q R : Prop) (h₁ : P → Q) (h₂ : Q → R) (p : P) : R := by
-  have q : Q := h₁ p
-  have r : R := h₂ q
-  exact r
-```
-
-In **backward reasoning**, you start with the goal and break it down until you reach known facts:
-
-```lean
-example (P Q R : Prop) (h₁ : P → Q) (h₂ : Q → R) (p : P) : R := by
-  apply h₂
-  apply h₁
-  exact p
-```
+Most proofs in Lean combine both approaches. For example, you might use `apply` to break down the goal (backward), then use `have` to establish an intermediate result (forward).
 
 ### Case Analysis
 
-When dealing with complex goals, breaking them into cases can simplify the proof:
+Case analysis, facilitated by `cases` and `by_cases`, involves breaking a problem into distinct scenarios. This is particularly useful for propositions with multiple possible states or inductive types with different constructors.
 
 ```lean
 example (n : ℕ) : n = 0 ∨ n > 0 := by
   cases n with
-  | zero => left; rfl
-  | succ n => right; apply Nat.succ_pos
+  | zero => exact Or.inl rfl
+  | succ k => exact Or.inr (Nat.zero_lt_succ k)
 ```
+
+This pattern mirrors how mathematicians often split arguments into cases based on structure or properties.
 
 ### Induction Principles
 
-Induction is essential for proving properties of recursive definitions:
+Induction, as seen with the `induction` tactic, is fundamental for proving properties over recursive structures. Always consider induction for goals involving natural numbers, lists, or other inductive types.
 
 ```lean
-example (n : ℕ) : n + 0 = n := by
-  induction n with
-  | zero => rfl
-  | succ n ih => 
-    rw [Nat.add_succ, ih]
-    rfl
+example (l : List ℕ) : l.length ≥ 0 := by
+  induction l with
+  | nil => exact Nat.zero_le 0
+  | cons _ ih => exact Nat.succ_le_succ ih
 ```
+
+The induction hypothesis (`ih`) is your bridge from the base case to the general case, a concept we'll revisit in more advanced contexts.
 
 ### Proof by Contradiction
 
-Sometimes, it's easier to prove something by assuming its negation and deriving a contradiction:
+Proof by contradiction, supported by the `contradiction` tactic, assumes the negation of the goal and derives a contradiction from the hypotheses:
 
 ```lean
 example (P : Prop) : ¬¬P → P := by
   intro h
   by_cases p : P
   · exact p
-  · contradiction
+  · contradiction  -- h is ¬¬P, p is ¬P, so contradiction
 ```
+
+This classical approach is powerful but should be used carefully in Lean, as constructive proofs are often preferred for clarity and computational content.
 
 ## Debugging Proofs
 
+Proofs don't always go as planned, especially when learning Lean or tackling complex goals. These tools and tactics help diagnose issues in your proofs.
+
 ### `trace`
 
-Prints information during proof execution:
+Outputs intermediate states or messages during proof execution, helping you see where a tactic fails or what the goal looks like:
 
 ```lean
-example (n : ℕ) : n + 0 = n := by
-  induction n with
-  | zero => 
-    trace "Base case: proving 0 + 0 = 0"
-    rfl
-  | succ n ih => 
-    trace "Inductive case: proving succ n + 0 = succ n using " ++ toString ih
-    rw [Nat.add_succ]
-    rw [ih]
-    rfl
+example (P Q : Prop) (h : P → Q) (p : P) : Q := by
+  trace "Current goal before apply"
+  apply h
+  trace "Goal after apply: need to prove P"
+  exact p
 ```
+
+Use `trace` to log custom messages or inspect the proof state at specific points.
 
 ### `#print`
 
-Outside of proofs, `#print` shows the definition of terms:
+Prints definitions or information about a term, useful for understanding what theorems or types are available:
 
 ```lean
-#print Nat.add
+#print Nat.add  -- Shows the definition of addition on natural numbers
 ```
+
+This command helps when you're unsure about the exact statement or structure of a theorem you want to use.
 
 ### `#check`
 
-Checks the type of an expression:
+Checks the type of an expression, confirming what a term or theorem represents:
 
 ```lean
-#check Nat.add_comm
+#check Nat.lt_of_le_of_lt  -- Displays the type of this theorem
 ```
+
+Use `#check` to ensure you're applying the right theorem or to explore the library for useful results.
 
 ## Examples of Complex Proofs
 
-Let's conclude with a more sophisticated example that combines multiple tactics:
+To solidify your understanding, let's look at a few more involved proofs that combine multiple tactics and strategies. These examples build on concepts from earlier chapters and demonstrate real-world applications of Lean tactics.
+
+**Example 1: Proving a Property of Natural Numbers**
+
+Let's prove that the sum of the first `n` natural numbers is `n * (n + 1) / 2`. This classic result requires induction and algebraic manipulation:
 
 ```lean
-theorem sqrt2_irrational : ¬ ∃ (p q : ℕ), q > 0 ∧ p*p = 2*q*q := by
-  intro ⟨p, q, hq, h⟩
-  wlog hp : p > 0
-  · have : p*p = 2*q*q := h
-    have : p*p > 0 := by
-      apply mul_pos <;> assumption
-    have : p > 0 := Nat.pos_of_mul_pos_left this (by decide)
-    contradiction
-  
-  have : p*p = 2*q*q := h
-  have : Even (p*p) := by
-    use q*q
-    rw [two_mul]
-    exact this.symm
-  
-  have : Even p := by
-    apply even_of_even_sqr
-    assumption
-  
-  rcases this with ⟨k, hk⟩
-  rw [hk, mul_pow] at h
-  have : 4*k*k = 2*q*q := by rw [← h, pow_two, mul_assoc]
-  have : 2*k*k = q*q := by
-    apply mul_left_cancel₀ two_ne_zero
-    exact this
-  
-  have : Even (q*q) := by
-    use k*k
-    rw [two_mul]
-    exact this.symm
-  
-  have : Even q := by
-    apply even_of_even_sqr
-    assumption
-  
-  rcases this with ⟨j, hj⟩
-  rw [hj, ← mul_assoc, mul_pow] at h
-  
-  -- Now we have a smaller pair (k, j) with the same property
-  have : k*k = 2*j*j := by
-    apply mul_left_cancel₀ (by decide : 4 ≠ 0)
-    rw [← h, mul_pow, mul_assoc, mul_assoc]
-    ring
-  
-  have : k > 0 := by
-    apply Nat.pos_of_mul_pos_left (by rw [← hk]; exact hp) (by decide)
-  have : j > 0 := by
-    apply Nat.pos_of_mul_pos_left (by rw [← hj]; exact hq) (by decide)
-  
-  -- This contradicts the well-foundedness of ℕ
-  have : k < p := by
-    rw [hk]
-    apply Nat.mul_lt_of_lt_div
-    · exact two_pos
-    · exact hp
-  
-  -- Infinite descent is impossible
-  have : ∃ (p' q' : ℕ), q' > 0 ∧ p'*p' = 2*q'*q' ∧ p' < p := by
-    use k, j
-    constructor
-    · exact ⟨this.1, this.2, by assumption⟩
-  
-  -- Apply infinite descent to get a contradiction
-  have := sqrt2_irrational
-  contradiction
+example (n : ℕ) : 2 * (List.range (n + 1)).sum = n * (n + 1) := by
+  induction n with
+  | zero =>
+    simp [List.range, List.sum_nil]  -- Base case: sum of empty list is 0
+  | succ n ih =>
+    simp [List.range, List.sum_cons, ih]  -- Unfold definitions
+    ring  -- Use ring tactic to simplify the algebra
 ```
 
-This extended example demonstrates the power of combining tactics for constructing complex proofs. Understanding when and how to use each tactic is an essential skill for theorem proving in Lean.
+This proof uses `induction` for the structure, `simp` to handle list operations, and `ring` for algebraic simplification, showcasing how tactics build on each other.
+
+**Example 2: Logical Implication with Multiple Cases**
+
+Consider a logical statement involving multiple conditions, where case analysis is necessary:
+
+```lean
+example (P Q R : Prop) : (P ∧ Q) ∨ (P ∧ R) → P ∧ (Q ∨ R) := by
+  intro h
+  cases h with
+  | inl hpq =>
+    constructor
+    · exact hpq.1  -- P from P ∧ Q
+    · exact Or.inl hpq.2  -- Q as left disjunct
+  | inr hpr =>
+    constructor
+    · exact hpr.1  -- P from P ∧ R
+    · exact Or.inr hpr.2  -- R as right disjunct
+```
+
+Here, `cases` handles the disjunction in the hypothesis, and `constructor` builds the conjunction in the goal, demonstrating structured reasoning over logical propositions.
+
+These examples are just the beginning. As you progress through later chapters, you'll encounter more sophisticated proofs in areas like algebra and category theory, where these tactics will be applied in increasingly complex ways.
 
 ---
 
-[Next: Automation & Reflection](Proofs.automation.html)
+[Previous](Proofs.introduction.html) | [Next](Proofs.automation.html) <!-- WIP section -->
