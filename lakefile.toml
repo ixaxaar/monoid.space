@@ -1,0 +1,11 @@
+name = "monoid.space"
+
+[lib]
+name = "MonoidSpace"
+srcDir = "."
+defaultTarget = true
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.17.0"

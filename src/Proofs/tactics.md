@@ -66,7 +66,7 @@ When working with Lean, there are multiple ways to approach proofs:
 2. **Tactic mode:** Using tactics with the `by` keyword
 3. **Structured proofs:** Combining term and tactic mode with `have`, `let`, etc.
 
-This chapter focuses primarily on tactic mode, which offers a good balance between control and automation. Whether you're new to proof assistants or transitioning from another system like Agda, mastering tactics in Lean will significantly enhance your ability to formalize mathematics and logic.
+This chapter focuses primarily on tactic mode. Whether you're new to proof assistants or transitioning from another system like Agda, mastering tactics in Lean will make you much more productive.
 
 ## Structured Proofs
 
