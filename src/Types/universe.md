@@ -8,16 +8,15 @@
 
 ---
 
-- [Universes](#universes)
-  - [The `Type` Type](#the-type-type)
-  - [Lifting Types](#lifting-types)
-  - [Universe Polymorphism](#universe-polymorphism)
-  - [The `Prop` Type](#the-prop-type)
-  - [`Prop` and `Type` and `Sort`](#prop-and-type-and-sort)
+- [The `Type` Type](#the-type-type)
+- [Lifting Types](#lifting-types)
+- [Universe Polymorphism](#universe-polymorphism)
+- [The `Prop` Type](#the-prop-type)
+- [`Prop` and `Type` and `Sort`](#prop-and-type-and-sort)
 
-Set theory has had to deal with paradoxes, such as Russell's Paradox, which shows that the set of all sets that do not contain themselves cannot exist. Set theorists have developed ways to avoid these paradoxes, such as the Zermelo-Fraenkel axioms or ZFC, which avoid the paradoxes by restricting the kinds of sets that can be formed to in a well-defined way.
+Set theory confronts paradoxes like Russell's Paradox, demonstrating that the set of all sets not containing themselves cannot exist. To avoid such paradoxes, set theorists developed axiomatic systems like Zermelo-Fraenkel with Choice (ZFC), which restrict set formation through well-defined rules.
 
-Just like Set theory, Type theory also has had to deal with paradoxes. In Type theory, we have a similar problem to Russell's Paradox: the type of all types cannot exist, as it would lead to a contradiction. To avoid this, the concept of universes was introduced. Universes are a way to organize types into a hierarchy, where each universe contains the types of the universe below it. This way, we can avoid paradoxes by not allowing types to contain themselves. In Lean, the type of all types is called `Type`, and it is a universe itself. However, to avoid paradoxes, Lean uses a hierarchy of universes, where each universe contains the types of the universe below it.
+Type theory faces analogous paradoxes: the type of all types cannot exist without contradiction. Type theory resolves this through universes—a hierarchy organizing types such that each universe contains types from lower levels, preventing self-containment. Lean's `Type` represents this universe hierarchy, where higher universes contain lower ones.
 
 In Type Theory, a universe is a type that contains other types. Formally, a universe is a type `U` such that for any type `A`, `A : U` means that `A` is a type. The universe is used to organize the types in a hierarchy, where each universe contains the types of the universe below it.
 

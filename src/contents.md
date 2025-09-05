@@ -2,7 +2,7 @@
 
 # Contents
 
-This book provides an introduction to type theory, theorem proving, and mathematical foundations using the Lean 4 proof assistant. It covers fundamental concepts from basic type theory to advanced topics in category theory and homotopy type theory.
+This book introduces type theory, theorem proving, and mathematical foundations using Lean 4. It progresses systematically from basic type-theoretic concepts to advanced topics in category theory and homotopy type theory.
 
 ## 1. Lean
 

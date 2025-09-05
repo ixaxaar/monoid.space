@@ -8,18 +8,17 @@
 
 ---
 
-- [Relations](#relations)
-  - [Types of Relations](#types-of-relations)
-  - [Nullary Relations (Propositions)](#nullary-relations-propositions)
-  - [Unary Relations (Predicates)](#unary-relations-predicates)
-    - [The Universal Quantifier](#the-universal-quantifier)
-    - [The Existential Quantifier](#the-existential-quantifier)
-  - [Binary Relations](#binary-relations)
-  - [Properties of Relations](#properties-of-relations)
-    - [Reflexivity](#reflexivity)
-    - [Symmetry](#symmetry)
-    - [Transitivity](#transitivity)
-    - [Antisymmetry](#antisymmetry)
+- [Types of Relations](#types-of-relations)
+- [Nullary Relations (Propositions)](#nullary-relations-propositions)
+- [Unary Relations (Predicates)](#unary-relations-predicates)
+  - [The Universal Quantifier](#the-universal-quantifier)
+  - [The Existential Quantifier](#the-existential-quantifier)
+- [Binary Relations](#binary-relations)
+- [Properties of Relations](#properties-of-relations)
+  - [Reflexivity](#reflexivity)
+  - [Symmetry](#symmetry)
+  - [Transitivity](#transitivity)
+  - [Antisymmetry](#antisymmetry)
 
 In mathematics and logic, relations describe how elements are connected or associated with each other. In type theory, relations are formalized as types, which allows us to reason about them using the full power of the type system.
 
@@ -65,8 +64,8 @@ This defines a function `is_even` that takes a natural number `n` and returns a 
 
 Here is another example of a unary predicate that selects all prime numbers from `Nat`:
 
-```
-def isPrime (n : Nat) : Prop := ∀ m : Nat, m > 1 → m < n → n % m ≠ 0
+```lean
+def isPrime (n : Nat) : Prop := n > 1 ∧ ∀ m : Nat, m > 1 → m < n → n % m ≠ 0
 ```
 
 This defines a function `isPrime` that takes a natural number `n` and returns a proposition stating that for all natural numbers `m` greater than 1 and less than `n`, `n` is not divisible by `m`.
@@ -159,7 +158,7 @@ local infix:50 " ≦ " => Nat.le
 
 The usage now becomes:
 
-```
+```lean
 #check 3 ≦ 5
 ```
 

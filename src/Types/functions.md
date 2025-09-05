@@ -8,23 +8,22 @@
 
 ---
 
+- [Introduction](#introduction)
 - [Function Types](#function-types)
-  - [Introduction](#introduction)
-  - [Function Types](#function-types-1)
-    - [Examples](#examples)
-      - [Lambda Expressions](#lambda-expressions)
-  - [Dependent Function Types](#dependent-function-types)
-    - [Examples](#examples-1)
-      - [Defining Pi Types](#defining-pi-types)
-    - [Relationship to Simple Function Types](#relationship-to-simple-function-types)
-  - [Currying and Uncurrying (Revisited)](#currying-and-uncurrying-revisited)
-  - [Function Composition](#function-composition)
-  - [Parametric Polymorphism](#parametric-polymorphism)
-  - [Higher-Order Functions](#higher-order-functions)
-    - [Functions as Arguments](#functions-as-arguments)
-    - [Functions as Results](#functions-as-results)
-    - [Lifting](#lifting)
-  - [Extensionality](#extensionality)
+  - [Examples](#examples)
+    - [Lambda Expressions](#lambda-expressions)
+- [Dependent Function Types](#dependent-function-types)
+  - [Examples](#examples-1)
+    - [Defining Pi Types](#defining-pi-types)
+  - [Relationship to Simple Function Types](#relationship-to-simple-function-types)
+- [Currying and Uncurrying (Revisited)](#currying-and-uncurrying-revisited)
+- [Function Composition](#function-composition)
+- [Parametric Polymorphism](#parametric-polymorphism)
+- [Higher-Order Functions](#higher-order-functions)
+  - [Functions as Arguments](#functions-as-arguments)
+  - [Functions as Results](#functions-as-results)
+  - [Lifting](#lifting)
+- [Extensionality](#extensionality)
 
 ```lean
 import Mathlib.Data.Vector
@@ -45,10 +44,10 @@ Mathematically, a function `f : A → B` is a relation between sets `A` and `B` 
 
 #### Lambda Expressions
 
-We can also define functions anonymously, without giving them a name, using _lambda expressions_. A lambda expression starts with the keyword `fun` (or the symbol `λ`), followed by the argument list, and then `=>` and the function body.
+We can also define functions anonymously, without giving them a name, using _lambda expressions_. A lambda expression starts with the keyword `fun` (or the symbol `fun`), followed by the argument list, and then `=>` and the function body.
 
 ```lean
-#check fun (n : Nat) => n * 2  -- fun n => n * 2 : ℕ → ℕ
+#check fun (n : Nat) => n * 2  -- fun n => n * 2 : Nat → Nat
 
 def double : Nat → Nat := fun n => n * 2
 
@@ -73,7 +72,7 @@ This can be read as "for all `a` of type `A`, a return type of `B a`". This is a
 -- A function that takes a length 'n' and returns a vector of zeros of that length.
 def zeros (n : Nat) : Vector Nat n := Vector.replicate n 0
 
-#check zeros  -- zeros : (n : ℕ) → Vector ℕ n
+#check zeros  -- zeros : (n : Nat) → Vector Nat n
 ```
 
 The type of `zeros` is a Pi type. The return type, `Vector Nat n`, depends on the input value, `n`.
@@ -84,7 +83,7 @@ Another example: a function that gets the element at a specific index in a vecto
 -- Get the element at index 'i' in a vector of length 'n'.
 def Vector.get (v : Vector α n) (i : Fin n) : α := v.1[i]
 
-#check Vector.get -- {α : Type} → {n : ℕ} → Vector α n → Fin n → α
+#check Vector.get -- {α : Type} → {n : Nat} → Vector α n → Fin n → α
 
 ```
 

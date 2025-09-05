@@ -8,24 +8,23 @@
 
 ---
 
-- [Operations](#operations)
-  - [Nullary Operations](#nullary-operations)
-  - [Unary Operations](#unary-operations)
-  - [Binary Operations](#binary-operations)
-  - [Higher Arity Operations](#higher-arity-operations)
-    - [Curry-Howard Isomorphism](#curry-howard-isomorphism)
-  - [Operator Laws](#operator-laws)
-    - [Associativity](#associativity)
-    - [Commutativity](#commutativity)
-    - [Distributivity](#distributivity)
-    - [Absorption](#absorption)
-    - [Cancellation](#cancellation)
-  - [Special Operations](#special-operations)
-    - [Identity](#identity)
-    - [Inverse](#inverse)
-    - [Elimination (Annihilator)](#elimination-annihilator)
-    - [Congruence](#congruence)
-    - [Respecting a Relation](#respecting-a-relation)
+- [Nullary Operations](#nullary-operations)
+- [Unary Operations](#unary-operations)
+- [Binary Operations](#binary-operations)
+- [Higher Arity Operations](#higher-arity-operations)
+  - [Curry-Howard Isomorphism](#curry-howard-isomorphism)
+- [Operator Laws](#operator-laws)
+  - [Associativity](#associativity)
+  - [Commutativity](#commutativity)
+  - [Distributivity](#distributivity)
+  - [Absorption](#absorption)
+  - [Cancellation](#cancellation)
+- [Special Operations](#special-operations)
+  - [Identity](#identity)
+  - [Inverse](#inverse)
+  - [Elimination (Annihilator)](#elimination-annihilator)
+  - [Congruence](#congruence)
+  - [Respecting a Relation](#respecting-a-relation)
 
 An operation can be thought of as a map or a function between types with a certain arity. Operations can also be thought of as functions that may take zero or more operands and return an output value. Some examples are addition, subtraction, multiplication, and division of natural, real, and complex numbers. Based on arity, operations can be:
 
@@ -37,9 +36,9 @@ An operation can be thought of as a map or a function between types with a certa
 Operations of higher arity can often be decomposed into ones of lower arity using techniques like currying.
 
 ```lean
-import Data.Set
-import Data.Equiv
-import Logic.Function.Basic
+import Mathlib.Data.Set.Basic
+import Mathlib.Data.Equiv.Basic  
+import Mathlib.Logic.Function.Basic
 ```
 
 ## Nullary Operations
@@ -137,7 +136,7 @@ There is another conseqquence of this: currying. Currying is the process of conv
 
 ```lean
 def curry {A B C : Type*} (f : A × B → C) : A → B → C :=
-  λ a b, f (a, b)
+  fun a b => f (a, b)
 ```
 
 Practically, currying allows us to define functions that take multiple arguments as a sequence of functions that each take a single argument. This can be useful for partial application of functions, where some arguments are fixed and others are left as parameters. Currying is also a method to construct higher-arity operations from lower-arity operations.
@@ -146,14 +145,14 @@ Let us look at a more involved example in lean:
 
 ```lean
 def curry {A B C : Type*} (f : A × B → C) : A → B → C :=
-  λ a b, f (a, b)
+  fun a b => f (a, b)
 
 def uncurry {A B C : Type*} (f : A → B → C) : A × B → C :=
-  λ p, f p.1 p.2
+  fun p => f p.1 p.2
 
-def add : ℕ × ℕ → ℕ := λ p, p.1 + p.2
-def add' : ℕ → ℕ → ℕ := curry add
-def add'' : ℕ × ℕ → ℕ := uncurry add'
+def add : Nat × Nat → Nat := fun p => p.1 + p.2
+def add' : Nat → Nat → Nat := curry add
+def add'' : Nat × Nat → Nat := uncurry add'
 
 #eval add (3, 4)  -- 7
 #eval add' 3 4     -- 7
@@ -231,15 +230,15 @@ def associative {A : Type*} (op : A → A → A) : Prop :=
 This property can be used to, say prove associativity of addition on natural numbers:
 
 ```lean
-example : associative (λ x y : Nat => x + y) :=
-  λ x y z => by simp [Nat.add_assoc]
+example : associative (fun x y : Nat => x + y) :=
+  fun x y z => by simp [Nat.add_assoc]
 ```
 
 There are a few things about Lean that are worth noting here:
 
 The `simp` tactic is used to simplify the expression and prove the associativity property. `Nat.add_assoc` is a lemma in Lean that states the associativity of addition on natural numbers, we use the already proven lemma to prove the associativity of addition, and `simp` allows us to simplify the expression using the lemma.
 
-Also, `λ` and `fun` are used interchangeably in Lean to define functions, so this is equivalent to the above code:
+Also, `fun` and `fun` are used interchangeably in Lean to define functions, so this is equivalent to the above code:
 
 ```lean
 example : associative (fun x y : Nat => x + y) :=
@@ -264,8 +263,8 @@ def commutative {A : Type*} (op : A → A → A) : Prop :=
 And operations can be proven to be commutative, with an example for addition of natural numbers:
 
 ```lean
-example : commutative (λ x y : Nat => x + y) :=
-  λ x y => by simp [Nat.add_comm]
+example : commutative (fun x y : Nat => x + y) :=
+  fun x y => by simp [Nat.add_comm]
 ```
 
 Addition and multiplication of natural numbers are simple examples of commutative operations. Subtraction and division are examples of non-commutative operations.
@@ -315,8 +314,8 @@ def distributive {A : Type*} (mul add : A → A → A) : Prop :=
 We can now proved the distributivity of multiplication over addition for natural numbers:
 
 ```lean
-example : distributive (λ x y : Nat => x * y) (λ x y : Nat => x + y) :=
-  λ x y z => by simp [Nat.left_distrib]
+example : distributive (fun x y : Nat => x * y) (fun x y : Nat => x + y) :=
+  fun x y z => by simp [Nat.left_distrib]
 ```
 
 ### Absorption
@@ -406,14 +405,14 @@ def identity {A : Type*} (e : A) (op : A → A → A) : Prop :=
 A given function can be proven to have an identity element, with an example for the addition operation on natural numbers:
 
 ```lean
-example : identity 0 (λ x y : Nat => x + y) :=
+example : identity 0 (fun x y : Nat => x + y) :=
   ⟨Nat.zero_add, Nat.add_zero⟩
 ```
 
 Similarly, we can prove that multiplication has an identity element:
 
 ```lean
-example : identity 1 (λ x y : Nat => x * y) :=
+example : identity 1 (fun x y : Nat => x * y) :=
   ⟨Nat.one_mul, Nat.mul_one⟩
 ```
 
@@ -468,9 +467,9 @@ def annihilator {A : Type*} (e : A) (op : A → A → A) : Prop :=
 An example of an annihilator for matrix multiplication can be shown as:
 
 ```lean
-example : annihilator (λ i j, 0) (λ A B, λ i j, ∑ k, A i k * B k j) :=
-  ⟨λ A, funext $ λ i, funext $ λ j, by simp,
-   λ A, funext $ λ i, funext $ λ j, by simp⟩
+example : annihilator (fun i j, 0) (fun A B, fun i j, ∑ k, A i k * B k j) :=
+  ⟨fun A, funext $ fun i, funext $ fun j, by simp,
+   fun A, funext $ fun i, funext $ fun j, by simp⟩
 ```
 
 Here, we define the annihilator as a function that takes two matrices `A` and `B` and returns a matrix of the same size with all elements as 0. We then prove that this function is an annihilator for matrix multiplication by showing that it satisfies the left and right annihilator properties.

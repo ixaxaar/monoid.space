@@ -8,20 +8,19 @@
 
 ---
 
-- [Equality](#equality)
-  - [Definitional Equality](#definitional-equality)
-    - [The `example` Keyword](#the-example-keyword)
-  - [Computational Equality](#computational-equality)
-  - [Propositional Equality](#propositional-equality)
-  - [Hetereogeneous Equality](#hetereogeneous-equality)
-  - [Equivalence Relations](#equivalence-relations)
-  - [Transport](#transport)
+- [Definitional Equality](#definitional-equality)
+  - [The `example` Keyword](#the-example-keyword)
+- [Computational Equality](#computational-equality)
+- [Propositional Equality](#propositional-equality)
+- [Hetereogeneous Equality](#hetereogeneous-equality)
+- [Equivalence Relations](#equivalence-relations)
+- [Transport](#transport)
 
 ```lean
-import data.bool
-import data.Nat.basic
-import data.list.basic
-import logic.relation
+import Mathlib.Data.Bool.Basic
+import Mathlib.Data.Nat.Basic
+import Mathlib.Data.List.Basic
+import Mathlib.Logic.Relation
 ```
 
 Equality is a fundamental concept in mathematics and logic, yet it can be more subtle than it first appears. In type theory, particularly in proof assistants like Lean, equality comes in different forms, each with its own nuances and uses. In type theory, equality can be broadly classified into three kinds:
@@ -188,7 +187,8 @@ Propositional equality satisfies some properties of relations:
 Heterogeneous equality, also known as John Major equality, extends propositional equality to cases where the two terms being compared belong to different types. In Lean, heterogeneous equality is represented by the `HEq` type, which is defined as:
 
 ```lean
-structure HEq {α : Sort u} (a : α) {β : Sort v} (b : β) : Prop
+inductive HEq {α : Sort u} (a : α) : {β : Sort v} → β → Prop
+| refl : HEq a a
 ```
 
 This becomes essential when working with dependent types, where types themselves can depend on values. Consider vectors:
@@ -290,6 +290,7 @@ Here are the new syntax elements used in this proof:
    - It's like fitting a perfect puzzle piece
 
 4. **`·`** (bullet point): Separates different subgoals
+
    ```lean
    apply And.intro
    · first subgoal
@@ -307,12 +308,10 @@ def transport {A : Type} {x y : A} (P : A → Type) (p : x = y) : P x → P y
 Practically, transport is used to rewrite terms based on equalities. For example, consider the following proof that the sum of two numbers is commutative:
 
 ```lean
-theorem add_comm (a b : Nat) : a + b = b + a :=
-begin
-  induction a with a ha,
-  { simp },
-  { simp [ha] },
-end
+theorem add_comm (a b : Nat) : a + b = b + a := by
+  induction a with
+  | zero => simp [Nat.zero_add, Nat.add_zero]
+  | succ a ha => simp [Nat.succ_add, Nat.add_succ, ha]
 ```
 
 Here, `simp` is a tactic that simplifies the goal using various rules, including the commutativity of addition. The `simp` tactic uses transport to rewrite the goal based on the equality `a + b = b + a`. Transport is also intrinsically linked to **path induction**, a fundamental principle in homotopy type theory. Path induction states that to prove a property holds for any path (equality proof) between two terms, it suffices to prove it for the reflexivity path (the proof that a term is equal to itself). This is because any path can be continuously deformed into the reflexivity path. This is expressed as:

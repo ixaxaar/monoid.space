@@ -8,23 +8,22 @@
 
 ---
 
-- [Introduction to Type Theory](#introduction-to-type-theory)
-  - [Foundations of Mathematics](#foundations-of-mathematics)
-  - [Set Theory](#set-theory)
-    - [Construction](#construction)
-    - [Membership and Subsets](#membership-and-subsets)
-    - [Set Operations](#set-operations)
-    - [Properties of Set Operations](#properties-of-set-operations)
-  - [Type Theory](#type-theory)
-    - [Types, Terms, and Judgments](#types-terms-and-judgments)
-    - [Type Formation](#type-formation)
-    - [Term Formation](#term-formation)
-    - [Type Equality](#type-equality)
-    - [Term Equality](#term-equality)
-    - [Advantages of Type Theory](#advantages-of-type-theory)
-    - [Applications](#applications)
-      - [Computer Science](#computer-science)
-      - [Mathematics](#mathematics)
+- [Foundations of Mathematics](#foundations-of-mathematics)
+- [Set Theory](#set-theory)
+  - [Construction](#construction)
+  - [Membership and Subsets](#membership-and-subsets)
+  - [Set Operations](#set-operations)
+  - [Properties of Set Operations](#properties-of-set-operations)
+- [Type Theory](#type-theory)
+  - [Types, Terms, and Judgments](#types-terms-and-judgments)
+  - [Type Formation](#type-formation)
+  - [Term Formation](#term-formation)
+  - [Type Equality](#type-equality)
+  - [Term Equality](#term-equality)
+  - [Advantages of Type Theory](#advantages-of-type-theory)
+  - [Applications](#applications)
+    - [Computer Science](#computer-science)
+    - [Mathematics](#mathematics)
 
 ```lean
 import Mathlib.Data.Nat.Basic     -- For natural numbers
@@ -174,11 +173,11 @@ def z₂ : Set Nat := (x ∪ y) ∩ (x ∪ z)
 
 Here, $z_{1}$ and $z_{2}$ are equivalent.
 
-There are several other properties of set operations, which are used in mathematical reasoning and proofs, and we are going to skip those as styduing them is not the goal of this book.
+Additional properties of set operations exist and are fundamental to mathematical reasoning, but we omit them as they fall outside this book's scope.
 
 ## Type Theory
 
-Type theory is a formal system that serves as an alternative foundation for mathematics and computer science, distinct from set theory. Instead of building everything from sets, type theory centers around the concept of types. Crucially, every object in type theory has a type. This is a fundamental and pervasive principle. Type theory provides an emphasis on computation and is well-suited for formal verification and automated proof checking, as implemented in proof assistants like Lean.
+Type theory provides an alternative foundation for mathematics and computer science, distinct from set theory. Rather than constructing everything from sets, type theory centers on the concept of types, with the fundamental principle that every object has a type. This computational emphasis makes type theory well-suited for formal verification and automated proof checking, as implemented in proof assistants like Lean.
 
 ### Types, Terms, and Judgments
 
@@ -266,19 +265,19 @@ Crucially, definitional equality implies propositional equality, but _not_ the o
 
 Type Theory has found extensive applications in computer science:
 
-1.  **Programming Language Design**: Many modern programming languages incorporate ideas from Type Theory in their type systems.
-2.  **Formal Verification**: Type Theory provides a basis for proving properties of programs and verifying their correctness.
-3.  **Proof Assistants**: Software like Coq, Agda, and Lean, based on Type Theory, allow for computer-assisted theorem proving.
-4.  **Foundations of Computer Science**: Type Theory provides a theoretical foundation for understanding computation and programming languages.
+1. **Programming Language Design**: Many modern programming languages incorporate ideas from Type Theory in their type systems.
+2. **Formal Verification**: Type Theory provides a basis for proving properties of programs and verifying their correctness.
+3. **Proof Assistants**: Software like Coq, Agda, and Lean, based on Type Theory, allow for computer-assisted theorem proving.
+4. **Foundations of Computer Science**: Type Theory provides a theoretical foundation for understanding computation and programming languages.
 
 #### Mathematics
 
 While Set Theory remains the most common foundation for mathematics, Type Theory offers some advantages:
 
-1.  **Constructive Mathematics**: Type Theory naturally supports constructive approaches to mathematics.
-2.  **Computational Content**: Proofs in Type Theory often have direct computational interpretations.
-3.  **Higher-Order Logic**: Type Theory easily accommodates higher-order logic, which can be more expressive than first-order logic used in Set Theory.
-4.  **Homotopy Type Theory**: Recent developments have connected Type Theory with modern areas of mathematics like homotopy theory.
+1. **Constructive Mathematics**: Type Theory naturally supports constructive approaches to mathematics.
+2. **Computational Content**: Proofs in Type Theory often have direct computational interpretations.
+3. **Higher-Order Logic**: Type Theory easily accommodates higher-order logic, which can be more expressive than first-order logic used in Set Theory.
+4. **Homotopy Type Theory**: Recent developments have connected Type Theory with modern areas of mathematics like homotopy theory.
 
 ---
 
