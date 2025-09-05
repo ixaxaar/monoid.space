@@ -8,22 +8,21 @@
 
 ---
 
-- [Algorithms](#algorithms)
-  - [Search Algorithms](#search-algorithms)
-    - [Linear Search](#linear-search)
-    - [Binary Search](#binary-search)
-  - [Sorting Algorithms](#sorting-algorithms)
-    - [Insertion Sort](#insertion-sort)
-    - [Merge Sort](#merge-sort)
-  - [Tree Algorithms](#tree-algorithms)
-    - [Tree Traversal](#tree-traversal)
-  - [Graph Algorithms](#graph-algorithms)
-    - [Graph Representation](#graph-representation)
-    - [Depth-First Search](#depth-first-search)
-    - [Breadth-First Search](#breadth-first-search)
-  - [Dynamic Programming](#dynamic-programming)
-    - [Fibonacci Sequence](#fibonacci-sequence)
-    - [Longest Common Subsequence](#longest-common-subsequence)
+- [Search Algorithms](#search-algorithms)
+  - [Linear Search](#linear-search)
+  - [Binary Search](#binary-search)
+- [Sorting Algorithms](#sorting-algorithms)
+  - [Insertion Sort](#insertion-sort)
+  - [Merge Sort](#merge-sort)
+- [Tree Algorithms](#tree-algorithms)
+  - [Tree Traversal](#tree-traversal)
+- [Graph Algorithms](#graph-algorithms)
+  - [Graph Representation](#graph-representation)
+  - [Depth-First Search](#depth-first-search)
+  - [Breadth-First Search](#breadth-first-search)
+- [Dynamic Programming](#dynamic-programming)
+  - [Fibonacci Sequence](#fibonacci-sequence)
+  - [Longest Common Subsequence](#longest-common-subsequence)
 
 Algorithms in Lean are implemented as functions that operate on data structures. The implementation often closely mirrors mathematical definitions while ensuring termination and correctness. This section is intended to also serve as a starting point where we use more real-world examples. A bunch of things are introduced here, and will be explained in more detail in the following sections.
 
@@ -39,7 +38,7 @@ These are the different types of algorithms we'll explore:
 
 ## Search Algorithms
 
-Search algorithms find a givem elements in collections. We'll implement two fundamental search algorithms: linear search and binary search.
+Search algorithms find given elements in collections. We'll implement two fundamental search algorithms: linear search and binary search.
 
 ### Linear Search
 

@@ -8,25 +8,24 @@
 
 ---
 
-- [Debugging](#debugging)
-  - [Holes](#holes)
-  - [Global commands](#global-commands)
-    - [`#check` and `#eval`](#check-and-eval)
-    - [`#print`](#print)
-    - [`#reduce`](#reduce)
-    - [`#exit`](#exit)
-  - [Goal-specific commands](#goal-specific-commands)
-    - [`show_goal`](#show_goal)
-    - [`trace`](#trace)
-    - [`sorry`](#sorry)
-    - [`have`](#have)
-    - [`let`](#let)
-    - [`show`](#show)
-  - [Practical Debugging Examples](#practical-debugging-examples)
-  - [Debugging Tactics](#debugging-tactics)
-  - [Best Practices](#best-practices)
+- [Holes](#holes)
+- [Global commands](#global-commands)
+  - [`#check` and `#eval`](#check-and-eval)
+  - [`#print`](#print)
+  - [`#reduce`](#reduce)
+  - [`#exit`](#exit)
+- [Goal-specific commands](#goal-specific-commands)
+  - [`show_goal`](#show_goal)
+  - [`trace`](#trace)
+  - [`sorry`](#sorry)
+  - [`have`](#have)
+  - [`let`](#let)
+  - [`show`](#show)
+- [Practical Debugging Examples](#practical-debugging-examples)
+- [Debugging Tactics](#debugging-tactics)
+- [Best Practices](#best-practices)
 
-Errors in lean can come in many forms: type mismatches, incomplete proofs, incorrect tactics, or even logical inconsistencies. Here are some common debugging techniques used in Lean development:
+Errors in Lean can come in many forms: type mismatches, incomplete proofs, incorrect tactics, or even logical inconsistencies. Here are some common debugging techniques used in Lean development:
 
 1. Error messages: Lean provides detailed error messages that can help you identify the source of the problem. These messages often include information about the expected type, actual type, and the context in which the error occurred.
 2. Holes: Lean allows you to insert holes in your code using the `_` symbol. These holes can be used to indicate incomplete or unknown parts of your code. You can then use the `#check` command to see the type of the hole and the context in which it appears.
@@ -51,7 +50,7 @@ In this example, the `_` symbol is used as a hole to indicate an incomplete part
 
 This will display the type of the `add` function and the context in which it appears, helping you identify the source of the error.
 
-e.g. `add : Nat → Nat → Nat`. This indicates that the `add` function takes two `Nat` arguments and returns a `Nat` value. We can then complete the proof by replacing the hole with the correct expression (e.g., `x + y`).
+For example, `add : Nat → Nat → Nat` indicates that the `add` function takes two `Nat` arguments and returns a `Nat` value. We can then complete the definition by replacing the hole with the correct expression (e.g., `x + y`).
 
 ## Global commands
 
@@ -295,6 +294,7 @@ Lean's tactic framework provides several debugging tactics that can be used to t
    - Keep proofs organized and well-documented
 
 4. Error Handling
+
    ```lean
    def safe_div (x y : Nat) : Option Nat :=
      if y = 0 then

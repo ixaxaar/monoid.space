@@ -8,35 +8,34 @@
 
 ---
 
-- [Types \& Data Structures](#types--data-structures)
-  - [Types](#types)
-    - [Declaring Types](#declaring-types)
-  - [Basic Types](#basic-types)
-    - [Empty Type](#empty-type)
-    - [Unit Type](#unit-type)
-    - [Boolean Type](#boolean-type)
-    - [Natural Numbers](#natural-numbers)
-    - [Other Primitive Types](#other-primitive-types)
-  - [Collections](#collections)
-    - [Lists](#lists)
-    - [Arrays](#arrays)
-    - [Sets](#sets)
-    - [Stacks](#stacks)
-    - [Queues](#queues)
-    - [Maps](#maps)
-    - [Binary Trees](#binary-trees)
-    - [Graphs](#graphs)
-  - [Custom Types](#custom-types)
-    - [Product Types](#product-types)
-    - [Sum Types](#sum-types)
-  - [Advanced Types](#advanced-types)
-    - [Type Classes](#type-classes)
-    - [Dependent Types](#dependent-types)
-    - [Propositions as Types](#propositions-as-types)
+- [Types](#types)
+  - [Declaring Types](#declaring-types)
+- [Basic Types](#basic-types)
+  - [Empty Type](#empty-type)
+  - [Unit Type](#unit-type)
+  - [Boolean Type](#boolean-type)
+  - [Natural Numbers](#natural-numbers)
+  - [Other Primitive Types](#other-primitive-types)
+- [Collections](#collections)
+  - [Lists](#lists)
+  - [Arrays](#arrays)
+  - [Sets](#sets)
+  - [Stacks](#stacks)
+  - [Queues](#queues)
+  - [Maps](#maps)
+  - [Binary Trees](#binary-trees)
+  - [Graphs](#graphs)
+- [Custom Types](#custom-types)
+  - [Product Types](#product-types)
+  - [Sum Types](#sum-types)
+- [Advanced Types](#advanced-types)
+  - [Type Classes](#type-classes)
+  - [Dependent Types](#dependent-types)
+  - [Propositions as Types](#propositions-as-types)
 
 ## Types
 
-In Lean, types are first-class citizens, meaning they can be manipulated and passed around just like any other value. This is similar to languages like Haskell or Scala, but with even more expressive as we shall see later.
+In Lean, types are first-class citizens, meaning they can be manipulated and passed around just like any other value. This is similar to languages like Haskell or Scala, but with even more expressiveness as we shall see later.
 
 ### Declaring Types
 
@@ -116,13 +115,13 @@ inductive Nat : Type
   | succ : Nat → Nat -- every such object has a succeeding object
 ```
 
-Here, we define natural numbers by defining the element `zero` and the function `succ` that adds 1 to any given integer (creates the successive natural number) i.e. `succ zero` is 1, `succ (succ zero)` is two and so on. This is similar to Peano arithmetic and is foundational in type theory. In practice, `Nat` is a pre-defined type and Lean optimizes this to use machine integers for efficiency.
+Here, we define natural numbers by defining the element `zero` and the function `succ` that adds 1 to any given natural number (creates the successive natural number) i.e. `succ zero` is 1, `succ (succ zero)` is 2 and so on. This is similar to Peano arithmetic and is foundational in type theory. In practice, `Nat` is a predefined type and Lean optimizes this to use machine integers for efficiency.
 
 ```lean
 def one := succ zero
 ```
 
-Arithmetic operations can now be defined on `Nat` like addition and multiplicattion:
+Arithmetic operations can now be defined on `Nat` like addition and multiplication:
 
 ```lean
 def add : Nat → Nat → Nat
@@ -245,7 +244,7 @@ structure Stack (α : Type) where
 deriving Repr
 ```
 
-Here we use the `structure` keyword to define a new data structure `Stack` with a single field `elems` of type `List α`. In lean, the `structure` keyword is used to define new data structures, similar to `data` in Haskell or `struct` in C++. The structure also derives a `Repr` instance, which allows us to print the stack using `#eval`.
+Here we use the `structure` keyword to define a new data structure `Stack` with a single field `elems` of type `List α`. In Lean, the `structure` keyword is used to define new data structures, similar to `data` in Haskell or `struct` in C++. The structure also derives a `Repr` instance, which allows us to print the stack using `#eval`.
 
 We can define operations like `push` and `pop` on the stack:
 
@@ -277,6 +276,7 @@ structure Q (α : Type) where
   elems : List α
 deriving Repr
 
+def x : Q Nat := { elems := [1, 2, 3] }
 #eval x.elems  -- Output: [1, 2, 3]
 ```
 
@@ -331,7 +331,7 @@ Here we define the `??` operator to find a value in the map. These are called as
 def exampleMap1 : Map Nat String :=
   Map.mk [(1, "one"), (2, "two"), (3, "three")]
 
-#eval exampleMap ?? 2  -- Output: some "two"
+#eval exampleMap1 ?? 2  -- Output: some "two"
 ```
 
 Representing maps as lists of key-value pairs is not the most efficient way to implement them, but it serves as a simple example. Lean also provides more efficient implementations of maps in the standard library.
@@ -458,25 +458,25 @@ Sum types (also known as tagged unions or algebraic data types) allow a value to
 
 ```lean
 inductive Shape
-  -- constructor that takes in 3 floats and outputs an object of type Shape (a triangle)
-  | triangle    : Float → Float → Float → Shape
-  -- constructor that takes in 4 floats and outputs an object of type Shape (a rectangle)
-  | rectangle : Float → Float → Float → Float → Shape
+  -- constructor that takes in a radius and outputs a circle
+  | circle    : Float → Shape
+  -- constructor that takes in width and height and outputs a rectangle
+  | rectangle : Float → Float → Shape
 ```
 
 These constructors can be used to create objects of type `Shape`:
 
 ```lean
-def myTriangle := Shape.triangle 1.2 12.1 123.1
-def myRectangle := Shape.rectangle 1.2 12.1 123.1 1234.5
+def myCircle := Shape.circle 5.0
+def myRectangle := Shape.rectangle 4.0 6.0
 ```
 
 The `Shape` type can now be used in functions to calculate the area of a shape using pattern matching:
 
 ```lean
 def area : Shape → Float
-  | Shape.triangle _ _ r => Float.pi * r * r
-  | Shape.rectangle _ _ w h => w * h
+  | Shape.circle r => Float.pi * r * r
+  | Shape.rectangle w h => w * h
 ```
 
 ## Advanced Types

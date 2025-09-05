@@ -8,38 +8,37 @@
 
 ---
 
-- [Functions](#functions)
-  - [Generic Syntax](#generic-syntax)
-    - [Syntactical Sugar](#syntactical-sugar)
-  - [Pattern matching](#pattern-matching)
-    - [Syntax](#syntax)
-    - [The Logical Not](#the-logical-not)
-    - [The logical AND](#the-logical-and)
-    - [The logical OR](#the-logical-or)
-    - [The logical XOR](#the-logical-xor)
-    - [Pattern matching with guards](#pattern-matching-with-guards)
-    - [Nested pattern matching](#nested-pattern-matching)
-  - [Recursion](#recursion)
-    - [Addition of natural numbers](#addition-of-natural-numbers)
-    - [Length of a List](#length-of-a-list)
-  - [Dependent Types](#dependent-types)
-    - [Syntax](#syntax-1)
-    - [Conditional Types](#conditional-types)
-    - [Length-Indexed Vectors](#length-indexed-vectors)
-    - [Working with Implicit Arguments](#working-with-implicit-arguments)
-  - [Lambda Functions](#lambda-functions)
-    - [Syntax](#syntax-2)
-    - [Implicit Arguments](#implicit-arguments)
-    - [Dependent Pattern Matching](#dependent-pattern-matching)
-    - [Map](#map)
-  - [Advanced Concepts](#advanced-concepts)
-    - [Parametric Polymorphism](#parametric-polymorphism)
-    - [Function Composition](#function-composition)
-    - [Currying and Partial Application](#currying-and-partial-application)
-    - [Local definitions](#local-definitions)
-    - [Termination Checking](#termination-checking)
-    - [Mutual Recursion](#mutual-recursion)
-    - [Higher-Order Functions](#higher-order-functions)
+- [Generic Syntax](#generic-syntax)
+  - [Syntactical Sugar](#syntactical-sugar)
+- [Pattern matching](#pattern-matching)
+  - [Syntax](#syntax)
+  - [The Logical Not](#the-logical-not)
+  - [The logical AND](#the-logical-and)
+  - [The logical OR](#the-logical-or)
+  - [The logical XOR](#the-logical-xor)
+  - [Pattern matching with guards](#pattern-matching-with-guards)
+  - [Nested pattern matching](#nested-pattern-matching)
+- [Recursion](#recursion)
+  - [Addition of natural numbers](#addition-of-natural-numbers)
+  - [Length of a List](#length-of-a-list)
+- [Dependent Types](#dependent-types)
+  - [Syntax](#syntax-1)
+  - [Conditional Types](#conditional-types)
+  - [Length-Indexed Vectors](#length-indexed-vectors)
+  - [Working with Implicit Arguments](#working-with-implicit-arguments)
+- [Lambda Functions](#lambda-functions)
+  - [Syntax](#syntax-2)
+  - [Implicit Arguments](#implicit-arguments)
+  - [Dependent Pattern Matching](#dependent-pattern-matching)
+  - [Map](#map)
+- [Advanced Concepts](#advanced-concepts)
+  - [Parametric Polymorphism](#parametric-polymorphism)
+  - [Function Composition](#function-composition)
+  - [Currying and Partial Application](#currying-and-partial-application)
+  - [Local definitions](#local-definitions)
+  - [Termination Checking](#termination-checking)
+  - [Mutual Recursion](#mutual-recursion)
+  - [Higher-Order Functions](#higher-order-functions)
 
 Functions in Lean are defined using the `def` keyword. The syntax for defining functions in Lean is similar to defining inductive types.
 
@@ -116,7 +115,7 @@ def functionName : inputType → outputType
   | _        => defaultOutput
 ```
 
-There are also infix functions, which are functions that can be used in infix notation. For example, the `and` function (`,`) can be used as `true ∧ false`.
+There are also infix functions, which are functions that can be used in infix notation. For example, the `and` function can be used as `true ∧ false`.
 
 ```lean
 def functionName : inputType → inputType → outputType
@@ -241,7 +240,7 @@ The addition of natural numbers is a classic example of a recursive function. He
 ```lean
 def add : Nat → Nat → Nat
   | 0,    n => n -- base case: 0 + n is n
-  | m+1,  n => (add m n) + 1 -- recursive case: (m+1) + n is m + (n+1)
+  | m+1,  n => (add m n) + 1 -- recursive case: (m+1) + n is (m + n) + 1
 
 infixl:65 " + " => add
 ```
@@ -606,8 +605,8 @@ Filtering functions are another example of higher-order functions. Here's an exa
 
 ```lean
 def filter {α : Type} (p : α → Bool) : List α → List α
-  | [],    _ => []
-  | x::xs, p => if p x then x :: filter p xs else filter p xs
+  | [] => []
+  | x::xs => if p x then x :: filter p xs else filter p xs
 ```
 
 The `filter` function takes a predicate function `p` that maps values of type `α` to booleans, a list of values of type `α`, and returns a new list containing only the elements that satisfy the predicate `p`. This higher-order function allows for the selective extraction of elements from a list based on a condition.

@@ -8,15 +8,14 @@
 
 ---
 
-- [Modules and Projects](#modules-and-projects)
-  - [Basics](#basics)
-  - [Projects](#projects)
-    - [File Structure](#file-structure)
-  - [Lake Package Manager](#lake-package-manager)
-  - [vscode / vscodium Integration](#vscode--vscodium-integration)
-  - [elan](#elan)
-  - [doc-gen4](#doc-gen4)
-  - [Testing](#testing)
+- [Basics](#basics)
+- [Projects](#projects)
+  - [File Structure](#file-structure)
+- [Lake Package Manager](#lake-package-manager)
+- [vscode / vscodium Integration](#vscode--vscodium-integration)
+- [elan](#elan)
+- [doc-gen4](#doc-gen4)
+- [Testing](#testing)
 
 ## Basics
 
@@ -40,7 +39,7 @@ def hello : String := "Hello, Lean!"
 #check hello
 ```
 
-The lean extension has a sidebar that shows the structure of the file, and you can navigate to different sections of the file by clicking on the items in the sidebar, called the "lean infoview". The infoview also shows the type of the current expression under the cursor and any errors in the file. The infoview can be toggled using the `ctrl+shift+enter` shortcut.
+The Lean extension has a sidebar that shows the structure of the file, and you can navigate to different sections of the file by clicking on the items in the sidebar, called the "Lean Infoview". The Infoview also shows the type of the current expression under the cursor and any errors in the file. The Infoview can be toggled using the `Ctrl+Shift+Enter` shortcut.
 
 The file can also be compiled using the Lean compiler, which will check the syntax and type correctness of the code. The Lean compiler can be run from the command line using the `lean` command.
 
@@ -67,7 +66,7 @@ This creates a new directory called `my_project` that contains the following fil
 - `Main.lean`: The main entry point for the project.
 - `MyProject.lean` and `MyProject/Basic.lean`: scaffolding of a support library for the project.
 
-In addition to this, it also creates a git repo for the project and a `.gitingore` file.
+In addition to this, it also creates a git repo for the project and a `.gitignore` file.
 
 ### File Structure
 
@@ -88,7 +87,7 @@ Directories under `src/` can be customized based on the project's needs. Each di
 
 ## Lake Package Manager
 
-Lake is Lean's built-in package manager and build system for lean. It simplifies the process of building, testing, and managing Lean projects. Lake uses `lakefile.toml` for configuration:
+Lake is Lean's built-in package manager and build system for Lean. It simplifies the process of building, testing, and managing Lean projects. Lake uses `lakefile.toml` for configuration:
 
 ```toml
 name = "my_project"
@@ -129,7 +128,7 @@ lake clean       # Clean build artifacts
 
 ## vscode / vscodium Integration
 
-VSCode is the primary IDE for Lean development. The Lean extension provides several features like any modern development environment such as syntax highlighting, real-time type information, interactive theorem proving, go to definition, auto-completion, and an infoview that shows real-time type information, proof state, error messages, and documentation.
+VSCode is the primary IDE for Lean development. The Lean extension provides several features like any modern development environment such as syntax highlighting, real-time type information, interactive theorem proving, go-to definition, auto-completion, and an Infoview that shows real-time type information, proof state, error messages, and documentation.
 
 Other editor integrations are available such as `lean-mode` for Emacs and `lean.vim` for Vim. However, the VSCode extension is the most feature-rich and actively maintained.
 

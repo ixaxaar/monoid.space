@@ -2,6 +2,8 @@
 
 # Contents
 
+This book provides an introduction to type theory, theorem proving, and mathematical foundations using the Lean 4 proof assistant. It covers fundamental concepts from basic type theory to advanced topics in category theory and homotopy type theory.
+
 ## 1. Lean
 
 - [Setup](./Lean.setup.html)
@@ -35,7 +37,7 @@
 - [Useful Libraries](./Proofs.libraries.html)
 - [Other Proof Assistants](./Proofs.others.html)
 
-## 4. Boolean Algebra
+## 4. Logic and Boolean Algebra
 
 - [Introduction](./Logic.introduction.html)
 - [Boolean Algebra](./Logic.logicBasics.html)
