@@ -8,16 +8,15 @@
 
 ---
 
-- [Lean Installation](#lean-installation)
-  - [1. Using Docker](#1-using-docker)
-  - [2. Using elan (Lean Version Manager)](#2-using-elan-lean-version-manager)
-  - [3. Via Package Managers](#3-via-package-managers)
-    - [Homebrew (macOS and Linux)](#homebrew-macos-and-linux)
-    - [apt (Debian, Ubuntu, Mint, etc.)](#apt-debian-ubuntu-mint-etc)
-    - [yay (Arch, Manjaro)](#yay-arch-manjaro)
-    - [Nix (NixOS and other systems)](#nix-nixos-and-other-systems)
-  - [4. Building from Source](#4-building-from-source)
-  - [Additional Setup](#additional-setup)
+- [1. Using Docker](#1-using-docker)
+- [2. Using elan (Lean Version Manager)](#2-using-elan-lean-version-manager)
+- [3. Via Package Managers](#3-via-package-managers)
+   - [Homebrew (macOS and Linux)](#homebrew-macos-and-linux)
+   - [apt (Debian, Ubuntu, Mint, etc.)](#apt-debian-ubuntu-mint-etc)
+   - [yay (Arch, Manjaro)](#yay-arch-manjaro)
+   - [Nix (NixOS and other systems)](#nix-nixos-and-other-systems)
+- [4. Building from Source](#4-building-from-source)
+- [Additional Setup](#additional-setup)
 
 ## 1. Using Docker
 
@@ -26,9 +25,11 @@ Docker provides a consistent environment across different platforms, making it a
 1. Install Docker:
 
    - On Linux:
+
      ```bash
      curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
      ```
+
    - On macOS and Windows: Download and install Docker Desktop from the [official Docker website](https://www.docker.com/products/docker-desktop)
 
 2. Pull the latest Lean image:
@@ -44,6 +45,7 @@ Docker provides a consistent environment across different platforms, making it a
    ```
 
 4. Inside the container, you can now use Lean:
+
    ```bash
    lean --version
    ```
@@ -65,6 +67,7 @@ elan is the recommended tool for installing and managing Lean versions.
    ```
 
 3. Verify the installation:
+
    ```bash
    lean --version
    ```
@@ -107,6 +110,7 @@ For the latest development version or specific customizations:
    ```
 
 3. Build and install:
+
    ```bash
    mkdir build && cd build
    cmake ..

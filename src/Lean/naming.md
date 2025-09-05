@@ -8,12 +8,11 @@
 
 ---
 
-- [Naming conventions](#naming-conventions)
-  - [Modules](#modules)
-  - [Naming Conventions](#naming-conventions-1)
-  - [Literate programming](#literate-programming)
-  - [Identifiers](#identifiers)
-  - [Other material](#other-material)
+- [Modules](#modules)
+- [Naming Conventions](#naming-conventions)
+- [Literate programming](#literate-programming)
+- [Identifiers](#identifiers)
+- [Other material](#other-material)
 
 ## Modules
 
