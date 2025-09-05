@@ -30,13 +30,6 @@ This book introduces type theory, theorem proving, and mathematical foundations 
 - [Introduction](./Proofs.introduction.html)
 - [Strategies & Tactics](./Proofs.tactics.html)
 
-# ❌ WIP - (Re-)Work in Progress ❌
-
-- [Automation & Reflection](./Proofs.automation.html)
-- [Debugging](./Proofs.debugging.html)
-- [Useful Libraries](./Proofs.libraries.html)
-- [Other Proof Assistants](./Proofs.others.html)
-
 ## 4. Logic and Boolean Algebra
 
 - [Introduction](./Logic.introduction.html)
@@ -45,6 +38,8 @@ This book introduces type theory, theorem proving, and mathematical foundations 
 - [Laws of Logic](./Logic.laws.html)
 - [Decidability](./Logic.decidability.html)
 - [System F](./Logic.system_f.html)
+
+# ❌ WIP - (Re-)Work in Progress ❌
 
 ## 5. Abstract Algebras
 

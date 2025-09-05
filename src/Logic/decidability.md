@@ -1,174 +1,422 @@
-****
+---
+
 [Contents](contents.html)
 [Previous](Logic.laws.html)
-[Next](Algebra.introduction.html)
-
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-****
-
-- [Decidability](#decidability)
-  - [1. Evidence based](#1-evidence-based)
-  - [2. Computation based](#2-computation-based)
-- [Going Further](#going-further)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
+[Next](Logic.system_f.html)
 
 # Decidability
 
-```agda
-open import Agda.Primitive using (Level; _⊔_; lsuc; lzero)
+---
 
-open import Lang.dataStructures using (
-  Bool; true; false;
-  ℕ; List;
-  one; two; three; four; five; six; seven; eight; nine; ten; zero; succ;
-  _::_; [])
+- [The Decision Problem](#the-decision-problem)
+- [Decidable Propositions](#decidable-propositions)
+  - [The Decidable Type Class](#the-decidable-type-class)
+  - [Examples of Decidable Propositions](#examples-of-decidable-propositions)
+- [Evidence vs Computation](#evidence-vs-computation)
+  - [Proof-Relevant Decision](#proof-relevant-decision)
+  - [Computational Decision](#computational-decision)
+  - [Bridging the Gap](#bridging-the-gap)
+- [Decidability Instances](#decidability-instances)
+  - [Natural Number Equality](#natural-number-equality)
+  - [Natural Number Ordering](#natural-number-ordering)
+  - [Boolean Decidability](#boolean-decidability)
+- [Decidable Relations](#decidable-relations)
+- [Classical vs Constructive Decidability](#classical-vs-constructive-decidability)
+- [Undecidable Propositions](#undecidable-propositions)
+  - [The Halting Problem](#the-halting-problem)
+  - [Gödel's Incompleteness](#gödels-incompleteness)
+- [Practical Applications](#practical-applications)
+  - [Automation in Lean](#automation-in-lean)
+  - [Proof by Computation](#proof-by-computation)
+- [Reflective Programming](#reflective-programming)
 
-open import Logic.logicBasics using (
-  ⟂; ⊤; ⟂-elim; ¬;
-  not; contradiction; contrapos;
-  _then_else_)
-
-open import Types.relations using (Rel; REL)
-open import Types.equality using (_≡_)
-
-module Logic.decidability where
+```lean
+import Mathlib.Logic.Basic
+import Mathlib.Data.Bool.Basic
+import Mathlib.Data.Nat.Basic
+import Mathlib.Logic.Decidable.Basic
+import Mathlib.Tactic.Basic
+import Mathlib.Tactic.Decide
 ```
 
-Relations can de defined either as an inductive data type − the existence of the type implies that the relation exists. We say that the data type provides a **witness** that the relation is valid. The other way is to define relations as functions that compute whether the relation holds.
+One of the most fundamental questions in logic and computer science is: "Given a proposition, can we effectively determine whether it is true or false?" This is the **decision problem**. In constructive type theory, this question takes on special significance because it connects logical reasoning with computation. Decidability bridges the gap between **proof** and **algorithm**, between **evidence** and **computation**.
 
-Consider the relation `_<=_`. If we have to prove that `2 <= 4`, we can do that in two ways:
+## The Decision Problem
 
-## 1. Evidence based
+A proposition is **decidable** if there exists an effective procedure (algorithm) that, given the proposition, can determine whether it is true or false in finite time. This concept is central to:
 
-The Inductive relation:
+- **Automated theorem proving**: Can the computer decide this theorem?
+- **Program verification**: Can we automatically check this property?
+- **Computational logic**: Can we compute with logical statements?
 
-```agda
-data _<=_ : ℕ → ℕ → Set where
-  ltz : {n : ℕ} → zero <= n
-  lt : {m : ℕ} → {n : ℕ} → m <= n → (succ m) <= (succ n)
+In classical logic, every proposition is either true or false (law of excluded middle), but this doesn't tell us whether we can **compute** which one it is. In constructive type theory, decidability is about the **existence of algorithms**.
+
+```lean
+-- Classical view: every proposition has a truth value (non-constructive)
+open Classical
+example (P : Prop) : P ∨ ¬P := em P
+
+-- Constructive view: we need an algorithm to decide
+example (b : Bool) : b = true ∨ b = false := by cases b <;> simp
 ```
 
-Proof that 2 ≤ 4:
+## Decidable Propositions
 
-```agda
-2≤4 : two <= four
-2≤4 = lt (lt ltz)
+### The Decidable Type Class
+
+In Lean, decidability is captured by the `Decidable` type class:
+
+```lean
+-- The core definition (simplified)
+#print Decidable
+-- inductive Decidable (p : Prop) : Type where
+-- | isFalse : (¬p) → Decidable p
+-- | isTrue  : p → Decidable p
+
+-- This provides either a proof or a refutation
+def decide_example (P : Prop) [Decidable P] : Bool :=
+  match ‹Decidable P› with
+  | Decidable.isTrue _  => true
+  | Decidable.isFalse _ => false
+
+-- More commonly used built-in function
+#check decide -- {p : Prop} → [Decidable p] → Bool
 ```
 
-## 2. Computation based
+The `Decidable` type provides either:
 
-Relation as a Function type:
+- A **proof** that the proposition is true (`isTrue`)
+- A **proof** that the proposition is false (`isFalse`)
 
-```agda
-infix 4 _≤_
+This is constructive: we don't just know that P ∨ ¬P, we have an algorithm that produces a proof of whichever is the case.
 
-_≤_ : ℕ → ℕ → Bool
-zero ≤ n       =  true
-succ m ≤ zero   =  false
-succ m ≤ succ n  =  m ≤ n
+### Examples of Decidable Propositions
+
+```lean
+-- Natural number equality is decidable
+#check Nat.decidableEq -- DecidableEq Nat
+example : Decidable (3 = 3) := Decidable.isTrue rfl
+example : Decidable (3 = 4) := Decidable.isFalse (by simp)
+
+-- We can decide by computation
+#eval decide (3 = 3) -- true
+#eval decide (3 = 4) -- false
+
+-- Natural number ordering is decidable
+example : Decidable (5 ≤ 10) := Decidable.isTrue (by simp)
+example : Decidable (10 ≤ 5) := Decidable.isFalse (by simp)
+
+#eval decide (5 ≤ 10) -- true
+#eval decide (10 ≤ 5) -- false
+
+-- Complex decidable propositions can be built from simpler ones
+example : Decidable ((3 = 3) ∧ (5 ≤ 10)) := by infer_instance
+#eval decide ((3 = 3) ∧ (5 ≤ 10)) -- true
 ```
 
-Proof that 2 ≤ 4:
+## Evidence vs Computation
 
-```agda
-open import Types.equational
-open ≡-Reasoning
+Decidability beautifully demonstrates the connection between two views of the same logical statement:
 
-twoLessThanFour : (two ≤ four) ≡ true
-twoLessThanFour = begin
-    two ≤ four
-  ≡⟨⟩
-    one ≤ three
-  ≡⟨⟩
-    zero ≤ two
-  ≡⟨⟩
-    true
-  ∎
+### Proof-Relevant Decision
+
+We can provide explicit evidence for our decisions:
+
+```lean
+-- Proof-relevant: we get the actual proof or refutation
+def nat_eq_decision (n m : Nat) : Decidable (n = m) :=
+  if h : n = m then
+    Decidable.isTrue h
+  else
+    Decidable.isFalse h
+
+-- Extract the proof from a positive decision
+def extract_proof (n m : Nat) (h : decide (n = m) = true) : n = m := by
+  -- The `decide` function can provide constructive evidence
+  exact of_decide_eq_true h
+
+-- Example usage
+example : 7 = 7 := extract_proof 7 7 rfl
 ```
 
-We can always connect such forms of representation of the same underlying mathematical structures from the Computation based to evidence  based:
+### Computational Decision
 
-```agda
-T : Bool → Set
-T true = ⊤
-T false = ⟂
+We can also work purely computationally:
+
+```lean
+-- Convert decidable proposition to boolean
+def prop_to_bool (P : Prop) [Decidable P] : Bool := decide P
+
+-- Boolean function for natural number equality
+def nat_eq_bool (n m : Nat) : Bool := decide (n = m)
+
+-- Boolean function for natural number less-than-or-equal
+def nat_le_bool (n m : Nat) : Bool := decide (n ≤ m)
+
+#eval nat_eq_bool 5 5  -- true
+#eval nat_le_bool 3 7  -- true
+#eval nat_le_bool 7 3  -- false
 ```
 
-Like we saw for the proposition `2 ≤ 4`, for any proposition `P` to be decidable, either we can compute `P` or `¬ P`, i.e. either proposition `P` has a proof or it can been disproved. In the words of logic, a true/false decision problem is decidable if there exists an effective method for deriving the correct answer.
+### Bridging the Gap
 
-For representing this idea we use an inductive data type which has two constructors.
+The beauty of Lean's approach is that these views are connected:
 
-```agda
-data Dec {p} (P : Set p) : Set p where
-  yes : ( p :   P) → Dec P
-  no  : (¬p : ¬ P) → Dec P
+```lean
+-- From boolean to proposition
+theorem decide_true_iff (P : Prop) [Decidable P] : decide P = true ↔ P :=
+  ⟨of_decide_eq_true, of_decide_eq_false⟩
+
+-- From proposition to boolean
+theorem bool_of_decidable (P : Prop) [Decidable P] :
+  (P → decide P = true) ∧ (¬P → decide P = false) :=
+  ⟨of_decide_eq_false, of_decide_eq_false⟩
+
+-- Example: prove arithmetical statements by computation
+example : 15 * 23 = 345 := by decide
+example : 100 < 200 := by decide
+example : ¬(17 = 18) := by decide
 ```
 
-The computational equivalent of decidable relations would be:
+## Decidability Instances
 
-```agda
-Decidable : ∀ {a b ℓ} {A : Set a} {B : Set b} → REL A B ℓ → Set _
-Decidable _∼_ = ∀ x y → Dec (x ∼ y)
+### Natural Number Equality
+
+```lean
+-- Lean provides decidability for natural number equality
+instance : DecidableEq Nat := Nat.decidableEq
+
+-- We can implement our own version
+def nat_eq_decidable (n m : Nat) : Decidable (n = m) :=
+  match n, m with
+  | 0, 0 => Decidable.isTrue rfl
+  | 0, Nat.succ _ => Decidable.isFalse (by simp)
+  | Nat.succ _, 0 => Decidable.isFalse (by simp)
+  | Nat.succ n', Nat.succ m' =>
+    match nat_eq_decidable n' m' with
+    | Decidable.isTrue h => Decidable.isTrue (congrArg Nat.succ h)
+    | Decidable.isFalse h => Decidable.isFalse (fun h' => h (Nat.succ.inj h'))
 ```
 
-Decidability can be computed into a boolean value. We write that and some other useful machinery:
+### Natural Number Ordering
 
-```agda
-⌊_⌋ : ∀ {p} {P : Set p} → Dec P → Bool
-⌊ yes _ ⌋ = true
-⌊ no  _ ⌋ = false
+```lean
+-- Decidable less-than-or-equal for natural numbers
+def nat_le_decidable (n m : Nat) : Decidable (n ≤ m) :=
+  match n, m with
+  | 0, _ => Decidable.isTrue (Nat.zero_le _)
+  | Nat.succ _, 0 => Decidable.isFalse (Nat.not_succ_le_zero _)
+  | Nat.succ n', Nat.succ m' =>
+    match nat_le_decidable n' m' with
+    | Decidable.isTrue h => Decidable.isTrue (Nat.succ_le_succ h)
+    | Decidable.isFalse h => Decidable.isFalse (fun h' => h (Nat.le_of_succ_le_succ h'))
+
+-- This gives us computational power
+example : Decidable (100 ≤ 200) := nat_le_decidable 100 200
+example : Decidable (200 ≤ 100) := nat_le_decidable 200 100
 ```
 
-```agda
-True : ∀ {p} {P : Set p} → Dec P → Set
-True Q = T ⌊ Q ⌋
+### Boolean Decidability
+
+```lean
+-- Every boolean equation is decidable
+instance (b c : Bool) : Decidable (b = c) := Bool.decidableEq b c
+
+-- Boolean predicates are decidable
+def is_true_decidable (b : Bool) : Decidable (b = true) :=
+  if h : b = true then
+    Decidable.isTrue h
+  else
+    Decidable.isFalse h
+
+-- Complex boolean expressions
+def complex_bool_prop (a b c : Bool) : Prop :=
+  (a ∧ b) ∨ (¬a ∧ c) = true
+
+instance (a b c : Bool) : Decidable (complex_bool_prop a b c) := by
+  unfold complex_bool_prop
+  infer_instance
+
+#eval decide (complex_bool_prop true false true)  -- true
 ```
 
-```agda
-False : ∀ {p} {P : Set p} → Dec P → Set
-False Q = T (not ⌊ Q ⌋)
+## Decidable Relations
+
+For binary relations, we can define decidability in terms of all pairs:
+
+```lean
+-- A relation is decidable if we can decide it for any pair
+class DecidableRel {α β : Type*} (r : α → β → Prop) where
+  decidable_rel : ∀ a b, Decidable (r a b)
+
+-- Natural number equality as a decidable relation
+instance : DecidableRel (@Eq Nat) where
+  decidable_rel := fun a b => Nat.decidableEq a b
+
+-- Less-than-or-equal as a decidable relation
+instance : DecidableRel (· ≤ · : Nat → Nat → Prop) where
+  decidable_rel := Nat.decidableLe
+
+-- Using decidable relations
+def find_first_ge (n : Nat) (threshold : Nat) : Option Nat :=
+  if decide (n ≥ threshold) then some n
+  else if n < 100 then find_first_ge (n + 1) threshold
+  else none
+
+#eval find_first_ge 0 50  -- some 50
 ```
 
-```agda
-record Lift {a} ℓ (A : Set a) : Set (a ⊔ ℓ) where
-  constructor lift
-  field lower : A
+## Classical vs Constructive Decidability
 
-module _ {p} {P : Set p} where
-  From-yes : Dec P → Set p
-  From-yes (yes _) = P
-  From-yes (no  _) = Lift p ⊤
+There's an important distinction between classical and constructive decidability:
+
+```lean
+-- Classical decidability: we know P ∨ ¬P but can't compute which
+open Classical
+
+def classical_decidable (P : Prop) : Decidable P :=
+  if h : P then Decidable.isTrue h
+  else Decidable.isFalse h
+
+-- This relies on classical logic and doesn't give us an algorithm
+
+-- Constructive decidability: we have an actual algorithm
+def constructive_nat_even (n : Nat) : Decidable (Even n) :=
+  if h : n % 2 = 0 then
+    Decidable.isTrue ⟨n / 2, by rw [Nat.two_mul_div_two_of_even]; exact Nat.dvd_iff_mod_eq_zero.mp ⟨2, h⟩⟩
+  else
+    Decidable.isFalse (fun ⟨k, hk⟩ => h (by rw [hk, Nat.mul_mod, Nat.mod_self]; simp))
+
+-- This actually computes the result
+#eval decide (Even 10)  -- true
+#eval decide (Even 11)  -- false
 ```
 
-We can now use this machinery to prove that the relation `<=` is decidable for all `x, y ∈ ℕ`:
+## Undecidable Propositions
 
-```agda
-nothingIsLessThanZero : ∀ {x : ℕ} → ¬ (succ x <= zero)
-nothingIsLessThanZero ()
+Not all propositions are decidable. Some famous examples:
 
-successionsAreLessToo : ∀ {x y : ℕ} → ¬ (x <= y) → ¬ (succ x <= succ y)
-successionsAreLessToo ¬x≤y (lt x≤y) = ¬x≤y x≤y
+### The Halting Problem
 
-_≤isDecidable_ : ∀ (m n : ℕ) → Dec (m <= n)
-zero  ≤isDecidable n                   =  yes ltz
-succ m ≤isDecidable zero               =  no nothingIsLessThanZero
-succ m ≤isDecidable succ n with m ≤isDecidable n
-...               | yes m≤n  =  yes (lt m≤n)
-...               | no ¬m≤n  =  no (successionsAreLessToo ¬m≤n)
+```lean
+-- We cannot decide if an arbitrary function terminates
+-- This is a metamathematical statement, not expressible directly in Lean's logic
+-- But we can give the intuition:
+
+-- Hypothetical: if we could decide termination
+axiom terminates : (Nat → Nat) → Prop
+axiom termination_decidable : ∀ f, Decidable (terminates f)
+
+-- Then we could construct a paradox (diagonalization argument)
+-- This shows such a decision procedure cannot exist
 ```
 
-We have used the `with` abstraction above. It lets you pattern match on the result of an intermediate computation by effectively adding an extra argument to the left-hand side of your function. Refer to more documentation [here](https://agda.readthedocs.io/en/v2.5.2/language/with-abstraction.html).
+### Gödel's Incompleteness
 
-# Going Further
+```lean
+-- Some arithmetic statements are undecidable in any consistent formal system
+-- For example, the consistency of the system itself
 
-A theory is a set of formulas, often assumed to be closed under logical consequence. Decidability for a theory concerns whether there is an effective procedure that decides whether the formula is a member of the theory or not, given an arbitrary formula in the signature of the theory. The problem of decidability arises naturally when a theory is defined as the set of logical consequences of a fixed set of axioms.
+-- We cannot prove within Lean that Lean is consistent
+-- (If we could, this would violate Gödel's second incompleteness theorem)
 
-Every consistent theory is decidable, as every formula of the theory will be a logical consequence of, and thus a member of, the theory. First-order logic is not decidable in general; in particular, the set of logical validities in any signature that includes equality and at least one other predicate with two or more arguments is not decidable. Logical systems extending first-order logic, such as second-order logic and type theory, are also undecidable.
+-- However, we can work with statements that are relatively decidable
+def goldbach_conjecture (n : Nat) : Prop :=
+  n > 2 ∧ Even n → ∃ p q : Nat, Nat.Prime p ∧ Nat.Prime q ∧ p + q = n
 
-Decidability and undecidability of an entire theory can be proven, one of the more famous proofs being [Gödel's incompleteness theorems](https://en.wikipedia.org/wiki/G%C3%B6del%27s_incompleteness_theorems). The machinery we defined here form the basis of a larger set of structures required to prove the above facts, including problems like prime number generation. In light of the complexity associated with such a task, we choose to move on instead.
+-- We can decide this for any particular n, but the universal statement
+-- ∀ n, goldbach_conjecture n is not known to be decidable
+```
 
-****
-[Introduction](./Algebra.introduction.html)
+## Practical Applications
+
+### Automation in Lean
+
+Decidability enables powerful automation:
+
+```lean
+-- The `decide` tactic can prove decidable goals automatically
+example : 1000 + 2000 = 3000 := by decide
+example : 50 < 100 ∧ 100 < 200 := by decide
+example : ¬(List.length [1, 2, 3] = 5) := by decide
+
+-- Complex arithmetic
+example : (15 * 23 + 7) * 2 = 704 := by decide
+
+-- Boolean reasoning
+example : ∀ a b : Bool, a ∧ (a ∨ b) = a := by decide
+```
+
+### Proof by Computation
+
+We can prove properties by computing:
+
+```lean
+-- Define a computational check
+def is_sorted (l : List Nat) : Bool :=
+  match l with
+  | [] | [_] => true
+  | a :: b :: rest => a ≤ b && is_sorted (b :: rest)
+
+-- Prove specific instances by computation
+example : is_sorted [1, 2, 3, 5, 8] = true := by decide
+
+-- Connect computational and logical views
+theorem is_sorted_correct (l : List Nat) :
+  is_sorted l = true ↔ List.Sorted (· ≤ ·) l := by
+  -- Proof would require induction and lemmas about List.Sorted
+  sorry
+
+-- Now we can prove sortedness by computation
+example : List.Sorted (· ≤ ·) [1, 3, 5, 7, 9] := by
+  rw [← is_sorted_correct]
+  decide
+```
+
+## Reflective Programming
+
+Decidability enables **reflection**—treating code as data:
+
+```lean
+-- We can represent propositions as data and decide them
+inductive SimpleProp : Type where
+  | true : SimpleProp
+  | false : SimpleProp
+  | and : SimpleProp → SimpleProp → SimpleProp
+  | or : SimpleProp → SimpleProp → SimpleProp
+  | not : SimpleProp → SimpleProp
+
+-- Interpret simple propositions
+def eval_simple_prop : SimpleProp → Bool
+  | SimpleProp.true => true
+  | SimpleProp.false => false
+  | SimpleProp.and p q => eval_simple_prop p && eval_simple_prop q
+  | SimpleProp.or p q => eval_simple_prop p || eval_simple_prop q
+  | SimpleProp.not p => not (eval_simple_prop p)
+
+-- Decision procedure for simple propositions
+def decide_simple_prop : SimpleProp → Bool := eval_simple_prop
+
+-- Example: decide complex formulas by computation
+def example_formula : SimpleProp :=
+  SimpleProp.or
+    (SimpleProp.and SimpleProp.true SimpleProp.false)
+    (SimpleProp.not SimpleProp.false)
+
+#eval decide_simple_prop example_formula  -- true
+```
+
+Decidability represents one of type theory's great achievements: the unification of **logic** and **computation**. It shows that mathematical truth and algorithmic computation are intimately connected. In Lean, this connection is not just philosophical but practical—we can prove theorems by running programs, and our proofs **are** programs.
+
+This computational view of logic opens doors to:
+
+- **Verified computation**: Programs whose correctness is guaranteed by types
+- **Automated reasoning**: Letting computers handle routine proofs
+- **Reflective programming**: Programs that reason about themselves
+- **Constructive mathematics**: Mathematics with computational content
+
+The boundary between decidable and undecidable propositions continues to be an active area of research, with profound implications for both mathematics and computer science.
+
+---
+
+[System F](./Logic.system_f.html)

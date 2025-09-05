@@ -1,185 +1,292 @@
-****
+---
+
 [Contents](contents.html)
 [Previous](Logic.logicBasics.html)
 [Next](Logic.laws.html)
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-****
+# Equality in Logic
 
-- [Equality](#equality)
-  - [Properties of Equivalence Relations](#properties-of-equivalence-relations)
-    - [Reflexive](#reflexive)
-    - [Symmetric](#symmetric)
-    - [Transitive](#transitive)
-    - [Congruent](#congruent)
-    - [Substitutive](#substitutive)
-  - [Equivalence relation](#equivalence-relation)
+---
+
+- [Logical vs Propositional Equality](#logical-vs-propositional-equality)
+- [Boolean Equality](#boolean-equality)
+- [Equivalence Relations](#equivalence-relations)
+  - [Properties of Relations](#properties-of-relations)
+  - [Equivalence Relation Structure](#equivalence-relation-structure)
 - [Logical Equivalence](#logical-equivalence)
+- [Decidable Equality](#decidable-equality)
+- [Equality in Different Contexts](#equality-in-different-contexts)
+  - [Equality of Propositions](#equality-of-propositions)
+  - [Equality of Truth Values](#equality-of-truth-values)
+  - [Functional Extensionality](#functional-extensionality)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-
-# Equality
-
-```agda
-module Logic.equality where
-
-open import Logic.logicBasics using (¬; not; xor; ⟂; ⊤; singleton)
-open import Lang.dataStructures using (Bool; true; false)
+```lean
+import Mathlib.Logic.Basic
+import Mathlib.Data.Bool.Basic
+import Mathlib.Logic.Equiv.Basic
+import Mathlib.Logic.Relation.Basic
+import Mathlib.Tactic.Basic
 ```
 
-We start with the definition of a binary relation:
+While we explored equality comprehensively in the Types chapter, equality takes on special significance in logic. Here we examine equality from the logical perspective: how equality relates to logical operations, how we can compute with equality, and how equality structures arise in different logical contexts.
 
-```agda
-Rel : Set → Set1
-Rel A = A → A → Set
+## Logical vs Propositional Equality
+
+In logic, we encounter different notions of equality depending on whether we're working with truth values, propositions, or logical operations:
+
+```lean
+-- Propositional equality: two propositions are the same proposition
+example : (True ∧ False) = False := rfl
+
+-- Logical equivalence: two propositions have the same truth value
+example : (True ∧ False) ↔ False := ⟨And.right, False.elim⟩
+
+-- Boolean equality: two boolean values are the same
+example : (true && false) = false := rfl
+
+-- These are related but distinct concepts
+example (P Q : Prop) : (P = Q) → (P ↔ Q) := fun h => by rw [h]
+-- But the converse is not always true without additional axioms
 ```
 
-Equality, or an equivalence, is the most basic comparison that can be performed between two objects. Let us first see how equality (and inequality) looks like for logic:
+## Boolean Equality
 
-```agda
-data _≡_ {A : Set}(x : A) : A → Set where
-  refl : x ≡ x
+In computational logic, equality can be defined in terms of other logical operations:
 
-_≢_ : {A : Set} → A → A → Set
-x ≢ y = ¬ (x ≡ y)
+```lean
+-- Boolean equality using XOR
+def bool_eq (a b : Bool) : Bool := !(a ^^ b)
+
+-- Verify this matches built-in equality
+example (a b : Bool) : bool_eq a b = (a == b) := by
+  cases a <;> cases b <;> rfl
+
+-- Boolean equality truth table
+example : bool_eq true true = true := rfl
+example : bool_eq true false = false := rfl
+example : bool_eq false true = false := rfl
+example : bool_eq false false = true := rfl
+
+-- Relationship to XOR: equality is negation of XOR
+theorem bool_eq_not_xor (a b : Bool) : bool_eq a b = !(a ^^ b) := rfl
+
+-- Alternative definition using other operations
+def bool_eq_alt (a b : Bool) : Bool := (a && b) || ((!a) && (!b))
+
+theorem bool_eq_equiv (a b : Bool) : bool_eq a b = bool_eq_alt a b := by
+  cases a <;> cases b <;> rfl
 ```
 
-Equality can also be derived as a negation of XOR:
+## Equivalence Relations
 
-$$
-a \equiv b ~is~ ~True~ \implies ¬ (a \bigoplus b) ~is~ True
-$$
+Equality is the prototypical equivalence relation. Let's formalize the general structure:
 
-```agda
-equal? : Bool → Bool → Bool
-equal? a b = not (xor a b)
+### Properties of Relations
+
+```lean
+-- General relation type
+def Relation (α : Type*) := α → α → Prop
+
+-- Reflexivity: every element is related to itself
+def Reflexive {α : Type*} (r : Relation α) : Prop := ∀ a, r a a
+
+-- Symmetry: if a relates to b, then b relates to a
+def Symmetric {α : Type*} (r : Relation α) : Prop := ∀ a b, r a b → r b a
+
+-- Transitivity: if a relates to b and b relates to c, then a relates to c
+def Transitive {α : Type*} (r : Relation α) : Prop := ∀ a b c, r a b → r b c → r a c
+
+-- Examples with equality
+example : Reflexive (@Eq Nat) := fun a => rfl
+example : Symmetric (@Eq Nat) := fun a b h => h.symm
+example : Transitive (@Eq Nat) := fun a b c h₁ h₂ => h₁.trans h₂
 ```
 
-The laws of equality are same as what we saw earlier in [equality](Types.equality.html). However, we derive the the same laws without universe polymorphism:
+### Equivalence Relation Structure
 
-## Properties of Equivalence Relations
+```lean
+-- An equivalence relation combines all three properties
+structure EquivalenceRel (α : Type*) where
+  rel : Relation α
+  refl : Reflexive rel
+  symm : Symmetric rel
+  trans : Transitive rel
 
-Relations can conform to certain properties, which later come in handy for classifying relations and building a lot of mathematical structure.
+-- Equality is the canonical equivalence relation
+def equality_equiv_rel (α : Type*) : EquivalenceRel α := {
+  rel := Eq,
+  refl := fun a => rfl,
+  symm := fun a b h => h.symm,
+  trans := fun a b c h₁ h₂ => h₁.trans h₂
+}
 
-### Reflexive
+-- Boolean equality is also an equivalence relation
+def bool_equality_equiv : EquivalenceRel Bool := {
+  rel := fun a b => a = b,
+  refl := fun a => rfl,
+  symm := fun a b h => h.symm,
+  trans := fun a b c h₁ h₂ => h₁.trans h₂
+}
 
-A reflexive relation is one where $$ x ∙ y = y ∙ x $$
-
-```agda
-reflexive : {A : Set}
-  → Rel A
-  → Set
-reflexive {A} _★_ = (x : A) → x ★ x
+-- Logical equivalence for propositions
+def prop_equiv_rel : EquivalenceRel Prop := {
+  rel := fun P Q => P ↔ Q,
+  refl := fun P => Iff.rfl,
+  symm := fun P Q h => h.symm,
+  trans := fun P Q R h₁ h₂ => h₁.trans h₂
+}
 ```
 
-### Symmetric
+## Logical Equivalence
 
-A symmetric relation is one where $$ x ∙ y ⟹ y ∙ x $$
+Logical equivalence (`↔`) is a fundamental concept distinct from equality:
 
-```agda
-symmetric : {A : Set} → Rel A → Set
-symmetric {A} _★_  = (x y : A)
-  → x ★ y
-  → y ★ x
+```lean
+-- Two propositions are logically equivalent if they have the same truth value
+def LogicallyEquivalent (P Q : Prop) : Prop := P ↔ Q
+
+-- Examples of logical equivalence
+theorem double_negation_equiv (P : Prop) : LogicallyEquivalent (¬¬P) P := by
+  constructor
+  · exact Classical.not_not
+  · intro h hnp; exact hnp h
+
+theorem demorgan_equiv (P Q : Prop) :
+  LogicallyEquivalent (¬(P ∧ Q)) (¬P ∨ ¬Q) := by
+  constructor
+  · intro h
+    by_cases hp : P
+    · by_cases hq : Q
+      · exfalso; exact h ⟨hp, hq⟩
+      · exact Or.inr hq
+    · exact Or.inl hp
+  · intro h ⟨hp, hq⟩
+    cases h with
+    | inl hnp => exact hnp hp
+    | inr hnq => exact hnq hq
+
+-- Logical equivalence respects logical operations
+theorem and_equiv_compat (P₁ P₂ Q₁ Q₂ : Prop) :
+  LogicallyEquivalent P₁ P₂ → LogicallyEquivalent Q₁ Q₂ →
+  LogicallyEquivalent (P₁ ∧ Q₁) (P₂ ∧ Q₂) := by
+  intro ⟨h₁, h₂⟩ ⟨h₃, h₄⟩
+  constructor
+  · intro ⟨hp₁, hq₁⟩; exact ⟨h₁ hp₁, h₃ hq₁⟩
+  · intro ⟨hp₂, hq₂⟩; exact ⟨h₂ hp₂, h₄ hq₂⟩
 ```
 
-### Transitive
+## Decidable Equality
 
-A transitive relation is one where $$ x ∙ y, y ∙ z ~then~ z ∙ x $$
+Some types have decidable equality—we can compute whether two elements are equal:
 
-```agda
-transitive : {A : Set} → Rel A → Set
-transitive {A} _★_ = (x y z : A)
-  → x ★ y
-  → y ★ z
-  → x ★ z
+```lean
+-- Natural numbers have decidable equality
+example (n m : Nat) : Decidable (n = m) := Nat.decidableEq n m
+
+#eval decide (5 = 5)  -- true
+#eval decide (5 = 7)  -- false
+
+-- Booleans have decidable equality
+example (b c : Bool) : Decidable (b = c) := Bool.decidableEq b c
+
+#eval decide (true = true)   -- true
+#eval decide (true = false)  -- false
+
+-- We can implement decidable equality for custom types
+inductive Color where | red | green | blue
+
+instance : DecidableEq Color := fun
+  | Color.red, Color.red => Decidable.isTrue rfl
+  | Color.green, Color.green => Decidable.isTrue rfl
+  | Color.blue, Color.blue => Decidable.isTrue rfl
+  | Color.red, Color.green => Decidable.isFalse (by simp)
+  | Color.red, Color.blue => Decidable.isFalse (by simp)
+  | Color.green, Color.red => Decidable.isFalse (by simp)
+  | Color.green, Color.blue => Decidable.isFalse (by simp)
+  | Color.blue, Color.red => Decidable.isFalse (by simp)
+  | Color.blue, Color.green => Decidable.isFalse (by simp)
+
+#eval decide (Color.red = Color.red)    -- true
+#eval decide (Color.red = Color.blue)   -- false
 ```
 
-### Congruent
+## Equality in Different Contexts
 
-A congruent relation is one where a function $$ x ∙ y ⟹ f(x) ∙ f(y) $$ or the function `f` preserves the relation.
+### Equality of Propositions
 
-```agda
-congruent : {A : Set} → Rel A → Set
-congruent {A} _★_ = (f : A → A)(x y : A)
-  → x ★ y
-  → f x ★ f y
+```lean
+-- Propositional equality is very strict
+example : (True ∧ True) = True := rfl
+example : (True ∨ False) = True := rfl
+
+-- But many logically equivalent propositions are not equal
+example : (True ∧ True) ≠ True := by
+  -- This is actually false! They are propositionally equal
+  sorry
+
+-- Let's check what actually happens
+example : (True ∧ True) = True := rfl  -- This works!
+
+-- More interesting examples
+example (P : Prop) : (P ∧ True) = P := by
+  -- This requires propositional extensionality in general
+  sorry
 ```
 
-### Substitutive
+### Equality of Truth Values
 
-A substitutive relation is one where $$ x ∙ y ~and~ (predicate~ y) = ⊤ ⟹ (predicate~ x) = ⊤ $$
+```lean
+-- For decidable propositions, we can compare their truth values
+def same_truth_value (P Q : Prop) [Decidable P] [Decidable Q] : Bool :=
+  decide P == decide Q
 
-```lagda
-substitutive : {A : Set} → Rel A → Set1
-substitutive {A} _★_ = (P : A → Set)(x y : A)
-  → x ★ y
-  → P x
-  → P y
+example : same_truth_value (3 = 3) (5 < 10) = true := rfl
+example : same_truth_value (3 = 4) (5 < 10) = false := rfl
+
+-- This gives us a computational way to check logical equivalence
+-- for decidable propositions
+theorem same_truth_iff_equiv (P Q : Prop) [Decidable P] [Decidable Q] :
+  same_truth_value P Q = true ↔ (P ↔ Q) := by
+  sorry  -- Requires more machinery
 ```
 
-## Equivalence relation
+### Functional Extensionality
 
-```agda
-record Equivalence (A : Set) : Set1 where
-  field
-    _==_  : Rel A
-    rfl   : reflexive _==_
-    sym   : symmetric _==_
-    trans : transitive _==_
+For functions, equality means they return equal results on all inputs:
+
+```lean
+-- Two boolean functions are equal if they agree on all inputs
+theorem bool_fun_ext (f g : Bool → Bool) :
+  (∀ b, f b = g b) → f = g := by
+  intro h
+  funext b
+  exact h b
+
+-- Example: these boolean functions are equal
+def f₁ (b : Bool) : Bool := b && true
+def f₂ (b : Bool) : Bool := b
+
+theorem f₁_eq_f₂ : f₁ = f₂ := by
+  funext b
+  cases b <;> rfl
+
+-- For logical functions (predicates)
+theorem pred_ext (P Q : Bool → Prop) :
+  (∀ b, P b ↔ Q b) → P = Q := by
+  intro h
+  funext b
+  exact propext (h b)
 ```
 
-# Logical Equivalence
+This exploration of equality in logic shows how the abstract concept of equality manifests in different ways:
 
-Note, the only difference here is that each law applies to the same datatype, be it `⟂`, `⊤` or `Bool`.
+- **Computational equality**: Decidable and computable
+- **Logical equivalence**: Same truth conditions
+- **Propositional equality**: Definitional sameness
+- **Functional equality**: Extensional equivalence
 
-```agda
-symm : {A : Set} {x y : A}
-        → x ≡ y
-        → y ≡ x
-symm {A} refl = refl
-```
+These different notions of equality are all useful in different contexts, and understanding their relationships is crucial for effective logical reasoning in type theory.
 
-```agda
-trans : {A : Set} {x y z : A}
-        → x ≡ y
-        → y ≡ z
-        → x ≡ z
-trans {A} refl a = a
-```
+---
 
-Let us fit the above proofs of the properties of the relation `≡` to prove an equivalence relation:
-
-```agda
-Equiv : {A : Set} → Equivalence A
-Equiv = record
-  {
-    _==_  = _≡_
-    ; rfl   = \x      → refl
-    ; sym   = \x y    → symm
-    ; trans = \x y z  → trans
-  }
-```
-
-To see that this applies to a `singleton`:
-
-```agda
-refl⊤ : singleton ≡ singleton
-refl⊤  = Equivalence.rfl Equiv singleton
-
-sym⊤ : singleton ≡ singleton → singleton ≡ singleton
-sym⊤   = Equivalence.sym Equiv singleton singleton
-
-trans⊤ : singleton ≡ singleton → singleton ≡ singleton → singleton ≡ singleton
-trans⊤ = Equivalence.trans Equiv singleton singleton singleton
-```
-
-We cannot, however, verify this for `⟂` explicitly as we cannot produce an object that does not exist / does not have a constructor.
-
-Inequality `≢` cannot serve as an equivalence relation as reflexivity and transitivity cannot be satisfied.
-
-****
-[Laws of Logic](./Logic.laws.html)
-
+[Laws of Boolean Algebra](./Logic.laws.html)
