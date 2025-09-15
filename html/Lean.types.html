@@ -30,8 +30,6 @@ href="Lean.functions.html">Next</a></p>
 <h1 id="types-data-structures">Types &amp; Data Structures</h1>
 <hr />
 <ul>
-<li><a href="#types--data-structures">Types &amp; Data Structures</a>
-<ul>
 <li><a href="#types">Types</a>
 <ul>
 <li><a href="#declaring-types">Declaring Types</a></li>
@@ -66,11 +64,10 @@ href="Lean.functions.html">Next</a></p>
 <li><a href="#dependent-types">Dependent Types</a></li>
 <li><a href="#propositions-as-types">Propositions as Types</a></li>
 </ul></li>
-</ul></li>
 </ul>
 <h2 id="types">Types</h2>
 <p>In Lean, types are first-class citizens, meaning they can be manipulated and passed around just like any other value.
-This is similar to languages like Haskell or Scala, but with even more expressive as we shall see later.</p>
+This is similar to languages like Haskell or Scala, but with even more expressiveness as we shall see later.</p>
 <h3 id="declaring-types">Declaring Types</h3>
 <p>In Lean, we declare types using the following syntax:</p>
 <pre class="lean"><code>def x : Nat := 0
@@ -124,11 +121,11 @@ and <code>false</code> and return the corresponding values <code>false</code> an
   | zero : Nat -- define a zero object as the base
   | succ : Nat → Nat -- every such object has a succeeding object</code></pre>
 <p>Here, we define natural numbers by defining the element <code>zero</code> and the function <code>succ</code> that
-adds 1 to any given integer (creates the successive natural number) i.e. <code>succ zero</code> is 1,
-<code>succ (succ zero)</code> is two and so on. This is similar to Peano arithmetic and is foundational in type theory.
-In practice, <code>Nat</code> is a pre-defined type and Lean optimizes this to use machine integers for efficiency.</p>
+adds 1 to any given natural number (creates the successive natural number) i.e. <code>succ zero</code> is 1,
+<code>succ (succ zero)</code> is 2 and so on. This is similar to Peano arithmetic and is foundational in type theory. In
+practice, <code>Nat</code> is a predefined type and Lean optimizes this to use machine integers for efficiency.</p>
 <pre class="lean"><code>def one := succ zero</code></pre>
-<p>Arithmetic operations can now be defined on <code>Nat</code> like addition and multiplicattion:</p>
+<p>Arithmetic operations can now be defined on <code>Nat</code> like addition and multiplication:</p>
 <pre class="lean"><code>def add : Nat → Nat → Nat
 | zero, n =&gt; n
 | m+one, n =&gt; (add m n) + one
@@ -259,7 +256,7 @@ using a list:</p>
   elems : List α
 deriving Repr</code></pre>
 <p>Here we use the <code>structure</code> keyword to define a new data structure <code>Stack</code> with a single field
-<code>elems</code> of type <code>List α</code>. In lean, the <code>structure</code> keyword is used to define new data
+<code>elems</code> of type <code>List α</code>. In Lean, the <code>structure</code> keyword is used to define new data
 structures, similar to <code>data</code> in Haskell or <code>struct</code> in C++. The structure also derives a
 <code>Repr</code> instance, which allows us to print the stack using <code>#eval</code>.</p>
 <p>We can define operations like <code>push</code> and <code>pop</code> on the stack:</p>
@@ -283,6 +280,7 @@ queue using a list:</p>
   elems : List α
 deriving Repr
 
+def x : Q Nat := { elems := [1, 2, 3] }
 #eval x.elems  -- Output: [1, 2, 3]</code></pre>
 <p>Enqueue and dequeue operations can be performed on the queue:</p>
 <pre class="lean"><code>def enqueue {α : Type} (q : Q α) (x : α) : Q α :=
@@ -316,7 +314,7 @@ values in the map:</p>
 <pre class="lean"><code>def exampleMap1 : Map Nat String :=
   Map.mk [(1, &quot;one&quot;), (2, &quot;two&quot;), (3, &quot;three&quot;)]
 
-#eval exampleMap ?? 2  -- Output: some &quot;two&quot;</code></pre>
+#eval exampleMap1 ?? 2  -- Output: some &quot;two&quot;</code></pre>
 <p>Representing maps as lists of key-value pairs is not the most efficient way to implement them, but it serves as a
 simple example. Lean also provides more efficient implementations of maps in the standard library.</p>
 <p>We can use more optimized implementations by importing the <code>Std.Data.HashMap</code> module:</p>
@@ -392,17 +390,17 @@ of this type using the constructor:</p>
 <p>Sum types (also known as tagged unions or algebraic data types) allow a value to be one of several types. They’re
 similar to enums in Rust or union types in TypeScript.</p>
 <pre class="lean"><code>inductive Shape
-  -- constructor that takes in 3 floats and outputs an object of type Shape (a triangle)
-  | triangle    : Float → Float → Float → Shape
-  -- constructor that takes in 4 floats and outputs an object of type Shape (a rectangle)
-  | rectangle : Float → Float → Float → Float → Shape</code></pre>
+  -- constructor that takes in a radius and outputs a circle
+  | circle    : Float → Shape
+  -- constructor that takes in width and height and outputs a rectangle
+  | rectangle : Float → Float → Shape</code></pre>
 <p>These constructors can be used to create objects of type <code>Shape</code>:</p>
-<pre class="lean"><code>def myTriangle := Shape.triangle 1.2 12.1 123.1
-def myRectangle := Shape.rectangle 1.2 12.1 123.1 1234.5</code></pre>
+<pre class="lean"><code>def myCircle := Shape.circle 5.0
+def myRectangle := Shape.rectangle 4.0 6.0</code></pre>
 <p>The <code>Shape</code> type can now be used in functions to calculate the area of a shape using pattern matching:</p>
 <pre class="lean"><code>def area : Shape → Float
-  | Shape.triangle _ _ r =&gt; Float.pi * r * r
-  | Shape.rectangle _ _ w h =&gt; w * h</code></pre>
+  | Shape.circle r =&gt; Float.pi * r * r
+  | Shape.rectangle w h =&gt; w * h</code></pre>
 <h2 id="advanced-types">Advanced Types</h2>
 <h3 id="type-classes">Type Classes</h3>
 <p>Lean allows the definition of type classes, which are similar to interfaces in TypeScript or traits in Rust. They

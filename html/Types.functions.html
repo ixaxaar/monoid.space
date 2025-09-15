@@ -30,10 +30,8 @@ href="Types.identity.html">Next</a></p>
 <h1 id="function-types">Function Types</h1>
 <hr />
 <ul>
-<li><a href="#function-types">Function Types</a>
-<ul>
 <li><a href="#introduction">Introduction</a></li>
-<li><a href="#function-types-1">Function Types</a>
+<li><a href="#function-types">Function Types</a>
 <ul>
 <li><a href="#examples">Examples</a>
 <ul>
@@ -58,7 +56,6 @@ href="Types.identity.html">Next</a></p>
 <li><a href="#lifting">Lifting</a></li>
 </ul></li>
 <li><a href="#extensionality">Extensionality</a></li>
-</ul></li>
 </ul>
 <pre class="lean"><code>import Mathlib.Data.Vector
 import Mathlib.Data.Fin.Basic</code></pre>
@@ -78,9 +75,9 @@ results, and stored in data structures.</p>
 <h3 id="examples">Examples</h3>
 <h4 id="lambda-expressions">Lambda Expressions</h4>
 <p>We can also define functions anonymously, without giving them a name, using <em>lambda expressions</em>. A lambda
-expression starts with the keyword <code>fun</code> (or the symbol <code>λ</code>), followed by the argument list, and
+expression starts with the keyword <code>fun</code> (or the symbol <code>fun</code>), followed by the argument list, and
 then <code>=&gt;</code> and the function body.</p>
-<pre class="lean"><code>#check fun (n : Nat) =&gt; n * 2  -- fun n =&gt; n * 2 : ℕ → ℕ
+<pre class="lean"><code>#check fun (n : Nat) =&gt; n * 2  -- fun n =&gt; n * 2 : Nat → Nat
 
 def double : Nat → Nat := fun n =&gt; n * 2
 
@@ -101,7 +98,7 @@ generalization of the simple function type <code>A → B</code>. If <code>B</cod
 <pre class="lean"><code>-- A function that takes a length &#39;n&#39; and returns a vector of zeros of that length.
 def zeros (n : Nat) : Vector Nat n := Vector.replicate n 0
 
-#check zeros  -- zeros : (n : ℕ) → Vector ℕ n</code></pre>
+#check zeros  -- zeros : (n : Nat) → Vector Nat n</code></pre>
 <p>The type of <code>zeros</code> is a Pi type. The return type, <code>Vector Nat n</code>, depends on the input value,
 <code>n</code>.</p>
 <p>Another example: a function that gets the element at a specific index in a vector. The index must be less than the
@@ -109,7 +106,7 @@ length of the vector. Lean’s <code>Fin n</code> type represents natural number
 <pre class="lean"><code>-- Get the element at index &#39;i&#39; in a vector of length &#39;n&#39;.
 def Vector.get (v : Vector α n) (i : Fin n) : α := v.1[i]
 
-#check Vector.get -- {α : Type} → {n : ℕ} → Vector α n → Fin n → α
+#check Vector.get -- {α : Type} → {n : Nat} → Vector α n → Fin n → α
 </code></pre>
 <p>The type of <code>Vector.get</code> is also a Pi Type. Note the use of the curly brackets <code>{}</code> to indicate
 implicit parameters.</p>

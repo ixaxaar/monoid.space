@@ -95,8 +95,6 @@ href="Lean.debugging.html">Next</a></p>
 <h1 id="modules-and-projects">Modules and Projects</h1>
 <hr />
 <ul>
-<li><a href="#modules-and-projects">Modules and Projects</a>
-<ul>
 <li><a href="#basics">Basics</a></li>
 <li><a href="#projects">Projects</a>
 <ul>
@@ -107,7 +105,6 @@ href="Lean.debugging.html">Next</a></p>
 <li><a href="#elan">elan</a></li>
 <li><a href="#doc-gen4">doc-gen4</a></li>
 <li><a href="#testing">Testing</a></li>
-</ul></li>
 </ul>
 <h2 id="basics">Basics</h2>
 <p>Lean files typically end with a <code>.lean</code> extension, and each file represents a module. The name of the file
@@ -128,10 +125,10 @@ module my_group
 extension installed. You can then start writing Lean code and see the real-time type information and error messages.</p>
 <pre class="lean"><code>def hello : String := &quot;Hello, Lean!&quot;
 #check hello</code></pre>
-<p>The lean extension has a sidebar that shows the structure of the file, and you can navigate to different sections of
-the file by clicking on the items in the sidebar, called the “lean infoview”. The infoview also shows the type of the
-current expression under the cursor and any errors in the file. The infoview can be toggled using the
-<code>ctrl+shift+enter</code> shortcut.</p>
+<p>The Lean extension has a sidebar that shows the structure of the file, and you can navigate to different sections of
+the file by clicking on the items in the sidebar, called the “Lean Infoview”. The Infoview also shows the type of the
+current expression under the cursor and any errors in the file. The Infoview can be toggled using the
+<code>Ctrl+Shift+Enter</code> shortcut.</p>
 <p>The file can also be compiled using the Lean compiler, which will check the syntax and type correctness of the code.
 The Lean compiler can be run from the command line using the <code>lean</code> command.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lean</span> my_file.lean</span></code></pre></div>
@@ -150,7 +147,7 @@ can be managed using the Lake package manager, which helps with building, testin
 <li><code>MyProject.lean</code> and <code>MyProject/Basic.lean</code>: scaffolding of a support library for the
 project.</li>
 </ul>
-<p>In addition to this, it also creates a git repo for the project and a <code>.gitingore</code> file.</p>
+<p>In addition to this, it also creates a git repo for the project and a <code>.gitignore</code> file.</p>
 <h3 id="file-structure">File Structure</h3>
 <p>In Lean, projects typically follow a standard directory structure:</p>
 <pre><code>my_project/
@@ -165,7 +162,7 @@ project.</li>
 multiple <code>.lean</code> files, each defining a module. The <code>Main.lean</code> file serves as the entry point for
 the project.</p>
 <h2 id="lake-package-manager">Lake Package Manager</h2>
-<p>Lake is Lean’s built-in package manager and build system for lean. It simplifies the process of building, testing,
+<p>Lake is Lean’s built-in package manager and build system for Lean. It simplifies the process of building, testing,
 and managing Lean projects. Lake uses <code>lakefile.toml</code> for configuration:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode toml"><code class="sourceCode toml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;my_project&quot;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="dt">version</span> <span class="op">=</span> <span class="st">&quot;0.1.0&quot;</span></span>
@@ -199,8 +196,8 @@ found in the <a href="https://github.com/leanprover/lean4/blob/master/src/lake/R
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="ex">lake</span> clean       <span class="co"># Clean build artifacts</span></span></code></pre></div>
 <h2 id="vscode-vscodium-integration">vscode / vscodium Integration</h2>
 <p>VSCode is the primary IDE for Lean development. The Lean extension provides several features like any modern
-development environment such as syntax highlighting, real-time type information, interactive theorem proving, go to
-definition, auto-completion, and an infoview that shows real-time type information, proof state, error messages, and
+development environment such as syntax highlighting, real-time type information, interactive theorem proving, go-to
+definition, auto-completion, and an Infoview that shows real-time type information, proof state, error messages, and
 documentation.</p>
 <p>Other editor integrations are available such as <code>lean-mode</code> for Emacs and <code>lean.vim</code> for Vim.
 However, the VSCode extension is the most feature-rich and actively maintained.</p>

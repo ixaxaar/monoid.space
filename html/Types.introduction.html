@@ -32,8 +32,6 @@ href="Types.universe.html">Next</a></p>
 <h1 id="introduction-to-type-theory">Introduction to Type Theory</h1>
 <hr />
 <ul>
-<li><a href="#introduction-to-type-theory">Introduction to Type Theory</a>
-<ul>
 <li><a href="#foundations-of-mathematics">Foundations of Mathematics</a></li>
 <li><a href="#set-theory">Set Theory</a>
 <ul>
@@ -54,7 +52,6 @@ href="Types.universe.html">Next</a></p>
 <ul>
 <li><a href="#computer-science">Computer Science</a></li>
 <li><a href="#mathematics">Mathematics</a></li>
-</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -166,14 +163,13 @@ class="math inline">\(z_{2}\)</span> is equivalent to <span class="math inline">
 <pre class="lean"><code>def z₁ : Set Nat := x ∪ (y ∩ z)
 def z₂ : Set Nat := (x ∪ y) ∩ (x ∪ z)</code></pre>
 <p>Here, <span class="math inline">\(z_{1}\)</span> and <span class="math inline">\(z_{2}\)</span> are equivalent.</p>
-<p>There are several other properties of set operations, which are used in mathematical reasoning and proofs, and we are
-going to skip those as styduing them is not the goal of this book.</p>
+<p>Additional properties of set operations exist and are fundamental to mathematical reasoning, but we omit them as they
+fall outside this book’s scope.</p>
 <h2 id="type-theory">Type Theory</h2>
-<p>Type theory is a formal system that serves as an alternative foundation for mathematics and computer science,
-distinct from set theory. Instead of building everything from sets, type theory centers around the concept of types.
-Crucially, every object in type theory has a type. This is a fundamental and pervasive principle. Type theory provides
-an emphasis on computation and is well-suited for formal verification and automated proof checking, as implemented in
-proof assistants like Lean.</p>
+<p>Type theory provides an alternative foundation for mathematics and computer science, distinct from set theory. Rather
+than constructing everything from sets, type theory centers on the concept of types, with the fundamental principle that
+every object has a type. This computational emphasis makes type theory well-suited for formal verification and automated
+proof checking, as implemented in proof assistants like Lean.</p>
 <h3 id="types-terms-and-judgments">Types, Terms, and Judgments</h3>
 <p>The core building blocks of type theory are:</p>
 <ul>

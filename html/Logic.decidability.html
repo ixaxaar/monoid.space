@@ -20,207 +20,360 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
-    /* CSS for syntax highlighting */
-    html { -webkit-text-size-adjust: 100%; }
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { color: #008000; } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { color: #008000; font-weight: bold; } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../css/agda.css" />
 </head>
 <body>
 <hr />
 <p><a href="contents.html">Contents</a> <a href="Logic.laws.html">Previous</a> <a
-href="Algebra.introduction.html">Next</a></p>
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-<hr />
-<ul>
-<li><a href="#decidability">Decidability</a>
-<ul>
-<li><a href="#1-evidence-based">1. Evidence based</a></li>
-<li><a href="#2-computation-based">2. Computation based</a></li>
-</ul></li>
-<li><a href="#going-further">Going Further</a></li>
-</ul>
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+href="Logic.system_f.html">Next</a></p>
 <h1 id="decidability">Decidability</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">;</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  ℕ<span class="ot">;</span> List<span class="ot">;</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  one<span class="ot">;</span> two<span class="ot">;</span> three<span class="ot">;</span> four<span class="ot">;</span> five<span class="ot">;</span> six<span class="ot">;</span> seven<span class="ot">;</span> eight<span class="ot">;</span> nine<span class="ot">;</span> ten<span class="ot">;</span> zero<span class="ot">;</span> succ<span class="ot">;</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="ot">_</span>::<span class="ot">_;</span> []<span class="ot">)</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Logic<span class="ot">.</span>logicBasics <span class="kw">using</span> <span class="ot">(</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  ⟂<span class="ot">;</span> ⊤<span class="ot">;</span> ⟂-elim<span class="ot">;</span> ¬<span class="ot">;</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  not<span class="ot">;</span> contradiction<span class="ot">;</span> contrapos<span class="ot">;</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="ot">_</span>then<span class="ot">_</span>else<span class="ot">_)</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations <span class="kw">using</span> <span class="ot">(</span>Rel<span class="ot">;</span> REL<span class="ot">)</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality <span class="kw">using</span> <span class="ot">(_</span>≡<span class="ot">_)</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> Logic<span class="ot">.</span>decidability <span class="kw">where</span></span></code></pre></div>
-<p>Relations can de defined either as an inductive data type − the existence of the type implies that the relation
-exists. We say that the data type provides a <strong>witness</strong> that the relation is valid. The other way is to
-define relations as functions that compute whether the relation holds.</p>
-<p>Consider the relation <code>_&lt;=_</code>. If we have to prove that <code>2 &lt;= 4</code>, we can do that in two
-ways:</p>
-<h2 id="evidence-based">1. Evidence based</h2>
-<p>The Inductive relation:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="ot">_</span>&lt;=<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  ltz <span class="ot">:</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> zero &lt;= n</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  lt <span class="ot">:</span> <span class="ot">{</span>m <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> <span class="ot">{</span>n <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> m &lt;= n <span class="ot">→</span> <span class="ot">(</span>succ m<span class="ot">)</span> &lt;= <span class="ot">(</span>succ n<span class="ot">)</span></span></code></pre></div>
-<p>Proof that 2 ≤ 4:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>2≤4 <span class="ot">:</span> two &lt;= four</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>2≤4 <span class="ot">=</span> lt <span class="ot">(</span>lt ltz<span class="ot">)</span></span></code></pre></div>
-<h2 id="computation-based">2. Computation based</h2>
-<p>Relation as a Function type:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">infix</span> <span class="dv">4</span> <span class="ot">_</span>≤<span class="ot">_</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ot">_</span>≤<span class="ot">_</span> <span class="ot">:</span> ℕ <span class="ot">→</span> ℕ <span class="ot">→</span> Bool</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>zero ≤ n       <span class="ot">=</span>  true</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>succ m ≤ zero   <span class="ot">=</span>  false</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>succ m ≤ succ n  <span class="ot">=</span>  m ≤ n</span></code></pre></div>
-<p>Proof that 2 ≤ 4:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equational</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> ≡-Reasoning</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>twoLessThanFour <span class="ot">:</span> <span class="ot">(</span>two ≤ four<span class="ot">)</span> ≡ true</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>twoLessThanFour <span class="ot">=</span> begin</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    two ≤ four</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  ≡⟨⟩</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    one ≤ three</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  ≡⟨⟩</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    zero ≤ two</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  ≡⟨⟩</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    true</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  ∎</span></code></pre></div>
-<p>We can always connect such forms of representation of the same underlying mathematical structures from the
-Computation based to evidence based:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>T <span class="ot">:</span> Bool <span class="ot">→</span> <span class="dt">Set</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>T true <span class="ot">=</span> ⊤</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>T false <span class="ot">=</span> ⟂</span></code></pre></div>
-<p>Like we saw for the proposition <code>2 ≤ 4</code>, for any proposition <code>P</code> to be decidable, either we can
-compute <code>P</code> or <code>¬ P</code>, i.e. either proposition <code>P</code> has a proof or it can been disproved.
-In the words of logic, a true/false decision problem is decidable if there exists an effective method for deriving the
-correct answer.</p>
-<p>For representing this idea we use an inductive data type which has two constructors.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> Dec <span class="ot">{</span>p<span class="ot">}</span> <span class="ot">(</span>P <span class="ot">:</span> <span class="dt">Set</span> p<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> p <span class="kw">where</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  yes <span class="ot">:</span> <span class="ot">(</span> p <span class="ot">:</span>   P<span class="ot">)</span> <span class="ot">→</span> Dec P</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  no  <span class="ot">:</span> <span class="ot">(</span>¬p <span class="ot">:</span> ¬ P<span class="ot">)</span> <span class="ot">→</span> Dec P</span></code></pre></div>
-<p>The computational equivalent of decidable relations would be:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>Decidable <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b ℓ<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span> <span class="ot">→</span> REL A B ℓ <span class="ot">→</span> <span class="dt">Set</span> <span class="ot">_</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Decidable <span class="ot">_</span>∼<span class="ot">_</span> <span class="ot">=</span> <span class="ot">∀</span> x y <span class="ot">→</span> Dec <span class="ot">(</span>x ∼ y<span class="ot">)</span></span></code></pre></div>
-<p>Decidability can be computed into a boolean value. We write that and some other useful machinery:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>⌊<span class="ot">_</span>⌋ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>p<span class="ot">}</span> <span class="ot">{</span>P <span class="ot">:</span> <span class="dt">Set</span> p<span class="ot">}</span> <span class="ot">→</span> Dec P <span class="ot">→</span> Bool</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>⌊ yes <span class="ot">_</span> ⌋ <span class="ot">=</span> true</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>⌊ no  <span class="ot">_</span> ⌋ <span class="ot">=</span> false</span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>True <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>p<span class="ot">}</span> <span class="ot">{</span>P <span class="ot">:</span> <span class="dt">Set</span> p<span class="ot">}</span> <span class="ot">→</span> Dec P <span class="ot">→</span> <span class="dt">Set</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>True Q <span class="ot">=</span> T ⌊ Q ⌋</span></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>False <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>p<span class="ot">}</span> <span class="ot">{</span>P <span class="ot">:</span> <span class="dt">Set</span> p<span class="ot">}</span> <span class="ot">→</span> Dec P <span class="ot">→</span> <span class="dt">Set</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>False Q <span class="ot">=</span> T <span class="ot">(</span>not ⌊ Q ⌋<span class="ot">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">record</span> Lift <span class="ot">{</span>a<span class="ot">}</span> ℓ <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">(</span>a ⊔ ℓ<span class="ot">)</span> <span class="kw">where</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">constructor</span> lift</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">field</span> lower <span class="ot">:</span> A</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="ot">_</span> <span class="ot">{</span>p<span class="ot">}</span> <span class="ot">{</span>P <span class="ot">:</span> <span class="dt">Set</span> p<span class="ot">}</span> <span class="kw">where</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  From-yes <span class="ot">:</span> Dec P <span class="ot">→</span> <span class="dt">Set</span> p</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  From-yes <span class="ot">(</span>yes <span class="ot">_)</span> <span class="ot">=</span> P</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  From-yes <span class="ot">(</span>no  <span class="ot">_)</span> <span class="ot">=</span> Lift p ⊤</span></code></pre></div>
-<p>We can now use this machinery to prove that the relation <code>&lt;=</code> is decidable for all
-<code>x, y ∈ ℕ</code>:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>nothingIsLessThanZero <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>x <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> ¬ <span class="ot">(</span>succ x &lt;= zero<span class="ot">)</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>nothingIsLessThanZero <span class="ot">()</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>successionsAreLessToo <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>x y <span class="ot">:</span> ℕ<span class="ot">}</span> <span class="ot">→</span> ¬ <span class="ot">(</span>x &lt;= y<span class="ot">)</span> <span class="ot">→</span> ¬ <span class="ot">(</span>succ x &lt;= succ y<span class="ot">)</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>successionsAreLessToo ¬x≤y <span class="ot">(</span>lt x≤y<span class="ot">)</span> <span class="ot">=</span> ¬x≤y x≤y</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="ot">_</span>≤isDecidable<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">(</span>m n <span class="ot">:</span> ℕ<span class="ot">)</span> <span class="ot">→</span> Dec <span class="ot">(</span>m &lt;= n<span class="ot">)</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>zero  ≤isDecidable n                   <span class="ot">=</span>  yes ltz</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>succ m ≤isDecidable zero               <span class="ot">=</span>  no nothingIsLessThanZero</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>succ m ≤isDecidable succ n <span class="kw">with</span> m ≤isDecidable n</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="ot">...</span>               <span class="ot">|</span> yes m≤n  <span class="ot">=</span>  yes <span class="ot">(</span>lt m≤n<span class="ot">)</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="ot">...</span>               <span class="ot">|</span> no ¬m≤n  <span class="ot">=</span>  no <span class="ot">(</span>successionsAreLessToo ¬m≤n<span class="ot">)</span></span></code></pre></div>
-<p>We have used the <code>with</code> abstraction above. It lets you pattern match on the result of an intermediate
-computation by effectively adding an extra argument to the left-hand side of your function. Refer to more documentation
-<a href="https://agda.readthedocs.io/en/v2.5.2/language/with-abstraction.html">here</a>.</p>
-<h1 id="going-further">Going Further</h1>
-<p>A theory is a set of formulas, often assumed to be closed under logical consequence. Decidability for a theory
-concerns whether there is an effective procedure that decides whether the formula is a member of the theory or not,
-given an arbitrary formula in the signature of the theory. The problem of decidability arises naturally when a theory is
-defined as the set of logical consequences of a fixed set of axioms.</p>
-<p>Every consistent theory is decidable, as every formula of the theory will be a logical consequence of, and thus a
-member of, the theory. First-order logic is not decidable in general; in particular, the set of logical validities in
-any signature that includes equality and at least one other predicate with two or more arguments is not decidable.
-Logical systems extending first-order logic, such as second-order logic and type theory, are also undecidable.</p>
-<p>Decidability and undecidability of an entire theory can be proven, one of the more famous proofs being <a
-href="https://en.wikipedia.org/wiki/G%C3%B6del%27s_incompleteness_theorems">Gödel’s incompleteness theorems</a>. The
-machinery we defined here form the basis of a larger set of structures required to prove the above facts, including
-problems like prime number generation. In light of the complexity associated with such a task, we choose to move on
-instead.</p>
 <hr />
-<p><a href="./Algebra.introduction.html">Introduction</a></p>
+<ul>
+<li><a href="#the-decision-problem">The Decision Problem</a></li>
+<li><a href="#decidable-propositions">Decidable Propositions</a>
+<ul>
+<li><a href="#the-decidable-type-class">The Decidable Type Class</a></li>
+<li><a href="#examples-of-decidable-propositions">Examples of Decidable Propositions</a></li>
+</ul></li>
+<li><a href="#evidence-vs-computation">Evidence vs Computation</a>
+<ul>
+<li><a href="#proof-relevant-decision">Proof-Relevant Decision</a></li>
+<li><a href="#computational-decision">Computational Decision</a></li>
+<li><a href="#bridging-the-gap">Bridging the Gap</a></li>
+</ul></li>
+<li><a href="#decidability-instances">Decidability Instances</a>
+<ul>
+<li><a href="#natural-number-equality">Natural Number Equality</a></li>
+<li><a href="#natural-number-ordering">Natural Number Ordering</a></li>
+<li><a href="#boolean-decidability">Boolean Decidability</a></li>
+</ul></li>
+<li><a href="#decidable-relations">Decidable Relations</a></li>
+<li><a href="#classical-vs-constructive-decidability">Classical vs Constructive Decidability</a></li>
+<li><a href="#undecidable-propositions">Undecidable Propositions</a>
+<ul>
+<li><a href="#the-halting-problem">The Halting Problem</a></li>
+<li><a href="#gödels-incompleteness">Gödel’s Incompleteness</a></li>
+</ul></li>
+<li><a href="#practical-applications">Practical Applications</a>
+<ul>
+<li><a href="#automation-in-lean">Automation in Lean</a></li>
+<li><a href="#proof-by-computation">Proof by Computation</a></li>
+</ul></li>
+<li><a href="#reflective-programming">Reflective Programming</a></li>
+</ul>
+<pre class="lean"><code>import Mathlib.Logic.Basic
+import Mathlib.Data.Bool.Basic
+import Mathlib.Data.Nat.Basic
+import Mathlib.Logic.Decidable.Basic
+import Mathlib.Tactic.Basic
+import Mathlib.Tactic.Decide</code></pre>
+<p>One of the most fundamental questions in logic and computer science is: “Given a proposition, can we effectively
+determine whether it is true or false?” This is the <strong>decision problem</strong>. In constructive type theory, this
+question takes on special significance because it connects logical reasoning with computation. Decidability bridges the
+gap between <strong>proof</strong> and <strong>algorithm</strong>, between <strong>evidence</strong> and
+<strong>computation</strong>.</p>
+<h2 id="the-decision-problem">The Decision Problem</h2>
+<p>A proposition is <strong>decidable</strong> if there exists an effective procedure (algorithm) that, given the
+proposition, can determine whether it is true or false in finite time. This concept is central to:</p>
+<ul>
+<li><strong>Automated theorem proving</strong>: Can the computer decide this theorem?</li>
+<li><strong>Program verification</strong>: Can we automatically check this property?</li>
+<li><strong>Computational logic</strong>: Can we compute with logical statements?</li>
+</ul>
+<p>In classical logic, every proposition is either true or false (law of excluded middle), but this doesn’t tell us
+whether we can <strong>compute</strong> which one it is. In constructive type theory, decidability is about the
+<strong>existence of algorithms</strong>.</p>
+<pre class="lean"><code>-- Classical view: every proposition has a truth value (non-constructive)
+open Classical
+example (P : Prop) : P ∨ ¬P := em P
+
+-- Constructive view: we need an algorithm to decide
+example (b : Bool) : b = true ∨ b = false := by cases b &lt;;&gt; simp</code></pre>
+<h2 id="decidable-propositions">Decidable Propositions</h2>
+<h3 id="the-decidable-type-class">The Decidable Type Class</h3>
+<p>In Lean, decidability is captured by the <code>Decidable</code> type class:</p>
+<pre class="lean"><code>-- The core definition (simplified)
+#print Decidable
+-- inductive Decidable (p : Prop) : Type where
+-- | isFalse : (¬p) → Decidable p
+-- | isTrue  : p → Decidable p
+
+-- This provides either a proof or a refutation
+def decide_example (P : Prop) [Decidable P] : Bool :=
+  match ‹Decidable P› with
+  | Decidable.isTrue _  =&gt; true
+  | Decidable.isFalse _ =&gt; false
+
+-- More commonly used built-in function
+#check decide -- {p : Prop} → [Decidable p] → Bool</code></pre>
+<p>The <code>Decidable</code> type provides either:</p>
+<ul>
+<li>A <strong>proof</strong> that the proposition is true (<code>isTrue</code>)</li>
+<li>A <strong>proof</strong> that the proposition is false (<code>isFalse</code>)</li>
+</ul>
+<p>This is constructive: we don’t just know that P ∨ ¬P, we have an algorithm that produces a proof of whichever is the
+case.</p>
+<h3 id="examples-of-decidable-propositions">Examples of Decidable Propositions</h3>
+<pre class="lean"><code>-- Natural number equality is decidable
+#check Nat.decidableEq -- DecidableEq Nat
+example : Decidable (3 = 3) := Decidable.isTrue rfl
+example : Decidable (3 = 4) := Decidable.isFalse (by simp)
+
+-- We can decide by computation
+#eval decide (3 = 3) -- true
+#eval decide (3 = 4) -- false
+
+-- Natural number ordering is decidable
+example : Decidable (5 ≤ 10) := Decidable.isTrue (by simp)
+example : Decidable (10 ≤ 5) := Decidable.isFalse (by simp)
+
+#eval decide (5 ≤ 10) -- true
+#eval decide (10 ≤ 5) -- false
+
+-- Complex decidable propositions can be built from simpler ones
+example : Decidable ((3 = 3) ∧ (5 ≤ 10)) := by infer_instance
+#eval decide ((3 = 3) ∧ (5 ≤ 10)) -- true</code></pre>
+<h2 id="evidence-vs-computation">Evidence vs Computation</h2>
+<p>Decidability beautifully demonstrates the connection between two views of the same logical statement:</p>
+<h3 id="proof-relevant-decision">Proof-Relevant Decision</h3>
+<p>We can provide explicit evidence for our decisions:</p>
+<pre class="lean"><code>-- Proof-relevant: we get the actual proof or refutation
+def nat_eq_decision (n m : Nat) : Decidable (n = m) :=
+  if h : n = m then
+    Decidable.isTrue h
+  else
+    Decidable.isFalse h
+
+-- Extract the proof from a positive decision
+def extract_proof (n m : Nat) (h : decide (n = m) = true) : n = m := by
+  -- The `decide` function can provide constructive evidence
+  exact of_decide_eq_true h
+
+-- Example usage
+example : 7 = 7 := extract_proof 7 7 rfl</code></pre>
+<h3 id="computational-decision">Computational Decision</h3>
+<p>We can also work purely computationally:</p>
+<pre class="lean"><code>-- Convert decidable proposition to boolean
+def prop_to_bool (P : Prop) [Decidable P] : Bool := decide P
+
+-- Boolean function for natural number equality
+def nat_eq_bool (n m : Nat) : Bool := decide (n = m)
+
+-- Boolean function for natural number less-than-or-equal
+def nat_le_bool (n m : Nat) : Bool := decide (n ≤ m)
+
+#eval nat_eq_bool 5 5  -- true
+#eval nat_le_bool 3 7  -- true
+#eval nat_le_bool 7 3  -- false</code></pre>
+<h3 id="bridging-the-gap">Bridging the Gap</h3>
+<p>The beauty of Lean’s approach is that these views are connected:</p>
+<pre class="lean"><code>-- From boolean to proposition
+theorem decide_true_iff (P : Prop) [Decidable P] : decide P = true ↔ P :=
+  ⟨of_decide_eq_true, of_decide_eq_false⟩
+
+-- From proposition to boolean
+theorem bool_of_decidable (P : Prop) [Decidable P] :
+  (P → decide P = true) ∧ (¬P → decide P = false) :=
+  ⟨of_decide_eq_false, of_decide_eq_false⟩
+
+-- Example: prove arithmetical statements by computation
+example : 15 * 23 = 345 := by decide
+example : 100 &lt; 200 := by decide
+example : ¬(17 = 18) := by decide</code></pre>
+<h2 id="decidability-instances">Decidability Instances</h2>
+<h3 id="natural-number-equality">Natural Number Equality</h3>
+<pre class="lean"><code>-- Lean provides decidability for natural number equality
+instance : DecidableEq Nat := Nat.decidableEq
+
+-- We can implement our own version
+def nat_eq_decidable (n m : Nat) : Decidable (n = m) :=
+  match n, m with
+  | 0, 0 =&gt; Decidable.isTrue rfl
+  | 0, Nat.succ _ =&gt; Decidable.isFalse (by simp)
+  | Nat.succ _, 0 =&gt; Decidable.isFalse (by simp)
+  | Nat.succ n&#39;, Nat.succ m&#39; =&gt;
+    match nat_eq_decidable n&#39; m&#39; with
+    | Decidable.isTrue h =&gt; Decidable.isTrue (congrArg Nat.succ h)
+    | Decidable.isFalse h =&gt; Decidable.isFalse (fun h&#39; =&gt; h (Nat.succ.inj h&#39;))</code></pre>
+<h3 id="natural-number-ordering">Natural Number Ordering</h3>
+<pre class="lean"><code>-- Decidable less-than-or-equal for natural numbers
+def nat_le_decidable (n m : Nat) : Decidable (n ≤ m) :=
+  match n, m with
+  | 0, _ =&gt; Decidable.isTrue (Nat.zero_le _)
+  | Nat.succ _, 0 =&gt; Decidable.isFalse (Nat.not_succ_le_zero _)
+  | Nat.succ n&#39;, Nat.succ m&#39; =&gt;
+    match nat_le_decidable n&#39; m&#39; with
+    | Decidable.isTrue h =&gt; Decidable.isTrue (Nat.succ_le_succ h)
+    | Decidable.isFalse h =&gt; Decidable.isFalse (fun h&#39; =&gt; h (Nat.le_of_succ_le_succ h&#39;))
+
+-- This gives us computational power
+example : Decidable (100 ≤ 200) := nat_le_decidable 100 200
+example : Decidable (200 ≤ 100) := nat_le_decidable 200 100</code></pre>
+<h3 id="boolean-decidability">Boolean Decidability</h3>
+<pre class="lean"><code>-- Every boolean equation is decidable
+instance (b c : Bool) : Decidable (b = c) := Bool.decidableEq b c
+
+-- Boolean predicates are decidable
+def is_true_decidable (b : Bool) : Decidable (b = true) :=
+  if h : b = true then
+    Decidable.isTrue h
+  else
+    Decidable.isFalse h
+
+-- Complex boolean expressions
+def complex_bool_prop (a b c : Bool) : Prop :=
+  (a ∧ b) ∨ (¬a ∧ c) = true
+
+instance (a b c : Bool) : Decidable (complex_bool_prop a b c) := by
+  unfold complex_bool_prop
+  infer_instance
+
+#eval decide (complex_bool_prop true false true)  -- true</code></pre>
+<h2 id="decidable-relations">Decidable Relations</h2>
+<p>For binary relations, we can define decidability in terms of all pairs:</p>
+<pre class="lean"><code>-- A relation is decidable if we can decide it for any pair
+class DecidableRel {α β : Type*} (r : α → β → Prop) where
+  decidable_rel : ∀ a b, Decidable (r a b)
+
+-- Natural number equality as a decidable relation
+instance : DecidableRel (@Eq Nat) where
+  decidable_rel := fun a b =&gt; Nat.decidableEq a b
+
+-- Less-than-or-equal as a decidable relation
+instance : DecidableRel (· ≤ · : Nat → Nat → Prop) where
+  decidable_rel := Nat.decidableLe
+
+-- Using decidable relations
+def find_first_ge (n : Nat) (threshold : Nat) : Option Nat :=
+  if decide (n ≥ threshold) then some n
+  else if n &lt; 100 then find_first_ge (n + 1) threshold
+  else none
+
+#eval find_first_ge 0 50  -- some 50</code></pre>
+<h2 id="classical-vs-constructive-decidability">Classical vs Constructive Decidability</h2>
+<p>There’s an important distinction between classical and constructive decidability:</p>
+<pre class="lean"><code>-- Classical decidability: we know P ∨ ¬P but can&#39;t compute which
+open Classical
+
+def classical_decidable (P : Prop) : Decidable P :=
+  if h : P then Decidable.isTrue h
+  else Decidable.isFalse h
+
+-- This relies on classical logic and doesn&#39;t give us an algorithm
+
+-- Constructive decidability: we have an actual algorithm
+def constructive_nat_even (n : Nat) : Decidable (Even n) :=
+  if h : n % 2 = 0 then
+    Decidable.isTrue ⟨n / 2, by rw [Nat.two_mul_div_two_of_even]; exact Nat.dvd_iff_mod_eq_zero.mp ⟨2, h⟩⟩
+  else
+    Decidable.isFalse (fun ⟨k, hk⟩ =&gt; h (by rw [hk, Nat.mul_mod, Nat.mod_self]; simp))
+
+-- This actually computes the result
+#eval decide (Even 10)  -- true
+#eval decide (Even 11)  -- false</code></pre>
+<h2 id="undecidable-propositions">Undecidable Propositions</h2>
+<p>Not all propositions are decidable. Some famous examples:</p>
+<h3 id="the-halting-problem">The Halting Problem</h3>
+<pre class="lean"><code>-- We cannot decide if an arbitrary function terminates
+-- This is a metamathematical statement, not expressible directly in Lean&#39;s logic
+-- But we can give the intuition:
+
+-- Hypothetical: if we could decide termination
+axiom terminates : (Nat → Nat) → Prop
+axiom termination_decidable : ∀ f, Decidable (terminates f)
+
+-- Then we could construct a paradox (diagonalization argument)
+-- This shows such a decision procedure cannot exist</code></pre>
+<h3 id="gödels-incompleteness">Gödel’s Incompleteness</h3>
+<pre class="lean"><code>-- Some arithmetic statements are undecidable in any consistent formal system
+-- For example, the consistency of the system itself
+
+-- We cannot prove within Lean that Lean is consistent
+-- (If we could, this would violate Gödel&#39;s second incompleteness theorem)
+
+-- However, we can work with statements that are relatively decidable
+def goldbach_conjecture (n : Nat) : Prop :=
+  n &gt; 2 ∧ Even n → ∃ p q : Nat, Nat.Prime p ∧ Nat.Prime q ∧ p + q = n
+
+-- We can decide this for any particular n, but the universal statement
+-- ∀ n, goldbach_conjecture n is not known to be decidable</code></pre>
+<h2 id="practical-applications">Practical Applications</h2>
+<h3 id="automation-in-lean">Automation in Lean</h3>
+<p>Decidability enables powerful automation:</p>
+<pre class="lean"><code>-- The `decide` tactic can prove decidable goals automatically
+example : 1000 + 2000 = 3000 := by decide
+example : 50 &lt; 100 ∧ 100 &lt; 200 := by decide
+example : ¬(List.length [1, 2, 3] = 5) := by decide
+
+-- Complex arithmetic
+example : (15 * 23 + 7) * 2 = 704 := by decide
+
+-- Boolean reasoning
+example : ∀ a b : Bool, a ∧ (a ∨ b) = a := by decide</code></pre>
+<h3 id="proof-by-computation">Proof by Computation</h3>
+<p>We can prove properties by computing:</p>
+<pre class="lean"><code>-- Define a computational check
+def is_sorted (l : List Nat) : Bool :=
+  match l with
+  | [] | [_] =&gt; true
+  | a :: b :: rest =&gt; a ≤ b &amp;&amp; is_sorted (b :: rest)
+
+-- Prove specific instances by computation
+example : is_sorted [1, 2, 3, 5, 8] = true := by decide
+
+-- Connect computational and logical views
+theorem is_sorted_correct (l : List Nat) :
+  is_sorted l = true ↔ List.Sorted (· ≤ ·) l := by
+  -- Proof would require induction and lemmas about List.Sorted
+  sorry
+
+-- Now we can prove sortedness by computation
+example : List.Sorted (· ≤ ·) [1, 3, 5, 7, 9] := by
+  rw [← is_sorted_correct]
+  decide</code></pre>
+<h2 id="reflective-programming">Reflective Programming</h2>
+<p>Decidability enables <strong>reflection</strong>—treating code as data:</p>
+<pre class="lean"><code>-- We can represent propositions as data and decide them
+inductive SimpleProp : Type where
+  | true : SimpleProp
+  | false : SimpleProp
+  | and : SimpleProp → SimpleProp → SimpleProp
+  | or : SimpleProp → SimpleProp → SimpleProp
+  | not : SimpleProp → SimpleProp
+
+-- Interpret simple propositions
+def eval_simple_prop : SimpleProp → Bool
+  | SimpleProp.true =&gt; true
+  | SimpleProp.false =&gt; false
+  | SimpleProp.and p q =&gt; eval_simple_prop p &amp;&amp; eval_simple_prop q
+  | SimpleProp.or p q =&gt; eval_simple_prop p || eval_simple_prop q
+  | SimpleProp.not p =&gt; not (eval_simple_prop p)
+
+-- Decision procedure for simple propositions
+def decide_simple_prop : SimpleProp → Bool := eval_simple_prop
+
+-- Example: decide complex formulas by computation
+def example_formula : SimpleProp :=
+  SimpleProp.or
+    (SimpleProp.and SimpleProp.true SimpleProp.false)
+    (SimpleProp.not SimpleProp.false)
+
+#eval decide_simple_prop example_formula  -- true</code></pre>
+<p>Decidability represents one of type theory’s great achievements: the unification of <strong>logic</strong> and
+<strong>computation</strong>. It shows that mathematical truth and algorithmic computation are intimately connected. In
+Lean, this connection is not just philosophical but practical—we can prove theorems by running programs, and our proofs
+<strong>are</strong> programs.</p>
+<p>This computational view of logic opens doors to:</p>
+<ul>
+<li><strong>Verified computation</strong>: Programs whose correctness is guaranteed by types</li>
+<li><strong>Automated reasoning</strong>: Letting computers handle routine proofs</li>
+<li><strong>Reflective programming</strong>: Programs that reason about themselves</li>
+<li><strong>Constructive mathematics</strong>: Mathematics with computational content</li>
+</ul>
+<p>The boundary between decidable and undecidable propositions continues to be an active area of research, with profound
+implications for both mathematics and computer science.</p>
+<hr />
+<p><a href="./Logic.system_f.html">System F</a></p>
 </body>
 </html>

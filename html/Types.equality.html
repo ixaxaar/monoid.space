@@ -30,8 +30,6 @@ href="Types.operations.html">Next</a></p>
 <h1 id="equality">Equality</h1>
 <hr />
 <ul>
-<li><a href="#equality">Equality</a>
-<ul>
 <li><a href="#definitional-equality">Definitional Equality</a>
 <ul>
 <li><a href="#the-example-keyword">The <code>example</code> Keyword</a></li>
@@ -41,12 +39,11 @@ href="Types.operations.html">Next</a></p>
 <li><a href="#hetereogeneous-equality">Hetereogeneous Equality</a></li>
 <li><a href="#equivalence-relations">Equivalence Relations</a></li>
 <li><a href="#transport">Transport</a></li>
-</ul></li>
 </ul>
-<pre class="lean"><code>import data.bool
-import data.Nat.basic
-import data.list.basic
-import logic.relation</code></pre>
+<pre class="lean"><code>import Mathlib.Data.Bool.Basic
+import Mathlib.Data.Nat.Basic
+import Mathlib.Data.List.Basic
+import Mathlib.Logic.Relation</code></pre>
 <p>Equality is a fundamental concept in mathematics and logic, yet it can be more subtle than it first appears. In type
 theory, particularly in proof assistants like Lean, equality comes in different forms, each with its own nuances and
 uses. In type theory, equality can be broadly classified into three kinds:</p>
@@ -174,7 +171,8 @@ proved using the <code>eq.trans</code> theorem:</p>
 <p>Heterogeneous equality, also known as John Major equality, extends propositional equality to cases where the two
 terms being compared belong to different types. In Lean, heterogeneous equality is represented by the <code>HEq</code>
 type, which is defined as:</p>
-<pre class="lean"><code>structure HEq {α : Sort u} (a : α) {β : Sort v} (b : β) : Prop</code></pre>
+<pre class="lean"><code>inductive HEq {α : Sort u} (a : α) : {β : Sort v} → β → Prop
+| refl : HEq a a</code></pre>
 <p>This becomes essential when working with dependent types, where types themselves can depend on values. Consider
 vectors:</p>
 <pre class="lean"><code>def Vec (A : Type) (n : Nat) : Type  -- Vector type of length n</code></pre>
@@ -282,12 +280,10 @@ an equality path. Imagine you have a property <code>P</code> that holds for a te
 <pre class="lean"><code>def transport {A : Type} {x y : A} (P : A → Type) (p : x = y) : P x → P y</code></pre>
 <p>Practically, transport is used to rewrite terms based on equalities. For example, consider the following proof that
 the sum of two numbers is commutative:</p>
-<pre class="lean"><code>theorem add_comm (a b : Nat) : a + b = b + a :=
-begin
-  induction a with a ha,
-  { simp },
-  { simp [ha] },
-end</code></pre>
+<pre class="lean"><code>theorem add_comm (a b : Nat) : a + b = b + a := by
+  induction a with
+  | zero =&gt; simp [Nat.zero_add, Nat.add_zero]
+  | succ a ha =&gt; simp [Nat.succ_add, Nat.add_succ, ha]</code></pre>
 <p>Here, <code>simp</code> is a tactic that simplifies the goal using various rules, including the commutativity of
 addition. The <code>simp</code> tactic uses transport to rewrite the goal based on the equality
 <code>a + b = b + a</code>. Transport is also intrinsically linked to <strong>path induction</strong>, a fundamental

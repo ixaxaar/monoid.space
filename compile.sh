@@ -23,11 +23,8 @@ declare -a files=(
   "Types/functions"
   "Types/identity"
 
-  "Proofs/proofsAsData"
-  "Proofs/variations"
-  "Proofs/patterns"
-  "Proofs/equational"
-  "Proofs/equational2"
+  "Proofs/introduction"
+  "Proofs/tactics"
 
   "Logic/introduction"
   "Logic/logicBasics"

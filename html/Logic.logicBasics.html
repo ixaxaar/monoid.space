@@ -20,231 +20,386 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
-    /* CSS for syntax highlighting */
-    html { -webkit-text-size-adjust: 100%; }
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { color: #008000; } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { color: #008000; font-weight: bold; } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../css/agda.css" />
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 </head>
 <body>
 <hr />
 <p><a href="contents.html">Contents</a> <a href="Logic.introduction.html">Previous</a> <a
 href="Logic.equality.html">Next</a></p>
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<h1 id="boolean-algebra-and-logical-connectives">Boolean Algebra and Logical Connectives</h1>
 <hr />
 <ul>
-<li><a href="#constructing-boolean-algebra-using-type-theory">Constructing Boolean algebra using type theory</a>
+<li><a href="#two-faces-of-logic">Two Faces of Logic</a></li>
+<li><a href="#propositional-logic">Propositional Logic</a>
 <ul>
-<li><a href="#objects-of-logic">Objects of Logic</a>
-<ul>
-<li><a href="#empty--false">Empty / False</a></li>
-<li><a href="#singleton--true">Singleton / True</a></li>
-</ul></li>
-<li><a href="#operations-on-these-objects">Operations on these objects</a>
-<ul>
-<li><a href="#negation-or-the-logical-not">Negation or the logical <code>NOT</code></a></li>
-<li><a href="#product-conjunction-%E2%88%A7-or-the-logical-and">Product, conjunction <code>∧</code> or the logical
-<code>AND</code></a></li>
-<li><a href="#co-product-disjunction-or-the-logical-or">Co-product, disjunction or the logical <code>OR</code></a></li>
-</ul></li>
-<li><a href="#higher-order-operations">Higher-order operations</a>
-<ul>
+<li><a href="#false-and-true">False and True</a></li>
+<li><a href="#conjunction-and">Conjunction (AND)</a></li>
+<li><a href="#disjunction-or">Disjunction (OR)</a></li>
+<li><a href="#negation-not">Negation (NOT)</a></li>
 <li><a href="#implication">Implication</a></li>
-<li><a href="#the-exclusive-or-or-xor">The exclusive or or <code>XOR</code></a></li>
-<li><a href="#absurd">Absurd</a></li>
-<li><a href="#contradiction">Contradiction</a></li>
-<li><a href="#contraposition">Contraposition</a></li>
-<li><a href="#boolean-construction">Boolean construction</a></li>
+</ul></li>
+<li><a href="#boolean-algebra">Boolean Algebra</a>
+<ul>
+<li><a href="#the-bool-type">The Bool Type</a></li>
+<li><a href="#boolean-operations">Boolean Operations</a></li>
+<li><a href="#boolean-vs-propositional">Boolean vs Propositional</a></li>
+</ul></li>
+<li><a href="#advanced-logical-connectives">Advanced Logical Connectives</a>
+<ul>
+<li><a href="#bi-implication-if-and-only-if">Bi-implication (If and Only If)</a></li>
+<li><a href="#exclusive-or-xor">Exclusive Or (XOR)</a></li>
+<li><a href="#sheffer-stroke-nand">Sheffer Stroke (NAND)</a></li>
+</ul></li>
+<li><a href="#quantifiers">Quantifiers</a>
+<ul>
+<li><a href="#universal-quantification">Universal Quantification</a></li>
 <li><a href="#existential-quantification">Existential Quantification</a></li>
-<li><a href="#dependent-proposition-type">Dependent proposition type</a></li>
+<li><a href="#unique-existence">Unique Existence</a></li>
 </ul></li>
-</ul></li>
+<li><a href="#classical-extensions">Classical Extensions</a></li>
 </ul>
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<h1 id="constructing-boolean-algebra-using-type-theory">Constructing Boolean algebra using type theory</h1>
-<p>Here we look at constructing logic using type theory.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> Logic<span class="ot">.</span>logicBasics <span class="kw">where</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span></code></pre></div>
-<h2 id="objects-of-logic">Objects of Logic</h2>
-<h3 id="empty-false">Empty / False</h3>
-<p>Type with no object - cannot ever create an object of this type. This makes it possible to define absurd functions,
-which map <code>⟂</code> to anything, as given nothing, one can create anything. Looking at it from a different angle,
-assuming any <code>False</code> statement can serve as a proof for anything, which is absurd.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> ⟂ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span></code></pre></div>
-<p>Absurd can imply anything, be it true or not. Thus, any statement can be proven using absurdity.</p>
-<p>However, it is impossible to create an object of absurd type (as <code>⟂</code> has no constructor) and hence these
-functions make no sense in the “real world”, as in they can never be invoked.</p>
-<h3 id="singleton-true">Singleton / True</h3>
-<p>Set with only one object: <code>True</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> ⊤ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  singleton <span class="ot">:</span> ⊤</span></code></pre></div>
-<p>We also have another representation of boolean objects, <a
-href="./Types.dataStructures.html#boolean-type">Bool</a>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">)</span></span></code></pre></div>
-<h2 id="operations-on-these-objects">Operations on these objects</h2>
-<h3 id="negation-or-the-logical-not">Negation or the logical <code>NOT</code></h3>
-<p>We use the fact that a negation of a proposition <code>P</code> (to exist and be true) implies <code>¬ P</code> has
-to be false, <code>⟂</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>¬ <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">→</span> <span class="dt">Set</span> a <span class="ot">→</span> <span class="dt">Set</span> a</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>¬ P <span class="ot">=</span> P <span class="ot">→</span> ⟂</span></code></pre></div>
-<p>for our other representation:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>not <span class="ot">:</span> Bool <span class="ot">→</span> Bool</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>not true <span class="ot">=</span> false</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>not false <span class="ot">=</span> true</span></code></pre></div>
-<h3 id="product-conjunction-or-the-logical-and">Product, conjunction <code>∧</code> or the logical <code>AND</code></h3>
-<p>The logic <code>AND</code> and <code>OR</code> are pretty straightforward for both representations:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="ot">_</span>∧<span class="ot">_</span> <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  AND <span class="ot">:</span> A <span class="ot">→</span> B <span class="ot">→</span> A ∧ B</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>∧<span class="ot">_</span></span></code></pre></div>
-<p>similarly:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">_</span>&amp;&amp;<span class="ot">_</span> <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>true &amp;&amp; x <span class="ot">=</span> x</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>false &amp;&amp; x <span class="ot">=</span> false</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>&amp;&amp;<span class="ot">_</span></span></code></pre></div>
-<h3 id="co-product-disjunction-or-the-logical-or">Co-product, disjunction or the logical <code>OR</code></h3>
-<div class="sourceCode" id="cb9"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="ot">_</span>∨<span class="ot">_</span> <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  inj1 <span class="ot">:</span> A <span class="ot">→</span> A ∨ B</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  inj2 <span class="ot">:</span> B <span class="ot">→</span> A ∨ B</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>∨<span class="ot">_</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ot">_</span>||<span class="ot">_</span> <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>true || x <span class="ot">=</span> true</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>false || x  <span class="ot">=</span> false</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">infixr</span> <span class="dv">4</span> <span class="ot">_</span>||<span class="ot">_</span></span></code></pre></div>
-<h2 id="higher-order-operations">Higher-order operations</h2>
-<p>These higher-order operations are built by composing the lower ones in various ways:</p>
+<pre class="lean"><code>import Mathlib.Logic.Basic
+import Mathlib.Data.Bool.Basic
+import Mathlib.Logic.Equiv.Defs
+import Mathlib.Tactic.Basic
+import Mathlib.Tactic.Cases
+import Mathlib.Logic.Function.Basic</code></pre>
+<p>In type theory, logic manifests in two complementary forms: as <strong>propositions</strong> (types in
+<code>Prop</code>) that we prove by constructing inhabitants, and as <strong>boolean values</strong> (terms of type
+<code>Bool</code>) that we compute. This duality mirrors the distinction between <strong>proof</strong> and
+<strong>computation</strong>, offering both rigorous logical reasoning and practical algorithmic tools.</p>
+<h2 id="two-faces-of-logic">Two Faces of Logic</h2>
+<p>Lean provides two distinct but related approaches to logic:</p>
+<ol type="1">
+<li><strong>Propositional Logic</strong>: Using the <code>Prop</code> universe for statements we prove</li>
+<li><strong>Boolean Algebra</strong>: Using the <code>Bool</code> type for values we compute</li>
+</ol>
+<pre class="lean"><code>-- Propositional approach: proving relationships
+example : True ∧ True := ⟨trivial, trivial⟩
+
+-- Boolean approach: computing results
+example : true &amp;&amp; true = true := rfl
+
+-- Connection between them
+example : (true = true) ↔ True := ⟨fun _ =&gt; trivial, fun _ =&gt; rfl⟩</code></pre>
+<h2 id="propositional-logic">Propositional Logic</h2>
+<h3 id="false-and-true">False and True</h3>
+<p>The foundation of propositional logic rests on two primitive concepts:</p>
+<p><strong>False</strong> (<code>False</code>) represents an impossible proposition—one for which no proof can
+exist:</p>
+<pre class="lean"><code>-- False has no constructors, so no proof can be built
+#print False
+-- inductive False : Prop
+
+-- From False, anything follows (ex falso quodlibet)
+def false_implies_anything (P : Prop) : False → P :=
+  fun false_proof =&gt; False.elim false_proof
+
+-- This is the same as:
+#check False.elim -- False.elim : {C : Sort u} → False → C</code></pre>
+<p><strong>True</strong> (<code>True</code>) represents a trivially provable proposition:</p>
+<pre class="lean"><code>-- True has one constructor: True.intro
+#print True
+-- inductive True : Prop
+-- | intro : True
+
+-- We can always construct a proof of True
+def true_is_provable : True := True.intro
+
+-- Often abbreviated as:
+def true_is_provable&#39; : True := trivial</code></pre>
+<h3 id="conjunction-and">Conjunction (AND)</h3>
+<p>Conjunction (<code>And</code>, written <code>∧</code>) combines two propositions—both must be proven:</p>
+<pre class="lean"><code>-- And has one constructor requiring proofs of both components
+#print And
+-- structure And (a b : Prop) : Prop where
+-- | intro :: (left : a) (right : b)
+
+-- Constructing a conjunction
+def and_example (P Q : Prop) (hp : P) (hq : Q) : P ∧ Q :=
+  And.intro hp hq
+
+-- Anonymous constructor syntax
+def and_example&#39; (P Q : Prop) (hp : P) (hq : Q) : P ∧ Q := ⟨hp, hq⟩
+
+-- Destructuring a conjunction
+def and_left (P Q : Prop) : P ∧ Q → P :=
+  fun ⟨hp, hq⟩ =&gt; hp
+
+def and_right (P Q : Prop) : P ∧ Q → Q :=
+  fun ⟨hp, hq⟩ =&gt; hq
+
+-- Built-in destructors
+#check And.left  -- {a b : Prop} → a ∧ b → a
+#check And.right -- {a b : Prop} → a ∧ b → b</code></pre>
+<h3 id="disjunction-or">Disjunction (OR)</h3>
+<p>Disjunction (<code>Or</code>, written <code>∨</code>) represents a choice between two propositions—at least one must
+be proven:</p>
+<pre class="lean"><code>-- Or has two constructors, one for each alternative
+#print Or
+-- inductive Or (a b : Prop) : Prop where
+-- | inl : a → a ∨ b
+-- | inr : b → a ∨ b
+
+-- Constructing disjunctions
+def or_left_example (P Q : Prop) (hp : P) : P ∨ Q := Or.inl hp
+def or_right_example (P Q : Prop) (hq : Q) : P ∨ Q := Or.inr hq
+
+-- Destructuring with case analysis
+def or_elimination (P Q R : Prop) : P ∨ Q → (P → R) → (Q → R) → R :=
+  fun h hpr hqr =&gt; match h with
+  | Or.inl hp =&gt; hpr hp
+  | Or.inr hq =&gt; hqr hq
+
+-- This is built-in as Or.elim
+#check Or.elim -- {a b c : Prop} → a ∨ b → (a → c) → (b → c) → c</code></pre>
+<h3 id="negation-not">Negation (NOT)</h3>
+<p>Negation (<code>Not</code>, written <code>¬</code>) represents the impossibility of a proposition:</p>
+<pre class="lean"><code>-- Negation is defined in terms of False
+#print Not
+-- def Not : Prop → Prop :=
+-- fun a =&gt; a → False
+
+-- So ¬P means P → False
+def not_example (P : Prop) : ¬P ↔ (P → False) := Iff.rfl
+
+-- Double negation introduction (always valid constructively)
+def double_negation_intro (P : Prop) : P → ¬¬P :=
+  fun hp hnp =&gt; hnp hp
+
+-- Double negation elimination (requires classical logic)
+-- def double_negation_elim (P : Prop) : ¬¬P → P := Classical.not_not
+
+-- Contradiction gives us anything
+def contradiction (P Q : Prop) : P → ¬P → Q :=
+  fun hp hnp =&gt; False.elim (hnp hp)</code></pre>
 <h3 id="implication">Implication</h3>
-<p>Implication, or <code>if P then Q</code>, is derived from the well-known construction</p>
-<p><span class="math display">\[
-a ⟹ b = ¬ a ∨ b
-\]</span></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="ot">_</span>⟹<span class="ot">_</span> <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  it⟹ <span class="ot">:</span> <span class="ot">(</span>¬ A<span class="ot">)</span> ∨ B <span class="ot">→</span> A ⟹ B</span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>impl <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>impl x y <span class="ot">=</span> <span class="ot">(</span>not x<span class="ot">)</span> || y</span></code></pre></div>
-<p>Notice how the two implementations are different: <code>⟹</code> is constructive, whereas <code>impl</code> is
-computatational.</p>
-<h3 id="the-exclusive-or-or-xor">The exclusive or or <code>XOR</code></h3>
-<div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="ot">_</span>⨁<span class="ot">_</span> <span class="ot">(</span>A B <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  ⨁₁ <span class="ot">:</span> A <span class="ot">→</span> B <span class="ot">→</span> <span class="ot">(</span>A ∨ B<span class="ot">)</span> ∧ <span class="ot">(</span>¬ <span class="ot">(</span>A ∧ B<span class="ot">))</span> <span class="ot">→</span> A ⨁ B</span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>xor <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>xor x y <span class="ot">=</span> <span class="ot">(</span>x || y<span class="ot">)</span> &amp;&amp; <span class="ot">(</span>not <span class="ot">(</span>x &amp;&amp; y<span class="ot">))</span></span></code></pre></div>
-<h3 id="absurd">Absurd</h3>
-<p>The absurd pattern for proving <code>Whatever</code>, we discussed <a href="#empty--false">above</a>:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>⟂-elim <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>w<span class="ot">}</span> <span class="ot">{</span>Whatever <span class="ot">:</span> <span class="dt">Set</span> w<span class="ot">}</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> ⟂ <span class="ot">→</span> Whatever</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>⟂-elim <span class="ot">()</span></span></code></pre></div>
-<h3 id="contradiction">Contradiction</h3>
-<p>A proposition <code>P</code> can always be true <code>⊤</code> if <code>¬ P</code> is always false <code>⟂</code>. If
-one were to assume a contradictory proposition <code>P</code>, one could prove anything as a contradiction makes
-<code>P</code> absurd. This is called as “ex falso quodlibet” or “from falsity, whatever you like”. We can
-<code>⟂-elim</code> it in such a way to prove this:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>contradiction <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>p w<span class="ot">}</span> <span class="ot">{</span>P <span class="ot">:</span> <span class="dt">Set</span> p<span class="ot">}</span> <span class="ot">{</span>Whatever <span class="ot">:</span> <span class="dt">Set</span> w<span class="ot">}</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> P</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> ¬ P</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> Whatever</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>contradiction p <span class="ot">(</span>¬p<span class="ot">)</span> <span class="ot">=</span> ⟂-elim <span class="ot">(</span>¬p p<span class="ot">)</span></span></code></pre></div>
-<h3 id="contraposition">Contraposition</h3>
-<p>Consider two propositions, <code>A</code> and <code>B</code>. Now if <code>A → B</code> is true, then
-<code>¬ A → ¬ B</code> will be true. In other words, if a statement <code>A</code> always implies another
-<code>B</code>, then <code>B</code> not being true would imply <code>A</code> not being true. This is called a
-contraposition and is proven in the following manner:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>contrapos <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a b<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}{</span>B <span class="ot">:</span> <span class="dt">Set</span> b<span class="ot">}</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> <span class="ot">(</span>A <span class="ot">→</span> B<span class="ot">)</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> ¬ B <span class="ot">→</span> ¬ A</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>contrapos f ¬b a <span class="ot">=</span> contradiction <span class="ot">(</span>f a<span class="ot">)</span> ¬b</span></code></pre></div>
-<h3 id="boolean-construction">Boolean construction</h3>
-<p>We can obviously go ahead now and implement the <code>if-then-else</code> semantic:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>if<span class="ot">_</span>then<span class="ot">_</span>else<span class="ot">_</span> <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">-&gt;</span> Bool <span class="ot">-&gt;</span> A <span class="ot">-&gt;</span> A <span class="ot">-&gt;</span> A</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>if true  then x else y <span class="ot">=</span> x</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>if false then x else y <span class="ot">=</span> y</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">-- a more pythonic style `P ? if_true : if_false` (with universe polymorphism)</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="ot">_</span>then<span class="ot">_</span>else<span class="ot">_</span> <span class="ot">:</span> <span class="ot">∀</span> <span class="ot">{</span>a<span class="ot">}</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span> a<span class="ot">}</span> <span class="ot">-&gt;</span> Bool <span class="ot">-&gt;</span> A <span class="ot">-&gt;</span> A <span class="ot">-&gt;</span> A</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>true then x else y <span class="ot">=</span> x</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>false then x else y <span class="ot">=</span> y</span></code></pre></div>
-<p>Note again that since this is a computational semantic, we provide implementation for only the concrete type
-<code>Bool</code>.</p>
+<p>Implication is built into type theory as the function type <code>→</code>:</p>
+<pre class="lean"><code>-- P → Q is a function type: given P, produce Q
+def modus_ponens (P Q : Prop) : P → (P → Q) → Q :=
+  fun hp hpq =&gt; hpq hp
+
+-- Implication is transitive
+def implication_trans (P Q R : Prop) : (P → Q) → (Q → R) → (P → R) :=
+  fun hpq hqr hp =&gt; hqr (hpq hp)
+
+-- Contraposition
+def contrapositive (P Q : Prop) : (P → Q) → (¬Q → ¬P) :=
+  fun hpq hnq hp =&gt; hnq (hpq hp)</code></pre>
+<h2 id="boolean-algebra">Boolean Algebra</h2>
+<h3 id="the-bool-type">The Bool Type</h3>
+<p>The <code>Bool</code> type provides computational logic with two constructors:</p>
+<pre class="lean"><code>#print Bool
+-- inductive Bool : Type where
+-- | false : Bool
+-- | true : Bool
+
+-- Pattern matching on booleans
+def bool_to_prop : Bool → Prop
+  | true  =&gt; True
+  | false =&gt; False
+
+-- Decidable propositions can be computed as booleans
+def is_even_bool (n : Nat) : Bool := n % 2 = 0</code></pre>
+<h3 id="boolean-operations">Boolean Operations</h3>
+<p>Boolean operations mirror propositional logic but compute values:</p>
+<pre class="lean"><code>-- Boolean AND
+#check Bool.and  -- Bool → Bool → Bool
+#check (· &amp;&amp; ·)  -- Bool → Bool → Bool  (infix notation)
+
+-- Truth table for &amp;&amp;
+example : true &amp;&amp; true = true := rfl
+example : true &amp;&amp; false = false := rfl
+example : false &amp;&amp; true = false := rfl
+example : false &amp;&amp; false = false := rfl
+
+-- Boolean OR
+#check Bool.or   -- Bool → Bool → Bool
+#check (· || ·)  -- Bool → Bool → Bool  (infix notation)
+
+-- Truth table for ||
+example : true || true = true := rfl
+example : true || false = true := rfl
+example : false || true = true := rfl
+example : false || false = false := rfl
+
+-- Boolean NOT
+#check Bool.not  -- Bool → Bool
+#check not       -- Bool → Bool (alternative notation)
+
+-- Truth table for not
+example : not true = false := rfl
+example : not false = true := rfl
+
+-- Boolean implication (not built-in, but can be defined)
+def bool_implies : Bool → Bool → Bool
+  | true, b =&gt; b
+  | false, _ =&gt; true
+
+-- Boolean XOR
+def bool_xor : Bool → Bool → Bool
+  | true, b =&gt; not b
+  | false, b =&gt; b
+
+-- This is available as ⊕ in mathlib
+#check Bool.xor -- Bool → Bool → Bool</code></pre>
+<h3 id="boolean-vs-propositional">Boolean vs Propositional</h3>
+<p>The connection between boolean and propositional logic:</p>
+<pre class="lean"><code>-- Convert Bool to Prop
+def bool_to_prop_fn : Bool → Prop := (· = true)
+
+-- Every boolean computation corresponds to a decidable proposition
+def bool_and_prop (b c : Bool) :
+  (b &amp;&amp; c = true) ↔ (b = true ∧ c = true) := by
+  cases b &lt;;&gt; cases c &lt;;&gt; simp
+
+def bool_or_prop (b c : Bool) :
+  (b || c = true) ↔ (b = true ∨ c = true) := by
+  cases b &lt;;&gt; cases c &lt;;&gt; simp [or_comm]
+
+-- For decidable propositions, we can go both ways
+variable [Decidable P] [Decidable Q]
+
+#check decide P  -- Bool (computes whether P holds)</code></pre>
+<h2 id="advanced-logical-connectives">Advanced Logical Connectives</h2>
+<h3 id="bi-implication-if-and-only-if">Bi-implication (If and Only If)</h3>
+<p>Bi-implication (<code>Iff</code>, written <code>↔︎</code>) means both directions of implication:</p>
+<pre class="lean"><code>-- Iff is conjunction of both implications
+#print Iff
+-- structure Iff (a b : Prop) : Prop where
+-- | intro :: (mp : a → b) (mpr : b → a)
+
+def iff_example (P Q : Prop) : (P ↔ Q) ↔ ((P → Q) ∧ (Q → P)) :=
+  ⟨fun ⟨hpq, hqp⟩ =&gt; ⟨hpq, hqp⟩, fun ⟨hpq, hqp⟩ =&gt; ⟨hpq, hqp⟩⟩
+
+-- Iff is an equivalence relation
+def iff_refl (P : Prop) : P ↔ P := ⟨id, id⟩
+def iff_symm (P Q : Prop) : (P ↔ Q) → (Q ↔ P) := fun ⟨hpq, hqp⟩ =&gt; ⟨hqp, hpq⟩
+def iff_trans (P Q R : Prop) : (P ↔ Q) → (Q ↔ R) → (P ↔ R) :=
+  fun ⟨hpq, hqp⟩ ⟨hqr, hrq⟩ =&gt; ⟨hqr ∘ hpq, hqp ∘ hrq⟩</code></pre>
+<h3 id="exclusive-or-xor">Exclusive Or (XOR)</h3>
+<p>Exclusive or means exactly one of two propositions holds:</p>
+<pre class="lean"><code>-- Define XOR propositionally
+def Xor (P Q : Prop) : Prop := (P ∨ Q) ∧ ¬(P ∧ Q)
+
+-- Alternative definition
+def Xor&#39; (P Q : Prop) : Prop := (P ∧ ¬Q) ∨ (¬P ∧ Q)
+
+-- Show equivalence
+theorem xor_equiv (P Q : Prop) : Xor P Q ↔ Xor&#39; P Q := by
+  constructor
+  · intro ⟨h_or, h_not_and⟩
+    cases h_or with
+    | inl hp =&gt;
+      right; exact ⟨fun hq =&gt; h_not_and ⟨hp, hq⟩, hp⟩
+    | inr hq =&gt;
+      left; exact ⟨hq, fun hp =&gt; h_not_and ⟨hp, hq⟩⟩
+  · intro h
+    cases h with
+    | inl ⟨hp, hnq⟩ =&gt; exact ⟨Or.inl hp, fun ⟨_, hq⟩ =&gt; hnq hq⟩
+    | inr ⟨hnp, hq⟩ =&gt; exact ⟨Or.inr hq, fun ⟨hp, _⟩ =&gt; hnp hp⟩</code></pre>
+<h3 id="sheffer-stroke-nand">Sheffer Stroke (NAND)</h3>
+<p>The Sheffer stroke shows that all logical operations can be expressed using just one:</p>
+<pre class="lean"><code>-- NAND (NOT AND)
+def nand (P Q : Prop) : Prop := ¬(P ∧ Q)
+
+-- All operations in terms of NAND
+def not_via_nand (P : Prop) : ¬P ↔ nand P P := by simp [nand]
+
+def and_via_nand (P Q : Prop) : P ∧ Q ↔ ¬(nand P Q) := by
+  simp [nand]; rfl
+
+def or_via_nand (P Q : Prop) : P ∨ Q ↔ nand (nand P P) (nand Q Q) := by
+  simp [nand]
+  constructor
+  · intro h
+    cases h &lt;;&gt; simp [*]
+  · intro h
+    by_contra h_not
+    push_neg at h_not
+    exact h ⟨h_not.1, h_not.2⟩</code></pre>
+<h2 id="quantifiers">Quantifiers</h2>
+<h3 id="universal-quantification">Universal Quantification</h3>
+<p>Universal quantification (<code>∀</code>) is built into type theory as dependent function types:</p>
+<pre class="lean"><code>-- ∀ x : α, P x  is the same as  (x : α) → P x
+def universal_example (α : Type) (P : α → Prop) :
+  (∀ x : α, P x) ↔ ((x : α) → P x) := Iff.rfl
+
+-- Instantiation: from ∀ to specific instance
+def universal_instantiation (α : Type) (P : α → Prop) (a : α) :
+  (∀ x : α, P x) → P a := fun h =&gt; h a
+
+-- Generalization: from instances to universal (when x is arbitrary)
+def universal_generalization (α : Type) (P : α → Prop) :
+  ((x : α) → P x) → (∀ x : α, P x) := fun h =&gt; h</code></pre>
 <h3 id="existential-quantification">Existential Quantification</h3>
-<p>Existential Quantification, or better known as “there exists” or <code>∃</code>, essential indicates if a proposition
-can exist:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> ∃ <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">(</span>P <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  exists <span class="ot">:</span> <span class="ot">{</span>x <span class="ot">:</span> A<span class="ot">}</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> P x</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> ∃ P</span></code></pre></div>
-<h3 id="dependent-proposition-type">Dependent proposition type</h3>
-<p>This is a dependent type, which creates propositions from a proposition family <code>P</code>:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>∏ <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>P <span class="ot">:</span> A <span class="ot">-&gt;</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">-&gt;</span> <span class="dt">Set</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>∏ <span class="ot">{</span>A<span class="ot">}</span> P <span class="ot">=</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> P x</span></code></pre></div>
+<p>Existential quantification (<code>∃</code>) provides a witness along with a proof:</p>
+<pre class="lean"><code>-- Existential as Sigma type
+#print Exists
+-- inductive Exists {α : Sort u} (p : α → Prop) : Prop where
+-- | intro : ∀ (w : α), p w → Exists p
+
+-- Constructing existentials
+def exists_example (α : Type) (P : α → Prop) (a : α) (ha : P a) :
+  ∃ x : α, P x := Exists.intro a ha
+
+-- Anonymous constructor
+def exists_example&#39; (α : Type) (P : α → Prop) (a : α) (ha : P a) :
+  ∃ x : α, P x := ⟨a, ha⟩
+
+-- Eliminating existentials
+def exists_elimination (α : Type) (P : α → Prop) (Q : Prop) :
+  (∃ x : α, P x) → (∀ x : α, P x → Q) → Q :=
+  fun ⟨a, ha⟩ h =&gt; h a ha
+
+-- Concrete example
+example : ∃ n : Nat, n &gt; 5 ∧ n &lt; 10 := ⟨7, by simp, by simp⟩</code></pre>
+<h3 id="unique-existence">Unique Existence</h3>
+<p>Sometimes we want to assert that exactly one object satisfies a property:</p>
+<pre class="lean"><code>-- Unique existence: there exists exactly one
+def ExistsUnique (α : Type) (P : α → Prop) : Prop :=
+  ∃ x : α, P x ∧ ∀ y : α, P y → y = x
+
+-- Notation for unique existence
+notation &quot;∃! &quot; binder &quot;, &quot; r:(scoped P =&gt; ExistsUnique _ P) =&gt; r
+
+-- Example: there is a unique additive identity for natural numbers
+example : ∃! n : Nat, ∀ m : Nat, n + m = m ∧ m + n = m := by
+  use 0
+  constructor
+  · intro m; simp
+  · intro n h
+    have := h 1
+    simp at this
+    exact this.2.symm</code></pre>
+<h2 id="classical-extensions">Classical Extensions</h2>
+<p>In constructive logic, some classical principles don’t hold. When needed, we can import them:</p>
+<pre class="lean"><code>-- These require Classical logic
+open Classical
+
+-- Law of Excluded Middle
+#check em  -- ∀ (p : Prop), p ∨ ¬p
+
+-- Double Negation Elimination
+#check not_not  -- ∀ {p : Prop}, ¬¬p → p
+
+-- These give us classical reasoning power
+theorem pierce_law (P Q : Prop) : ((P → Q) → P) → P := by
+  intro h
+  by_cases hp : P
+  · exact hp
+  · exact h (fun _ =&gt; False.elim (hp (h (fun _ =&gt; False.elim (hp _)))))
+
+-- But they break computational content
+-- We can prove things exist without constructing them
+theorem classical_existence : ∃ x : Nat, x = 0 ∨ x ≠ 0 := by
+  cases em (∃ x : Nat, x = 0) with
+  | inl h =&gt; exact h.elim (fun w hw =&gt; ⟨w, Or.inl hw⟩)
+  | inr h =&gt; use 1; right; simp</code></pre>
+<p>This foundation of logical connectives and quantifiers provides the building blocks for all mathematical reasoning in
+Lean. The interplay between propositional and boolean logic offers both rigorous proof capabilities and efficient
+computation.</p>
 <hr />
 <p><a href="./Logic.equality.html">Equality</a></p>
 </body>

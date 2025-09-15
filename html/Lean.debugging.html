@@ -30,8 +30,6 @@ href="Types.introduction.html">Next</a></p>
 <h1 id="debugging">Debugging</h1>
 <hr />
 <ul>
-<li><a href="#debugging">Debugging</a>
-<ul>
 <li><a href="#holes">Holes</a></li>
 <li><a href="#global-commands">Global commands</a>
 <ul>
@@ -52,9 +50,8 @@ href="Types.introduction.html">Next</a></p>
 <li><a href="#practical-debugging-examples">Practical Debugging Examples</a></li>
 <li><a href="#debugging-tactics">Debugging Tactics</a></li>
 <li><a href="#best-practices">Best Practices</a></li>
-</ul></li>
 </ul>
-<p>Errors in lean can come in many forms: type mismatches, incomplete proofs, incorrect tactics, or even logical
+<p>Errors in Lean can come in many forms: type mismatches, incomplete proofs, incorrect tactics, or even logical
 inconsistencies. Here are some common debugging techniques used in Lean development:</p>
 <ol type="1">
 <li>Error messages: Lean provides detailed error messages that can help you identify the source of the problem. These
@@ -78,9 +75,9 @@ use the <code>#check</code> command to see the type of the hole and the context 
 <pre class="lean"><code>#check add</code></pre>
 <p>This will display the type of the <code>add</code> function and the context in which it appears, helping you identify
 the source of the error.</p>
-<p>e.g. <code>add : Nat → Nat → Nat</code>. This indicates that the <code>add</code> function takes two <code>Nat</code>
-arguments and returns a <code>Nat</code> value. We can then complete the proof by replacing the hole with the correct
-expression (e.g., <code>x + y</code>).</p>
+<p>For example, <code>add : Nat → Nat → Nat</code> indicates that the <code>add</code> function takes two
+<code>Nat</code> arguments and returns a <code>Nat</code> value. We can then complete the definition by replacing the
+hole with the correct expression (e.g., <code>x + y</code>).</p>
 <h2 id="global-commands">Global commands</h2>
 <p>Global commands are used to interact with the Lean environment and perform various operations such as checking types,
 evaluating expressions, printing definitions, reducing expressions, and exiting proofs.</p>

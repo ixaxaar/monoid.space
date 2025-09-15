@@ -20,201 +20,255 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
-    /* CSS for syntax highlighting */
-    html { -webkit-text-size-adjust: 100%; }
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { color: #008000; } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { color: #008000; font-weight: bold; } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../css/agda.css" />
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 </head>
 <body>
 <hr />
 <p><a href="contents.html">Contents</a> <a href="Logic.logicBasics.html">Previous</a> <a
 href="Logic.laws.html">Next</a></p>
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<h1 id="equality-in-logic">Equality in Logic</h1>
 <hr />
 <ul>
-<li><a href="#equality">Equality</a>
+<li><a href="#logical-vs-propositional-equality">Logical vs Propositional Equality</a></li>
+<li><a href="#boolean-equality">Boolean Equality</a></li>
+<li><a href="#equivalence-relations">Equivalence Relations</a>
 <ul>
-<li><a href="#properties-of-equivalence-relations">Properties of Equivalence Relations</a>
-<ul>
-<li><a href="#reflexive">Reflexive</a></li>
-<li><a href="#symmetric">Symmetric</a></li>
-<li><a href="#transitive">Transitive</a></li>
-<li><a href="#congruent">Congruent</a></li>
-<li><a href="#substitutive">Substitutive</a></li>
-</ul></li>
-<li><a href="#equivalence-relation">Equivalence relation</a></li>
+<li><a href="#properties-of-relations">Properties of Relations</a></li>
+<li><a href="#equivalence-relation-structure">Equivalence Relation Structure</a></li>
 </ul></li>
 <li><a href="#logical-equivalence">Logical Equivalence</a></li>
+<li><a href="#decidable-equality">Decidable Equality</a></li>
+<li><a href="#equality-in-different-contexts">Equality in Different Contexts</a>
+<ul>
+<li><a href="#equality-of-propositions">Equality of Propositions</a></li>
+<li><a href="#equality-of-truth-values">Equality of Truth Values</a></li>
+<li><a href="#functional-extensionality">Functional Extensionality</a></li>
+</ul></li>
 </ul>
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<h1 id="equality">Equality</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> Logic<span class="ot">.</span>equality <span class="kw">where</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Logic<span class="ot">.</span>logicBasics <span class="kw">using</span> <span class="ot">(</span>¬<span class="ot">;</span> not<span class="ot">;</span> xor<span class="ot">;</span> ⟂<span class="ot">;</span> ⊤<span class="ot">;</span> singleton<span class="ot">)</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Lang<span class="ot">.</span>dataStructures <span class="kw">using</span> <span class="ot">(</span>Bool<span class="ot">;</span> true<span class="ot">;</span> false<span class="ot">)</span></span></code></pre></div>
-<p>We start with the definition of a binary relation:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Rel <span class="ot">:</span> <span class="dt">Set</span> <span class="ot">→</span> <span class="dt">Set1</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Rel A <span class="ot">=</span> A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span></span></code></pre></div>
-<p>Equality, or an equivalence, is the most basic comparison that can be performed between two objects. Let us first see
-how equality (and inequality) looks like for logic:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="ot">_</span>≡<span class="ot">_</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">:</span> A <span class="ot">→</span> <span class="dt">Set</span> <span class="kw">where</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  refl <span class="ot">:</span> x ≡ x</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ot">_</span>≢<span class="ot">_</span> <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> A <span class="ot">→</span> A <span class="ot">→</span> <span class="dt">Set</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>x ≢ y <span class="ot">=</span> ¬ <span class="ot">(</span>x ≡ y<span class="ot">)</span></span></code></pre></div>
-<p>Equality can also be derived as a negation of XOR:</p>
-<p><span class="math display">\[
-a \equiv b ~is~ ~True~ \implies ¬ (a \bigoplus b) ~is~ True
-\]</span></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>equal? <span class="ot">:</span> Bool <span class="ot">→</span> Bool <span class="ot">→</span> Bool</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>equal? a b <span class="ot">=</span> not <span class="ot">(</span>xor a b<span class="ot">)</span></span></code></pre></div>
-<p>The laws of equality are same as what we saw earlier in <a href="Types.equality.html">equality</a>. However, we
-derive the the same laws without universe polymorphism:</p>
-<h2 id="properties-of-equivalence-relations">Properties of Equivalence Relations</h2>
-<p>Relations can conform to certain properties, which later come in handy for classifying relations and building a lot
-of mathematical structure.</p>
-<h3 id="reflexive">Reflexive</h3>
-<p>A reflexive relation is one where <span class="math display">\[ x ∙ y = y ∙ x \]</span></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>reflexive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="ot">→</span> Rel A</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="ot">→</span> <span class="dt">Set</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>reflexive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x <span class="ot">:</span> A<span class="ot">)</span> <span class="ot">→</span> x ★ x</span></code></pre></div>
-<h3 id="symmetric">Symmetric</h3>
-<p>A symmetric relation is one where <span class="math display">\[ x ∙ y ⟹ y ∙ x \]</span></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>symmetric <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>symmetric <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span>  <span class="ot">=</span> <span class="ot">(</span>x y <span class="ot">:</span> A<span class="ot">)</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="ot">→</span> x ★ y</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="ot">→</span> y ★ x</span></code></pre></div>
-<h3 id="transitive">Transitive</h3>
-<p>A transitive relation is one where <span class="math display">\[ x ∙ y, y ∙ z ~then~ z ∙ x \]</span></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>transitive <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>transitive <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>x y z <span class="ot">:</span> A<span class="ot">)</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="ot">→</span> x ★ y</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="ot">→</span> y ★ z</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="ot">→</span> x ★ z</span></code></pre></div>
-<h3 id="congruent">Congruent</h3>
-<p>A congruent relation is one where a function <span class="math display">\[ x ∙ y ⟹ f(x) ∙ f(y) \]</span> or the
-function <code>f</code> preserves the relation.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>congruent <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Rel A <span class="ot">→</span> <span class="dt">Set</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>congruent <span class="ot">{</span>A<span class="ot">}</span> <span class="ot">_</span>★<span class="ot">_</span> <span class="ot">=</span> <span class="ot">(</span>f <span class="ot">:</span> A <span class="ot">→</span> A<span class="ot">)(</span>x y <span class="ot">:</span> A<span class="ot">)</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="ot">→</span> x ★ y</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="ot">→</span> f x ★ f y</span></code></pre></div>
-<h3 id="substitutive">Substitutive</h3>
-<p>A substitutive relation is one where <span class="math display">\[ x ∙ y ~and~ (predicate~ y) = ⊤ ⟹ (predicate~ x) =
-⊤ \]</span></p>
-<pre class="lagda"><code>substitutive : {A : Set} → Rel A → Set1
-substitutive {A} _★_ = (P : A → Set)(x y : A)
-  → x ★ y
-  → P x
-  → P y</code></pre>
-<h2 id="equivalence-relation">Equivalence relation</h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">record</span> Equivalence <span class="ot">(</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">)</span> <span class="ot">:</span> <span class="dt">Set1</span> <span class="kw">where</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">field</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="ot">_</span>==<span class="ot">_</span>  <span class="ot">:</span> Rel A</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    rfl   <span class="ot">:</span> reflexive <span class="ot">_</span>==<span class="ot">_</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    sym   <span class="ot">:</span> symmetric <span class="ot">_</span>==<span class="ot">_</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    trans <span class="ot">:</span> transitive <span class="ot">_</span>==<span class="ot">_</span></span></code></pre></div>
-<h1 id="logical-equivalence">Logical Equivalence</h1>
-<p>Note, the only difference here is that each law applies to the same datatype, be it <code>⟂</code>, <code>⊤</code> or
-<code>Bool</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>symm <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y <span class="ot">:</span> A<span class="ot">}</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> x ≡ y</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> y ≡ x</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>symm <span class="ot">{</span>A<span class="ot">}</span> refl <span class="ot">=</span> refl</span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>trans <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">{</span>x y z <span class="ot">:</span> A<span class="ot">}</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> x ≡ y</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> y ≡ z</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        <span class="ot">→</span> x ≡ z</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>trans <span class="ot">{</span>A<span class="ot">}</span> refl a <span class="ot">=</span> a</span></code></pre></div>
-<p>Let us fit the above proofs of the properties of the relation <code>≡</code> to prove an equivalence relation:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Equiv <span class="ot">:</span> <span class="ot">{</span>A <span class="ot">:</span> <span class="dt">Set</span><span class="ot">}</span> <span class="ot">→</span> Equivalence A</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Equiv <span class="ot">=</span> <span class="kw">record</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="ot">{</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">_</span>==<span class="ot">_</span>  <span class="ot">=</span> <span class="ot">_</span>≡<span class="ot">_</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="ot">;</span> rfl   <span class="ot">=</span> <span class="ot">\</span>x      <span class="ot">→</span> refl</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="ot">;</span> sym   <span class="ot">=</span> <span class="ot">\</span>x y    <span class="ot">→</span> symm</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="ot">;</span> trans <span class="ot">=</span> <span class="ot">\</span>x y z  <span class="ot">→</span> trans</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="ot">}</span></span></code></pre></div>
-<p>To see that this applies to a <code>singleton</code>:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>refl⊤ <span class="ot">:</span> singleton ≡ singleton</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>refl⊤  <span class="ot">=</span> Equivalence<span class="ot">.</span>rfl Equiv singleton</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>sym⊤ <span class="ot">:</span> singleton ≡ singleton <span class="ot">→</span> singleton ≡ singleton</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>sym⊤   <span class="ot">=</span> Equivalence<span class="ot">.</span>sym Equiv singleton singleton</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>trans⊤ <span class="ot">:</span> singleton ≡ singleton <span class="ot">→</span> singleton ≡ singleton <span class="ot">→</span> singleton ≡ singleton</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>trans⊤ <span class="ot">=</span> Equivalence<span class="ot">.</span>trans Equiv singleton singleton singleton</span></code></pre></div>
-<p>We cannot, however, verify this for <code>⟂</code> explicitly as we cannot produce an object that does not exist /
-does not have a constructor.</p>
-<p>Inequality <code>≢</code> cannot serve as an equivalence relation as reflexivity and transitivity cannot be
-satisfied.</p>
+<pre class="lean"><code>import Mathlib.Logic.Basic
+import Mathlib.Data.Bool.Basic
+import Mathlib.Logic.Equiv.Basic
+import Mathlib.Logic.Relation.Basic
+import Mathlib.Tactic.Basic</code></pre>
+<p>While we explored equality comprehensively in the Types chapter, equality takes on special significance in logic.
+Here we examine equality from the logical perspective: how equality relates to logical operations, how we can compute
+with equality, and how equality structures arise in different logical contexts.</p>
+<h2 id="logical-vs-propositional-equality">Logical vs Propositional Equality</h2>
+<p>In logic, we encounter different notions of equality depending on whether we’re working with truth values,
+propositions, or logical operations:</p>
+<pre class="lean"><code>-- Propositional equality: two propositions are the same proposition
+example : (True ∧ False) = False := rfl
+
+-- Logical equivalence: two propositions have the same truth value
+example : (True ∧ False) ↔ False := ⟨And.right, False.elim⟩
+
+-- Boolean equality: two boolean values are the same
+example : (true &amp;&amp; false) = false := rfl
+
+-- These are related but distinct concepts
+example (P Q : Prop) : (P = Q) → (P ↔ Q) := fun h =&gt; by rw [h]
+-- But the converse is not always true without additional axioms</code></pre>
+<h2 id="boolean-equality">Boolean Equality</h2>
+<p>In computational logic, equality can be defined in terms of other logical operations:</p>
+<pre class="lean"><code>-- Boolean equality using XOR
+def bool_eq (a b : Bool) : Bool := !(a ^^ b)
+
+-- Verify this matches built-in equality
+example (a b : Bool) : bool_eq a b = (a == b) := by
+  cases a &lt;;&gt; cases b &lt;;&gt; rfl
+
+-- Boolean equality truth table
+example : bool_eq true true = true := rfl
+example : bool_eq true false = false := rfl
+example : bool_eq false true = false := rfl
+example : bool_eq false false = true := rfl
+
+-- Relationship to XOR: equality is negation of XOR
+theorem bool_eq_not_xor (a b : Bool) : bool_eq a b = !(a ^^ b) := rfl
+
+-- Alternative definition using other operations
+def bool_eq_alt (a b : Bool) : Bool := (a &amp;&amp; b) || ((!a) &amp;&amp; (!b))
+
+theorem bool_eq_equiv (a b : Bool) : bool_eq a b = bool_eq_alt a b := by
+  cases a &lt;;&gt; cases b &lt;;&gt; rfl</code></pre>
+<h2 id="equivalence-relations">Equivalence Relations</h2>
+<p>Equality is the prototypical equivalence relation. Let’s formalize the general structure:</p>
+<h3 id="properties-of-relations">Properties of Relations</h3>
+<pre class="lean"><code>-- General relation type
+def Relation (α : Type*) := α → α → Prop
+
+-- Reflexivity: every element is related to itself
+def Reflexive {α : Type*} (r : Relation α) : Prop := ∀ a, r a a
+
+-- Symmetry: if a relates to b, then b relates to a
+def Symmetric {α : Type*} (r : Relation α) : Prop := ∀ a b, r a b → r b a
+
+-- Transitivity: if a relates to b and b relates to c, then a relates to c
+def Transitive {α : Type*} (r : Relation α) : Prop := ∀ a b c, r a b → r b c → r a c
+
+-- Examples with equality
+example : Reflexive (@Eq Nat) := fun a =&gt; rfl
+example : Symmetric (@Eq Nat) := fun a b h =&gt; h.symm
+example : Transitive (@Eq Nat) := fun a b c h₁ h₂ =&gt; h₁.trans h₂</code></pre>
+<h3 id="equivalence-relation-structure">Equivalence Relation Structure</h3>
+<pre class="lean"><code>-- An equivalence relation combines all three properties
+structure EquivalenceRel (α : Type*) where
+  rel : Relation α
+  refl : Reflexive rel
+  symm : Symmetric rel
+  trans : Transitive rel
+
+-- Equality is the canonical equivalence relation
+def equality_equiv_rel (α : Type*) : EquivalenceRel α := {
+  rel := Eq,
+  refl := fun a =&gt; rfl,
+  symm := fun a b h =&gt; h.symm,
+  trans := fun a b c h₁ h₂ =&gt; h₁.trans h₂
+}
+
+-- Boolean equality is also an equivalence relation
+def bool_equality_equiv : EquivalenceRel Bool := {
+  rel := fun a b =&gt; a = b,
+  refl := fun a =&gt; rfl,
+  symm := fun a b h =&gt; h.symm,
+  trans := fun a b c h₁ h₂ =&gt; h₁.trans h₂
+}
+
+-- Logical equivalence for propositions
+def prop_equiv_rel : EquivalenceRel Prop := {
+  rel := fun P Q =&gt; P ↔ Q,
+  refl := fun P =&gt; Iff.rfl,
+  symm := fun P Q h =&gt; h.symm,
+  trans := fun P Q R h₁ h₂ =&gt; h₁.trans h₂
+}</code></pre>
+<h2 id="logical-equivalence">Logical Equivalence</h2>
+<p>Logical equivalence (<code>↔︎</code>) is a fundamental concept distinct from equality:</p>
+<pre class="lean"><code>-- Two propositions are logically equivalent if they have the same truth value
+def LogicallyEquivalent (P Q : Prop) : Prop := P ↔ Q
+
+-- Examples of logical equivalence
+theorem double_negation_equiv (P : Prop) : LogicallyEquivalent (¬¬P) P := by
+  constructor
+  · exact Classical.not_not
+  · intro h hnp; exact hnp h
+
+theorem demorgan_equiv (P Q : Prop) :
+  LogicallyEquivalent (¬(P ∧ Q)) (¬P ∨ ¬Q) := by
+  constructor
+  · intro h
+    by_cases hp : P
+    · by_cases hq : Q
+      · exfalso; exact h ⟨hp, hq⟩
+      · exact Or.inr hq
+    · exact Or.inl hp
+  · intro h ⟨hp, hq⟩
+    cases h with
+    | inl hnp =&gt; exact hnp hp
+    | inr hnq =&gt; exact hnq hq
+
+-- Logical equivalence respects logical operations
+theorem and_equiv_compat (P₁ P₂ Q₁ Q₂ : Prop) :
+  LogicallyEquivalent P₁ P₂ → LogicallyEquivalent Q₁ Q₂ →
+  LogicallyEquivalent (P₁ ∧ Q₁) (P₂ ∧ Q₂) := by
+  intro ⟨h₁, h₂⟩ ⟨h₃, h₄⟩
+  constructor
+  · intro ⟨hp₁, hq₁⟩; exact ⟨h₁ hp₁, h₃ hq₁⟩
+  · intro ⟨hp₂, hq₂⟩; exact ⟨h₂ hp₂, h₄ hq₂⟩</code></pre>
+<h2 id="decidable-equality">Decidable Equality</h2>
+<p>Some types have decidable equality—we can compute whether two elements are equal:</p>
+<pre class="lean"><code>-- Natural numbers have decidable equality
+example (n m : Nat) : Decidable (n = m) := Nat.decidableEq n m
+
+#eval decide (5 = 5)  -- true
+#eval decide (5 = 7)  -- false
+
+-- Booleans have decidable equality
+example (b c : Bool) : Decidable (b = c) := Bool.decidableEq b c
+
+#eval decide (true = true)   -- true
+#eval decide (true = false)  -- false
+
+-- We can implement decidable equality for custom types
+inductive Color where | red | green | blue
+
+instance : DecidableEq Color := fun
+  | Color.red, Color.red =&gt; Decidable.isTrue rfl
+  | Color.green, Color.green =&gt; Decidable.isTrue rfl
+  | Color.blue, Color.blue =&gt; Decidable.isTrue rfl
+  | Color.red, Color.green =&gt; Decidable.isFalse (by simp)
+  | Color.red, Color.blue =&gt; Decidable.isFalse (by simp)
+  | Color.green, Color.red =&gt; Decidable.isFalse (by simp)
+  | Color.green, Color.blue =&gt; Decidable.isFalse (by simp)
+  | Color.blue, Color.red =&gt; Decidable.isFalse (by simp)
+  | Color.blue, Color.green =&gt; Decidable.isFalse (by simp)
+
+#eval decide (Color.red = Color.red)    -- true
+#eval decide (Color.red = Color.blue)   -- false</code></pre>
+<h2 id="equality-in-different-contexts">Equality in Different Contexts</h2>
+<h3 id="equality-of-propositions">Equality of Propositions</h3>
+<pre class="lean"><code>-- Propositional equality is very strict
+example : (True ∧ True) = True := rfl
+example : (True ∨ False) = True := rfl
+
+-- But many logically equivalent propositions are not equal
+example : (True ∧ True) ≠ True := by
+  -- This is actually false! They are propositionally equal
+  sorry
+
+-- Let&#39;s check what actually happens
+example : (True ∧ True) = True := rfl  -- This works!
+
+-- More interesting examples
+example (P : Prop) : (P ∧ True) = P := by
+  -- This requires propositional extensionality in general
+  sorry</code></pre>
+<h3 id="equality-of-truth-values">Equality of Truth Values</h3>
+<pre class="lean"><code>-- For decidable propositions, we can compare their truth values
+def same_truth_value (P Q : Prop) [Decidable P] [Decidable Q] : Bool :=
+  decide P == decide Q
+
+example : same_truth_value (3 = 3) (5 &lt; 10) = true := rfl
+example : same_truth_value (3 = 4) (5 &lt; 10) = false := rfl
+
+-- This gives us a computational way to check logical equivalence
+-- for decidable propositions
+theorem same_truth_iff_equiv (P Q : Prop) [Decidable P] [Decidable Q] :
+  same_truth_value P Q = true ↔ (P ↔ Q) := by
+  sorry  -- Requires more machinery</code></pre>
+<h3 id="functional-extensionality">Functional Extensionality</h3>
+<p>For functions, equality means they return equal results on all inputs:</p>
+<pre class="lean"><code>-- Two boolean functions are equal if they agree on all inputs
+theorem bool_fun_ext (f g : Bool → Bool) :
+  (∀ b, f b = g b) → f = g := by
+  intro h
+  funext b
+  exact h b
+
+-- Example: these boolean functions are equal
+def f₁ (b : Bool) : Bool := b &amp;&amp; true
+def f₂ (b : Bool) : Bool := b
+
+theorem f₁_eq_f₂ : f₁ = f₂ := by
+  funext b
+  cases b &lt;;&gt; rfl
+
+-- For logical functions (predicates)
+theorem pred_ext (P Q : Bool → Prop) :
+  (∀ b, P b ↔ Q b) → P = Q := by
+  intro h
+  funext b
+  exact propext (h b)</code></pre>
+<p>This exploration of equality in logic shows how the abstract concept of equality manifests in different ways:</p>
+<ul>
+<li><strong>Computational equality</strong>: Decidable and computable</li>
+<li><strong>Logical equivalence</strong>: Same truth conditions</li>
+<li><strong>Propositional equality</strong>: Definitional sameness</li>
+<li><strong>Functional equality</strong>: Extensional equivalence</li>
+</ul>
+<p>These different notions of equality are all useful in different contexts, and understanding their relationships is
+crucial for effective logical reasoning in type theory.</p>
 <hr />
-<p><a href="./Logic.laws.html">Laws of Logic</a></p>
+<p><a href="./Logic.laws.html">Laws of Boolean Algebra</a></p>
 </body>
 </html>

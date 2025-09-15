@@ -32,8 +32,6 @@ href="Types.product.html">Next</a></p>
 <h1 id="operations">Operations</h1>
 <hr />
 <ul>
-<li><a href="#operations">Operations</a>
-<ul>
 <li><a href="#nullary-operations">Nullary Operations</a></li>
 <li><a href="#unary-operations">Unary Operations</a></li>
 <li><a href="#binary-operations">Binary Operations</a></li>
@@ -57,7 +55,6 @@ href="Types.product.html">Next</a></p>
 <li><a href="#congruence">Congruence</a></li>
 <li><a href="#respecting-a-relation">Respecting a Relation</a></li>
 </ul></li>
-</ul></li>
 </ul>
 <p>An operation can be thought of as a map or a function between types with a certain arity. Operations can also be
 thought of as functions that may take zero or more operands and return an output value. Some examples are addition,
@@ -69,9 +66,9 @@ subtraction, multiplication, and division of natural, real, and complex numbers.
 <li><strong>Ternary</strong>: Takes three arguments.</li>
 </ul>
 <p>Operations of higher arity can often be decomposed into ones of lower arity using techniques like currying.</p>
-<pre class="lean"><code>import Data.Set
-import Data.Equiv
-import Logic.Function.Basic</code></pre>
+<pre class="lean"><code>import Mathlib.Data.Set.Basic
+import Mathlib.Data.Equiv.Basic  
+import Mathlib.Logic.Function.Basic</code></pre>
 <h2 id="nullary-operations">Nullary Operations</h2>
 <p>A nullary operation <code>♠</code> on a set <code>A</code> is a function that takes no arguments and returns an
 element of type <code>A</code>. All constants are examples of nullary operations, as they do not require any arguments
@@ -142,21 +139,21 @@ arguments into a sequence of functions that each take a single argument. This is
 functions, where some arguments are fixed and others are left as parameters. In Lean, currying can be achieved using the
 <code>→</code> type constructor, which is right-associative:</p>
 <pre class="lean"><code>def curry {A B C : Type*} (f : A × B → C) : A → B → C :=
-  λ a b, f (a, b)</code></pre>
+  fun a b =&gt; f (a, b)</code></pre>
 <p>Practically, currying allows us to define functions that take multiple arguments as a sequence of functions that each
 take a single argument. This can be useful for partial application of functions, where some arguments are fixed and
 others are left as parameters. Currying is also a method to construct higher-arity operations from lower-arity
 operations.</p>
 <p>Let us look at a more involved example in lean:</p>
 <pre class="lean"><code>def curry {A B C : Type*} (f : A × B → C) : A → B → C :=
-  λ a b, f (a, b)
+  fun a b =&gt; f (a, b)
 
 def uncurry {A B C : Type*} (f : A → B → C) : A × B → C :=
-  λ p, f p.1 p.2
+  fun p =&gt; f p.1 p.2
 
-def add : ℕ × ℕ → ℕ := λ p, p.1 + p.2
-def add&#39; : ℕ → ℕ → ℕ := curry add
-def add&#39;&#39; : ℕ × ℕ → ℕ := uncurry add&#39;
+def add : Nat × Nat → Nat := fun p =&gt; p.1 + p.2
+def add&#39; : Nat → Nat → Nat := curry add
+def add&#39;&#39; : Nat × Nat → Nat := uncurry add&#39;
 
 #eval add (3, 4)  -- 7
 #eval add&#39; 3 4     -- 7
@@ -209,15 +206,15 @@ def right_associative {A : Type*} (op : A → A → A) : Prop :=
 <pre class="lean"><code>def associative {A : Type*} (op : A → A → A) : Prop :=
   ∀ x y z : A, op (op x y) z = op x (op y z)</code></pre>
 <p>This property can be used to, say prove associativity of addition on natural numbers:</p>
-<pre class="lean"><code>example : associative (λ x y : Nat =&gt; x + y) :=
-  λ x y z =&gt; by simp [Nat.add_assoc]</code></pre>
+<pre class="lean"><code>example : associative (fun x y : Nat =&gt; x + y) :=
+  fun x y z =&gt; by simp [Nat.add_assoc]</code></pre>
 <p>There are a few things about Lean that are worth noting here:</p>
 <p>The <code>simp</code> tactic is used to simplify the expression and prove the associativity property.
 <code>Nat.add_assoc</code> is a lemma in Lean that states the associativity of addition on natural numbers, we use the
 already proven lemma to prove the associativity of addition, and <code>simp</code> allows us to simplify the expression
 using the lemma.</p>
-<p>Also, <code>λ</code> and <code>fun</code> are used interchangeably in Lean to define functions, so this is equivalent
-to the above code:</p>
+<p>Also, <code>fun</code> and <code>fun</code> are used interchangeably in Lean to define functions, so this is
+equivalent to the above code:</p>
 <pre class="lean"><code>example : associative (fun x y : Nat =&gt; x + y) :=
   fun x y z =&gt; by simp [Nat.add_assoc]</code></pre>
 <h3 id="commutativity">Commutativity</h3>
@@ -227,8 +224,8 @@ to the above code:</p>
 <pre class="lean"><code>def commutative {A : Type*} (op : A → A → A) : Prop :=
   ∀ x y : A, op x y = op y x</code></pre>
 <p>And operations can be proven to be commutative, with an example for addition of natural numbers:</p>
-<pre class="lean"><code>example : commutative (λ x y : Nat =&gt; x + y) :=
-  λ x y =&gt; by simp [Nat.add_comm]</code></pre>
+<pre class="lean"><code>example : commutative (fun x y : Nat =&gt; x + y) :=
+  fun x y =&gt; by simp [Nat.add_comm]</code></pre>
 <p>Addition and multiplication of natural numbers are simple examples of commutative operations. Subtraction and
 division are examples of non-commutative operations.</p>
 <h3 id="distributivity">Distributivity</h3>
@@ -255,8 +252,8 @@ def distributive {A : Type*} (mul add : A → A → A) : Prop :=
 <pre class="lean"><code>def distributive {A : Type*} (mul add : A → A → A) : Prop :=
   ∀ x y z : A, mul x (add y z) = add (mul x y) (mul x z)</code></pre>
 <p>We can now proved the distributivity of multiplication over addition for natural numbers:</p>
-<pre class="lean"><code>example : distributive (λ x y : Nat =&gt; x * y) (λ x y : Nat =&gt; x + y) :=
-  λ x y z =&gt; by simp [Nat.left_distrib]</code></pre>
+<pre class="lean"><code>example : distributive (fun x y : Nat =&gt; x * y) (fun x y : Nat =&gt; x + y) :=
+  fun x y z =&gt; by simp [Nat.left_distrib]</code></pre>
 <h3 id="absorption">Absorption</h3>
 <p>Two operations <code>∙</code> and <code>∘</code> are <strong>absorptive</strong> if:</p>
 <pre class="math"><code>∀ x, y ∈ A, \quad x ∙ (x ∘ y) = x \quad \text{and} \quad x ∘ (x ∙ y) = x</code></pre>
@@ -311,10 +308,10 @@ def identity {A : Type*} (e : A) (op : A → A → A) : Prop :=
   left_identity e op ∧ right_identity e op</code></pre>
 <p>A given function can be proven to have an identity element, with an example for the addition operation on natural
 numbers:</p>
-<pre class="lean"><code>example : identity 0 (λ x y : Nat =&gt; x + y) :=
+<pre class="lean"><code>example : identity 0 (fun x y : Nat =&gt; x + y) :=
   ⟨Nat.zero_add, Nat.add_zero⟩</code></pre>
 <p>Similarly, we can prove that multiplication has an identity element:</p>
-<pre class="lean"><code>example : identity 1 (λ x y : Nat =&gt; x * y) :=
+<pre class="lean"><code>example : identity 1 (fun x y : Nat =&gt; x * y) :=
   ⟨Nat.one_mul, Nat.mul_one⟩</code></pre>
 <p>We use the square brackets <code>⟨ ⟩</code> to construct a pair of proofs for left and right identity. The proofs are
 provided as lambda functions that take an argument <code>x</code> and return the result of the operation with the
@@ -354,9 +351,9 @@ def right_annihilator {A : Type*} (e : A) (op : A → A → A) : Prop :=
 def annihilator {A : Type*} (e : A) (op : A → A → A) : Prop :=
   left_annihilator e op ∧ right_annihilator e op</code></pre>
 <p>An example of an annihilator for matrix multiplication can be shown as:</p>
-<pre class="lean"><code>example : annihilator (λ i j, 0) (λ A B, λ i j, ∑ k, A i k * B k j) :=
-  ⟨λ A, funext $ λ i, funext $ λ j, by simp,
-   λ A, funext $ λ i, funext $ λ j, by simp⟩</code></pre>
+<pre class="lean"><code>example : annihilator (fun i j, 0) (fun A B, fun i j, ∑ k, A i k * B k j) :=
+  ⟨fun A, funext $ fun i, funext $ fun j, by simp,
+   fun A, funext $ fun i, funext $ fun j, by simp⟩</code></pre>
 <p>Here, we define the annihilator as a function that takes two matrices <code>A</code> and <code>B</code> and returns a
 matrix of the same size with all elements as 0. We then prove that this function is an annihilator for matrix
 multiplication by showing that it satisfies the left and right annihilator properties.</p>

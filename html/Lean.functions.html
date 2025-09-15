@@ -30,8 +30,6 @@ href="Lean.algorithms.html">Next</a></p>
 <h1 id="functions">Functions</h1>
 <hr />
 <ul>
-<li><a href="#functions">Functions</a>
-<ul>
 <li><a href="#generic-syntax">Generic Syntax</a>
 <ul>
 <li><a href="#syntactical-sugar">Syntactical Sugar</a></li>
@@ -74,7 +72,6 @@ href="Lean.algorithms.html">Next</a></p>
 <li><a href="#termination-checking">Termination Checking</a></li>
 <li><a href="#mutual-recursion">Mutual Recursion</a></li>
 <li><a href="#higher-order-functions">Higher-Order Functions</a></li>
-</ul></li>
 </ul></li>
 </ul>
 <p>Functions in Lean are defined using the <code>def</code> keyword. The syntax for defining functions in Lean is
@@ -148,7 +145,7 @@ def not : Bool → Bool
   | pattern₁ =&gt; output₁
   | _        =&gt; defaultOutput</code></pre>
 <p>There are also infix functions, which are functions that can be used in infix notation. For example, the
-<code>and</code> function (<code>,</code>) can be used as <code>true ∧ false</code>.</p>
+<code>and</code> function can be used as <code>true ∧ false</code>.</p>
 <pre class="lean"><code>def functionName : inputType → inputType → outputType
   | pattern₁, pattern₂ =&gt; output
   | pattern₃, pattern₄ =&gt; output</code></pre>
@@ -226,7 +223,7 @@ call to the function itself.</p>
 Lean:</p>
 <pre class="lean"><code>def add : Nat → Nat → Nat
   | 0,    n =&gt; n -- base case: 0 + n is n
-  | m+1,  n =&gt; (add m n) + 1 -- recursive case: (m+1) + n is m + (n+1)
+  | m+1,  n =&gt; (add m n) + 1 -- recursive case: (m+1) + n is (m + n) + 1
 
 infixl:65 &quot; + &quot; =&gt; add</code></pre>
 <h3 id="length-of-a-list">Length of a List</h3>
@@ -474,8 +471,8 @@ values.</p>
 function that takes a predicate function and a list and returns a new list containing only the elements that satisfy the
 predicate:</p>
 <pre class="lean"><code>def filter {α : Type} (p : α → Bool) : List α → List α
-  | [],    _ =&gt; []
-  | x::xs, p =&gt; if p x then x :: filter p xs else filter p xs</code></pre>
+  | [] =&gt; []
+  | x::xs =&gt; if p x then x :: filter p xs else filter p xs</code></pre>
 <p>The <code>filter</code> function takes a predicate function <code>p</code> that maps values of type <code>α</code> to
 booleans, a list of values of type <code>α</code>, and returns a new list containing only the elements that satisfy the
 predicate <code>p</code>. This higher-order function allows for the selective extraction of elements from a list based
