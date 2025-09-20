@@ -159,6 +159,56 @@ root = "main.lean"
 
 This ensures that both the library and executable are built when you run `lake build`.
 
+### Organizing in files and directories
+
+As your Lean project grows, you'll want to organize your code across multiple files and directories. Lake supports several ways to structure your project:
+
+#### Simple
+
+For basic projects, you can organize files in subdirectories within your `srcDir`:
+
+```bash
+src/
+├── MyProject.lean          # Main module
+├── Basic/
+│   ├── Numbers.lean        # src/Basic/Numbers.lean
+│   └── Structures.lean     # src/Basic/Structures.lean
+└── Advanced/
+    └── Theorems.lean       # src/Advanced/Theorems.lean
+```
+
+Import these files using dot notation:
+
+```lean
+import Basic.Numbers        -- imports src/Basic/Numbers.lean
+import Advanced.Theorems    -- imports src/Advanced/Theorems.lean
+```
+
+#### Multiple source directories
+
+To include files from directories outside your main `srcDir` (like test files), configure additional library targets:
+
+```toml
+[[lean_lib]]
+name = "MyProject"
+srcDir = "src"
+
+[[lean_lib]]
+name = "Tests"
+srcDir = "."
+roots = ["test"]
+
+[[lean_exe]]
+name = "test_runner"
+root = "test_runner.lean"
+```
+
+With this structure, you can import test files:
+
+```lean
+import test.TestModule      -- imports test/TestModule.lean
+```
+
 ## Libraries and dependencies
 
 Lean 4 uses `lake` as both a build system and package manager. Libraries are managed through dependencies in your project configuration.
