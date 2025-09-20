@@ -16,55 +16,55 @@
 
 ## Modules
 
-In Lean, each file implicitly declares a module with the same name as the file (without the `.lean` extension). For example, a file named `intro.lean` implicitly declares a module named `intro`.
+Modules are a fundamental way to organize code in Lean, similar to other programming languages. They help to group related definitions, theorems, and proofs together, making it easier to manage large codebases.
+
+### File-based modules
+
+In Lean, each file implicitly declares a module with the same name as the file (without the `.lean` extension). The file path determines the module name using dot notation:
+
+- `src/Basic.lean` → module `Basic`
+- `src/Data/List.lean` → module `Data.List`
+- `test/TestBasic.lean` → module `test.TestBasic` (if test directory is configured as a `root` in `lakefile.toml`)
+
+### Importing modules
+
+Modules can be imported using absolute paths based on the project structure:
+
+```lean
+import Basic.Numbers            -- imports src/Basic/Numbers.lean
+import Data.List.Lemmas         -- imports src/Data/List/Lemmas.lean
+import test.TestNumbers         -- imports test/TestNumbers.lean
+import TestNumbers              -- imports test/TestNumbers.lean
+```
+
+For all the direcories listed in the `lakefile.toml` as `srcDir` or `root`, the files inside them can be imported using their relative paths.
+
+### Explicit module declarations
 
 You can also explicitly declare modules within a file:
 
 ```lean
 module MyModule where
   -- Module contents here
+  def myFunction := 42
+
+module NestedModule where
+  -- Nested module contents
+  def nestedFunction := 24
 ```
 
-Modules can be imported using relative or absolute paths:
-
-```lean
-import Basic.Numbers            -- absolute import
-import .Numbers                 -- relative import
-import «Numbers»                -- import using Unicode characters
-```
+This creates namespaces that can help organize code within a single file.
 
 ## Naming Conventions
 
-- Functions and Variables: Use snake_case (e.g., is_prime, find_max).
-- Types and Structures: Use PascalCase (e.g., NaturalNumber, GroupTheory).
-- Modules: Generally use PascalCase for module names, such as Data.List or Algebra.Ring.
-- Constants and Axioms: Use descriptive names and often use PascalCase (e.g., ExcludedMiddle, AxiomOfChoice).
-
-## Literate programming
-
-Lean supports literate programming through its `.lean` files. While not as extensive as Agda's literate programming options, you can include markdown-style comments in your Lean files:
-
-```lean
-/-
-# This is a markdown-style comment
-It can span multiple lines and include *formatting*.
--/
-
-def example := 42
-```
-
-## Identifiers
-
 Lean has some common naming practices, though they're more guidelines than strict rules:
 
-1. Functions and variables: Use snake_case (e.g., `add_numbers`, `total_count`)
+1. Functions and variables: Use camelCase (e.g., `addNumbers`, `totalCount`)
 2. Types and structures: Use PascalCase (e.g., `NaturalNumber`, `BinaryTree`)
 3. Modules: Use PascalCase (e.g., `Data.List`, `Logic.Propositional`)
 4. Constants and axioms: Often use PascalCase (e.g., `Pi`, `ExcludedMiddle`)
 5. Unicode characters: Lean supports Unicode, so mathematical symbols are common (e.g., `∀`, `λ`, `→`)
 6. Notation: Lean has a powerful notation system for defining custom syntax
-
-Remember that in Lean, clarity and readability are paramount. Choose names that accurately describe the purpose or behavior of the identifier. Consistency within a project or library is more important than strictly adhering to any particular convention.
 
 ## Other material
 
