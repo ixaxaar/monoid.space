@@ -6,7 +6,7 @@
 
 # Lean Installation
 
-[Lean](https://leanprover.github.io/) is a powerful theorem prover and programming language. This guide provides various methods to install Lean on your system.
+[Lean](https://leanprover.github.io/) is a powerful theorem prover and programming language. This guide provides various methods to install Lean on a system.
 
 ---
 
@@ -22,7 +22,7 @@
 
 ## 1. Using Docker
 
-Docker is the modern way to run applications in isolated environments. Using Docker for Lean ensures you have a consistent setup across different systems without worrying about "it works on my machine" issues.
+Docker is the modern way to run applications in isolated environments. Using Docker for Lean ensures a consistent setup across different systems without worrying about "it works on my machine" issues.
 
 1. Install Docker:
 
@@ -43,10 +43,10 @@ Docker is the modern way to run applications in isolated environments. Using Doc
 3. Run the Docker container:
 
    ```bash
-   docker run -it -v /path/to/your/local/directory:/lean leanprover/lean:latest
+   docker run -it -v /path/to/local/directory:/lean leanprover/lean:latest
    ```
 
-4. Inside the container, you can now use Lean:
+4. Inside the container, Lean can now be used:
 
    ```bash
    lean --version
@@ -98,7 +98,7 @@ nix-env -i lean
 
 For the latest development version or specific customizations:
 
-1. Ensure you have CMake and GCC installed.
+1. Ensure CMake and GCC are installed.
 
 2. Clone the Lean repository:
 
@@ -119,7 +119,7 @@ For the latest development version or specific customizations:
 
 Lean comes with a project management tool called `lake`. To set up a new Lean project:
 
-1. Create a new directory for your project and navigate into it:
+1. Create a new directory for the project and navigate into it:
 
    ```bash
    mkdir my_lean_project
@@ -161,11 +161,11 @@ This ensures that both the library and executable are built when you run `lake b
 
 ### Organizing in files and directories
 
-As your Lean project grows, you'll want to organize your code across multiple files and directories. Lake supports several ways to structure your project:
+As Lean projects grow, code should be organized across multiple files and directories. Lake supports several ways to structure projects:
 
 #### Simple
 
-For basic projects, you can organize files in subdirectories within your `srcDir`:
+For basic projects, files can be organized in subdirectories within the `srcDir`:
 
 ```bash
 src/
@@ -186,7 +186,7 @@ import Advanced.Theorems    -- imports src/Advanced/Theorems.lean
 
 #### Multiple source directories
 
-To include files from directories outside your main `srcDir` (like test files), configure additional library targets:
+To include files from directories outside the main `srcDir` (like test files), configure additional library targets:
 
 ```toml
 [[lean_lib]]
@@ -203,7 +203,7 @@ name = "test_runner"
 root = "test_runner.lean"
 ```
 
-With this structure, you can import test files:
+With this structure, test files can be imported:
 
 ```lean
 import test.TestModule      -- imports test/TestModule.lean
@@ -215,9 +215,9 @@ Lean 4 uses `lake` as both a build system and package manager. Libraries are man
 
 ### Adding dependencies
 
-Dependencies must be added manually by editing your `lakefile.toml` file:
+Dependencies must be added manually by editing the `lakefile.toml` file:
 
-1. **Add to lakefile.toml**: Edit your project's `lakefile.toml` to include the dependency:
+1. **Add to lakefile.toml**: Edit the project's `lakefile.toml` to include the dependency:
 
    ```toml
    [[require]]
@@ -286,7 +286,7 @@ Dependencies must be added manually by editing your `lakefile.toml` file:
 
 ### Working with local libraries
 
-For local development, you can reference libraries using relative paths in your `lakefile.toml`:
+For local development, libraries can be referenced using relative paths in the `lakefile.toml`:
 
 ```toml
 [[require]]
@@ -304,7 +304,7 @@ version = "0.1.0"
 keywords = ["math", "algebra", "category-theory"]
 homepage = "https://github.com/user/MyMathProject"
 repository = "https://github.com/user/MyMathProject.git"
-authors = ["Your Name <email@example.com>"]
+authors = ["Author Name <email@example.com>"]
 license = "Apache-2.0"
 defaultTargets = ["MyMathProject", "main"]
 
