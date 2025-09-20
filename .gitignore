@@ -11,4 +11,4 @@ bin/
 lib/
 lakefile.lean
 test.lean
-
+.lake
