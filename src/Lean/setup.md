@@ -138,6 +138,27 @@ Lean comes with a project management tool called `lake`. To set up a new Lean pr
    lake build
    ```
 
+### Build targets
+
+Lean has two main types of build targets: libraries and executables. Libraries are collections of Lean code that can be reused across multiple projects, while executables are standalone programs that can be run directly. Usually a library project will also have an executable target for testing or demo purposes.
+
+By default, `lake build` only builds library targets. To ensure executables are also built when running `lake build` without arguments, add a `defaultTargets` configuration to your `lakefile.toml`:
+
+```toml
+name = "myproject"
+defaultTargets = ["MyLib", "myexe"]
+
+[[lean_lib]]
+name = "MyLib"
+srcDir = "src"
+
+[[lean_exe]]
+name = "myexe"
+root = "main.lean"
+```
+
+This ensures that both the library and executable are built when you run `lake build`.
+
 ## Libraries and dependencies
 
 Lean 4 uses `lake` as both a build system and package manager. Libraries are managed through dependencies in your project configuration.
@@ -235,14 +256,18 @@ homepage = "https://github.com/user/MyMathProject"
 repository = "https://github.com/user/MyMathProject.git"
 authors = ["Your Name <email@example.com>"]
 license = "Apache-2.0"
+defaultTargets = ["MyMathProject", "main"]
 
 [package]
 buildType = "release"
 
-[lib]
+[[lean_lib]]
 name = "MyMathProject"
 srcDir = "src"
-defaultTarget = true
+
+[[lean_exe]]
+name = "main"
+root = "main.lean"
 
 [[require]]
 name = "mathlib"
