@@ -8,4 +8,11 @@ defaultTarget = true
 [[require]]
 name = "mathlib"
 scope = "leanprover-community"
-rev = "v4.17.0"
+
+[[require]]
+name = "aesop"
+git = "https://github.com/JLimperg/aesop"
+
+[[require]]
+name = "batteries"
+scope = "leanprover-community"
