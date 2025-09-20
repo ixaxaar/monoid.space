@@ -2,8 +2,6 @@
 
 # Contents
 
-This book introduces type theory, theorem proving, and mathematical foundations using Lean 4. It progresses systematically from basic type-theoretic concepts to advanced topics in category theory and homotopy type theory.
-
 ## 1. Lean
 
 - [Setup](./Lean.setup.html)

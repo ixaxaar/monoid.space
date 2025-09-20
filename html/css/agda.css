@@ -1,242 +1,448 @@
-/* Import fonts */
-@import url("fonts.googleapis.com/css?family=Source+Code+Pro");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js");
+/* 
+ * Modern flat minimal design for monoid.space
+ * Enhanced Lean syntax highlighting and mathematical content styling
+ */
 
-/* CSS Variables for Theme Colors */
+/* Import modern fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* Extend CSS variables for enhanced styling */
 :root {
-  /* Base Colors */
-  --bg-primary: #101020;
-  --bg-secondary: #202035;
-  --bg-tertiary: #252d45;
-
-  /* Text Colors */
-  --text-primary: #ffffff;
-  --text-secondary: #aaaaaa;
-  --text-muted: #808080;
-
-  /* Accent Colors */
-  --accent-primary: #ff287e;
-  --accent-secondary: #6640f0;
-  --accent-tertiary: #4e8560;
-
-  /* Code Colors */
-  --code-keyword: #c83296;
-  --code-type: #ff88aa;
-  --code-number: #40a0f0;
-  --code-string: #6090a0;
-  --code-comment: #60a0b0;
-  --code-function: #ff287e;
-
-  /* Other */
-  --shadow: rgba(0, 0, 0, 0.2);
-  --border-radius: 5px;
+  /* Enhanced color palette */
+  --lean-bg: #f8f9fa;
+  --lean-border: #e9ecef;
+  --lean-shadow: rgba(0, 0, 0, 0.08);
+  
+  /* Lean-specific syntax colors - carefully chosen for readability */
+  --lean-keyword: #d73a49;        /* Keywords like 'def', 'theorem', 'by' */
+  --lean-type: #005cc5;           /* Types like 'Nat', 'Prop' */
+  --lean-string: #032f62;         /* String literals */
+  --lean-comment: #6a737d;        /* Comments */
+  --lean-number: #005cc5;         /* Numeric literals */
+  --lean-function: #6f42c1;       /* Function names */
+  --lean-variable: #24292e;       /* Variable names */
+  --lean-operator: #d73a49;       /* Operators like '→', '∀', '∃' */
+  --lean-tactic: #e36209;         /* Tactic names */
+  --lean-proof: #28a745;          /* Proof terms */
+  --lean-goal: #6c757d;           /* Goal states */
+  
+  /* Mathematical content colors */
+  --math-bg: #f1f3f4;
+  --math-border: #dadce0;
+  
+  /* Enhanced typography */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-code: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', monospace;
+  
+  /* Animation and transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
 }
 
-/* Base Styles */
-html {
-  background-color: #0a0a15;
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --lean-bg: #2d3748;
+    --lean-border: #4a5568;
+    --lean-shadow: rgba(0, 0, 0, 0.3);
+    
+    --lean-keyword: #ff7b72;
+    --lean-type: #79c0ff;
+    --lean-string: #a5d6ff;
+    --lean-comment: #8b949e;
+    --lean-number: #79c0ff;
+    --lean-function: #d2a8ff;
+    --lean-variable: #f0f6fc;
+    --lean-operator: #ff7b72;
+    --lean-tactic: #ffab70;
+    --lean-proof: #7ee787;
+    --lean-goal: #8b949e;
+    
+    --math-bg: #1c2128;
+    --math-border: #30363d;
+  }
 }
 
+/* Override body font for better readability */
 body {
-  margin: auto;
-  max-width: 80vh;
-  color: var(--text-primary);
-  font-family: "Source Code Pro", sans-serif;
-  line-height: 2em;
-  padding-left: 8em;
-  padding-right: 8em;
-  padding-bottom: 4em;
-  margin-top: 4em;
-  margin-bottom: 8em;
-
-  background-color: var(--bg-primary);
-  box-shadow: 0px 0px 2em var(--shadow);
+  font-family: var(--font-primary);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
-/* Typography */
-h1,
-h2,
-h3,
-h4 {
-  font-weight: bold;
-  color: var(--text-primary);
+/* Enhanced Lean code blocks */
+.lean, pre.lean {
+  background: var(--lean-bg);
+  border: 1px solid var(--lean-border);
+  border-radius: var(--border-radius);
+  font-family: var(--font-code);
+  font-size: 0.9em;
+  font-weight: 400;
+  line-height: 1.6;
+  margin: var(--space-lg) 0;
+  padding: var(--space-xl);
+  overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  transition: all var(--transition-normal);
 }
 
-h1 {
-  margin-top: 1.5em;
-  color: var(--accent-tertiary);
-}
-h2 {
-  margin-top: 1em;
-  color: var(--accent-tertiary);
-}
-h3 {
-  margin-top: 0.5em;
-  color: var(--accent-tertiary);
-}
-h4 {
-  color: var(--accent-tertiary);
+.lean:hover, pre.lean:hover {
+  border-color: var(--accent-blue);
+  box-shadow: var(--shadow-md);
 }
 
-/* Links */
-a {
-  color: var(--accent-primary);
-  text-decoration: underline;
-  transition: color 0.2s ease;
+/* Lean code block header */
+.lean::before {
+  content: "Lean";
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-md);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
-a:hover {
-  color: var(--accent-primary);
+/* Enhanced Lean syntax highlighting */
+.lean .sourceCode,
+.sourceCode.lean {
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
 }
 
-/* Code Blocks */
-div.sourceCode {
-  background-color: var(--bg-tertiary);
-  margin: 20px 0;
-  padding: 20px;
+/* Lean keywords */
+.lean .kw,
+code span.kw,
+.sourceCode .kw {
+  color: var(--lean-keyword);
+  font-weight: 600;
 }
 
-pre.sourceCode {
-  font-family: "Source Code Pro", monospace;
+/* Lean data types */
+.lean .dt,
+code span.dt,
+.sourceCode .dt {
+  color: var(--lean-type);
+  font-weight: 500;
 }
 
-/* Code Highlighting */
-.sourceCode {
-  .kw {
-    color: var(--code-keyword);
-  }
-  .dt {
-    color: var(--code-type);
-    font-style: italic;
-  }
-  .dv {
-    color: var(--code-number);
-  }
-  .st {
-    color: var(--code-string);
-  }
-  .co {
-    color: var(--code-comment);
-  }
-  .fu {
-    color: var(--code-function);
-  }
-  .er {
-    color: #ffbebe !important;
-  }
+/* Lean strings */
+.lean .st,
+code span.st,
+.sourceCode .st {
+  color: var(--lean-string);
 }
 
-/* Math Blocks */
-.math {
-  background-color: var(--bg-tertiary);
-  margin: 20px 0;
-  padding: 20px;
+/* Lean comments */
+.lean .co,
+code span.co,
+.sourceCode .co {
+  color: var(--lean-comment);
+  font-style: italic;
+}
+
+/* Lean numbers */
+.lean .dv, .lean .bn, .lean .fl,
+code span.dv, code span.bn, code span.fl,
+.sourceCode .dv, .sourceCode .bn, .sourceCode .fl {
+  color: var(--lean-number);
+  font-weight: 500;
+}
+
+/* Lean functions */
+.lean .fu,
+code span.fu,
+.sourceCode .fu {
+  color: var(--lean-function);
+  font-weight: 500;
+}
+
+/* Lean variables */
+.lean .va,
+code span.va,
+.sourceCode .va {
+  color: var(--lean-variable);
+}
+
+/* Lean operators */
+.lean .op,
+code span.op,
+.sourceCode .op {
+  color: var(--lean-operator);
+  font-weight: 500;
+}
+
+/* Lean built-ins */
+.lean .bu,
+code span.bu,
+.sourceCode .bu {
+  color: var(--lean-function);
+  font-weight: 600;
+}
+
+/* Lean imports */
+.lean .im,
+code span.im,
+.sourceCode .im {
+  color: var(--lean-keyword);
+  font-weight: 600;
+}
+
+/* Lean attributes */
+.lean .at,
+code span.at,
+.sourceCode .at {
+  color: var(--lean-tactic);
+  font-weight: 500;
+}
+
+/* Lean errors */
+.lean .er,
+code span.er,
+.sourceCode .er {
+  color: #dc3545;
+  background: rgba(220, 53, 69, 0.1);
+  padding: 0 var(--space-xs);
+  border-radius: var(--space-xs);
+  font-weight: 600;
+}
+
+/* Special Lean syntax highlighting */
+.lean .lean-tactic {
+  color: var(--lean-tactic);
+  font-weight: 600;
+}
+
+.lean .lean-proof-term {
+  color: var(--lean-proof);
+  font-weight: 500;
+}
+
+.lean .lean-goal {
+  color: var(--lean-goal);
+  background: rgba(108, 117, 125, 0.1);
+  padding: 0 var(--space-xs);
+  border-radius: var(--space-xs);
+}
+
+/* Mathematical content styling */
+.math, .math.display {
+  background: var(--math-bg);
+  border: 1px solid var(--math-border);
+  border-radius: var(--border-radius);
+  margin: var(--space-lg) 0;
+  padding: var(--space-xl);
   text-align: center;
+  overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+  position: relative;
 }
 
-.lean {
-  background-color: var(--bg-tertiary);
-  font-family: "Source Code Pro", monospace;
-  margin: 20px 0;
-  padding: 20px;
-  text-align: left;
+.math::before {
+  content: "Math";
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-md);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
-/* Code Highlighting */
-.lean {
-  .kw {
-    color: var(--code-keyword);
-  }
-  .dt {
-    color: var(--code-type);
-    font-style: italic;
-  }
-  .dv {
-    color: var(--code-number);
-  }
-  .st {
-    color: var(--code-string);
-  }
-  .co {
-    color: var(--code-comment);
-  }
-  .fu {
-    color: var(--code-function);
-  }
-  .er {
-    color: #ffbebe !important;
-  }
+/* MathJax styling */
+.MathJax_Display {
+  margin: var(--space-lg) 0;
 }
 
 .mjx-chtml {
-  background-color: var(--bg-secondary);
+  background: var(--math-bg);
   border-radius: var(--border-radius);
-  padding: 10px !important;
+  padding: var(--space-md);
+  border: 1px solid var(--math-border);
+  display: inline-block;
+  transition: all var(--transition-normal);
 }
 
-/* Tables */
-table {
-  width: 100%;
-  background-color: var(--bg-secondary);
-  margin: 20px 0;
-  border-collapse: collapse;
+.mjx-chtml:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Enhanced table styling for mathematical content */
+table.lean-table {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
+  overflow: hidden;
 }
 
-th,
-td {
-  padding: 10px;
-  text-align: left;
-  border: 1px solid var(--bg-tertiary);
+table.lean-table th {
+  background: var(--accent-blue);
+  color: white;
+  font-family: var(--font-primary);
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
-tbody tr:nth-child(odd) {
-  background-color: var(--bg-secondary);
+table.lean-table td {
+  font-family: var(--font-code);
+  font-size: 0.9em;
 }
 
-tbody tr:nth-child(even) {
-  background-color: var(--bg-tertiary);
-}
-
-/* Images */
+/* Enhanced image styling */
 img {
   max-width: 100%;
+  height: auto;
   border-radius: var(--border-radius);
-  padding: 20px;
-  background-color: var(--bg-tertiary);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
 }
 
-/* Special Elements */
-strong {
-  color: var(--accent-secondary);
+img:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
-hr {
+/* Special elements for mathematical content */
+.definition, .theorem, .lemma, .proof {
+  background: var(--bg-secondary);
+  border-left: 4px solid var(--accent-green);
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  margin: var(--space-lg) 0;
+  padding: var(--space-lg);
+  position: relative;
+}
+
+.theorem { border-left-color: var(--accent-purple); }
+.lemma { border-left-color: var(--accent-orange); }
+.proof { border-left-color: var(--accent-blue); }
+
+.definition::before,
+.theorem::before,
+.lemma::before,
+.proof::before {
+  content: attr(data-type);
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-md);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Navigation improvements */
+nav, .navigation {
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  padding: var(--space-md) var(--space-lg);
+  margin: var(--space-lg) 0;
+  box-shadow: var(--shadow-sm);
+}
+
+nav a, .navigation a {
+  display: inline-block;
+  margin: 0 var(--space-md) var(--space-sm) 0;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--space-sm);
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+nav a:hover, .navigation a:hover {
+  background: var(--accent-blue);
+  color: white;
+  border-color: var(--accent-blue);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Code line numbering */
+.sourceCode.numberSource {
+  counter-reset: source-line;
+}
+
+.sourceCode.numberSource > span {
+  position: relative;
+  left: -4em;
+  counter-increment: source-line;
+}
+
+.sourceCode.numberSource > span > a:first-child::before {
+  content: counter(source-line);
+  position: relative;
+  left: -1em;
+  text-align: right;
+  vertical-align: baseline;
   border: none;
-  height: 2px;
-  background-color: var(--bg-tertiary);
-  margin: 2em 0;
-}
-
-hr:first-of-type {
-  height: 150px;
-  padding: 5em;
-  background-position: center;
-  background-image: url("../artwork/header.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-color: var(--bg-primary);
-  margin-block-end: 2em;
-}
-
-/* --------------------------- */
-
-body > p:first-of-type {
-  position: fixed;
-  right: 0px;
-  top: 3em;
+  display: inline-block;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 0 var(--space-sm);
   width: 4em;
-  padding: 2em;
-  background-color: var(--bg-primary);
-  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+  color: var(--text-muted);
+  font-weight: normal;
+  background: var(--bg-accent);
+  border-right: 1px solid var(--border-color);
+  margin-right: var(--space-md);
+}
+
+/* Print optimizations */
+@media print {
+  .lean, .math {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+  
+  .lean::before,
+  .math::before,
+  .definition::before,
+  .theorem::before,
+  .lemma::before,
+  .proof::before {
+    display: none;
+  }
+}
+
+/* Animation for interactive elements */
+@keyframes highlight {
+  0% { background-color: var(--accent-blue); opacity: 0.3; }
+  100% { background-color: transparent; opacity: 1; }
+}
+
+.highlight-animation {
+  animation: highlight 0.6s ease-out;
+}
+
+/* Improved accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --lean-bg: #ffffff;
+    --lean-border: #000000;
+    --text-primary: #000000;
+    --text-secondary: #333333;
+    --accent-blue: #0000ee;
+  }
 }

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Proofs/introduction</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a> <a href="Types.identity.html">Previous</a> <a
+href="Proofs.tactics.html">Next</a></p>
+<h1 id="introduction-to-theorem-proving-in-lean">Introduction to Theorem Proving in Lean</h1>
+<hr />
+<ul>
+<li><a href="#proofs-as-programs">Proofs as Programs</a></li>
+<li><a href="#the-proof-assistant-paradigm">The Proof Assistant Paradigm</a></li>
+<li><a href="#term-mode-vs-tactic-mode">Term Mode vs Tactic Mode</a>
+<ul>
+<li><a href="#term-mode-direct-construction">Term Mode: Direct Construction</a></li>
+<li><a href="#tactic-mode-interactive-construction">Tactic Mode: Interactive Construction</a></li>
+</ul></li>
+<li><a href="#propositions-as-types-revisited">Propositions as Types Revisited</a></li>
+<li><a href="#the-curry-howard-correspondence">The Curry-Howard Correspondence</a></li>
+<li><a href="#interactive-theorem-proving">Interactive Theorem Proving</a></li>
+<li><a href="#proof-states-and-goals">Proof States and Goals</a></li>
+<li><a href="#types-of-mathematical-reasoning">Types of Mathematical Reasoning</a>
+<ul>
+<li><a href="#direct-proof">Direct Proof</a></li>
+<li><a href="#proof-by-cases">Proof by Cases</a></li>
+<li><a href="#proof-by-induction">Proof by Induction</a></li>
+<li><a href="#proof-by-contradiction">Proof by Contradiction</a></li>
+</ul></li>
+<li><a href="#constructive-vs-classical-proofs">Constructive vs Classical Proofs</a></li>
+<li><a href="#the-lean-proof-assistant">The Lean Proof Assistant</a>
+<ul>
+<li><a href="#syntax-and-notation">Syntax and Notation</a></li>
+<li><a href="#library-integration">Library Integration</a></li>
+<li><a href="#error-messages-and-suggestions">Error Messages and Suggestions</a></li>
+</ul></li>
+<li><a href="#your-first-proofs">Your First Proofs</a></li>
+<li><a href="#the-journey-ahead">The Journey Ahead</a></li>
+</ul>
+<pre class="lean"><code>import Mathlib.Data.Nat.Basic
+import Mathlib.Logic.Basic
+import Mathlib.Tactic.Basic
+import Mathlib.Tactic.Decide
+import Mathlib.Tactic.Ring</code></pre>
+<p>Mathematics has always been concerned with <strong>proof</strong>—rigorous arguments that establish the truth of
+mathematical statements. However, traditional mathematical proofs, while logically sound, are often informal and rely on
+human intuition to fill in gaps. <strong>Theorem proving</strong> in type theory represents a revolutionary approach:
+proofs become <strong>programs</strong>, mathematical statements become <strong>types</strong>, and the process of
+proving becomes <strong>programming</strong>.</p>
+<p>In Lean, we don’t just write proofs—we <strong>construct</strong> them as computational objects that can be executed,
+verified, and reasoned about mechanically. This chapter introduces you to this paradigm, showing how the abstract
+concepts from previous chapters translate into concrete proof techniques.</p>
+<h2 id="proofs-as-programs">Proofs as Programs</h2>
+<p>The most profound insight in modern logic is that <strong>proofs are programs</strong> and <strong>programs are
+proofs</strong>. This isn’t just a philosophical observation—it’s a practical reality that fundamentally changes how we
+approach mathematics.</p>
+<pre class="lean"><code>-- A mathematical statement
+def statement : Prop := ∀ n : Nat, n + 0 = n
+
+-- A proof of that statement (which is a program!)
+def proof_of_statement : statement := fun n =&gt; rfl
+
+-- We can &quot;run&quot; this proof
+#check proof_of_statement 5  -- 5 + 0 = 5
+#eval proof_of_statement 5   -- This is actually a proof term!</code></pre>
+<p>When you prove a theorem in Lean, you’re writing a program that:</p>
+<ul>
+<li><strong>Inputs</strong>: The hypotheses of the theorem</li>
+<li><strong>Outputs</strong>: A proof of the conclusion</li>
+<li><strong>Correctness</strong>: Guaranteed by the type system</li>
+</ul>
+<p>This means every proof is:</p>
+<ul>
+<li><strong>Executable</strong>: It can be run like any program</li>
+<li><strong>Verifiable</strong>: The type checker ensures correctness</li>
+<li><strong>Compositional</strong>: Proofs can be combined like functions</li>
+<li><strong>Reusable</strong>: Once proven, theorems become tools for other proofs</li>
+</ul>
+<h2 id="the-proof-assistant-paradigm">The Proof Assistant Paradigm</h2>
+<p>Traditional mathematics:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Mathematician</span> states theorem → Writes informal proof → Peer review → Acceptance</span></code></pre></div>
+<p>Formal mathematics with Lean:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Mathematician</span> states theorem → Constructs formal proof → Type checker verification → Absolute certainty</span></code></pre></div>
+<p>Lean acts as your <strong>mathematical partner</strong>, not just a tool:</p>
+<pre class="lean"><code>-- Lean helps you explore what you need to prove
+example (a b c : Nat) (h1 : a = b) (h2 : b = c) : a = c := by
+  -- At this point, Lean shows you:
+  -- a b c : Nat
+  -- h1 : a = b
+  -- h2 : b = c
+  -- ⊢ a = c
+  sorry  -- We&#39;ll fill this in soon!
+
+-- Lean provides feedback as you construct the proof
+example (a b c : Nat) (h1 : a = b) (h2 : b = c) : a = c := by
+  rw [h1]  -- Goal becomes: b = c
+  exact h2 -- Goal solved!</code></pre>
+<h2 id="term-mode-vs-tactic-mode">Term Mode vs Tactic Mode</h2>
+<p>Lean offers two primary ways to construct proofs:</p>
+<h3 id="term-mode-direct-construction">Term Mode: Direct Construction</h3>
+<p>In term mode, you directly write the proof term:</p>
+<pre class="lean"><code>-- Direct proof construction
+def transitivity_term (a b c : Nat) (h1 : a = b) (h2 : b = c) : a = c :=
+  h1 ▸ h2  -- Using transport (substitution)
+
+-- More explicitly
+def transitivity_term&#39; (a b c : Nat) (h1 : a = b) (h2 : b = c) : a = c :=
+  Eq.trans h1 h2</code></pre>
+<h3 id="tactic-mode-interactive-construction">Tactic Mode: Interactive Construction</h3>
+<p>In tactic mode, you build proofs step-by-step with guidance:</p>
+<pre class="lean"><code>-- Interactive proof construction
+def transitivity_tactic (a b c : Nat) (h1 : a = b) (h2 : b = c) : a = c := by
+  rw [h1]    -- Rewrite using h1
+  exact h2   -- Use h2 directly</code></pre>
+<p><strong>When to use each:</strong></p>
+<ul>
+<li><strong>Term mode</strong>: When you know exactly what proof term you want</li>
+<li><strong>Tactic mode</strong>: When you want to explore and build proofs interactively</li>
+<li><strong>Mixed</strong>: You can combine both approaches freely</li>
+</ul>
+<h2 id="propositions-as-types-revisited">Propositions as Types Revisited</h2>
+<p>We’ve seen this principle before, but let’s see how it manifests in theorem proving:</p>
+<pre class="lean"><code>-- A proposition is a type
+#check (2 + 2 = 4 : Prop)
+
+-- A proof is a term of that type
+def my_proof : 2 + 2 = 4 := rfl
+
+-- Multiple proofs can exist for the same proposition
+def another_proof : 2 + 2 = 4 := Eq.refl (2 + 2)
+
+-- But in Prop, all proofs are &quot;equal&quot; (proof irrelevance)
+example : my_proof = another_proof := rfl
+
+-- False propositions have no proofs (uninhabited types)
+-- def impossible : 1 = 0 := -- No way to complete this!
+
+-- Some propositions require more complex proofs
+def commutativity : ∀ a b : Nat, a + b = b + a := by
+  intro a b
+  induction a with
+  | zero =&gt; simp [Nat.zero_add]
+  | succ n ih =&gt;
+    rw [Nat.succ_add, ih, Nat.add_succ]</code></pre>
+<h2 id="the-curry-howard-correspondence">The Curry-Howard Correspondence</h2>
+<p>This correspondence is your roadmap for translating logical concepts into computational ones:</p>
+<pre class="lean"><code>-- Implication ≡ Function Type
+def modus_ponens (P Q : Prop) : P → (P → Q) → Q :=
+  fun hp hpq =&gt; hpq hp
+
+-- Conjunction ≡ Product Type
+def and_intro (P Q : Prop) : P → Q → (P ∧ Q) :=
+  fun hp hq =&gt; ⟨hp, hq⟩
+
+def and_elim_left (P Q : Prop) : (P ∧ Q) → P :=
+  fun ⟨hp, _⟩ =&gt; hp
+
+-- Disjunction ≡ Sum Type
+def or_intro_left (P Q : Prop) : P → (P ∨ Q) :=
+  fun hp =&gt; Or.inl hp
+
+def or_elimination (P Q R : Prop) : (P ∨ Q) → (P → R) → (Q → R) → R :=
+  fun hpq hpr hqr =&gt; match hpq with
+  | Or.inl hp =&gt; hpr hp
+  | Or.inr hq =&gt; hqr hq
+
+-- Universal quantification ≡ Dependent function type
+def forall_intro (α : Type) (P : α → Prop) : (∀ x, P x) → ((x : α) → P x) :=
+  fun h =&gt; h
+
+-- Existential quantification ≡ Dependent pair type
+def exists_intro (α : Type) (P : α → Prop) (a : α) (ha : P a) : ∃ x, P x :=
+  ⟨a, ha⟩
+
+def exists_elim (α : Type) (P : α → Prop) (R : Prop) :
+  (∃ x, P x) → (∀ x, P x → R) → R :=
+  fun ⟨a, ha⟩ h =&gt; h a ha</code></pre>
+<h2 id="interactive-theorem-proving">Interactive Theorem Proving</h2>
+<p>One of Lean’s greatest strengths is its <strong>interactive</strong> nature. The system provides continuous feedback
+as you build proofs:</p>
+<pre class="lean"><code>example (a b c d : Nat) (h1 : a = b) (h2 : c = d) : a + c = b + d := by
+  -- 1. Initial goal: a + c = b + d
+  -- 2. Available hypotheses: h1 : a = b, h2 : c = d
+  rw [h1]  -- Goal becomes: b + c = b + d
+  rw [h2]  -- Goal becomes: b + d = b + d
+  rfl      -- Goal solved by reflexivity!</code></pre>
+<p>The proof state shows:</p>
+<ul>
+<li><strong>Current goals</strong>: What you need to prove</li>
+<li><strong>Hypotheses</strong>: What you can use</li>
+<li><strong>Context</strong>: Available types and definitions</li>
+<li><strong>Error messages</strong>: Guidance when things go wrong</li>
+</ul>
+<h2 id="proof-states-and-goals">Proof States and Goals</h2>
+<p>Understanding proof states is crucial for effective theorem proving:</p>
+<pre class="lean"><code>example (P Q R : Prop) (h1 : P → Q) (h2 : Q → R) (hp : P) : R := by
+  -- Proof state:
+  -- P Q R : Prop
+  -- h1 : P → Q
+  -- h2 : Q → R
+  -- hp : P
+  -- ⊢ R
+
+  have hq : Q := h1 hp  -- Introduce intermediate result
+  -- Proof state now includes: hq : Q
+
+  exact h2 hq  -- Apply h2 to hq</code></pre>
+<p>Key concepts:</p>
+<ul>
+<li><strong>⊢ symbol</strong>: “Proves” or “goal”</li>
+<li><strong>Hypotheses</strong>: Above the line, available for use</li>
+<li><strong>Goal</strong>: Below the line, what needs to be proven</li>
+<li><strong>Multiple goals</strong>: Some tactics create several subgoals</li>
+</ul>
+<h2 id="types-of-mathematical-reasoning">Types of Mathematical Reasoning</h2>
+<p>Lean supports all major forms of mathematical reasoning:</p>
+<h3 id="direct-proof">Direct Proof</h3>
+<pre class="lean"><code>example (n : Nat) : n ≤ n + 1 := by
+  -- Directly show n ≤ n + 1
+  exact Nat.le_add_right n 1</code></pre>
+<h3 id="proof-by-cases">Proof by Cases</h3>
+<pre class="lean"><code>example (n : Nat) : n = 0 ∨ n &gt; 0 := by
+  cases n with
+  | zero =&gt; exact Or.inl rfl
+  | succ k =&gt; exact Or.inr (Nat.zero_lt_succ k)</code></pre>
+<h3 id="proof-by-induction">Proof by Induction</h3>
+<pre class="lean"><code>example (n : Nat) : 2 * (List.range (n + 1)).sum = n * (n + 1) := by
+  induction n with
+  | zero =&gt; simp
+  | succ k ih =&gt;
+    simp [List.range_succ_eq, List.sum_cons, ih]
+    ring</code></pre>
+<h3 id="proof-by-contradiction">Proof by Contradiction</h3>
+<pre class="lean"><code>example (n : Nat) : ¬(n &lt; n) := by
+  intro h  -- Assume n &lt; n
+  -- This leads to contradiction by irreflexivity of &lt;
+  exact Nat.lt_irrefl n h</code></pre>
+<h2 id="constructive-vs-classical-proofs">Constructive vs Classical Proofs</h2>
+<p>Lean primarily uses <strong>constructive</strong> logic, but classical principles are available:</p>
+<pre class="lean"><code>-- Constructive: to prove existence, provide a witness
+example : ∃ n : Nat, n &gt; 10 := ⟨11, by norm_num⟩
+
+-- Classical: can prove existence without explicit witness
+open Classical
+
+example : ∃ n : Nat, n = 0 ∨ n ≠ 0 := by
+  by_cases h : ∃ n, n = 0
+  · exact h.elim (fun w hw =&gt; ⟨w, Or.inl hw⟩)
+  · use 1; right; norm_num
+
+-- Law of excluded middle (classical)
+#check em  -- ∀ (p : Prop), p ∨ ¬p
+
+-- Double negation elimination (classical)
+example (P : Prop) : ¬¬P → P := not_not</code></pre>
+<h2 id="the-lean-proof-assistant">The Lean Proof Assistant</h2>
+<p>Lean provides an integrated development environment for mathematics:</p>
+<h3 id="syntax-and-notation">Syntax and Notation</h3>
+<pre class="lean"><code>-- Mathematical notation is supported
+example (x y : ℝ) : x ≤ y ∧ y ≤ x → x = y := by
+  intro ⟨h1, h2⟩
+  exact le_antisymm h1 h2
+
+-- Unicode and ASCII alternatives
+example (P Q : Prop) : P ∧ Q ↔ Q ∧ P := And.comm
+example (P Q : Prop) : P /\ Q &lt;-&gt; Q /\ P := And.comm  -- ASCII version</code></pre>
+<h3 id="library-integration">Library Integration</h3>
+<pre class="lean"><code>-- Vast mathematical library (Mathlib)
+#check Nat.gcd_comm           -- ∀ (m n : ℕ), gcd m n = gcd n m
+#check Real.pi_pos            -- 0 &lt; π
+#check List.length_append     -- ∀ {α : Type*} (s t : List α), (s ++ t).length = s.length + t.length</code></pre>
+<h3 id="error-messages-and-suggestions">Error Messages and Suggestions</h3>
+<pre class="lean"><code>example (n : Nat) : n + 1 = 1 + n := by
+  -- rw [add_comm]  -- Error: ambiguous, multiple add_comm theorems
+  rw [Nat.add_comm]  -- Specific theorem</code></pre>
+<h2 id="your-first-proofs">Your First Proofs</h2>
+<p>Let’s build some simple proofs to get hands-on experience:</p>
+<pre class="lean"><code>-- Reflexivity of equality
+example (a : Nat) : a = a := rfl
+
+-- Symmetry of equality
+example (a b : Nat) : a = b → b = a := by
+  intro h
+  exact h.symm
+
+-- Transitivity of equality
+example (a b c : Nat) : a = b → b = c → a = c := by
+  intro h1 h2
+  rw [h1, h2]
+
+-- Simple logical reasoning
+example (P Q : Prop) : P ∧ Q → Q ∧ P := by
+  intro ⟨hp, hq⟩  -- Destructure the conjunction
+  exact ⟨hq, hp⟩  -- Construct the swapped conjunction
+
+-- Working with natural numbers
+example (n : Nat) : n + 0 = n := by
+  simp  -- Simplification handles this automatically
+
+-- A slightly more complex example
+example (a b : Nat) (h : a = b) : a + a = b + b := by
+  rw [h]  -- Replace a with b everywhere</code></pre>
+<h2 id="the-journey-ahead">The Journey Ahead</h2>
+<p>This introduction has shown you the <strong>conceptual foundations</strong> of theorem proving in Lean. In the
+following sections, you’ll learn:</p>
+<ol type="1">
+<li><strong>Basic Tactics</strong>: The essential tools for proof construction</li>
+<li><strong>Advanced Techniques</strong>: Powerful automation and specialized tactics</li>
+<li><strong>Proof Strategies</strong>: Systematic approaches to complex proofs</li>
+<li><strong>Computational Proofs</strong>: Using decidability and reflection</li>
+</ol>
+<p>Remember: theorem proving in Lean is both an <strong>art</strong> and a <strong>craft</strong>. The art lies in
+seeing the logical structure of mathematical arguments. The craft lies in effectively using Lean’s tools to construct
+formal proofs. Both develop with practice and experience.</p>
+<p>Every proof you write makes you both a better mathematician and a better programmer. In Lean, these are the same
+thing.</p>
+<hr />
+<p><a href="./Proofs.tactics.html">Basic Tactics</a></p>
+</body>
+</html>
