@@ -7,3 +7,8 @@ tmp/
 dogfood/
 stack.yaml.lock
 test/
+bin/
+lib/
+lakefile.lean
+test.lean
+
