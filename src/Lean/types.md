@@ -134,14 +134,51 @@ Here `2` and `3` are syntactic sugar for `succ (succ zero)` and `succ (succ (suc
 
 ### Characters and Strings
 
-Lean has a `Char` type for single Unicode characters and a `String` type for sequences of characters. In computings sytems, characters are often represented as integers corresponding to their Unicode code points. In Lean, the `Char` type is defined as follows:
+Lean has a `Char` type for single Unicode characters and a `String` type for sequences of characters. In computing systems, characters are often represented as integers corresponding to their Unicode code points.
+
+#### Characters
+
+The `Char` type in Lean represents Unicode characters and is defined as:
 
 ```lean
 inductive Char : Type
   | mk : UInt32 → Char  -- Unicode code point
 ```
 
-<!-- TODO: more on this and strings!! -->
+You can work with characters using character literals:
+
+```lean
+def letterA : Char := 'A'
+def emoji : Char := '🎉'
+def newline : Char := '\n'
+```
+
+#### Strings
+
+Strings in Lean are sequences of characters, implemented efficiently as UTF-8 encoded byte arrays. You can create and work with strings like this:
+
+```lean
+def greeting : String := "Hello, World!"
+def multiline : String := "Line 1\nLine 2"
+def unicode : String := "café 🌟"
+```
+
+Common string operations include:
+
+```lean
+def length := greeting.length        -- Get string length
+def isEmpty := "".isEmpty           -- Check if empty  
+def concat := "Hello" ++ " World"   -- String concatenation
+def charAt := greeting.get! 0       -- Get character at index
+```
+
+Strings support interpolation using the `s!` syntax:
+
+```lean
+def name := "Alice"
+def age := 30
+def message := s!"Hello {name}, you are {age} years old"
+```
 
 <!-- TODO: should we also talk about float etc? -->
 
