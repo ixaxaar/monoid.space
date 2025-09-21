@@ -37,7 +37,7 @@
 
 In Lean, types are first-class citizens, meaning they can be manipulated and passed around just like any other value. This is similar to functional programming languages like Haskell or Scala, but with even more expressiveness as we shall see later.
 
-### Declations
+### Declarations
 
 In Lean, we declare variables with type annotations using the following syntax:
 
