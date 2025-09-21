@@ -427,7 +427,7 @@ def exampleTree : BinTree Nat :=
 
 This creates a binary tree with the following structure:
 
-```
+```bash
     1
    / \
   2   3
