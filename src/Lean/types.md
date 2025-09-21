@@ -9,7 +9,7 @@
 ---
 
 - [Types](#types)
-  - [Declaring Types](#declaring-types)
+  - [Type Annotations](#type-annotations)
 - [Basic Types](#basic-types)
   - [Empty Type](#empty-type)
   - [Unit Type](#unit-type)
@@ -35,20 +35,24 @@
 
 ## Types
 
-In Lean, types are first-class citizens, meaning they can be manipulated and passed around just like any other value. This is similar to languages like Haskell or Scala, but with even more expressiveness as we shall see later.
+In Lean, types are first-class citizens, meaning they can be manipulated and passed around just like any other value. This is similar to functional programming languages like Haskell or Scala, but with even more expressiveness as we shall see later.
 
-### Declaring Types
+### Declations
 
-In Lean, we declare types using the following syntax:
+In Lean, we declare variables with type annotations using the following syntax:
 
 ```lean
 def x : Nat := 0
 def b : Bool := true
 ```
 
-This is similar to type annotations in languages like TypeScript or Kotlin. The `def` keyword is used to define a new variable, `x`, with type `Nat` and value `0`. Similarly, `b` is defined as a `Bool` with value `true`.
+This is similar to type annotations in languages like TypeScript or Kotlin. The `def` keyword is used to define a new variable, `x`, with type `Nat` and value `0`. Similarly, `b` is defined as a `Bool` with value `true`. The types `Nat` and `Bool` are built-in types in Lean, representing natural numbers and boolean values, respectively. A new type can be constructed from primitive types using several constructs.
+
+<!-- TODO: Should we include ways to create types where we define how to use the inductive keyword etc? -->
 
 ## Basic Types
+
+There are several other primitive types in Lean, lets take a look at them:
 
 ### Empty Type
 
@@ -58,9 +62,9 @@ The empty type, also known as the bottom type, is a type with no values. In some
 inductive Empty : Type
 ```
 
-The `inductive` keyword is used to define new types in Lean. The `Empty` type has no constructors, so it has no values. This type is used to represent logical impossibility or undefined behavior.
+The `inductive` keyword is used to define new types in Lean. The `Empty` type has no constructors, so it has no values. This type is used to represent logical impossibility or undefined behavior. We will look at `inductive` types in more detail a bit later.
 
-### Unit Type
+### Unit
 
 The unit type is a type with exactly one value. This is similar to `void` in C++ or `()` in Haskell.
 
@@ -71,7 +75,7 @@ inductive Unit : Type
 
 Lean has a pre-defined unit type `Unit` which is defined like above.
 
-### Boolean Type
+### Boolean
 
 Booleans are a fundamental type in most programming languages. In Lean, they're defined as:
 
@@ -81,33 +85,14 @@ inductive Bool : Type
   | true
 ```
 
-This type can be used to define a function such as negation, which takes in a `Bool` and returns a `Bool`:
-
-```lean
-def negation (b : Bool) : Bool :=
-  match b with -- an example of a switch-case in Lean
-  | true => false -- if b is true, we return false
-  | false => true -- if b is false, we return true
-```
-
-This is how functions are defined in Lean, though we will see more about functions in the next sections. `Bool` is similar to boolean types in virtually all programming languages, but in Lean, we can prove properties about boolean operations using the type system. Let us see a proof of `negation (negation x) == x`:
-
-Pattern matching is a central feature of Lean, and it is used to define functions that operate on different cases. The `match` keyword is used to match a value against different cases, and the `with` keyword is used to specify the cases. In the above example, we match the value `b` against the cases `true` and `false` and return the corresponding values `false` and `true`.
-
-```lean
-theorem negationNegation (b : Bool) : negation (negation b) = b :=
-  match b with
-  | true => rfl
-  | false => rfl
-
-#check negationNegation
-```
-
-We will look at how to do stuff like this in later sections.
-
 ### Natural Numbers
 
-Natural numbers are defined inductively in Lean:
+Natural numbers, or non-negative integers (0, 1, 2, ...), are generally represented using Peano arithmetic in type theory, where:
+
+1. One starts with a base case (0).
+2. A successor function `succ` which takes a natural number `n` and returns `n + 1`.
+
+Thus, there are two constructors: `zero` for 0, and `succ` for the successor function. This is defined inductively in Lean as follows:
 
 ```lean
 inductive Nat : Type
@@ -115,23 +100,33 @@ inductive Nat : Type
   | succ : Nat → Nat -- every such object has a succeeding object
 ```
 
-Here, we define natural numbers by defining the element `zero` and the function `succ` that adds 1 to any given natural number (creates the successive natural number) i.e. `succ zero` is 1, `succ (succ zero)` is 2 and so on. This is similar to Peano arithmetic and is foundational in type theory. In practice, `Nat` is a predefined type and Lean optimizes this to use machine integers for efficiency.
+Using these constructors, we can define natural numbers like so:
 
 ```lean
 def one := succ zero
 ```
 
-Arithmetic operations can now be defined on `Nat` like addition and multiplication:
+Lean has support for built-in natural numbers `Nat` as well as integer literals, so we can simply write:
 
 ```lean
-def add : Nat → Nat → Nat
-| zero, n => n
-| m+one, n => (add m n) + one
-
-def mul : Nat → Nat → Nat
-| zero, _ => zero -- _ implies we dont care what the argument is
-| m+one, n => n + (mul m n)
+def two : Nat := 2
+def three : Nat := 3
 ```
+
+Here `2` and `3` are syntactic sugar for `succ (succ zero)` and `succ (succ (succ zero))`, respectively.
+
+### Characters and Strings
+
+Lean has a `Char` type for single Unicode characters and a `String` type for sequences of characters. In computings sytems, characters are often represented as integers corresponding to their Unicode code points. In Lean, the `Char` type is defined as follows:
+
+```lean
+inductive Char : Type
+  | mk : UInt32 → Char  -- Unicode code point
+```
+
+<!-- TODO: more on this and strings!! -->
+
+<!-- TODO: should we also talk about float etc? -->
 
 ### Other Primitive Types
 
@@ -146,6 +141,8 @@ def mul : Nat → Nat → Nat
 | `String` | Strings                                            | `def s : String := "hello"` | UTF-8 encoded text                    |
 | `Char`   | Single Unicode characters                          | `def c : Char := 'a'`       | Unicode code points                   |
 | `USize`  | Platform-dependent unsigned integer                | `def u : USize := 42`       | Used for array indexing               |
+
+<!-- TODO: is this all or should we make this list a bit more comprehensive covering all the primitive types in LEan? -->
 
 ## Collections
 
