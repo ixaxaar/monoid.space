@@ -48,24 +48,18 @@ def b : Bool := true
 
 This is similar to type annotations in languages like TypeScript or Kotlin. The `def` keyword is used to define a new variable, `x`, with type `Nat` and value `0`. Similarly, `b` is defined as a `Bool` with value `true`. The types `Nat` and `Bool` are built-in types in Lean, representing natural numbers and boolean values, respectively.
 
-### Creating Custom Types
+### The `inductive` Keyword
 
-New types can be constructed from primitive types using several constructs:
-
-1. **Inductive types** - Define types with constructors (like enums or algebraic data types)
-2. **Structure types** - Define record-like types with named fields  
-3. **Type aliases** - Create synonyms for existing types
-
-For example, to create a custom type representing colors:
+The `inductive` keyword is used to define new types in Lean. It is similar to `data` in Haskell or `sealed class` in Kotlin. Its syntax is as follows:
 
 ```lean
-inductive Color : Type
-  | red
-  | green  
-  | blue
+inductive TypeName (type parameters) : Type
+  | constructor1 : Type1 → TypeName
+  | constructor2 : Type2 → TypeName
+  ...
 ```
 
-We'll explore these type creation mechanisms in detail in the [Custom Types](#custom-types) section.
+Here, `TypeName` is the name of the new type being defined, and it can take type parameters (like generics in other languages). The `: Type` part indicates that `TypeName` is a type. Each constructor defines a way to create values of this type, with their respective types.
 
 ## Basic Types
 
@@ -79,7 +73,7 @@ The empty type, also known as the bottom type, is a type with no values. In some
 inductive Empty : Type
 ```
 
-The `inductive` keyword is used to define new types in Lean. The `Empty` type has no constructors, so it has no values. This type is used to represent logical impossibility or undefined behavior. We will look at `inductive` types in more detail a bit later.
+An empty type is useful in situations where a function should never return, such as in the case of a function that always throws an error or enters an infinite loop. Note that this is unlike from `void` in languages like C or Java, which represents the absence of a value but still allows functions to return.
 
 ### Unit
 
@@ -100,6 +94,14 @@ Booleans are a fundamental type in most programming languages. In Lean, they're 
 inductive Bool : Type
   | false
   | true
+```
+
+Note that it is always possible to define your own boolean type, but it's generally not recommended as a type also comes with a lot of built-in functionality. Here is how to do that:
+
+```lean
+inductive Status : Type
+  | affirmative
+  | negative
 ```
 
 ### Natural Numbers
@@ -132,9 +134,17 @@ def three : Nat := 3
 
 Here `2` and `3` are syntactic sugar for `succ (succ zero)` and `succ (succ (succ zero))`, respectively.
 
+Lean provides the standard arithmetic operations on natural numbers, such as addition, subtraction, multiplication, and exponentiation. For example:
+
+```lean
+def five : Nat := 2 + three
+def six : Nat := 2 * three
+def eight : Nat := 2 ^ three  -- 2 raised to the power of 3
+```
+
 ### Characters and Strings
 
-Lean has a `Char` type for single Unicode characters and a `String` type for sequences of characters. In computing systems, characters are often represented as integers corresponding to their Unicode code points.
+Lean has a `Char` type for single Unicode characters and a `String` type for sequences of characters. In computing systems, characters are often represented as integers corresponding to their Unicode code points e.g., the character 'A' has a Unicode code point of `65` or `0x41` in hexadecimal.
 
 #### Characters
 
@@ -167,9 +177,9 @@ Common string operations include:
 
 ```lean
 def length := greeting.length        -- Get string length
-def isEmpty := "".isEmpty           -- Check if empty  
-def concat := "Hello" ++ " World"   -- String concatenation
-def charAt := greeting.get! 0       -- Get character at index
+def isEmpty := "".isEmpty            -- Check if empty
+def concat := "Hello" ++ " World"    -- String concatenation
+def charAt := greeting.get! 0        -- Get character at index
 ```
 
 Strings support interpolation using the `s!` syntax:
@@ -180,27 +190,26 @@ def age := 30
 def message := s!"Hello {name}, you are {age} years old"
 ```
 
-
 ### Other Primitive Types
 
-| Type      | Description                                        | Example Usage                | Notes                                 |
-| --------- | -------------------------------------------------- | ---------------------------- | ------------------------------------- |
-| `Empty`   | The empty type with no values                      | `def f : Empty → α`          | Used for logical impossibility        |
-| `Unit`    | The unit type with one value `unit`                | `def x : Unit := ()`         | Often used as dummy value             |
-| `Bool`    | Booleans with values `true` and `false`            | `def b : Bool := true`       | Used for conditional logic            |
-| `Nat`     | Natural numbers with zero and successor operations | `def n : Nat := 42`          | Non-negative integers (0, 1, 2, ...)  |
-| `Int`     | Integers with addition, subtraction, etc.          | `def i : Int := -42`         | Whole numbers (positive and negative) |
-| `Float`   | Floating-point numbers                             | `def f : Float := 3.14`      | IEEE 754 double-precision             |
-| `String`  | Strings                                            | `def s : String := "hello"`  | UTF-8 encoded text                    |
-| `Char`    | Single Unicode characters                          | `def c : Char := 'a'`        | Unicode code points                   |
-| `USize`   | Platform-dependent unsigned integer                | `def u : USize := 42`        | Used for array indexing               |
-| `UInt8`   | 8-bit unsigned integer                             | `def u8 : UInt8 := 255`      | Range 0-255                           |
-| `UInt16`  | 16-bit unsigned integer                            | `def u16 : UInt16 := 65535`  | Range 0-65535                         |
-| `UInt32`  | 32-bit unsigned integer                            | `def u32 : UInt32 := 42`     | Range 0-4294967295                    |
-| `UInt64`  | 64-bit unsigned integer                            | `def u64 : UInt64 := 42`     | Range 0-18446744073709551615          |
-| `Prop`    | The type of propositions                           | `def p : Prop := True`       | Used in theorem proving               |
-| `Type`    | The type of types                                  | `def T : Type := Nat`        | Universe level 0                      |
-| `Sort`    | Generic universe type                              | `def S : Sort u := Type`     | Encompasses Type and Prop             |
+| Type     | Description                                        | Example Usage               | Notes                                 |
+| -------- | -------------------------------------------------- | --------------------------- | ------------------------------------- |
+| `Empty`  | The empty type with no values                      | `def f : Empty → α`         | Used for logical impossibility        |
+| `Unit`   | The unit type with one value `unit`                | `def x : Unit := ()`        | Often used as dummy value             |
+| `Bool`   | Booleans with values `true` and `false`            | `def b : Bool := true`      | Used for conditional logic            |
+| `Nat`    | Natural numbers with zero and successor operations | `def n : Nat := 42`         | Non-negative integers (0, 1, 2, ...)  |
+| `Int`    | Integers with addition, subtraction, etc.          | `def i : Int := -42`        | Whole numbers (positive and negative) |
+| `Float`  | Floating-point numbers                             | `def f : Float := 3.14`     | IEEE 754 double-precision             |
+| `String` | Strings                                            | `def s : String := "hello"` | UTF-8 encoded text                    |
+| `Char`   | Single Unicode characters                          | `def c : Char := 'a'`       | Unicode code points                   |
+| `USize`  | Platform-dependent unsigned integer                | `def u : USize := 42`       | Used for array indexing               |
+| `UInt8`  | 8-bit unsigned integer                             | `def u8 : UInt8 := 255`     | Range 0-255                           |
+| `UInt16` | 16-bit unsigned integer                            | `def u16 : UInt16 := 65535` | Range 0-65535                         |
+| `UInt32` | 32-bit unsigned integer                            | `def u32 : UInt32 := 42`    | Range 0-4294967295                    |
+| `UInt64` | 64-bit unsigned integer                            | `def u64 : UInt64 := 42`    | Range 0-18446744073709551615          |
+| `Prop`   | The type of propositions                           | `def p : Prop := True`      | Used in theorem proving               |
+| `Type`   | The type of types                                  | `def T : Type := Nat`       | Universe level 0                      |
+| `Sort`   | Generic universe type                              | `def S : Sort u := Type`    | Encompasses Type and Prop             |
 
 ## Collections
 
@@ -218,16 +227,6 @@ This can be used to define, say, a list of booleans:
 
 ```lean
 def exampleList : List Bool := [true, false, true]
-```
-
-Operations can be defined on lists, such as finding the length:
-
-```lean
-def length : List α → Nat
-  | [] => 0
-  | _::xs => 1 + length xs
-
-#eval length exampleList  -- Output: 3
 ```
 
 Lists are immutable, so operations like adding elements create new lists:
@@ -321,6 +320,8 @@ def s : Stack Float := { elems := [1.0, 2.2, 0.3] }
 def s' := push s 4.2
 #eval pop s'  -- Output: some (4.200000, { elems := [1.000000, 2.200000, 0.300000] })
 ```
+
+Sections where functions are defined can be revisited after going through the next chapter.
 
 ### Queues
 
@@ -442,8 +443,6 @@ def depth : BinTree α → Nat
 #eval depth exampleTree  -- Output: 2
 ```
 
-We will take a closer look on tree based algorithms in the next sections.
-
 ### Graphs
 
 We can represent graphs in Lean using vertices and edges:
@@ -479,11 +478,9 @@ def neighbors (v : Vertex) (g : Graph) : List Vertex :=
     else none
 ```
 
-We will look at how to implement more advanced graph algorithms in the next sections.
-
 ## Custom Types
 
-Lean uses the `inductive` keyword to define new data types. This is similar to `data` in Haskell or `sealed class` in Kotlin.
+There are two main ways to define custom types in Lean: product types and sum types.
 
 ### Product Types
 
@@ -534,11 +531,23 @@ def area : Shape → Float
   | Shape.rectangle w h => w * h
 ```
 
+`Option` and `Either` types are also examples of sum types:
+
+```lean
+inductive Option (α : Type) : Type
+  | none : Option α
+  | some : α → Option α
+
+inductive Either (α β : Type) : Type
+  | left  : α → Either α β
+  | right : β → Either α β
+```
+
 ## Advanced Types
 
 ### Type Classes
 
-Lean allows the definition of type classes, which are similar to interfaces in TypeScript or traits in Rust. They define a set of functions that a type must implement.
+Type classes allow for ad-hoc polymorphism, enabling functions to operate on different types based on the capabilities those types provide. A typeclass defines a set of functions that a type must implement to be considered an instance of that class. This is similar to interfaces in languages like TypeScript or traits in Rust.
 
 Lets take a very basic example, say we want all kinds of a certain type to have a zero value. We can define a type class `HasZero` that requires a zero value to be defined for any type that implements it:
 
@@ -548,7 +557,7 @@ class HasZero (α : Type) where
   zero : α  -- Every instance must provide a zero value
 ```
 
-We can then implement this type class for different types:
+Any type that implements the `HasZero` type class must provide a `zero` value. This property can be implemented for different types like `Nat`, `Bool`, and `String`:
 
 ```lean
 -- Implement HasZero for some types
@@ -565,21 +574,10 @@ instance : HasZero String where
 We can then use the `zero` function to get the zero value for any type that implements the `HasZero` type class:
 
 ```lean
--- Example usage
-def getZero {α : Type} [HasZero α] : α := HasZero.zero
-
-#eval getZero (α := Nat)    -- Output: 0
-#eval getZero (α := Bool)   -- Output: false
-#eval getZero (α := String)   -- Output: ""
+#eval HasZero.zero (α := Nat)      -- Output: 0
+#eval HasZero.zero (α := Bool)     -- Output: false
+#eval HasZero.zero (α := String)   -- Output: ""
 ```
-
-A few more things to note here:
-
-1. The curly braces `{}` are used to define type parameters. These are inferred by the compiler if not provided explicitly, for example, `getZero` can be defined as `def getZero [HasZero α] : α := HasZero.zero` and the compiler will infer the type `α` from the context.
-
-2. The square brackets `[]` are used to define type class constraints. In this case, we require that the type `α` implements the `HasZero` type class. If the type does not implement the type class, the compiler will throw an error.
-
-`getZero` is called a polymorphic function, as it can work with any type that implements the `HasZero` type class. Parametric polymorphism is a powerful feature of Lean that allows us to write generic functions that work with any type that satisfies certain constraints.
 
 Here's another example of a `Plus` type class that defines a `plus` function which defines addition for all types that implement it:
 
@@ -609,6 +607,8 @@ open Plus(plus)
 #eval plus 4 5 -- 9
 #eval plus 4.3 5.2 -- 9.500000
 ```
+
+Note the `open Plus(plus)` line, which brings the `plus` function into scope so we can use it without prefixing it with `Plus.`. Instead we could also use `Plus.plus` directly.
 
 ### Dependent Types
 
