@@ -9,11 +9,11 @@
 ---
 
 - [Types](#types)
-  - [Type Annotations](#type-annotations)
+  - [Declarations](#declarations)
 - [Basic Types](#basic-types)
   - [Empty Type](#empty-type)
-  - [Unit Type](#unit-type)
-  - [Boolean Type](#boolean-type)
+  - [Unit](#unit)
+  - [Boolean](#boolean)
   - [Natural Numbers](#natural-numbers)
   - [Other Primitive Types](#other-primitive-types)
 - [Collections](#collections)
