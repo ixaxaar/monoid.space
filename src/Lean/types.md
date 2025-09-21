@@ -180,23 +180,27 @@ def age := 30
 def message := s!"Hello {name}, you are {age} years old"
 ```
 
-<!-- TODO: should we also talk about float etc? -->
 
 ### Other Primitive Types
 
-| Type     | Description                                        | Example Usage               | Notes                                 |
-| -------- | -------------------------------------------------- | --------------------------- | ------------------------------------- |
-| `Empty`  | The empty type with no values                      | `def f : Empty → α`         | Used for logical impossibility        |
-| `Unit`   | The unit type with one value `unit`                | `def x : Unit := ()`        | Often used as dummy value             |
-| `Bool`   | Booleans with values `true` and `false`            | `def b : Bool := true`      | Used for conditional logic            |
-| `Nat`    | Natural numbers with zero and successor operations | `def n : Nat := 42`         | Non-negative integers (0, 1, 2, ...)  |
-| `Int`    | Integers with addition, subtraction, etc.          | `def i : Int := -42`        | Whole numbers (positive and negative) |
-| `Float`  | Floating-point numbers                             | `def f : Float := 3.14`     | IEEE 754 double-precision             |
-| `String` | Strings                                            | `def s : String := "hello"` | UTF-8 encoded text                    |
-| `Char`   | Single Unicode characters                          | `def c : Char := 'a'`       | Unicode code points                   |
-| `USize`  | Platform-dependent unsigned integer                | `def u : USize := 42`       | Used for array indexing               |
-
-<!-- TODO: is this all or should we make this list a bit more comprehensive covering all the primitive types in LEan? -->
+| Type      | Description                                        | Example Usage                | Notes                                 |
+| --------- | -------------------------------------------------- | ---------------------------- | ------------------------------------- |
+| `Empty`   | The empty type with no values                      | `def f : Empty → α`          | Used for logical impossibility        |
+| `Unit`    | The unit type with one value `unit`                | `def x : Unit := ()`         | Often used as dummy value             |
+| `Bool`    | Booleans with values `true` and `false`            | `def b : Bool := true`       | Used for conditional logic            |
+| `Nat`     | Natural numbers with zero and successor operations | `def n : Nat := 42`          | Non-negative integers (0, 1, 2, ...)  |
+| `Int`     | Integers with addition, subtraction, etc.          | `def i : Int := -42`         | Whole numbers (positive and negative) |
+| `Float`   | Floating-point numbers                             | `def f : Float := 3.14`      | IEEE 754 double-precision             |
+| `String`  | Strings                                            | `def s : String := "hello"`  | UTF-8 encoded text                    |
+| `Char`    | Single Unicode characters                          | `def c : Char := 'a'`        | Unicode code points                   |
+| `USize`   | Platform-dependent unsigned integer                | `def u : USize := 42`        | Used for array indexing               |
+| `UInt8`   | 8-bit unsigned integer                             | `def u8 : UInt8 := 255`      | Range 0-255                           |
+| `UInt16`  | 16-bit unsigned integer                            | `def u16 : UInt16 := 65535`  | Range 0-65535                         |
+| `UInt32`  | 32-bit unsigned integer                            | `def u32 : UInt32 := 42`     | Range 0-4294967295                    |
+| `UInt64`  | 64-bit unsigned integer                            | `def u64 : UInt64 := 42`     | Range 0-18446744073709551615          |
+| `Prop`    | The type of propositions                           | `def p : Prop := True`       | Used in theorem proving               |
+| `Type`    | The type of types                                  | `def T : Type := Nat`        | Universe level 0                      |
+| `Sort`    | Generic universe type                              | `def S : Sort u := Type`     | Encompasses Type and Prop             |
 
 ## Collections
 
