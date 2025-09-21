@@ -46,9 +46,26 @@ def x : Nat := 0
 def b : Bool := true
 ```
 
-This is similar to type annotations in languages like TypeScript or Kotlin. The `def` keyword is used to define a new variable, `x`, with type `Nat` and value `0`. Similarly, `b` is defined as a `Bool` with value `true`. The types `Nat` and `Bool` are built-in types in Lean, representing natural numbers and boolean values, respectively. A new type can be constructed from primitive types using several constructs.
+This is similar to type annotations in languages like TypeScript or Kotlin. The `def` keyword is used to define a new variable, `x`, with type `Nat` and value `0`. Similarly, `b` is defined as a `Bool` with value `true`. The types `Nat` and `Bool` are built-in types in Lean, representing natural numbers and boolean values, respectively.
 
-<!-- TODO: Should we include ways to create types where we define how to use the inductive keyword etc? -->
+### Creating Custom Types
+
+New types can be constructed from primitive types using several constructs:
+
+1. **Inductive types** - Define types with constructors (like enums or algebraic data types)
+2. **Structure types** - Define record-like types with named fields  
+3. **Type aliases** - Create synonyms for existing types
+
+For example, to create a custom type representing colors:
+
+```lean
+inductive Color : Type
+  | red
+  | green  
+  | blue
+```
+
+We'll explore these type creation mechanisms in detail in the [Custom Types](#custom-types) section.
 
 ## Basic Types
 
