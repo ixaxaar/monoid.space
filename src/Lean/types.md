@@ -10,11 +10,13 @@
 
 - [Types](#types)
   - [Declarations](#declarations)
+  - [The `inductive` Keyword](#the-inductive-keyword)
 - [Basic Types](#basic-types)
   - [Empty Type](#empty-type)
   - [Unit](#unit)
   - [Boolean](#boolean)
   - [Natural Numbers](#natural-numbers)
+  - [Characters and Strings](#characters-and-strings)
   - [Other Primitive Types](#other-primitive-types)
 - [Collections](#collections)
   - [Lists](#lists)
@@ -63,17 +65,17 @@ Here, `TypeName` is the name of the new type being defined, and it can take type
 
 ## Basic Types
 
-There are several other primitive types in Lean, lets take a look at them:
+There are several other primitive types in Lean, let's take a look at them:
 
 ### Empty Type
 
-The empty type, also known as the bottom type, is a type with no values. In some languages, this is called `Never` (TypeScript) or `Nothing` (Scala). This is a pre-defined type called `Empty` in Lean which is defined something as:
+The empty type, also known as the bottom type, is a type with no values. In some languages, this is called `Never` (TypeScript) or `Nothing` (Scala). This is a pre-defined type called `Empty` in Lean which is defined as:
 
 ```lean
 inductive Empty : Type
 ```
 
-An empty type is useful in situations where a function should never return, such as in the case of a function that always throws an error or enters an infinite loop. Note that this is unlike from `void` in languages like C or Java, which represents the absence of a value but still allows functions to return.
+An empty type is useful in situations where a function should never return, such as in the case of a function that always throws an error or enters an infinite loop. Note that this is unlike `void` in languages like C or Java, which represents the absence of a value but still allows functions to return.
 
 ### Unit
 
@@ -96,7 +98,7 @@ inductive Bool : Type
   | true
 ```
 
-Note that it is always possible to define your own boolean type, but it's generally not recommended as a type also comes with a lot of built-in functionality. Here is how to do that:
+Note that it is always possible to define your own boolean type, but it's generally not recommended as the type also comes with a lot of built-in functionality. Here is how to do that:
 
 ```lean
 inductive Status : Type
@@ -176,10 +178,10 @@ def unicode : String := "café 🌟"
 Common string operations include:
 
 ```lean
-def length := greeting.length        -- Get string length
-def isEmpty := "".isEmpty            -- Check if empty
-def concat := "Hello" ++ " World"    -- String concatenation
-def charAt := greeting.get! 0        -- Get character at index
+def length := greeting.length         -- Get string length
+def isEmpty := "".isEmpty             -- Check if empty
+def concat := "Hello" ++ " World"     -- String concatenation
+def charAt := greeting.get! 0         -- Get character at index
 ```
 
 Strings support interpolation using the `s!` syntax:
@@ -263,10 +265,9 @@ Unordered sets can be implemented using the HashSet data structure. HashSets are
 
 ```lean
 import Std.Data.HashSet
-open Std
 
 -- create a set with elements 1, 2, 3
-def exampleSet : HashSet Nat := HashSet.ofList [1, 2, 3]
+def exampleSet : Std.HashSet Nat := Std.HashSet.ofList [1, 2, 3]
 ```
 
 ```lean
@@ -304,7 +305,7 @@ We can define operations like `push` and `pop` on the stack:
 
 ```lean
 def push {α : Type} (s : Stack α) (x : α) : Stack α :=
-  { s with elems := x :: s.elems } -- append x to the end of the list
+  { s with elems := x :: s.elems } -- prepend x to the front of the list
 
 -- in pop we return the top element and the rest of the stack
 def pop {α : Type} (s : Stack α) : Option (α × Stack α) :=
@@ -412,7 +413,7 @@ Binary trees are a common data structure in many languages. The data structure c
 
 ```lean
 inductive BinTree (α : Type) : Type
-  | leaf : BinTree α -- leaf node, with value of type α
+  | leaf : BinTree α -- leaf node with no value
   | node : α → BinTree α → BinTree α → BinTree α -- value, left child, right child
 ```
 
@@ -604,8 +605,8 @@ Finally, we can use the `plus` function on different types:
 ```lean
 open Plus(plus)
 
-#eval plus 4 5 -- 9
-#eval plus 4.3 5.2 -- 9.500000
+#eval plus 4 5         -- 9
+#eval plus 4.3 5.2     -- 9.500000
 ```
 
 Note the `open Plus(plus)` line, which brings the `plus` function into scope so we can use it without prefixing it with `Plus.`. Instead we could also use `Plus.plus` directly.
