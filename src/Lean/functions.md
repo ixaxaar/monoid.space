@@ -8,8 +8,7 @@
 
 ---
 
-- [Generic Syntax](#generic-syntax)
-  - [Syntactical Sugar](#syntactical-sugar)
+- [Basic Syntax](#basic-syntax)
 - [Pattern matching](#pattern-matching)
   - [Syntax](#syntax)
   - [The Logical Not](#the-logical-not)
@@ -39,6 +38,19 @@
   - [Termination Checking](#termination-checking)
   - [Mutual Recursion](#mutual-recursion)
   - [Higher-Order Functions](#higher-order-functions)
+- [Data Structure Operations](#data-structure-operations)
+  - [String Operations](#string-operations)
+  - [List Operations](#list-operations)
+  - [Array Operations](#array-operations)
+  - [Set Operations](#set-operations)
+  - [Stack Operations](#stack-operations)
+  - [Queue Operations](#queue-operations)
+  - [Map Operations](#map-operations)
+  - [Binary Tree Operations](#binary-tree-operations)
+  - [Graph Operations](#graph-operations)
+  - [Shape Operations](#shape-operations)
+  - [Type Class Operations](#type-class-operations)
+  - [Dependent Type Operations](#dependent-type-operations)
 
 Functions in Lean are defined using the `def` keyword. The syntax for defining functions in Lean is similar to defining inductive types.
 
@@ -53,32 +65,52 @@ These are the different types of functions we can define in Lean:
 
 Functions are also first-class citizens in Lean, meaning they can be passed as arguments to other functions, returned as results, and stored in data structures.
 
-## Generic Syntax
+## Basic Syntax
 
-Syntax for defining functions in Lean:
-
-1. Define the name and type of the function using `def`
-2. Define patterns and their corresponding outputs
+The syntax for defining functions in Lean is as follows:
 
 ```lean
--- 1. Name (not), Type (Bool → Bool)
-def not : Bool → Bool
--- 2. Patterns and outputs
-  | true  => false
-  | false => true
+def functionName (arg1 : Type1) (arg2 : Type2) ... (argN : TypeN) : ReturnType :=
+  -- function body here
 ```
 
-### Syntactical Sugar
+The function body may be a single expression or a block of code, or it may use pattern matching to define different cases for the function or it may be recursive or any combination of these.
 
-Lean provides syntactical sugar to simplify the expression of certain patterns:
+Here is an example of a simple function that is a single expression (adds two natural numbers):
 
 ```lean
--- (x : α) → (y : β) → γ  is equivalent to  (x : α) (y : β) → γ
--- ∀ (x : α), γ  is equivalent to  (x : α) → γ
--- ∀ x, γ  is equivalent to  (x : _) → γ  (type is inferred)
--- λ x y => e  is equivalent to  λ x => λ y => e
--- f a b  is equivalent to  (f a) b
+def add (x : Nat) (y : Nat) : Nat :=
+  x + y
 ```
+
+A function defined using pattern matching (computes the factorial of a natural number):
+
+```lean
+def factorial : (x : Nat) → Nat
+  match x with
+    | 0 => 1
+    | n+1 => (n+1) * factorial n
+```
+
+A function that is recursive (computes the length of a list):
+
+```lean
+def length {α : Type} : (x : List α) → Nat
+  match x with
+    | []      => 0
+    | _ :: xs => 1 + length xs
+```
+
+And finally an example combining all of these (computes the sum of squares of a list of natural numbers):
+
+```lean
+def sumOfSquares : (x : List Nat) → Nat
+  match x with
+    | []      => 0
+    | x :: xs => x * x + sumOfSquares xs
+```
+
+Lets look at each of these in more detail.
 
 ## Pattern matching
 
@@ -610,6 +642,208 @@ def filter {α : Type} (p : α → Bool) : List α → List α
 ```
 
 The `filter` function takes a predicate function `p` that maps values of type `α` to booleans, a list of values of type `α`, and returns a new list containing only the elements that satisfy the predicate `p`. This higher-order function allows for the selective extraction of elements from a list based on a condition.
+
+## Data Structure Operations
+
+This section covers functions and operations for the data structures defined in the Types chapter.
+
+### String Operations
+
+Common string operations include:
+
+```lean
+def length := greeting.length         -- Get string length
+def isEmpty := "".isEmpty             -- Check if empty
+def concat := "Hello" ++ " World"     -- String concatenation
+def charAt := greeting.get! 0         -- Get character at index
+```
+
+### List Operations
+
+Lists support various operations:
+
+```lean
+def exampleList : List Bool := [true, false, true]
+def exampleList2 := false :: exampleList  -- Prepend element
+#eval exampleList2.length  -- Output: 4
+```
+
+### Array Operations
+
+Arrays provide efficient indexed access:
+
+```lean
+def exampleArray : Array Nat := #[1, 2, 3]
+#eval exampleArray.get! 1           -- Get element: Output: 2
+def exampleArray2 := exampleArray.push 4  -- Add element
+#eval exampleArray2.get! 3          -- Output: 4
+```
+
+### Set Operations
+
+HashSet operations for unique collections:
+
+```lean
+import Std.Data.HashSet
+
+def exampleSet : Std.HashSet Nat := Std.HashSet.ofList [1, 2, 3]
+#eval exampleSet.contains 2         -- Check membership: true
+#eval exampleSet.contains 4         -- Output: false
+
+def exampleSet2 := exampleSet.insert 4  -- Add element
+#eval exampleSet2.contains 4        -- Output: true
+
+def exampleSet3 := exampleSet2.erase 4   -- Remove element
+#eval exampleSet3.contains 4        -- Output: false
+```
+
+### Stack Operations
+
+Stack functions implementing LIFO behavior:
+
+```lean
+def push {α : Type} (s : Stack α) (x : α) : Stack α :=
+  { s with elems := x :: s.elems }   -- Prepend to front
+
+def pop {α : Type} (s : Stack α) : Option (α × Stack α) :=
+  match s.elems with
+  | [] => none
+  | x :: xs => some (x, { elems := xs })
+
+-- Usage example:
+def s : Stack Float := { elems := [1.0, 2.2, 0.3] }
+def s' := push s 4.2
+#eval pop s'  -- Output: some (4.200000, { elems := [1.000000, 2.200000, 0.300000] })
+```
+
+### Queue Operations
+
+Queue functions implementing FIFO behavior:
+
+```lean
+def enqueue {α : Type} (q : Queue α) (x : α) : Queue α :=
+  { q with elems := q.elems ++ [x] } -- Append to end
+
+def dequeue {α : Type} (q : Queue α) : Option (α × Queue α) :=
+  match q.elems with
+  | [] => none
+  | x :: xs => some (x, { elems := xs })
+
+-- Usage example:
+def q : Queue Float := { elems := [1.0, 2.2, 0.3] }
+def q' := enqueue q 4.2
+#eval dequeue q'  -- Output: some (1.000000, { elems := [2.200000, 0.300000, 4.200000] })
+```
+
+### Map Operations
+
+Map functions for key-value operations:
+
+```lean
+def find {α β : Type} [DecidableEq α] (m : Map α β) (key : α) : Option β :=
+  match m.pairs.find? (fun (k, _) => k == key) with
+  | some (_, v) => some v
+  | none => none
+
+-- Define infix operator for easier use:
+infix:50 " ?? " => find
+
+-- Usage example:
+def exampleMap : Map Nat String := { pairs := [(1, "one"), (2, "two"), (3, "three")] }
+#eval exampleMap ?? 2  -- Output: some "two"
+
+-- Using optimized HashMap:
+import Std.Data.HashMap
+def exampleHashMap : Std.HashMap Nat String :=
+  Std.HashMap.ofList [(1, "one"), (2, "two"), (3, "three")]
+#eval exampleHashMap.contains 2     -- true
+#eval exampleHashMap.get! 2         -- "two"
+```
+
+### Binary Tree Operations
+
+Operations on binary trees:
+
+```lean
+def depth : BinTree α → Nat
+  | BinTree.leaf => 0
+  | BinTree.node _ left right => 1 + max (depth left) (depth right)
+
+-- Usage example:
+def exampleTree : BinTree Nat :=
+  BinTree.node 1
+    (BinTree.node 2 BinTree.leaf BinTree.leaf)
+    (BinTree.node 3 BinTree.leaf BinTree.leaf)
+
+#eval depth exampleTree  -- Output: 2
+```
+
+### Graph Operations
+
+Operations on graphs:
+
+```lean
+def neighbors (v : Vertex) (g : Graph) : List Vertex :=
+  g.edges.filterMap fun e =>
+    if e.from == v then some e.to
+    else none
+
+-- Usage example:
+def v1 := Vertex.mk 1
+def v2 := Vertex.mk 2
+def e := Edge.mk v1 v2
+def g : Graph := { vertices := [v1, v2], edges := [e] }
+#eval neighbors v1 g  -- Returns [v2]
+```
+
+### Shape Operations
+
+Operations on sum types like Shape:
+
+```lean
+def area : Shape → Float
+  | Shape.circle r => Float.pi * r * r
+  | Shape.rectangle w h => w * h
+
+-- Usage examples:
+def myCircle := Shape.circle 5.0
+def myRectangle := Shape.rectangle 4.0 6.0
+#eval area myCircle      -- Output: ~78.54 (π × 5²)
+#eval area myRectangle   -- Output: 24.0
+```
+
+### Type Class Operations
+
+Using type class instances:
+
+```lean
+-- Using HasZero instances:
+#eval HasZero.zero (α := Nat)      -- Output: 0
+#eval HasZero.zero (α := Bool)     -- Output: false
+#eval HasZero.zero (α := String)   -- Output: ""
+
+-- Using Plus instances:
+open Plus(plus)
+#eval plus 4 5         -- 9
+#eval plus 4.3 5.2     -- 9.500000
+#eval plus "Hello" " World"  -- "Hello World"
+```
+
+### Dependent Type Operations
+
+Working with dependent types like Vector:
+
+```lean
+-- Type-safe head function
+def head {α : Type} {n : Nat} : Vector α (n+1) → α
+  | Vector.cons x _ => x
+
+def vec1 : Vector Bool 1 := Vector.cons true Vector.nil
+def vec2 : Vector Bool 2 := Vector.cons false vec1
+
+#eval head vec2  -- Output: false
+-- This would be a compile-time error: head Vector.nil
+```
 
 ---
 
