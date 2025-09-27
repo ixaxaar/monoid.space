@@ -15,6 +15,9 @@
   - [The `inductive` Keyword](#the-inductive-keyword)
   - [The `structure` Keyword](#the-structure-keyword)
   - [The `deriving` Clause](#the-deriving-clause)
+  - [Type Inference](#type-inference)
+  - [Immutability](#immutability)
+  - [Variable scope](#variable-scope)
 - [Basic Types](#basic-types)
   - [Empty Type](#empty-type)
   - [Unit](#unit)
@@ -140,6 +143,38 @@ Common derivable type classes include:
 - `BEq` - enables equality comparison with `==`
 - `Hashable` - enables use in hash tables
 - `Inhabited` - provides a default value
+
+### Type Inference
+
+Lean can infer types automatically in many cases, so explicit type annotations are often optional. For example:
+
+```lean
+def myNumber := 42          -- Lean infers Nat
+def myBoolean := true       -- Lean infers Bool
+def myString := "Hello!"    -- Lean infers String
+def myList := [1, 2, 3]     -- Lean infers List Nat
+```
+
+However, providing explicit types can improve code clarity and help catch errors early.
+
+### Immutability
+
+All values in Lean are immutable by default. This means that once a value is assigned, it cannot be changed. This is similar to `val` in Kotlin or `final` in Java. If a value is reassigned, it results in a compile-time error. For example:
+
+```lean
+def x : Nat := 10
+-- x := 20  -- This would be a compile-time error
+```
+
+### Variable scope
+
+Variables defined with `def` have global scope within the module they are defined in. To create local variables, you can use `let` within functions or blocks:
+
+```lean
+let y := 5 in
+let z := y + 10 in
+z  -- z is 15
+```
 
 ## Basic Types
 
