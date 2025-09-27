@@ -19,6 +19,10 @@
 - [4. Building from Source](#4-building-from-source)
 - [Project setup](#project-setup)
 - [Libraries and dependencies](#libraries-and-dependencies)
+- [Development Environment](#development-environment)
+  - [VSCode Integration](#vscode-integration)
+  - [Testing](#testing)
+- [Documentation](#documentation)
 
 ## 1. Using Docker
 
@@ -340,6 +344,84 @@ scope = "leanprover-community"
 name = "MyUtilLib"
 path = "../MyUtilLib"
 ```
+
+## Development Environment
+
+### VSCode Integration
+
+VSCode is the primary IDE for Lean development. The Lean extension provides a complete set of features required for end to end development in Lean. Other editor integrations are available such as `lean-mode` for Emacs and `lean.vim` for Vim. However, the VSCode extension is the most feature-rich and actively maintained.
+
+### Testing
+
+Lean supports unit testing through its `test` command:
+
+```lean
+def double (x : Nat) : Nat := x * 2
+
+#test double 2 = 4        -- Basic test
+#test double 0 = 0        -- Edge case
+```
+
+Tests can be run using the `lean --test` command:
+
+```bash
+lean --test my_file.lean
+```
+
+## Documentation
+
+Lean supports documentation strings using `/-! ... -/` for modules and `/-- ... -/` for definitions:
+
+```lean
+/-!
+# Basic Arithmetic Module
+This module provides basic arithmetic operations.
+-/
+
+/--
+`add` performs addition on natural numbers.
+-/
+#eval add 2 3  -- returns 5
+```
+
+Lean also supports markdown-style comments for documentation:
+
+```lean
+/- Markdown-style comment
+# Heading
+This is a paragraph.
+-/
+```
+
+Documentation strings can be accessed using the `#print` command:
+
+```lean
+#print add
+```
+
+[`doc-gen4`](https://github.com/leanprover/doc-gen4) is a tool that generates documentation for Lean projects and comes bundled with the Lean installation. Its setup includes creating a nested project for documentation building inside the lake project.
+
+1. Create a directory called `docbuild` inside the project.
+2. Create a `lakefile.toml` file inside the `docbuild` directory:
+
+```toml
+name = "docbuild"
+reservoir = false
+version = "0.1.0"
+packagesDir = "../.lake/packages"
+
+[[require]]
+name = "MyProject"
+path = "../"
+
+[[require]]
+scope = "leanprover"
+name = "doc-gen4"
+rev = "main"
+```
+
+3. Run `lake update doc-gen4` within `docbuild` to pin `doc-gen4` and its dependencies to the chosen versions.
+4. If the parent project has dependencies, they can be updated for building the documentation by running `lake update MyProject` in the `docbuild` directory.
 
 ---
 
