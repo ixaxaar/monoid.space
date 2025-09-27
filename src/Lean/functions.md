@@ -28,13 +28,13 @@
   - [Addition of natural numbers](#addition-of-natural-numbers)
   - [Length of a List](#length-of-a-list)
 - [Dependent Types](#dependent-types)
-  - [Syntax](#syntax-1)
+  - [Syntax](#syntax)
   - [Conditional Types](#conditional-types)
   - [Length-Indexed Vectors](#length-indexed-vectors)
   - [Working with Implicit Arguments](#working-with-implicit-arguments)
 - [Lambda Functions](#lambda-functions)
-  - [Syntax](#syntax-2)
-  - [Implicit Arguments](#implicit-arguments)
+  - [Syntax](#syntax-1)
+  - [Implicit Arguments](#implicit-arguments-1)
   - [Dependent Pattern Matching](#dependent-pattern-matching)
   - [Map](#map)
 - [Advanced Concepts](#advanced-concepts)
@@ -45,6 +45,19 @@
   - [Termination Checking](#termination-checking)
   - [Mutual Recursion](#mutual-recursion)
   - [Higher-Order Functions](#higher-order-functions)
+- [Data Structure Operations](#data-structure-operations)
+  - [String Operations](#string-operations)
+  - [List Operations](#list-operations)
+  - [Array Operations](#array-operations)
+  - [Set Operations](#set-operations)
+  - [Stack Operations](#stack-operations)
+  - [Queue Operations](#queue-operations)
+  - [Map Operations](#map-operations)
+  - [Binary Tree Operations](#binary-tree-operations)
+  - [Graph Operations](#graph-operations)
+  - [Shape Operations](#shape-operations)
+  - [Type Class Operations](#type-class-operations)
+  - [Dependent Type Operations](#dependent-type-operations)
 
 Functions in Lean are defined using the `def` keyword. The syntax for defining functions in Lean is similar to defining inductive types.
 
@@ -83,7 +96,7 @@ def add (x : Nat) (y : Nat) : Nat :=
 
 This reads naturally: "define a function called `add` that takes two natural numbers `x` and `y`, and returns their sum."
 
-### Arrow Function Syntax  
+### Arrow Function Syntax
 
 Sometimes it's more natural to emphasize the function's type signature, especially when using pattern matching or when the function type is complex. In these cases, we use arrow syntax:
 
@@ -116,7 +129,7 @@ When using arrow syntax, you'll often want to use anonymous functions (lambdas) 
 ```lean
 def add : Nat → Nat → Nat := fun x y => x + y
 -- or equivalently using the Greek letter λ (lambda):
-def add : Nat → Nat → Nat := λ x y => x + y  
+def add : Nat → Nat → Nat := λ x y => x + y
 ```
 Both `fun` and `λ` mean exactly the same thing - it's just a matter of preference!
 
@@ -141,7 +154,7 @@ This is exactly equivalent to the `match` version above, but more concise!
 ### Key Syntax Elements
 
 - **`def`** - keyword to define functions
-- **`fun`** or **`λ`** - lambda (anonymous) functions  
+- **`fun`** or **`λ`** - lambda (anonymous) functions
 - **`match ... with`** - pattern matching expressions
 - **`| pattern => result`** - pattern matching cases
 - **`_`** - wildcard pattern (matches anything)
@@ -155,7 +168,7 @@ Consider this function that calculates the length of a list:
 
 ```lean
 def length {α : Type} : List α → Nat  -- {α : Type} is implicit
-  | []      => 0  
+  | []      => 0
   | _ :: xs => 1 + length xs
 ```
 
@@ -207,7 +220,7 @@ When your function is primarily about pattern matching (which is very common!), 
 
 ```lean
 def functionName : InputType → OutputType
-  | pattern₁ => result₁  
+  | pattern₁ => result₁
   | pattern₂ => result₂
   | _        => defaultResult
 ```
@@ -701,6 +714,309 @@ def filter {α : Type} (p : α → Bool) : List α → List α
 ```
 
 The `filter` function takes a predicate function `p` that maps values of type `α` to booleans, a list of values of type `α`, and returns a new list containing only the elements that satisfy the predicate `p`. This higher-order function allows for the selective extraction of elements from a list based on a condition.
+
+## Data Structure Operations
+
+Now comes the fun part - putting everything we've learned into practice! This section shows how to implement real-world operations on the data structures we defined in the Types chapter. These examples will help you see how pattern matching, recursion, and function definition work together to create useful, practical code.
+
+Don't worry if some of these seem complex at first - they're meant to be examples you can study, experiment with, and learn from. Each operation demonstrates different aspects of functional programming in Lean, from simple pattern matching to more advanced concepts like type class constraints.
+
+Think of this as your practice playground - try running these examples, modify them, and see what happens!
+
+### String Operations
+
+Let's start with something familiar - string operations! These examples show how you can implement common string functions using pattern matching. Notice how we handle the empty string case explicitly:
+
+```lean
+-- Check if a string is empty using pattern matching
+def stringIsEmpty : String → Bool
+  | "" => true      -- Empty string case
+  | _ => false      -- Any other string
+
+-- Get the length of a string
+def stringLength : String → Nat
+  | "" => 0                    -- Empty string has length 0
+  | s => s.data.length        -- Use built-in length on the underlying data
+
+-- Concatenate two strings together
+def stringConcat : String → String → String
+  | s1, s2 => String.mk (s1.data ++ s2.data)
+
+-- Safely get a character at a specific position (returns Option)
+def stringGet : String → Nat → Option Char
+  | s, i => s.data.get? i     -- Returns 'some char' or 'none' if out of bounds
+```
+
+These functions demonstrate basic pattern matching and show how Lean handles edge cases safely - notice how `stringGet` returns an `Option` rather than potentially crashing!
+
+### List Operations
+
+Lists are where recursion really shines! These examples show classic recursive patterns that you'll use again and again. Pay attention to how each function handles the empty list base case and the recursive case:
+
+```lean
+-- Calculate the length of a list recursively
+def listLength {α : Type} : List α → Nat
+  | [] => 0                    -- Base case: empty list has length 0
+  | _ :: xs => 1 + listLength xs  -- Recursive case: 1 + length of tail
+
+-- Append two lists together (this is how ++ works!)
+def listAppend {α : Type} : List α → List α → List α
+  | [], ys => ys               -- Base case: appending to empty list gives second list
+  | x :: xs, ys => x :: listAppend xs ys  -- Recursive: prepend head, append tails
+
+-- Reverse a list (inefficient but educational!)
+def listReverse {α : Type} : List α → List α
+  | [] => []                   -- Empty list reversed is empty
+  | x :: xs => listAppend (listReverse xs) [x]  -- Reverse tail, append head at end
+
+-- Filter elements based on a predicate (higher-order function!)
+def listFilter {α : Type} (p : α → Bool) : List α → List α
+  | [] => []                   -- No elements to filter in empty list
+  | x :: xs =>
+    if p x then x :: listFilter p xs    -- Keep element if predicate is true
+    else listFilter p xs               -- Skip element if predicate is false
+```
+
+These are classic examples of structural recursion - each function breaks down the problem by handling one element and recursively processing the rest. Notice how `listFilter` is a higher-order function that takes another function as an argument!
+
+### Array Operations
+
+Array operations built on list foundations:
+
+```lean
+def arrayGet {α : Type} (arr : Array α) (i : Nat) : Option α :=
+  arr.data.get? i
+
+def arrayPush {α : Type} (arr : Array α) (x : α) : Array α :=
+  { data := arr.data ++ [x] }
+
+def arraySize {α : Type} (arr : Array α) : Nat :=
+  arr.data.length
+
+def arrayMap {α β : Type} (f : α → β) (arr : Array α) : Array β :=
+  { data := map f arr.data }
+```
+
+### Set Operations
+
+HashSet operations for unique collections:
+
+```lean
+def setContains {α : Type} [DecidableEq α] (s : HashSet α) (x : α) : Bool :=
+  s.elems.contains x
+
+def setInsert {α : Type} [DecidableEq α] (s : HashSet α) (x : α) : HashSet α :=
+  if setContains s x then s
+  else { elems := x :: s.elems }
+
+def setRemove {α : Type} [DecidableEq α] (s : HashSet α) (x : α) : HashSet α :=
+  { elems := s.elems.filter (· ≠ x) }
+
+def setUnion {α : Type} [DecidableEq α] (s1 s2 : HashSet α) : HashSet α :=
+  s1.elems.foldl setInsert s2
+```
+
+### Stack Operations
+
+Stack implementation using lists with LIFO behavior:
+
+```lean
+def stackPush {α : Type} (s : Stack α) (x : α) : Stack α :=
+  { elems := x :: s.elems }
+
+def stackPop {α : Type} (s : Stack α) : Option (α × Stack α) :=
+  match s.elems with
+  | [] => none
+  | x :: xs => some (x, { elems := xs })
+
+def stackPeek {α : Type} (s : Stack α) : Option α :=
+  match s.elems with
+  | [] => none
+  | x :: _ => some x
+
+def stackIsEmpty {α : Type} (s : Stack α) : Bool :=
+  match s.elems with
+  | [] => true
+  | _ => false
+```
+
+### Queue Operations
+
+Queue implementation with FIFO behavior:
+
+```lean
+def queueEnqueue {α : Type} (q : Queue α) (x : α) : Queue α :=
+  { elems := q.elems ++ [x] }
+
+def queueDequeue {α : Type} (q : Queue α) : Option (α × Queue α) :=
+  match q.elems with
+  | [] => none
+  | x :: xs => some (x, { elems := xs })
+
+def queuePeek {α : Type} (q : Queue α) : Option α :=
+  match q.elems with
+  | [] => none
+  | x :: _ => some x
+
+def queueSize {α : Type} (q : Queue α) : Nat :=
+  q.elems.length
+```
+
+### Map Operations
+
+Map operations for key-value associations:
+
+```lean
+def mapFind {α β : Type} [DecidableEq α] (m : Map α β) (key : α) : Option β :=
+  match m.pairs.find? (fun (k, _) => k == key) with
+  | some (_, v) => some v
+  | none => none
+
+def mapInsert {α β : Type} [DecidableEq α] (m : Map α β) (key : α) (value : β) : Map α β :=
+  let filtered := m.pairs.filter (fun (k, _) => k ≠ key)
+  { pairs := (key, value) :: filtered }
+
+def mapRemove {α β : Type} [DecidableEq α] (m : Map α β) (key : α) : Map α β :=
+  { pairs := m.pairs.filter (fun (k, _) => k ≠ key) }
+
+def mapKeys {α β : Type} (m : Map α β) : List α :=
+  m.pairs.map (fun (k, _) => k)
+```
+
+### Binary Tree Operations
+
+Trees are fascinating data structures! These examples show how to work with binary search trees, where elements are organized so that smaller values go left and larger values go right.
+
+Notice the `[Ord α]` constraint in these functions - this is a **type class constraint** that means "α must be a type that supports ordering comparisons." In other words, we need to be able to compare values with `<`, `>`, `≤`, etc. This works for numbers, strings, characters, and many other types, but not for types like functions where ordering doesn't make sense:
+
+```lean
+-- Insert a value into a binary search tree
+def treeInsert {α : Type} [Ord α] (t : BinTree α) (x : α) : BinTree α :=
+  match t with
+  | BinTree.leaf => BinTree.node x BinTree.leaf BinTree.leaf  -- Empty tree: create new node
+  | BinTree.node y left right =>
+    if x < y then BinTree.node y (treeInsert left x) right     -- Smaller: insert left
+    else if x > y then BinTree.node y left (treeInsert right x)  -- Larger: insert right
+    else t  -- x == y, no duplicate insertion needed
+
+-- Search for a value in the tree
+def treeSearch {α : Type} [Ord α] (t : BinTree α) (x : α) : Bool :=
+  match t with
+  | BinTree.leaf => false                    -- Not found in empty tree
+  | BinTree.node y left right =>
+    if x < y then treeSearch left x          -- Search left subtree
+    else if x > y then treeSearch right x    -- Search right subtree
+    else true  -- x == y, found it!
+
+-- Get all elements in sorted order (inorder traversal)
+def treeInorder {α : Type} (t : BinTree α) : List α :=
+  match t with
+  | BinTree.leaf => []                       -- Empty tree gives empty list
+  | BinTree.node x left right =>
+    treeInorder left ++ [x] ++ treeInorder right  -- Left, root, right
+```
+
+These tree operations demonstrate how the structure of data can make algorithms efficient - searching a balanced tree is much faster than searching a list!
+
+### Graph Operations
+
+Graph traversal and analysis functions:
+
+```lean
+def graphNeighbors (v : Vertex) (g : Graph) : List Vertex :=
+  g.edges.filterMap fun e =>
+    if e.from == v then some e.to
+    else none
+
+def graphHasEdge (from to : Vertex) (g : Graph) : Bool :=
+  g.edges.any fun e => e.from == from && e.to == to
+
+def graphAddVertex (v : Vertex) (g : Graph) : Graph :=
+  if g.vertices.contains v then g
+  else { g with vertices := v :: g.vertices }
+
+def graphAddEdge (e : Edge) (g : Graph) : Graph :=
+  let g' := graphAddVertex e.from (graphAddVertex e.to g)
+  if g'.edges.contains e then g'
+  else { g' with edges := e :: g'.edges }
+```
+
+### Shape Operations
+
+Pattern matching on sum types for geometric calculations:
+
+```lean
+def shapeArea : Shape → Float
+  | Shape.circle r => Float.pi * r * r
+  | Shape.rectangle w h => w * h
+
+def shapePerimeter : Shape → Float
+  | Shape.circle r => 2.0 * Float.pi * r
+  | Shape.rectangle w h => 2.0 * (w + h)
+
+def shapeScale (factor : Float) : Shape → Shape
+  | Shape.circle r => Shape.circle (r * factor)
+  | Shape.rectangle w h => Shape.rectangle (w * factor) (h * factor)
+```
+
+### Type Class Operations
+
+Here's where Lean really shows its power! These functions work with *any* type that has the required operations. This is called "ad-hoc polymorphism" - the same function can work on numbers, strings, or any custom type you define.
+
+You'll notice some new syntax here - the square brackets `[Add α]`, `[Ord α]`, etc. These are **type class constraints**. They tell Lean "this function only works with types that support these operations":
+
+- `[Add α]` means "α must support addition (`+`)"
+- `[OfNat α 0]` means "α must have a way to represent the number 0"
+- `[Ord α]` means "α must support ordering comparisons (`<`, `≤`, etc.)"
+
+Think of type classes as "contracts" - if a type implements the contract, it can use functions that require it:
+
+```lean
+-- Sum all elements in a list (works for any type that can be added!)
+def listSum {α : Type} [Add α] [OfNat α 0] : List α → α
+  | [] => 0           -- Empty list sums to zero
+  | x :: xs => x + listSum xs  -- Add current element to sum of rest
+
+-- Find the maximum of two values (works for any orderable type!)
+def genericMax {α : Type} [Ord α] (x y : α) : α :=
+  if x ≤ y then y else x
+
+-- Find the maximum element in a list
+def listMax {α : Type} [Ord α] : List α → Option α
+  | [] => none        -- Empty list has no maximum
+  | x :: xs =>
+    match listMax xs with
+    | none => some x          -- x is the only element
+    | some y => some (genericMax x y)  -- Compare x with max of rest
+```
+
+The beauty here is that `listSum` works on `List Nat`, `List Float`, or even `List String` (since strings can be "added" via concatenation). Type classes let you write generic code that's still type-safe!
+
+### Dependent Type Operations
+
+Finally, here's the most advanced example - dependent types! These operations on length-indexed vectors are completely type-safe. The compiler *guarantees* that you can't take the head of an empty vector or access out-of-bounds elements:
+
+```lean
+-- Get the first element (only works on non-empty vectors!)
+def vectorHead {α : Type} {n : Nat} : Vector α (n+1) → α
+  | Vector.cons x _ => x    -- The type signature ensures n+1 ≥ 1, so this is safe!
+
+-- Get everything except the first element
+def vectorTail {α : Type} {n : Nat} : Vector α (n+1) → Vector α n
+  | Vector.cons _ xs => xs  -- Result has length n, one less than input
+
+-- Append two vectors (notice how the result length is n + m!)
+def vectorAppend {α : Type} {n m : Nat} : Vector α n → Vector α m → Vector α (n + m)
+  | Vector.nil, ys => ys                      -- 0 + m = m
+  | Vector.cons x xs, ys => Vector.cons x (vectorAppend xs ys)  -- (n+1) + m = (n + m) + 1
+
+-- Apply a function to every element (preserves length)
+def vectorMap {α β : Type} {n : Nat} (f : α → β) : Vector α n → Vector β n
+  | Vector.nil => Vector.nil                  -- Empty vector maps to empty vector
+  | Vector.cons x xs => Vector.cons (f x) (vectorMap f xs)  -- Length preserved
+```
+
+This is the power of dependent types - the type system itself prevents runtime errors! You literally cannot call `vectorHead` on an empty vector because the types don't match.
 
 ---
 
