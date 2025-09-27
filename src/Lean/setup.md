@@ -78,6 +78,14 @@ elan is the recommended tool for installing and managing Lean versions.
    lean --version
    ```
 
+elan can also be used to manage multiple versions of Lean:
+
+```bash
+elan install <version>  # Install a specific version of Lean
+elan default <version>  # Set the default version of Lean
+elan list               # List installed Lean versions
+```
+
 ## 3. Via Package Managers
 
 ### Homebrew (macOS and Linux)
