@@ -9,8 +9,15 @@
 ---
 
 - [Basic Syntax](#basic-syntax)
-- [Pattern matching](#pattern-matching)
-  - [Syntax](#syntax)
+  - [Simple Function Syntax](#simple-function-syntax)
+  - [Arrow Function Syntax](#arrow-function-syntax)
+  - [Function Bodies](#function-bodies)
+  - [Key Syntax Elements](#key-syntax-elements)
+  - [Implicit Arguments](#implicit-arguments)
+- [Pattern Matching](#pattern-matching)
+  - [Two Pattern Matching Approaches](#two-pattern-matching-approaches)
+  - [Multiple Arguments](#multiple-arguments)
+  - [Common Patterns](#common-patterns)
   - [The Logical Not](#the-logical-not)
   - [The logical AND](#the-logical-and)
   - [The logical OR](#the-logical-or)
@@ -54,101 +61,183 @@ Functions are also first-class citizens in Lean, meaning they can be passed as a
 
 ## Basic Syntax
 
-The syntax for defining functions in Lean is as follows:
+Functions in Lean are defined using the `def` keyword, which is similar to function definitions in many other programming languages. However, Lean offers several syntactic forms for defining functions, each suited to different situations. Understanding these different forms will help you write more expressive and readable code.
+
+There are two main syntactic forms for function definitions:
+
+### Simple Function Syntax
+
+The most straightforward way to define functions is with explicit parameters. This syntax is familiar to programmers coming from languages like TypeScript, Kotlin, or Swift:
 
 ```lean
-def functionName (arg1 : Type1) (arg2 : Type2) ... (argN : TypeN) : ReturnType :=
-  -- function body here
+def functionName (arg1 : Type1) (arg2 : Type2) : ReturnType :=
+  functionBody
 ```
 
-The function body may be a single expression or a block of code, or it may use pattern matching to define different cases for the function or it may be recursive or any combination of these.
-
-Here is an example of a simple function that is a single expression (adds two natural numbers):
+Here's a simple example - a function that adds two natural numbers:
 
 ```lean
 def add (x : Nat) (y : Nat) : Nat :=
   x + y
 ```
 
-A function defined using pattern matching (computes the factorial of a natural number):
+This reads naturally: "define a function called `add` that takes two natural numbers `x` and `y`, and returns their sum."
+
+### Arrow Function Syntax  
+
+Sometimes it's more natural to emphasize the function's type signature, especially when using pattern matching or when the function type is complex. In these cases, we use arrow syntax:
 
 ```lean
-def factorial : (x : Nat) → Nat
-  match x with
-    | 0 => 1
-    | n+1 => (n+1) * factorial n
+def functionName : InputType → ReturnType :=
+  functionBody
 ```
 
-A function that is recursive (computes the length of a list):
+Here's the same add function using arrow syntax:
 
 ```lean
-def length {α : Type} : (x : List α) → Nat
-  match x with
-    | []      => 0
-    | _ :: xs => 1 + length xs
+def add : Nat → Nat → Nat :=
+  fun x y => x + y
 ```
 
-And finally an example combining all of these (computes the sum of squares of a list of natural numbers):
+The arrow notation `→` reads as "maps to" - so this says "`add` maps a `Nat` to a function that maps a `Nat` to a `Nat`". This emphasizes that functions in Lean are actually curried by default - more on that later!
+
+### Function Bodies
+
+The body of a function - the part that actually does the computation - can be written in several different ways depending on what you're trying to achieve. Let's explore each approach:
+
+**1. Simple expressions:**
+The most straightforward approach is to write a single expression that computes the result:
+```lean
+def double (x : Nat) : Nat := x * 2
+```
+
+**2. Using `fun` (lambda) syntax:**
+When using arrow syntax, you'll often want to use anonymous functions (lambdas) in the body:
+```lean
+def add : Nat → Nat → Nat := fun x y => x + y
+-- or equivalently using the Greek letter λ (lambda):
+def add : Nat → Nat → Nat := λ x y => x + y  
+```
+Both `fun` and `λ` mean exactly the same thing - it's just a matter of preference!
+
+**3. Using `match` expressions for pattern matching:**
+When you need to handle different cases based on the structure of your input, `match` expressions are very powerful:
+```lean
+def isZero (n : Nat) : Bool :=
+  match n with
+  | 0 => true
+  | _ => false
+```
+
+**4. Direct pattern matching (shorthand):**
+For functions that are primarily about pattern matching, Lean provides a convenient shorthand:
+```lean
+def isZero : Nat → Bool
+  | 0 => true
+  | _ => false
+```
+This is exactly equivalent to the `match` version above, but more concise!
+
+### Key Syntax Elements
+
+- **`def`** - keyword to define functions
+- **`fun`** or **`λ`** - lambda (anonymous) functions  
+- **`match ... with`** - pattern matching expressions
+- **`| pattern => result`** - pattern matching cases
+- **`_`** - wildcard pattern (matches anything)
+- **`=>`** - separates patterns from results
+
+### Implicit Arguments
+
+Before we dive deeper into pattern matching and more complex functions, there's one more crucial concept to understand: implicit arguments. You'll see these everywhere in Lean code, and they make functions much more pleasant to use.
+
+Consider this function that calculates the length of a list:
 
 ```lean
-def sumOfSquares : (x : List Nat) → Nat
-  match x with
-    | []      => 0
-    | x :: xs => x * x + sumOfSquares xs
+def length {α : Type} : List α → Nat  -- {α : Type} is implicit
+  | []      => 0  
+  | _ :: xs => 1 + length xs
 ```
 
-Lets look at each of these in more detail.
+Notice the `{α : Type}` - those curly braces make this an *implicit* argument. Here's what the different bracket types mean:
 
-## Pattern matching
+- **Explicit arguments:** `(x : Type)` - you must provide these when calling the function
+- **Implicit arguments:** `{x : Type}` - Lean figures these out automatically based on context
+- **Type class constraints:** `[TypeClass α]` - requirements for the type (we'll cover this later)
 
-Pattern-matching functions are functions that match patterns to produce outputs. They are defined using the `def` keyword, followed by the function name, type, and pattern-matching clauses.
-
-### Syntax
-
-The verbose lean syntax for pattern matching functions is:
+The beauty of implicit arguments is that you don't have to think about them most of the time:
 
 ```lean
-def functionName : inputType → outputType
-  match inputType with
-    | pattern₁ => output₁
-    | pattern₂ => output₂
-    ...
-    | patternN => outputN
+#eval length [1, 2, 3]       -- Lean knows this is a List Nat, so α = Nat
+#eval length ["a", "b"]      -- Lean knows this is a List String, so α = String
 ```
 
-This can be shortened to:
+But if for some reason you need to be explicit, you can use `@` to override the implicitness:
+```lean
+#eval @length Nat [1, 2, 3]  -- Explicitly tell Lean that α = Nat
+```
+
+This system makes Lean code much cleaner - imagine having to write `length Nat [1, 2, 3]` every time!
+
+Let's explore each of these concepts in detail.
+
+## Pattern Matching
+
+One of the most powerful features of Lean is pattern matching, which allows functions to behave differently based on the structure of their inputs. If you've used languages like Rust, Scala, or Haskell, this will feel familiar. If not, don't worry - it's an incredibly useful concept that will soon become second nature!
+
+Pattern matching is particularly useful when working with algebraic data types (like the ones we defined in the previous chapter). Instead of having to check conditions manually, we can let Lean automatically figure out which case we're dealing with.
+
+As we saw in the basic syntax section, there are two main ways to write pattern matching in Lean:
+
+### Two Pattern Matching Approaches
+
+**1. Using `match` expressions (explicit):**
+This approach is great when you need to do some computation before the pattern matching, or when the pattern matching is just part of a larger function body:
 
 ```lean
-def functionName : inputType → outputType
-  | pattern₁ => output₁
-  | pattern₂ => output₂
-  ...
-  | patternN => outputN
+def functionName (input : InputType) : OutputType :=
+  match input with
+  | pattern₁ => result₁
+  | pattern₂ => result₂
+  | _        => defaultResult
 ```
 
-There is also a version of pattern matching that uses a wildcard pattern (`_`) to match any value:
+**2. Direct pattern matching (shorthand):**
+When your function is primarily about pattern matching (which is very common!), this shorthand syntax is cleaner and more idiomatic:
 
 ```lean
-def functionName : inputType → outputType
-  | pattern₁ => output₁
-  | _        => defaultOutput
+def functionName : InputType → OutputType
+  | pattern₁ => result₁  
+  | pattern₂ => result₂
+  | _        => defaultResult
 ```
 
-There are also infix functions, which are functions that can be used in infix notation. For example, the `and` function can be used as `true ∧ false`.
+Both approaches do exactly the same thing - it's just a matter of style and what feels more natural for your particular function.
+
+### Multiple Arguments
+
+One of the nice things about pattern matching is that it works seamlessly with multiple arguments. This is particularly useful for functions that need to consider combinations of different inputs:
 
 ```lean
-def functionName : inputType → inputType → outputType
-  | pattern₁, pattern₂ => output
-  | pattern₃, pattern₄ => output
+def functionName : Type₁ → Type₂ → OutputType
+  | pattern₁, pattern₂ => result₁
+  | pattern₃, pattern₄ => result₂
+  | _,       _        => defaultResult
 ```
 
-Finally, you can define functions with multiple arguments:
+Notice how we separate the patterns with commas, and we can mix specific patterns with wildcards (`_`) as needed.
 
-```lean
-def functionName : inputType₁ → inputType₂ → outputType
-  | pattern₁, pattern₂ => output
-  | pattern₃, pattern₄ => output
-```
+### Common Patterns
+
+As you work with Lean, you'll encounter these common pattern types again and again. Don't worry about memorizing them all at once - you'll pick them up naturally through practice:
+
+- **Literal values:** `0`, `true`, `"hello"` - match exact values
+- **Wildcards:** `_` - matches anything (useful for "catch-all" cases)
+- **Variables:** `n`, `x` - bind the matched value to a name you can use
+- **Constructors:** `none`, `some x`, `x :: xs` - match data type constructors
+- **Arithmetic patterns:** `n + 1`, `m * 2` - special patterns for natural numbers
+
+The real power comes when you combine these - for example, `some (x + 1)` matches an optional value containing a natural number that's at least 1!
 
 ### The Logical Not
 
