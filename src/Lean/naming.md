@@ -9,8 +9,14 @@
 ---
 
 - [Modules](#modules)
+  - [File-based modules](#file-based-modules)
+  - [Importing modules](#importing-modules)
+  - [Explicit module declarations](#explicit-module-declarations)
 - [Naming Conventions](#naming-conventions)
-- [Other material](#other-material)
+- [Project Organization](#project-organization)
+  - [Directory Structure](#directory-structure)
+  - [Import Patterns](#import-patterns)
+- [Learning Resources](#learning-resources)
 
 ## Modules
 
@@ -64,9 +70,74 @@ Lean has some common naming practices, though they're more guidelines than stric
 5. Unicode characters: Lean supports Unicode, so mathematical symbols are common (e.g., `∀`, `λ`, `→`)
 6. Notation: Lean has a powerful notation system for defining custom syntax
 
-## Other material
+## Project Organization
 
-Here's a list of resources for learning Lean:
+### Directory Structure
+
+Lean projects benefit from consistent organization. Here are common patterns:
+
+**Mathematical projects:**
+
+```bash
+src/
+├── Basic/
+│   ├── Definitions.lean    # Core definitions
+│   └── Properties.lean     # Basic properties
+├── Algebra/
+│   ├── Groups.lean         # Group theory
+│   └── Rings.lean          # Ring theory
+└── Logic/
+    ├── Propositional.lean  # Propositional logic
+    └── Predicate.lean      # Predicate logic
+```
+
+**Software projects:**
+
+```bash
+src/
+├── Core/
+│   ├── Types.lean          # Core data types
+│   └── Utils.lean          # Utility functions
+├── Parser/
+│   ├── Lexer.lean          # Lexical analysis
+│   └── Grammar.lean        # Grammar definitions
+└── Compiler/
+    ├── Frontend.lean       # Frontend processing
+    └── Backend.lean        # Code generation
+```
+
+### Import Patterns
+
+Lean imports should be structured to minimize dependencies and improve clarity. Here are some stuff to remember:
+
+**Hierarchical imports:** Lean imports should ideally be hierarchical, importing from more general to more specific modules.
+
+```lean
+import Basic.Definitions    -- General definitions first
+import Basic.Properties     -- Then their properties
+import Algebra.Groups       -- Then specialized structures
+```
+
+**Avoiding circular imports:** Circular dependencies can lead to complications and Lean may fail to compile. Ensure that modules do not depend on each other in a circular manner.
+
+```lean
+-- ✓ Good: Clear dependency chain
+Basic.Definitions → Basic.Properties → Algebra.Groups → Algebra.Advanced
+
+-- ✗ Bad: Circular dependency
+Groups ↔ Rings  -- Groups imports Rings, Rings imports Groups
+```
+
+**Selective imports:** Importing broad modules can lead to namespace pollution, leading to stuff like naming conflicts to increasing compilation times. Import only what is needed.
+
+```lean
+import Basic.Definitions (MyType, myFunction)
+import Algebra.Groups (Group, group_axioms)
+```
+
+## Learning Resources
+
+Here are recommended resources for learning Lean:
 
 1. [Lean's official documentation](https://leanprover.github.io/lean4/doc/): A great guide to get started with Lean 4.
 
