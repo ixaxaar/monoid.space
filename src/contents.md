@@ -9,7 +9,6 @@
 - [Types & Data structures](./Lean.types.html)
 - [Functions](./Lean.functions.html)
 - [Algorithms](./Lean.algorithms.html)
-- [Modules and projects](./Lean.other.html)
 - [Debugging](./Lean.debugging.html)
 
 ## 2. Type Theory
