@@ -10,13 +10,19 @@
 
 - [Types](#types)
   - [Declarations](#declarations)
+  - [Lean Syntax](#lean-syntax)
+  - [Basic Declarations](#basic-declarations)
   - [The `inductive` Keyword](#the-inductive-keyword)
+  - [The `structure` Keyword](#the-structure-keyword)
+  - [The `deriving` Clause](#the-deriving-clause)
 - [Basic Types](#basic-types)
   - [Empty Type](#empty-type)
   - [Unit](#unit)
   - [Boolean](#boolean)
   - [Natural Numbers](#natural-numbers)
   - [Characters and Strings](#characters-and-strings)
+    - [Characters](#characters)
+    - [Strings](#strings)
   - [Other Primitive Types](#other-primitive-types)
 - [Collections](#collections)
   - [Lists](#lists)
@@ -33,7 +39,6 @@
 - [Advanced Types](#advanced-types)
   - [Type Classes](#type-classes)
   - [Dependent Types](#dependent-types)
-  - [Propositions as Types](#propositions-as-types)
 
 ## Types
 
@@ -50,6 +55,49 @@ def b : Bool := true
 
 This is similar to type annotations in languages like TypeScript or Kotlin. The `def` keyword is used to define a new variable, `x`, with type `Nat` and value `0`. Similarly, `b` is defined as a `Bool` with value `true`. The types `Nat` and `Bool` are built-in types in Lean, representing natural numbers and boolean values, respectively.
 
+### Lean Syntax
+
+Before we dive further into types, here are a few of Lean's syntax elements that will be useful:
+
+**Keywords:**
+
+| Keyword     | Purpose                                                         |
+| ----------- | --------------------------------------------------------------- |
+| `def`       | Defines functions and values                                    |
+| `inductive` | Defines algebraic data types                                    |
+| `structure` | Defines record types (product types)                            |
+| `where`     | Introduces definitions or constraints                           |
+| `deriving`  | Automatically generates implementations for common type classes |
+| `open`      | Brings namespace contents into scope                            |
+
+**Argument types:**
+
+| Argument Type   | Description                          | Example                        |
+| --------------- | ------------------------------------ | ------------------------------ |
+| `(x : Type)`    | Explicit arguments, must be provided | `def f (n : Nat) : Nat`        |
+| `{x : Type}`    | Implicit arguments, inferred by Lean | `def f {α : Type} (x : α) : α` |
+| `[TypeClass α]` | Type class constraints               | `def f [Add α] (x y : α) : α`  |
+
+**Operators:**
+
+| Operator | Description                                 | Example                                     |
+| -------- | ------------------------------------------- | ------------------------------------------- |
+| `::`     | List cons (prepend element)                 | `1 :: [2, 3]` results in `[1, 2, 3]`        |
+| `++`     | String/list concatenation                   | `"hello" ++ " world"` or `[1, 2] ++ [3, 4]` |
+| `\|`     | Pattern matching cases or type constructors | `\| some x => x` or `\| nil \| cons`        |
+
+### Basic Declarations
+
+To define values of a certain type, we can use the `def` keyword followed by the variable name, a colon, the type, an equals sign, and the value. For example:
+
+```lean
+def myNumber : Nat := 42
+def myBoolean : Bool := true
+def myString : String := "Hello, Lean!"
+```
+
+Here, `myNumber` is defined as a natural number (`Nat`) with the value `42`, `myBoolean` is a boolean (`Bool`) with the value `true`, and `myString` is a string (`String`) with the value `"Hello, Lean!"`.
+
 ### The `inductive` Keyword
 
 The `inductive` keyword is used to define new types in Lean. It is similar to `data` in Haskell or `sealed class` in Kotlin. Its syntax is as follows:
@@ -61,11 +109,41 @@ inductive TypeName (type parameters) : Type
   ...
 ```
 
-Here, `TypeName` is the name of the new type being defined, and it can take type parameters (like generics in other languages). The `: Type` part indicates that `TypeName` is a type. Each constructor defines a way to create values of this type, with their respective types.
+Here, `TypeName` is the name of the new type being defined, and it can take type parameters (like generics in other languages). The `: Type` part indicates that `TypeName` is a type. Each constructor defines a way to create values of this type, with their respective types. We will see some examples below.
+
+### The `structure` Keyword
+
+The `structure` keyword defines product types (records) - types that combine multiple fields:
+
+```lean
+structure StructName (parameters) where
+  field1 : Type1
+  field2 : Type2
+```
+
+This is similar to `struct` in C++ or classes with only data fields in other languages.
+
+### The `deriving` Clause
+
+The `deriving` clause can be used with `inductive` and `structure` to automatically generate implementations for common type classes. This is similar to `deriving` in Haskell or `@dataclass` in Python. For example, we can derive `Repr`, `BEq`, and `Hashable` for a `Point` structure like so:
+
+```lean
+structure Point where
+  x : Float
+  y : Float
+deriving Repr, BEq, Hashable
+```
+
+Common derivable type classes include:
+
+- `Repr` - enables printing values with `#eval`
+- `BEq` - enables equality comparison with `==`
+- `Hashable` - enables use in hash tables
+- `Inhabited` - provides a default value
 
 ## Basic Types
 
-There are several other primitive types in Lean, let's take a look at them:
+There are several primitive types in Lean, let's have a look:
 
 ### Empty Type
 
@@ -299,67 +377,21 @@ structure Stack (α : Type) where
 deriving Repr
 ```
 
-Here we use the `structure` keyword to define a new data structure `Stack` with a single field `elems` of type `List α`. In Lean, the `structure` keyword is used to define new data structures, similar to `data` in Haskell or `struct` in C++. The structure also derives a `Repr` instance, which allows us to print the stack using `#eval`.
-
-We can define operations like `push` and `pop` on the stack:
-
-```lean
-def push {α : Type} (s : Stack α) (x : α) : Stack α :=
-  { s with elems := x :: s.elems } -- prepend x to the front of the list
-
--- in pop we return the top element and the rest of the stack
-def pop {α : Type} (s : Stack α) : Option (α × Stack α) :=
-  match s.elems with
-  | [] => none
-  | x :: xs => some (x, { elems := xs })
-```
-
-Here, `push` adds an element to the top of the stack, while `pop` removes and returns the top element:
-
-```lean
-def s : Stack Float := { elems := [1.0, 2.2, 0.3] }
-def s' := push s 4.2
-#eval pop s'  -- Output: some (4.200000, { elems := [1.000000, 2.200000, 0.300000] })
-```
-
-Sections where functions are defined can be revisited after going through the next chapter.
+Here we use the `structure` keyword to define a new data structure `Stack` with a single field `elems` of type `List α`. To actually define the behavior of the stack, we also need to define the push and pop operations which we cover in the next chapter on functions.
 
 ### Queues
 
 Queues are another common data structure that follows the First In First Out (FIFO) principle. We can implement a queue using a list:
 
 ```lean
-structure Q (α : Type) where
+structure Queue (α : Type) where
   elems : List α
 deriving Repr
-
-def x : Q Nat := { elems := [1, 2, 3] }
-#eval x.elems  -- Output: [1, 2, 3]
-```
-
-Enqueue and dequeue operations can be performed on the queue:
-
-```lean
-def enqueue {α : Type} (q : Q α) (x : α) : Q α :=
-  { q with elems := q.elems ++ [x] } -- append x to the end of the list
-
-def dequeue {α : Type} (q : Q α) : Option (α × Q α) :=
-  match q.elems with
-  | [] => none
-  | x :: xs => some (x, { elems := xs })
-```
-
-Finally, queues can be used as such:
-
-```lean
-def q : Q Float := { elems := [1.0, 2.2, 0.3] }
-def q' := enqueue q 4.2
-#eval dequeue q'  -- Output: some (1.000000, { elems := [2.200000, 0.300000, 4.200000] })
 ```
 
 ### Maps
 
-Maps are key-value pairs that allow efficient lookup of values based on keys. These are similar to dictionaries in Python or hash maps in Java. We can implement a map using a list of key-value pairs:
+Maps are key-value pairs that allow efficient lookup of values based on keys. These are similar to dictionaries in Python or hash maps in Java. We can implement a simple map using a list of key-value pairs:
 
 ```lean
 structure Map (α β : Type) where
@@ -367,44 +399,11 @@ structure Map (α β : Type) where
 deriving Repr
 ```
 
-We now need to define how to access elements in the map:
-
-```lean
-def find {α β : Type} [DecidableEq α] (m : Map α β) (key : α) : Option β :=
-  match m.pairs.find? (fun (k, _) => k == key) with
-  | some (_, v) => some v
-  | none => none
-```
-
-Here, `find` searches for a key in the map and returns the corresponding value if found. We can define find as an infix operator for easier use:
-
-```lean
-infix:50 " ?? " => find
-```
-
-Here we define the `??` operator to find a value in the map. These are called as infix operators, and the number `50` is the precedence of the operator. This allows us to use the `??` operator to find values in the map:
-
-```lean
-def exampleMap1 : Map Nat String :=
-  Map.mk [(1, "one"), (2, "two"), (3, "three")]
-
-#eval exampleMap1 ?? 2  -- Output: some "two"
-```
-
-Representing maps as lists of key-value pairs is not the most efficient way to implement them, but it serves as a simple example. Lean also provides more efficient implementations of maps in the standard library.
-
-We can use more optimized implementations by importing the `Std.Data.HashMap` module:
+For more efficient implementations, Lean provides `Std.HashMap` in the standard library which can be used as follows:
 
 ```lean
 import Std.Data.HashMap
-```
-
-```lean
-def exampleMap : Std.HashMap Nat String :=
-  Std.HashMap.ofList [(1, "one"), (2, "two"), (3, "three")]
-
-#eval exampleMap.contains 2  -- true
-#eval exampleMap.get! 2  -- "two"
+def exampleMap : Std.HashMap String Nat := Std.HashMap.empty.insert "one" 1 |>.insert "two" 2
 ```
 
 ### Binary Trees
@@ -434,16 +433,6 @@ This creates a binary tree with the following structure:
   2   3
 ```
 
-We can define operations on binary trees, such as finding the depth of the tree:
-
-```lean
-def depth : BinTree α → Nat
-  | BinTree.leaf => 0
-  | BinTree.node _ left right => 1 + max (depth left) (depth right)
-
-#eval depth exampleTree  -- Output: 2
-```
-
 ### Graphs
 
 We can represent graphs in Lean using vertices and edges:
@@ -468,15 +457,6 @@ def v1 := Vertex.mk 1
 def v2 := Vertex.mk 2
 def e := Edge.mk v1 v2
 def g : Graph := { vertices := [v1, v2], edges := [e] }
-```
-
-Operations on graphs can be defined, such as finding the neighbors of a vertex:
-
-```lean
-def neighbors (v : Vertex) (g : Graph) : List Vertex :=
-  g.edges.filterMap fun e =>
-    if e.from == v then some e.to
-    else none
 ```
 
 ## Custom Types
@@ -522,14 +502,6 @@ These constructors can be used to create objects of type `Shape`:
 ```lean
 def myCircle := Shape.circle 5.0
 def myRectangle := Shape.rectangle 4.0 6.0
-```
-
-The `Shape` type can now be used in functions to calculate the area of a shape using pattern matching:
-
-```lean
-def area : Shape → Float
-  | Shape.circle r => Float.pi * r * r
-  | Shape.rectangle w h => w * h
 ```
 
 `Option` and `Either` types are also examples of sum types:
@@ -628,32 +600,10 @@ Here, `Vector α n` is a vector of length `n` containing elements of type `α`. 
 def vec1 : Vector Bool 1 := Vector.cons true Vector.nil
 def vec2 : Vector Bool 2 := Vector.cons false vec1
 
--- Type-safe head function
-def head {α : Type} {n : Nat} : Vector α (n+1) → α
-  | Vector.cons x _ => x
-
-#eval head vec2  -- Output: false
--- This would be a compile-time error: #eval head Vector.nil
+-- This would be a compile-time error: head Vector.nil as it has length 0
 ```
 
 This is similar to dependent types in languages like Idris or Agda, but is not found in most mainstream programming languages. Dependent types allow us to encode complex invariants in the type system, leading to safer and more expressive code, and moving some runtime errors to compile-time errors.
-
-### Propositions as Types
-
-In Lean, propositions are types, and proofs are values of these types. This is known as the Curry-Howard correspondence:
-
-```lean
--- Conjunction (AND)
-def and_comm {p q : Prop} : p ∧ q → q ∧ p :=
-  fun h => And.intro h.right h.left
-
--- Disjunction (OR)
-def or_comm {p q : Prop} : p ∨ q → q ∨ p
-  | Or.inl hp => Or.inr hp
-  | Or.inr hq => Or.inl hq
-```
-
-This allows Lean to be used not just as a programming language, but as a powerful theorem prover. We will cover more about theorem proving in a subsequent chapter.
 
 ---
 
