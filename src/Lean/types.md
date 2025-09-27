@@ -288,7 +288,7 @@ def multiline : String := "Line 1\nLine 2"
 def unicode : String := "café 🌟"
 ```
 
-Common string operations include:
+Common string operations are available via built-in methods:
 
 ```lean
 def length := greeting.length         -- Get string length
@@ -351,6 +351,16 @@ def exampleList2 := false :: exampleList
 #eval length exampleList2  -- Output: 4
 ```
 
+Lists can be constructed using the `::` operator or list literals like `[1, 2, 3]`. Common operations on lists include:
+
+```lean
+def head := exampleList.head        -- Get first element
+def tail := exampleList.tail        -- Get list without first element
+def length := exampleList.length    -- Get length of list
+def isEmpty := exampleList.isEmpty  -- Check if list is empty
+def concat := exampleList ++ [false, false]  -- Concatenate lists
+```
+
 ### Arrays
 
 Dynamic arrays are also available in Lean, which are similar to lists but have better performance for some operations:
@@ -370,6 +380,16 @@ We can also use the `push` function to add elements to the array:
 ```lean
 def exampleArray2 := exampleArray.push 4
 #eval exampleArray2.get! 3  -- Output: 4
+```
+
+Other common operations include:
+
+```lean
+def length := exampleArray.size          -- Get size of array
+def isEmpty := exampleArray.isEmpty      -- Check if array is empty
+def modify := exampleArray.modify 0 (fun x => x + 10)  -- Modify element
+#eval modify.get! 0  -- Output: 11
+def toList := exampleArray.toList        -- Convert array to list
 ```
 
 ### Sets
@@ -402,6 +422,14 @@ def exampleSet3 := exampleSet2.erase 4
 #eval exampleSet3.contains 4  -- false
 ```
 
+Other operations include:
+
+```lean
+def size := exampleSet.size          -- Get size of set
+def isEmpty := exampleSet.isEmpty    -- Check if set is empty
+def toList := exampleSet.toList      -- Convert set to list
+```
+
 ### Stacks
 
 Stacks are a common data structure that follows the Last In First Out (LIFO) principle. We can implement a stack using a list:
@@ -414,6 +442,22 @@ deriving Repr
 
 Here we use the `structure` keyword to define a new data structure `Stack` with a single field `elems` of type `List α`. To actually define the behavior of the stack, we also need to define the push and pop operations which we cover in the next chapter on functions.
 
+Lean also provides a built-in `Std.Stack` in the standard library which can be used as follows:
+
+```lean
+import Std.Data.Stack
+def exampleStack : Std.Stack Nat := Std.Stack.empty.push 1 |>.push 2
+#eval exampleStack.pop!  -- Output: (2, Stack with 1)
+```
+
+Operations on stacks include:
+
+```lean
+def isEmpty := exampleStack.isEmpty      -- Check if stack is empty
+def size := exampleStack.size            -- Get size of stack
+def toList := exampleStack.toList        -- Convert stack to list
+```
+
 ### Queues
 
 Queues are another common data structure that follows the First In First Out (FIFO) principle. We can implement a queue using a list:
@@ -422,6 +466,22 @@ Queues are another common data structure that follows the First In First Out (FI
 structure Queue (α : Type) where
   elems : List α
 deriving Repr
+```
+
+Lean also provides a built-in `Std.Queue` in the standard library which can be used as follows:
+
+```lean
+import Std.Data.Queue
+def exampleQueue : Std.Queue Nat := Std.Queue.empty.enqueue 1 |>.enqueue 2
+#eval exampleQueue.dequeue!  -- Output: (1, Queue with 2)
+```
+
+Operations on queues include:
+
+```lean
+def isEmpty := exampleQueue.isEmpty      -- Check if queue is empty
+def size := exampleQueue.size            -- Get size of queue
+def toList := exampleQueue.toList        -- Convert queue to list
 ```
 
 ### Maps
@@ -439,6 +499,17 @@ For more efficient implementations, Lean provides `Std.HashMap` in the standard 
 ```lean
 import Std.Data.HashMap
 def exampleMap : Std.HashMap String Nat := Std.HashMap.empty.insert "one" 1 |>.insert "two" 2
+```
+
+The standard library also provides functions to manipulate maps:
+
+```lean
+#eval exampleMap.find? "one"  -- Output: some 1
+#eval exampleMap.find? "three"  -- Output: none
+def exampleMap2 := exampleMap.insert "three" 3
+#eval exampleMap2.find? "three"  -- Output: some 3
+def exampleMap3 := exampleMap2.erase "two"
+#eval exampleMap3.find? "two"  -- Output: none
 ```
 
 ### Binary Trees
@@ -468,6 +539,18 @@ This creates a binary tree with the following structure:
   2   3
 ```
 
+Using the standard library, we can also use `Std.BinTree` which provides additional functionality:
+
+```lean
+import Std.Data.BinTree
+def exampleTree2 : Std.BinTree Nat :=
+  Std.BinTree.node 1
+    (Std.BinTree.node 2 Std.BinTree.leaf Std.BinTree.leaf)
+    (Std.BinTree.node 3 Std.BinTree.leaf Std.BinTree.leaf)
+```
+
+Binary trees support operations like insertion, search, traversal, checking if empty, and getting size. (See the Functions chapter for implementation examples.)
+
 ### Graphs
 
 We can represent graphs in Lean using vertices and edges:
@@ -493,6 +576,19 @@ def v2 := Vertex.mk 2
 def e := Edge.mk v1 v2
 def g : Graph := { vertices := [v1, v2], edges := [e] }
 ```
+
+The standard library also provides `Std.Graph` which can be used for more complex graph operations.
+
+```lean
+import Std.Data.Graph
+def exampleGraph : Std.Graph Nat :=
+  Std.Graph.empty
+    .addVertex 1
+    .addVertex 2
+    .addEdge 1 2
+```
+
+Graphs support operations like adding vertices/edges, checking connectivity, traversal, and various graph algorithms. (See the Functions chapter for implementation examples.)
 
 ## Custom Types
 
