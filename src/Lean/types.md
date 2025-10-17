@@ -143,6 +143,8 @@ Common derivable type classes include:
 
 - `Repr` - enables printing values with `#eval`
 - `BEq` - enables (binary) equality comparison with `==`
+- `Ord α` - Ordering comparisons (`<`, `≤`, `>`, `≥`) and `compare` function
+- `Add α` - Addition operation (`+`)
 - `Hashable` - enables use in hash tables
 - `Inhabited` - provides a default value
 
