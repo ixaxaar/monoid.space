@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Lean/debugging</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a> <a href="Lean.algorithms.html">Previous</a> <a
+href="Types.introduction.html">Next</a></p>
+<h1 id="debugging">Debugging</h1>
+<hr />
+<ul>
+<li><a href="#holes">Holes</a></li>
+<li><a href="#checking-and-evaluating">Checking and Evaluating</a>
+<ul>
+<li><a href="#check"><code>#check</code></a></li>
+<li><a href="#eval"><code>#eval</code></a></li>
+</ul></li>
+<li><a href="#inspecting-definitions">Inspecting Definitions</a>
+<ul>
+<li><a href="#print"><code>#print</code></a></li>
+<li><a href="#reduce"><code>#reduce</code></a></li>
+</ul></li>
+<li><a href="#local-definitions">Local Definitions</a>
+<ul>
+<li><a href="#let-expressions"><code>let</code> expressions</a></li>
+</ul></li>
+<li><a href="#practical-debugging-examples">Practical Debugging Examples</a></li>
+<li><a href="#best-practices">Best Practices</a></li>
+</ul>
+<p>Debugging in Lean involves understanding types, values, and how expressions evaluate. This chapter covers the basic
+tools you need to debug the functions and algorithms we’ve covered so far.</p>
+<h2 id="holes">Holes</h2>
+<p>Holes are a powerful debugging tool in Lean. They allow you to insert placeholders in your code for incomplete or
+unknown parts. You can use the <code>_</code> symbol to create a hole, and Lean will tell you what type is expected
+there.</p>
+<p>Here’s an example of using holes in Lean:</p>
+<pre class="lean"><code>def add (x y : Nat) : Nat :=
+  _ + y</code></pre>
+<p>When you hover over or check this code, Lean will tell you:</p>
+<pre><code>don&#39;t know how to synthesize placeholder
+context:
+x y : Nat
+⊢ Nat</code></pre>
+<p>This tells you that Lean expects a <code>Nat</code> in that position. You can then replace the hole with the correct
+expression:</p>
+<pre class="lean"><code>def add (x y : Nat) : Nat :=
+  x + y</code></pre>
+<p>Holes are particularly useful when:</p>
+<ul>
+<li>You’re building up complex expressions incrementally</li>
+<li>You want to see what type Lean expects in a specific position</li>
+<li>You’re not sure what expression to write next</li>
+</ul>
+<h2 id="checking-and-evaluating">Checking and Evaluating</h2>
+<p>The two most basic and frequently used debugging commands are <code>#check</code> and <code>#eval</code>.</p>
+<h3 id="check"><code>#check</code></h3>
+<p>Use <code>#check</code> to see the type of any expression. This is essential for understanding what you’re working
+with:</p>
+<pre class="lean"><code>#check 1 + 1           -- Nat
+#check &quot;Hello&quot;         -- String
+#check [1, 2, 3]       -- List Nat
+#check add             -- Nat → Nat → Nat
+
+-- Check the type of more complex expressions
+#check List.map        -- {α β : Type} → (α → β) → List α → List β
+#check (1, &quot;hello&quot;)    -- Nat × String</code></pre>
+<h3 id="eval"><code>#eval</code></h3>
+<p>Use <code>#eval</code> to evaluate an expression and see its result:</p>
+<pre class="lean"><code>#eval 2 + 2                    -- 4
+#eval &quot;Hello, &quot; ++ &quot;World!&quot;    -- &quot;Hello, World!&quot;
+#eval [1, 2, 3].length         -- 3
+#eval add 5 3                  -- 8
+
+-- Evaluate function calls
+#eval map (· + 1) [1, 2, 3]    -- [2, 3, 4]
+#eval listFilter (· &gt; 2) [1, 2, 3, 4]  -- [3, 4]</code></pre>
+<p>Note: <code>#eval</code> only works on computable expressions. It won’t work on proofs or non-computable
+functions.</p>
+<h2 id="inspecting-definitions">Inspecting Definitions</h2>
+<h3 id="print"><code>#print</code></h3>
+<p>The <code>#print</code> command shows you the definition of constants, functions, or types:</p>
+<pre class="lean"><code>#print Nat.add
+#print List
+#print add</code></pre>
+<p>This is useful when:</p>
+<ul>
+<li>You want to understand how a standard library function works</li>
+<li>You’ve forgotten what a function you defined earlier looks like</li>
+<li>You’re debugging why a function behaves unexpectedly</li>
+</ul>
+<h3 id="reduce"><code>#reduce</code></h3>
+<p>The <code>#reduce</code> command reduces an expression to its normal form, showing all computation steps:</p>
+<pre class="lean"><code>#reduce 2 + 2              -- 4
+#reduce [1, 2] ++ [3, 4]   -- [1, 2, 3, 4]
+#reduce map (· * 2) [1, 2, 3]  -- [2, 4, 6]</code></pre>
+<p>The difference between <code>#eval</code> and <code>#reduce</code>:</p>
+<ul>
+<li><code>#eval</code> compiles and runs the code (faster, for runtime)</li>
+<li><code>#reduce</code> shows the reduction steps (slower, for understanding evaluation)</li>
+</ul>
+<h2 id="local-definitions">Local Definitions</h2>
+<h3 id="let-expressions"><code>let</code> expressions</h3>
+<p>Use <code>let</code> to create local bindings within expressions. This helps break down complex computations and
+makes debugging easier:</p>
+<pre class="lean"><code>def sumOfSquares (x y : Nat) : Nat :=
+  let xSquared := x * x
+  let ySquared := y * y
+  xSquared + ySquared
+
+#eval sumOfSquares 3 4  -- 25</code></pre>
+<p>You can also use <code>let</code> for debugging by inserting intermediate values:</p>
+<pre class="lean"><code>def complexCalculation (n : Nat) : Nat :=
+  let step1 := n * 2
+  let step2 := step1 + 5
+  let step3 := step2 * step2
+  step3
+
+#eval complexCalculation 3  -- 121
+-- If you want to debug, you can add #eval for each step</code></pre>
+<h2 id="practical-debugging-examples">Practical Debugging Examples</h2>
+<p>Let’s look at common debugging scenarios:</p>
+<p><strong>1. Type Mismatch:</strong></p>
+<pre class="lean"><code>def incorrect_add (x : Nat) (y : Int) : Nat :=
+  x + y  -- Error: type mismatch
+         -- expected: Nat
+         -- got: Int</code></pre>
+<p>Debug using <code>#check</code>:</p>
+<pre class="lean"><code>#check x + y  -- This helps you see the type of the expression</code></pre>
+<p>Fix using type conversion:</p>
+<pre class="lean"><code>def correct_add (x : Nat) (y : Int) : Nat :=
+  x + y.toNat</code></pre>
+<p><strong>2. Understanding Function Types:</strong></p>
+<pre class="lean"><code>#check map
+-- {α β : Type} → (α → β) → List α → List β
+-- This shows: map is polymorphic, takes a function and a list, returns a list</code></pre>
+<p><strong>3. Debugging Complex Expressions:</strong></p>
+<pre class="lean"><code>def processData (xs : List Nat) : Nat :=
+  let filtered := listFilter (· &gt; 5) xs
+  let mapped := map (· * 2) filtered
+  let result := listSum mapped
+  result
+
+#eval processData [1, 6, 3, 8]             -- 28</code></pre>
+<p><strong>4. Incomplete Pattern Matching:</strong></p>
+<pre class="lean"><code>inductive Color
+  | Red | Green | Blue
+
+def colorToString (c : Color) : String :=
+  match c with
+  | Color.Red =&gt; &quot;red&quot;
+  | Color.Green =&gt; &quot;green&quot;
+  -- Error: missing case Color.Blue
+
+-- Use holes to find what&#39;s missing:
+def colorToString&#39; (c : Color) : String :=
+  match c with
+  | Color.Red =&gt; &quot;red&quot;
+  | Color.Green =&gt; &quot;green&quot;
+  | Color.Blue =&gt; _  -- Lean tells you: expected String</code></pre>
+<h2 id="best-practices">Best Practices</h2>
+<ol type="1">
+<li><p><strong>Use <code>#check</code> liberally</strong> - Check types frequently to catch errors early</p></li>
+<li><p><strong>Test incrementally</strong> - Use <code>#eval</code> to test functions as you write them</p></li>
+<li><p><strong>Break down complex functions</strong> - Use <code>let</code> bindings to create intermediate
+steps</p></li>
+<li><p><strong>Use holes strategically</strong> - Insert <code>_</code> to see what Lean expects</p></li>
+<li><p><strong>Keep functions small</strong> - Smaller functions are easier to test and debug</p></li>
+<li><p><strong>Use descriptive names</strong> - Good names make debugging much easier</p></li>
+</ol>
+<pre class="lean"><code>-- Good: clear what each step does
+def processNumbers (xs : List Nat) : Nat :=
+  let filtered := listFilter (· &gt; 0) xs
+  let doubled := map (· * 2) filtered
+  listSum doubled
+
+-- Less clear: harder to debug
+def processNumbers&#39; (xs : List Nat) : Nat :=
+  listSum (map (· * 2) (listFilter (· &gt; 0) xs))</code></pre>
+<ol start="7" type="1">
+<li><strong>Test edge cases</strong> - Always test with empty lists, zero values, etc.</li>
+</ol>
+<pre class="lean"><code>#eval processNumbers []          -- Test empty case
+#eval processNumbers [0]         -- Test zero
+#eval processNumbers [1, 2, 3]   -- Test normal case</code></pre>
+<hr />
+<p><a href="./Types.introduction.html">Type Theory - Introduction</a></p>
+</body>
+</html>

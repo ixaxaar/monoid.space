@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>HoTT/introduction</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a> <a href="Algebra.real.html">Previous</a> <a
+href="HoTT.identity.html">Next</a></p>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<hr />
+<ul>
+<li><a href="#homotopy-type-theory">Homotopy Type Theory</a></li>
+<li><a href="#intensional-and-extensional-type-theories">Intensional and Extensional Type Theories</a></li>
+<li><a href="#univalence">Univalence</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h1 id="homotopy-type-theory">Homotopy Type Theory</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Agda<span class="ot">.</span>Primitive <span class="kw">using</span> <span class="ot">(</span>Level<span class="ot">;</span> <span class="ot">_</span>⊔<span class="ot">_;</span> lsuc<span class="ot">;</span> lzero<span class="ot">)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>product</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>relations</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span> <span class="kw">import</span> Types<span class="ot">.</span>equality</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> HoTT<span class="ot">.</span>introduction <span class="kw">where</span></span></code></pre></div>
+<p>Homotopy type theory is a part of a mathematician’s quest to have a formal language in which to write mathematics
+such that the correctness of the mathematics written can be automatically verified by a computer program. This
+mathematician, Vladimir Voevodsky, played a large part in formalizing homotopy type theory and lead the restructuring of
+mathematics based on this new foundation, called Univalent foundations, so that it is easier to implement and work
+consistently in these formal languages.</p>
+<p>We are working in one such language, Agda, though Voevodsky had used a different one - <a
+href="https://coq.inria.fr/">Coq</a>. There are a few more of such languages called <strong>Theorem Provers</strong>,
+notably <a href="https://isabelle.in.tum.de/">Isabelle</a>, <a href="https://www.idris-lang.org/">Idris</a>, <a
+href="https://arend-lang.github.io/">Arend</a> and <a href="https://leanprover.github.io/">Lean</a>.</p>
+<h1 id="intensional-and-extensional-type-theories">Intensional and Extensional Type Theories</h1>
+<p>Part of the technical problem that was faced, apart from the need for restructuring and refactoring all of
+mathematics, which needed HoTT as a solution, has to deal with how we define equivalences.</p>
+<p>In the current system, if say we were to define two types, both representing natural numbers:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> ℕ₁ <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  zero₁ <span class="ot">:</span> ℕ₁</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  succ₁ <span class="ot">:</span> ℕ₁ <span class="ot">→</span> ℕ₁</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> ℕ₂  <span class="ot">:</span> <span class="dt">Set</span> <span class="kw">where</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  zero₂ <span class="ot">:</span> ℕ₂</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  succ₂ <span class="ot">:</span> ℕ₂ <span class="ot">→</span> ℕ₂</span></code></pre></div>
+<p>Now two objects, both representing <code>3</code>, will be considered different:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode agda"><code class="sourceCode agda"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>three₁ <span class="ot">=</span> succ₁ <span class="ot">(</span>succ₁ <span class="ot">(</span>succ₁ zero₁<span class="ot">))</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>three₂ <span class="ot">=</span> succ₂ <span class="ot">(</span>succ₂ <span class="ot">(</span>succ₂ zero₂<span class="ot">))</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>eq <span class="op">:</span> three₁ ≡ three₂</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>eq <span class="ot">=</span> refl</span></code></pre></div>
+<p>and the compiler throws the error:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ℕ₂ <span class="op">!=&lt;</span> ℕ₁</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>when checking that the expression three₂ has <span class="kw">type</span> ℕ₁</span></code></pre></div>
+<p>In order to make these types equal, we have to define an equality type where we provide a proof that ℕ₁ and ℕ₂ are
+equal. This is the consequence of the flavor of type theory that we are using called “Intensional” type theory. In
+intensional type theory, one has to explicitly define all equivalences for all objects and some machinery for them to
+really work with these structures.</p>
+<p>In the above example, we could capture equivalence of integers without much code, however this problem compounds
+itself as one builds higher structures, say a group of integers or a real number field. These equivalences can be
+captured by <code>Setoid</code>s which are basically objects along with their definition of equivalences “packaged
+together” so that their implementations can be hidden. However, like many such foundational patches, the final
+implementations result in a mess where the base definitions need additional machinery and one needs to be aware of these
+implementations anyway when constructing higher structures. Some areas of mathematics are notably hard, like defining
+real numbers. However, for all its shortfalls, an intensional system guarantees that the type checking is decidable.</p>
+<p>In particular, intensional type theories lack:</p>
+<ol type="1">
+<li><strong>Functional extensionality</strong>: Two functions that are pointwise equal are equal.</li>
+<li><strong>Propositional extensionality</strong>: Two propositions that are logically equivalent are equal.</li>
+<li><strong>Quotients</strong>: We can quotient (subset) a type by an equivalence relation.</li>
+</ol>
+<p>The above can be technically handled by modeling Types using <code>Setoid</code>s instead of <code>Set</code>.
+However, if we need further extensionality by adding:</p>
+<ol start="4" type="1">
+<li><strong>Set extensionality</strong>: Two sets are equal if they are in a one-to-one correspondence.</li>
+</ol>
+<p>This creates a problem as two sets can be equal in many different ways. To account for this additional structure, we
+could model Types using <code>Groupoid</code>s (also known as a <code>Magma</code>) instead of <code>Setoid</code>s.</p>
+<p>Another flavor of type theory, “extensional” defines equivalences as - things that behave the same way are equal
+(regardless of their internal implementations). This, in a way, provides a better set of abstractions for working with
+mathematics as in order to build towers of abstractions, one needs to hide implementation details. Otherwise imagine one
+needing to know the intel instruction set to build a website. The shortfall in the extensional system is that it is
+possible to define types that are not decidable. In other words, there is no difference between definitional and
+propositional equalities allowing cases where type checking will never terminate. Another problem here is that Set
+extensionality cannot be modeled.</p>
+<p>As the extensional version has major drawbacks, there becomes a need for restructuring the modeling of equivalence in
+intensional type theory to build more extensionality along with cleaner and better abstracted implementations. This is
+where Homotopy Type Theory comes in.</p>
+<h1 id="univalence">Univalence</h1>
+<p>Roughly speaking, the mathematical theory that models equality and equivalence of types using abstractions from
+homotopy theory is called Homotopy Type Theory (or HoTT in short). The “Univalence” axiom sits at the core of HoTT and
+hence, the resulting type theories that build on HoTT are called “univalent type theories” and the math implemented in
+such type theories “univalent mathematics”.</p>
+<!-- outline further plan -->
+<hr />
+<p><a href="./HoTT.identity.html">Identity Types and Paths</a></p>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Types/identity</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a> <a href="Types.functions.html">Previous</a> <a
+href="Proofs.introduction.html">Next</a></p>
+<h1 id="identity-types">Identity Types</h1>
+<hr />
+<ul>
+<li><a href="#introduction">Introduction</a>
+<ul>
+<li><a href="#different-notions-of-equality">Different Notions of Equality</a></li>
+</ul></li>
+<li><a href="#identity-types">Identity Types</a>
+<ul>
+<li><a href="#properties">Properties</a>
+<ul>
+<li><a href="#reflexivity">Reflexivity</a></li>
+<li><a href="#symmetry">Symmetry</a></li>
+<li><a href="#transitivity">Transitivity</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#path-induction">Path Induction</a>
+<ul>
+<li><a href="#the-j-rule">The J Rule</a></li>
+<li><a href="#based-path-induction">Based Path Induction</a></li>
+<li><a href="#examples">Examples</a></li>
+</ul></li>
+<li><a href="#transport">Transport</a>
+<ul>
+<li><a href="#definition">Definition</a></li>
+<li><a href="#examples-1">Examples</a></li>
+</ul></li>
+<li><a href="#higher-identity-types">Higher Identity Types</a>
+<ul>
+<li><a href="#iterated-identity-types">Iterated Identity Types</a></li>
+<li><a href="#paths-between-paths">Paths Between Paths</a></li>
+</ul></li>
+<li><a href="#towards-homotopy-type-theory">Towards Homotopy Type Theory</a>
+<ul>
+<li><a href="#the-correspondence">The Correspondence</a></li>
+</ul></li>
+</ul>
+<pre class="lean"><code>import Mathlib.Data.Nat.Basic
+import Mathlib.Logic.Basic
+import Mathlib.Tactic.Basic</code></pre>
+<h2 id="introduction">Introduction</h2>
+<p>In programming, we often need to compare values for equality. In most languages, this is done with operators like
+<code>==</code> or <code>.equals()</code>. However, in type theory, equality is a much richer concept. Instead of being
+just a boolean operation that returns true or false, equality is itself a type. This means we can talk about proofs of
+equality, transformations between equal things, and even equalities between equalities.</p>
+<p>Consider these seemingly simple questions:</p>
+<ul>
+<li>When are two functions equal?</li>
+<li>When are two proofs of the same theorem equal?</li>
+<li>If we have two ways to show that <code>a = b</code>, are these ways themselves equal?</li>
+</ul>
+<p>These questions lead us to identity types, which provide a foundation for answering such questions and form the basis
+for more advanced concepts like Homotopy Type Theory.</p>
+<h3 id="different-notions-of-equality">Different Notions of Equality</h3>
+<p>Before looking at identity types, let’s recall the different kinds of equality we’ve encountered:</p>
+<ol type="1">
+<li><strong>Definitional Equality:</strong> Two terms are definitionally equal if they are equal “by definition” - they
+compute to the same thing. For example:</li>
+</ol>
+<pre class="lean"><code>#eval 2 + 2 -- 4
+#eval 4     -- 4</code></pre>
+<p>Here, <code>2 + 2</code> and <code>4</code> are definitionally equal because they compute to the same value.</p>
+<ol start="2" type="1">
+<li><strong>Propositional Equality:</strong> This is equality that needs to be <strong>proven</strong>. We write it as
+<code>a = b</code> in Lean:</li>
+</ol>
+<pre class="lean"><code>-- This needs a proof, even though it&#39;s &quot;obvious&quot;
+example : 2 + 3 = 5 := rfl</code></pre>
+<ol start="3" type="1">
+<li><strong>Path Equality:</strong> This is the notion of equality we’ll focus on in this chapter. It views equality as
+a “path” or identification between two points.</li>
+</ol>
+<h2 id="identity-types-1">Identity Types</h2>
+<p>Identity types, written as <code>a = b</code> or <code>Id a b</code> in type theory, represent the type of
+identifications (or paths) between two terms <code>a</code> and <code>b</code> of the same type.</p>
+<p>In Lean, the identity type is defined inductively (we’ll see the actual definition later), but conceptually it looks
+like this:</p>
+<pre class="lean"><code>inductive Eq {α : Type u} (a : α) : α → Type u
+| refl : Eq a a</code></pre>
+<p>This seemingly simple definition has profound implications. Let’s break it down:</p>
+<ol type="1">
+<li>For any type <code>α</code> and elements <code>a b : α</code>, there is a type <code>a = b</code></li>
+<li>We can construct a term of type <code>a = a</code> using <code>refl</code> (reflexivity)</li>
+<li>All other equalities require a proof</li>
+</ol>
+<p>For example:</p>
+<pre class="lean"><code>def proof_2_plus_2 : 2 + 2 = 4 := rfl
+
+#check proof_2_plus_2 -- proof_2_plus_2 : 2 + 2 = 4</code></pre>
+<p>Note that <code>proof_2_plus_2</code> is not just a boolean value - it’s a term of an identity type.</p>
+<h3 id="properties">Properties</h3>
+<p>Identity types have several fundamental properties that make them behave like our intuitive notion of equality.</p>
+<h4 id="reflexivity">Reflexivity</h4>
+<p>Every term is equal to itself:</p>
+<pre class="lean"><code>def refl_example {α : Type} (a : α) : a = a := rfl</code></pre>
+<h4 id="symmetry">Symmetry</h4>
+<p>If <code>a = b</code>, then <code>b = a</code>:</p>
+<pre class="lean"><code>def symm_example {α : Type} {a b : α} (h : a = b) : b = a := Eq.symm h</code></pre>
+<h4 id="transitivity">Transitivity</h4>
+<p>If <code>a = b</code> and <code>b = c</code>, then <code>a = c</code>:</p>
+<pre class="lean"><code>def trans_example {α : Type} {a b c : α} (h₁ : a = b) (h₂ : b = c) : a = c :=
+  Eq.trans h₁ h₂</code></pre>
+<h2 id="path-induction">Path Induction</h2>
+<p>The most powerful principle for working with identity types is path induction, also known as the J rule. This
+principle captures the idea that to prove something about all equalities, it suffices to prove it for reflexivity.</p>
+<h3 id="the-j-rule">The J Rule</h3>
+<p>The J rule states that to prove a property P of all equalities <code>p : x = y</code>, it suffices to prove P for all
+reflexivity proofs <code>refl : x = x</code>. In Lean:</p>
+<pre class="lean"><code>def J {α : Type} {x : α}
+      (P : (y : α) → x = y → Sort u)
+      (r : P x rfl)
+      {y : α} (p : x = y) : P y p :=
+  match p with
+  | rfl =&gt; r</code></pre>
+<p>This might look intimidating, but it’s saying: if you want to prove something about <em>any</em> equality, you only
+need to prove it for the case where the equality is reflexivity, i.e. the most basic case and all other equalities can
+be reduced to this.</p>
+<h3 id="based-path-induction">Based Path Induction</h3>
+<p>A simpler version of path induction fixes one endpoint:</p>
+<pre class="lean"><code>def based_path_induction
+      {α : Type} {a : α}
+      (P : (x : α) → a = x → Prop)
+      (r : P a rfl)
+      {b : α} (p : a = b) : P b p :=
+  match p with
+  | rfl =&gt; r</code></pre>
+<h3 id="examples">Examples</h3>
+<p>Here’s how we might use path induction to prove symmetry of equality:</p>
+<pre class="lean"><code>def symm_using_J {α : Type} {a b : α} (p : a = b) : b = a :=
+  J (fun x q =&gt; x = a) rfl p</code></pre>
+<h2 id="transport">Transport</h2>
+<p>Transport is a fundamental operation that allows us to move terms between types that are connected by an
+equality.</p>
+<h3 id="definition">Definition</h3>
+<p>Given a type family <code>P : α → Type</code>, an equality <code>p : a = b</code>, and a term <code>x : P a</code>,
+we can transport <code>x</code> along <code>p</code> to get a term of type <code>P b</code>:</p>
+<pre class="lean"><code>def transport {α : Type} {P : α → Type} {a b : α} (p : a = b) (x : P a) : P b :=
+  match p with
+  | rfl =&gt; x</code></pre>
+<h3 id="examples-1">Examples</h3>
+<p>This operation is incredibly powerful and can be used to define many other operations. For example, we can use it to
+define vector transport. Given a vector <code>v : Vector α n</code> and an equality <code>eq : n = m</code>, we can
+transport <code>v</code> to a vector of length <code>m</code>:</p>
+<pre class="lean"><code>def vec_transport {α : Type} {n m : Nat} (eq : n = m) (v : Vector α n) : Vector α m :=
+  transport eq v</code></pre>
+<h2 id="higher-identity-types">Higher Identity Types</h2>
+<p>One of the most interesting aspects of identity types is that they can be iterated - we can have equalities between
+equalities!</p>
+<h3 id="iterated-identity-types">Iterated Identity Types</h3>
+<p>Given <code>p q : a = b</code>, we can form the type <code>p = q</code> of equalities between equalities:</p>
+<pre class="lean"><code>def double_eq {α : Type} {a b : α} (p q : a = b) : Type :=
+  p = q</code></pre>
+<h3 id="paths-between-paths">Paths Between Paths</h3>
+<p>These higher identity types give rise to a rich structure where we can talk about paths between paths:</p>
+<pre class="lean"><code>-- A 2-path (path between paths)
+def path_between_paths {α : Type} {a b : α} {p q : a = b} (r : p = q) :
+  p = q := r</code></pre>
+<h2 id="towards-homotopy-type-theory">Towards Homotopy Type Theory</h2>
+<p>Identity types provide the foundation for Homotopy Type Theory (HoTT), where types are viewed as spaces, terms as
+points, and equalities as paths.</p>
+<h3 id="the-correspondence">The Correspondence</h3>
+<table>
+<thead>
+<tr>
+<th>Type Theory</th>
+<th>Homotopy Theory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Type</td>
+<td>Space</td>
+</tr>
+<tr>
+<td>Term</td>
+<td>Point</td>
+</tr>
+<tr>
+<td>Identity</td>
+<td>Path</td>
+</tr>
+<tr>
+<td>Higher Identity</td>
+<td>Higher Path</td>
+</tr>
+</tbody>
+</table>
+<p>However, to go there we need to introduce more concepts like algebraic geometry, higher inductive types and
+univalence. We’ll explore these in future chapters.</p>
+<hr />
+<p><a href="Proofs.introduction.html">Proofs - Introduction</a></p>
+</body>
+</html>

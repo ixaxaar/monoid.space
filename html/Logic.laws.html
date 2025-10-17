@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Logic/laws</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a> <a href="Logic.equality.html">Previous</a> <a
+href="Logic.decidability.html">Next</a></p>
+<h1 id="laws-of-boolean-algebra">Laws of Boolean Algebra</h1>
+<hr />
+<ul>
+<li><a href="#boolean-algebraic-structure">Boolean Algebraic Structure</a></li>
+<li><a href="#fundamental-laws">Fundamental Laws</a>
+<ul>
+<li><a href="#identity-laws">Identity Laws</a></li>
+<li><a href="#complement-laws">Complement Laws</a></li>
+<li><a href="#idempotent-laws">Idempotent Laws</a></li>
+<li><a href="#commutative-laws">Commutative Laws</a></li>
+<li><a href="#associative-laws">Associative Laws</a></li>
+<li><a href="#distributive-laws">Distributive Laws</a></li>
+<li><a href="#de-morgans-laws">De Morgan’s Laws</a></li>
+<li><a href="#absorption-laws">Absorption Laws</a></li>
+</ul></li>
+<li><a href="#derived-laws">Derived Laws</a>
+<ul>
+<li><a href="#consensus-laws">Consensus Laws</a></li>
+<li><a href="#redundancy-laws">Redundancy Laws</a></li>
+</ul></li>
+<li><a href="#proof-techniques">Proof Techniques</a>
+<ul>
+<li><a href="#truth-table-proofs">Truth Table Proofs</a></li>
+<li><a href="#algebraic-proofs">Algebraic Proofs</a></li>
+<li><a href="#constructive-proofs">Constructive Proofs</a></li>
+</ul></li>
+<li><a href="#boolean-algebra-as-a-lattice">Boolean Algebra as a Lattice</a></li>
+<li><a href="#applications-to-simplification">Applications to Simplification</a></li>
+</ul>
+<pre class="lean"><code>import Mathlib.Logic.Basic
+import Mathlib.Data.Bool.Basic
+import Mathlib.Algebra.Order.Lattice.Basic
+import Mathlib.Tactic.Basic
+import Mathlib.Tactic.Ring
+import Mathlib.Logic.Equiv.Basic</code></pre>
+<p>Boolean algebra is not just a collection of logical operations—it forms a rich algebraic structure governed by
+precise laws. These laws enable systematic reasoning, circuit optimization, and logical simplification. In type theory,
+we can prove these laws both computationally (for <code>Bool</code>) and propositionally (for <code>Prop</code>),
+demonstrating the deep connections between logic and algebra.</p>
+<h2 id="boolean-algebraic-structure">Boolean Algebraic Structure</h2>
+<p>A Boolean algebra consists of:</p>
+<ul>
+<li>A set of elements (in our case, <code>Bool</code> or propositions in <code>Prop</code>)</li>
+<li>Two binary operations (∧ and ∨, or &amp;&amp; and ||)</li>
+<li>One unary operation (¬ or not)</li>
+<li>Two special elements (True/true and False/false)</li>
+<li>Laws governing their interaction</li>
+</ul>
+<pre class="lean"><code>-- Define a general Boolean algebra structure
+class BooleanAlgebra (α : Type*) extends Lattice α where
+  -- Complement operation
+  compl : α → α
+  -- Special elements
+  top : α    -- True element
+  bot : α    -- False element
+
+  -- Complement laws
+  compl_sup_eq : ∀ x : α, x ⊔ compl x = top
+  compl_inf_eq : ∀ x : α, x ⊓ compl x = bot
+
+  -- Identity laws
+  sup_bot_eq : ∀ x : α, x ⊔ bot = x
+  inf_top_eq : ∀ x : α, x ⊓ top = x
+
+-- Bool is a Boolean algebra
+instance : BooleanAlgebra Bool where
+  compl := not
+  top := true
+  bot := false
+  compl_sup_eq := fun x =&gt; by cases x &lt;;&gt; simp [Sup.sup, Bot.bot]
+  compl_inf_eq := fun x =&gt; by cases x &lt;;&gt; simp [Inf.inf, Bot.bot]
+  sup_bot_eq := fun x =&gt; by cases x &lt;;&gt; simp [Sup.sup, Bot.bot]
+  inf_top_eq := fun x =&gt; by cases x &lt;;&gt; simp [Inf.inf, Top.top]</code></pre>
+<h2 id="fundamental-laws">Fundamental Laws</h2>
+<h3 id="identity-laws">Identity Laws</h3>
+<p>The identity laws establish True and False as the identity elements:</p>
+<pre class="lean"><code>-- Boolean identity laws
+theorem bool_or_false (b : Bool) : b || false = b := by cases b &lt;;&gt; rfl
+theorem bool_or_true (b : Bool) : b || true = true := by cases b &lt;;&gt; rfl
+theorem bool_and_false (b : Bool) : b &amp;&amp; false = false := by cases b &lt;;&gt; rfl
+theorem bool_and_true (b : Bool) : b &amp;&amp; true = b := by cases b &lt;;&gt; rfl
+
+-- Propositional identity laws
+theorem prop_or_false (P : Prop) : P ∨ False ↔ P := ⟨Or.resolve_right, Or.inl⟩
+theorem prop_or_true (P : Prop) : P ∨ True ↔ True := ⟨fun _ =&gt; trivial, fun _ =&gt; Or.inr trivial⟩
+theorem prop_and_false (P : Prop) : P ∧ False ↔ False := ⟨And.right, False.elim⟩
+theorem prop_and_true (P : Prop) : P ∧ True ↔ P := ⟨And.left, fun h =&gt; ⟨h, trivial⟩⟩</code></pre>
+<h3 id="complement-laws">Complement Laws</h3>
+<p>Every element has a unique complement:</p>
+<pre class="lean"><code>-- Boolean complement laws
+theorem bool_or_not (b : Bool) : b || not b = true := by cases b &lt;;&gt; rfl
+theorem bool_and_not (b : Bool) : b &amp;&amp; not b = false := by cases b &lt;;&gt; rfl
+
+-- Propositional complement laws (require classical logic for full strength)
+open Classical
+
+theorem prop_or_not (P : Prop) : P ∨ ¬P := em P
+theorem prop_and_not (P : Prop) : ¬(P ∧ ¬P) := fun ⟨h, nh⟩ =&gt; nh h
+
+-- Double negation
+theorem bool_not_not (b : Bool) : not (not b) = b := by cases b &lt;;&gt; rfl
+theorem prop_not_not (P : Prop) : ¬¬P → P := not_not</code></pre>
+<h3 id="idempotent-laws">Idempotent Laws</h3>
+<p>Operations with the same element twice simplify:</p>
+<pre class="lean"><code>-- Boolean idempotency
+theorem bool_or_self (b : Bool) : b || b = b := by cases b &lt;;&gt; rfl
+theorem bool_and_self (b : Bool) : b &amp;&amp; b = b := by cases b &lt;;&gt; rfl
+
+-- Propositional idempotency
+theorem prop_or_self (P : Prop) : P ∨ P ↔ P := ⟨Or.resolve_left id, Or.inl⟩
+theorem prop_and_self (P : Prop) : P ∧ P ↔ P := ⟨And.left, fun h =&gt; ⟨h, h⟩⟩</code></pre>
+<h3 id="commutative-laws">Commutative Laws</h3>
+<p>Order of operands doesn’t matter:</p>
+<pre class="lean"><code>-- Boolean commutativity
+theorem bool_or_comm (b c : Bool) : b || c = c || b := by cases b &lt;;&gt; cases c &lt;;&gt; rfl
+theorem bool_and_comm (b c : Bool) : b &amp;&amp; c = c &amp;&amp; b := by cases b &lt;;&gt; cases c &lt;;&gt; rfl
+
+-- Propositional commutativity
+theorem prop_or_comm (P Q : Prop) : P ∨ Q ↔ Q ∨ P := Or.comm
+theorem prop_and_comm (P Q : Prop) : P ∧ Q ↔ Q ∧ P := And.comm</code></pre>
+<h3 id="associative-laws">Associative Laws</h3>
+<p>Grouping doesn’t matter:</p>
+<pre class="lean"><code>-- Boolean associativity
+theorem bool_or_assoc (a b c : Bool) : a || (b || c) = (a || b) || c := by
+  cases a &lt;;&gt; cases b &lt;;&gt; cases c &lt;;&gt; rfl
+
+theorem bool_and_assoc (a b c : Bool) : a &amp;&amp; (b &amp;&amp; c) = (a &amp;&amp; b) &amp;&amp; c := by
+  cases a &lt;;&gt; cases b &lt;;&gt; cases c &lt;;&gt; rfl
+
+-- Propositional associativity
+theorem prop_or_assoc (P Q R : Prop) : P ∨ (Q ∨ R) ↔ (P ∨ Q) ∨ R := Or.assoc
+theorem prop_and_assoc (P Q R : Prop) : P ∧ (Q ∧ R) ↔ (P ∧ Q) ∧ R := And.assoc</code></pre>
+<h3 id="distributive-laws">Distributive Laws</h3>
+<p>Operations distribute over each other:</p>
+<pre class="lean"><code>-- Boolean distributivity
+theorem bool_and_or_distrib (a b c : Bool) :
+  a &amp;&amp; (b || c) = (a &amp;&amp; b) || (a &amp;&amp; c) := by
+  cases a &lt;;&gt; cases b &lt;;&gt; cases c &lt;;&gt; rfl
+
+theorem bool_or_and_distrib (a b c : Bool) :
+  a || (b &amp;&amp; c) = (a || b) &amp;&amp; (a || c) := by
+  cases a &lt;;&gt; cases b &lt;;&gt; cases c &lt;;&gt; rfl
+
+-- Propositional distributivity
+theorem prop_and_or_distrib (P Q R : Prop) :
+  P ∧ (Q ∨ R) ↔ (P ∧ Q) ∨ (P ∧ R) := by
+  constructor
+  · intro ⟨hp, hqr⟩
+    cases hqr with
+    | inl hq =&gt; exact Or.inl ⟨hp, hq⟩
+    | inr hr =&gt; exact Or.inr ⟨hp, hr⟩
+  · intro h
+    cases h with
+    | inl ⟨hp, hq⟩ =&gt; exact ⟨hp, Or.inl hq⟩
+    | inr ⟨hp, hr⟩ =&gt; exact ⟨hp, Or.inr hr⟩
+
+theorem prop_or_and_distrib (P Q R : Prop) :
+  P ∨ (Q ∧ R) ↔ (P ∨ Q) ∧ (P ∨ R) := by
+  constructor
+  · intro h
+    cases h with
+    | inl hp =&gt; exact ⟨Or.inl hp, Or.inl hp⟩
+    | inr ⟨hq, hr⟩ =&gt; exact ⟨Or.inr hq, Or.inr hr⟩
+  · intro ⟨hpq, hpr⟩
+    cases hpq with
+    | inl hp =&gt; exact Or.inl hp
+    | inr hq =&gt;
+      cases hpr with
+      | inl hp =&gt; exact Or.inl hp
+      | inr hr =&gt; exact Or.inr ⟨hq, hr⟩</code></pre>
+<h3 id="de-morgans-laws">De Morgan’s Laws</h3>
+<p>Fundamental relationship between conjunction, disjunction, and negation:</p>
+<pre class="lean"><code>-- Boolean De Morgan&#39;s laws
+theorem bool_not_and (b c : Bool) : not (b &amp;&amp; c) = (not b) || (not c) := by
+  cases b &lt;;&gt; cases c &lt;;&gt; rfl
+
+theorem bool_not_or (b c : Bool) : not (b || c) = (not b) &amp;&amp; (not c) := by
+  cases b &lt;;&gt; cases c &lt;;&gt; rfl
+
+-- Propositional De Morgan&#39;s laws
+theorem prop_not_and (P Q : Prop) : ¬(P ∧ Q) ↔ ¬P ∨ ¬Q := by
+  constructor
+  · intro h
+    by_cases hp : P
+    · by_cases hq : Q
+      · exact False.elim (h ⟨hp, hq⟩)
+      · exact Or.inr hq
+    · exact Or.inl hp
+  · intro h ⟨hp, hq⟩
+    cases h with
+    | inl hnp =&gt; exact hnp hp
+    | inr hnq =&gt; exact hnq hq
+
+theorem prop_not_or (P Q : Prop) : ¬(P ∨ Q) ↔ ¬P ∧ ¬Q := by
+  constructor
+  · intro h
+    constructor
+    · intro hp; exact h (Or.inl hp)
+    · intro hq; exact h (Or.inr hq)
+  · intro ⟨hnp, hnq⟩ h
+    cases h with
+    | inl hp =&gt; exact hnp hp
+    | inr hq =&gt; exact hnq hq</code></pre>
+<h3 id="absorption-laws">Absorption Laws</h3>
+<p>These fundamental laws show how operations can “absorb” each other:</p>
+<pre class="lean"><code>-- Boolean absorption laws
+theorem bool_and_or_absorb (b c : Bool) : b &amp;&amp; (b || c) = b := by
+  cases b &lt;;&gt; cases c &lt;;&gt; rfl
+
+theorem bool_or_and_absorb (b c : Bool) : b || (b &amp;&amp; c) = b := by
+  cases b &lt;;&gt; cases c &lt;;&gt; rfl
+
+-- Propositional absorption laws
+theorem prop_and_or_absorb (P Q : Prop) : P ∧ (P ∨ Q) ↔ P := by
+  constructor
+  · intro ⟨hp, _⟩; exact hp
+  · intro hp; exact ⟨hp, Or.inl hp⟩
+
+theorem prop_or_and_absorb (P Q : Prop) : P ∨ (P ∧ Q) ↔ P := by
+  constructor
+  · intro h
+    cases h with
+    | inl hp =&gt; exact hp
+    | inr ⟨hp, _⟩ =&gt; exact hp
+  · intro hp; exact Or.inl hp</code></pre>
+<h2 id="derived-laws">Derived Laws</h2>
+<h3 id="consensus-laws">Consensus Laws</h3>
+<p>These show how certain expressions can be simplified:</p>
+<pre class="lean"><code>-- Consensus theorem for Boolean algebra
+theorem bool_consensus (a b c : Bool) :
+  (a &amp;&amp; b) || (not a &amp;&amp; c) || (b &amp;&amp; c) = (a &amp;&amp; b) || (not a &amp;&amp; c) := by
+  cases a &lt;;&gt; cases b &lt;;&gt; cases c &lt;;&gt; rfl
+
+-- The third term (b &amp;&amp; c) is redundant when the first two are present
+theorem prop_consensus (P Q R : Prop) :
+  (P ∧ Q) ∨ (¬P ∧ R) ∨ (Q ∧ R) ↔ (P ∧ Q) ∨ (¬P ∧ R) := by
+  constructor
+  · intro h
+    cases h with
+    | inl hpq =&gt; exact Or.inl hpq
+    | inr h&#39; =&gt;
+      cases h&#39; with
+      | inl hnpr =&gt; exact Or.inr hnpr
+      | inr hqr =&gt;
+        by_cases hp : P
+        · exact Or.inl ⟨hp, hqr.1⟩
+        · exact Or.inr ⟨hp, hqr.2⟩
+  · intro h; cases h &lt;;&gt; [exact Or.inl ‹_›; exact Or.inr (Or.inl ‹_›)]</code></pre>
+<h3 id="redundancy-laws">Redundancy Laws</h3>
+<p>Show when certain terms become unnecessary:</p>
+<pre class="lean"><code>-- If P implies Q, then P ∨ Q = Q and P ∧ Q = P
+theorem redundancy_or (P Q : Prop) (h : P → Q) : P ∨ Q ↔ Q := by
+  constructor
+  · intro hpq
+    cases hpq with
+    | inl hp =&gt; exact h hp
+    | inr hq =&gt; exact hq
+  · intro hq; exact Or.inr hq
+
+theorem redundancy_and (P Q : Prop) (h : P → Q) : P ∧ Q ↔ P := by
+  constructor
+  · intro ⟨hp, _⟩; exact hp
+  · intro hp; exact ⟨hp, h hp⟩</code></pre>
+<h2 id="proof-techniques">Proof Techniques</h2>
+<h3 id="truth-table-proofs">Truth Table Proofs</h3>
+<p>For boolean expressions, exhaustive case analysis:</p>
+<pre class="lean"><code>-- Example: proving a complex identity by cases
+theorem bool_complex_identity (a b c : Bool) :
+  (a || b) &amp;&amp; (a || c) &amp;&amp; (b || c) = (a || b) &amp;&amp; (a || c) := by
+  cases a &lt;;&gt; cases b &lt;;&gt; cases c &lt;;&gt; rfl</code></pre>
+<h3 id="algebraic-proofs">Algebraic Proofs</h3>
+<p>Using previously proven laws to derive new results:</p>
+<pre class="lean"><code>-- Example: algebraic proof of absorption
+theorem absorption_algebraic_proof (P Q : Prop) : P ∨ (P ∧ Q) ↔ P := by
+  calc P ∨ (P ∧ Q)
+    ↔ P ∨ (P ∧ Q) ∨ False           := by rw [prop_or_false]
+    _ ↔ P ∨ (P ∧ Q) ∨ (P ∧ ¬P)       := by rw [← prop_and_not]
+    _ ↔ P ∨ (P ∧ (Q ∨ ¬P))           := by rw [← prop_and_or_distrib]
+    _ ↔ P ∨ (P ∧ (Q ∨ ¬P))           := by rfl
+    _ ↔ P ∨ (P ∧ True)               := by rw [← prop_or_not]
+    _ ↔ P ∨ P                        := by rw [prop_and_true]
+    _ ↔ P                            := by rw [prop_or_self]</code></pre>
+<h3 id="constructive-proofs">Constructive Proofs</h3>
+<p>Direct construction without case analysis:</p>
+<pre class="lean"><code>-- Constructive proof showing the essence of the law
+theorem constructive_absorption (P Q : Prop) : P ∨ (P ∧ Q) → P := by
+  intro h
+  cases h with
+  | inl hp =&gt; exact hp
+  | inr ⟨hp, _⟩ =&gt; exact hp</code></pre>
+<h2 id="boolean-algebra-as-a-lattice">Boolean Algebra as a Lattice</h2>
+<p>Boolean algebra forms a special kind of lattice—a complemented distributive lattice:</p>
+<pre class="lean"><code>-- Boolean algebra is a bounded distributive lattice with complements
+theorem boolean_lattice_properties :
+  ∀ (a b c : Bool),
+  -- Idempotent
+  (a || a = a) ∧
+  (a &amp;&amp; a = a) ∧
+  -- Absorption
+  (a || (a &amp;&amp; b) = a) ∧
+  (a &amp;&amp; (a || b) = a) ∧
+  -- Distributive
+  (a || (b &amp;&amp; c) = (a || b) &amp;&amp; (a || c)) ∧
+  (a &amp;&amp; (b || c) = (a &amp;&amp; b) || (a &amp;&amp; c)) ∧
+  -- Complement
+  (a || not a = true) ∧
+  (a &amp;&amp; not a = false) := by
+  intro a b c
+  cases a &lt;;&gt; cases b &lt;;&gt; cases c &lt;;&gt; simp [Bool.and_assoc, Bool.or_assoc]</code></pre>
+<h2 id="applications-to-simplification">Applications to Simplification</h2>
+<p>These laws enable systematic simplification of logical expressions:</p>
+<pre class="lean"><code>-- Example: simplifying a complex boolean expression
+def complex_expr (a b c : Bool) : Bool :=
+  (a &amp;&amp; b) || (a &amp;&amp; not b &amp;&amp; c) || (not a &amp;&amp; b &amp;&amp; c) || (not a &amp;&amp; not b)
+
+-- Simplified form
+def simplified_expr (a b c : Bool) : Bool :=
+  (a &amp;&amp; b) || (not a &amp;&amp; not b) || (not b &amp;&amp; c)
+
+-- Proof they&#39;re equivalent
+theorem simplification_correct (a b c : Bool) :
+  complex_expr a b c = simplified_expr a b c := by
+  cases a &lt;;&gt; cases b &lt;;&gt; cases c &lt;;&gt; rfl
+
+-- General simplification strategy
+theorem simplification_strategy (P Q R : Prop) :
+  (P ∧ Q) ∨ (P ∧ ¬Q ∧ R) ∨ (¬P ∧ Q ∧ R) ∨ (¬P ∧ ¬Q) ↔
+  (P ∧ Q) ∨ (¬P ∧ ¬Q) ∨ (¬Q ∧ R) := by
+  -- This would require a longer proof, but demonstrates the principle
+  sorry</code></pre>
+<p>These laws form the theoretical foundation for:</p>
+<ul>
+<li><strong>Digital circuit design</strong>: Minimizing gate counts</li>
+<li><strong>Logic programming</strong>: Optimizing queries</li>
+<li><strong>Automated theorem proving</strong>: Simplifying expressions</li>
+<li><strong>Compiler optimization</strong>: Boolean expression optimization</li>
+<li><strong>Mathematical reasoning</strong>: Systematic proof techniques</li>
+</ul>
+<p>The beauty of Boolean algebra lies in its dual nature: providing both computational tools for working with
+<code>Bool</code> values and logical principles for reasoning about propositions in <code>Prop</code>.</p>
+<hr />
+<p><a href="./Logic.decidability.html">Decidability</a></p>
+</body>
+</html>

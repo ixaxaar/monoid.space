@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Lean/types</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a> <a href="Lean.naming.html">Previous</a> <a
+href="Lean.functions.html">Next</a></p>
+<h1 id="types-data-structures">Types &amp; Data Structures</h1>
+<hr />
+<ul>
+<li><a href="#types">Types</a>
+<ul>
+<li><a href="#declarations">Declarations</a></li>
+<li><a href="#lean-syntax">Lean Syntax</a></li>
+<li><a href="#basic-declarations">Basic Declarations</a></li>
+<li><a href="#the-inductive-keyword">The <code>inductive</code> Keyword</a></li>
+<li><a href="#the-structure-keyword">The <code>structure</code> Keyword</a></li>
+<li><a href="#the-deriving-clause">The <code>deriving</code> Clause</a></li>
+<li><a href="#type-inference">Type Inference</a></li>
+<li><a href="#immutability">Immutability</a></li>
+<li><a href="#variable-scope">Variable scope</a></li>
+</ul></li>
+<li><a href="#basic-types">Basic Types</a>
+<ul>
+<li><a href="#empty-type">Empty Type</a></li>
+<li><a href="#unit">Unit</a></li>
+<li><a href="#boolean">Boolean</a></li>
+<li><a href="#natural-numbers">Natural Numbers</a></li>
+<li><a href="#characters-and-strings">Characters and Strings</a>
+<ul>
+<li><a href="#characters">Characters</a></li>
+<li><a href="#strings">Strings</a></li>
+</ul></li>
+<li><a href="#other-primitive-types">Other Primitive Types</a></li>
+</ul></li>
+<li><a href="#collections">Collections</a>
+<ul>
+<li><a href="#lists">Lists</a></li>
+<li><a href="#arrays">Arrays</a></li>
+<li><a href="#sets">Sets</a></li>
+<li><a href="#stacks">Stacks</a></li>
+<li><a href="#queues">Queues</a></li>
+<li><a href="#maps">Maps</a></li>
+<li><a href="#binary-trees">Binary Trees</a></li>
+<li><a href="#graphs">Graphs</a></li>
+</ul></li>
+<li><a href="#custom-types">Custom Types</a>
+<ul>
+<li><a href="#product-types">Product Types</a></li>
+<li><a href="#sum-types">Sum Types</a></li>
+</ul></li>
+<li><a href="#advanced-types">Advanced Types</a>
+<ul>
+<li><a href="#type-classes">Type Classes</a></li>
+<li><a href="#dependent-types">Dependent Types</a></li>
+</ul></li>
+</ul>
+<h2 id="types">Types</h2>
+<p>In Lean, types are first-class citizens, meaning they can be manipulated and passed around just like any other value.
+This is similar to functional programming languages like Haskell or Scala, but with even more expressiveness as we shall
+see later.</p>
+<h3 id="declarations">Declarations</h3>
+<p>In Lean, we declare variables with type annotations using the following syntax:</p>
+<pre class="lean"><code>def x : Nat := 0
+def b : Bool := true</code></pre>
+<p>This is similar to type annotations in languages like TypeScript or Kotlin. The <code>def</code> keyword is used to
+define a new variable, <code>x</code>, with type <code>Nat</code> and value <code>0</code>. Similarly, <code>b</code> is
+defined as a <code>Bool</code> with value <code>true</code>. The types <code>Nat</code> and <code>Bool</code> are
+built-in types in Lean, representing natural numbers and boolean values, respectively.</p>
+<h3 id="lean-syntax">Lean Syntax</h3>
+<p>Before we dive further into types, here are a few of Lean’s syntax elements that will be useful:</p>
+<p><strong>Keywords:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Keyword</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>def</code></td>
+<td>Defines functions and values</td>
+</tr>
+<tr>
+<td><code>inductive</code></td>
+<td>Defines algebraic data types</td>
+</tr>
+<tr>
+<td><code>structure</code></td>
+<td>Defines record types (product types)</td>
+</tr>
+<tr>
+<td><code>where</code></td>
+<td>Introduces definitions or constraints</td>
+</tr>
+<tr>
+<td><code>deriving</code></td>
+<td>Automatically generates implementations for common type classes</td>
+</tr>
+<tr>
+<td><code>open</code></td>
+<td>Brings namespace contents into scope</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Argument types:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Argument Type</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(x : Type)</code></td>
+<td>Explicit arguments, must be provided</td>
+<td><code>def f (n : Nat) : Nat</code></td>
+</tr>
+<tr>
+<td><code>{x : Type}</code></td>
+<td>Implicit arguments, inferred by Lean</td>
+<td><code>def f {α : Type} (x : α) : α</code></td>
+</tr>
+<tr>
+<td><code>[TypeClass α]</code></td>
+<td>Type class constraints</td>
+<td><code>def f [Add α] (x y : α) : α</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Operators:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>::</code></td>
+<td>List cons (prepend element)</td>
+<td><code>1 :: [2, 3]</code> results in <code>[1, 2, 3]</code></td>
+</tr>
+<tr>
+<td><code>++</code></td>
+<td>String/list concatenation</td>
+<td><code>"hello" ++ " world"</code> or <code>[1, 2] ++ [3, 4]</code></td>
+</tr>
+<tr>
+<td><code>\|</code></td>
+<td>Pattern matching cases or type constructors</td>
+<td><code>\| some x =&gt; x</code> or <code>\| nil \| cons</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="basic-declarations">Basic Declarations</h3>
+<p>To define values of a certain type, we can use the <code>def</code> keyword followed by the variable name, a colon,
+the type, an equals sign, and the value. For example:</p>
+<pre class="lean"><code>def myNumber : Nat := 42
+def myBoolean : Bool := true
+def myString : String := &quot;Hello, Lean!&quot;</code></pre>
+<p>Here, <code>myNumber</code> is defined as a natural number (<code>Nat</code>) with the value <code>42</code>,
+<code>myBoolean</code> is a boolean (<code>Bool</code>) with the value <code>true</code>, and <code>myString</code> is a
+string (<code>String</code>) with the value <code>"Hello, Lean!"</code>.</p>
+<h3 id="the-inductive-keyword">The <code>inductive</code> Keyword</h3>
+<p>The <code>inductive</code> keyword is used to define new types in Lean. It is similar to <code>data</code> in Haskell
+or <code>sealed class</code> in Kotlin. Its syntax is as follows:</p>
+<pre class="lean"><code>inductive TypeName (type parameters) : Type
+  | constructor1 : Type1 → TypeName
+  | constructor2 : Type2 → TypeName
+  ...</code></pre>
+<p>Here, <code>TypeName</code> is the name of the new type being defined, and it can take type parameters (like generics
+in other languages). The <code>: Type</code> part indicates that <code>TypeName</code> is a type. Each constructor
+defines a way to create values of this type, with their respective types. We will see some examples below.</p>
+<h3 id="the-structure-keyword">The <code>structure</code> Keyword</h3>
+<p>The <code>structure</code> keyword defines product types (records) - types that combine multiple fields:</p>
+<pre class="lean"><code>structure StructName (parameters) where
+  field1 : Type1
+  field2 : Type2</code></pre>
+<p>This is similar to <code>struct</code> in C++ or classes with only data fields in other languages.</p>
+<h3 id="the-deriving-clause">The <code>deriving</code> Clause</h3>
+<blockquote>
+<p>Note: Type classes are covered in a <a href="#type-classes">later part</a> of this chapter.</p>
+</blockquote>
+<p>The <code>deriving</code> clause can be used with <code>inductive</code> and <code>structure</code> to automatically
+generate implementations for common type classes. This is similar to <code>deriving</code> in Haskell. For example, we
+can derive <code>Repr</code>, <code>BEq</code>, and <code>Hashable</code> for a <code>Point</code> structure like
+so:</p>
+<pre class="lean"><code>structure Point where
+  x : Float
+  y : Float
+deriving Repr, BEq, Hashable</code></pre>
+<p>Common derivable type classes include:</p>
+<ul>
+<li><code>Repr</code> - enables printing values with <code>#eval</code></li>
+<li><code>BEq</code> - enables (binary) equality comparison with <code>==</code></li>
+<li><code>Ord α</code> - Ordering comparisons (<code>&lt;</code>, <code>≤</code>, <code>&gt;</code>, <code>≥</code>) and
+<code>compare</code> function</li>
+<li><code>Add α</code> - Addition operation (<code>+</code>)</li>
+<li><code>Hashable</code> - enables use in hash tables</li>
+<li><code>Inhabited</code> - provides a default value</li>
+</ul>
+<h3 id="type-inference">Type Inference</h3>
+<p>Lean can infer types automatically in many cases, so explicit type annotations are often optional. For example:</p>
+<pre class="lean"><code>def myNumber := 42          -- Lean infers Nat
+def myBoolean := true       -- Lean infers Bool
+def myString := &quot;Hello!&quot;    -- Lean infers String
+def myList := [1, 2, 3]     -- Lean infers List Nat</code></pre>
+<p>However, providing explicit types can improve code clarity and help catch errors early.</p>
+<h3 id="immutability">Immutability</h3>
+<p>All values in Lean are immutable by default. This means that once a value is assigned, it cannot be changed. This is
+similar to <code>val</code> in Kotlin or <code>final</code> in Java. If a value is reassigned, it results in a
+compile-time error. For example:</p>
+<pre class="lean"><code>def x : Nat := 10
+-- x := 20  -- This would be a compile-time error</code></pre>
+<h3 id="variable-scope">Variable scope</h3>
+<p>Variables defined with <code>def</code> have global scope within the module they are defined in. To create local
+variables, you can use <code>let</code> within functions or blocks:</p>
+<pre class="lean"><code>let y := 5 in
+let z := y + 10 in
+z  -- z is 15</code></pre>
+<h2 id="basic-types">Basic Types</h2>
+<p>There are several primitive types in Lean, let’s have a look:</p>
+<h3 id="empty-type">Empty Type</h3>
+<p>The empty type, also known as the bottom type, is a type with no values. In some languages, this is called
+<code>Never</code> (TypeScript) or <code>Nothing</code> (Scala). This is a pre-defined type called <code>Empty</code> in
+Lean which is defined as:</p>
+<pre class="lean"><code>inductive Empty : Type</code></pre>
+<p>An empty type is useful in situations where a function should never return, such as in the case of a function that
+always throws an error or enters an infinite loop. Note that this is unlike <code>void</code> in languages like C or
+Java, which represents the absence of a value but still allows functions to return.</p>
+<h3 id="unit">Unit</h3>
+<p>The unit type is a type with exactly one value. This is similar to <code>void</code> in C++ or <code>()</code> in
+Haskell.</p>
+<pre class="lean"><code>inductive Unit : Type
+  | unit</code></pre>
+<p>Lean has a pre-defined unit type <code>Unit</code> which is defined like above.</p>
+<h3 id="boolean">Boolean</h3>
+<p>Booleans are a fundamental type in most programming languages. In Lean, they’re defined as:</p>
+<pre class="lean"><code>inductive Bool : Type
+  | false
+  | true</code></pre>
+<p>Note that it is always possible to define your own boolean type, but it’s generally not recommended as the type also
+comes with a lot of built-in functionality. Here is how to do that:</p>
+<pre class="lean"><code>inductive Status : Type
+  | affirmative
+  | negative</code></pre>
+<h3 id="natural-numbers">Natural Numbers</h3>
+<p>Natural numbers, or non-negative integers (0, 1, 2, …), are generally represented using Peano arithmetic in type
+theory, where:</p>
+<ol type="1">
+<li>One starts with a base case (0).</li>
+<li>A successor function <code>succ</code> which takes a natural number <code>n</code> and returns
+<code>n + 1</code>.</li>
+</ol>
+<p>Thus, there are two constructors: <code>zero</code> for 0, and <code>succ</code> for the successor function. This is
+defined inductively in Lean as follows:</p>
+<pre class="lean"><code>inductive Nat : Type
+  | zero : Nat -- define a zero object as the base
+  | succ : Nat → Nat -- every such object has a succeeding object</code></pre>
+<p>Using these constructors, we can define natural numbers like so:</p>
+<pre class="lean"><code>def one := succ zero</code></pre>
+<p>Lean has support for built-in natural numbers <code>Nat</code> as well as integer literals, so we can simply
+write:</p>
+<pre class="lean"><code>def two : Nat := 2
+def three : Nat := 3</code></pre>
+<p>Here <code>2</code> and <code>3</code> are syntactic sugar for <code>succ (succ zero)</code> and
+<code>succ (succ (succ zero))</code>, respectively.</p>
+<p>Lean provides the standard arithmetic operations on natural numbers, such as addition, subtraction, multiplication,
+and exponentiation. For example:</p>
+<pre class="lean"><code>def five : Nat := 2 + three
+def six : Nat := 2 * three
+def eight : Nat := 2 ^ three  -- 2 raised to the power of 3</code></pre>
+<h3 id="characters-and-strings">Characters and Strings</h3>
+<p>Lean has a <code>Char</code> type for single Unicode characters and a <code>String</code> type for sequences of
+characters. In computing systems, characters are often represented as integers corresponding to their Unicode code
+points e.g., the character ‘A’ has a Unicode code point of <code>65</code> or <code>0x41</code> in hexadecimal.</p>
+<h4 id="characters">Characters</h4>
+<p>The <code>Char</code> type in Lean represents Unicode characters and is defined as:</p>
+<pre class="lean"><code>inductive Char : Type
+  | mk : UInt32 → Char  -- Unicode code point</code></pre>
+<p>You can work with characters using character literals:</p>
+<pre class="lean"><code>def letterA : Char := &#39;A&#39;
+def emoji : Char := &#39;🎉&#39;
+def newline : Char := &#39;\n&#39;</code></pre>
+<h4 id="strings">Strings</h4>
+<p>Strings in Lean are sequences of characters, implemented efficiently as UTF-8 encoded byte arrays. You can create and
+work with strings like this:</p>
+<pre class="lean"><code>def greeting : String := &quot;Hello, World!&quot;
+def multiline : String := &quot;Line 1\nLine 2&quot;
+def unicode : String := &quot;café 🌟&quot;</code></pre>
+<p>Common string operations are available via built-in methods:</p>
+<pre class="lean"><code>def length := greeting.length         -- Get string length
+def isEmpty := &quot;&quot;.isEmpty             -- Check if empty
+def concat := &quot;Hello&quot; ++ &quot; World&quot;     -- String concatenation
+def charAt := greeting.get! 0         -- Get character at index</code></pre>
+<p>Strings support interpolation using the <code>s!</code> syntax:</p>
+<pre class="lean"><code>def name := &quot;Alice&quot;
+def age := 30
+def message := s!&quot;Hello {name}, you are {age} years old&quot;</code></pre>
+<h3 id="other-primitive-types">Other Primitive Types</h3>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 40%" />
+<col style="width: 22%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+<th>Example Usage</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Empty</code></td>
+<td>The empty type with no values</td>
+<td><code>def f : Empty → α</code></td>
+<td>Used for logical impossibility</td>
+</tr>
+<tr>
+<td><code>Unit</code></td>
+<td>The unit type with one value <code>unit</code></td>
+<td><code>def x : Unit := ()</code></td>
+<td>Often used as dummy value</td>
+</tr>
+<tr>
+<td><code>Bool</code></td>
+<td>Booleans with values <code>true</code> and <code>false</code></td>
+<td><code>def b : Bool := true</code></td>
+<td>Used for conditional logic</td>
+</tr>
+<tr>
+<td><code>Nat</code></td>
+<td>Natural numbers with zero and successor operations</td>
+<td><code>def n : Nat := 42</code></td>
+<td>Non-negative integers (0, 1, 2, …)</td>
+</tr>
+<tr>
+<td><code>Int</code></td>
+<td>Integers with addition, subtraction, etc.</td>
+<td><code>def i : Int := -42</code></td>
+<td>Whole numbers (positive and negative)</td>
+</tr>
+<tr>
+<td><code>Float</code></td>
+<td>Floating-point numbers</td>
+<td><code>def f : Float := 3.14</code></td>
+<td>IEEE 754 double-precision</td>
+</tr>
+<tr>
+<td><code>String</code></td>
+<td>Strings</td>
+<td><code>def s : String := "hello"</code></td>
+<td>UTF-8 encoded text</td>
+</tr>
+<tr>
+<td><code>Char</code></td>
+<td>Single Unicode characters</td>
+<td><code>def c : Char := 'a'</code></td>
+<td>Unicode code points</td>
+</tr>
+<tr>
+<td><code>USize</code></td>
+<td>Platform-dependent unsigned integer</td>
+<td><code>def u : USize := 42</code></td>
+<td>Used for array indexing</td>
+</tr>
+<tr>
+<td><code>UInt8</code></td>
+<td>8-bit unsigned integer</td>
+<td><code>def u8 : UInt8 := 255</code></td>
+<td>Range 0-255</td>
+</tr>
+<tr>
+<td><code>UInt16</code></td>
+<td>16-bit unsigned integer</td>
+<td><code>def u16 : UInt16 := 65535</code></td>
+<td>Range 0-65535</td>
+</tr>
+<tr>
+<td><code>UInt32</code></td>
+<td>32-bit unsigned integer</td>
+<td><code>def u32 : UInt32 := 42</code></td>
+<td>Range 0-4294967295</td>
+</tr>
+<tr>
+<td><code>UInt64</code></td>
+<td>64-bit unsigned integer</td>
+<td><code>def u64 : UInt64 := 42</code></td>
+<td>Range 0-18446744073709551615</td>
+</tr>
+<tr>
+<td><code>Prop</code></td>
+<td>The type of propositions</td>
+<td><code>def p : Prop := True</code></td>
+<td>Used in theorem proving</td>
+</tr>
+<tr>
+<td><code>Type</code></td>
+<td>The type of types</td>
+<td><code>def T : Type := Nat</code></td>
+<td>Universe level 0</td>
+</tr>
+<tr>
+<td><code>Sort</code></td>
+<td>Generic universe type</td>
+<td><code>def S : Sort u := Type</code></td>
+<td>Encompasses Type and Prop</td>
+</tr>
+</tbody>
+</table>
+<h2 id="collections">Collections</h2>
+<h3 id="lists">Lists</h3>
+<p>Lean has built-in lists, similar to many functional programming languages:</p>
+<pre class="lean"><code>inductive List (α : Type) : Type
+  | nil  : List α                    -- Empty list
+  | cons : α → List α → List α       -- Add element to front of list</code></pre>
+<p>This can be used to define, say, a list of booleans:</p>
+<pre class="lean"><code>def exampleList : List Bool := [true, false, true]</code></pre>
+<p>Lists are immutable, so operations like adding elements create new lists:</p>
+<pre class="lean"><code>def exampleList2 := false :: exampleList
+#eval length exampleList2  -- Output: 4</code></pre>
+<p>Lists can be constructed using the <code>::</code> operator or list literals like <code>[1, 2, 3]</code>. Common
+operations on lists include:</p>
+<pre class="lean"><code>def head := exampleList.head        -- Get first element
+def tail := exampleList.tail        -- Get list without first element
+def length := exampleList.length    -- Get length of list
+def isEmpty := exampleList.isEmpty  -- Check if list is empty
+def concat := exampleList ++ [false, false]  -- Concatenate lists</code></pre>
+<h3 id="arrays">Arrays</h3>
+<p>Dynamic arrays are also available in Lean, which are similar to lists but have better performance for some
+operations:</p>
+<pre class="lean"><code>def exampleArray : Array Nat := #[1, 2, 3]</code></pre>
+<p>Here, <code>#[1,2,3]</code> is a shorthand for <code>Array.mk [1,2,3]</code>. We can access elements of the array
+using the <code>get!</code> function:</p>
+<pre class="lean"><code>#eval exampleArray.get! 1  -- Output: 2</code></pre>
+<p>We can also use the <code>push</code> function to add elements to the array:</p>
+<pre class="lean"><code>def exampleArray2 := exampleArray.push 4
+#eval exampleArray2.get! 3  -- Output: 4</code></pre>
+<p>Other common operations include:</p>
+<pre class="lean"><code>def length := exampleArray.size          -- Get size of array
+def isEmpty := exampleArray.isEmpty      -- Check if array is empty
+def modify := exampleArray.modify 0 (fun x =&gt; x + 10)  -- Modify element
+#eval modify.get! 0  -- Output: 11
+def toList := exampleArray.toList        -- Convert array to list</code></pre>
+<h3 id="sets">Sets</h3>
+<p>Unordered sets can be implemented using the HashSet data structure. HashSets are data structures that store unique
+elements and provide fast lookup times. They are similar to sets in Python or Java.</p>
+<pre class="lean"><code>import Std.Data.HashSet
+
+-- create a set with elements 1, 2, 3
+def exampleSet : Std.HashSet Nat := Std.HashSet.ofList [1, 2, 3]</code></pre>
+<pre class="lean"><code>#eval exampleSet.contains 2  -- true
+#eval exampleSet.contains 4  -- false</code></pre>
+<p>Sets can be modified using functions like <code>insert</code> and <code>erase</code>:</p>
+<pre class="lean"><code>def exampleSet2 := exampleSet.insert 4
+#eval exampleSet2.contains 4  -- true</code></pre>
+<p>Finally, we can delete elements from the set using the <code>erase</code> function:</p>
+<pre class="lean"><code>def exampleSet3 := exampleSet2.erase 4
+#eval exampleSet3.contains 4  -- false</code></pre>
+<p>Other operations include:</p>
+<pre class="lean"><code>def size := exampleSet.size          -- Get size of set
+def isEmpty := exampleSet.isEmpty    -- Check if set is empty
+def toList := exampleSet.toList      -- Convert set to list</code></pre>
+<h3 id="stacks">Stacks</h3>
+<p>Stacks are a common data structure that follows the Last In First Out (LIFO) principle. We can implement a stack
+using a list:</p>
+<pre class="lean"><code>structure Stack (α : Type) where
+  elems : List α
+deriving Repr</code></pre>
+<p>Here we use the <code>structure</code> keyword to define a new data structure <code>Stack</code> with a single field
+<code>elems</code> of type <code>List α</code>. To actually define the behavior of the stack, we also need to define the
+push and pop operations which we cover in the next chapter on functions.</p>
+<p>Lean also provides a built-in <code>Std.Stack</code> in the standard library which can be used as follows:</p>
+<pre class="lean"><code>import Std.Data.Stack
+def exampleStack : Std.Stack Nat := Std.Stack.empty.push 1 |&gt;.push 2
+#eval exampleStack.pop!  -- Output: (2, Stack with 1)</code></pre>
+<p>Operations on stacks include:</p>
+<pre class="lean"><code>def isEmpty := exampleStack.isEmpty      -- Check if stack is empty
+def size := exampleStack.size            -- Get size of stack
+def toList := exampleStack.toList        -- Convert stack to list</code></pre>
+<h3 id="queues">Queues</h3>
+<p>Queues are another common data structure that follows the First In First Out (FIFO) principle. We can implement a
+queue using a list:</p>
+<pre class="lean"><code>structure Queue (α : Type) where
+  elems : List α
+deriving Repr</code></pre>
+<p>Lean also provides a built-in <code>Std.Queue</code> in the standard library which can be used as follows:</p>
+<pre class="lean"><code>import Std.Data.Queue
+def exampleQueue : Std.Queue Nat := Std.Queue.empty.enqueue 1 |&gt;.enqueue 2
+#eval exampleQueue.dequeue!  -- Output: (1, Queue with 2)</code></pre>
+<p>Operations on queues include:</p>
+<pre class="lean"><code>def isEmpty := exampleQueue.isEmpty      -- Check if queue is empty
+def size := exampleQueue.size            -- Get size of queue
+def toList := exampleQueue.toList        -- Convert queue to list</code></pre>
+<h3 id="maps">Maps</h3>
+<p>Maps are key-value pairs that allow efficient lookup of values based on keys. These are similar to dictionaries in
+Python or hash maps in Java. We can implement a simple map using a list of key-value pairs:</p>
+<pre class="lean"><code>structure Map (α β : Type) where
+  pairs : List (α × β)
+deriving Repr</code></pre>
+<p>For more efficient implementations, Lean provides <code>Std.HashMap</code> in the standard library which can be used
+as follows:</p>
+<pre class="lean"><code>import Std.Data.HashMap
+def exampleMap : Std.HashMap String Nat := Std.HashMap.empty.insert &quot;one&quot; 1 |&gt;.insert &quot;two&quot; 2</code></pre>
+<p>The standard library also provides functions to manipulate maps:</p>
+<pre class="lean"><code>#eval exampleMap.find? &quot;one&quot;  -- Output: some 1
+#eval exampleMap.find? &quot;three&quot;  -- Output: none
+def exampleMap2 := exampleMap.insert &quot;three&quot; 3
+#eval exampleMap2.find? &quot;three&quot;  -- Output: some 3
+def exampleMap3 := exampleMap2.erase &quot;two&quot;
+#eval exampleMap3.find? &quot;two&quot;  -- Output: none</code></pre>
+<h3 id="binary-trees">Binary Trees</h3>
+<p>Binary trees are a common data structure in many languages. The data structure consists of nodes, each of which has a
+value and two children (left and right). Each node can be a leaf (no children) or an internal node (with children). We
+can define a binary tree in Lean as follows:</p>
+<pre class="lean"><code>inductive BinTree (α : Type) : Type
+  | leaf : BinTree α -- leaf node with no value
+  | node : α → BinTree α → BinTree α → BinTree α -- value, left child, right child</code></pre>
+<p>We can create a binary tree using the <code>leaf</code> and <code>node</code> constructors:</p>
+<pre class="lean"><code>def exampleTree : BinTree Nat :=
+  BinTree.node 1
+    (BinTree.node 2 BinTree.leaf BinTree.leaf)
+    (BinTree.node 3 BinTree.leaf BinTree.leaf)</code></pre>
+<p>This creates a binary tree with the following structure:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>    <span class="ex">1</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>   <span class="ex">/</span> <span class="dt">\</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  2   3</span></code></pre></div>
+<p>Using the standard library, we can also use <code>Std.BinTree</code> which provides additional functionality:</p>
+<pre class="lean"><code>import Std.Data.BinTree
+def exampleTree2 : Std.BinTree Nat :=
+  Std.BinTree.node 1
+    (Std.BinTree.node 2 Std.BinTree.leaf Std.BinTree.leaf)
+    (Std.BinTree.node 3 Std.BinTree.leaf Std.BinTree.leaf)</code></pre>
+<p>Binary trees support operations like insertion, search, traversal, checking if empty, and getting size. (See the
+Functions chapter for implementation examples.)</p>
+<h3 id="graphs">Graphs</h3>
+<p>We can represent graphs in Lean using vertices and edges:</p>
+<pre class="lean"><code>structure Vertex where
+  id : Nat
+
+structure Edge where
+  from : Vertex
+  to : Vertex
+
+structure Graph where
+  vertices : List Vertex
+  edges : List Edge</code></pre>
+<p>Here, we define a <code>Vertex</code> as a structure with an <code>id</code> field, an <code>Edge</code> as a
+structure with <code>from</code> and <code>to</code> fields, and a <code>Graph</code> as a structure with lists of
+vertices and edges. We can create vertices and edges and define a graph as follows:</p>
+<pre class="lean"><code>def v1 := Vertex.mk 1
+def v2 := Vertex.mk 2
+def e := Edge.mk v1 v2
+def g : Graph := { vertices := [v1, v2], edges := [e] }</code></pre>
+<p>The standard library also provides <code>Std.Graph</code> which can be used for more complex graph operations.</p>
+<pre class="lean"><code>import Std.Data.Graph
+def exampleGraph : Std.Graph Nat :=
+  Std.Graph.empty
+    .addVertex 1
+    .addVertex 2
+    .addEdge 1 2</code></pre>
+<p>Graphs support operations like adding vertices/edges, checking connectivity, traversal, and various graph algorithms.
+(See the Functions chapter for implementation examples.)</p>
+<h2 id="custom-types">Custom Types</h2>
+<p>There are two main ways to define custom types in Lean: product types and sum types.</p>
+<h3 id="product-types">Product Types</h3>
+<p>Product types combine multiple values into a single type. They’re similar to structs in C or dataclasses in
+Python.</p>
+<pre class="lean"><code>structure Point where
+  x : Float
+  y : Float</code></pre>
+<p>This defines a new type <code>Point</code> with two fields <code>x</code> and <code>y</code>. We can create objects
+of this type using the constructor:</p>
+<pre class="lean"><code>def myPoint : Point := { x := 1.0, y := 2.0 }</code></pre>
+<p>We can access the fields of the object using dot notation:</p>
+<pre class="lean"><code>#eval myPoint.x  -- Output: 1.0</code></pre>
+<h3 id="sum-types">Sum Types</h3>
+<p>Sum types (also known as tagged unions or algebraic data types) allow a value to be one of several types. They’re
+similar to enums in Rust or union types in TypeScript.</p>
+<pre class="lean"><code>inductive Shape
+  -- constructor that takes in a radius and outputs a circle
+  | circle    : Float → Shape
+  -- constructor that takes in width and height and outputs a rectangle
+  | rectangle : Float → Float → Shape</code></pre>
+<p>These constructors can be used to create objects of type <code>Shape</code>:</p>
+<pre class="lean"><code>def myCircle := Shape.circle 5.0
+def myRectangle := Shape.rectangle 4.0 6.0</code></pre>
+<p><code>Option</code> and <code>Either</code> types are also examples of sum types:</p>
+<pre class="lean"><code>inductive Option (α : Type) : Type
+  | none : Option α
+  | some : α → Option α
+
+inductive Either (α β : Type) : Type
+  | left  : α → Either α β
+  | right : β → Either α β</code></pre>
+<h2 id="advanced-types">Advanced Types</h2>
+<h3 id="type-classes">Type Classes</h3>
+<p>Type classes allow for ad-hoc polymorphism, enabling functions to operate on different types based on the
+capabilities those types provide. A typeclass defines a set of functions that a type must implement to be considered an
+instance of that class. This is similar to interfaces in languages like TypeScript or traits in Rust.</p>
+<p>Lets take a very basic example, say we want all kinds of a certain type to have a zero value. We can define a type
+class <code>HasZero</code> that requires a zero value to be defined for any type that implements it:</p>
+<pre class="lean"><code>-- Define a basic type class for types that have a &quot;zero&quot; value
+class HasZero (α : Type) where
+  zero : α  -- Every instance must provide a zero value</code></pre>
+<p>Any type that implements the <code>HasZero</code> type class must provide a <code>zero</code> value. This property
+can be implemented for different types like <code>Nat</code>, <code>Bool</code>, and <code>String</code>:</p>
+<pre class="lean"><code>-- Implement HasZero for some types
+instance : HasZero Nat where
+  zero := 0
+
+instance : HasZero Bool where
+  zero := false
+
+instance : HasZero String where
+  zero := &quot;&quot;</code></pre>
+<p>We can then use the <code>zero</code> function to get the zero value for any type that implements the
+<code>HasZero</code> type class:</p>
+<pre class="lean"><code>#eval HasZero.zero (α := Nat)      -- Output: 0
+#eval HasZero.zero (α := Bool)     -- Output: false
+#eval HasZero.zero (α := String)   -- Output: &quot;&quot;</code></pre>
+<p>Here’s another example of a <code>Plus</code> type class that defines a <code>plus</code> function which defines
+addition for all types that implement it:</p>
+<pre class="lean"><code>class Plus (α : Type) where
+  plus : α → α → α</code></pre>
+<p>This can be implemented for different types like <code>Nat</code> and <code>Float</code>:</p>
+<pre class="lean"><code>instance : Plus Nat where
+  plus := Nat.add
+
+instance : Plus Float where
+  plus := Float.add
+
+instance : Plus String where
+  plus := String.append</code></pre>
+<p>Finally, we can use the <code>plus</code> function on different types:</p>
+<pre class="lean"><code>open Plus(plus)
+
+#eval plus 4 5         -- 9
+#eval plus 4.3 5.2     -- 9.500000</code></pre>
+<p>Note the <code>open Plus(plus)</code> line, which brings the <code>plus</code> function into scope so we can use it
+without prefixing it with <code>Plus.</code>. Instead we could also use <code>Plus.plus</code> directly.</p>
+<h3 id="dependent-types">Dependent Types</h3>
+<p>Dependent types are one of Lean’s most powerful features. They allow types to depend on values:</p>
+<pre class="lean"><code>-- Vector: a list with a statically known length
+inductive Vector (α : Type) : Nat → Type
+  | nil  : Vector α 0
+  | cons : α → {n : Nat} → Vector α n → Vector α (n+1)</code></pre>
+<p>Here, <code>Vector α n</code> is a vector of length <code>n</code> containing elements of type <code>α</code>. The
+<code>nil</code> constructor creates an empty vector, while the <code>cons</code> constructor adds an element to the
+front of a vector. The length of the vector is encoded in the type itself, so the type system ensures that operations
+like <code>head</code> (which returns the first element of a non-empty vector) are safe:</p>
+<pre class="lean"><code>def vec1 : Vector Bool 1 := Vector.cons true Vector.nil
+def vec2 : Vector Bool 2 := Vector.cons false vec1
+
+-- This would be a compile-time error: head Vector.nil as it has length 0</code></pre>
+<p>This is similar to dependent types in languages like Idris or Agda, but is not found in most mainstream programming
+languages. Dependent types allow us to encode complex invariants in the type system, leading to safer and more
+expressive code, and moving some runtime errors to compile-time errors.</p>
+<hr />
+<p><a href="./Lean.functions.html">Functions</a></p>
+</body>
+</html>

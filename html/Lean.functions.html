@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Lean/functions</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a> <a href="Lean.types.html">Previous</a> <a
+href="Lean.algorithms.html">Next</a></p>
+<h1 id="functions">Functions</h1>
+<hr />
+<ul>
+<li><a href="#basic-syntax">Basic Syntax</a>
+<ul>
+<li><a href="#simple-function-syntax">Simple Function Syntax</a></li>
+<li><a href="#arrow-function-syntax">Arrow Function Syntax</a></li>
+<li><a href="#function-bodies">Function Bodies</a></li>
+<li><a href="#key-syntax-elements">Key Syntax Elements</a></li>
+<li><a href="#implicit-arguments">Implicit Arguments</a></li>
+</ul></li>
+<li><a href="#pattern-matching">Pattern Matching</a>
+<ul>
+<li><a href="#two-pattern-matching-approaches">Two Pattern Matching Approaches</a></li>
+<li><a href="#multiple-arguments">Multiple Arguments</a></li>
+<li><a href="#common-patterns">Common Patterns</a></li>
+<li><a href="#the-logical-not">The Logical Not</a></li>
+<li><a href="#the-logical-and">The logical AND</a></li>
+<li><a href="#the-logical-or">The logical OR</a></li>
+<li><a href="#the-logical-xor">The logical XOR</a></li>
+<li><a href="#pattern-matching-with-guards">Pattern matching with guards</a></li>
+<li><a href="#nested-pattern-matching">Nested pattern matching</a></li>
+</ul></li>
+<li><a href="#recursion">Recursion</a>
+<ul>
+<li><a href="#addition-of-natural-numbers">Addition of natural numbers</a></li>
+<li><a href="#length-of-a-list">Length of a List</a></li>
+</ul></li>
+<li><a href="#dependent-types">Dependent Types</a>
+<ul>
+<li><a href="#syntax">Syntax</a></li>
+<li><a href="#conditional-types">Conditional Types</a></li>
+<li><a href="#length-indexed-vectors">Length-Indexed Vectors</a></li>
+<li><a href="#working-with-implicit-arguments">Working with Implicit Arguments</a></li>
+</ul></li>
+<li><a href="#lambda-functions">Lambda Functions</a>
+<ul>
+<li><a href="#syntax-1">Syntax</a></li>
+<li><a href="#implicit-arguments-1">Implicit Arguments</a></li>
+<li><a href="#dependent-pattern-matching">Dependent Pattern Matching</a></li>
+<li><a href="#map">Map</a></li>
+</ul></li>
+<li><a href="#advanced-concepts">Advanced Concepts</a>
+<ul>
+<li><a href="#parametric-polymorphism">Parametric Polymorphism</a></li>
+<li><a href="#function-composition">Function Composition</a></li>
+<li><a href="#currying-and-partial-application">Currying and Partial Application</a></li>
+<li><a href="#local-definitions">Local definitions</a></li>
+<li><a href="#termination-checking">Termination Checking</a></li>
+<li><a href="#mutual-recursion">Mutual Recursion</a></li>
+<li><a href="#higher-order-functions">Higher-Order Functions</a></li>
+</ul></li>
+<li><a href="#data-structure-operations">Data Structure Operations</a>
+<ul>
+<li><a href="#string-operations">String Operations</a></li>
+<li><a href="#list-operations">List Operations</a></li>
+<li><a href="#array-operations">Array Operations</a></li>
+<li><a href="#set-operations">Set Operations</a></li>
+<li><a href="#stack-operations">Stack Operations</a></li>
+<li><a href="#queue-operations">Queue Operations</a></li>
+<li><a href="#map-operations">Map Operations</a></li>
+<li><a href="#binary-tree-operations">Binary Tree Operations</a></li>
+<li><a href="#graph-operations">Graph Operations</a></li>
+<li><a href="#shape-operations">Shape Operations</a></li>
+<li><a href="#type-class-operations">Type Class Operations</a></li>
+<li><a href="#dependent-type-operations">Dependent Type Operations</a></li>
+</ul></li>
+</ul>
+<p>Functions in Lean are defined using the <code>def</code> keyword. The syntax for defining functions in Lean is
+similar to defining inductive types.</p>
+<p>These are the different types of functions we can define in Lean:</p>
+<table>
+<thead>
+<tr>
+<th>Type of Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pattern-matching</td>
+<td>Functions that match patterns to produce outputs</td>
+</tr>
+<tr>
+<td>Recursive</td>
+<td>Functions that call themselves to compute results</td>
+</tr>
+<tr>
+<td>Dependent</td>
+<td>Functions where the result type depends on the argument value</td>
+</tr>
+<tr>
+<td>Lambda</td>
+<td>Anonymous functions that can be passed as arguments</td>
+</tr>
+</tbody>
+</table>
+<p>Functions are also first-class citizens in Lean, meaning they can be passed as arguments to other functions, returned
+as results, and stored in data structures.</p>
+<h2 id="basic-syntax">Basic Syntax</h2>
+<p>Functions in Lean are defined using the <code>def</code> keyword, which is similar to function definitions in many
+other programming languages. However, Lean offers several syntactic forms for defining functions, each suited to
+different situations. Understanding these different forms will help you write more expressive and readable code.</p>
+<p>There are two main syntactic forms for function definitions:</p>
+<h3 id="simple-function-syntax">Simple Function Syntax</h3>
+<p>The most straightforward way to define functions is with explicit parameters. This syntax is familiar to programmers
+coming from languages like TypeScript, Kotlin, or Swift:</p>
+<pre class="lean"><code>def functionName (arg1 : Type1) (arg2 : Type2) : ReturnType :=
+  functionBody</code></pre>
+<p>Here’s a simple example - a function that adds two natural numbers:</p>
+<pre class="lean"><code>def add (x : Nat) (y : Nat) : Nat :=
+  x + y</code></pre>
+<p>This reads naturally: “define a function called <code>add</code> that takes two natural numbers <code>x</code> and
+<code>y</code>, and returns their sum.”</p>
+<h3 id="arrow-function-syntax">Arrow Function Syntax</h3>
+<p>Sometimes it’s more natural to emphasize the function’s type signature, especially when using pattern matching or
+when the function type is complex. In these cases, we use arrow syntax:</p>
+<pre class="lean"><code>def functionName : InputType → ReturnType :=
+  functionBody</code></pre>
+<p>Here’s the same add function using arrow syntax:</p>
+<pre class="lean"><code>def add : Nat → Nat → Nat :=
+  fun x y =&gt; x + y</code></pre>
+<p>The arrow notation <code>→</code> reads as “maps to” - so this says “<code>add</code> maps a <code>Nat</code> to a
+function that maps a <code>Nat</code> to a <code>Nat</code>”. This emphasizes that functions in Lean are actually
+curried by default - more on that later!</p>
+<h3 id="function-bodies">Function Bodies</h3>
+<p>The body of a function - the part that actually does the computation - can be written in several different ways
+depending on what you’re trying to achieve. Let’s explore each approach:</p>
+<p><strong>1. Simple expressions:</strong> The most straightforward approach is to write a single expression that
+computes the result:</p>
+<pre class="lean"><code>def double (x : Nat) : Nat := x * 2</code></pre>
+<p><strong>2. Using <code>fun</code> (lambda) syntax:</strong> When using arrow syntax, you’ll often want to use
+anonymous functions (lambdas) in the body:</p>
+<pre class="lean"><code>def add : Nat → Nat → Nat := fun x y =&gt; x + y
+-- or equivalently using the Greek letter λ (lambda):
+def add : Nat → Nat → Nat := λ x y =&gt; x + y</code></pre>
+<p>Both <code>fun</code> and <code>λ</code> mean exactly the same thing - it’s just a matter of preference!</p>
+<p><strong>3. Using <code>match</code> expressions for pattern matching:</strong> When you need to handle different
+cases based on the structure of your input, <code>match</code> expressions are very powerful:</p>
+<pre class="lean"><code>def isZero (n : Nat) : Bool :=
+  match n with
+  | 0 =&gt; true
+  | _ =&gt; false</code></pre>
+<p><strong>4. Direct pattern matching (shorthand):</strong> For functions that are primarily about pattern matching,
+Lean provides a convenient shorthand:</p>
+<pre class="lean"><code>def isZero : Nat → Bool
+  | 0 =&gt; true
+  | _ =&gt; false</code></pre>
+<p>This is exactly equivalent to the <code>match</code> version above, but more concise!</p>
+<h3 id="key-syntax-elements">Key Syntax Elements</h3>
+<ul>
+<li><strong><code>def</code></strong> - keyword to define functions</li>
+<li><strong><code>fun</code></strong> or <strong><code>λ</code></strong> - lambda (anonymous) functions</li>
+<li><strong><code>match ... with</code></strong> - pattern matching expressions</li>
+<li><strong><code>| pattern =&gt; result</code></strong> - pattern matching cases</li>
+<li><strong><code>_</code></strong> - wildcard pattern (matches anything)</li>
+<li><strong><code>=&gt;</code></strong> - separates patterns from results</li>
+</ul>
+<h3 id="implicit-arguments">Implicit Arguments</h3>
+<p>Before we dive deeper into pattern matching and more complex functions, there’s one more crucial concept to
+understand: implicit arguments. You’ll see these everywhere in Lean code, and they make functions much more pleasant to
+use.</p>
+<p>Consider this function that calculates the length of a list:</p>
+<pre class="lean"><code>def length {α : Type} : List α → Nat  -- {α : Type} is implicit
+  | []      =&gt; 0
+  | _ :: xs =&gt; 1 + length xs</code></pre>
+<p>Notice the <code>{α : Type}</code> - those curly braces make this an <em>implicit</em> argument. Here’s what the
+different bracket types mean:</p>
+<ul>
+<li><strong>Explicit arguments:</strong> <code>(x : Type)</code> - you must provide these when calling the function</li>
+<li><strong>Implicit arguments:</strong> <code>{x : Type}</code> - Lean figures these out automatically based on
+context</li>
+<li><strong>Type class constraints:</strong> <code>[TypeClass α]</code> - requirements for the type (we’ll cover this
+later)</li>
+</ul>
+<p>The beauty of implicit arguments is that you don’t have to think about them most of the time:</p>
+<pre class="lean"><code>#eval length [1, 2, 3]       -- Lean knows this is a List Nat, so α = Nat
+#eval length [&quot;a&quot;, &quot;b&quot;]      -- Lean knows this is a List String, so α = String</code></pre>
+<p>But if for some reason you need to be explicit, you can use <code>@</code> to override the implicitness:</p>
+<pre class="lean"><code>#eval @length Nat [1, 2, 3]  -- Explicitly tell Lean that α = Nat</code></pre>
+<p>This system makes Lean code much cleaner - imagine having to write <code>length Nat [1, 2, 3]</code> every time!</p>
+<p>Let’s explore each of these concepts in detail.</p>
+<h2 id="pattern-matching">Pattern Matching</h2>
+<p>One of the most powerful features of Lean is pattern matching, which allows functions to behave differently based on
+the structure of their inputs. If you’ve used languages like Rust, Scala, or Haskell, this will feel familiar. If not,
+don’t worry - it’s an incredibly useful concept that will soon become second nature!</p>
+<p>Pattern matching is particularly useful when working with algebraic data types (like the ones we defined in the
+previous chapter). Instead of having to check conditions manually, we can let Lean automatically figure out which case
+we’re dealing with.</p>
+<p>As we saw in the basic syntax section, there are two main ways to write pattern matching in Lean:</p>
+<h3 id="two-pattern-matching-approaches">Two Pattern Matching Approaches</h3>
+<p><strong>1. Using <code>match</code> expressions (explicit):</strong> This approach is great when you need to do some
+computation before the pattern matching, or when the pattern matching is just part of a larger function body:</p>
+<pre class="lean"><code>def functionName (input : InputType) : OutputType :=
+  match input with
+  | pattern₁ =&gt; result₁
+  | pattern₂ =&gt; result₂
+  | _        =&gt; defaultResult</code></pre>
+<p><strong>2. Direct pattern matching (shorthand):</strong> When your function is primarily about pattern matching
+(which is very common!), this shorthand syntax is cleaner and more idiomatic:</p>
+<pre class="lean"><code>def functionName : InputType → OutputType
+  | pattern₁ =&gt; result₁
+  | pattern₂ =&gt; result₂
+  | _        =&gt; defaultResult</code></pre>
+<p>Both approaches do exactly the same thing - it’s just a matter of style and what feels more natural for your
+particular function.</p>
+<h3 id="multiple-arguments">Multiple Arguments</h3>
+<p>One of the nice things about pattern matching is that it works seamlessly with multiple arguments. This is
+particularly useful for functions that need to consider combinations of different inputs:</p>
+<pre class="lean"><code>def functionName : Type₁ → Type₂ → OutputType
+  | pattern₁, pattern₂ =&gt; result₁
+  | pattern₃, pattern₄ =&gt; result₂
+  | _,       _        =&gt; defaultResult</code></pre>
+<p>Notice how we separate the patterns with commas, and we can mix specific patterns with wildcards (<code>_</code>) as
+needed.</p>
+<h3 id="common-patterns">Common Patterns</h3>
+<p>As you work with Lean, you’ll encounter these common pattern types again and again. Don’t worry about memorizing them
+all at once - you’ll pick them up naturally through practice:</p>
+<ul>
+<li><strong>Literal values:</strong> <code>0</code>, <code>true</code>, <code>"hello"</code> - match exact values</li>
+<li><strong>Wildcards:</strong> <code>_</code> - matches anything (useful for “catch-all” cases)</li>
+<li><strong>Variables:</strong> <code>n</code>, <code>x</code> - bind the matched value to a name you can use</li>
+<li><strong>Constructors:</strong> <code>none</code>, <code>some x</code>, <code>x :: xs</code> - match data type
+constructors</li>
+<li><strong>Arithmetic patterns:</strong> <code>n + 1</code>, <code>m * 2</code> - special patterns for natural
+numbers</li>
+</ul>
+<p>The real power comes when you combine these - for example, <code>some (x + 1)</code> matches an optional value
+containing a natural number that’s at least 1!</p>
+<h3 id="the-logical-not">The Logical Not</h3>
+<p>The simplest of functions simply match patterns. For example, the function for <code>not</code>:</p>
+<pre class="lean"><code>def not : Bool → Bool
+  | true  =&gt; false -- return false if we are given a true
+  | false =&gt; true  -- return a true if we are given a false</code></pre>
+<p>We could also use a wildcard pattern (<code>_</code>) like this:</p>
+<pre class="lean"><code>def not₁ : Bool → Bool
+  | true =&gt; false -- return false if we are given a true
+  | _    =&gt; true  -- return true in all other cases</code></pre>
+<h3 id="the-logical-and">The logical AND</h3>
+<p>In Lean, function names containing symbols can be used as infix operators. We can define precedence and associativity
+using <code>infix</code>, <code>infixl</code>, or <code>infixr</code>.</p>
+<pre class="lean"><code>def and : Bool → Bool → Bool
+  | true,  b =&gt; b     -- true AND whatever is whatever
+  | false, _ =&gt; false -- false AND whatever is false
+
+infixr:70 &quot; ∧ &quot; =&gt; and</code></pre>
+<p>This can be applied as:</p>
+<pre class="lean"><code>#check true ∧ false ∧ true  -- Bool
+#eval true ∧ false ∧ true   -- false</code></pre>
+<h3 id="the-logical-or">The logical OR</h3>
+<pre class="lean"><code>def or : Bool → Bool → Bool
+  | true,  _ =&gt; true -- true or whatever is true
+  | false, b =&gt; b    -- false or whatever is whatever
+
+infixr:60 &quot; ∨ &quot; =&gt; or</code></pre>
+<p>which can be applied as:</p>
+<pre class="lean"><code>#check true ∨ false ∨ true  -- Bool
+#eval true ∨ false ∨ true   -- true</code></pre>
+<h3 id="the-logical-xor">The logical XOR</h3>
+<p>The xor function with multiple arguments and wildcards:</p>
+<pre class="lean"><code>def xor : Bool → Bool → Bool
+  | true,  false =&gt; true  -- true XOR false is true
+  | false, true  =&gt; true  -- false XOR true is true
+  | _,     _     =&gt; false -- all other cases are false</code></pre>
+<h3 id="pattern-matching-with-guards">Pattern matching with guards</h3>
+<p>“Guards” are conditions that can be added to pattern-matching clauses to further refine the matching process. They
+are represented by <code>if</code> expressions that evaluate to <code>true</code> or <code>false</code>. Guards can be
+used to add conditions to patterns like the <code>max3</code> below function which takes three natural numbers
+<code>x</code>, <code>y</code>, and <code>z</code> and returns the maximum of the three numbers. It uses pattern
+matching with guards to compare the numbers and determine the maximum.</p>
+<pre class="lean"><code>def max3 : Nat → Nat → Nat → Nat
+  | x, y, z if x &gt;= y &amp;&amp; x &gt;= z =&gt; x -- x is largest
+  | x, y, z if y &gt;= x &amp;&amp; y &gt;= z =&gt; y -- y is largest
+  | x, y, z                     =&gt; z -- z is largest</code></pre>
+<h3 id="nested-pattern-matching">Nested pattern matching</h3>
+<p>Pattern matching can also be nested to handle more complex patterns, as well as using <code>match</code> expressions
+inside function bodies. For example, the <code>deepMatch</code> function takes a list of optional natural numbers
+(<code>List (Option Nat)</code>) and computes a natural number based on the values in the list. It uses nested pattern
+matching to handle the different cases of the list and the optional values. Note that <code>::</code> here is the list
+constructor, and <code>none</code> and <code>some n</code> are the constructors for the <code>Option</code> type.</p>
+<pre class="lean"><code>def deepMatch : List (Option Nat) → Nat
+  | [] =&gt; 0
+  | none :: xs =&gt; deepMatch xs
+  | some n :: xs =&gt;
+    match n with
+    | 0 =&gt; deepMatch xs
+    | m+1 =&gt; m + 1 + deepMatch xs</code></pre>
+<h2 id="recursion">Recursion</h2>
+<p>Recursive functions are functions that call themselves to compute results. They are useful for defining functions
+that operate on recursive data structures or have recursive behavior. The syntax for defining recursive functions in
+Lean is similar to pattern-matching functions, but with a recursive call to the function itself.</p>
+<h3 id="addition-of-natural-numbers">Addition of natural numbers</h3>
+<p>The addition of natural numbers is a classic example of a recursive function. Here’s how it can be defined in
+Lean:</p>
+<pre class="lean"><code>def add : Nat → Nat → Nat
+  | 0,    n =&gt; n -- base case: 0 + n is n
+  | m+1,  n =&gt; (add m n) + 1 -- recursive case: (m+1) + n is (m + n) + 1
+
+infixl:65 &quot; + &quot; =&gt; add</code></pre>
+<h3 id="length-of-a-list">Length of a List</h3>
+<p>The length of a list consists of traversing through the list and adding one for each element:</p>
+<pre class="lean"><code>def length {α : Type} : List α → Nat
+  | []      =&gt; 0 -- base case: empty list has length 0
+  | _ :: xs =&gt; 1 + length xs -- recursive case: 1 + length of the rest of the list</code></pre>
+<p>The <code>length</code> function takes a list of any type <code>α</code> and returns a natural number
+(<code>Nat</code>). It uses pattern matching to handle two cases:</p>
+<ol type="1">
+<li>If the list is empty (<code>[]</code>), the length is <code>0</code>.</li>
+<li>If the list has at least one element (<code>_ :: xs</code>), the length is 1 plus the length of the rest of the list
+(<code>xs</code>).</li>
+</ol>
+<p>This function recursively processes the list, accumulating the total count of elements until it reaches the empty
+list.</p>
+<h2 id="dependent-types">Dependent Types</h2>
+<p>Dependent function types, also known as Π-types (Pi-types), represent one of the most powerful features in dependent
+type theory and Lean. Unlike simple function types where input and output types are fixed, dependent function types
+allow the <em>output type to depend on the input value</em>. This capability enables us to express complex relationships
+between values and types that would be impossible in simply-typed languages.</p>
+<h3 id="syntax">Syntax</h3>
+<p>In Lean, dependent function types can be written in several ways:</p>
+<ul>
+<li>Using <code>Π</code> (Pi) notation</li>
+<li>Using <code>∀</code> (forall) notation</li>
+<li>Using arrow notation <code>→</code> when appropriate</li>
+</ul>
+<p>Let’s start with a simple example to illustrate the concept:</p>
+<pre class="lean"><code>def id {α : Type} (x : α) : α := x</code></pre>
+<p>Here, <code>id</code> is a function that takes a value <code>x</code> of any type <code>α</code> and returns the same
+value. The type variable <code>α</code> is implicit, meaning Lean can infer it from the context when the function is
+called. This function is polymorphic, as it can operate on values of any type.</p>
+<h3 id="conditional-types">Conditional Types</h3>
+<p>One powerful application of dependent types is the ability to have different return types based on a condition.
+Here’s an example:</p>
+<pre class="lean"><code>/-- This function returns either a Nat or a String depending on the boolean input.
+    Note how the return type uses an if-expression directly in the type! -/
+def natOrStringThree (b : Bool) : if b then Nat else String :=
+  match b with
+  | true =&gt; (3 : Nat)
+  | false =&gt; &quot;three&quot;</code></pre>
+<p>Let’s examine what happens when we use this function:</p>
+<pre class="lean"><code>#check natOrStringThree true   -- Nat
+#check natOrStringThree false  -- String
+#eval natOrStringThree true    -- 3
+#eval natOrStringThree false   -- &quot;three&quot;</code></pre>
+<p>As we can see, the return type of <code>natOrStringThree</code> depends on the input value <code>b</code>. If
+<code>b</code> is <code>true</code>, the function returns a <code>Nat</code>, and if <code>b</code> is
+<code>false</code>, it returns a <code>String</code>.</p>
+<h3 id="length-indexed-vectors">Length-Indexed Vectors</h3>
+<p>Perhaps the most classic example of dependent types is vectors - lists whose lengths are encoded in their types. This
+example showcases how dependent types can enforce properties at the type level:</p>
+<p>A Vector is a list whose length is tracked in its type. α is the type of elements. The second parameter (Nat)
+indicates this is indexed by natural numbers:</p>
+<pre class="lean"><code>inductive Vector (α : Type) : Nat → Type
+  | nil  : Vector α 0                                        -- Empty vector has length 0
+  | cons : α → {n : Nat} → Vector α n → Vector α (n + 1)    -- Adding an element increases length by 1</code></pre>
+<p>Get the length of a vector. Note that we don’t need to examine the vector itself, as the length is encoded in its
+type:</p>
+<pre class="lean"><code>def vectorLength {α : Type} {n : Nat} (v : Vector α n) : Nat := n</code></pre>
+<p>Append two vectors. Notice how the return type shows that lengths add:</p>
+<pre class="lean"><code>def append {α : Type} : {n m : Nat} → Vector α n → Vector α m → Vector α (n + m)
+  | 0, m, Vector.nil, ys =&gt; ys
+  | n+1, m, Vector.cons x xs, ys =&gt; Vector.cons x (append xs ys)</code></pre>
+<p>Let’s create some vectors to see how this works:</p>
+<pre class="lean"><code>def v1 := Vector.cons 1 Vector.nil           -- Vector Nat 1
+def v2 := Vector.cons 2 (Vector.cons 3 Vector.nil)  -- Vector Nat 2
+#check append v1 v2  -- Vector Nat 3</code></pre>
+<h3 id="working-with-implicit-arguments">Working with Implicit Arguments</h3>
+<p>Dependent types often work with implicit arguments, which Lean can infer from context. Consider a function that
+creates a vector of a specified length filled with a value:</p>
+<pre class="lean"><code>-- Notice how {α : Type} is implicit but (n : Nat) is explicit
+def replicate {α : Type} (n : Nat) (x : α) : Vector α n :=
+  match n with
+  | 0 =&gt; Vector.nil
+  | n+1 =&gt; Vector.cons x (replicate n x)</code></pre>
+<p>Next, we define a <code>map</code> function that applies a function to each element of a vector:</p>
+<pre class="lean"><code>def map {α β : Type} {n : Nat} (f : α → β) : Vector α n → Vector β n
+  | Vector.nil =&gt; Vector.nil
+  | Vector.cons x xs =&gt; Vector.cons (f x) (map f xs)</code></pre>
+<p>Let’s see how these functions work:</p>
+<pre class="lean"><code>#eval replicate 3 true   -- Vector of 3 trues
+#check map (· + 1) (replicate 3 0)  -- Vector Nat 3</code></pre>
+<p>As we can see, the <code>replicate</code> function creates a vector of a specified length filled with a given value,
+and the <code>map</code> function applies a function to each element of a vector.</p>
+<h2 id="lambda-functions">Lambda Functions</h2>
+<p>Lambda functions, also known as anonymous functions, are functions that are not bound to a specific name. They are
+useful for defining functions on the fly, passing functions as arguments, and returning functions as results. In Lean,
+lambda functions are defined using the <code>λ</code> symbol.</p>
+<h3 id="syntax-1">Syntax</h3>
+<p>Lambda (or anonymous) functions can be defined using the following syntax:</p>
+<pre class="lean"><code>def example₁ := λ (α : Type) (x : α) =&gt; x</code></pre>
+<p>Here are a few examples of lambda functions:</p>
+<h3 id="implicit-arguments-1">Implicit Arguments</h3>
+<p>Functions in Lean can work with implicit parameters, which means the compiler can infer certain argument values. For
+example:</p>
+<pre class="lean"><code>def append {α : Type} : List α → List α → List α
+  | [],    ys =&gt; ys
+  | x::xs, ys =&gt; x :: append xs ys
+
+infixr:65 &quot; ++ &quot; =&gt; append</code></pre>
+<p>Curly braces <code>{}</code> denote implicit arguments in Lean. Values of implicit arguments are derived from other
+argument values and types by solving type equations. You don’t have to apply them explicitly (though they can be
+explicitly passed like <code>@function_name α</code>).</p>
+<p>This function takes a type as a parameter <code>α</code>, and thus can work on <code>List</code>s of any type
+<code>α</code>. This feature of functions is called “parametric polymorphism”, more on that later.</p>
+<h3 id="dependent-pattern-matching">Dependent Pattern Matching</h3>
+<p>Lean supports dependent pattern matching, which is similar to Agda’s dot patterns. Here’s an example:</p>
+<pre class="lean"><code>inductive Square : Nat → Type where
+  | sq : (m : Nat) → Square (m * m)
+
+def root : (n : Nat) → Square n → Nat
+  | _, Square.sq m =&gt; m</code></pre>
+<h3 id="map">Map</h3>
+<p>We implement the <code>map</code> function, of “map-reduce” fame, for <code>List</code>s: A map function for a
+<code>List</code> is a function that applies a lambda (un-named) function to all elements of a <code>List</code>.</p>
+<p>If <code>f</code> were a lambda function, mapping <code>f</code> over <code>List(a, b, c, d)</code> would produce
+<code>List(f(a), f(b), f(c), f(d))</code></p>
+<pre class="lean"><code>def map {α β : Type} : (α → β) → List α → List β
+  | _, []      =&gt; []
+  | f, x :: xs =&gt; f x :: map f xs</code></pre>
+<p>Here, we apply the function <code>addOne</code> to a list, using <code>map</code>:</p>
+<pre class="lean"><code>def addOne : Nat → Nat
+  | x =&gt; x + 1
+
+#eval map addOne [1, 2, 3, 4]  -- Output: [2, 3, 4, 5]</code></pre>
+<h2 id="advanced-concepts">Advanced Concepts</h2>
+<h3 id="parametric-polymorphism">Parametric Polymorphism</h3>
+<p>Parametric polymorphism is a feature of some programming languages that allows functions and data types to be generic
+over types. This means that functions and data types can be defined without specifying the exact type they operate on,
+making them more flexible and reusable.</p>
+<p>In Lean, parametric polymorphism is achieved using type variables. Type variables are placeholders for types that can
+be instantiated with any concrete type. They are denoted by names enclosed in curly braces <code>{}</code>.</p>
+<p>Here’s an example of a parametrically polymorphic function in Lean:</p>
+<pre class="lean"><code>def id {α : Type} (x : α) : α := x</code></pre>
+<p>In this example, <code>id</code> is a function that takes a value of any type <code>α</code> and returns the same
+value. The type variable <code>α</code> is used to indicate that the function is generic over types.</p>
+<p>Let’s now look at a slightly more complex example:</p>
+<pre class="lean"><code>def swap {α β : Type} (p : α × β) : β × α :=
+  match p with
+  | (a, b) =&gt; (b, a)</code></pre>
+<p>In this example, <code>swap</code> is a function that takes a pair of values of types <code>α</code> and
+<code>β</code> and returns a pair with the values swapped. The type variables <code>α</code> and <code>β</code> indicate
+that the function is generic over types. The function <code>swap</code> can be used with any pair of values of any
+types:</p>
+<pre class="lean"><code>#eval swap (1, &quot;hello&quot;)  -- Output: (&quot;hello&quot;, 1)
+#eval swap (&quot;world&quot;, 42)  -- Output: (42, &quot;world&quot;)</code></pre>
+<h3 id="function-composition">Function Composition</h3>
+<p>Function composition is a fundamental concept in functional programming that allows you to combine multiple functions
+to create a new function. In Lean, function composition can be achieved using the <code>∘</code> operator.</p>
+<p>Here’s an example of function composition in Lean:</p>
+<pre class="lean"><code>def addOne : Nat → Nat := λ x =&gt; x + 1
+def double : Nat → Nat := λ x =&gt; x * 2</code></pre>
+<p>We can compose the <code>addOne</code> and <code>double</code> functions to create a new function that first adds one
+to a number and then doubles the result:</p>
+<pre class="lean"><code>def addOneThenDouble : Nat → Nat := double ∘ addOne</code></pre>
+<p>The <code>∘</code> operator is used to compose the <code>double</code> function with the <code>addOne</code>
+function. The resulting <code>addOneThenDouble</code> function first applies <code>addOne</code> to a number and then
+applies <code>double</code> to the result.</p>
+<h3 id="currying-and-partial-application">Currying and Partial Application</h3>
+<p>Currying is the process of converting a function that takes multiple arguments into a sequence of functions, each
+taking a single argument. This allows for partial application of functions, where some arguments are provided, and the
+function returns a new function that takes the remaining arguments.</p>
+<p>In Lean, currying and partial application can be achieved using lambda functions. Here’s an example:</p>
+<pre class="lean"><code>def add : Nat → Nat → Nat := λ x y =&gt; x + y</code></pre>
+<p>The <code>add</code> function takes two arguments and returns their sum. We can curry the <code>add</code> function
+to create a new function that takes one argument and returns a function that takes the second argument:</p>
+<pre class="lean"><code>def addCurried : Nat → Nat → Nat := λ x =&gt; λ y =&gt; x + y</code></pre>
+<p>We can then partially apply the <code>addCurried</code> function to create a new function that adds 5 to a
+number:</p>
+<pre class="lean"><code>def addFive : Nat → Nat := addCurried 5</code></pre>
+<p>The <code>addFive</code> function is a partially applied version of the <code>addCurried</code> function that adds 5
+to a number. We can use the <code>addFive</code> function to add 5 to any number:</p>
+<pre class="lean"><code>#eval addFive 10  -- Output: 15
+#eval addFive 20  -- Output: 25</code></pre>
+<h3 id="local-definitions">Local definitions</h3>
+<p>Local definitions are used to define functions or values within the scope of another function. They are useful for
+breaking down complex functions into smaller, more manageable parts.</p>
+<p>Here’s an example of using local definitions in Lean:</p>
+<pre class="lean"><code>def sumOfSquares : Nat → Nat → Nat
+| x, y =&gt;
+  let square (z : Nat) : Nat := z * z
+  square x + square y</code></pre>
+<p>In this example, the <code>sumOfSquares</code> function takes two numbers <code>x</code> and <code>y</code> and
+calculates the sum of their squares. The <code>square</code> function is defined locally within the
+<code>sumOfSquares</code> function and is used to calculate the square of a number.</p>
+<p>Local definitions are scoped to the function in which they are defined and cannot be accessed outside that function.
+They are a powerful tool for organizing and structuring code.</p>
+<h3 id="termination-checking">Termination Checking</h3>
+<p>In Lean, functions are required to be total, meaning they must terminate for all inputs. This is enforced by the
+termination checker, which ensures that recursive functions make progress towards a base case.</p>
+<p>Here’s an example of a recursive function that calculates the factorial of a number:</p>
+<pre class="lean"><code>def factorial : Nat → Nat
+| 0 =&gt; 1
+| n+1 =&gt; (n+1) * factorial n</code></pre>
+<p>The <code>factorial</code> function calculates the factorial of a number by recursively multiplying the number by the
+factorial of the previous number until it reaches the base case of 0. The termination checker ensures that the recursive
+calls to <code>factorial</code> make progress towards the base case of 0.</p>
+<p>Functions that do not terminate or make progress towards a base case will be rejected by the termination checker,
+preventing non-terminating functions from being defined in Lean.</p>
+<p>The <code>termination_by</code> directive can be used to provide additional information to the termination checker
+when it cannot automatically determine that a function terminates. This directive allows you to specify a measure that
+decreases with each recursive call, helping the termination checker verify that the function will eventually reach a
+base case.</p>
+<pre class="lean"><code>def gcd : Nat → Nat → Nat
+  | 0, b =&gt; b
+  | a, 0 =&gt; a
+  | a, b =&gt; gcd (b % a) a
+  termination_by gcd a b =&gt; a + b</code></pre>
+<p>Over here, the <code>gcd</code> function calculates the greatest common divisor of two natural numbers using the
+Euclidean algorithm. The <code>termination_by</code> directive specifies that the sum of <code>a</code> and
+<code>b</code> decreases with each recursive call, ensuring that the function will eventually reach a base case.</p>
+<h3 id="mutual-recursion">Mutual Recursion</h3>
+<p>Mutual recursion is a technique where two or more functions call each other in a cycle. This can be useful for
+defining functions that have interdependent behavior.</p>
+<p>Here’s an example of mutual recursion in Lean:</p>
+<pre class="lean"><code>mutual
+  def isEven : Nat → Bool
+  | 0 =&gt; true
+  | n+1 =&gt; isOdd n
+
+  def isOdd : Nat → Bool
+  | 0 =&gt; false
+  | n+1 =&gt; isEven n</code></pre>
+<p>In this example, the <code>isEven</code> and <code>isOdd</code> functions are defined mutually recursively. The
+<code>isEven</code> function checks if a number is even by calling the <code>isOdd</code> function, and the
+<code>isOdd</code> function checks if a number is odd by calling the <code>isEven</code> function. This mutual recursion
+allows the functions to work together to determine if a number is even or odd.</p>
+<h3 id="higher-order-functions">Higher-Order Functions</h3>
+<p>Higher-order functions are functions that take other functions as arguments or return functions as results. They are
+a powerful feature of functional programming that allows for the composition and abstraction of functions.</p>
+<p>Here’s an example of a higher-order function in Lean:</p>
+<pre class="lean"><code>def apply {α β : Type} (f : α → β) (x : α) : β := f x</code></pre>
+<p>The <code>apply</code> function takes a function <code>f</code> that maps values of type <code>α</code> to values of
+type <code>β</code> and a value <code>x</code> of type <code>α</code> and applies the function <code>f</code> to the
+value <code>x</code>. This higher-order function allows for the application of arbitrary functions to values.</p>
+<p>A slight variation of the <code>apply</code> function is the <code>applyTwice</code> function:</p>
+<pre class="lean"><code>def applyTwice {α : Type} (f : α → α) (x : α) : α := f (f x)</code></pre>
+<p>The <code>applyTwice</code> function takes a function <code>f</code> and a value <code>x</code> of type
+<code>α</code> and applies the function <code>f</code> twice to the value <code>x</code>. This higher-order function
+allows for the composition of functions by applying a function multiple times.</p>
+<p>Similarly, higher order functions can be used to define functions that return functions as results. For example:</p>
+<pre class="lean"><code>def addN : Nat → Nat → Nat := λ n =&gt; λ x =&gt; x + n</code></pre>
+<p>The <code>addN</code> function takes a number <code>n</code> and returns a function that adds <code>n</code> to a
+number. This higher-order function allows for the creation of specialized functions that add a specific number to
+values.</p>
+<p>Filtering functions are another example of higher-order functions. Here’s an example of a <code>filter</code>
+function that takes a predicate function and a list and returns a new list containing only the elements that satisfy the
+predicate:</p>
+<pre class="lean"><code>def filter {α : Type} (p : α → Bool) : List α → List α
+  | [] =&gt; []
+  | x::xs =&gt; if p x then x :: filter p xs else filter p xs</code></pre>
+<p>The <code>filter</code> function takes a predicate function <code>p</code> that maps values of type <code>α</code> to
+booleans, a list of values of type <code>α</code>, and returns a new list containing only the elements that satisfy the
+predicate <code>p</code>. This higher-order function allows for the selective extraction of elements from a list based
+on a condition.</p>
+<h2 id="data-structure-operations">Data Structure Operations</h2>
+<p>Now comes the fun part - putting everything we’ve learned into practice! This section shows how to implement
+real-world operations on the data structures we defined in the Types chapter. These examples will help you see how
+pattern matching, recursion, and function definition work together to create useful, practical code.</p>
+<p>Don’t worry if some of these seem complex at first - they’re meant to be examples you can study, experiment with, and
+learn from. Each operation demonstrates different aspects of functional programming in Lean, from simple pattern
+matching to more advanced concepts like type class constraints.</p>
+<p>Think of this as your practice playground - try running these examples, modify them, and see what happens!</p>
+<h3 id="string-operations">String Operations</h3>
+<p>Let’s start with something familiar - string operations! These examples show how you can implement common string
+functions using pattern matching. Notice how we handle the empty string case explicitly:</p>
+<pre class="lean"><code>-- Check if a string is empty using pattern matching
+def stringIsEmpty : String → Bool
+  | &quot;&quot; =&gt; true      -- Empty string case
+  | _ =&gt; false      -- Any other string
+
+-- Get the length of a string
+def stringLength : String → Nat
+  | &quot;&quot; =&gt; 0                    -- Empty string has length 0
+  | s =&gt; s.data.length        -- Use built-in length on the underlying data
+
+-- Concatenate two strings together
+def stringConcat : String → String → String
+  | s1, s2 =&gt; String.mk (s1.data ++ s2.data)
+
+-- Safely get a character at a specific position (returns Option)
+def stringGet : String → Nat → Option Char
+  | s, i =&gt; s.data.get? i     -- Returns &#39;some char&#39; or &#39;none&#39; if out of bounds</code></pre>
+<p>These functions demonstrate basic pattern matching and show how Lean handles edge cases safely - notice how
+<code>stringGet</code> returns an <code>Option</code> rather than potentially crashing!</p>
+<h3 id="list-operations">List Operations</h3>
+<p>Lists are where recursion really shines! These examples show classic recursive patterns that you’ll use again and
+again. Pay attention to how each function handles the empty list base case and the recursive case:</p>
+<pre class="lean"><code>-- Calculate the length of a list recursively
+def listLength {α : Type} : List α → Nat
+  | [] =&gt; 0                    -- Base case: empty list has length 0
+  | _ :: xs =&gt; 1 + listLength xs  -- Recursive case: 1 + length of tail
+
+-- Append two lists together (this is how ++ works!)
+def listAppend {α : Type} : List α → List α → List α
+  | [], ys =&gt; ys               -- Base case: appending to empty list gives second list
+  | x :: xs, ys =&gt; x :: listAppend xs ys  -- Recursive: prepend head, append tails
+
+-- Reverse a list (inefficient but educational!)
+def listReverse {α : Type} : List α → List α
+  | [] =&gt; []                   -- Empty list reversed is empty
+  | x :: xs =&gt; listAppend (listReverse xs) [x]  -- Reverse tail, append head at end
+
+-- Filter elements based on a predicate (higher-order function!)
+def listFilter {α : Type} (p : α → Bool) : List α → List α
+  | [] =&gt; []                   -- No elements to filter in empty list
+  | x :: xs =&gt;
+    if p x then x :: listFilter p xs    -- Keep element if predicate is true
+    else listFilter p xs               -- Skip element if predicate is false</code></pre>
+<p>These are classic examples of structural recursion - each function breaks down the problem by handling one element
+and recursively processing the rest. Notice how <code>listFilter</code> is a higher-order function that takes another
+function as an argument!</p>
+<h3 id="array-operations">Array Operations</h3>
+<p>Array operations built on list foundations:</p>
+<pre class="lean"><code>def arrayGet {α : Type} (arr : Array α) (i : Nat) : Option α :=
+  arr.data.get? i
+
+def arrayPush {α : Type} (arr : Array α) (x : α) : Array α :=
+  { data := arr.data ++ [x] }
+
+def arraySize {α : Type} (arr : Array α) : Nat :=
+  arr.data.length
+
+def arrayMap {α β : Type} (f : α → β) (arr : Array α) : Array β :=
+  { data := map f arr.data }</code></pre>
+<h3 id="set-operations">Set Operations</h3>
+<p>HashSet operations for unique collections:</p>
+<pre class="lean"><code>def setContains {α : Type} [DecidableEq α] (s : HashSet α) (x : α) : Bool :=
+  s.elems.contains x
+
+def setInsert {α : Type} [DecidableEq α] (s : HashSet α) (x : α) : HashSet α :=
+  if setContains s x then s
+  else { elems := x :: s.elems }
+
+def setRemove {α : Type} [DecidableEq α] (s : HashSet α) (x : α) : HashSet α :=
+  { elems := s.elems.filter (· ≠ x) }
+
+def setUnion {α : Type} [DecidableEq α] (s1 s2 : HashSet α) : HashSet α :=
+  s1.elems.foldl setInsert s2</code></pre>
+<blockquote>
+<p>Note: A special mention for the <code>DecidableEq α</code> typeclass constraint that is different from
+<code>BEq α</code> that we saw earlier. DecidableEq constraint ensures that equality comparisons for type <code>α</code>
+can be decided, where “decidability” comes from Godel’s incompleteness theorems, wherein decidable means that there
+exists an algorithm that can determine whether any two elements of type <code>α</code> are equal or not in a finite
+amount of time.</p>
+</blockquote>
+<h3 id="stack-operations">Stack Operations</h3>
+<p>Stack implementation using lists with LIFO behavior:</p>
+<pre class="lean"><code>def stackPush {α : Type} (s : Stack α) (x : α) : Stack α :=
+  { elems := x :: s.elems }
+
+def stackPop {α : Type} (s : Stack α) : Option (α × Stack α) :=
+  match s.elems with
+  | [] =&gt; none
+  | x :: xs =&gt; some (x, { elems := xs })
+
+def stackPeek {α : Type} (s : Stack α) : Option α :=
+  match s.elems with
+  | [] =&gt; none
+  | x :: _ =&gt; some x
+
+def stackIsEmpty {α : Type} (s : Stack α) : Bool :=
+  match s.elems with
+  | [] =&gt; true
+  | _ =&gt; false</code></pre>
+<h3 id="queue-operations">Queue Operations</h3>
+<p>Queue implementation with FIFO behavior:</p>
+<pre class="lean"><code>def queueEnqueue {α : Type} (q : Queue α) (x : α) : Queue α :=
+  { elems := q.elems ++ [x] }
+
+def queueDequeue {α : Type} (q : Queue α) : Option (α × Queue α) :=
+  match q.elems with
+  | [] =&gt; none
+  | x :: xs =&gt; some (x, { elems := xs })
+
+def queuePeek {α : Type} (q : Queue α) : Option α :=
+  match q.elems with
+  | [] =&gt; none
+  | x :: _ =&gt; some x
+
+def queueSize {α : Type} (q : Queue α) : Nat :=
+  q.elems.length</code></pre>
+<h3 id="map-operations">Map Operations</h3>
+<p>Map operations for key-value associations:</p>
+<pre class="lean"><code>def mapFind {α β : Type} [DecidableEq α] (m : Map α β) (key : α) : Option β :=
+  match m.pairs.find? (fun (k, _) =&gt; k == key) with
+  | some (_, v) =&gt; some v
+  | none =&gt; none
+
+def mapInsert {α β : Type} [DecidableEq α] (m : Map α β) (key : α) (value : β) : Map α β :=
+  let filtered := m.pairs.filter (fun (k, _) =&gt; k ≠ key)
+  { pairs := (key, value) :: filtered }
+
+def mapRemove {α β : Type} [DecidableEq α] (m : Map α β) (key : α) : Map α β :=
+  { pairs := m.pairs.filter (fun (k, _) =&gt; k ≠ key) }
+
+def mapKeys {α β : Type} (m : Map α β) : List α :=
+  m.pairs.map (fun (k, _) =&gt; k)</code></pre>
+<h3 id="binary-tree-operations">Binary Tree Operations</h3>
+<p>Trees are fascinating data structures! These examples show how to work with binary search trees, where elements are
+organized so that smaller values go left and larger values go right.</p>
+<p>Notice the <code>[Ord α]</code> constraint in these functions - this is a <strong>type class constraint</strong> that
+means “α must be a type that supports ordering comparisons.” In other words, we need to be able to compare values with
+<code>&lt;</code>, <code>&gt;</code>, <code>≤</code>, etc. This works for numbers, strings, characters, and many other
+types, but not for types like functions where ordering doesn’t make sense:</p>
+<pre class="lean"><code>-- Insert a value into a binary search tree
+def treeInsert {α : Type} [Ord α] (t : BinTree α) (x : α) : BinTree α :=
+  match t with
+  | BinTree.leaf =&gt; BinTree.node x BinTree.leaf BinTree.leaf  -- Empty tree: create new node
+  | BinTree.node y left right =&gt;
+    if x &lt; y then BinTree.node y (treeInsert left x) right     -- Smaller: insert left
+    else if x &gt; y then BinTree.node y left (treeInsert right x)  -- Larger: insert right
+    else t  -- x == y, no duplicate insertion needed
+
+-- Search for a value in the tree
+def treeSearch {α : Type} [Ord α] (t : BinTree α) (x : α) : Bool :=
+  match t with
+  | BinTree.leaf =&gt; false                    -- Not found in empty tree
+  | BinTree.node y left right =&gt;
+    if x &lt; y then treeSearch left x          -- Search left subtree
+    else if x &gt; y then treeSearch right x    -- Search right subtree
+    else true  -- x == y, found it!
+
+-- Get all elements in sorted order (inorder traversal)
+def treeInorder {α : Type} (t : BinTree α) : List α :=
+  match t with
+  | BinTree.leaf =&gt; []                       -- Empty tree gives empty list
+  | BinTree.node x left right =&gt;
+    treeInorder left ++ [x] ++ treeInorder right  -- Left, root, right</code></pre>
+<p>These tree operations demonstrate how the structure of data can make algorithms efficient - searching a balanced tree
+is much faster than searching a list!</p>
+<h3 id="graph-operations">Graph Operations</h3>
+<p>Graph traversal and analysis functions:</p>
+<pre class="lean"><code>def graphNeighbors (v : Vertex) (g : Graph) : List Vertex :=
+  g.edges.filterMap fun e =&gt;
+    if e.from == v then some e.to
+    else none
+
+def graphHasEdge (from to : Vertex) (g : Graph) : Bool :=
+  g.edges.any fun e =&gt; e.from == from &amp;&amp; e.to == to
+
+def graphAddVertex (v : Vertex) (g : Graph) : Graph :=
+  if g.vertices.contains v then g
+  else { g with vertices := v :: g.vertices }
+
+def graphAddEdge (e : Edge) (g : Graph) : Graph :=
+  let g&#39; := graphAddVertex e.from (graphAddVertex e.to g)
+  if g&#39;.edges.contains e then g&#39;
+  else { g&#39; with edges := e :: g&#39;.edges }</code></pre>
+<h3 id="shape-operations">Shape Operations</h3>
+<p>Pattern matching on sum types for geometric calculations:</p>
+<pre class="lean"><code>def shapeArea : Shape → Float
+  | Shape.circle r =&gt; Float.pi * r * r
+  | Shape.rectangle w h =&gt; w * h
+
+def shapePerimeter : Shape → Float
+  | Shape.circle r =&gt; 2.0 * Float.pi * r
+  | Shape.rectangle w h =&gt; 2.0 * (w + h)
+
+def shapeScale (factor : Float) : Shape → Shape
+  | Shape.circle r =&gt; Shape.circle (r * factor)
+  | Shape.rectangle w h =&gt; Shape.rectangle (w * factor) (h * factor)</code></pre>
+<h3 id="type-class-operations">Type Class Operations</h3>
+<p>Here’s where Lean really shows its power! These functions work with <em>any</em> type that has the required
+operations. This is called “ad-hoc polymorphism” - the same function can work on numbers, strings, or any custom type
+you define.</p>
+<p>You’ll notice some new syntax here - the square brackets <code>[Add α]</code>, <code>[Ord α]</code>, etc. These are
+<strong>type class constraints</strong>. They tell Lean “this function only works with types that support these
+operations”:</p>
+<ul>
+<li><code>[Add α]</code> means “α must support addition (<code>+</code>)”</li>
+<li><code>[OfNat α 0]</code> means “α must have a way to represent the number 0”</li>
+<li><code>[Ord α]</code> means “α must support ordering comparisons (<code>&lt;</code>, <code>≤</code>, etc.)”</li>
+</ul>
+<p>Think of type classes as “contracts” - if a type implements the contract, it can use functions that require it:</p>
+<pre class="lean"><code>-- Sum all elements in a list (works for any type that can be added!)
+def listSum {α : Type} [Add α] [OfNat α 0] : List α → α
+  | [] =&gt; 0           -- Empty list sums to zero
+  | x :: xs =&gt; x + listSum xs  -- Add current element to sum of rest
+
+-- Find the maximum of two values (works for any orderable type!)
+def genericMax {α : Type} [Ord α] (x y : α) : α :=
+  if x ≤ y then y else x
+
+-- Find the maximum element in a list
+def listMax {α : Type} [Ord α] : List α → Option α
+  | [] =&gt; none        -- Empty list has no maximum
+  | x :: xs =&gt;
+    match listMax xs with
+    | none =&gt; some x          -- x is the only element
+    | some y =&gt; some (genericMax x y)  -- Compare x with max of rest</code></pre>
+<p>The beauty here is that <code>listSum</code> works on <code>List Nat</code>, <code>List Float</code>, or even
+<code>List String</code> (since strings can be “added” via concatenation). Type classes let you write generic code
+that’s still type-safe!</p>
+<h3 id="dependent-type-operations">Dependent Type Operations</h3>
+<p>Finally, here’s the most advanced example - dependent types! These operations on length-indexed vectors are
+completely type-safe. The compiler <em>guarantees</em> that you can’t take the head of an empty vector or access
+out-of-bounds elements:</p>
+<pre class="lean"><code>-- Get the first element (only works on non-empty vectors!)
+def vectorHead {α : Type} {n : Nat} : Vector α (n+1) → α
+  | Vector.cons x _ =&gt; x    -- The type signature ensures n+1 ≥ 1, so this is safe!
+
+-- Get everything except the first element
+def vectorTail {α : Type} {n : Nat} : Vector α (n+1) → Vector α n
+  | Vector.cons _ xs =&gt; xs  -- Result has length n, one less than input
+
+-- Append two vectors (notice how the result length is n + m!)
+def vectorAppend {α : Type} {n m : Nat} : Vector α n → Vector α m → Vector α (n + m)
+  | Vector.nil, ys =&gt; ys                      -- 0 + m = m
+  | Vector.cons x xs, ys =&gt; Vector.cons x (vectorAppend xs ys)  -- (n+1) + m = (n + m) + 1
+
+-- Apply a function to every element (preserves length)
+def vectorMap {α β : Type} {n : Nat} (f : α → β) : Vector α n → Vector β n
+  | Vector.nil =&gt; Vector.nil                  -- Empty vector maps to empty vector
+  | Vector.cons x xs =&gt; Vector.cons (f x) (vectorMap f xs)  -- Length preserved</code></pre>
+<p>This is the power of dependent types - the type system itself prevents runtime errors! You literally cannot call
+<code>vectorHead</code> on an empty vector because the types don’t match.</p>
+<hr />
+<p><a href="./Lean.algorithms.html">Algorithms</a></p>
+</body>
+</html>

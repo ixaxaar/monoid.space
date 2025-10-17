@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Types/relations</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a> <a href="Types.universe.html">Previous</a> <a
+href="Types.equality.html">Next</a></p>
+<h1 id="relations">Relations</h1>
+<hr />
+<ul>
+<li><a href="#types-of-relations">Types of Relations</a></li>
+<li><a href="#nullary-relations-propositions">Nullary Relations (Propositions)</a></li>
+<li><a href="#unary-relations-predicates">Unary Relations (Predicates)</a>
+<ul>
+<li><a href="#the-universal-quantifier">The Universal Quantifier</a></li>
+<li><a href="#the-existential-quantifier">The Existential Quantifier</a></li>
+</ul></li>
+<li><a href="#binary-relations">Binary Relations</a></li>
+<li><a href="#properties-of-relations">Properties of Relations</a>
+<ul>
+<li><a href="#reflexivity">Reflexivity</a></li>
+<li><a href="#symmetry">Symmetry</a></li>
+<li><a href="#transitivity">Transitivity</a></li>
+<li><a href="#antisymmetry">Antisymmetry</a></li>
+</ul></li>
+</ul>
+<p>In mathematics and logic, relations describe how elements are connected or associated with each other. In type
+theory, relations are formalized as types, which allows us to reason about them using the full power of the type
+system.</p>
+<h2 id="types-of-relations">Types of Relations</h2>
+<p>Relations can be classified based on the number of elements they relate. They can be:</p>
+<ul>
+<li>nullary: relations that make statements about elements, also known as propositions</li>
+<li>unary: relations that describe properties of elements, also known as predicates</li>
+<li>binary: relations that describe relationships between pairs of elements</li>
+</ul>
+<h2 id="nullary-relations-propositions">Nullary Relations (Propositions)</h2>
+<p>A nullary relation is a statement that doesn’t involve any variables. In type theory, these statements are
+represented as <em>propositions</em>.</p>
+<p>In Lean, the type of propositions is called <code>Prop</code>. Think of a proposition as a statement that can be
+either true or false.</p>
+<pre class="lean"><code>#check Prop  -- Prop : Type
+
+-- Examples of propositions:
+#check 2 + 2 = 4        -- 2 + 2 = 4 : Prop
+#check 3 &lt; 5          -- 3 &lt; 5 : Prop
+#check 1 = 0          -- 1 = 0 : Prop  (This proposition is false)
+
+-- We can define propositions:
+def is_even (n : Nat) : Prop := ∃ k, n = 2 * k
+
+#check is_even 4  -- is_even 4 : Prop</code></pre>
+<p>In simple terms, the type Prop in Lean is used to represent statements that can be true or false (propositions).</p>
+<h2 id="unary-relations-predicates">Unary Relations (Predicates)</h2>
+<p>A unary predicate is represented as a function that takes an element and returns a proposition. In simpler terms, a
+unary relation on type <code>A</code> is a function <code>A → Prop</code> and is a way of selecting a subset of elements
+from <code>A</code> based on some property. For example if <code>A</code> is <code>Nat</code> or natural numbers, a
+unary predicate could be <code>isEven</code> which selects all even numbers from <code>Nat</code>:</p>
+<pre class="lean"><code>def is_even (n : Nat) : Prop := ∃ k, n = 2 * k</code></pre>
+<p>This defines a function <code>is_even</code> that takes a natural number <code>n</code> and returns a proposition
+stating that there exists some natural number <code>k</code> such that <code>n</code> equals <code>2 * k</code>, which
+is the definition of an even number.</p>
+<p>Here is another example of a unary predicate that selects all prime numbers from <code>Nat</code>:</p>
+<pre class="lean"><code>def isPrime (n : Nat) : Prop := n &gt; 1 ∧ ∀ m : Nat, m &gt; 1 → m &lt; n → n % m ≠ 0</code></pre>
+<p>This defines a function <code>isPrime</code> that takes a natural number <code>n</code> and returns a proposition
+stating that for all natural numbers <code>m</code> greater than 1 and less than <code>n</code>, <code>n</code> is not
+divisible by <code>m</code>.</p>
+<p>There are a couple of things to note here:</p>
+<h3 id="the-universal-quantifier">The Universal Quantifier</h3>
+<p>The universal quantifier <code>∀</code> can be used to define unary predicates that select all elements of a type
+that satisfy a given property. For example, the following unary predicate selects all natural numbers that are greater
+than 1:</p>
+<pre class="lean"><code>def greaterThanOne (n : Nat) : Prop := n &gt; 1</code></pre>
+<p>This can be expressed using the universal quantifier as follows:</p>
+<pre class="lean"><code>def greaterThanOne (n : Nat) : Prop := ∀ k, (1 &lt; k ∧ k &lt; n) → False</code></pre>
+<p>This defines a function <code>greaterThanOne</code> that takes a natural number <code>n</code> and returns a
+proposition stating that:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>for all natural numbers <span class="in">`k`</span> such that <span class="in">`1 &lt; k`</span> and <span class="in">`k &lt; n`</span>, <span class="in">`k`</span> is not greater than 1, i.e. <span class="in">`False`</span>.</span></code></pre></div>
+<p>The universal quantifier can be written in lean either as <code>∀</code> or <code>\all</code>. The following are a
+few examples of how the universal quantifier can be used:</p>
+<p>TODO: define an algebra and explain <code>axiom</code> or import mathlib here.</p>
+<pre class="lean"><code>import Mathlib.Data.Nat.Prime.Basic
+
+#check ∀ x, (Even x ∨ Odd x) ∧ ¬ (Even x ∧ Odd x)
+#check ∀ x, Even x ↔ 2 ∣ x
+#check ∀ x, Even x → Even (x^2)
+#check ∀ x, Even x ↔ Odd (x + 1)</code></pre>
+<p>where:</p>
+<ul>
+<li><code>→</code> is the implication operator</li>
+<li><code>∧</code> is the conjunction operator</li>
+<li><code>∨</code> is the disjunction operator</li>
+<li><code>¬</code> is the negation operator</li>
+<li><code>∣</code> is the divisibility operator</li>
+<li><code>^</code> is the exponentiation operator.</li>
+</ul>
+<h3 id="the-existential-quantifier">The Existential Quantifier</h3>
+<p>The existential quantifier <code>∃</code> can be used to define unary predicates that select at least one element of
+a type that satisfies a given property. For example, the following unary predicate selects all natural numbers that are
+even:</p>
+<pre class="lean"><code>def isEven (n : Nat) : Prop := ∃ k, n = 2 * k</code></pre>
+<p>This can be expressed using the existential quantifier as follows:</p>
+<pre class="lean"><code>def isEven (n : Nat) : Prop := ∃ k : Nat, n = 2 * k</code></pre>
+<p>This defines a function <code>isEven</code> that takes a natural number <code>n</code> and returns a proposition
+stating that</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>there exists some natural number <span class="in">`k`</span> such that <span class="in">`n`</span> equals <span class="in">`2 * k`</span>,</span></code></pre></div>
+<p>i.e. an even number.</p>
+<h2 id="binary-relations">Binary Relations</h2>
+<p>A binary relation is represented as a function that takes two elements and returns a proposition. In simpler terms, a
+binary relation on types <code>A</code> and <code>B</code> is a function <code>A → B → Prop</code> and is a way of
+describing relationships between pairs of elements. For example, a binary relation on <code>Nat</code> could be
+<code>lessThan</code> which selects all pairs of natural numbers <code>(m, n)</code> such that <code>m</code> is less
+than <code>n</code>:</p>
+<pre class="lean"><code>def lessThanOrEqual (m n : Nat) : Prop := m ≤ n</code></pre>
+<p>Usage in raw form:</p>
+<pre class="lean"><code>#check lessThanOrEqual 3 5</code></pre>
+<p>Infix notations can be used to make binary relations more readable. For example, the following defines a binary
+relation <code>lessThan</code> using the infix notation <span class="math inline">\(\leqq\)</span>:</p>
+<pre class="lean"><code>local infix:50 &quot; ≦ &quot; =&gt; Nat.le</code></pre>
+<p>The usage now becomes:</p>
+<pre class="lean"><code>#check 3 ≦ 5</code></pre>
+<h2 id="properties-of-relations">Properties of Relations</h2>
+<p>Relations can have various properties such as reflexivity, symmetry, and transitivity. These properties are important
+for defining equivalence relations as well as mathematical structures such as groups, rings, and fields and all higher
+algebraic structures.</p>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 58%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th>Property</th>
+<th>Definition</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reflexivity</td>
+<td>A relation is reflexive if every element is related to itself.</td>
+<td><code>≤</code> is reflexive because <code>n ≤ n</code> for all natural numbers <code>n</code>.</td>
+</tr>
+<tr>
+<td>Symmetry</td>
+<td>A relation is symmetric if whenever <code>a</code> is related to <code>b</code>, <code>b</code> is also related to
+<code>a</code>.</td>
+<td><code>=</code> is symmetric because if <code>a = b</code>, then <code>b = a</code>.</td>
+</tr>
+<tr>
+<td>Transitivity</td>
+<td>A relation is transitive if whenever <code>a</code> is related to <code>b</code> and <code>b</code> is related to
+<code>c</code>, <code>a</code> is related to <code>c</code>.</td>
+<td><code>≤</code> is transitive because if <code>a ≤ b</code> and <code>b ≤ c</code>, then <code>a ≤ c</code>.</td>
+</tr>
+<tr>
+<td>Antisymmetry</td>
+<td>A relation is antisymmetric if whenever <code>a</code> is related to <code>b</code> and <code>b</code> is related to
+<code>a</code>, <code>a</code> is equal to <code>b</code>.</td>
+<td><code>≤</code> is antisymmetric because if <code>a ≤ b</code> and <code>b ≤ a</code>, then <code>a = b</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Spefial combinations of these properties give rise to other important properties such as equivalence relations,
+partial orders, and total orders that we will look at later.</p>
+<h3 id="reflexivity">Reflexivity</h3>
+<p>A relation is reflexive if every element is related to itself. For example, the relation <code>≤</code> is reflexive
+because <code>n ≤ n</code> for all natural numbers <code>n</code>. The property of reflexivity can be expressed as
+follows:</p>
+<pre class="lean"><code>def reflexive {A : Type} (R : A → A → Prop) : Prop := ∀ a : A, R a a</code></pre>
+<p>This defines a function <code>reflexive</code> that takes a relation <code>R</code> on type <code>A</code> and
+returns a proposition stating that for all elements <code>a</code> of type <code>A</code>, <code>a</code> is related to
+itself.</p>
+<h3 id="symmetry">Symmetry</h3>
+<p>A relation is symmetric if whenever <code>a</code> is related to <code>b</code>, <code>b</code> is also related to
+<code>a</code>. For example, the relation <code>=</code> is symmetric because if <code>a = b</code>, then
+<code>b = a</code>. The property of symmetry can be expressed as follows:</p>
+<pre class="lean"><code>def symmetric {A : Type} (R : A → A → Prop) : Prop := ∀ a b : A, R a b → R b a</code></pre>
+<p>This defines a function <code>symmetric</code> that takes a relation <code>R</code> on type <code>A</code> and
+returns a proposition stating that for all elements <code>a</code> and <code>b</code> of type <code>A</code>, if
+<code>a</code> is related to <code>b</code>, then <code>b</code> is related to <code>a</code>.</p>
+<h3 id="transitivity">Transitivity</h3>
+<p>A relation is transitive if whenever <code>a</code> is related to <code>b</code> and <code>b</code> is related to
+<code>c</code>, <code>a</code> is related to <code>c</code>. For example, the relation <code>≤</code> is transitive
+because if <code>a ≤ b</code> and <code>b ≤ c</code>, then <code>a ≤ c</code>. The property of transitivity can be
+expressed as follows:</p>
+<pre class="lean"><code>def transitive {A : Type} (R : A → A → Prop) : Prop := ∀ a b c : A, R a b → R b c → R a c</code></pre>
+<p>This defines a function <code>transitive</code> that takes a relation <code>R</code> on type <code>A</code> and
+returns a proposition stating that for all elements <code>a</code>, <code>b</code>, and <code>c</code> of type
+<code>A</code>, if <code>a</code> is related to <code>b</code> and <code>b</code> is related to <code>c</code>, then
+<code>a</code> is related to <code>c</code>.</p>
+<h3 id="antisymmetry">Antisymmetry</h3>
+<p>A relation is antisymmetric if whenever <code>a</code> is related to <code>b</code> and <code>b</code> is related to
+<code>a</code>, <code>a</code> is equal to <code>b</code>. For example, the relation <code>≤</code> is antisymmetric
+because if <code>a ≤ b</code> and <code>b ≤ a</code>, then <code>a = b</code>. The property of antisymmetry can be
+expressed as follows:</p>
+<pre class="lean"><code>def antisymmetric {A : Type} (R : A → A → Prop) : Prop := ∀ a b : A, R a b → R b a → a = b</code></pre>
+<p>This defines a function <code>antisymmetric</code> that takes a relation <code>R</code> on type <code>A</code> and
+returns a proposition stating that for all elements <code>a</code> and <code>b</code> of type <code>A</code>, if
+<code>a</code> is related to <code>b</code> and <code>b</code> is related to <code>a</code>, then <code>a</code> is
+equal to <code>b</code>.</p>
+<hr />
+<p><a href="./Types.equality.html">Equality</a></p>
+</body>
+</html>

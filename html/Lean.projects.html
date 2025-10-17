@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Lean/projects</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a> <a href="Lean.setup.html">Previous</a> <a href="Lean.types.html">Next</a></p>
+<h1 id="projects-and-structure-in-lean">Projects and Structure in Lean</h1>
+<hr />
+<ul>
+<li><a href="#project-setup">Project setup</a>
+<ul>
+<li><a href="#build-targets">Build targets</a></li>
+<li><a href="#organizing-in-files-and-directories">Organizing in files and directories</a>
+<ul>
+<li><a href="#simple">Simple</a></li>
+<li><a href="#multiple-source-directories">Multiple source directories</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#libraries-and-dependencies">Libraries and dependencies</a>
+<ul>
+<li><a href="#adding-dependencies">Adding dependencies</a></li>
+<li><a href="#common-libraries">Common libraries</a></li>
+<li><a href="#managing-dependencies">Managing dependencies</a></li>
+<li><a href="#working-with-local-libraries">Working with local libraries</a></li>
+<li><a href="#example-complete-lakefiletoml">Example: Complete lakefile.toml</a></li>
+</ul></li>
+<li><a href="#modules">Modules</a>
+<ul>
+<li><a href="#file-based-modules">File-based modules</a></li>
+<li><a href="#importing-modules">Importing modules</a></li>
+<li><a href="#explicit-module-declarations">Explicit module declarations</a></li>
+</ul></li>
+<li><a href="#naming-conventions">Naming Conventions</a></li>
+<li><a href="#project-organization">Project Organization</a>
+<ul>
+<li><a href="#directory-structure">Directory Structure</a></li>
+<li><a href="#import-patterns">Import Patterns</a></li>
+</ul></li>
+<li><a href="#learning-resources">Learning Resources</a></li>
+</ul>
+<h2 id="project-setup">Project setup</h2>
+<p>Lean comes with a project management tool called <code>lake</code>. To set up a new Lean project:</p>
+<ol type="1">
+<li><p>Create a new directory for the project and navigate into it:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> my_lean_project</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> my_lean_project</span></code></pre></div></li>
+<li><p>Initialize the project with <code>lake</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lake</span> init</span></code></pre></div></li>
+<li><p>Build the project:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lake</span> build</span></code></pre></div></li>
+</ol>
+<h3 id="build-targets">Build targets</h3>
+<p>Lean has two main types of build targets: libraries and executables. Libraries are collections of Lean code that can
+be reused across multiple projects, while executables are standalone programs that can be run directly. Usually a
+library project will also have an executable target for testing or demo purposes.</p>
+<p>By default, <code>lake build</code> only builds library targets. To ensure executables are also built when running
+<code>lake build</code> without arguments, add a <code>defaultTargets</code> configuration to your
+<code>lakefile.toml</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode toml"><code class="sourceCode toml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;myproject&quot;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="dt">defaultTargets</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;MyLib&quot;</span><span class="op">,</span> <span class="st">&quot;myexe&quot;</span><span class="op">]</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">[[lean_lib]]</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;MyLib&quot;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="dt">srcDir</span> <span class="op">=</span> <span class="st">&quot;src&quot;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">[[lean_exe]]</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;myexe&quot;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="dt">root</span> <span class="op">=</span> <span class="st">&quot;main.lean&quot;</span></span></code></pre></div>
+<p>This ensures that both the library and executable are built when you run <code>lake build</code>.</p>
+<h3 id="organizing-in-files-and-directories">Organizing in files and directories</h3>
+<p>As Lean projects grow, code should be organized across multiple files and directories. Lake supports several ways to
+structure projects:</p>
+<h4 id="simple">Simple</h4>
+<p>For basic projects, files can be organized in subdirectories within the <code>srcDir</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">src/</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> MyProject.lean          <span class="co"># Main module</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> Basic/</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── Numbers.lean        <span class="co"># src/Basic/Numbers.lean</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   └── Structures.lean     <span class="co"># src/Basic/Structures.lean</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ex">└──</span> Advanced/</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">└──</span> Theorems.lean       <span class="co"># src/Advanced/Theorems.lean</span></span></code></pre></div>
+<p>Import these files using dot notation:</p>
+<pre class="lean"><code>import Basic.Numbers        -- imports src/Basic/Numbers.lean
+import Advanced.Theorems    -- imports src/Advanced/Theorems.lean</code></pre>
+<h4 id="multiple-source-directories">Multiple source directories</h4>
+<p>To include files from directories outside the main <code>srcDir</code> (like test files), configure additional
+library targets:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode toml"><code class="sourceCode toml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[lean_lib]]</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;MyProject&quot;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="dt">srcDir</span> <span class="op">=</span> <span class="st">&quot;src&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">[[lean_lib]]</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;Tests&quot;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="dt">srcDir</span> <span class="op">=</span> <span class="st">&quot;.&quot;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="dt">roots</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;test&quot;</span><span class="op">]</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="kw">[[lean_exe]]</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;test_runner&quot;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="dt">root</span> <span class="op">=</span> <span class="st">&quot;test_runner.lean&quot;</span></span></code></pre></div>
+<p>With this structure, test files can be imported:</p>
+<pre class="lean"><code>import test.TestModule      -- imports test/TestModule.lean</code></pre>
+<h2 id="libraries-and-dependencies">Libraries and dependencies</h2>
+<p>Lean 4 uses <code>lake</code> as both a build system and package manager. Libraries are managed through dependencies
+in your project configuration.</p>
+<h3 id="adding-dependencies">Adding dependencies</h3>
+<p>Dependencies must be added manually by editing the <code>lakefile.toml</code> file:</p>
+<ol type="1">
+<li><p><strong>Add to lakefile.toml</strong>: Edit the project’s <code>lakefile.toml</code> to include the
+dependency:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode toml"><code class="sourceCode toml"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[require]]</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;mathlib&quot;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="dt">scope</span> <span class="op">=</span> <span class="st">&quot;leanprover-community&quot;</span></span></code></pre></div></li>
+<li><p><strong>Update dependencies</strong>: After editing the lakefile, run:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lake</span> update</span></code></pre></div></li>
+<li><p><strong>Build with new dependencies</strong>:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lake</span> build</span></code></pre></div></li>
+</ol>
+<h3 id="common-libraries">Common libraries</h3>
+<ul>
+<li><p><strong>Mathlib</strong>: The comprehensive mathematics library</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode toml"><code class="sourceCode toml"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[require]]</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;mathlib&quot;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="dt">scope</span> <span class="op">=</span> <span class="st">&quot;leanprover-community&quot;</span></span></code></pre></div></li>
+<li><p><strong>Batteries</strong>: Standard library extensions (formerly std)</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode toml"><code class="sourceCode toml"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[require]]</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;batteries&quot;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="dt">scope</span> <span class="op">=</span> <span class="st">&quot;leanprover-community&quot;</span></span></code></pre></div></li>
+<li><p><strong>Aesop</strong>: Automated theorem proving tactic</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode toml"><code class="sourceCode toml"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[require]]</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;aesop&quot;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="dt">git</span> <span class="op">=</span> <span class="st">&quot;https://github.com/JLimperg/aesop&quot;</span></span></code></pre></div></li>
+</ul>
+<h3 id="managing-dependencies">Managing dependencies</h3>
+<ol type="1">
+<li><p><strong>Update all dependencies</strong>:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lake</span> update</span></code></pre></div></li>
+<li><p><strong>Clean and rebuild</strong>:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lake</span> clean</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">lake</span> build</span></code></pre></div></li>
+<li><p><strong>Check dependency status</strong>:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lake</span> deps</span></code></pre></div></li>
+</ol>
+<h3 id="working-with-local-libraries">Working with local libraries</h3>
+<p>For local development, libraries can be referenced using relative paths in the <code>lakefile.toml</code>:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode toml"><code class="sourceCode toml"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[[require]]</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;mylib&quot;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="dt">path</span> <span class="op">=</span> <span class="st">&quot;../path/to/mylib&quot;</span></span></code></pre></div>
+<h3 id="example-complete-lakefile.toml">Example: Complete lakefile.toml</h3>
+<p>Here’s an example of a mature <code>lakefile.toml</code> with multiple dependencies:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode toml"><code class="sourceCode toml"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;MyMathProject&quot;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="dt">version</span> <span class="op">=</span> <span class="st">&quot;0.1.0&quot;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="dt">keywords</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;math&quot;</span><span class="op">,</span> <span class="st">&quot;algebra&quot;</span><span class="op">,</span> <span class="st">&quot;category-theory&quot;</span><span class="op">]</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="dt">homepage</span> <span class="op">=</span> <span class="st">&quot;https://github.com/user/MyMathProject&quot;</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="dt">repository</span> <span class="op">=</span> <span class="st">&quot;https://github.com/user/MyMathProject.git&quot;</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="dt">authors</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;Author Name &lt;email@example.com&gt;&quot;</span><span class="op">]</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="dt">license</span> <span class="op">=</span> <span class="st">&quot;Apache-2.0&quot;</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="dt">defaultTargets</span> <span class="op">=</span> <span class="op">[</span><span class="st">&quot;MyMathProject&quot;</span><span class="op">,</span> <span class="st">&quot;main&quot;</span><span class="op">]</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="kw">[package]</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="dt">buildType</span> <span class="op">=</span> <span class="st">&quot;release&quot;</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="kw">[[lean_lib]]</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;MyMathProject&quot;</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="dt">srcDir</span> <span class="op">=</span> <span class="st">&quot;src&quot;</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="kw">[[lean_exe]]</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;main&quot;</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="dt">root</span> <span class="op">=</span> <span class="st">&quot;main.lean&quot;</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="kw">[[require]]</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;mathlib&quot;</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="dt">scope</span> <span class="op">=</span> <span class="st">&quot;leanprover-community&quot;</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="kw">[[require]]</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;batteries&quot;</span></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a><span class="dt">scope</span> <span class="op">=</span> <span class="st">&quot;leanprover-community&quot;</span></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a><span class="kw">[[require]]</span></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;aesop&quot;</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a><span class="dt">git</span> <span class="op">=</span> <span class="st">&quot;https://github.com/JLimperg/aesop&quot;</span></span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a><span class="kw">[[require]]</span></span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;batteries&quot;</span></span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a><span class="dt">scope</span> <span class="op">=</span> <span class="st">&quot;leanprover-community&quot;</span></span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Local dependency example</span></span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a><span class="kw">[[require]]</span></span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">&quot;MyUtilLib&quot;</span></span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a><span class="dt">path</span> <span class="op">=</span> <span class="st">&quot;../MyUtilLib&quot;</span></span></code></pre></div>
+<h2 id="modules">Modules</h2>
+<p>Modules are a fundamental way to organize code in Lean, similar to other programming languages. They help to group
+related definitions, theorems, and proofs together, making it easier to manage large codebases.</p>
+<h3 id="file-based-modules">File-based modules</h3>
+<p>In Lean, each file implicitly declares a module with the same name as the file (without the <code>.lean</code>
+extension). The file path determines the module name using dot notation:</p>
+<ul>
+<li><code>src/Basic.lean</code> → module <code>Basic</code></li>
+<li><code>src/Data/List.lean</code> → module <code>Data.List</code></li>
+<li><code>test/TestBasic.lean</code> → module <code>test.TestBasic</code> (if test directory is configured as a
+<code>root</code> in <code>lakefile.toml</code>)</li>
+</ul>
+<h3 id="importing-modules">Importing modules</h3>
+<p>Modules can be imported using absolute paths based on the project structure:</p>
+<pre class="lean"><code>import Basic.Numbers            -- imports src/Basic/Numbers.lean
+import Data.List.Lemmas         -- imports src/Data/List/Lemmas.lean
+import test.TestNumbers         -- imports test/TestNumbers.lean
+import TestNumbers              -- imports test/TestNumbers.lean</code></pre>
+<p>For all the direcories listed in the <code>lakefile.toml</code> as <code>srcDir</code> or <code>root</code>, the
+files inside them can be imported using their relative paths.</p>
+<h3 id="explicit-module-declarations">Explicit module declarations</h3>
+<p>You can also explicitly declare modules within a file:</p>
+<pre class="lean"><code>module MyModule where
+  -- Module contents here
+  def myFunction := 42
+
+module NestedModule where
+  -- Nested module contents
+  def nestedFunction := 24</code></pre>
+<p>This creates namespaces that can help organize code within a single file.</p>
+<h2 id="naming-conventions">Naming Conventions</h2>
+<p>Lean has some common naming practices, though they’re more guidelines than strict rules:</p>
+<ol type="1">
+<li>Functions and variables: Use camelCase (e.g., <code>addNumbers</code>, <code>totalCount</code>)</li>
+<li>Types and structures: Use PascalCase (e.g., <code>NaturalNumber</code>, <code>BinaryTree</code>)</li>
+<li>Modules: Use PascalCase (e.g., <code>Data.List</code>, <code>Logic.Propositional</code>)</li>
+<li>Constants and axioms: Often use PascalCase (e.g., <code>Pi</code>, <code>ExcludedMiddle</code>)</li>
+<li>Unicode characters: Lean supports Unicode, so mathematical symbols are common (e.g., <code>∀</code>, <code>λ</code>,
+<code>→</code>)</li>
+<li>Notation: Lean has a powerful notation system for defining custom syntax</li>
+</ol>
+<h2 id="project-organization">Project Organization</h2>
+<h3 id="directory-structure">Directory Structure</h3>
+<p>Lean projects benefit from consistent organization. Here are common patterns:</p>
+<p><strong>Mathematical projects:</strong></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">src/</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> Basic/</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── Definitions.lean    <span class="co"># Core definitions</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   └── Properties.lean     <span class="co"># Basic properties</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> Algebra/</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── Groups.lean         <span class="co"># Group theory</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   └── Rings.lean          <span class="co"># Ring theory</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="ex">└──</span> Logic/</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="ex">├──</span> Propositional.lean  <span class="co"># Propositional logic</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="ex">└──</span> Predicate.lean      <span class="co"># Predicate logic</span></span></code></pre></div>
+<p><strong>Software projects:</strong></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">src/</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> Core/</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── Types.lean          <span class="co"># Core data types</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   └── Utils.lean          <span class="co"># Utility functions</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> Parser/</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── Lexer.lean          <span class="co"># Lexical analysis</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   └── Grammar.lean        <span class="co"># Grammar definitions</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="ex">└──</span> Compiler/</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="ex">├──</span> Frontend.lean       <span class="co"># Frontend processing</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="ex">└──</span> Backend.lean        <span class="co"># Code generation</span></span></code></pre></div>
+<h3 id="import-patterns">Import Patterns</h3>
+<p>Lean imports should be structured to minimize dependencies and improve clarity. Here are some stuff to remember:</p>
+<p><strong>Hierarchical imports:</strong> Lean imports should ideally be hierarchical, importing from more general to
+more specific modules.</p>
+<pre class="lean"><code>import Basic.Definitions    -- General definitions first
+import Basic.Properties     -- Then their properties
+import Algebra.Groups       -- Then specialized structures</code></pre>
+<p><strong>Avoiding circular imports:</strong> Circular dependencies can lead to complications and Lean may fail to
+compile. Ensure that modules do not depend on each other in a circular manner.</p>
+<pre class="lean"><code>-- ✓ Good: Clear dependency chain
+Basic.Definitions → Basic.Properties → Algebra.Groups → Algebra.Advanced
+
+-- ✗ Bad: Circular dependency
+Groups ↔ Rings  -- Groups imports Rings, Rings imports Groups</code></pre>
+<p><strong>Selective imports:</strong> Importing broad modules can lead to namespace pollution, leading to stuff like
+naming conflicts to increasing compilation times. Import only what is needed.</p>
+<pre class="lean"><code>import Basic.Definitions (MyType, myFunction)
+import Algebra.Groups (Group, group_axioms)</code></pre>
+<h2 id="learning-resources">Learning Resources</h2>
+<p>Here are recommended resources for learning Lean:</p>
+<ol type="1">
+<li><p><a href="https://leanprover.github.io/lean4/doc/">Lean’s official documentation</a>: A great guide to get started
+with Lean 4.</p></li>
+<li><p><a href="https://leanprover.github.io/theorem_proving_in_lean4/">Theorem Proving in Lean</a>: An introduction to
+theorem proving using Lean.</p></li>
+<li><p><a href="https://leanprover-community.github.io/mathematics_in_lean/">Mathematics in Lean</a>: A tutorial on
+formalizing mathematics in Lean.</p></li>
+<li><p><a href="https://leanprover.github.io/functional_programming_in_lean/">Functional Programming in Lean</a>: A
+guide to functional programming concepts in Lean.</p></li>
+<li><p><a href="https://leanprover-community.github.io/lean-for-the-curious-mathematician-2023/">Lean for the Curious
+Mathematician</a>: An introduction to Lean for mathematicians.</p></li>
+<li><p><a href="https://leanprover.zulipchat.com/">Lean Zulip Chat</a>: A community chat for Lean users and
+developers.</p></li>
+<li><p><a href="https://leanprover-community.github.io/lt2021/">Lean Together</a>: Materials from the Lean Together
+workshops.</p></li>
+<li><p><a href="https://github.com/leanprover/lean4-samples">Lean 4 Examples</a>: A collection of example Lean 4
+projects.</p></li>
+<li><p><a href="https://www.ma.imperial.ac.uk/~buzzard/xena/natural_number_game/">The Natural Number Game</a>: An
+interactive tutorial for learning Lean through number theory.</p></li>
+<li><p><a href="https://www.youtube.com/c/FormalAbstractions">Formal Abstractions</a>: A YouTube channel with Lean
+tutorials and demonstrations.</p></li>
+</ol>
+<hr />
+<p><a href="./Lean.types.html">Types</a></p>
+</body>
+</html>

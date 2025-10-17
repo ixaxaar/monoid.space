@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Logic/logicBasics</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a> <a href="Logic.introduction.html">Previous</a> <a
+href="Logic.equality.html">Next</a></p>
+<h1 id="boolean-algebra-and-logical-connectives">Boolean Algebra and Logical Connectives</h1>
+<hr />
+<ul>
+<li><a href="#two-faces-of-logic">Two Faces of Logic</a></li>
+<li><a href="#propositional-logic">Propositional Logic</a>
+<ul>
+<li><a href="#false-and-true">False and True</a></li>
+<li><a href="#conjunction-and">Conjunction (AND)</a></li>
+<li><a href="#disjunction-or">Disjunction (OR)</a></li>
+<li><a href="#negation-not">Negation (NOT)</a></li>
+<li><a href="#implication">Implication</a></li>
+</ul></li>
+<li><a href="#boolean-algebra">Boolean Algebra</a>
+<ul>
+<li><a href="#the-bool-type">The Bool Type</a></li>
+<li><a href="#boolean-operations">Boolean Operations</a></li>
+<li><a href="#boolean-vs-propositional">Boolean vs Propositional</a></li>
+</ul></li>
+<li><a href="#advanced-logical-connectives">Advanced Logical Connectives</a>
+<ul>
+<li><a href="#bi-implication-if-and-only-if">Bi-implication (If and Only If)</a></li>
+<li><a href="#exclusive-or-xor">Exclusive Or (XOR)</a></li>
+<li><a href="#sheffer-stroke-nand">Sheffer Stroke (NAND)</a></li>
+</ul></li>
+<li><a href="#quantifiers">Quantifiers</a>
+<ul>
+<li><a href="#universal-quantification">Universal Quantification</a></li>
+<li><a href="#existential-quantification">Existential Quantification</a></li>
+<li><a href="#unique-existence">Unique Existence</a></li>
+</ul></li>
+<li><a href="#classical-extensions">Classical Extensions</a></li>
+</ul>
+<pre class="lean"><code>import Mathlib.Logic.Basic
+import Mathlib.Data.Bool.Basic
+import Mathlib.Logic.Equiv.Defs
+import Mathlib.Tactic.Basic
+import Mathlib.Tactic.Cases
+import Mathlib.Logic.Function.Basic</code></pre>
+<p>In type theory, logic manifests in two complementary forms: as <strong>propositions</strong> (types in
+<code>Prop</code>) that we prove by constructing inhabitants, and as <strong>boolean values</strong> (terms of type
+<code>Bool</code>) that we compute. This duality mirrors the distinction between <strong>proof</strong> and
+<strong>computation</strong>, offering both rigorous logical reasoning and practical algorithmic tools.</p>
+<h2 id="two-faces-of-logic">Two Faces of Logic</h2>
+<p>Lean provides two distinct but related approaches to logic:</p>
+<ol type="1">
+<li><strong>Propositional Logic</strong>: Using the <code>Prop</code> universe for statements we prove</li>
+<li><strong>Boolean Algebra</strong>: Using the <code>Bool</code> type for values we compute</li>
+</ol>
+<pre class="lean"><code>-- Propositional approach: proving relationships
+example : True ∧ True := ⟨trivial, trivial⟩
+
+-- Boolean approach: computing results
+example : true &amp;&amp; true = true := rfl
+
+-- Connection between them
+example : (true = true) ↔ True := ⟨fun _ =&gt; trivial, fun _ =&gt; rfl⟩</code></pre>
+<h2 id="propositional-logic">Propositional Logic</h2>
+<h3 id="false-and-true">False and True</h3>
+<p>The foundation of propositional logic rests on two primitive concepts:</p>
+<p><strong>False</strong> (<code>False</code>) represents an impossible proposition—one for which no proof can
+exist:</p>
+<pre class="lean"><code>-- False has no constructors, so no proof can be built
+#print False
+-- inductive False : Prop
+
+-- From False, anything follows (ex falso quodlibet)
+def false_implies_anything (P : Prop) : False → P :=
+  fun false_proof =&gt; False.elim false_proof
+
+-- This is the same as:
+#check False.elim -- False.elim : {C : Sort u} → False → C</code></pre>
+<p><strong>True</strong> (<code>True</code>) represents a trivially provable proposition:</p>
+<pre class="lean"><code>-- True has one constructor: True.intro
+#print True
+-- inductive True : Prop
+-- | intro : True
+
+-- We can always construct a proof of True
+def true_is_provable : True := True.intro
+
+-- Often abbreviated as:
+def true_is_provable&#39; : True := trivial</code></pre>
+<h3 id="conjunction-and">Conjunction (AND)</h3>
+<p>Conjunction (<code>And</code>, written <code>∧</code>) combines two propositions—both must be proven:</p>
+<pre class="lean"><code>-- And has one constructor requiring proofs of both components
+#print And
+-- structure And (a b : Prop) : Prop where
+-- | intro :: (left : a) (right : b)
+
+-- Constructing a conjunction
+def and_example (P Q : Prop) (hp : P) (hq : Q) : P ∧ Q :=
+  And.intro hp hq
+
+-- Anonymous constructor syntax
+def and_example&#39; (P Q : Prop) (hp : P) (hq : Q) : P ∧ Q := ⟨hp, hq⟩
+
+-- Destructuring a conjunction
+def and_left (P Q : Prop) : P ∧ Q → P :=
+  fun ⟨hp, hq⟩ =&gt; hp
+
+def and_right (P Q : Prop) : P ∧ Q → Q :=
+  fun ⟨hp, hq⟩ =&gt; hq
+
+-- Built-in destructors
+#check And.left  -- {a b : Prop} → a ∧ b → a
+#check And.right -- {a b : Prop} → a ∧ b → b</code></pre>
+<h3 id="disjunction-or">Disjunction (OR)</h3>
+<p>Disjunction (<code>Or</code>, written <code>∨</code>) represents a choice between two propositions—at least one must
+be proven:</p>
+<pre class="lean"><code>-- Or has two constructors, one for each alternative
+#print Or
+-- inductive Or (a b : Prop) : Prop where
+-- | inl : a → a ∨ b
+-- | inr : b → a ∨ b
+
+-- Constructing disjunctions
+def or_left_example (P Q : Prop) (hp : P) : P ∨ Q := Or.inl hp
+def or_right_example (P Q : Prop) (hq : Q) : P ∨ Q := Or.inr hq
+
+-- Destructuring with case analysis
+def or_elimination (P Q R : Prop) : P ∨ Q → (P → R) → (Q → R) → R :=
+  fun h hpr hqr =&gt; match h with
+  | Or.inl hp =&gt; hpr hp
+  | Or.inr hq =&gt; hqr hq
+
+-- This is built-in as Or.elim
+#check Or.elim -- {a b c : Prop} → a ∨ b → (a → c) → (b → c) → c</code></pre>
+<h3 id="negation-not">Negation (NOT)</h3>
+<p>Negation (<code>Not</code>, written <code>¬</code>) represents the impossibility of a proposition:</p>
+<pre class="lean"><code>-- Negation is defined in terms of False
+#print Not
+-- def Not : Prop → Prop :=
+-- fun a =&gt; a → False
+
+-- So ¬P means P → False
+def not_example (P : Prop) : ¬P ↔ (P → False) := Iff.rfl
+
+-- Double negation introduction (always valid constructively)
+def double_negation_intro (P : Prop) : P → ¬¬P :=
+  fun hp hnp =&gt; hnp hp
+
+-- Double negation elimination (requires classical logic)
+-- def double_negation_elim (P : Prop) : ¬¬P → P := Classical.not_not
+
+-- Contradiction gives us anything
+def contradiction (P Q : Prop) : P → ¬P → Q :=
+  fun hp hnp =&gt; False.elim (hnp hp)</code></pre>
+<h3 id="implication">Implication</h3>
+<p>Implication is built into type theory as the function type <code>→</code>:</p>
+<pre class="lean"><code>-- P → Q is a function type: given P, produce Q
+def modus_ponens (P Q : Prop) : P → (P → Q) → Q :=
+  fun hp hpq =&gt; hpq hp
+
+-- Implication is transitive
+def implication_trans (P Q R : Prop) : (P → Q) → (Q → R) → (P → R) :=
+  fun hpq hqr hp =&gt; hqr (hpq hp)
+
+-- Contraposition
+def contrapositive (P Q : Prop) : (P → Q) → (¬Q → ¬P) :=
+  fun hpq hnq hp =&gt; hnq (hpq hp)</code></pre>
+<h2 id="boolean-algebra">Boolean Algebra</h2>
+<h3 id="the-bool-type">The Bool Type</h3>
+<p>The <code>Bool</code> type provides computational logic with two constructors:</p>
+<pre class="lean"><code>#print Bool
+-- inductive Bool : Type where
+-- | false : Bool
+-- | true : Bool
+
+-- Pattern matching on booleans
+def bool_to_prop : Bool → Prop
+  | true  =&gt; True
+  | false =&gt; False
+
+-- Decidable propositions can be computed as booleans
+def is_even_bool (n : Nat) : Bool := n % 2 = 0</code></pre>
+<h3 id="boolean-operations">Boolean Operations</h3>
+<p>Boolean operations mirror propositional logic but compute values:</p>
+<pre class="lean"><code>-- Boolean AND
+#check Bool.and  -- Bool → Bool → Bool
+#check (· &amp;&amp; ·)  -- Bool → Bool → Bool  (infix notation)
+
+-- Truth table for &amp;&amp;
+example : true &amp;&amp; true = true := rfl
+example : true &amp;&amp; false = false := rfl
+example : false &amp;&amp; true = false := rfl
+example : false &amp;&amp; false = false := rfl
+
+-- Boolean OR
+#check Bool.or   -- Bool → Bool → Bool
+#check (· || ·)  -- Bool → Bool → Bool  (infix notation)
+
+-- Truth table for ||
+example : true || true = true := rfl
+example : true || false = true := rfl
+example : false || true = true := rfl
+example : false || false = false := rfl
+
+-- Boolean NOT
+#check Bool.not  -- Bool → Bool
+#check not       -- Bool → Bool (alternative notation)
+
+-- Truth table for not
+example : not true = false := rfl
+example : not false = true := rfl
+
+-- Boolean implication (not built-in, but can be defined)
+def bool_implies : Bool → Bool → Bool
+  | true, b =&gt; b
+  | false, _ =&gt; true
+
+-- Boolean XOR
+def bool_xor : Bool → Bool → Bool
+  | true, b =&gt; not b
+  | false, b =&gt; b
+
+-- This is available as ⊕ in mathlib
+#check Bool.xor -- Bool → Bool → Bool</code></pre>
+<h3 id="boolean-vs-propositional">Boolean vs Propositional</h3>
+<p>The connection between boolean and propositional logic:</p>
+<pre class="lean"><code>-- Convert Bool to Prop
+def bool_to_prop_fn : Bool → Prop := (· = true)
+
+-- Every boolean computation corresponds to a decidable proposition
+def bool_and_prop (b c : Bool) :
+  (b &amp;&amp; c = true) ↔ (b = true ∧ c = true) := by
+  cases b &lt;;&gt; cases c &lt;;&gt; simp
+
+def bool_or_prop (b c : Bool) :
+  (b || c = true) ↔ (b = true ∨ c = true) := by
+  cases b &lt;;&gt; cases c &lt;;&gt; simp [or_comm]
+
+-- For decidable propositions, we can go both ways
+variable [Decidable P] [Decidable Q]
+
+#check decide P  -- Bool (computes whether P holds)</code></pre>
+<h2 id="advanced-logical-connectives">Advanced Logical Connectives</h2>
+<h3 id="bi-implication-if-and-only-if">Bi-implication (If and Only If)</h3>
+<p>Bi-implication (<code>Iff</code>, written <code>↔︎</code>) means both directions of implication:</p>
+<pre class="lean"><code>-- Iff is conjunction of both implications
+#print Iff
+-- structure Iff (a b : Prop) : Prop where
+-- | intro :: (mp : a → b) (mpr : b → a)
+
+def iff_example (P Q : Prop) : (P ↔ Q) ↔ ((P → Q) ∧ (Q → P)) :=
+  ⟨fun ⟨hpq, hqp⟩ =&gt; ⟨hpq, hqp⟩, fun ⟨hpq, hqp⟩ =&gt; ⟨hpq, hqp⟩⟩
+
+-- Iff is an equivalence relation
+def iff_refl (P : Prop) : P ↔ P := ⟨id, id⟩
+def iff_symm (P Q : Prop) : (P ↔ Q) → (Q ↔ P) := fun ⟨hpq, hqp⟩ =&gt; ⟨hqp, hpq⟩
+def iff_trans (P Q R : Prop) : (P ↔ Q) → (Q ↔ R) → (P ↔ R) :=
+  fun ⟨hpq, hqp⟩ ⟨hqr, hrq⟩ =&gt; ⟨hqr ∘ hpq, hqp ∘ hrq⟩</code></pre>
+<h3 id="exclusive-or-xor">Exclusive Or (XOR)</h3>
+<p>Exclusive or means exactly one of two propositions holds:</p>
+<pre class="lean"><code>-- Define XOR propositionally
+def Xor (P Q : Prop) : Prop := (P ∨ Q) ∧ ¬(P ∧ Q)
+
+-- Alternative definition
+def Xor&#39; (P Q : Prop) : Prop := (P ∧ ¬Q) ∨ (¬P ∧ Q)
+
+-- Show equivalence
+theorem xor_equiv (P Q : Prop) : Xor P Q ↔ Xor&#39; P Q := by
+  constructor
+  · intro ⟨h_or, h_not_and⟩
+    cases h_or with
+    | inl hp =&gt;
+      right; exact ⟨fun hq =&gt; h_not_and ⟨hp, hq⟩, hp⟩
+    | inr hq =&gt;
+      left; exact ⟨hq, fun hp =&gt; h_not_and ⟨hp, hq⟩⟩
+  · intro h
+    cases h with
+    | inl ⟨hp, hnq⟩ =&gt; exact ⟨Or.inl hp, fun ⟨_, hq⟩ =&gt; hnq hq⟩
+    | inr ⟨hnp, hq⟩ =&gt; exact ⟨Or.inr hq, fun ⟨hp, _⟩ =&gt; hnp hp⟩</code></pre>
+<h3 id="sheffer-stroke-nand">Sheffer Stroke (NAND)</h3>
+<p>The Sheffer stroke shows that all logical operations can be expressed using just one:</p>
+<pre class="lean"><code>-- NAND (NOT AND)
+def nand (P Q : Prop) : Prop := ¬(P ∧ Q)
+
+-- All operations in terms of NAND
+def not_via_nand (P : Prop) : ¬P ↔ nand P P := by simp [nand]
+
+def and_via_nand (P Q : Prop) : P ∧ Q ↔ ¬(nand P Q) := by
+  simp [nand]; rfl
+
+def or_via_nand (P Q : Prop) : P ∨ Q ↔ nand (nand P P) (nand Q Q) := by
+  simp [nand]
+  constructor
+  · intro h
+    cases h &lt;;&gt; simp [*]
+  · intro h
+    by_contra h_not
+    push_neg at h_not
+    exact h ⟨h_not.1, h_not.2⟩</code></pre>
+<h2 id="quantifiers">Quantifiers</h2>
+<h3 id="universal-quantification">Universal Quantification</h3>
+<p>Universal quantification (<code>∀</code>) is built into type theory as dependent function types:</p>
+<pre class="lean"><code>-- ∀ x : α, P x  is the same as  (x : α) → P x
+def universal_example (α : Type) (P : α → Prop) :
+  (∀ x : α, P x) ↔ ((x : α) → P x) := Iff.rfl
+
+-- Instantiation: from ∀ to specific instance
+def universal_instantiation (α : Type) (P : α → Prop) (a : α) :
+  (∀ x : α, P x) → P a := fun h =&gt; h a
+
+-- Generalization: from instances to universal (when x is arbitrary)
+def universal_generalization (α : Type) (P : α → Prop) :
+  ((x : α) → P x) → (∀ x : α, P x) := fun h =&gt; h</code></pre>
+<h3 id="existential-quantification">Existential Quantification</h3>
+<p>Existential quantification (<code>∃</code>) provides a witness along with a proof:</p>
+<pre class="lean"><code>-- Existential as Sigma type
+#print Exists
+-- inductive Exists {α : Sort u} (p : α → Prop) : Prop where
+-- | intro : ∀ (w : α), p w → Exists p
+
+-- Constructing existentials
+def exists_example (α : Type) (P : α → Prop) (a : α) (ha : P a) :
+  ∃ x : α, P x := Exists.intro a ha
+
+-- Anonymous constructor
+def exists_example&#39; (α : Type) (P : α → Prop) (a : α) (ha : P a) :
+  ∃ x : α, P x := ⟨a, ha⟩
+
+-- Eliminating existentials
+def exists_elimination (α : Type) (P : α → Prop) (Q : Prop) :
+  (∃ x : α, P x) → (∀ x : α, P x → Q) → Q :=
+  fun ⟨a, ha⟩ h =&gt; h a ha
+
+-- Concrete example
+example : ∃ n : Nat, n &gt; 5 ∧ n &lt; 10 := ⟨7, by simp, by simp⟩</code></pre>
+<h3 id="unique-existence">Unique Existence</h3>
+<p>Sometimes we want to assert that exactly one object satisfies a property:</p>
+<pre class="lean"><code>-- Unique existence: there exists exactly one
+def ExistsUnique (α : Type) (P : α → Prop) : Prop :=
+  ∃ x : α, P x ∧ ∀ y : α, P y → y = x
+
+-- Notation for unique existence
+notation &quot;∃! &quot; binder &quot;, &quot; r:(scoped P =&gt; ExistsUnique _ P) =&gt; r
+
+-- Example: there is a unique additive identity for natural numbers
+example : ∃! n : Nat, ∀ m : Nat, n + m = m ∧ m + n = m := by
+  use 0
+  constructor
+  · intro m; simp
+  · intro n h
+    have := h 1
+    simp at this
+    exact this.2.symm</code></pre>
+<h2 id="classical-extensions">Classical Extensions</h2>
+<p>In constructive logic, some classical principles don’t hold. When needed, we can import them:</p>
+<pre class="lean"><code>-- These require Classical logic
+open Classical
+
+-- Law of Excluded Middle
+#check em  -- ∀ (p : Prop), p ∨ ¬p
+
+-- Double Negation Elimination
+#check not_not  -- ∀ {p : Prop}, ¬¬p → p
+
+-- These give us classical reasoning power
+theorem pierce_law (P Q : Prop) : ((P → Q) → P) → P := by
+  intro h
+  by_cases hp : P
+  · exact hp
+  · exact h (fun _ =&gt; False.elim (hp (h (fun _ =&gt; False.elim (hp _)))))
+
+-- But they break computational content
+-- We can prove things exist without constructing them
+theorem classical_existence : ∃ x : Nat, x = 0 ∨ x ≠ 0 := by
+  cases em (∃ x : Nat, x = 0) with
+  | inl h =&gt; exact h.elim (fun w hw =&gt; ⟨w, Or.inl hw⟩)
+  | inr h =&gt; use 1; right; simp</code></pre>
+<p>This foundation of logical connectives and quantifiers provides the building blocks for all mathematical reasoning in
+Lean. The interplay between propositional and boolean logic offers both rigorous proof capabilities and efficient
+computation.</p>
+<hr />
+<p><a href="./Logic.equality.html">Equality</a></p>
+</body>
+</html>

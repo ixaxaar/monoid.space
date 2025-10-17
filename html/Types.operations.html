@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Types/operations</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../css/agda.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+</head>
+<body>
+<hr />
+<p><a href="contents.html">Contents</a> <a href="Types.equality.html">Previous</a> <a
+href="Types.product.html">Next</a></p>
+<h1 id="operations">Operations</h1>
+<hr />
+<ul>
+<li><a href="#nullary-operations">Nullary Operations</a></li>
+<li><a href="#unary-operations">Unary Operations</a></li>
+<li><a href="#binary-operations">Binary Operations</a></li>
+<li><a href="#higher-arity-operations">Higher Arity Operations</a>
+<ul>
+<li><a href="#curry-howard-isomorphism">Curry-Howard Isomorphism</a></li>
+</ul></li>
+<li><a href="#operator-laws">Operator Laws</a>
+<ul>
+<li><a href="#associativity">Associativity</a></li>
+<li><a href="#commutativity">Commutativity</a></li>
+<li><a href="#distributivity">Distributivity</a></li>
+<li><a href="#absorption">Absorption</a></li>
+<li><a href="#cancellation">Cancellation</a></li>
+</ul></li>
+<li><a href="#special-operations">Special Operations</a>
+<ul>
+<li><a href="#identity">Identity</a></li>
+<li><a href="#inverse">Inverse</a></li>
+<li><a href="#elimination-annihilator">Elimination (Annihilator)</a></li>
+<li><a href="#congruence">Congruence</a></li>
+<li><a href="#respecting-a-relation">Respecting a Relation</a></li>
+</ul></li>
+</ul>
+<p>An operation can be thought of as a map or a function between types with a certain arity. Operations can also be
+thought of as functions that may take zero or more operands and return an output value. Some examples are addition,
+subtraction, multiplication, and division of natural, real, and complex numbers. Based on arity, operations can be:</p>
+<ul>
+<li><strong>Nullary</strong>: Takes no arguments.</li>
+<li><strong>Unary</strong>: Takes one argument.</li>
+<li><strong>Binary</strong>: Takes two arguments.</li>
+<li><strong>Ternary</strong>: Takes three arguments.</li>
+</ul>
+<p>Operations of higher arity can often be decomposed into ones of lower arity using techniques like currying.</p>
+<pre class="lean"><code>import Mathlib.Data.Set.Basic
+import Mathlib.Data.Equiv.Basic  
+import Mathlib.Logic.Function.Basic</code></pre>
+<h2 id="nullary-operations">Nullary Operations</h2>
+<p>A nullary operation <code>♠</code> on a set <code>A</code> is a function that takes no arguments and returns an
+element of type <code>A</code>. All constants are examples of nullary operations, as they do not require any arguments
+to return a value (themselves) e.g. 3 can be thought of as a nullary operation that returns 3. In Lean, a nullary
+operation <code>♠</code> on a type <code>A</code> can be defined as:</p>
+<pre class="lean"><code>def nullary_operation {A : Type*} (f : A) : Prop := true</code></pre>
+<p>We can also define a nullary operation that respects a relation <code>R</code> on <code>A</code>:</p>
+<pre class="lean"><code>def nullary_operation_respects {A : Type*} (R : A → A → Prop) (f : A) : Prop := true</code></pre>
+<p>Here, <code>R</code> is a relation on <code>A</code> that is respected by the nullary operation <code>f</code>, and
+respecting means that the relation <code>R</code> is preserved under the operation <code>f</code>.</p>
+<h2 id="unary-operations">Unary Operations</h2>
+<p>A unary operation <code>♠</code> on a set <code>A</code> is a function that takes an element of type <code>A</code>
+and returns an element of <code>A</code>:</p>
+<pre class="math"><code>♠ : A → A</code></pre>
+<p>In Lean, a unary operation <code>♠</code> on a type <code>A</code> can be defined as:</p>
+<pre class="lean"><code>def unary_operation {A : Type*} (f : A → A) : Prop := true</code></pre>
+<p>We can also define a unary operation that respects a relation <code>R</code> on <code>A</code>:</p>
+<pre class="lean"><code>def unary_operation_respects {A : Type*} (R : A → A → Prop) (f : A → A) : Prop :=
+  ∀ x y : A, R x y → R (f x) (f y)</code></pre>
+<p>Here, <code>R</code> is a relation on <code>A</code> that is respected by the unary operation <code>f</code>, and
+respecting means that if <code>x ~ y</code>, then <code>f(x) ~ f(y)</code> i.e. the relation <code>R</code> is preserved
+under the operation <code>f</code>.</p>
+<h2 id="binary-operations">Binary Operations</h2>
+<p>A binary operation <code>★</code> on a set <code>A</code> is a function that takes two elements of type
+<code>A</code> and returns an element of <code>A</code>:</p>
+<pre class="math"><code>★ : A → A → A</code></pre>
+<p>In Lean, a binary operation <code>★</code> on a type <code>A</code> can be defined as:</p>
+<pre class="lean"><code>def binary_operation {A : Type*} (op : A → A → A) : Prop := true</code></pre>
+<p>We can also define a binary operation that respects a relation <code>R</code> on <code>A</code>:</p>
+<pre class="lean"><code>def binary_operation_respects {A : Type*} (R : A → A → Prop) (op : A → A → A) : Prop :=
+  ∀ x₁ x₂ y₁ y₂ : A, R x₁ x₂ → R y₁ y₂ → R (op x₁ y₁) (op x₂ y₂)</code></pre>
+<p>Here, “respecting” means that if <code>x₁ ~ x₂</code> and <code>y₁ ~ y₂</code>, then <code>x₁ ★ y₁ ~ x₂ ★ y₂</code>
+i.e. the relation <code>R</code> is preserved under the operation <code>op</code>.</p>
+<h2 id="higher-arity-operations">Higher Arity Operations</h2>
+<p>Operations of arity greater than 2 can be defined similarly. Higher operations can also be composed of lower arity
+operations. For example, a ternary operation can be defined in terms of a binary operation:</p>
+<pre class="math"><code>♠ : A → A → A → A
+♠ x y z = (x ★ y) ★ z</code></pre>
+<p>In Lean, we can define a ternary operation as:</p>
+<pre class="lean"><code>def ternary_operation {A : Type*} (op : A → A → A → A) : Prop :=
+  ∀ x y z : A, op x y z = op (op x y) z</code></pre>
+<h3 id="curry-howard-isomorphism">Curry-Howard Isomorphism</h3>
+<p>The Curry-Howard isomorphism is a correspondence between logic and computation. It states that logical formulas
+correspond to types, proofs correspond to programs, and proof normalization corresponds to program evaluation. In this
+context, operations can be thought of as functions that take arguments and return values, similar to functions in
+programming languages.</p>
+<p>Let’s break that down:</p>
+<ol type="1">
+<li><strong>Logical Formulas Correspond to Types</strong>: Logical formulas like <code>A → B</code> correspond to types
+like <code>A → B</code>. For example, the formula <code>A → B</code> corresponds to the type <code>A → B</code> in
+Lean.</li>
+<li><strong>Proofs Correspond to Programs</strong>: Proofs of logical formulas correspond to programs that inhabit the
+corresponding types. For example, a proof of <code>A → B</code> corresponds to a program that takes an argument of type
+<code>A</code> and returns a value of type <code>B</code>.</li>
+<li><strong>Proof Normalization Corresponds to Program Evaluation</strong>: Normalizing (or simplifying) proofs
+corresponds to evaluating programs. For example, normalizing a proof of <code>A → B</code> corresponds to evaluating a
+program that takes an argument of type <code>A</code> and returns a value of type <code>B</code>.</li>
+<li><strong>Operations Correspond to Functions</strong>: Operations like <code>A → A → A</code> correspond to functions
+that take two arguments of type <code>A</code> and return a value of type <code>A</code>. For example, the operation
+<code>A → A → A</code> corresponds to a function that takes two arguments of type <code>A</code> and returns a value of
+type <code>A</code>.</li>
+</ol>
+<p>This correspondence, or isomorphism, between logic and computation is the foundation of functional programming
+languages like Lean, where logical formulas are types and proofs are programs, and proof normalization is program
+evaluation, making theorem proving a form of programming possible.</p>
+<p>There is another conseqquence of this: currying. Currying is the process of converting a function that takes multiple
+arguments into a sequence of functions that each take a single argument. This is useful for partial application of
+functions, where some arguments are fixed and others are left as parameters. In Lean, currying can be achieved using the
+<code>→</code> type constructor, which is right-associative:</p>
+<pre class="lean"><code>def curry {A B C : Type*} (f : A × B → C) : A → B → C :=
+  fun a b =&gt; f (a, b)</code></pre>
+<p>Practically, currying allows us to define functions that take multiple arguments as a sequence of functions that each
+take a single argument. This can be useful for partial application of functions, where some arguments are fixed and
+others are left as parameters. Currying is also a method to construct higher-arity operations from lower-arity
+operations.</p>
+<p>Let us look at a more involved example in lean:</p>
+<pre class="lean"><code>def curry {A B C : Type*} (f : A × B → C) : A → B → C :=
+  fun a b =&gt; f (a, b)
+
+def uncurry {A B C : Type*} (f : A → B → C) : A × B → C :=
+  fun p =&gt; f p.1 p.2
+
+def add : Nat × Nat → Nat := fun p =&gt; p.1 + p.2
+def add&#39; : Nat → Nat → Nat := curry add
+def add&#39;&#39; : Nat × Nat → Nat := uncurry add&#39;
+
+#eval add (3, 4)  -- 7
+#eval add&#39; 3 4     -- 7
+#eval add&#39;&#39; (3, 4) -- 7</code></pre>
+<p>In this example, we define a binary operation <code>add</code> that takes a pair of natural numbers and returns their
+sum. We then curry this operation to obtain a function <code>add'</code> that takes two natural numbers and returns
+their sum. We also uncurry the operation to obtain a function <code>add''</code> that takes a pair of natural numbers
+and returns their sum. We evaluate these functions with the arguments <code>(3, 4)</code> and <code>3</code> and
+<code>4</code> to obtain the sum <code>7</code> in each case.</p>
+<h2 id="operator-laws">Operator Laws</h2>
+<p>Similar to how relations have properties like reflexivity, symmetry, and transitivity, operations have properties
+like associativity, commutativity, identity element, inverse element, distributivity, absorption, cancellation, and
+congruence. These properties help us understand how operations behave and interact with each other. Mathematical objects
+are often defined in terms of the data they carry, the operations they support, and the laws that govern these
+operations.</p>
+<h3 id="associativity">Associativity</h3>
+<p>Mathematically, given a binary operation <code>★</code> on a type <code>A</code>, the operation is
+<strong>associative</strong> if:</p>
+<pre class="math"><code>∀ x, y, z ∈ A, \quad x ★ (y ★ z) = (x ★ y) ★ z</code></pre>
+<p>or order of operations does not matter, i.e. x and y can be operated on first or y and z can be operated on first,
+the final result will be the same. Operators can also be associative from only one direction, left or right, such
+that:</p>
+<ul>
+<li><strong>Left Associativity</strong>:</li>
+</ul>
+<pre class="math"><code>∀ x, y, z ∈ A, \quad (x ★ y) ★ z = x ★ (y ★ z)</code></pre>
+<ul>
+<li><strong>Right Associativity</strong>:</li>
+</ul>
+<pre class="math"><code>∀ x, y, z ∈ A, \quad x ★ (y ★ z) = (x ★ y) ★ z</code></pre>
+<p>Left and right associativity can be combined to define associativity:</p>
+<pre class="math"><code>∀ x, y, z ∈ A, \quad x ★ (y ★ z) = (x ★ y) ★ z = x ★ y ★ z</code></pre>
+<p>A simple example of a non-trivial associative operation is exponentiation <code>^</code> on natural numbers, where
+<span class="math inline">\((x^y)^z = x^{y \cdot z} = x^{y \cdot z}\)</span>. Here <code>3 ^ 2 ^ 3</code> can result in
+different values based on the associativity:</p>
+<pre class="math"><code>3 ^ {(2 ^ 3)} = 3 ^ 8 = 6561</code></pre>
+<pre class="math"><code>(3 ^ 2) ^ 3 = 9 ^ 3 = 729</code></pre>
+<p>which means the exponentiation operation is right-associative, but not left-associative, hence not associative.
+Natural number addition and multiplication are simple examples of associative operations. Lets start with the
+definitions of left and right associativity in Lean:</p>
+<pre class="lean"><code>def left_associative {A : Type*} (op : A → A → A) : Prop :=
+  ∀ x y z : A, op (op x y) z = op x (op y z)
+
+def right_associative {A : Type*} (op : A → A → A) : Prop :=
+  ∀ x y z : A, op x (op y z) = op (op x y) z</code></pre>
+<p>And then define associativity as a combination of left and right associativity:</p>
+<pre class="lean"><code>def associative {A : Type*} (op : A → A → A) : Prop :=
+  left_associative op ∧ right_associative op</code></pre>
+<p>Alternatively, we can define associativity directly as:</p>
+<pre class="lean"><code>def associative {A : Type*} (op : A → A → A) : Prop :=
+  ∀ x y z : A, op (op x y) z = op x (op y z)</code></pre>
+<p>This property can be used to, say prove associativity of addition on natural numbers:</p>
+<pre class="lean"><code>example : associative (fun x y : Nat =&gt; x + y) :=
+  fun x y z =&gt; by simp [Nat.add_assoc]</code></pre>
+<p>There are a few things about Lean that are worth noting here:</p>
+<p>The <code>simp</code> tactic is used to simplify the expression and prove the associativity property.
+<code>Nat.add_assoc</code> is a lemma in Lean that states the associativity of addition on natural numbers, we use the
+already proven lemma to prove the associativity of addition, and <code>simp</code> allows us to simplify the expression
+using the lemma.</p>
+<p>Also, <code>fun</code> and <code>fun</code> are used interchangeably in Lean to define functions, so this is
+equivalent to the above code:</p>
+<pre class="lean"><code>example : associative (fun x y : Nat =&gt; x + y) :=
+  fun x y z =&gt; by simp [Nat.add_assoc]</code></pre>
+<h3 id="commutativity">Commutativity</h3>
+<p>A binary operation <code>★</code> on type <code>A</code> is <strong>commutative</strong> if:</p>
+<pre class="math"><code>∀ x, y ∈ A, \quad x ★ y = y ★ x</code></pre>
+<p>In Lean, the commutativity of a binary operation property can be defined as:</p>
+<pre class="lean"><code>def commutative {A : Type*} (op : A → A → A) : Prop :=
+  ∀ x y : A, op x y = op y x</code></pre>
+<p>And operations can be proven to be commutative, with an example for addition of natural numbers:</p>
+<pre class="lean"><code>example : commutative (fun x y : Nat =&gt; x + y) :=
+  fun x y =&gt; by simp [Nat.add_comm]</code></pre>
+<p>Addition and multiplication of natural numbers are simple examples of commutative operations. Subtraction and
+division are examples of non-commutative operations.</p>
+<h3 id="distributivity">Distributivity</h3>
+<p>An operation <code>*</code> is <strong>distributive</strong> over another operation <code>+</code> if:</p>
+<pre class="math"><code>∀ x, y, z ∈ A, \quad x * (y + z) = (x * y) + (x * z) \quad \text{and} \quad (y + z) * x = (y * x) + (z * x)</code></pre>
+<p>As in associativity, distributivity can be left or right distributive, or both. Non-commutative operations can have
+different left and right distributivity properties.</p>
+<ul>
+<li><p><strong>Left Distributivity</strong>:</p>
+<pre class="math"><code>∀ x, y, z ∈ A, \quad x * (y + z) = (x * y) + (x * z)</code></pre></li>
+<li><p><strong>Right Distributivity</strong>:</p>
+<pre class="math"><code>∀ x, y, z ∈ A, \quad (y + z) * x = (y * x) + (z * x)</code></pre></li>
+</ul>
+<p>In Lean, we define distributivity as:</p>
+<pre class="lean"><code>def left_distributive {A : Type*} (mul add : A → A → A) : Prop :=
+  ∀ x y z : A, mul x (add y z) = add (mul x y) (mul x z)
+
+def right_distributive {A : Type*} (mul add : A → A → A) : Prop :=
+  ∀ x y z : A, mul (add y z) x = add (mul y x) (mul z x)
+
+def distributive {A : Type*} (mul add : A → A → A) : Prop :=
+  left_distributive mul add ∧ right_distributive mul add</code></pre>
+<p>Distribuivity can also be described on its own, without the need for left and right distributivity:</p>
+<pre class="lean"><code>def distributive {A : Type*} (mul add : A → A → A) : Prop :=
+  ∀ x y z : A, mul x (add y z) = add (mul x y) (mul x z)</code></pre>
+<p>We can now proved the distributivity of multiplication over addition for natural numbers:</p>
+<pre class="lean"><code>example : distributive (fun x y : Nat =&gt; x * y) (fun x y : Nat =&gt; x + y) :=
+  fun x y z =&gt; by simp [Nat.left_distrib]</code></pre>
+<h3 id="absorption">Absorption</h3>
+<p>Two operations <code>∙</code> and <code>∘</code> are <strong>absorptive</strong> if:</p>
+<pre class="math"><code>∀ x, y ∈ A, \quad x ∙ (x ∘ y) = x \quad \text{and} \quad x ∘ (x ∙ y) = x</code></pre>
+<p>In Lean, we define absorption as:</p>
+<pre class="lean"><code>def absorbs {A : Type*} (op1 op2 : A → A → A) : Prop :=
+  ∀ x y : A, op1 x (op2 x y) = x ∧ op2 x (op1 x y) = x
+
+def absorptive {A : Type*} (op1 op2 : A → A → A) : Prop :=
+  absorbs op1 op2 ∧ absorbs op2 op1</code></pre>
+<h3 id="cancellation">Cancellation</h3>
+<p>An operation is <strong>cancellative</strong> if one can “cancel” an element from both sides of an equation involving
+that operation. Specifically:</p>
+<ul>
+<li><p><strong>Left Cancellation</strong>:</p>
+<pre class="math"><code>∀ x, y, z ∈ A, \quad x ★ y = x ★ z \implies y = z</code></pre></li>
+<li><p><strong>Right Cancellation</strong>:</p>
+<pre class="math"><code>∀ x, y, z ∈ A, \quad y ★ x = z ★ x \implies y = z</code></pre></li>
+</ul>
+<p>In Lean, we define cancellation as:</p>
+<pre class="lean"><code>def left_cancellative {A : Type*} (op : A → A → A) : Prop :=
+  ∀ x y z : A, op x y = op x z → y = z
+
+def right_cancellative {A : Type*} (op : A → A → A) : Prop :=
+  ∀ x y z : A, op y x = op z x → y = z
+
+def cancellative {A : Type*} (op : A → A → A) : Prop :=
+  left_cancellative op ∧ right_cancellative op</code></pre>
+<h2 id="special-operations">Special Operations</h2>
+<h3 id="identity">Identity</h3>
+<p>An element <code>e ∈ A</code> is called an <strong>identity element</strong> for the operation <code>★</code> if:</p>
+<pre class="math"><code>∀ x ∈ A, \quad e ★ x = x \quad \text{and} \quad x ★ e = x</code></pre>
+<p>Identitiy elements are unique and are often denoted as <code>e</code> or <code>1</code>. Identities can also be
+handled separately as left and right identities. Left identity is defined as the property that for all <code>x</code> in
+<code>A</code>, the operation <code>★</code> with <code>e</code> on the left side returns <code>x</code>. Similarly,
+right identity is defined as the property that for all <code>x</code> in <code>A</code>, the operation <code>★</code>
+with <code>e</code> on the right side returns <code>x</code>. The sidedness of the identity element is important for
+non-commutative operations. The sides can be combined to define the identity element property.</p>
+<ul>
+<li><p><strong>Left Identity</strong>:</p>
+<pre class="math"><code>∀ x ∈ A, \quad e ★ x = x</code></pre></li>
+<li><p><strong>Right Identity</strong>:</p>
+<pre class="math"><code>∀ x ∈ A, \quad x ★ e = x</code></pre></li>
+</ul>
+<p>In Lean, we can define left and right identity separately and then define identity as the conjunction of both:</p>
+<pre class="lean"><code>def left_identity {A : Type*} (e : A) (op : A → A → A) : Prop :=
+  ∀ x : A, op e x = x
+
+def right_identity {A : Type*} (e : A) (op : A → A → A) : Prop :=
+  ∀ x : A, op x e = x
+
+def identity {A : Type*} (e : A) (op : A → A → A) : Prop :=
+  left_identity e op ∧ right_identity e op</code></pre>
+<p>A given function can be proven to have an identity element, with an example for the addition operation on natural
+numbers:</p>
+<pre class="lean"><code>example : identity 0 (fun x y : Nat =&gt; x + y) :=
+  ⟨Nat.zero_add, Nat.add_zero⟩</code></pre>
+<p>Similarly, we can prove that multiplication has an identity element:</p>
+<pre class="lean"><code>example : identity 1 (fun x y : Nat =&gt; x * y) :=
+  ⟨Nat.one_mul, Nat.mul_one⟩</code></pre>
+<p>We use the square brackets <code>⟨ ⟩</code> to construct a pair of proofs for left and right identity. The proofs are
+provided as lambda functions that take an argument <code>x</code> and return the result of the operation with the
+identity element.</p>
+<p>I’ll rewrite this with a more practical example from linear algebra and matrix operations, which is commonly used in
+computer graphics, data science, and engineering:</p>
+<h3 id="inverse">Inverse</h3>
+<p>An element <code>x⁻¹ ∈ A</code> is called an <strong>inverse</strong> of <code>x ∈ A</code> with respect to identity
+element <code>e</code> if:</p>
+<pre class="math"><code>x ★ x⁻¹ = e \quad \text{and} \quad x⁻¹ ★ x = e</code></pre>
+<p>Given a unary operation <code>♠</code> (denoted as <code>inv</code>), we define what it means for it to assign
+inverses:</p>
+<pre class="lean"><code>def left_inverse {A : Type*} (e : A) (inv : A → A) (op : A → A → A) : Prop :=
+  ∀ x : A, op (inv x) x = e
+
+def right_inverse {A : Type*} (e : A) (inv : A → A) (op : A → A → A) : Prop :=
+  ∀ x : A, op x (inv x) = e
+
+def inverse {A : Type*} (e : A) (inv : A → A) (op : A → A → A) : Prop :=
+  left_inverse e inv op ∧ right_inverse e inv op</code></pre>
+<h3 id="elimination-annihilator">Elimination (Annihilator)</h3>
+<p>An <strong>annihilator</strong> (or absorbing element) is a special element that “dominates” an operation, making the
+result predictable regardless of what you combine it with. Its like multiplication by 0 renders any real number with the
+same result - 0. In matrix algebra, the zero matrix (containing all zeros) is an annihilator for matrix
+multiplication:</p>
+<pre class="math"><code>\begin{bmatrix} 0 &amp; 0 \\ 0 &amp; 0 \end{bmatrix} \times
+\begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix} =
+\begin{bmatrix} 0 &amp; 0 \\ 0 &amp; 0 \end{bmatrix}</code></pre>
+<p>The annihilator property helps in getting rid of redundant or unnecessary operations for simplification. In Lean, we
+can define the annihilator property as:</p>
+<pre class="lean"><code>def left_annihilator {A : Type*} (e : A) (op : A → A → A) : Prop :=
+  ∀ x : A, op e x = e
+
+def right_annihilator {A : Type*} (e : A) (op : A → A → A) : Prop :=
+  ∀ x : A, op x e = e
+
+def annihilator {A : Type*} (e : A) (op : A → A → A) : Prop :=
+  left_annihilator e op ∧ right_annihilator e op</code></pre>
+<p>An example of an annihilator for matrix multiplication can be shown as:</p>
+<pre class="lean"><code>example : annihilator (fun i j, 0) (fun A B, fun i j, ∑ k, A i k * B k j) :=
+  ⟨fun A, funext $ fun i, funext $ fun j, by simp,
+   fun A, funext $ fun i, funext $ fun j, by simp⟩</code></pre>
+<p>Here, we define the annihilator as a function that takes two matrices <code>A</code> and <code>B</code> and returns a
+matrix of the same size with all elements as 0. We then prove that this function is an annihilator for matrix
+multiplication by showing that it satisfies the left and right annihilator properties.</p>
+<h3 id="congruence">Congruence</h3>
+<p>A relation <code>~</code> on <code>A</code> is a <strong>congruence</strong> with respect to an operation
+<code>★</code> if it is preserved under that operation. That is:</p>
+<pre class="math"><code>∀ a₁, a₂, b₁, b₂ ∈ A, \quad a₁ ~ a₂ \land b₁ ~ b₂ \implies (a₁ ★ b₁) ~ (a₂ ★ b₂)</code></pre>
+<p>In Lean, congruence is defined as:</p>
+<pre class="lean"><code>def congruence {A : Type*} (R : A → A → Prop) (op : A → A → A) : Prop :=
+  ∀ a₁ a₂ b₁ b₂ : A, R a₁ a₂ → R b₁ b₂ → R (op a₁ b₁) (op a₂ b₂)</code></pre>
+<p>Additionally, for a unary operation <code>♠</code>:</p>
+<pre class="lean"><code>def congruent_unary {A : Type*} (R : A → A → Prop) (f : A → A) : Prop :=
+  ∀ a b : A, R a b → R (f a) (f b)</code></pre>
+<h3 id="respecting-a-relation">Respecting a Relation</h3>
+<p>A function <code>f : A → B</code> <strong>respects</strong> a relation <code>∼</code> on <code>A</code> if:</p>
+<pre class="math"><code>∀ x, y ∈ A, \quad x ∼ y \implies f(x) ∼ f(y)</code></pre>
+<p>In Lean, we can define this as:</p>
+<pre class="lean"><code>def respects {A B : Type*} (R : A → A → Prop) (f : A → B) : Prop :=
+  ∀ x y : A, R x y → f x = f y  -- Adjusted for equality in B</code></pre>
+<p>For operations, we may want to consider functions that preserve relations in more general contexts.</p>
+<hr />
+<p><a href="./Algebra.equational.html">Equational Reasoning</a></p>
+</body>
+</html>
