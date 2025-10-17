@@ -128,7 +128,9 @@ This is similar to `struct` in C++ or classes with only data fields in other lan
 
 ### The `deriving` Clause
 
-The `deriving` clause can be used with `inductive` and `structure` to automatically generate implementations for common type classes. This is similar to `deriving` in Haskell or `@dataclass` in Python. For example, we can derive `Repr`, `BEq`, and `Hashable` for a `Point` structure like so:
+> Note: Type classes are covered in a [later part](#type-classes) of this chapter.
+
+The `deriving` clause can be used with `inductive` and `structure` to automatically generate implementations for common type classes. This is similar to `deriving` in Haskell. For example, we can derive `Repr`, `BEq`, and `Hashable` for a `Point` structure like so:
 
 ```lean
 structure Point where
@@ -140,7 +142,7 @@ deriving Repr, BEq, Hashable
 Common derivable type classes include:
 
 - `Repr` - enables printing values with `#eval`
-- `BEq` - enables equality comparison with `==`
+- `BEq` - enables (binary) equality comparison with `==`
 - `Hashable` - enables use in hash tables
 - `Inhabited` - provides a default value
 
