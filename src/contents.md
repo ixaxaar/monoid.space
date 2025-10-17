@@ -5,7 +5,7 @@
 ## 1. Lean
 
 - [Setup](./Lean.setup.html)
-- [Naming Conventions](./Lean.naming.html)
+- [Projects & Structure](./Lean.projects.html)
 - [Types & Data structures](./Lean.types.html)
 - [Functions](./Lean.functions.html)
 - [Algorithms](./Lean.algorithms.html)
