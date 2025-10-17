@@ -2,7 +2,7 @@
 
 [Contents](contents.html)
 [Previous](Proofs.introduction.html)
-[Next](Logic.introduction.html)
+[Next](Proofs.debugging.html)
 
 # Essential Tactics for Theorem Proving
 
@@ -832,4 +832,4 @@ These tactics form the foundation for all theorem proving in Lean. Mastery of th
 
 ---
 
-[Logic and Boolean Algebra](./Logic.introduction.html)
+[Debugging](./Proofs.debugging.html)

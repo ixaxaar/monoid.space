@@ -26,6 +26,7 @@
 
 - [Introduction](./Proofs.introduction.html)
 - [Strategies & Tactics](./Proofs.tactics.html)
+- [Debugging](./Proofs.debugging.html)
 
 ## 4. Logic and Boolean Algebra
 
