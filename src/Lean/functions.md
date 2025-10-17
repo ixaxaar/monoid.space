@@ -120,21 +120,25 @@ The body of a function - the part that actually does the computation - can be wr
 
 **1. Simple expressions:**
 The most straightforward approach is to write a single expression that computes the result:
+
 ```lean
 def double (x : Nat) : Nat := x * 2
 ```
 
 **2. Using `fun` (lambda) syntax:**
 When using arrow syntax, you'll often want to use anonymous functions (lambdas) in the body:
+
 ```lean
 def add : Nat → Nat → Nat := fun x y => x + y
 -- or equivalently using the Greek letter λ (lambda):
 def add : Nat → Nat → Nat := λ x y => x + y
 ```
+
 Both `fun` and `λ` mean exactly the same thing - it's just a matter of preference!
 
 **3. Using `match` expressions for pattern matching:**
 When you need to handle different cases based on the structure of your input, `match` expressions are very powerful:
+
 ```lean
 def isZero (n : Nat) : Bool :=
   match n with
@@ -144,11 +148,13 @@ def isZero (n : Nat) : Bool :=
 
 **4. Direct pattern matching (shorthand):**
 For functions that are primarily about pattern matching, Lean provides a convenient shorthand:
+
 ```lean
 def isZero : Nat → Bool
   | 0 => true
   | _ => false
 ```
+
 This is exactly equivalent to the `match` version above, but more concise!
 
 ### Key Syntax Elements
@@ -172,7 +178,7 @@ def length {α : Type} : List α → Nat  -- {α : Type} is implicit
   | _ :: xs => 1 + length xs
 ```
 
-Notice the `{α : Type}` - those curly braces make this an *implicit* argument. Here's what the different bracket types mean:
+Notice the `{α : Type}` - those curly braces make this an _implicit_ argument. Here's what the different bracket types mean:
 
 - **Explicit arguments:** `(x : Type)` - you must provide these when calling the function
 - **Implicit arguments:** `{x : Type}` - Lean figures these out automatically based on context
@@ -186,6 +192,7 @@ The beauty of implicit arguments is that you don't have to think about them most
 ```
 
 But if for some reason you need to be explicit, you can use `@` to override the implicitness:
+
 ```lean
 #eval @length Nat [1, 2, 3]  -- Explicitly tell Lean that α = Nat
 ```
@@ -562,7 +569,7 @@ def id {α : Type} (x : α) : α := x
 
 In this example, `id` is a function that takes a value of any type `α` and returns the same value. The type variable `α` is used to indicate that the function is generic over types.
 
-Lets now look at a slightly more complex example:
+Let's now look at a slightly more complex example:
 
 ```lean
 def swap {α β : Type} (p : α × β) : β × α :=
@@ -657,6 +664,18 @@ def factorial : Nat → Nat
 The `factorial` function calculates the factorial of a number by recursively multiplying the number by the factorial of the previous number until it reaches the base case of 0. The termination checker ensures that the recursive calls to `factorial` make progress towards the base case of 0.
 
 Functions that do not terminate or make progress towards a base case will be rejected by the termination checker, preventing non-terminating functions from being defined in Lean.
+
+The `termination_by` directive can be used to provide additional information to the termination checker when it cannot automatically determine that a function terminates. This directive allows you to specify a measure that decreases with each recursive call, helping the termination checker verify that the function will eventually reach a base case.
+
+```lean
+def gcd : Nat → Nat → Nat
+  | 0, b => b
+  | a, 0 => a
+  | a, b => gcd (b % a) a
+  termination_by gcd a b => a + b
+```
+
+Over here, the `gcd` function calculates the greatest common divisor of two natural numbers using the Euclidean algorithm. The `termination_by` directive specifies that the sum of `a` and `b` decreases with each recursive call, ensuring that the function will eventually reach a base case.
 
 ### Mutual Recursion
 
@@ -816,6 +835,8 @@ def setUnion {α : Type} [DecidableEq α] (s1 s2 : HashSet α) : HashSet α :=
   s1.elems.foldl setInsert s2
 ```
 
+> Note: A special mention for the `DecidableEq α` typeclass constraint that is different from `BEq α` that we saw earlier. DecidableEq constraint ensures that equality comparisons for type `α` can be decided, where "decidability" comes from Godel's incompleteness theorems, wherein decidable means that there exists an algorithm that can determine whether any two elements of type `α` are equal or not in a finite amount of time.
+
 ### Stack Operations
 
 Stack implementation using lists with LIFO behavior:
@@ -961,7 +982,7 @@ def shapeScale (factor : Float) : Shape → Shape
 
 ### Type Class Operations
 
-Here's where Lean really shows its power! These functions work with *any* type that has the required operations. This is called "ad-hoc polymorphism" - the same function can work on numbers, strings, or any custom type you define.
+Here's where Lean really shows its power! These functions work with _any_ type that has the required operations. This is called "ad-hoc polymorphism" - the same function can work on numbers, strings, or any custom type you define.
 
 You'll notice some new syntax here - the square brackets `[Add α]`, `[Ord α]`, etc. These are **type class constraints**. They tell Lean "this function only works with types that support these operations":
 
@@ -994,7 +1015,7 @@ The beauty here is that `listSum` works on `List Nat`, `List Float`, or even `Li
 
 ### Dependent Type Operations
 
-Finally, here's the most advanced example - dependent types! These operations on length-indexed vectors are completely type-safe. The compiler *guarantees* that you can't take the head of an empty vector or access out-of-bounds elements:
+Finally, here's the most advanced example - dependent types! These operations on length-indexed vectors are completely type-safe. The compiler _guarantees_ that you can't take the head of an empty vector or access out-of-bounds elements:
 
 ```lean
 -- Get the first element (only works on non-empty vectors!)

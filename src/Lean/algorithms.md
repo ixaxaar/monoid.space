@@ -59,8 +59,6 @@ def linearSearch {α : Type} [BEq α] : List α → α → Option Nat
                       | some i => some (i + 1) -- if the target is found, return the index + 1
 ```
 
-`BEq` here is a typeclass that provides a way to compare elements of type `α`. It is similar to the `Eq` typeclass in Haskell, with the `B` standing for "binary".
-
 Using this function in lean:
 
 ```lean
@@ -97,10 +95,8 @@ def binarySearch {α : Type} [Ord α] (xs : List α) (target : α) : Option Nat 
 
 There are a few things to note here:
 
-1. `Ord` is a typeclass that provides a way to compare elements of type `α`. It is similar to the `Ord` typeclass in Haskell. The `compare` function returns an `Ordering` value, which can be `lt`, `eq`, or `gt`.
-2. We use the `get?` function to get the element at the middle index. This function returns an `Option` type, which we pattern match on.
-3. We use the `let` keyword to bind the value of the middle element to `x`. `Let` is used to bind values to names in Lean, similar to `let` in Haskell, and `val` in Scala etc.
-4. `termination_by size` is a directive that tells Lean that the function terminates when the `size` argument decreases. This is necessary because Lean requires that recursive functions are well-founded, i.e., they must terminate for all inputs. We will look at termination in more detail later.
+1. We use the `get?` function to get the element at the middle index. This function returns an `Option` type, which we pattern match on.
+2. We use the `let` keyword to bind the value of the middle element to `x`.
 
 This can be used as follows:
 
