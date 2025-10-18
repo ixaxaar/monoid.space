@@ -26,6 +26,31 @@
   </style>
   <link rel="stylesheet" href="../css/agda.css" />
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!-- Highlight.js for syntax highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://unpkg.com/highlightjs-lean@1.2.0/dist/lean.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      // The lean.min.js automatically registers the 'lean' language with hljs
+
+      // Fix Pandoc's class names for all code blocks
+      // Pandoc with --no-highlight outputs: <pre class="LANGUAGE"><code>...</code></pre>
+      // highlight.js expects: <pre><code class="language-LANGUAGE">...</code></pre>
+      document.querySelectorAll('pre[class]').forEach((preBlock) => {
+        const lang = preBlock.className;
+        if (lang) {
+          const codeBlock = preBlock.querySelector('code');
+          if (codeBlock && !codeBlock.className) {
+            codeBlock.classList.add('language-' + lang);
+          }
+        }
+      });
+
+      // Highlight all code blocks
+      hljs.highlightAll();
+    });
+  </script>
 </head>
 <body>
 <hr />
