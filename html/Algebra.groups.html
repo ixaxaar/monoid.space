@@ -6,9 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Algebra/groups</title>
   <style>
-    /* Default styles provided by pandoc.
-    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -90,7 +87,7 @@ choose from, one can end up with a large number of families, however here we des
 matter.</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>Object ↓ Laws →</th>
 <th>Totality</th>
 <th>Associativity</th>
@@ -100,7 +97,7 @@ matter.</p>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Magma</td>
 <td>★</td>
 <td></td>
@@ -108,7 +105,7 @@ matter.</p>
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td>Semigroupoid</td>
 <td></td>
 <td>★</td>
@@ -116,7 +113,7 @@ matter.</p>
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Small Category</td>
 <td></td>
 <td>★</td>
@@ -124,7 +121,7 @@ matter.</p>
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td>Quasigroup</td>
 <td>★</td>
 <td></td>
@@ -132,7 +129,7 @@ matter.</p>
 <td>★</td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Loop</td>
 <td>★</td>
 <td></td>
@@ -140,7 +137,7 @@ matter.</p>
 <td>★</td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td>Semigroup</td>
 <td>★</td>
 <td>★</td>
@@ -148,7 +145,7 @@ matter.</p>
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Inverse Semigroup</td>
 <td>★</td>
 <td>★</td>
@@ -156,7 +153,7 @@ matter.</p>
 <td>★</td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td>Groupoid</td>
 <td></td>
 <td>★</td>
@@ -164,7 +161,7 @@ matter.</p>
 <td>★</td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Monoid</td>
 <td>★</td>
 <td>★</td>
@@ -172,7 +169,7 @@ matter.</p>
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td>Group</td>
 <td>★</td>
 <td>★</td>
@@ -180,7 +177,7 @@ matter.</p>
 <td>★</td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Abelian group</td>
 <td>★</td>
 <td>★</td>
@@ -257,64 +254,64 @@ too.</p>
 <p>Here are a few examples of monoids:</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>Object</th>
 <th>Operation</th>
 <th>Identity</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>int</td>
 <td>addition</td>
 <td>0</td>
 </tr>
-<tr>
+<tr class="even">
 <td>int</td>
 <td>subtraction</td>
 <td>0</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>int</td>
 <td>multiplication</td>
 <td>1</td>
 </tr>
-<tr>
+<tr class="even">
 <td>float</td>
 <td>addition</td>
 <td>0.0</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>float</td>
 <td>subtraction</td>
 <td>0.0</td>
 </tr>
-<tr>
+<tr class="even">
 <td>float</td>
 <td>multiplication</td>
 <td>1.0</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>JSON</td>
 <td>merge two JSONs</td>
 <td><code>{}</code></td>
 </tr>
-<tr>
+<tr class="even">
 <td>JSON</td>
 <td>create / delete / modify a key-value pair</td>
 <td><code>{}</code></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>JSON</td>
 <td><code>λ : JSON&lt;A, B&gt;, JSON&lt;A, B&gt; → JSON&lt;A, B&gt;</code></td>
 <td><code>{}</code></td>
 </tr>
-<tr>
+<tr class="even">
 <td>string</td>
 <td>concatenation</td>
 <td><code>''</code></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>List / Array</td>
 <td>concatenation</td>
 <td><code>[]</code></td>
@@ -374,37 +371,37 @@ whether it is done in synchronous, concuirrent or in parallel on a computer.</p>
 pair of elements of the group. A group is another widely-used structure.</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>Field</th>
 <th>Used to model</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Physics</td>
 <td>Symmetry in Noether’s theorem</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Physics</td>
 <td>Gauge theories (quantum electrodynamics, quantum field theory)</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Physics</td>
 <td>Gauge formulation of general relativity</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Physics</td>
 <td>M-brane theory (and other string theories)</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Chemistry</td>
 <td>Classification of crystal structure</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Chemistry</td>
 <td>Symmetries of molecules</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Cryptography</td>
 <td>ECDSA (Elliptic Curve Digital Signature Algorithm) signatures</td>
 </tr>
